@@ -1,0 +1,17 @@
+api:
+  token:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDc0OTgxNTE1fQ.dEyqeTPqFErKqoFKXTi6joNMn8UHgTvGWsjNMHJ7owY
+  language:
+      default: en
+      all:
+        - en
+        - de
+        - ru
+  url:
+    base: http://localhost/api/
+    # uploads:
+    #   categories: http://localhost:3000/static/categories
+    #   products:   http://localhost:3000/static/products
+    #   files:      http://localhost:3000/static/files
+store:
+  url:
+    base: http://localhost

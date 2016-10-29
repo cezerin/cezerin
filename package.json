@@ -1,0 +1,88 @@
+{
+  "name": "cezerin",
+  "version": "0.1.0",
+  "description": "Cezerin is open source e-commerce solution, powered by Node.js and React. https://cezerin.com",
+  "keywords": [
+    "cezerin",
+    "e-commerce",
+    "shopping cart"
+  ],
+  "homepage": "https://github.com/cezerin/cezerin",
+  "bugs": "https://github.com/cezerin/cezerin/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Cezerin Team <team@cezerin.com>",
+    "url": "https://cezerin.com"
+  },
+  "contributors": [
+    {
+      "name": "Restmount <jsonmount@gmail.com>",
+      "url": "https://restmount.com"
+    }
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cezerin/cezerin"
+  },
+  "scripts": {
+    "dev": "webpack -d --config webpack.config.js --watch --progress --colors",
+    "build": "npm run build-admin",
+    "build-admin": "webpack -p --config webpack.config.js --progress --colors",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "flexboxgrid": "^6.3.1",
+    "js-yaml": "^3.6.1",
+    "json-loader": "^0.5.4",
+    "material-ui": "^0.16.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-dropzone": "^3.6.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.8.1",
+    "react-router-redux": "^4.0.6",
+    "react-tap-event-plugin": "^1.0.0",
+    "redux": "^3.5.2",
+    "redux-form": "^6.1.0",
+    "redux-form-material-ui": "^4.1.0",
+    "redux-thunk": "^2.1.0",
+    "accept-language-parser": "^1.2.0",
+    "basic-auth": "^1.0.4",
+    "body-parser": "^1.15.2",
+    "bunyan": "^1.8.1",
+    "express": "^4.14.0",
+    "express-jwt": "^5.1.0",
+    "formidable": "^1.0.17",
+    "fs-extra": "^0.30.0",
+    "fs-plus": "^2.9.3",
+    "jsonwebtoken": "^7.1.9",
+    "lodash": "^4.16.4",
+    "mongodb": "^2.2.10",
+    "negotiator": "^0.6.1",
+    "nodemailer": "^2.6.4",
+    "nodemailer-smtp-transport": "^2.7.2",
+    "redis": "^2.6.2",
+    "slug": "^0.9.1",
+    "string": "^3.3.3",
+    "cezerin-client": "^0.1.2",
+    "nunjucks": "^2.5.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.14.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-class-properties": "^6.11.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-2": "^6.17.0",
+    "css-loader": "^0.25.0",
+    "eslint": "^3.5.0",
+    "eslint-plugin-react": "^6.2.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "webpack": "^1.13.2"
+  },
+  "engines": {
+    "node": "6.9.1",
+    "npm": "3.10.8"
+  }
+}

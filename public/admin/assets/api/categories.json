@@ -1,0 +1,33 @@
+[{
+    "id": "pc01",
+    "title": "Cars",
+    "slug": "cars",
+    "children": [{
+        "id": "pc01a",
+        "title": "Audi",
+        "slug": "audi",
+        "children": []
+    }, {
+        "id": "pc01b",
+        "title": "Renault",
+        "slug": "renault",
+        "children": [{
+            "id": "pc01b1",
+            "title": "Megane",
+            "slug": "megane",
+            "children": []
+        }]
+    }]
+}, {
+    "id": "pc02",
+    "title": "Books",
+    "slug": "books"
+}, {
+    "id": "pc03",
+    "title": "Furniture",
+    "slug": "furniture"
+}, {
+    "id": "pc04",
+    "title": "Backpacks",
+    "slug": "backpacks"
+}]

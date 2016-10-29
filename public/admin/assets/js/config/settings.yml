@@ -1,0 +1,57 @@
+api:
+  language:
+      default: en
+      all:
+        - en
+        - de
+        - ru
+  url:
+    base: http://localhost/api/
+    # uploads:
+    #   categories: http://localhost:3000/static/categories
+    #   products:   http://localhost:3000/static/products
+    #   files:      http://localhost:3000/static/files
+store:
+  url:
+    base: http://localhost
+admin:
+  url:
+    base: http://localhost/admin
+    assets: http://localhost/admin/assets
+  pages:
+    login: /admin/login
+    logout: /admin/logout
+    home: /admin
+  menu:
+    - title: Home
+      url: /admin
+      icon: home
+    - title: Products
+      url: /admin/products
+      icon: local_offer
+    - title: Categories
+      url: /admin/products/categories
+      icon: folder
+    - title: Orders
+      url: /admin/orders
+      icon: shopping_cart
+    - title: Order categories
+      url: /admin/orders/categories
+      icon: folder
+    - title: Customers
+      url: /admin/customers
+      icon: people
+    - title: "-"
+      url: settings
+    - title: General
+      url: /admin/settings
+      icon: settings
+    - title: Shipping
+      url: /admin/settings/shipping
+      icon: local_shipping
+    - title: Payments/Checkout
+      url: /admin/settings/payments
+      icon: payment
+    - title: Logout
+      url: /admin/logout
+      icon: menu

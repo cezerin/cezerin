@@ -1,0 +1,72 @@
+{
+  "trash": "Trash",
+  "slug": "Slug",
+  "active": "Active",
+  "draft": "Draft",
+  "description": "Description",
+  "metaDescription": "Meta Description",
+  "pageTitle": "Page title",
+  "learnMore": "LEARN MORE",
+
+  "actions": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "add": "Add",
+    "delete": "Delete",
+    "remove": "Remove",
+    "moveHere": "Move here",
+    "moveTo": "Move to...",
+    "moveUp": "Move Up",
+    "moveDown": "Move Down",
+    "done": "Done",
+    "upload": "Upload",
+    "discardDraft": "Discard draft"
+  },
+
+  "messages": {
+    "saving": "Saving...",
+    "saved": "Saved",
+    "loading": "Loading...",
+    "uploading": "Uploading...",
+    "uploadComplete": "Upload complete",
+    "deleteConfirmation": "Are you sure you want to delete this item?"
+  },
+
+  "help": {
+    "dropHere": "Drop file here to upload",
+    "slug": "The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens."
+  },
+
+  "errors": {
+    "required": "This field is required.",
+    "email": "Please enter a valid email address.",
+    "url": "Please enter a valid URL.",
+    "number": "Please enter a valid number.",
+    "urlTaken": "URL is taken or contains a reserved word"
+  },
+
+  "login": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Login",
+    "recoveyButton": "Forgot password?",
+    "error": "Invalid login or password"
+  },
+
+  "products": {
+    "title": "Products",
+    "name": "Product name"
+  },
+
+  "productCategories": {
+    "titleAdd": "Add new category",
+    "titleEdit": "Edit category",
+    "name": "Category name",
+    "all": "All Products",
+    "root": "Root",
+    "title": "Categories",
+    "aboutDelete": "Will delete category {name} with all childs and move products to Archive."
+  }
+
+}

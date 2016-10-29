@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/admin/assets/images/shortcut.png">
+    <link rel="apple-touch-icon" href="/admin/assets/images/shortcut.png">
+    <!-- <link rel="manifest" href="/admin/assets/manifest.json"> -->
+    <link href="/admin/assets/css/flexboxgrid.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/css/material.min.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/css/style.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/css/bundle.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">error</div>
+
+    <script>
+    function resizeElements() {
+      //var body = window.document.body;
+      //var elApp = document.getElementById('app');
+      var elContainer = document.getElementById('container');
+      var elHeadContainer = document.getElementById('headContainer');
+      var elBodyContainer = document.getElementById('bodyContainer');
+      // var elProductsHead = document.getElementsByClassName("productsHead");
+      // var elProductsBody = document.getElementsByClassName("productsBody");
+      // var elProductsContainer = document.getElementsByClassName("productsContainer");
+
+      if(elBodyContainer){
+        elBodyContainer.style.height = ((elContainer.clientHeight - elHeadContainer.clientHeight) + "px");
+      }
+    }
+
+    window.addEventListener('resize', resizeElements);
+    window.addEventListener('load', resizeElements);
+    </script>
+
+    <script type="text/javascript" src="/admin/assets/js/bundle.js" charset="utf-8"></script>
+</body>
+
+</html>

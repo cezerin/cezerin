@@ -1,0 +1,71 @@
+[{
+    "id": "prod-1",
+    "category": "cars",
+    "title": "Audi A1",
+    "slug": "prod-1",
+    "price": "20000",
+    "currency": "USD",
+    "sku": "car-prod1",
+    "image": "/admin/assets/images/products/1.jpg",
+    "stock_level": "4"
+}, {
+    "id": "prod-2",
+    "category": "cars",
+    "title": "Audi A2",
+    "slug": "prod-2",
+    "price": "30000",
+    "currency": "USD",
+    "sku": "car-prod2",
+    "image": "/admin/assets/images/products/2.png",
+    "stock_level": "9"
+}, {
+    "id": "prod-3",
+    "category": "cars",
+    "title": "Audi A3",
+    "slug": "prod-3",
+    "price": "40000",
+    "currency": "USD",
+    "sku": "car-prod3",
+    "image": "/admin/assets/images/products/3.png",
+    "stock_level": "0"
+}, {
+    "id": "prod-4",
+    "category": "cars",
+    "title": "Audi A4",
+    "slug": "prod-4",
+    "price": "50000",
+    "currency": "USD",
+    "sku": "car-prod4",
+    "image": "/admin/assets/images/products/4.jpg",
+    "stock_level": "1"
+}, {
+    "id": "prod-5",
+    "category": "cars",
+    "title": "Audi A5",
+    "slug": "prod-5",
+    "price": "60000",
+    "currency": "USD",
+    "sku": "car-prod5",
+    "image": "/admin/assets/images/products/5.png",
+    "stock_level": "3"
+}, {
+    "id": "prod-6",
+    "category": "cars",
+    "title": "Audi A6",
+    "slug": "prod-6",
+    "price": "70000",
+    "currency": "USD",
+    "sku": "car-prod6",
+    "image": "/admin/assets/images/products/6.png",
+    "stock_level": "8"
+}, {
+    "id": "prod-7",
+    "category": "cars",
+    "title": "Audi A7",
+    "slug": "prod-7",
+    "price": "80000",
+    "currency": "USD",
+    "sku": "car-prod7",
+    "image": "/admin/assets/images/products/7.jpg",
+    "stock_level": "8"
+}]

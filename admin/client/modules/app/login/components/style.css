@@ -1,0 +1,9 @@
+.login {
+  margin: 20px;
+  padding: 30px;
+  text-align: left;
+}
+
+.error {
+  color: rgb(244, 67, 54);
+}

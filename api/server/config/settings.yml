@@ -1,0 +1,15 @@
+security:
+  jwtSecret:  QjiYppcTZOBGHfFD4g0mZD
+server:
+  mongodb: mongodb://139.59.130.223:27017/shop
+  redis: -
+path:
+  uploads:
+    categories: /var/www/cezerin/public/uploads/categories
+    products:   /var/www/cezerin/public/uploads/products
+    files:      /var/www/cezerin/public/uploads/files
+url:
+  uploads:
+    categories: http://localhost/static/categories
+    products:   http://localhost/static/products
+    files:      http://localhost/static/files
