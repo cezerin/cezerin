@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Store</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="shortcut icon" href="/admin/assets/images/shortcut.png"> -->
+    <!-- <link rel="manifest" href="/admin/assets/manifest.json"> -->
+    <!-- <link href="/admin/assets/css/flexboxgrid.min.css" rel="stylesheet" type="text/css" /> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&subset=cyrillic" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <h1>{{ title }}</h1>
+    <p>{{ func('test') }}</p>
+    <ul>
+        {% for category in categories %}
+          <li{% if loop.first %} class="first" {% endif %}>{{ category.name }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <!-- <script type="text/javascript" src="/admin/assets/js/bundle.js" charset="utf-8"></script> -->
+</body>
+
+</html>

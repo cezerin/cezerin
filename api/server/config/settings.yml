@@ -2,7 +2,6 @@ security:
   jwtSecret:  QjiYppcTZOBGHfFD4g0mZD
 server:
   mongodb: mongodb://139.59.130.223:27017/shop
-  redis: -
 path:
   uploads:
     categories: /var/www/cezerin/public/uploads/categories
