@@ -16,8 +16,6 @@ class CategoriesController {
        this.router.delete('/products/categories/:id', this.deleteCategory.bind(this));
        this.router.post('/products/categories/:id/image', this.uploadCategoryImage.bind(this));
        this.router.delete('/products/categories/:id/image', this.deleteCategoryImage.bind(this));
-      //  this.router.all('/products/categories', (req, res) => { res.status(405).end() });
-      //  this.router.all('/products/categories/:id', (req, res) => { res.status(405).end() });
    }
 
    getCategories(req, res) {
@@ -69,7 +67,7 @@ class CategoriesController {
    }
 
    deleteCategoryImage(req, res) {
-     CategoriesService.deleteCategoryImage(req.params.id, true);
+     CategoriesService.deleteCategoryImage(req.params.id);
      res.end();
    }
 }

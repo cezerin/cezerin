@@ -1,11 +1,13 @@
 'use strict';
 
+const path = require('path');
 const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
+var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
-var fs = require('fs-extra')
+var fs = require('fs-extra');
 var _ = require('lodash');
 
 /* TODO
@@ -89,8 +91,8 @@ class CategoriesService {
               resolve();
             }
            })
-          .catch((err) => { reject(this.getErrorMessage(err)) });
-      });
+      })
+      .catch((err) => { reject(this.getErrorMessage(err)) });;
     });
   }
 
@@ -148,12 +150,11 @@ class CategoriesService {
   }
 
   getDocumentForInsert(language, data, newPosition) {
-    return new Promise((resolve, reject) => {
       //  Allow empty category to create draft
 
       let category = {
-        'parent_id': null,
         'date_created': new Date(),
+        'date_updated': null,
         'name': {},
         'description': {},
         'meta_description': {},
@@ -162,38 +163,24 @@ class CategoriesService {
         'position': newPosition
       };
 
-      let activeByDefault = true;
-
-      category.name[language] = data.name || '';
-      category.description[language] = data.description || '';
-      category.meta_description[language] = data.meta_description || '';
-      category.meta_title[language] = data.meta_title || '';
-      category.active = _.isUndefined(data.active) || data.active === null ? activeByDefault : data.active;
-      category.sort = data.sort || '';
-
-      if(data.position >= 0) {
-        category.position = data.position;
-      }
-
-      if(ObjectID.isValid(data.parent_id) || data.parent_id === null) {
-        category.parent_id = this.parseObjectID(data.parent_id);
-      }
+      category.name[language] = parse.getString(data.name) || '';
+      category.description[language] = parse.getString(data.description) || '';
+      category.meta_description[language] = parse.getString(data.meta_description) || '';
+      category.meta_title[language] = parse.getString(data.meta_title) || '';
+      category.active = parse.getBooleanIfValid(data.active) || true;
+      category.sort = parse.getString(data.sort);
+      category.parent_id = parse.getObjectIDIfValid(data.parent_id);
+      category.position = parse.getNumberIfValid(data.position);
 
       let slug = (!data.slug || data.slug.length === 0) ? data.name : data.slug;
       if(!slug || slug.length === 0) {
-        resolve(category);
+        return Promise.resolve(category);
       } else {
-        utils.getAvailableSlug(slug)
-        .then((newSlug) => {
+        return utils.getAvailableSlug(slug).then((newSlug) => {
           category.slug = newSlug;
-          resolve(category);
-        })
-        .catch((err) => {
-          reject(err);
+          return category;
         });
       }
-
-    })
   }
 
   getDocumentForUpdate(id, language, data) {
@@ -243,7 +230,7 @@ class CategoriesService {
       if(!_.isUndefined(data.parent_id) && (data.parent_id === null || data.parent_id === '')) {
         category.parent_id = null;
       } else if (ObjectID.isValid(data.parent_id)) {
-        category.parent_id = this.parseObjectID(data.parent_id);
+        category.parent_id = parse.getObjectIDIfValid(data.parent_id);
       }
 
 
@@ -294,6 +281,8 @@ class CategoriesService {
         item.meta_title = item.meta_title[language];
       }
 
+      item.url = path.join(settings.store.url.base, item.slug || '');
+
       if(!_.isEmpty(item.image)) {
         item.image = settings.url.uploads.categories + '/' + item.id + '/' + item.image;
       }
@@ -303,12 +292,10 @@ class CategoriesService {
     return item;
   }
 
-  deleteCategoryImage(id, withUpdate) {
+  deleteCategoryImage(id) {
     let dir = settings.path.uploads.categories + '/' + id;
     fs.emptyDirSync(dir);
-    if(withUpdate) {
-      this.updateCategory(null, id, { 'image': '' });
-    }
+    this.updateCategory(null, id, { 'image': '' });
   }
 
   uploadCategoryImage(req, res) {
@@ -323,13 +310,11 @@ class CategoriesService {
         let dir = settings.path.uploads.categories + '/' + categoryId;
         fs.emptyDirSync(dir);
         file.path = dir + '/' + file.name;
-        console.log(`uploading to: ${file.path}`);
       })
       .on('file', function(field, file) {
         // every time a file has been uploaded successfully,
         file_name = file.name;
         file_size = file.size;
-        console.log(`${file.name} uploaded`)
       })
       .on('error', (err) => {
         res.status(500).send(this.getErrorMessage(err));

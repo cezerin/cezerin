@@ -10,41 +10,85 @@ class SitemapService {
   constructor() {}
 
   getPaths() {
-    return new Promise((resolve, reject) => {
-      let paths = [];
+    return Promise.all([
+        this.getSlugArrayFromReserved(),
+        this.getSlugArrayFromProductCategories(),
+        this.getSlugArrayFromProducts()
+      ]).then(([ reserved, productCategories, products ]) => {
 
-      paths.push({
-        path: 'api',
-        type: 'reserved'
+        let paths = [];
+
+        for(const item of reserved) {
+          paths.push(item);
+        }
+
+        for(const item of productCategories) {
+          paths.push(item);
+        }
+
+        for(const item of products) {
+          paths.push(item);
+        }
+
+        return paths;
       });
+  }
 
-      paths.push({
-        path: 'assets',
-        type: 'reserved'
+  getSlugArrayFromReserved() {
+    let paths = [];
+
+    paths.push({
+      path: 'api',
+      type: 'reserved'
+    });
+
+    paths.push({
+      path: 'assets',
+      type: 'reserved'
+    });
+
+    paths.push({
+      path: 'static',
+      type: 'reserved'
+    });
+
+    return paths;
+  }
+
+  getSlugArrayFromProducts() {
+    return mongo.db.collection('products')
+      .find()
+      .project({ slug:1 })
+      .toArray()
+      .then((items) => {
+        let newPath = [];
+        for(const item of items) {
+          newPath.push({
+            path: item.slug,
+            type: 'product',
+            resource: item._id
+          });
+        }
+        return newPath;
       });
+  }
 
-      paths.push({
-        path: 'static',
-        type: 'reserved'
+  getSlugArrayFromProductCategories() {
+    return mongo.db.collection('productCategories')
+      .find()
+      .project({ slug:1 })
+      .toArray()
+      .then((items) => {
+        let newPath = [];
+        for(const item of items) {
+          newPath.push({
+            path: item.slug,
+            type: 'product-category',
+            resource: item._id
+          });
+        }
+        return newPath;
       });
-
-      mongo.db.collection('productCategories')
-        .find()
-        .project({ slug:1 })
-        .toArray()
-        .then((items) => {
-          for(const item of items) {
-            paths.push({
-              path: item.slug,
-              type: 'product-category',
-              resource: item._id
-            });
-          }
-          resolve(paths);
-        })
-        .catch((err) => { reject(this.getErrorMessage(err)) });
-      });
-
   }
 
   getSinglePath(path) {

@@ -12,3 +12,6 @@ url:
     categories: http://localhost/static/categories
     products:   http://localhost/static/products
     files:      http://localhost/static/files
+store:
+  url:
+    base: http://localhost

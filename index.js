@@ -4,7 +4,7 @@ var bodyParser = require('body-parser')
 var apiRouter = require('./api/server')
 
 var nunjucks = require('nunjucks')
-nunjucks.configure('./public/themes/template', { autoescape: true, watch: true });
+nunjucks.configure('./public/themes', { autoescape: true, watch: true });
 
 const settings = require('./store/server/lib/settings');
 var api = require('cezerin-client');
@@ -57,8 +57,8 @@ app.use('/api', apiRouter);
 //     port: 465,
 //     secure: true,
 //     auth: {
-//         user: 'AKIAIRTRQT6R3M2L47IQ',
-//         pass: 'Al0yBtMomydpj9mVAmD6mFDyGChHY4Gt25E+WWgFkTjw'
+//         user: '',
+//         pass: ''
 //     }
 // }));
 

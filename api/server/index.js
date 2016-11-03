@@ -9,6 +9,7 @@ var mongo = require('./lib/mongo');
 var utils = require('./lib/utils');
 
 const СategoriesController = require('./controllers/products/categories');
+const ProductsController = require('./controllers/products/products');
 const SitemapController = require('./controllers/sitemap');
 
 apiRouter.all('/*', function(req, res, next) {
@@ -31,6 +32,7 @@ apiRouter.all('/*', function(req, res, next) {
 apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: ['/api/authorize']}));
 apiRouter.post('/authorize', auth.login);
 var cat = new СategoriesController(apiRouter);
+var prod = new ProductsController(apiRouter);
 var sitemap = new SitemapController(apiRouter);
 
 apiRouter.use(function(err, req, res, next) {

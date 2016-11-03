@@ -7,7 +7,7 @@ api:
         - de
         - ru
   url:
-    base: http://localhost/api/
+    base: https://store.cezrin.com/api/
     # uploads:
     #   categories: http://localhost:3000/static/categories
     #   products:   http://localhost:3000/static/products
