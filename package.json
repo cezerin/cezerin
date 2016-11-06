@@ -1,6 +1,6 @@
 {
   "name": "cezerin",
-  "version": "0.2.0",
+  "version": "0.1.2",
   "description": "Cezerin is open source e-commerce solution, powered by Node.js and React. https://cezerin.com",
   "keywords": [
     "cezerin",
@@ -36,7 +36,7 @@
     "basic-auth": "^1.0.4",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
-    "cezerin-client": "^0.2.1",
+    "cezerin-client": "^0.1.19",
     "express": "^4.14.0",
     "express-jwt": "^5.1.0",
     "flexboxgrid": "^6.3.1",

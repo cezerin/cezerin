@@ -19,16 +19,15 @@ class ProductsController {
    }
 
    getProducts(req, res) {
-     ProductsService.getProducts(req.app.locals.language)
+     ProductsService.getProducts()
       .then((data) => { res.send(data) })
       .catch((err) => { res.status(500).send(err) });
    }
 
    getSingleProduct(req, res) {
-     ProductsService.getSingleProduct(req.app.locals.language, req.params.id)
+     ProductsService.getSingleProduct(req.params.id)
       .then((data) => {
         if(data) {
-          //setTimeout(()=>{ res.send(data) }, 3000);
           res.send(data)
         } else {
           res.status(404).end()
@@ -38,14 +37,14 @@ class ProductsController {
    }
 
    addProduct(req, res) {
-     ProductsService.addProduct(req.app.locals.language, req.body)
+     ProductsService.addProduct(req.body)
       .then((data) => { res.send(data) })
       .catch((err) => { res.status(500).send(err) });
    }
 
 
    updateProduct(req, res) {
-     ProductsService.updateProduct(req.app.locals.language, req.params.id, req.body)
+     ProductsService.updateProduct(req.params.id, req.body)
       .then((data) => {
         if(data) {
           res.send(data)

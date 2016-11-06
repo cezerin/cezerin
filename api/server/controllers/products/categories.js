@@ -19,13 +19,13 @@ class CategoriesController {
    }
 
    getCategories(req, res) {
-     CategoriesService.getCategories(req.app.locals.language)
+     CategoriesService.getCategories()
       .then((data) => { res.send(data) })
       .catch((err) => { res.status(500).send(err) });
    }
 
    getSingleCategory(req, res) {
-     CategoriesService.getSingleCategory(req.app.locals.language, req.params.id)
+     CategoriesService.getSingleCategory(req.params.id)
       .then((data) => {
         if(data) {
           //setTimeout(()=>{ res.send(data) }, 3000);
@@ -38,14 +38,14 @@ class CategoriesController {
    }
 
    addCategory(req, res) {
-     CategoriesService.addCategory(req.app.locals.language, req.body)
+     CategoriesService.addCategory(req.body)
       .then((data) => { res.send(data) })
       .catch((err) => { res.status(500).send(err) });
    }
 
 
    updateCategory(req, res) {
-     CategoriesService.updateCategory(req.app.locals.language, req.params.id, req.body)
+     CategoriesService.updateCategory(req.params.id, req.body)
       .then((data) => {
         if(data) {
           res.send(data)

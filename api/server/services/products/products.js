@@ -5,76 +5,80 @@ const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
+var CategoriesService = require('./categories');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');
 var _ = require('lodash');
 
-/* TODO
-  validate add/update data types
-  validate add/update data values
-  implement Get with filters
-*/
 class ProductsService {
   constructor() {}
 
-  getProducts(language) {
+  getProducts() {
     return new Promise((resolve, reject) => {
       mongo.db.collection('products')
         .find()
         .toArray()
         .then(items => {
-          for(let key in items) {
-            items[key] = this.renameDocumentFields(language, items[key]);
-          }
-          resolve(items);
+          CategoriesService.getCategories().then(categories => {
+            for(let key in items) {
+              items[key] = this.renameDocumentFields(categories, items[key]);
+            }
+            resolve(items);
+          });
         })
         .catch(err => { reject(this.getErrorMessage(err)) });
       });
 
   }
 
-  getSingleProduct(language, id) {
+  getSingleProduct(id) {
     return new Promise((resolve, reject) => {
       let productObjectID = this.parseObjectID(id);
       mongo.db.collection('products')
         .findOne({ _id: productObjectID })
         .then(item => {
-          item = this.renameDocumentFields(language, item);
-          resolve(item);
+          CategoriesService.getSingleCategory(item.category_id).then(category => {
+            item = this.renameDocumentFields(category ? [category] : [], item);
+            resolve(item);
+          });
         })
         .catch(err => { reject(this.getErrorMessage(err)) });
       });
   }
 
-  addProduct(language, data) {
+  addProduct(data) {
     return new Promise((resolve, reject) => {
-      this.getDocumentForInsert(language, data)
+      this.getDocumentForInsert(data)
       .then(dataToInsert => {
         mongo.db.collection('products')
           .insertMany([dataToInsert])
           .then(res => {
             let insertedItem = res.ops[0];
-            insertedItem = this.renameDocumentFields(language, insertedItem);
-            resolve(insertedItem);
+            CategoriesService.getSingleCategory(insertedItem.category_id).then(category => {
+              insertedItem = this.renameDocumentFields(category ? [category] : [], insertedItem);
+              resolve(insertedItem);
+            });
           })
           .catch(err => { reject(this.getErrorMessage(err)) });
       });
     });
   }
 
-  updateProduct(language, id, data) {
+  updateProduct(id, data) {
     return new Promise((resolve, reject) => {
       let productObjectID = this.parseObjectID(id);
-      this.getDocumentForUpdate(id, language, data)
+      this.getDocumentForUpdate(id, data)
       .then(dataToSet => {
         mongo.db.collection('products')
           .findOneAndUpdate({ _id: productObjectID }, {$set: dataToSet}, { returnOriginal: false })
           .then(res => {
             if(res.value) {
               let updatedItem = res.value;
-              updatedItem = this.renameDocumentFields(language, updatedItem);
-              resolve(updatedItem);
+              CategoriesService.getSingleCategory(updatedItem.category_id).then(category => {
+                updatedItem = this.renameDocumentFields(category ? [category] : [], updatedItem);
+                resolve(updatedItem);
+              });
             } else {
               resolve();
             }
@@ -110,17 +114,13 @@ class ProductsService {
     return { 'error': true, 'message': err.toString() };
   }
 
-  getDocumentForInsert(language, data, newPosition) {
+  getDocumentForInsert(data, newPosition) {
       //  Allow empty product to create draft
 
       let product = {
         'date_created': new Date(),
         'date_updated': null,
-        'meta_description': {},
-        'meta_title': {},
-        'name': {},
-        'description': {},
-        'tags': {},
+        'images': [],
         'dimensions': {
             'length': 0,
             'width': 0,
@@ -128,22 +128,21 @@ class ProductsService {
         }
       };
 
-      product.name[language] = parse.getString(data.name) || '';
-      product.description[language] = parse.getString(data.description) || '';
-      product.meta_description[language] = parse.getString(data.meta_description) || '';
-      product.meta_title[language] = parse.getString(data.meta_title) || '';
+      product.name = parse.getString(data.name) || '';
+      product.description = parse.getString(data.description) || '';
+      product.meta_description = parse.getString(data.meta_description) || '';
+      product.meta_title = parse.getString(data.meta_title) || '';
+      product.tags = parse.getArrayIfValid(data.tags) || [];
+      product.attributes = parse.getArrayIfValid(data.attributes) || [];
       product.active = parse.getBooleanIfValid(data.active) || true;
       product.discontinued = parse.getBooleanIfValid(data.discontinued) || false;
       product.currency = parse.getCurrencyIfValid(data.currency);
       product.sku = parse.getString(data.sku);
       product.code = parse.getString(data.code);
-      product.tags[language] = parse.getArrayIfValid(data.tags) || [];
       product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
-      product.images = parse.getArrayIfValid(data.images) || [];
       product.prices = parse.getArrayIfValid(data.prices) || [];
-      product.options = parse.getArrayIfValid(data.options) || [];
+      product.options = parse.getArrayIfValid(data) || [];
       product.variants = parse.getArrayIfValid(data.variants) || [];
-      product.attributes = parse.getArrayIfValid(data.attributes) || [];
       product.cost_price = parse.getNumberIfPositive(data.cost_price);
       product.regular_price = parse.getNumberIfPositive(data.regular_price);
       product.sale_price = parse.getNumberIfPositive(data.sale_price);
@@ -176,7 +175,7 @@ class ProductsService {
       }
   }
 
-  getDocumentForUpdate(id, language, data) {
+  getDocumentForUpdate(id, data) {
     return new Promise((resolve, reject) => {
       if(_.isEmpty(data)) {
         reject('Required fields are missing');
@@ -186,26 +185,28 @@ class ProductsService {
         'date_updated': new Date()
       };
 
-      if(language) {
-        if(!_.isUndefined(data.name)) {
-          product['name.' + language] = parse.getString(data.name) || '';
-        }
+      if(!_.isUndefined(data.name)) {
+        product.name = parse.getString(data.name) || '';
+      }
 
-        if(!_.isUndefined(data.description)) {
-          product['description.' + language] = parse.getString(data.description) || '';
-        }
+      if(!_.isUndefined(data.description)) {
+        product.description = parse.getString(data.description) || '';
+      }
 
-        if(!_.isUndefined(data.meta_description)) {
-          product['meta_description.' + language] = parse.getString(data.meta_description) || '';
-        }
+      if(!_.isUndefined(data.meta_description)) {
+        product.meta_description = parse.getString(data.meta_description) || '';
+      }
 
-        if(!_.isUndefined(data.meta_title)) {
-          product['meta_title.' + language] = parse.getString(data.meta_title) || '';
-        }
+      if(!_.isUndefined(data.meta_title)) {
+        product.meta_title = parse.getString(data.meta_title) || '';
+      }
 
-        if(!_.isUndefined(data.tags)) {
-          product['tags.' + language] = parse.getArrayIfValid(data.tags) || [];
-        }
+      if(!_.isUndefined(data.tags)) {
+        product.tags = parse.getArrayIfValid(data.tags) || [];
+      }
+
+      if(!_.isUndefined(data.attributes)) {
+        product.attributes = parse.getArrayIfValid(data.attributes) || [];
       }
 
       if(!_.isUndefined(data.dimensions)) {
@@ -250,10 +251,6 @@ class ProductsService {
 
       if(!_.isUndefined(data.variants)) {
         product.variants = parse.getArrayIfValid(data.variants) || [];
-      }
-
-      if(!_.isUndefined(data.attributes)) {
-        product.attributes = parse.getArrayIfValid(data.attributes) || [];
       }
 
       if(!_.isUndefined(data.cost_price)) {
@@ -312,11 +309,11 @@ class ProductsService {
         product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder) || false;
       }
 
-      if(!_.isUndefined(data.brand_id) && (data.brand_id === null || data.brand_id === '')) {
+      if(!_.isUndefined(data.brand_id)) {
         product.brand_id = parse.getObjectIDIfValid(data.brand_id);
       }
 
-      if(!_.isUndefined(data.category_id) && (data.category_id === null || data.category_id === '')) {
+      if(!_.isUndefined(data.category_id)) {
         product.category_id = parse.getObjectIDIfValid(data.category_id);
       }
 
@@ -341,7 +338,7 @@ class ProductsService {
     });
   }
 
-  renameDocumentFields(language, item) {
+  renameDocumentFields(categories, item) {
     if(item) {
       item.id = item._id.toString();
       delete item._id;
@@ -350,28 +347,19 @@ class ProductsService {
         item.brand_id = item.brand_id.toString();
       }
 
+      item.category_name = "";
+      item.url = "";
+
       if(item.category_id) {
         item.category_id = item.category_id.toString();
-      }
 
-      if(item.name) {
-        item.name = item.name[language];
-      }
-
-      if(item.description) {
-        item.description = item.description[language];
-      }
-
-      if(item.meta_description) {
-        item.meta_description = item.meta_description[language];
-      }
-
-      if(item.meta_title) {
-        item.meta_title = item.meta_title[language];
-      }
-
-      if(item.tags) {
-        item.tags = item.tags[language];
+        if(categories && categories.length > 0) {
+          const category = categories.find(i => i.id === item.category_id);
+          if(category) {
+            item.category_name = category.name;
+            item.url = path.join(settings.store.url.base, category.slug || '', item.slug || '');
+          }
+        }
       }
 
       if(item.images && item.images.length > 0) {
@@ -417,8 +405,8 @@ class ProductsService {
   }
 
   deleteProductImage(productId, imageId) {
-    let language = 'en';
-    return this.getSingleProduct(language, productId).then(item => {
+    let imageObjectID = this.parseObjectID(imageId);
+    return this.getSingleProduct(productId).then(item => {
       if(item.images && item.images.length > 0) {
         let imageData = item.images.find(i => i.id.toString() === imageId.toString());
         if(imageData) {
@@ -426,10 +414,10 @@ class ProductsService {
           let filepath = settings.path.uploads.products + '/' + productId + '/' + filename;
           fs.removeSync(filepath);
 
-          var imagesNew = item.images.filter(i => i.id.toString() !== imageId.toString());
-          this.updateProduct(language, productId, { images: imagesNew }).then(() => {
-            return true;
-          });
+          mongo.db.collection('products')
+            .updateOne({ _id: productObjectID }, { $pull: { images: { id: imageObjectID } } }).then(() => {
+              return true;
+            });
 
         }
       }

@@ -47,6 +47,8 @@ var config = {
 };
 
 
-if (env === 'production') {}
+if (env === 'production') {
+  // add tasks
+}
 
 module.exports = config;

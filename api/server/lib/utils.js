@@ -1,5 +1,4 @@
 var SitemapService = require('../services/sitemap');
-var CategoriesService = require('../services/products/categories');
 
 var slug = require('slug');
 var slugConfig = {
@@ -25,16 +24,7 @@ getAvailableSlug = (path, resource) => {
   })
 }
 
-getProductCategorySlug = (category_id) => {
-  const language = 'en';
-  return CategoriesService.getSingleCategory(language, category_id)
-  .then(item => {
-    return item.slug;
-  })
-}
-
 module.exports = {
   cleanSlug: cleanSlug,
-  getAvailableSlug: getAvailableSlug,
-  getProductCategorySlug: getProductCategorySlug
+  getAvailableSlug: getAvailableSlug
 }

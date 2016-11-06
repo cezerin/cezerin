@@ -1,10 +1,7 @@
 # Cezerin is open source e-commerce solution
 
 Powered by Node.js, React, MongoDB, Redis, ES6.
-
-Install with:
-
-    npm install cezerin
+Currently in development.
 
 
 ## Usage

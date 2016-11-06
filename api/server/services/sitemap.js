@@ -4,8 +4,6 @@ const settings = require('../lib/settings');
 var mongo = require('../lib/mongo');
 var ObjectID = require('mongodb').ObjectID;
 
-/* TODO
-*/
 class SitemapService {
   constructor() {}
 

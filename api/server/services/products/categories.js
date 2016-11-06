@@ -10,22 +10,17 @@ var formidable = require('formidable');
 var fs = require('fs-extra');
 var _ = require('lodash');
 
-/* TODO
-  validate add/update data types
-  validate add/update data values
-  implement Get with filters
-*/
 class CategoriesService {
   constructor() {}
 
-  getCategories(language) {
+  getCategories() {
     return new Promise((resolve, reject) => {
       mongo.db.collection('productCategories')
         .find()
         .toArray()
         .then((items) => {
           for(let key in items) {
-            items[key] = this.renameDocumentFields(language, items[key]);
+            items[key] = this.renameDocumentFields(items[key]);
           }
           resolve(items);
         })
@@ -34,20 +29,20 @@ class CategoriesService {
 
   }
 
-  getSingleCategory(language, id) {
+  getSingleCategory(id) {
     return new Promise((resolve, reject) => {
       let categoryObjectID = this.parseObjectID(id);
       mongo.db.collection('productCategories')
         .findOne({ _id: categoryObjectID })
         .then((item) => {
-          item = this.renameDocumentFields(language, item);
+          item = this.renameDocumentFields(item);
           resolve(item);
         })
         .catch((err) => { reject(this.getErrorMessage(err)) });
       });
   }
 
-  addCategory(language, data) {
+  addCategory(data) {
     return new Promise((resolve, reject) => {
       mongo.db.collection('productCategories').find().sort({position:-1}).limit(1)
       .nextObject()
@@ -58,13 +53,13 @@ class CategoriesService {
         }
         newPosition++;
 
-        this.getDocumentForInsert(language, data, newPosition)
+        this.getDocumentForInsert(data, newPosition)
         .then((dataToInsert) => {
           mongo.db.collection('productCategories')
             .insertMany([dataToInsert])
             .then((res) => {
               let insertedItem = res.ops[0];
-              insertedItem = this.renameDocumentFields(language, insertedItem);
+              insertedItem = this.renameDocumentFields(insertedItem);
               resolve(insertedItem);
             })
             .catch((err) => { reject(this.getErrorMessage(err)) });
@@ -75,17 +70,17 @@ class CategoriesService {
     });
   }
 
-  updateCategory(language, id, data) {
+  updateCategory(id, data) {
     return new Promise((resolve, reject) => {
       let categoryObjectID = this.parseObjectID(id);
-      this.getDocumentForUpdate(id, language, data)
+      this.getDocumentForUpdate(id, data)
       .then((dataToSet) => {
         mongo.db.collection('productCategories')
           .findOneAndUpdate({ _id: categoryObjectID }, {$set: dataToSet}, { returnOriginal: false })
           .then((res) => {
             if(res.value) {
               let updatedItem = res.value;
-              updatedItem = this.renameDocumentFields(language, updatedItem);
+              updatedItem = this.renameDocumentFields(updatedItem);
               resolve(updatedItem);
             } else {
               resolve();
@@ -149,24 +144,20 @@ class CategoriesService {
     return { 'error': true, 'message': err.toString() };
   }
 
-  getDocumentForInsert(language, data, newPosition) {
+  getDocumentForInsert(data, newPosition) {
       //  Allow empty category to create draft
 
       let category = {
         'date_created': new Date(),
         'date_updated': null,
-        'name': {},
-        'description': {},
-        'meta_description': {},
-        'meta_title': {},
         'image': '',
         'position': newPosition
       };
 
-      category.name[language] = parse.getString(data.name) || '';
-      category.description[language] = parse.getString(data.description) || '';
-      category.meta_description[language] = parse.getString(data.meta_description) || '';
-      category.meta_title[language] = parse.getString(data.meta_title) || '';
+      category.name = parse.getString(data.name) || '';
+      category.description = parse.getString(data.description) || '';
+      category.meta_description = parse.getString(data.meta_description) || '';
+      category.meta_title = parse.getString(data.meta_title) || '';
       category.active = parse.getBooleanIfValid(data.active) || true;
       category.sort = parse.getString(data.sort);
       category.parent_id = parse.getObjectIDIfValid(data.parent_id);
@@ -176,14 +167,14 @@ class CategoriesService {
       if(!slug || slug.length === 0) {
         return Promise.resolve(category);
       } else {
-        return utils.getAvailableSlug(slug).then((newSlug) => {
+        return utils.getAvailableSlug(slug).then(newSlug => {
           category.slug = newSlug;
           return category;
         });
       }
   }
 
-  getDocumentForUpdate(id, language, data) {
+  getDocumentForUpdate(id, data) {
     return new Promise((resolve, reject) => {
       if(_.isEmpty(data)) {
         reject('Required fields are missing');
@@ -193,22 +184,20 @@ class CategoriesService {
         'date_updated': new Date()
       };
 
-      if(language) {
-        if(!_.isUndefined(data.name)) {
-          category['name.' + language] = data.name;
-        }
+      if(!_.isUndefined(data.name)) {
+        category.name = data.name;
+      }
 
-        if(!_.isUndefined(data.description)) {
-          category['description.' + language] = data.description;
-        }
+      if(!_.isUndefined(data.description)) {
+        category.description = data.description;
+      }
 
-        if(!_.isUndefined(data.meta_description)) {
-          category['meta_description.' + language] = data.meta_description;
-        }
+      if(!_.isUndefined(data.meta_description)) {
+        category.meta_description = data.meta_description;
+      }
 
-        if(!_.isUndefined(data.meta_title)) {
-          category['meta_title.' + language] = data.meta_title;
-        }
+      if(!_.isUndefined(data.meta_title)) {
+        category.meta_title = data.meta_title;
       }
 
       if(!_.isUndefined(data.image)) {
@@ -227,9 +216,7 @@ class CategoriesService {
         category.sort = data.sort;
       }
 
-      if(!_.isUndefined(data.parent_id) && (data.parent_id === null || data.parent_id === '')) {
-        category.parent_id = null;
-      } else if (ObjectID.isValid(data.parent_id)) {
+      if(!_.isUndefined(data.parent_id)) {
         category.parent_id = parse.getObjectIDIfValid(data.parent_id);
       }
 
@@ -256,29 +243,13 @@ class CategoriesService {
     });
   }
 
-  renameDocumentFields(language, item) {
+  renameDocumentFields(item) {
     if(item) {
       item.id = item._id.toString();
       delete item._id;
 
       if(item.parent_id) {
         item.parent_id = item.parent_id.toString();
-      }
-
-      if(item.name) {
-        item.name = item.name[language];
-      }
-
-      if(item.description) {
-        item.description = item.description[language];
-      }
-
-      if(item.meta_description) {
-        item.meta_description = item.meta_description[language];
-      }
-
-      if(item.meta_title) {
-        item.meta_title = item.meta_title[language];
       }
 
       item.url = path.join(settings.store.url.base, item.slug || '');
