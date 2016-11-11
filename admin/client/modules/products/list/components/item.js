@@ -8,10 +8,18 @@ import messages from 'src/locale'
 import settings from 'lib/settings'
 import style from './style.css'
 
-export default ({ product, onSelect, selected }) => {
-  let image = <div className={style.placeholder}><FontIcon style={{fontSize: 30, color: '#cccccc'}} className="material-icons">photo_camera</FontIcon></div>;
+const ImagePlaceholder = <div className={style.placeholder}><FontIcon style={{fontSize: 30, color: '#cccccc'}} className="material-icons">photo_camera</FontIcon></div>;
+
+const FormattedPrice = (price, currency, language) => (
+  (price > 0 && currency !== '') ? price.toLocaleString(language, { style: 'currency', currency: currency }) : ''
+)
+
+const ProductItem = ({ product, onSelect, selected }) => {
+  let image = null;
   if(product.images && product.images.length > 0) {
     image = <img src={product.images[0].url} className={style.image} />;
+  } else {
+    image = ImagePlaceholder;
   }
 
   const checked = selected.includes(product.id);
@@ -39,7 +47,6 @@ export default ({ product, onSelect, selected }) => {
       stockClass = style.preorder;
     break;
     case "available":
-      //messages.products.inStock
       stockValue = product.stock_quantity;
       stockClass = style.inStock;
     break;
@@ -50,23 +57,12 @@ export default ({ product, onSelect, selected }) => {
     break;
   }
 
-  let priceFormatted = "";
-  if(product.price && product.price > 0 && product.currency && product.currency !== '') {
-    priceFormatted = product.price.toLocaleString(settings.lenguage, { style: 'currency', currency: product.currency });
-  }
-
-  let priceOldFormatted = "";
-  if(product.on_sale && product.regular_price && product.regular_price > 0 && product.currency && product.currency !== '') {
-    priceOldFormatted = product.regular_price.toLocaleString(settings.lenguage, { style: 'currency', currency: product.currency });
-    priceOldFormatted = <small>{priceOldFormatted}</small>;
-  }
-
+  let priceFormatted = FormattedPrice(product.price, product.currency, settings.language);
+  let priceOldFormatted = product.on_sale ? FormattedPrice(product.regular_price, product.currency, settings.language) : '';
 
   return (
     <div>
-      <ListItem
-        onTouchTap={()=>{}}
-        style={{ cursor: 'normal' }}
+      <ListItem style={{ cursor: 'normal' }}
         innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}
         primaryText={
           <div className="row row--no-gutter middle-xs">
@@ -92,7 +88,7 @@ export default ({ product, onSelect, selected }) => {
               {stockValue}
             </div>
             <div className={"col-xs-2 " + style.price}>
-              {priceOldFormatted}
+              <small>{priceOldFormatted}</small>
               {priceFormatted}
             </div>
           </div>
@@ -102,3 +98,5 @@ export default ({ product, onSelect, selected }) => {
     </div>
   )
 }
+
+export default ProductItem;
