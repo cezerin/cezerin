@@ -19,10 +19,8 @@ class CategoriesService {
         .find()
         .toArray()
         .then((items) => {
-          for(let key in items) {
-            items[key] = this.renameDocumentFields(items[key]);
-          }
-          resolve(items);
+          let renamedItems = items.map(c => this.renameDocumentFields(c));
+          resolve(renamedItems);
         })
         .catch((err) => { reject(this.getErrorMessage(err)) });
       });
@@ -48,7 +46,7 @@ class CategoriesService {
       .nextObject()
       .then(item => {
         let newPosition = 0;
-        if(item) {
+        if(item && item.position > 0) {
           newPosition = item.position;
         }
         newPosition++;
@@ -93,8 +91,8 @@ class CategoriesService {
 
   findAllChildren(items, id, result) {
     if(id && ObjectID.isValid(id)) {
-      result.push(id);
-      let finded = items.filter((item) => (item.parent_id === id));
+      result.push(id.toString());
+      let finded = items.filter(item => (item.parent_id === id));
       if(finded.length > 0) {
         for(let item of finded) {
           this.findAllChildren(items, item.id, result);
@@ -108,7 +106,7 @@ class CategoriesService {
   deleteCategory(id) {
     return new Promise((resolve, reject) => {
       // 1. get all categories
-      this.getCategories('en')
+      this.getCategories()
       .then((items) => {
 
         // 2. find category and children
@@ -150,18 +148,17 @@ class CategoriesService {
       let category = {
         'date_created': new Date(),
         'date_updated': null,
-        'image': '',
-        'position': newPosition
+        'image': ''
       };
 
       category.name = parse.getString(data.name) || '';
       category.description = parse.getString(data.description) || '';
       category.meta_description = parse.getString(data.meta_description) || '';
       category.meta_title = parse.getString(data.meta_title) || '';
-      category.active = parse.getBooleanIfValid(data.active) || true;
+      category.active = parse.getBooleanIfValid(data.active, true);
       category.sort = parse.getString(data.sort);
       category.parent_id = parse.getObjectIDIfValid(data.parent_id);
-      category.position = parse.getNumberIfValid(data.position);
+      category.position = parse.getNumberIfValid(data.position) || newPosition;
 
       let slug = (!data.slug || data.slug.length === 0) ? data.name : data.slug;
       if(!slug || slug.length === 0) {
@@ -205,7 +202,7 @@ class CategoriesService {
       }
 
       if(!_.isUndefined(data.active)) {
-        category.active = data.active;
+        category.active = parse.getBooleanIfValid(data.active, true);
       }
 
       if(data.position >= 0) {
@@ -266,7 +263,7 @@ class CategoriesService {
   deleteCategoryImage(id) {
     let dir = settings.path.uploads.categories + '/' + id;
     fs.emptyDirSync(dir);
-    this.updateCategory(null, id, { 'image': '' });
+    this.updateCategory(id, { 'image': '' });
   }
 
   uploadCategoryImage(req, res) {
@@ -293,7 +290,7 @@ class CategoriesService {
       .on('end', () => {
         //Emitted when the entire request has been received, and all contained files have finished flushing to disk.
         if(file_name) {
-          this.updateCategory(null, categoryId, { 'image': file_name });
+          this.updateCategory(categoryId, { 'image': file_name });
           res.send({ 'file': file_name, 'size': file_size });
         } else {
           res.status(400).send(this.getErrorMessage('Required fields are missing'));

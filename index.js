@@ -7,10 +7,7 @@ var nunjucks = require('nunjucks');
 nunjucks.configure('./public/themes', { autoescape: true, watch: true });
 
 var api = require('cezerin-client');
-api.init(
-	settings.api.url.base,
-	settings.api.language.default,
-	settings.api.token);
+api.init(settings.api.url.base, settings.api.token);
 
 app.disable('x-powered-by');
 app.use(bodyParser.urlencoded({extended: true}));

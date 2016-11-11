@@ -1,16 +1,7 @@
+language: en
 api:
-  language:
-      default: en
-      all:
-        - en
-        - de
-        - ru
   url:
     base: http://localhost/api/
-    # uploads:
-    #   categories: http://localhost:3000/static/categories
-    #   products:   http://localhost:3000/static/products
-    #   files:      http://localhost:3000/static/files
 store:
   url:
     base: http://localhost

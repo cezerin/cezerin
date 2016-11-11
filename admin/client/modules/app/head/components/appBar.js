@@ -3,9 +3,9 @@ import { Link } from 'react-router'
 
 import settings from 'lib/settings'
 import messages from 'src/locale'
-import ProductCategoryActions from 'modules/product-categories/actions/index'
+import ProductCategoryHead from 'modules/product-categories/head/index'
+import ProductsHead from 'modules/products/head/index'
 import Drawer from './drawer'
-import Search from './search'
 
 import FontIcon from 'material-ui/FontIcon';
 import MenuItem from 'material-ui/MenuItem';
@@ -24,7 +24,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { isLoading, category } = this.props;
+    const { isLoading, category, selectedProducts } = this.props;
     const location = this.props.location.pathname;
     const menu = settings.admin.menu;
 
@@ -35,25 +35,17 @@ export default class AppBarTop extends React.Component {
 
     if(location === '/admin/products'){
       title = messages.products.title;
+      let selectedCount = selectedProducts.length;
+
       if(category){
         title = category.name;
       }
 
-      rightElements = <div style={{float:'left'}}>
-      <Search style={{float:'left'}} />
-      <IconButton><FontIcon color="#fff" className="material-icons">delete</FontIcon></IconButton>
-      <IconMenu
-        iconButtonElement={
-          <IconButton><FontIcon color="#fff" className="material-icons">more_vert</FontIcon></IconButton>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      >
-        <MenuItem primaryText="Refresh" />
-        <MenuItem primaryText="Help" />
-        <MenuItem primaryText="Sign out" />
-      </IconMenu>
-      </div>
+      if(selectedCount > 0) {
+        title += ` (${selectedCount})`;
+      }
+
+      rightElements = <ProductsHead />
     }
     else if(location.startsWith('/admin/product/')){
       title = '';
@@ -77,7 +69,7 @@ export default class AppBarTop extends React.Component {
       title = messages.productCategories.title;
       if(category){
         title = category.name;
-        rightElements = <ProductCategoryActions />
+        rightElements = <ProductCategoryHead />
       }
     }
 

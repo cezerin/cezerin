@@ -34,10 +34,7 @@ export const loginUser = (email, pass) => {
             if (json.token) {
                 localStorage.setItem('token', json.token);
                 localStorage.setItem('user', email);
-                api.init(
-                	settings.api.url.base,
-                	settings.api.language.default,
-                	json.token);
+                api.init(settings.api.url.base, json.token);
 
                 dispatch(receiveLogin(email, json.token));
                 dispatch(push(settings.admin.pages.home));

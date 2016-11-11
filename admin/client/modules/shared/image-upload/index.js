@@ -58,7 +58,6 @@ export default class ImageUpload extends React.Component {
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', this.props.postUrl);
-    xhr.setRequestHeader('Accept-Language', 'en');
     xhr.setRequestHeader('Authorization', this.props.apiToken);
     xhr.onload = () => {
       if (xhr.status !== 200) {

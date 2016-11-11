@@ -7,7 +7,7 @@ const initialState = {
   isSaving: false,
   errorFetch: null,
   errorUpdate: null,
-  selectedId: null
+  selectedId: 'all'
 };
 
 export default (state = initialState, action) => {

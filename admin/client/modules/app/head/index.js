@@ -3,6 +3,7 @@ import AppBar from './components/appBar'
 
 const mapStateToProps = (state) => {
   return {
+    selectedProducts: state.products.selected,
     location: state.app.location,
     category: state.productCategories.items.find((item) => (item.id === state.productCategories.selectedId)),
     isLoading: state.productCategories.isFetching ||

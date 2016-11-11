@@ -1,23 +1,38 @@
 import { connect } from 'react-redux'
-import { fetchProducts } from './actions'
+import { fetchProductsIfNeeded, fetchProductsMoreIfNeeded, selectProduct, deselectProduct, selectAllProduct, deselectAllProduct } from '../actions'
 import List from './components/list'
 
 const mapStateToProps = (state) => {
   return {
     items: state.products.items,
-    // selected: state.productCategories.selected,
-    isFetching: state.products.isFetching
+    selected: state.products.selected,
+    isFetching: state.products.isFetching,
+    isFetchingMore: state.products.isFetchingMore
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: () => {
-      dispatch(fetchProducts());
+      dispatch(fetchProductsIfNeeded());
     },
-    // onSelect: (category) => {
-    //   dispatch(selectCategory({ id: category.id, title: category.title }));
-    // }
+    onSelect: (productId, checked) => {
+      if(checked) {
+        dispatch(selectProduct(productId));
+      } else {
+        dispatch(deselectProduct(productId));
+      }
+    },
+    onSelectAll: (checked) => {
+      if(checked) {
+        dispatch(selectAllProduct());
+      } else {
+        dispatch(deselectAllProduct());
+      }
+    },
+    loadMore: () => {
+      dispatch(fetchProductsMoreIfNeeded());
+    }
   }
 }
 

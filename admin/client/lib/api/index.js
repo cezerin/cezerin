@@ -3,10 +3,7 @@ import settings from 'lib/settings'
 
 let token = localStorage.getItem('token');
 if(token) {
-  api.init(
-  	settings.api.url.base,
-  	settings.api.language.default,
-  	token);
+  api.init(settings.api.url.base, token);
 }
 
 export default api;

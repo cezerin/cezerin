@@ -15,15 +15,21 @@ getArrayIfValid = (value) => {
 }
 
 getNumberIfValid = (value) => {
-  return _.isNumber(value) ? value : null;
+  const n = parseFloat(value);
+  return n ? n : null;
 }
 
 getNumberIfPositive = (value) => {
-  return (_.isNumber(value) && value >= 0) ? value : null;
+  const n = parseFloat(value);
+  return n >= 0 ? n : null;
 }
 
-getBooleanIfValid = (value) => {
-  return _.isBoolean(value) ? value : null;
+getBooleanIfValid = (value, defaultValue = null) => {
+  if(value === null || value === undefined) {
+  	return defaultValue;
+  }
+  value = value.toString()
+  return (value === "true" || value === "false") ? value === "true" : defaultValue;
 }
 
 getCurrencyIfValid = (value) => {

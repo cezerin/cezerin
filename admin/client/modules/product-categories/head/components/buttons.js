@@ -15,7 +15,7 @@ export default class Buttons extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryIdMoveTo: null,
+      categoryIdMoveTo: 'root',
       openMoveTo: false,
       openDelete: false,
     };
@@ -47,9 +47,8 @@ export default class Buttons extends React.Component {
     this.props.onMoveTo(this.state.categoryIdMoveTo);
   };
 
-  selectMoveTo = (category) => {
-    let id = category.id === 'root' ? null : category.id;
-    this.setState({categoryIdMoveTo: id});
+  selectMoveTo = (categoryId) => {
+    this.setState({categoryIdMoveTo: categoryId});
   }
 
   render() {
@@ -96,44 +95,43 @@ export default class Buttons extends React.Component {
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
         <IconMenu
-        iconButtonElement={
-          <IconButton touch={true}>
-            <FontIcon color="#fff" className="material-icons">more_vert</FontIcon>
-          </IconButton>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      >
-        <MenuItem primaryText={messages.actions.moveTo} onTouchTap={this.showMoveTo} />
-      </IconMenu>
+          iconButtonElement={
+            <IconButton touch={true}>
+              <FontIcon color="#fff" className="material-icons">more_vert</FontIcon>
+            </IconButton>
+          }
+          targetOrigin={{horizontal: 'right', vertical: 'top'}}
+          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+        >
+          <MenuItem primaryText={messages.actions.moveTo} onTouchTap={this.showMoveTo} />
+        </IconMenu>
 
-      <Dialog
-        title={messages.actions.moveTo}
-        actions={actionsMoveTo}
-        modal={false}
-        open={this.state.openMoveTo}
-        onRequestClose={this.closeMoveTo}
-        autoScrollBodyContent={true}
-      >
-        <CategorySelect
-          onSelect={this.selectMoveTo}
-        	selected={{id: 'root', name: 'Root'}}
-          showRoot={true}
-        	showAll={false}
-        	showTrash={false}
-        />
-      </Dialog>
+        <Dialog
+          title={messages.actions.moveTo}
+          actions={actionsMoveTo}
+          modal={false}
+          open={this.state.openMoveTo}
+          onRequestClose={this.closeMoveTo}
+          autoScrollBodyContent={true}
+        >
+          <CategorySelect
+            onSelect={this.selectMoveTo}
+            selectedId={this.state.categoryIdMoveTo}
+            showRoot={true}
+            showAll={false}
+          />
+        </Dialog>
 
-      <Dialog
+        <Dialog
           title={messages.messages.deleteConfirmation}
           actions={actionsDelete}
           modal={false}
           open={this.state.openDelete}
           onRequestClose={this.closeDelete}
         >
-        {messages.productCategories.aboutDelete.replace('{name}', categoryName)}
+          {messages.productCategories.aboutDelete.replace('{name}', categoryName)}
         </Dialog>
-    </span>
+      </span>
     )
   }
 }

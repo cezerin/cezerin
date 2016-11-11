@@ -7,6 +7,8 @@
   "metaDescription": "Meta Description",
   "pageTitle": "Page title",
   "learnMore": "LEARN MORE",
+  "filter": "Filter",
+  "all": "All",
 
   "actions": {
     "cancel": "Cancel",
@@ -20,7 +22,8 @@
     "moveDown": "Move Down",
     "done": "Done",
     "upload": "Upload",
-    "discardDraft": "Discard draft"
+    "discardDraft": "Discard draft",
+    "loadMore": "Load more"
   },
 
   "messages": {
@@ -29,7 +32,8 @@
     "loading": "Loading...",
     "uploading": "Uploading...",
     "uploadComplete": "Upload complete",
-    "deleteConfirmation": "Are you sure you want to delete this item?"
+    "deleteConfirmation": "Are you sure you want to delete this item?",
+    "deleteForever": "Delete forever?"
   },
 
   "help": {
@@ -56,7 +60,21 @@
 
   "products": {
     "title": "Products",
-    "name": "Product name"
+    "name": "Product name",
+    "sku": "SKU",
+    "stock": "Stock",
+    "price": "Price",
+    "discontinued": "Discontinued",
+    "outOfStock": "Out of stock",
+    "backorder": "Backorder",
+    "preorder": "Pre-order",
+    "inStock": "In stock",
+    "stockStatus": "Stock status",
+    "onlyActive": "Only active",
+    "onlyDiscontinued": "Only discontinued",
+    "onlyOnSale": "Only on sale",
+    "search": "Search products",
+    "aboutDelete": "{count} products is about to be permanently deleted. You can’t undo this action."
   },
 
   "productCategories": {
@@ -66,7 +84,7 @@
     "all": "All Products",
     "root": "Root",
     "title": "Categories",
-    "aboutDelete": "Will delete category {name} with all childs and move products to Archive."
+    "aboutDelete": "Will delete category {name} with all childs."
   }
 
 }

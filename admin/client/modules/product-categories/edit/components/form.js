@@ -20,7 +20,7 @@ const validate = values => {
   const requiredFields = ['name']
 
   requiredFields.forEach(field => {
-    if (!values[ field ]) {
+    if (values && !values[ field ]) {
       errors[ field ] = messages.errors.required;
     }
   })

@@ -4,7 +4,7 @@ import { reducer as formReducer } from 'redux-form'
 
 import login from 'modules/app/login/reducer';
 import productCategories from 'modules/product-categories/reducer';
-import products from 'modules/products/list/reducer';
+import products from 'modules/products/reducer';
 
 const initialState = {
   location: null,

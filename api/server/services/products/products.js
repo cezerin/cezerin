@@ -14,22 +14,185 @@ var _ = require('lodash');
 class ProductsService {
   constructor() {}
 
-  getProducts() {
+  getProducts(params) {
     return new Promise((resolve, reject) => {
-      mongo.db.collection('products')
-        .find()
-        .toArray()
-        .then(items => {
-          CategoriesService.getCategories().then(categories => {
+      // fields,
+      const limit = parse.getNumberIfPositive(params.limit) || 0;
+      const offset = parse.getNumberIfPositive(params.offset) || 0;
+      const fieldsArray = this.getFieldsArray(params.fields);
+      const sort = this.getSort(params);
+
+      CategoriesService.getCategories().then(categories => {
+        mongo.db.collection('products')
+          .find(this.getFindQuery(params, categories), {})
+          .skip(offset)
+          .limit(limit)
+          .sort(sort)
+          .toArray()
+          .then(items => {
             for(let key in items) {
-              items[key] = this.renameDocumentFields(categories, items[key]);
+              items[key] = this.renameDocumentFields(categories, items[key], fieldsArray);
             }
             resolve(items);
-          });
-        })
-        .catch(err => { reject(this.getErrorMessage(err)) });
+          })
+          .catch(err => { reject(this.getErrorMessage(err)) });
       });
+    });
+  }
 
+  getFieldsArray(fields) {
+    return (fields && fields.length > 0) ? fields.split(',') : [];
+  }
+
+  getSort({ sort }) {
+    /*
+    * TODO: parse sort from URL and return sort object
+    */
+    return { position: 1, name: 1 }
+  }
+
+  getFindQuery({
+    brand_id,
+    category_id,
+    active,
+    discontinued,
+    search,
+    on_sale,
+    stock_status,
+    price_from,
+    price_to,
+    sku,
+    ids
+  }, categories) {
+
+     // parse values
+     brand_id = parse.getObjectIDIfValid(brand_id);
+     category_id = parse.getObjectIDIfValid(category_id);
+     active = parse.getBooleanIfValid(active);
+     discontinued = parse.getBooleanIfValid(discontinued);
+     on_sale = parse.getBooleanIfValid(on_sale);
+     price_from = parse.getNumberIfPositive(price_from);
+     price_to = parse.getNumberIfPositive(price_to);
+
+     let queries = [];
+     const currentDate = new Date();
+
+     if(category_id !== null) {
+       var categoryChildren = [];
+       CategoriesService.findAllChildren(categories, category_id, categoryChildren);
+       queries.push({
+         category_id: { $in: categoryChildren }
+       });
+     }
+
+     if(brand_id !== null) {
+       queries.push({
+         brand_id: brand_id
+       });
+     }
+
+     if(active !== null) {
+       queries.push({
+         active: active
+       });
+     }
+
+     if(discontinued !== null) {
+       queries.push({
+         discontinued: discontinued
+       });
+     }
+
+     if(on_sale !== null) {
+       queries.push({
+         date_sale_from: { $lt: currentDate }
+       });
+
+       queries.push({
+         date_sale_to: { $gt: currentDate }
+       });
+     }
+
+     if(price_from !== null) {
+       queries.push({
+         regular_price: { $gte: price_from }
+       });
+     }
+
+     if(price_to !== null) {
+       queries.push({
+         regular_price: { $lte: price_to }
+       });
+     }
+
+     if(stock_status && stock_status.length > 0) {
+       switch(stock_status) {
+         case "available":
+         queries.push({
+           stock_quantity: { $gt: 0 }
+         });
+         break;
+         case "out_of_stock":
+         queries.push({
+           stock_quantity: { $lte: 0 }
+         });
+         break;
+         case "backorder":
+         queries.push({
+           stock_backorder: true
+         });
+         break;
+         case "preorder":
+         queries.push({
+           stock_preorder: true
+         });
+         break;
+         case "discontinued":
+         queries.push({
+           discontinued: true
+         });
+         break;
+         default:
+         break;
+       }
+     }
+
+     if(ids && ids.length > 0) {
+       const idsArray = ids.split(',');
+       let objectIDs = [];
+       for(const id of idsArray) {
+         if(ObjectID.isValid(id)) {
+           objectIDs.push(this.parseObjectID(id));
+         }
+       }
+       queries.push({
+         _id: { $in: objectIDs }
+       });
+     }
+
+     if(sku && sku.length > 0) {
+       queries.push({
+         sku: sku
+       });
+     }
+
+     if(search && search.length > 0) {
+       queries.push({
+         $text: { $search: search }
+       });
+     }
+
+     let query = {};
+     if(queries.length === 1) {
+       query = queries[0];
+     } else if(queries.length > 1) {
+       query = {
+        $and: queries
+       }
+     }
+
+     console.log(JSON.stringify(query));
+     return query;
   }
 
   getSingleProduct(id) {
@@ -134,18 +297,18 @@ class ProductsService {
       product.meta_title = parse.getString(data.meta_title) || '';
       product.tags = parse.getArrayIfValid(data.tags) || [];
       product.attributes = parse.getArrayIfValid(data.attributes) || [];
-      product.active = parse.getBooleanIfValid(data.active) || true;
-      product.discontinued = parse.getBooleanIfValid(data.discontinued) || false;
-      product.currency = parse.getCurrencyIfValid(data.currency);
+      product.active = parse.getBooleanIfValid(data.active, true);
+      product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
+      product.currency = parse.getCurrencyIfValid(data.currency) || "";
       product.sku = parse.getString(data.sku);
       product.code = parse.getString(data.code);
       product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
       product.prices = parse.getArrayIfValid(data.prices) || [];
       product.options = parse.getArrayIfValid(data) || [];
       product.variants = parse.getArrayIfValid(data.variants) || [];
-      product.cost_price = parse.getNumberIfPositive(data.cost_price);
-      product.regular_price = parse.getNumberIfPositive(data.regular_price);
-      product.sale_price = parse.getNumberIfPositive(data.sale_price);
+      product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
+      product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
+      product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
       product.quantity_inc = parse.getNumberIfPositive(data.quantity_inc) || 1;
       product.quantity_min = parse.getNumberIfPositive(data.quantity_min) || 1;
       product.weight = parse.getNumberIfPositive(data.weight) || 0;
@@ -154,9 +317,9 @@ class ProductsService {
       product.date_stock_expected = parse.getDateIfValid(data.date_stock_expected);
       product.date_sale_from = parse.getDateIfValid(data.date_sale_from);
       product.date_sale_to = parse.getDateIfValid(data.date_sale_to);
-      product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking) || false;
-      product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder) || false;
-      product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder) || false;
+      product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
+      product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
+      product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
       product.brand_id = parse.getObjectIDIfValid(data.brand_id);
       product.category_id = parse.getObjectIDIfValid(data.category_id);
 
@@ -214,15 +377,15 @@ class ProductsService {
       }
 
       if(!_.isUndefined(data.active)) {
-        product.active = parse.getBooleanIfValid(data.active) || true;
+        product.active = parse.getBooleanIfValid(data.active, true);
       }
 
       if(!_.isUndefined(data.discontinued)) {
-        product.discontinued = parse.getBooleanIfValid(data.discontinued) || false;
+        product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
       }
 
       if(!_.isUndefined(data.currency)) {
-        product.currency = parse.getCurrencyIfValid(data.currency);
+        product.currency = parse.getCurrencyIfValid(data.currency) || "";
       }
 
       if(!_.isUndefined(data.sku)) {
@@ -254,15 +417,15 @@ class ProductsService {
       }
 
       if(!_.isUndefined(data.cost_price)) {
-        product.cost_price = parse.getNumberIfPositive(data.cost_price);
+        product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
       }
 
       if(!_.isUndefined(data.regular_price)) {
-        product.regular_price = parse.getNumberIfPositive(data.regular_price);
+        product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
       }
 
       if(!_.isUndefined(data.sale_price)) {
-        product.sale_price = parse.getNumberIfPositive(data.sale_price);
+        product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
       }
 
       if(!_.isUndefined(data.quantity_inc)) {
@@ -298,15 +461,15 @@ class ProductsService {
       }
 
       if(!_.isUndefined(data.stock_tracking)) {
-        product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking) || false;
+        product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
       }
 
       if(!_.isUndefined(data.stock_preorder)) {
-        product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder) || false;
+        product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
       }
 
       if(!_.isUndefined(data.stock_backorder)) {
-        product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder) || false;
+        product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
       }
 
       if(!_.isUndefined(data.brand_id)) {
@@ -338,7 +501,7 @@ class ProductsService {
     });
   }
 
-  renameDocumentFields(categories, item) {
+  renameDocumentFields(categories, item, fieldsArray = []) {
     if(item) {
       item.id = item._id.toString();
       delete item._id;
@@ -370,7 +533,7 @@ class ProductsService {
 
       item.variable = item.variants && item.variants.length > 0;
       item.on_sale = false;
-      item.price = item.regular_price;
+      item.price = item.regular_price || 0;
 
       if(item.date_sale_from && item.date_sale_to) {
         const date_sale_from = new Date(item.date_sale_from);
@@ -399,9 +562,19 @@ class ProductsService {
       if(item.discontinued) {
         item.stock_status = "discontinued";
       }
+
+
+
+      if(fieldsArray && fieldsArray.length > 0) {
+        item = this.getItemWithFields(item, fieldsArray);
+      }
     }
 
     return item;
+  }
+
+  getItemWithFields(item, fieldsArray) {
+  	return Object.assign(...fieldsArray.map(key => ({[key]: item[key]}) ));
   }
 
   deleteProductImage(productId, imageId) {
@@ -444,7 +617,7 @@ class ProductsService {
         if(file.name) {
           var imageData = {
             "id": new ObjectID(),
-            "alt": {},
+            "alt": "",
             "position": 0,
             "filename": file.name
           };
@@ -461,6 +634,8 @@ class ProductsService {
       .on('end', () => {
         res.send(uploadedFiles);
       });
+
+    form.parse(req);
   }
 
 }

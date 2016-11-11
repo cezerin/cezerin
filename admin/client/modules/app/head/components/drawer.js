@@ -49,7 +49,7 @@ const SideBar = ({ open, handleClose, menu, title, currentUrl }) => {
         }
       />
 
-      <Menu onItemTouchTap={handleClose} value={currentUrl} selectedMenuItemStyle={styles.selected}>
+      <Menu onItemTouchTap={handleClose} value={currentUrl} selectedMenuItemStyle={styles.selected} disableAutoFocus={true}>
         {menu.map((item) => {
           if(item.title === '-') {
             return <Divider key={item.url} />

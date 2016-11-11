@@ -62,7 +62,6 @@ ReactDOM.render(
           <Route path="products" component={layoutProducts} />
           <Route path="product/:url" component={layoutNotFound} />
           <Route path="products/categories" component={layoutProductsCategories} />
-          <Route path="*" component={layoutNotFound} />
         </Route>
       </Route>
     </Router>
