@@ -47,7 +47,7 @@
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.4",
-    "material-ui": "^0.16.0",
+    "material-ui": "^0.16.1",
     "mongodb": "^2.2.10",
     "negotiator": "^0.6.1",
     "nodemailer": "^2.6.4",
