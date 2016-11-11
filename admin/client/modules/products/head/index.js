@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchProductsIfNeeded, deleteProducts, setCategory, setFilterSearch } from '../actions'
+import { fetchProducts, deleteProducts, setCategory, setFilterSearch } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setSearch: (value) => {
       dispatch(setFilterSearch(value));
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     },
     onDelete: () => {
       dispatch(deleteProducts());

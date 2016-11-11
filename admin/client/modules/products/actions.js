@@ -8,7 +8,7 @@ function requestProducts() {
   }
 }
 
-function requestProductsMore() {
+function requestMoreProducts() {
   return {
     type: t.PRODUCTS_MORE_REQUEST
   }
@@ -28,7 +28,7 @@ function receiveProducts(items) {
   }
 }
 
-function receiveErrorProducts(error) {
+function receiveProductsError(error) {
   return {
     type: t.PRODUCTS_FAILURE,
     error
@@ -96,11 +96,17 @@ export function setFilterOnSale(value) {
   }
 }
 
-// export function invalidate() {
-//   return {
-//     type: t.PRODUCTS_INVALIDATE
-//   }
-// }
+function deleteProductsSuccess() {
+  return {
+    type: t.PRODUCT_DELETE_SUCCESS
+  }
+}
+
+function setCategorySuccess() {
+  return {
+    type: t.PRODUCT_SET_CATEGORY_SUCCESS
+  }
+}
 
 // function requestUpdateProduct(id) {
 //   return {
@@ -127,75 +133,59 @@ export function setFilterOnSale(value) {
 //   }
 // }
 
-function successDeleteProducts() {
-  return {
-    type: t.PRODUCT_DELETE_SUCCESS
-  }
-}
+export function fetchProducts() {
+  return (dispatch, getState) => {
+    const state = getState();
+    if (!state.products.isFetching) {
+      dispatch(requestProducts());
+      dispatch(deselectAllProduct());
 
-// function successMoveUpDownProduct(newPosition) {
-//   return {
-//     type: t.PRODUCT_MOVE_UPDOWN_SUCCESS,
-//     position: newPosition
-//   }
-// }
+      let filter = { limit: 20, fields: 'id,name,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
+      filter.search = state.products.filter_search;
 
-function setCategorySuccess() {
-  return {
-    type: t.PRODUCT_SET_CATEGORY_SUCCESS
-  }
-}
+      if(state.products.filter_stock_status && state.products.filter_stock_status !== 'all') {
+        filter.stock_status = state.products.filter_stock_status;
+      }
 
-function fetchProducts(state) {
-  return dispatch => {
-    dispatch(requestProducts());
-    dispatch(deselectAllProduct());
+      if(state.productCategories.selectedId) {
+        filter.category_id = state.productCategories.selectedId;
+      }
 
-    let filter = { limit: 20, fields: 'id,name,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
-    filter.search = state.products.filter_search;
+      if(state.products.filter_active) {
+        filter.active = true;
+      }
 
-    if(state.products.filter_stock_status && state.products.filter_stock_status !== 'all') {
-      filter.stock_status = state.products.filter_stock_status;
-    }
+      if(state.products.filter_discontinued) {
+        filter.discontinued = true;
+      }
 
-    if(state.productCategories.selectedId) {
-      filter.category_id = state.productCategories.selectedId;
-    }
+      if(state.products.filter_on_sale) {
+        filter.on_sale = true;
+      }
 
-    if(state.products.filter_active) {
-      filter.active = true;
-    }
+      return api.products.list(filter)
+        .then(({status, json}) => {
+          json = json.sort((a,b) => (a.position - b.position ));
 
-    if(state.products.filter_discontinued) {
-      filter.discontinued = true;
-    }
+          json.forEach((element, index, theArray) => {
+            if(theArray[index].name === '') {
+              theArray[index].name = `<${messages.draft}>`;
+            }
+          })
 
-    if(state.products.filter_on_sale) {
-      filter.on_sale = true;
-    }
-
-    return api.products.list(filter)
-      .then(({status, json}) => {
-        json = json.sort((a,b) => (a.position - b.position ));
-
-        json.forEach((element, index, theArray) => {
-          if(theArray[index].name === '') {
-            theArray[index].name = `<${messages.draft}>`;
-          }
+          dispatch(receiveProducts(json))
         })
-
-        dispatch(receiveProducts(json))
-      })
-      .catch(error => {
-          dispatch(receiveErrorProducts(error));
-      });
+        .catch(error => {
+            dispatch(receiveProductsError(error));
+        });
+    }
   }
 }
 
-function fetchProductsMore(state) {
-  return dispatch => {
-    dispatch(requestProductsMore());
-    console.log('fetchProductsMore');
+export function fetchMoreProducts() {
+  return (dispatch, getState) => {
+    const state = getState();
+    dispatch(requestMoreProducts());
 
     let filter = { limit: 50, fields: 'id,name,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
     filter.offset = state.products.items.length;
@@ -234,24 +224,34 @@ function fetchProductsMore(state) {
         dispatch(receiveProductsMore(json))
       })
       .catch(error => {
-          dispatch(receiveErrorProducts(error));
+          dispatch(receiveProductsError(error));
       });
   }
 }
 
-export function fetchProductsIfNeeded() {
+export function deleteProducts() {
   return (dispatch, getState) => {
     const state = getState();
-    const products = state.products;
-    if (!products.isFetching) {
-      return dispatch(fetchProducts(getState()))
-    }
+    let promises = state.products.selected.map(productId => api.products.delete(productId));
+
+    return Promise.all(promises).then(values => {
+      dispatch(deleteProductsSuccess());
+      dispatch(deselectAllProduct());
+      dispatch(fetchProducts());
+    }).catch(err => { console.log(err) });
   }
 }
 
-export function fetchProductsMoreIfNeeded() {
+export function setCategory(category_id) {
   return (dispatch, getState) => {
-    return dispatch(fetchProductsMore(getState()))
+    const state = getState();
+    let promises = state.products.selected.map(productId => api.products.update(productId, { category_id: category_id }));
+
+    return Promise.all(promises).then(values => {
+      dispatch(setCategorySuccess());
+      dispatch(deselectAllProduct());
+      dispatch(fetchProducts());
+    }).catch(err => { console.log(err) });
   }
 }
 
@@ -287,92 +287,5 @@ export function fetchProductsMoreIfNeeded() {
 //           //dispatch error
 //           console.log(error)
 //       });
-//   }
-// }
-
-export function deleteProducts() {
-  return (dispatch, getState) => {
-    const state = getState();
-    let promises = state.products.selected.map(productId => api.products.delete(productId));
-
-    return Promise.all(promises).then(values => {
-      dispatch(successDeleteProducts());
-      dispatch(deselectAllProduct());
-      dispatch(fetchProductsIfNeeded());
-    }).catch(err => { console.log(err) });
-  }
-}
-
-export function setCategory(category_id) {
-  return (dispatch, getState) => {
-    const state = getState();
-    let promises = state.products.selected.map(productId => api.products.update(productId, { category_id: category_id }));
-
-    return Promise.all(promises).then(values => {
-      dispatch(setCategorySuccess());
-      dispatch(deselectAllProduct());
-      dispatch(fetchProductsIfNeeded());
-    }).catch(err => { console.log(err) });
-  }
-}
-
-
-// function moveProduct(allProducts = [], selectedProduct, isUp = true) {
-//   return new Promise((resolve, reject) => {
-//     if(isUp) {
-//       allProducts = allProducts.filter(e => e.parent_id === selectedProduct.parent_id && e.id !== selectedProduct.id && e.position < selectedProduct.position).sort((a, b) => b.position - a.position);
-//     } else {
-//       allProducts = allProducts.filter(e => e.parent_id === selectedProduct.parent_id && e.id !== selectedProduct.id && e.position > selectedProduct.position).sort((a, b) => a.position - b.position);
-//     }
-//
-//     if(allProducts.length > 0) {
-//       let targetProduct = allProducts[0];
-//       let newPosition = targetProduct.position;
-//
-//       api.products.update(selectedProduct.id, { position: targetProduct.position })
-//       .then(() => {
-//         api.products.update(targetProduct.id, { position: selectedProduct.position })
-//         .then(() => {
-//           resolve(newPosition);
-//         })
-//         .catch(err => {
-//             reject(err);
-//         });
-//       })
-//       .catch(err => {
-//           reject(err);
-//       });
-//     }
-//   });
-// }
-
-// export function moveUpProduct() {
-//   return (dispatch, getState) => {
-//     let state = getState();
-//     var allProducts = state.products.items;
-//     var selectedProduct = allProducts.find((item) => (item.id === state.products.selectedId));
-//
-//     var isUp = true;
-//
-//     return moveProduct(allProducts, selectedProduct, isUp)
-//     .then((newPosition) => {
-//       dispatch(successMoveUpDownProduct(newPosition));
-//       dispatch(fetchProducts());
-//     });
-//   }
-// }
-
-// export function moveDownProduct() {
-//   return (dispatch, getState) => {
-//     let state = getState();
-//     var allProducts = state.products.items;
-//     var selectedProduct = allProducts.find((item) => (item.id === state.products.selectedId));
-//     var isUp = false;
-//
-//     return moveProduct(allProducts, selectedProduct, isUp)
-//     .then((newPosition) => {
-//       dispatch(successMoveUpDownProduct(newPosition));
-//       dispatch(fetchProducts());
-//     });
 //   }
 // }

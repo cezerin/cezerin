@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { selectCategory, fetchCategoriesIfNeeded, createCategory } from '../actions'
-import { fetchProductsIfNeeded } from '../../products/actions'
+import { fetchProducts } from '../../products/actions'
 import List from '../components/list'
 
 const mapStateToProps = (state) => {
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSelect: (categoryId) => {
       dispatch(selectCategory(categoryId));
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     },
     onCreate: () => {
       dispatch(createCategory())

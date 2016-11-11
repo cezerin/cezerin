@@ -34,8 +34,6 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         selectedId: null
       })
-
-
     case t.CATEGORY_UPDATE_REQUEST:
       return Object.assign({}, state, {
         isSaving: true,
@@ -49,8 +47,6 @@ export default (state = initialState, action) => {
         isSaving: false,
         errorUpdate: action.error
       })
-
-
     case t.CATEGORY_CREATE_SUCCESS:
     case t.CATEGORY_DELETE_SUCCESS:
     case t.CATEGORY_MOVE_UPDOWN_SUCCESS:

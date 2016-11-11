@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchProductsIfNeeded, fetchProductsMoreIfNeeded, selectProduct, deselectProduct, selectAllProduct, deselectAllProduct } from '../actions'
+import { fetchProducts, fetchMoreProducts, selectProduct, deselectProduct, selectAllProduct, deselectAllProduct } from '../actions'
 import List from './components/list'
 
 const mapStateToProps = (state) => {
@@ -14,7 +14,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: () => {
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     },
     onSelect: (productId, checked) => {
       if(checked) {
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
       }
     },
     loadMore: () => {
-      dispatch(fetchProductsMoreIfNeeded());
+      dispatch(fetchMoreProducts());
     }
   }
 }

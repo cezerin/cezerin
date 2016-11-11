@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchProductsIfNeeded, setFilterActive, setFilterDiscontinued, setFilterOnSale, setFilterStock } from '../actions'
+import { fetchProducts, setFilterActive, setFilterDiscontinued, setFilterOnSale, setFilterStock } from '../actions'
 import Filter from './components/fields'
 
 const mapStateToProps = (state) => {
@@ -15,19 +15,19 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setActive: (value) => {
       dispatch(setFilterActive(value));
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     },
     setDiscontinued: (value) => {
       dispatch(setFilterDiscontinued(value));
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     },
     setOnSale: (value) => {
       dispatch(setFilterOnSale(value));
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     },
     setStock: (value) => {
       dispatch(setFilterStock(value));
-      dispatch(fetchProductsIfNeeded());
+      dispatch(fetchProducts());
     }
   }
 }

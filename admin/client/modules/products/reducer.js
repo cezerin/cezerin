@@ -8,7 +8,6 @@ const initialState = {
   isFetched: false,
   errorFetch: null,
   errorUpdate: null,
-  didInvalidate: false,
   filter_active: false,
   filter_discontinued: false,
   filter_on_sale: false,
@@ -26,17 +25,12 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         isFetching: false,
         isFetched: true,
-        items: action.items,
-        didInvalidate: false
+        items: action.items
       })
     case t.PRODUCTS_FAILURE:
       return Object.assign({}, state, {
         errorFetch: action.error
       })
-    // case t.PRODUCTS_INVALIDATE:
-    //   return Object.assign({}, state, {
-    //     didInvalidate: true
-    //   })
     case t.PRODUCTS_SELECT:
       return Object.assign({}, state, {
         selected: [...state.selected, action.productId]
@@ -83,11 +77,6 @@ export default (state = initialState, action) => {
         isFetchingMore: false,
         items: [...state.items, ...action.items]
       })
-
-
-
-
-
     // case t.PRODUCT_UPDATE_REQUEST:
     //   return Object.assign({}, state, {
     //     isSaving: true,
@@ -101,8 +90,6 @@ export default (state = initialState, action) => {
     //     isSaving: false,
     //     errorUpdate: action.error
     //   })
-
-
     case t.PRODUCT_SET_CATEGORY_SUCCESS:
     case t.PRODUCT_DELETE_SUCCESS:
     default:
