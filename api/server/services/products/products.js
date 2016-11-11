@@ -45,10 +45,14 @@ class ProductsService {
   }
 
   getSort({ sort }) {
-    /*
-    * TODO: parse sort from URL and return sort object
-    */
-    return { position: 1, name: 1 }
+    if(sort && sort.length > 0) {
+      const fields = sort.split(',');
+      return Object.assign(...fields.map(field => (
+      	{[field.startsWith('-') ? field.slice(1) : d]: field.startsWith('-') ? -1 : 1}
+      )))
+    } else {
+      return { position: 1, name: 1 }
+    }
   }
 
   getFindQuery({
