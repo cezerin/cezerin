@@ -1,38 +1,19 @@
 # Cezerin is open source e-commerce solution
 
-Powered by Node.js, React, MongoDB, Redis, ES6.
 Currently in development.
 
+## Road Map
 
-## Usage
+## Demo
 
-```bash
-```
+## Sponsors
 
+## Contributing
 
-## Files structure
+## Documentation
 
-```
-public
-	uploads
-		categories
-      {id}
-        file.png
-		products
-      {id}
-        file.png
-		brands
-      {id}
-        file.png
-		files
-      file.png
-	admin
-	themes
-config
-api
-	server
-admin
-	client
-store
-	server
-```
+## Installing
+
+## Licence
+
+This software is provided free of charge and without restriction under the MIT License
