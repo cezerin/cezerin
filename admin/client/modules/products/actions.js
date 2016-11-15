@@ -1,6 +1,7 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'src/locale'
+import { push } from 'react-router-redux';
 
 function requestProducts() {
   return {
@@ -127,11 +128,11 @@ function setCategorySuccess() {
 //   }
 // }
 
-// function successCreateProduct(id) {
-//   return {
-//     type: t.PRODUCT_CREATE_SUCCESS
-//   }
-// }
+function successCreateProduct(id) {
+  return {
+    type: t.PRODUCT_CREATE_SUCCESS
+  }
+}
 
 export function fetchProducts() {
   return (dispatch, getState) => {
@@ -275,17 +276,18 @@ export function setCategory(category_id) {
 //   }
 // }
 
-// export function createProduct() {
-//   return (dispatch, getState) => {
-//     return api.products.create({ active: false })
-//       .then(({status, json}) => {
-//           dispatch(successCreateProduct(json.id));
-//           dispatch(fetchProducts());
-//           dispatch(selectProduct(json.id));
-//       })
-//       .catch(error => {
-//           //dispatch error
-//           console.log(error)
-//       });
-//   }
-// }
+export function createProduct() {
+  return (dispatch, getState) => {
+    const state = getState();
+    return api.products.create({ active: false, category_id: state.productCategories.selectedId })
+      .then(({status, json}) => {
+          dispatch(successCreateProduct(json.id));
+          dispatch(push('/admin/product/'+json.id));
+          dispatch(fetchProducts());
+      })
+      .catch(error => {
+          //dispatch error
+          console.log(error)
+      });
+  }
+}

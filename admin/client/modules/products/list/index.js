@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchProducts, fetchMoreProducts, selectProduct, deselectProduct, selectAllProduct, deselectAllProduct } from '../actions'
+import { fetchProducts, fetchMoreProducts, selectProduct, deselectProduct, selectAllProduct, deselectAllProduct, createProduct } from '../actions'
 import List from './components/list'
 
 const mapStateToProps = (state) => {
@@ -32,6 +32,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadMore: () => {
       dispatch(fetchMoreProducts());
+    },
+    onCreate: () => {
+      dispatch(createProduct())
     }
   }
 }
