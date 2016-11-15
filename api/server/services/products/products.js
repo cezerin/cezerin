@@ -15,52 +15,212 @@ class ProductsService {
   constructor() {}
 
   getProducts(params) {
-    return new Promise((resolve, reject) => {
-      // fields,
-      const limit = parse.getNumberIfPositive(params.limit) || 0;
-      const offset = parse.getNumberIfPositive(params.offset) || 0;
-      const fieldsArray = this.getFieldsArray(params.fields);
-      const sort = this.getSort(params);
+    return Promise.all([
+        mongo.db.collection('currencies').find().toArray(),
+        CategoriesService.getCategories()
+      ]).then(([ currencies, categories ]) => {
+        const fieldsArray = this.getFieldsArray(params.fields);
+        const limit = parse.getNumberIfPositive(params.limit) || 1000000;
+        const offset = parse.getNumberIfPositive(params.offset) || 0;
+        const projectQuery = this.getProjectQuery(fieldsArray, params.currency, currencies);
+        const sortQuery = this.getSortQuery(params);
+        const matchQuery = this.getMatchQuery(params, categories);
+        const matchTextQuery = this.getMatchTextQuery(params);
+        const aggregationPipeline = [];
 
-      CategoriesService.getCategories().then(categories => {
-        mongo.db.collection('products')
-          .find(this.getFindQuery(params, categories), {})
-          .skip(offset)
-          .limit(limit)
-          .sort(sort)
-          .toArray()
-          .then(items => {
-            for(let key in items) {
-              items[key] = this.renameDocumentFields(categories, items[key], fieldsArray);
-            }
-            resolve(items);
-          })
-          .catch(err => { reject(this.getErrorMessage(err)) });
+        // $match with $text is only allowed as the first pipeline stage"
+        if(matchTextQuery) {
+          aggregationPipeline.push({ $match: matchTextQuery });
+        }
+
+        aggregationPipeline.push({$lookup: {
+          from: "currencies",
+          localField: "currency",
+          foreignField: "currency",
+          as: "currencies"
+        }});
+
+        aggregationPipeline.push({ $project: projectQuery });
+        aggregationPipeline.push({ $match: matchQuery });
+        aggregationPipeline.push({ $sort: sortQuery });
+        aggregationPipeline.push({ $limit : limit });
+        aggregationPipeline.push({ $skip : offset });
+
+        return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
+          .then(items => items.map(item => this.renameDocumentFields(categories, item, params.currency, currencies)))
       });
-    });
   }
 
-  getFieldsArray(fields) {
-    return (fields && fields.length > 0) ? fields.split(',') : [];
-  }
 
-  getSort({ sort }) {
-    if(sort && sort.length > 0) {
+  getSortQuery({ sort }) {
+    if(sort === "search") {
+      return { score: { $meta: "textScore" } }
+    }
+    else if(sort && sort.length > 0) {
       const fields = sort.split(',');
       return Object.assign(...fields.map(field => (
-      	{[field.startsWith('-') ? field.slice(1) : d]: field.startsWith('-') ? -1 : 1}
+      	{[field.startsWith('-') ? field.slice(1) : field]: field.startsWith('-') ? -1 : 1}
       )))
     } else {
       return { position: 1, name: 1 }
     }
   }
 
-  getFindQuery({
+
+  getProjectQuery(fieldsArray, toCurrency, currencies) {
+    let salePrice = "$sale_price";
+    let regularPrice = "$regular_price";
+    let costPrice = "$cost_price";
+
+    if(toCurrency && toCurrency.length === 3) {
+      let toCurrencyObj = currencies.find(c => c.currency.toUpperCase() === toCurrency.toUpperCase());
+      if(toCurrencyObj) {
+        const toCurrencyRate = toCurrencyObj.rate;
+        const fromCurrencyRateDefault = 1;
+        salePrice = { $multiply: [ "$sale_price", { $divide: [ toCurrencyRate, { $ifNull: [{ $arrayElemAt: [ "$currencies.rate", 0 ] }, fromCurrencyRateDefault] } ] } ] };
+        regularPrice = { $multiply: [ "$regular_price", { $divide: [ toCurrencyRate, { $ifNull: [{ $arrayElemAt: [ "$currencies.rate", 0 ] }, fromCurrencyRateDefault] } ] } ] };
+        costPrice = { $multiply: [ "$cost_price", { $divide: [ toCurrencyRate, { $ifNull: [{ $arrayElemAt: [ "$currencies.rate", 0 ] }, fromCurrencyRateDefault] } ] } ] };
+      }
+    }
+
+    let project =
+    {
+      brand_id: 1,
+      related_product_ids: 1,
+      active: 1,
+      discontinued: 1,
+      date_created: 1,
+      date_updated: 1,
+      cost_price: costPrice,
+      regular_price: regularPrice,
+      sale_price: salePrice,
+      date_sale_from: 1,
+      date_sale_to: 1,
+      images: 1,
+      prices: 1,
+      quantity_inc: 1,
+      quantity_min: 1,
+      meta_description: 1,
+      meta_title: 1,
+      name: 1,
+      description: 1,
+      sku: 1,
+      code: 1,
+      position: 1,
+      tags: 1,
+      options: 1,
+      variants: 1,
+      weight: 1,
+      dimensions: 1,
+      attributes: 1,
+      date_stock_expected: 1,
+      stock_tracking: 1,
+      stock_preorder: 1,
+      stock_backorder: 1,
+      stock_quantity: 1,
+    	on_sale: {
+    		$and: [
+    			{
+    				$lt: [new Date(), "$date_sale_to"]
+    			}, {
+    				$gt: [new Date(), "$date_sale_from"]
+    			}
+    		]
+    	},
+    	variable: {
+    		$gt: [
+    			{
+    				$size: "$variants"
+    			},
+    			0
+    		]
+    	},
+    	price: {
+    		$cond: {
+    			if: {
+    				$and: [
+    					{
+    						$lt: [new Date(), "$date_sale_to"]
+    					}, {
+    						$gt: [new Date(), "$date_sale_from"]
+    					}, {
+    						$gt: ["$sale_price", 0]
+    					}
+    				]
+    			},
+    			then: salePrice,
+    			else: regularPrice,
+    	}
+    	},
+    	stock_status: {
+    		$cond: {
+    			if: {
+    				$eq: ["$discontinued", true]
+    			},
+    			then: "discontinued",
+    			else : {
+    					$cond: {
+    						if: {
+    							$gt: ["$stock_quantity", 0]
+    						},
+    						then: "available",
+    						else : {
+    								$cond: {
+    									if: {
+    										$eq: ["$stock_backorder", true]
+    									},
+    									then: "backorder",
+    									else : {
+    											$cond: {
+    												if: {
+    													$eq: ["$stock_preorder", true]
+    												},
+    												then: "preorder",
+    												else : "out_of_stock"
+    										}
+    										}
+    									}
+    							}
+    						}
+    				}
+    			}
+    	},
+      url: { "$literal" : "" },
+      category_name: { "$literal" : "" },
+      brand_name: { "$literal" : "" }
+    };
+
+    if(fieldsArray && fieldsArray.length > 0) {
+      project = this.getProjectFilteredByFields(project, fieldsArray);
+    }
+
+    // required fields
+    project._id = 0;
+    project.id = "$_id";
+    project.category_id = 1;
+    project.currency = 1;
+    project.slug = 1;
+
+    return project;
+  }
+
+  getFieldsArray(fields) {
+    return (fields && fields.length > 0) ? fields.split(',') : [];
+  }
+
+  getProjectFilteredByFields(project, fieldsArray) {
+    return Object.assign(...fieldsArray.map(key => ({[key]: project[key]}) ));
+  }
+
+  getMatchTextQuery({search }) {
+    return (search && search.length > 0) ? { $text: { $search: search } } : null;
+  }
+
+  getMatchQuery({
     brand_id,
     category_id,
     active,
     discontinued,
-    search,
     on_sale,
     stock_status,
     price_from,
@@ -109,56 +269,26 @@ class ProductsService {
 
      if(on_sale !== null) {
        queries.push({
-         date_sale_from: { $lt: currentDate }
-       });
-
-       queries.push({
-         date_sale_to: { $gt: currentDate }
+         on_sale: true
        });
      }
 
      if(price_from !== null) {
        queries.push({
-         regular_price: { $gte: price_from }
+         price: { $gte: price_from }
        });
      }
 
      if(price_to !== null) {
        queries.push({
-         regular_price: { $lte: price_to }
+         price: { $lte: price_to }
        });
      }
 
      if(stock_status && stock_status.length > 0) {
-       switch(stock_status) {
-         case "available":
-         queries.push({
-           stock_quantity: { $gt: 0 }
-         });
-         break;
-         case "out_of_stock":
-         queries.push({
-           stock_quantity: { $lte: 0 }
-         });
-         break;
-         case "backorder":
-         queries.push({
-           stock_backorder: true
-         });
-         break;
-         case "preorder":
-         queries.push({
-           stock_preorder: true
-         });
-         break;
-         case "discontinued":
-         queries.push({
-           discontinued: true
-         });
-         break;
-         default:
-         break;
-       }
+       queries.push({
+         stock_status: stock_status
+       });
      }
 
      if(ids && ids.length > 0) {
@@ -166,23 +296,17 @@ class ProductsService {
        let objectIDs = [];
        for(const id of idsArray) {
          if(ObjectID.isValid(id)) {
-           objectIDs.push(this.parseObjectID(id));
+           objectIDs.push(new ObjectID(id));
          }
        }
        queries.push({
-         _id: { $in: objectIDs }
+         id: { $in: objectIDs }
        });
      }
 
      if(sku && sku.length > 0) {
        queries.push({
          sku: sku
-       });
-     }
-
-     if(search && search.length > 0) {
-       queries.push({
-         $text: { $search: search }
        });
      }
 
@@ -195,93 +319,70 @@ class ProductsService {
        }
      }
 
-     console.log(JSON.stringify(query));
      return query;
   }
 
-  getSingleProduct(id) {
-    return new Promise((resolve, reject) => {
-      let productObjectID = this.parseObjectID(id);
-      mongo.db.collection('products')
-        .findOne({ _id: productObjectID })
-        .then(item => {
-          CategoriesService.getSingleCategory(item.category_id).then(category => {
-            item = this.renameDocumentFields(category ? [category] : [], item);
-            resolve(item);
-          });
-        })
-        .catch(err => { reject(this.getErrorMessage(err)) });
-      });
+  getSingleProduct(id, currency) {
+    if(!ObjectID.isValid(id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    return this.getProducts({ ids: id, limit: 1, currency: currency})
+    .then(items => items.length > 0 ? items[0] : {})
   }
 
   addProduct(data) {
-    return new Promise((resolve, reject) => {
-      this.getDocumentForInsert(data)
-      .then(dataToInsert => {
-        mongo.db.collection('products')
-          .insertMany([dataToInsert])
-          .then(res => {
-            let insertedItem = res.ops[0];
-            CategoriesService.getSingleCategory(insertedItem.category_id).then(category => {
-              insertedItem = this.renameDocumentFields(category ? [category] : [], insertedItem);
-              resolve(insertedItem);
-            });
-          })
-          .catch(err => { reject(this.getErrorMessage(err)) });
-      });
-    });
+    return this.getDocumentForInsert(data)
+    .then(dataToInsert => {
+      // is SKU unique
+      if(dataToInsert.sku && dataToInsert.sku.length > 0) {
+        return mongo.db.collection('products').count({ sku: dataToInsert.sku }).then(count => count === 0 ? dataToInsert : Promise.reject('Product SKU must be unique'));
+      } else {
+        return dataToInsert;
+      }
+    })
+    .then(dataToInsert => mongo.db.collection('products').insertMany([dataToInsert]))
+    .then(res => this.getSingleProduct(res.ops[0]._id.toString()))
   }
 
   updateProduct(id, data) {
-    return new Promise((resolve, reject) => {
-      let productObjectID = this.parseObjectID(id);
-      this.getDocumentForUpdate(id, data)
-      .then(dataToSet => {
-        mongo.db.collection('products')
-          .findOneAndUpdate({ _id: productObjectID }, {$set: dataToSet}, { returnOriginal: false })
-          .then(res => {
-            if(res.value) {
-              let updatedItem = res.value;
-              CategoriesService.getSingleCategory(updatedItem.category_id).then(category => {
-                updatedItem = this.renameDocumentFields(category ? [category] : [], updatedItem);
-                resolve(updatedItem);
-              });
-            } else {
-              resolve();
-            }
-           })
-      })
-      .catch(err => { reject(this.getErrorMessage(err)) });;
-    });
+    if(!ObjectID.isValid(id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    const productObjectID = new ObjectID(id);
+
+    return this.getDocumentForUpdate(id, data)
+    .then(dataToSet => {
+      // is SKU unique
+      if(dataToSet.sku && dataToSet.sku.length > 0) {
+        return mongo.db.collection('products').count({ _id: { $ne: productObjectID }, sku: dataToSet.sku }).then(count => count === 0 ? dataToSet : Promise.reject('Product SKU must be unique'));
+      } else {
+        return dataToSet;
+      }
+    })
+    .then(dataToSet => mongo.db.collection('products').updateOne({ _id: productObjectID }, {$set: dataToSet}))
+    .then(res => this.getSingleProduct(id))
   }
 
   deleteProduct(productId) {
-    let productObjectID = this.parseObjectID(productId);
-    // 1. delete Product
-    return mongo.db.collection('products')
-      .deleteOne({'_id': productObjectID})
-      .then(res => {
-        // 2. delete directory with images
-        let deleteDir = settings.path.uploads.products + '/' + productId;
-        fs.remove(deleteDir, err => {});
-        return true;
-      });
-  }
-
-  parseObjectID(id) {
-    try {
-      return new ObjectID(id);
-    } catch (e) {
-      throw this.getErrorMessage('Invalid identifier')
-      return;
+    if(!ObjectID.isValid(productId)) {
+      return Promise.reject('Invalid identifier');
     }
+    const productObjectID = new ObjectID(productId);
+    // 1. delete Product
+    return mongo.db.collection('products').deleteOne({'_id': productObjectID})
+    .then(res => {
+      // 2. delete directory with images
+      let deleteDir = settings.path.uploads.products + '/' + productId;
+      fs.remove(deleteDir, err => {});
+      return true;
+    });
   }
 
   getErrorMessage(err) {
     return { 'error': true, 'message': err.toString() };
   }
 
-  getDocumentForInsert(data, newPosition) {
+  getDocumentForInsert(data) {
       //  Allow empty product to create draft
 
       let product = {
@@ -295,15 +396,15 @@ class ProductsService {
         }
       };
 
-      product.name = parse.getString(data.name) || '';
-      product.description = parse.getString(data.description) || '';
-      product.meta_description = parse.getString(data.meta_description) || '';
-      product.meta_title = parse.getString(data.meta_title) || '';
+      product.name = parse.getString(data.name);
+      product.description = parse.getString(data.description);
+      product.meta_description = parse.getString(data.meta_description);
+      product.meta_title = parse.getString(data.meta_title);
       product.tags = parse.getArrayIfValid(data.tags) || [];
       product.attributes = parse.getArrayIfValid(data.attributes) || [];
       product.active = parse.getBooleanIfValid(data.active, true);
       product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
-      product.currency = parse.getCurrencyIfValid(data.currency) || "";
+      product.currency = parse.getCurrencyIfValid(data.currency) || "USD";
       product.sku = parse.getString(data.sku);
       product.code = parse.getString(data.code);
       product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
@@ -353,19 +454,19 @@ class ProductsService {
       };
 
       if(!_.isUndefined(data.name)) {
-        product.name = parse.getString(data.name) || '';
+        product.name = parse.getString(data.name);
       }
 
       if(!_.isUndefined(data.description)) {
-        product.description = parse.getString(data.description) || '';
+        product.description = parse.getString(data.description);
       }
 
       if(!_.isUndefined(data.meta_description)) {
-        product.meta_description = parse.getString(data.meta_description) || '';
+        product.meta_description = parse.getString(data.meta_description);
       }
 
       if(!_.isUndefined(data.meta_title)) {
-        product.meta_title = parse.getString(data.meta_title) || '';
+        product.meta_title = parse.getString(data.meta_title);
       }
 
       if(!_.isUndefined(data.tags)) {
@@ -389,7 +490,7 @@ class ProductsService {
       }
 
       if(!_.isUndefined(data.currency)) {
-        product.currency = parse.getCurrencyIfValid(data.currency) || "";
+        product.currency = parse.getCurrencyIfValid(data.currency) || "USD";
       }
 
       if(!_.isUndefined(data.sku)) {
@@ -505,28 +606,47 @@ class ProductsService {
     });
   }
 
-  renameDocumentFields(categories, item, fieldsArray = []) {
+  renameDocumentFields(categories, item, toCurrency, currencies) {
     if(item) {
-      item.id = item._id.toString();
-      delete item._id;
+
+      // convert currency for Variants and Prices
+      if(toCurrency && toCurrency.length === 3) {
+        let toCurrencyObj = currencies.find(c => c.currency.toUpperCase() === toCurrency.toUpperCase());
+        let fromCurrencyObj = currencies.find(c => c.currency.toUpperCase() === item.currency.toUpperCase());
+        if(toCurrencyObj && fromCurrencyObj) {
+          const toCurrencyRate = toCurrencyObj.rate;
+          const fromCurrencyRate = fromCurrencyObj.rate;
+          const rate = toCurrencyRate / fromCurrencyRate;
+
+          if(item.prices && item.prices.length > 0) {
+            item.prices = item.variants.map(e => {
+              if(e.price > 0) {
+                e.price = e.price * rate;
+              }
+              return e;
+            });
+          }
+
+          if(item.variants && item.variants.length > 0) {
+            item.variants = item.variants.map(e => {
+              if(e.price > 0) {
+                e.price = e.price * rate;
+              }
+              return e;
+            });
+          }
+
+          item.currency = toCurrency.toUpperCase();
+        }
+      }
+
+
+      if(item.id) {
+        item.id = item.id.toString();
+      }
 
       if(item.brand_id) {
         item.brand_id = item.brand_id.toString();
-      }
-
-      item.category_name = "";
-      item.url = "";
-
-      if(item.category_id) {
-        item.category_id = item.category_id.toString();
-
-        if(categories && categories.length > 0) {
-          const category = categories.find(i => i.id === item.category_id);
-          if(category) {
-            item.category_name = category.name;
-            item.url = path.join(settings.store.url.base, category.slug || '', item.slug || '');
-          }
-        }
       }
 
       if(item.images && item.images.length > 0) {
@@ -535,75 +655,56 @@ class ProductsService {
         }
       }
 
-      item.variable = item.variants && item.variants.length > 0;
-      item.on_sale = false;
-      item.price = item.regular_price || 0;
+      if(item.category_id) {
+        item.category_id = item.category_id.toString();
 
-      if(item.date_sale_from && item.date_sale_to) {
-        const date_sale_from = new Date(item.date_sale_from);
-        const date_sale_to = new Date(item.date_sale_to);
-        const date_current = new Date();
-        if(date_current > date_sale_from && date_current < date_sale_to) {
-          item.on_sale = true;
-          item.price = item.sale_price;
+        if(categories && categories.length > 0) {
+          const category = categories.find(i => i.id === item.category_id);
+          if(category) {
+            if(item.category_name === "") {
+              item.category_name = category.name;
+            }
+            if(item.url === "") {
+              item.url = path.join(settings.store.url.base, category.slug || '', item.slug || '');
+            }
+          }
         }
-      }
-
-      // Status of product stock for the purpose of ordering (available, preorder, backorder, out_of_stock, discontinued)
-      item.stock_status = "out_of_stock";
-      if(item.stock_quantity > 0) {
-        item.stock_status = "available";
-      }
-
-      if(item.stock_backorder) {
-        item.stock_status = "backorder";
-      }
-
-      if(item.stock_preorder) {
-        item.stock_status = "preorder";
-      }
-
-      if(item.discontinued) {
-        item.stock_status = "discontinued";
-      }
-
-
-
-      if(fieldsArray && fieldsArray.length > 0) {
-        item = this.getItemWithFields(item, fieldsArray);
       }
     }
 
     return item;
   }
 
-  getItemWithFields(item, fieldsArray) {
-  	return Object.assign(...fieldsArray.map(key => ({[key]: item[key]}) ));
-  }
-
   deleteProductImage(productId, imageId) {
-    let imageObjectID = this.parseObjectID(imageId);
-    return this.getSingleProduct(productId).then(item => {
+    if(!ObjectID.isValid(productId) || !ObjectID.isValid(imageId)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let imageObjectID = new ObjectID(imageId);
+    return this.getSingleProduct(productId)
+    .then(item => {
       if(item.images && item.images.length > 0) {
         let imageData = item.images.find(i => i.id.toString() === imageId.toString());
         if(imageData) {
           let filename = imageData.filename;
           let filepath = settings.path.uploads.products + '/' + productId + '/' + filename;
           fs.removeSync(filepath);
-
-          mongo.db.collection('products')
-            .updateOne({ _id: productObjectID }, { $pull: { images: { id: imageObjectID } } }).then(() => {
-              return true;
-            });
-
+          return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageObjectID } } })
+        } else {
+          return true;
         }
+      } else {
+        return true;
       }
-    });
+    })
+    .then(() => true);
   }
 
   addProductImage(req, res) {
     let productId = req.params.id;
-    let productObjectID = this.parseObjectID(productId);
+    if(!ObjectID.isValid(productId)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let productObjectID = new ObjectID(productId);
     let uploadedFiles = [];
     let uploadDir = settings.path.uploads.products + '/' + productId;
     fs.ensureDirSync(uploadDir);

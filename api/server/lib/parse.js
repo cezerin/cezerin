@@ -2,7 +2,7 @@ var ObjectID = require('mongodb').ObjectID;
 var _ = require('lodash');
 
 getString = (value) => {
-  return value ? value.toString() : null;
+  return value ? value.toString() : "";
 }
 
 getDateIfValid = (value) => {
@@ -33,7 +33,7 @@ getBooleanIfValid = (value, defaultValue = null) => {
 }
 
 getCurrencyIfValid = (value) => {
-  return (value && value.length === 3) ? value : null;
+  return (value && value.length === 3) ? value.toUpperCase() : null;
 }
 
 getObjectIDIfValid = (value) => {

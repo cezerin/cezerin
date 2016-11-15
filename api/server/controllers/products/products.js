@@ -20,45 +20,45 @@ class ProductsController {
 
    getProducts(req, res) {
      ProductsService.getProducts(req.query)
-      .then((data) => { res.send(data) })
-      .catch((err) => { res.status(500).send(err) });
+      .then(data => { res.send(data) })
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    getSingleProduct(req, res) {
-     ProductsService.getSingleProduct(req.params.id)
-      .then((data) => {
+     ProductsService.getSingleProduct(req.params.id, req.query.currency)
+      .then(data => {
         if(data) {
           res.send(data)
         } else {
           res.status(404).end()
         }
       })
-      .catch((err) => { res.status(500).send(err) });
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    addProduct(req, res) {
      ProductsService.addProduct(req.body)
-      .then((data) => { res.send(data) })
-      .catch((err) => { res.status(500).send(err) });
+      .then(data => { res.send(data) })
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
 
    updateProduct(req, res) {
      ProductsService.updateProduct(req.params.id, req.body)
-      .then((data) => {
+      .then(data => {
         if(data) {
           res.send(data)
         } else {
           res.status(404).end()
         }
        })
-      .catch((err) => { res.status(500).send(err) });
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    deleteProduct(req, res) {
      ProductsService.deleteProduct(req.params.id)
-      .then((data) => { res.end() })
-      .catch((err) => { res.status(500).send(err) });
+      .then(data => { res.end() })
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    addProductImage(req, res) {
@@ -67,7 +67,11 @@ class ProductsController {
 
    deleteProductImage(req, res) {
      ProductsService.deleteProductImage(req.params.id, req.params.image)
-     .then((data) => { res.end() });
+     .then(data => { res.end() });
+   }
+
+   getErrorMessage(err) {
+     return { 'error': true, 'message': err.toString() };
    }
 }
 

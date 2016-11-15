@@ -21,7 +21,7 @@ class CategoriesController {
    getCategories(req, res) {
      CategoriesService.getCategories()
       .then((data) => { res.send(data) })
-      .catch((err) => { res.status(500).send(err) });
+      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    getSingleCategory(req, res) {
@@ -34,13 +34,13 @@ class CategoriesController {
           res.status(404).end()
         }
       })
-      .catch((err) => { res.status(500).send(err) });
+      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    addCategory(req, res) {
      CategoriesService.addCategory(req.body)
       .then((data) => { res.send(data) })
-      .catch((err) => { res.status(500).send(err) });
+      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
 
@@ -53,13 +53,13 @@ class CategoriesController {
           res.status(404).end()
         }
        })
-      .catch((err) => { res.status(500).send(err) });
+      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    deleteCategory(req, res) {
      CategoriesService.deleteCategory(req.params.id)
       .then((data) => { res.end() })
-      .catch((err) => { res.status(500).send(err) });
+      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
    uploadCategoryImage(req, res) {
@@ -69,6 +69,10 @@ class CategoriesController {
    deleteCategoryImage(req, res) {
      CategoriesService.deleteCategoryImage(req.params.id);
      res.end();
+   }
+
+   getErrorMessage(err) {
+     return { 'error': true, 'message': err.toString() };
    }
 }
 

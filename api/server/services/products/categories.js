@@ -14,79 +14,42 @@ class CategoriesService {
   constructor() {}
 
   getCategories() {
-    return new Promise((resolve, reject) => {
-      mongo.db.collection('productCategories')
-        .find()
-        .toArray()
-        .then((items) => {
-          let renamedItems = items.map(c => this.renameDocumentFields(c));
-          resolve(renamedItems);
-        })
-        .catch((err) => { reject(this.getErrorMessage(err)) });
-      });
-
+  	return mongo.db.collection('productCategories').find().toArray()
+    .then(items => items.map(c => this.renameDocumentFields(c)))
   }
 
   getSingleCategory(id) {
-    return new Promise((resolve, reject) => {
-      let categoryObjectID = this.parseObjectID(id);
-      mongo.db.collection('productCategories')
-        .findOne({ _id: categoryObjectID })
-        .then((item) => {
-          item = this.renameDocumentFields(item);
-          resolve(item);
-        })
-        .catch((err) => { reject(this.getErrorMessage(err)) });
-      });
+    if(!ObjectID.isValid(id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let categoryObjectID = new ObjectID(id);
+
+    return mongo.db.collection('productCategories').findOne({ _id: categoryObjectID })
+    .then(item => this.renameDocumentFields(item))
   }
 
   addCategory(data) {
-    return new Promise((resolve, reject) => {
-      mongo.db.collection('productCategories').find().sort({position:-1}).limit(1)
-      .nextObject()
-      .then(item => {
-        let newPosition = 0;
-        if(item && item.position > 0) {
-          newPosition = item.position;
-        }
-        newPosition++;
+    return mongo.db.collection('productCategories').find().sort({position:-1}).limit(1).nextObject()
+    .then(item => {
+      const newPosition = (item && item.position > 0) ? item.position + 1 : 1;
 
-        this.getDocumentForInsert(data, newPosition)
-        .then((dataToInsert) => {
-          mongo.db.collection('productCategories')
-            .insertMany([dataToInsert])
-            .then((res) => {
-              let insertedItem = res.ops[0];
-              insertedItem = this.renameDocumentFields(insertedItem);
-              resolve(insertedItem);
-            })
-            .catch((err) => { reject(this.getErrorMessage(err)) });
-        });
-
-
-      });
+      return this.getDocumentForInsert(data, newPosition)
+      .then(dataToInsert =>
+        mongo.db.collection('productCategories').insertMany([dataToInsert]).then(res => this.renameDocumentFields(res.ops[0])));
     });
   }
 
   updateCategory(id, data) {
-    return new Promise((resolve, reject) => {
-      let categoryObjectID = this.parseObjectID(id);
-      this.getDocumentForUpdate(id, data)
-      .then((dataToSet) => {
-        mongo.db.collection('productCategories')
-          .findOneAndUpdate({ _id: categoryObjectID }, {$set: dataToSet}, { returnOriginal: false })
-          .then((res) => {
-            if(res.value) {
-              let updatedItem = res.value;
-              updatedItem = this.renameDocumentFields(updatedItem);
-              resolve(updatedItem);
-            } else {
-              resolve();
-            }
-           })
-      })
-      .catch((err) => { reject(this.getErrorMessage(err)) });;
-    });
+    if(!ObjectID.isValid(id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let categoryObjectID = new ObjectID(id);
+
+    return this.getDocumentForUpdate(id, data)
+    .then(dataToSet =>
+      mongo.db.collection('productCategories').findOneAndUpdate({ _id: categoryObjectID }, {$set: dataToSet}, { returnOriginal: false })
+      .then(res => res.value ? this.renameDocumentFields(res.value) : Promise.reject('Empty value'))
+    );
   }
 
   findAllChildren(items, id, result) {
@@ -104,38 +67,35 @@ class CategoriesService {
   }
 
   deleteCategory(id) {
-    return new Promise((resolve, reject) => {
-      // 1. get all categories
-      this.getCategories()
-      .then((items) => {
-
-        // 2. find category and children
-        var idsToDelete = [];
-        this.findAllChildren(items, id, idsToDelete);
-
-        // 3. delete categories
-        let objectsToDelete = idsToDelete.map((id) => ( new ObjectID(id) ));
-        mongo.db.collection('productCategories')
-          .deleteMany({'_id':{'$in':objectsToDelete}})
-          .then((res) => {
-            // 4. delete directories with images
-            for(let categoryId of idsToDelete) {
-              let deleteDir = settings.path.uploads.categories + '/' + categoryId;
-              fs.remove(deleteDir, err => {});
-            }
-            resolve();
-          });
-      });
-    });
-  }
-
-  parseObjectID(id) {
-    try {
-      return new ObjectID(id);
-    } catch (e) {
-      throw this.getErrorMessage('Invalid identifier')
-      return;
+    if(!ObjectID.isValid(id)) {
+      return Promise.reject('Invalid identifier');
     }
+
+    // 1. get all categories
+    return this.getCategories()
+    .then(items => {
+      // 2. find category and children
+      var idsToDelete = [];
+      this.findAllChildren(items, id, idsToDelete);
+      return idsToDelete;
+    })
+    .then(idsToDelete => {
+      // 3. update category_id for products
+      return mongo.db.collection('products').updateMany({ category_id: { $in: idsToDelete}} , { category_id: null }).then(() => idsToDelete);
+    })
+    .then(idsToDelete => {
+      // 4. delete categories
+      let objectsToDelete = idsToDelete.map((id) => ( new ObjectID(id) ));
+      return mongo.db.collection('productCategories').deleteMany({_id: { $in: objectsToDelete}}).then(() => idsToDelete);
+    })
+    .then(idsToDelete => {
+      // 5. delete directories with images
+      for(let categoryId of idsToDelete) {
+        let deleteDir = settings.path.uploads.categories + '/' + categoryId;
+        fs.remove(deleteDir, err => {});
+      }
+      return Promise.resolve();
+    });
   }
 
   getErrorMessage(err) {
@@ -151,10 +111,10 @@ class CategoriesService {
         'image': ''
       };
 
-      category.name = parse.getString(data.name) || '';
-      category.description = parse.getString(data.description) || '';
-      category.meta_description = parse.getString(data.meta_description) || '';
-      category.meta_title = parse.getString(data.meta_title) || '';
+      category.name = parse.getString(data.name);
+      category.description = parse.getString(data.description);
+      category.meta_description = parse.getString(data.meta_description);
+      category.meta_title = parse.getString(data.meta_title);
       category.active = parse.getBooleanIfValid(data.active, true);
       category.sort = parse.getString(data.sort);
       category.parent_id = parse.getObjectIDIfValid(data.parent_id);
@@ -173,6 +133,9 @@ class CategoriesService {
 
   getDocumentForUpdate(id, data) {
     return new Promise((resolve, reject) => {
+      if(!ObjectID.isValid(id)) {
+        reject('Invalid identifier');
+      }
       if(_.isEmpty(data)) {
         reject('Required fields are missing');
       }
@@ -182,27 +145,27 @@ class CategoriesService {
       };
 
       if(!_.isUndefined(data.name)) {
-        category.name = data.name;
+        category.name = parse.getString(data.name);
       }
 
       if(!_.isUndefined(data.description)) {
-        category.description = data.description;
+        category.description = parse.getString(data.description);
       }
 
       if(!_.isUndefined(data.meta_description)) {
-        category.meta_description = data.meta_description;
+        category.meta_description = parse.getString(data.meta_description);
       }
 
       if(!_.isUndefined(data.meta_title)) {
-        category.meta_title = data.meta_title;
-      }
-
-      if(!_.isUndefined(data.image)) {
-        category.image = data.image;
+        category.meta_title = parse.getString(data.meta_title);
       }
 
       if(!_.isUndefined(data.active)) {
         category.active = parse.getBooleanIfValid(data.active, true);
+      }
+
+      if(!_.isUndefined(data.image)) {
+        category.image = data.image;
       }
 
       if(data.position >= 0) {
@@ -254,7 +217,6 @@ class CategoriesService {
       if(!_.isEmpty(item.image)) {
         item.image = settings.url.uploads.categories + '/' + item.id + '/' + item.image;
       }
-
     }
 
     return item;
