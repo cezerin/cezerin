@@ -1,11 +1,14 @@
 import * as t from './actionTypes'
 
 const initialState = {
+  editItem: null,
   items: [],
   selected: [],
+  isFetchingEdit: false,
   isFetching: false,
   isFetchedMore: false,
   isFetched: false,
+  errorFetchEdit: null,
   errorFetch: null,
   errorUpdate: null,
   filter_active: false,
@@ -17,6 +20,25 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case t.PRODUCT_EDIT_REQUEST:
+      return Object.assign({}, state, {
+        isFetchingEdit: true
+      })
+    case t.PRODUCT_EDIT_RECEIVE:
+      return Object.assign({}, state, {
+        isFetchingEdit: false,
+        editItem: action.item
+      })
+    case t.PRODUCT_EDIT_ERASE:
+      return Object.assign({}, state, {
+        isFetchingEdit: false,
+        editItem: null
+      })
+    case t.PRODUCT_EDIT_FAILURE:
+      return Object.assign({}, state, {
+        isFetchingEdit: true,
+        errorFetchEdit: action.error
+      })
     case t.PRODUCTS_REQUEST:
       return Object.assign({}, state, {
         isFetching: true
@@ -77,19 +99,9 @@ export default (state = initialState, action) => {
         isFetchingMore: false,
         items: [...state.items, ...action.items]
       })
-    // case t.PRODUCT_UPDATE_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isSaving: true,
-    //   })
-    // case t.PRODUCT_UPDATE_SUCCESS:
-    //   return Object.assign({}, state, {
-    //     isSaving: false
-    //   })
-    // case t.PRODUCT_UPDATE_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isSaving: false,
-    //     errorUpdate: action.error
-    //   })
+    case t.PRODUCT_UPDATE_REQUEST:
+    case t.PRODUCT_UPDATE_SUCCESS:
+    case t.PRODUCT_UPDATE_FAILURE:
     case t.PRODUCT_SET_CATEGORY_SUCCESS:
     case t.PRODUCT_DELETE_SUCCESS:
     default:

@@ -6,9 +6,11 @@
   "description": "Description",
   "metaDescription": "Meta Description",
   "pageTitle": "Page title",
+  "seo": "Search Engine Optimization",
   "learnMore": "LEARN MORE",
   "filter": "Filter",
   "all": "All",
+  "currency":"Currency",
 
   "actions": {
     "cancel": "Cancel",
@@ -60,11 +62,11 @@
 
   "products": {
     "title": "Products",
+    "titleEdit": "Edit Product",
     "name": "Product name",
     "sku": "SKU",
     "stock": "Stock",
     "price": "Price",
-    "discontinued": "Discontinued",
     "outOfStock": "Out of stock",
     "backorder": "Backorder",
     "preorder": "Pre-order",
@@ -74,7 +76,19 @@
     "onlyDiscontinued": "Only discontinued",
     "onlyOnSale": "Only on sale",
     "search": "Search products",
-    "aboutDelete": "{count} products is about to be permanently deleted. You can’t undo this action."
+    "aboutDelete": "{count} products is about to be permanently deleted. You can’t undo this action.",
+    "regularPrice": "Regular price",
+    "salePrice": "Sale price",
+    "dateStockExpected": "Expected date",
+    "stockTracking": "Manage stock",
+    "stockPreorder": "Is preorder",
+    "stockBackorder": "Allow backorders",
+    "stockQuantity": "Stock quantity",
+    "active": "Active",
+    "discontinued": "Discontinued",
+    "weight": "Weight (kg)",
+    "dateSaleFrom": "Sale from",
+    "dateSaleTo": "Sale to"
   },
 
   "productCategories": {

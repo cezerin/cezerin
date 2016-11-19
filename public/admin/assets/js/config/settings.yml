@@ -1,4 +1,20 @@
 language: en
+currencies:
+  - USD
+  - EUR
+  - JPY
+  - GBP
+  - CHF
+  - TRY
+editor:
+  inline: true
+  themes: inlite
+  plugins:
+    - autolink lists link image charmap preview anchor
+    - searchreplace visualblocks code fullscreen
+    - media table paste code textcolor directionality
+  toolbar1: image media | styleselect | bold italic bullist numlist link alignleft aligncenter alignright alignjustify
+  toolbar2: undo redo | forecolor paste removeformat table | outdent indent | preview code
 api:
   url:
     base: http://localhost/api/

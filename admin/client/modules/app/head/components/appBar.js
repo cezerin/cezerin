@@ -48,22 +48,9 @@ export default class AppBarTop extends React.Component {
       rightElements = <ProductsHead />
     }
     else if(location.startsWith('/admin/product/')){
-      title = '';
+      title = title = messages.products.titleEdit;
       leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
-      rightElements = <div style={{float:'left'}}>
-      <IconButton><FontIcon color="#fff" className="material-icons">delete</FontIcon></IconButton>
-      <IconMenu
-        iconButtonElement={
-          <IconButton><FontIcon color="#fff" className="material-icons">more_vert</FontIcon></IconButton>
-        }
-        targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-      >
-        <MenuItem primaryText="Refresh" />
-        <MenuItem primaryText="Help" />
-        <MenuItem primaryText="Sign out" />
-      </IconMenu>
-      </div>
+      rightElements = null;
     }
     else if(location === '/admin/products/categories'){
       title = messages.productCategories.title;

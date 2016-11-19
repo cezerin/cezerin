@@ -653,6 +653,7 @@ class ProductsService {
         for(let i = 0; i < item.images.length; i++) {
           item.images[i].url = settings.url.uploads.products + '/' + item.id + '/' + item.images[i].filename;
         }
+        item.images = item.images.sort((a,b) => (a.position - b.position ));
       }
 
       if(item.category_id) {
@@ -679,7 +680,9 @@ class ProductsService {
     if(!ObjectID.isValid(productId) || !ObjectID.isValid(imageId)) {
       return Promise.reject('Invalid identifier');
     }
+    let productObjectID = new ObjectID(productId);
     let imageObjectID = new ObjectID(imageId);
+
     return this.getSingleProduct(productId)
     .then(item => {
       if(item.images && item.images.length > 0) {
@@ -688,7 +691,7 @@ class ProductsService {
           let filename = imageData.filename;
           let filepath = settings.path.uploads.products + '/' + productId + '/' + filename;
           fs.removeSync(filepath);
-          return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageObjectID } } })
+          return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageId } } })
         } else {
           return true;
         }
@@ -723,7 +726,7 @@ class ProductsService {
           var imageData = {
             "id": new ObjectID(),
             "alt": "",
-            "position": 0,
+            "position": 99,
             "filename": file.name
           };
 

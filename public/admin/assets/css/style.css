@@ -35,3 +35,18 @@ html, body { height: 100%; margin: 0; padding: 0; background-color: #F9F9F9;}
   border-top: 1px solid #e0e0e0;
   /*color: #757575;*/
 }
+
+.blue-title {
+  color: rgb(25, 118, 210);
+  font-size: 16px;
+  font-weight: 400;
+  padding: 20px 0 5px 0;
+}
+
+.mce-content-body {
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.mce-edit-focus {
+  /*border-bottom: 2px solid rgb(25, 118, 210);*/
+}

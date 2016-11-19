@@ -3,7 +3,7 @@ var auth = require('basic-auth');
 const settings = require('./settings');
 
 const user = {
-  username: 'demo',
+  username: 'demo@demo.com',
   password: 'demo'
 };
 

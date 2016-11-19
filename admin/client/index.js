@@ -60,7 +60,7 @@ ReactDOM.render(
           <Route path="orders" component={layoutNotFound} />
           <Route path="cusomers" component={layoutNotFound} />
           <Route path="products" component={layoutProducts} />
-          <Route path="product/:url" component={layoutNotFound} />
+          <Route path="product/:id" component={layoutProductsEdit} />
           <Route path="products/categories" component={layoutProductsCategories} />
         </Route>
       </Route>

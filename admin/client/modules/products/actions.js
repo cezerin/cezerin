@@ -2,6 +2,33 @@ import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'src/locale'
 import { push } from 'react-router-redux';
+import moment from 'moment';
+
+function requestProduct() {
+  return {
+    type: t.PRODUCT_EDIT_REQUEST
+  }
+}
+
+function receiveProduct(item) {
+  return {
+    type: t.PRODUCT_EDIT_RECEIVE,
+    item
+  }
+}
+
+function receiveProductError(error) {
+  return {
+    type: t.PRODUCT_EDIT_FAILURE,
+    error
+  }
+}
+
+export function cancelProductEdit() {
+  return {
+    type: t.PRODUCT_EDIT_ERASE
+  }
+}
 
 function requestProducts() {
   return {
@@ -109,24 +136,24 @@ function setCategorySuccess() {
   }
 }
 
-// function requestUpdateProduct(id) {
-//   return {
-//     type: t.PRODUCT_UPDATE_REQUEST
-//   }
-// }
+function requestUpdateProduct(id) {
+  return {
+    type: t.PRODUCT_UPDATE_REQUEST
+  }
+}
 
-// function receiveUpdateProduct() {
-//   return {
-//     type: t.PRODUCT_UPDATE_SUCCESS
-//   }
-// }
+function receiveUpdateProduct() {
+  return {
+    type: t.PRODUCT_UPDATE_SUCCESS
+  }
+}
 
-// function errorUpdateProduct(error) {
-//   return {
-//     type: t.PRODUCT_UPDATE_FAILURE,
-//     error
-//   }
-// }
+function errorUpdateProduct(error) {
+  return {
+    type: t.PRODUCT_UPDATE_FAILURE,
+    error
+  }
+}
 
 function successCreateProduct(id) {
   return {
@@ -256,38 +283,77 @@ export function setCategory(category_id) {
   }
 }
 
-// function sendUpdateProduct(id, data) {
-//   return dispatch => {
-//     dispatch(requestUpdateProduct(id));
-//     return api.products.update(id, data)
-//       .then(({status, json}) => {
-//           dispatch(receiveUpdateProduct());
-//           dispatch(fetchProducts());
-//       })
-//       .catch(error => {
-//           dispatch(errorUpdateProduct(error));
-//       });
-//   }
-// }
+export function updateProduct(data) {
+  return (dispatch, getState) => {
+    dispatch(requestUpdateProduct(data.id));
 
-// export function updateProduct(data) {
-//   return (dispatch, getState) => {
-//     return dispatch(sendUpdateProduct(data.id, data))
-//   }
-// }
+    delete data.images;
+    if(!data.slug || data.slug === '') {
+      data.slug = data.name;
+    }
+
+    return api.products.update(data.id, data).then(({status, json}) => {
+        dispatch(receiveUpdateProduct());
+        dispatch(fetchProducts());
+    })
+    .catch(error => {
+        dispatch(errorUpdateProduct(error));
+    });
+  }
+}
 
 export function createProduct() {
   return (dispatch, getState) => {
     const state = getState();
-    return api.products.create({ active: false, category_id: state.productCategories.selectedId })
-      .then(({status, json}) => {
-          dispatch(successCreateProduct(json.id));
-          dispatch(push('/admin/product/'+json.id));
-          dispatch(fetchProducts());
+    return api.products.create({ active: false, category_id: state.productCategories.selectedId }).then(({status, json}) => {
+        dispatch(successCreateProduct(json.id));
+        dispatch(fetchProducts());
+        dispatch(push('/admin/product/'+json.id));
+    })
+    .catch(error => {
+        //dispatch error
+        console.log(error)
+    });
+  }
+}
+
+
+export function fetchProduct(id) {
+  return (dispatch, getState) => {
+    dispatch(requestProduct());
+
+    return api.products.retrieve(id).then(({status, json}) => {
+      const saleFrom = moment(json.date_sale_from);
+      const saleTo = moment(json.date_sale_to);
+      const stockExpected = moment(json.date_stock_expected);
+
+      json.date_sale_from = saleFrom.isValid() ? saleFrom.toDate() : null;
+      json.date_sale_to = saleTo.isValid() ? saleTo.toDate() : null;
+      json.date_stock_expected = stockExpected.isValid() ? stockExpected.toDate() : null;
+      json.weight = '';
+
+      dispatch(receiveProduct(json))
+    })
+    .catch(error => {
+      dispatch(receiveProductError(error));
+    });
+  }
+}
+
+export function deleteImage(productId, imageId) {
+  return (dispatch, getState) => {
+    return api.products.deleteImage(productId, imageId).then(({status, json}) => {
+      dispatch(fetchProduct(productId))
+    })
+    .catch(error => {});
+  }
+}
+
+export function updateImages(productId, images) {
+  return (dispatch, getState) => {
+    return api.products.update(productId, { images: images }).then(({status, json}) => {
+          dispatch(fetchProduct(productId))
       })
-      .catch(error => {
-          //dispatch error
-          console.log(error)
-      });
+      .catch(error => {});
   }
 }
