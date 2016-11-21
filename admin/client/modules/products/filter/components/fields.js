@@ -4,14 +4,13 @@ import style from './style.css'
 
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Subheader from 'material-ui/Subheader';
 import Toggle from 'material-ui/Toggle';
 
 export default ({ active, discontinued, on_sale, stock_status,
   setActive, setDiscontinued, setOnSale, setStock }) => {
-  return <div>
-    <Subheader>{messages.filter}</Subheader>
+  return (
     <div className={style.filter}>
+      <div className="blue-title" style={{ paddingBottom:16 }}>{messages.filter}</div>
       <Toggle
         label={messages.products.onlyActive}
         onToggle={(e, value) => { setActive(value) }}
@@ -44,5 +43,5 @@ export default ({ active, discontinued, on_sale, stock_status,
         <MenuItem value={"discontinued"} primaryText={messages.products.discontinued} />
       </SelectField>
     </div>
-  </div>
+  )
 }
