@@ -126,11 +126,11 @@ export default class ImageUpload extends React.Component {
         }
         <div className={style.footer}>
           <IconButton touch={true} tooltip={messages.actions.upload} onTouchTap={() => { this.dropzone.open() }} tooltipPosition="top-right">
-            <FontIcon color="#707070" className="material-icons">file_upload</FontIcon>
+            <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">file_upload</FontIcon>
           </IconButton>
           {hasPreview &&
             <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.onDelete} tooltipPosition="top-right">
-              <FontIcon color="#707070" className="material-icons">delete</FontIcon>
+              <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">delete</FontIcon>
             </IconButton>
           }
         </div>

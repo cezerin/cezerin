@@ -11,11 +11,7 @@
 }
 
 .footer {
-  /*background-color: rgba(0,0,0,0.2);*/
-  position: absolute;
-  text-align: left;
-  bottom: 0px;
-  width: 100%;
+  background-color: rgba(0,0,0,0.05);
 }
 
 .dropzone {}
@@ -32,7 +28,10 @@
 .dropzoneReject {
   background-color: rgba(244,67,54,0.8);
 }
-
+.dropzoneReject .list,
+.dropzoneActive .list {
+  opacity: 0.3
+}
 .gallery {
   overflow: auto;
 }
