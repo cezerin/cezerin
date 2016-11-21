@@ -1,14 +1,15 @@
 .preview {
-  text-align: center;
+  height: 220px;
+  width: 200px;
 }
 
 .preview img {
   max-width: 100%;
-  max-height: 300px;
+  max-height: 100%;
 }
 
 .footer {
-  background-color: #eee;
+  background-color: rgba(0,0,0,0.05);
 }
 
 .dropzone {
@@ -19,8 +20,12 @@
   font-size: 16px;
 }
 .dropzoneActive {
-  border: 2px dashed rgb(18,179,117);
+  background-color: rgba(18,179,117, 0.4);
 }
 .dropzoneReject {
-  border: 2px dashed rgb(244,67,54);;
+  background-color: rgba(244,67,54,0.8);
+}
+.dropzoneReject .preview img,
+.dropzoneActive .preview img {
+  opacity: 0.3
 }

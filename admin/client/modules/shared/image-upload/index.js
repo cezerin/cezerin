@@ -91,7 +91,7 @@ export default class ImageUpload extends React.Component {
     const previewIsFileUrl = hasPreview ? imagePreview.startsWith('http') : null;
 
     let htmlPreview =
-      <div style={{paddingTop: '20px', paddingBottom: '20px'}}>
+      <div style={{paddingTop: 20, paddingBottom: 20, textAlign: 'center' }}>
         <FontIcon style={{fontSize: 90, color: '#cccccc'}} className="material-icons">photo_camera</FontIcon>
         <div className={style.dropText}>{messages.help.dropHere}</div>
       </div>
@@ -106,8 +106,7 @@ export default class ImageUpload extends React.Component {
     }
 
     return (
-      <Paper zDepth={1} rounded={false} style={{width:220}}>
-        <div className={style.preview}>
+      <Paper zDepth={1} rounded={false} style={{width:200}}>
             <Dropzone
               onDrop={this.onDrop}
               multiple={false}
@@ -118,18 +117,19 @@ export default class ImageUpload extends React.Component {
               className={style.dropzone}
               activeClassName={style.dropzoneActive}
               rejectClassName={style.dropzoneReject}>
-              {htmlPreview}
+              <div className={style.preview}>
+                {htmlPreview}
+              </div>
             </Dropzone>
-        </div>
         {percentComplete < 100 &&
           <LinearProgress mode="determinate" value={percentComplete} />
         }
         <div className={style.footer}>
-          <IconButton touch={true} tooltip={messages.actions.upload} onTouchTap={() => { this.dropzone.open() }}>
+          <IconButton touch={true} tooltip={messages.actions.upload} onTouchTap={() => { this.dropzone.open() }} tooltipPosition="top-right">
             <FontIcon color="#707070" className="material-icons">file_upload</FontIcon>
           </IconButton>
           {hasPreview &&
-            <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.onDelete}>
+            <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.onDelete} tooltipPosition="top-right">
               <FontIcon color="#707070" className="material-icons">delete</FontIcon>
             </IconButton>
           }
