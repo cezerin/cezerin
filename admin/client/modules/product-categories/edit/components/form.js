@@ -11,9 +11,6 @@ import api from 'lib/api'
 import Paper from 'material-ui/Paper';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import Divider from 'material-ui/Divider';
-import Subheader from 'material-ui/Subheader';
-import Snackbar from 'material-ui/Snackbar';
 
 const validate = values => {
   const errors = {}
@@ -77,11 +74,10 @@ class Form extends React.Component {
         <Paper className={style.form} zDepth={1}>
           <form onSubmit={handleSubmit}>
             <div className={style.innerBox}>
-              <h4>{messages.productCategories.titleEdit}</h4>
               <Field name="name" component={TextField} floatingLabelText={messages.productCategories.name+' *'} fullWidth={true}/><br />
               <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={2}/>
               <div className={style.shortBox}>
-                <Field name="active" component={Toggle} label="Active" className={style.toggle}/><br />
+                <Field name="active" component={Toggle} label={messages.productCategories.active} className={style.toggle}/><br />
                 <ImageUpload
                   imageUrl={imageUrl}
                   postUrl={`${settings.api.url.base}/products/categories/${categoryId}/image`}
@@ -90,7 +86,7 @@ class Form extends React.Component {
                   onUpload={() => {}}
                  />
               </div>
-              <h6>SEO</h6>
+              <div className="blue-title">{messages.seo}</div>
               <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
               <p className="field-hint">{messages.help.slug}</p>
               <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
@@ -101,13 +97,6 @@ class Form extends React.Component {
               <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
             </div>
           </form>
-
-          {/* <Snackbar
-            open={isSaving}
-            message={messages.messages.saving}
-            autoHideDuration={2000}
-          /> */}
-
         </Paper>
       )
     } else {

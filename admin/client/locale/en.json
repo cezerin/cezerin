@@ -103,7 +103,8 @@
     "all": "All Products",
     "root": "Root",
     "title": "Categories",
-    "aboutDelete": "Will delete category {name} with all childs."
+    "aboutDelete": "Will delete category {name} with all childs.",
+    "active": "Active"
   }
 
 }

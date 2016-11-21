@@ -55,7 +55,7 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/products/categories'){
       title = messages.productCategories.title;
       if(category){
-        title = category.name;
+        title = title = messages.productCategories.titleEdit;;
         rightElements = <ProductCategoryHead />
       }
     }
