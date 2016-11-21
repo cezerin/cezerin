@@ -87,7 +87,6 @@ class ProductEdit extends React.Component {
     }
 
     let images = initialValues.images;
-    //let description = initialValues.description;
 
     return (
       <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
@@ -96,7 +95,7 @@ class ProductEdit extends React.Component {
             <Paper className={style.form} zDepth={1}>
               <div className={style.innerBox}>
 
-                <div className="blue-title">Price</div>
+                <div className="blue-title">{messages.products.pricing}</div>
 
                 <div className="row row--no-gutter">
                   <div className="col-xs-7 col--no-gutter">
@@ -130,7 +129,7 @@ class ProductEdit extends React.Component {
                   </div>
                 </div>
 
-                <div className="blue-title">Stock</div>
+                <div className="blue-title">{messages.products.inventory}</div>
 
                 <Field name="sku" component={TextField} floatingLabelText={messages.products.sku} fullWidth={true}/>
 
@@ -154,7 +153,7 @@ class ProductEdit extends React.Component {
                 <Field name="stock_backorder" component={Toggle} label={messages.products.stockBackorder} className={style.toggle}/>
 
 
-                <div className="blue-title">Visibility</div>
+                <div className="blue-title">{messages.products.visibility}</div>
 
                 <Field name="active" component={Toggle} label={messages.products.active} className={style.toggle}/>
                 <Field name="discontinued" component={Toggle} label={messages.products.discontinued} className={style.toggle}/>
@@ -172,7 +171,7 @@ class ProductEdit extends React.Component {
                     component={Editor}
                   />
 
-                  <div className="blue-title">Images</div>
+                  <div className="blue-title">{messages.images}</div>
                   <Gallery />
 
                   <div className="blue-title">{messages.seo}</div>

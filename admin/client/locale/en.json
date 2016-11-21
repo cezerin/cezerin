@@ -10,7 +10,8 @@
   "learnMore": "LEARN MORE",
   "filter": "Filter",
   "all": "All",
-  "currency":"Currency",
+  "currency": "Currency",
+  "images": "Images",
 
   "actions": {
     "cancel": "Cancel",
@@ -88,7 +89,11 @@
     "discontinued": "Discontinued",
     "weight": "Weight (kg)",
     "dateSaleFrom": "Sale from",
-    "dateSaleTo": "Sale to"
+    "dateSaleTo": "Sale to",
+    "pricing": "Pricing",
+    "visibility": "Visibility",
+    "inventory": "Inventory",
+    "attributes": "Attributes"
   },
 
   "productCategories": {
