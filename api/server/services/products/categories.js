@@ -1,6 +1,6 @@
 'use strict';
 
-const path = require('path');
+const url = require('url');
 const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
@@ -212,7 +212,7 @@ class CategoriesService {
         item.parent_id = item.parent_id.toString();
       }
 
-      item.url = path.join(settings.store.url.base, item.slug || '');
+      item.url = url.resolve(settings.store.url.base, item.slug || '');
 
       if(!_.isEmpty(item.image)) {
         item.image = settings.url.uploads.categories + '/' + item.id + '/' + item.image;
