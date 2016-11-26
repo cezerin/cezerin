@@ -1,3 +1,11 @@
 {
-  "presets" : ["es2015", "react", "stage-2"],
+	"presets": ["es2015", "react", "stage-2"],
+	"env": {
+		"production": {
+			"presets": ["react-optimize"],
+			"plugins": [
+				"babel-plugin-dev-expression"
+			]
+		}
+	}
 }

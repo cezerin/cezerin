@@ -26,13 +26,15 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "dev": "webpack -d --config webpack.config.js --watch --progress --colors",
-    "build": "npm run build-admin",
-    "build-admin": "webpack -p --config webpack.config.js --progress --colors",
+    "admin-dev": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
+    "admin-build": "webpack -p --config webpack.config.admin.js --progress --colors",
+    "store-dev": "webpack -d --config webpack.config.store.js --watch --progress --colors",
+    "store-build": "webpack -p --config webpack.config.store.js --progress --colors",
     "lint": "eslint src"
   },
   "dependencies": {
     "accept-language-parser": "^1.2.0",
+    "babel-register": "^6.18.0",
     "basic-auth": "^1.0.4",
     "body-parser": "^1.15.2",
     "bunyan": "^1.8.1",
@@ -55,8 +57,10 @@
     "nodemailer-smtp-transport": "^2.7.2",
     "nunjucks": "^2.5.2",
     "react": "^15.3.2",
+    "react-bootstrap": "^0.30.7",
     "react-dom": "^15.3.2",
     "react-dropzone": "^3.6.0",
+    "react-helmet": "^3.2.2",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
     "react-router-redux": "^4.0.6",
@@ -85,7 +89,7 @@
     "webpack": "^1.13.2"
   },
   "engines": {
-    "node": "6.9.1",
-    "npm": "3.10.8"
+    "node": "^6.9.1",
+    "npm": "^3.10.8"
   }
 }
