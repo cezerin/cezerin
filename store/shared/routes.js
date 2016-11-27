@@ -8,6 +8,7 @@ import Helmet from "react-helmet";
 //import Home from './home'
 import IndexLayout from './layouts/index'
 import SharedLayout from './layouts/shared'
+import CategoryLayout from './layouts/category'
 
 const PageNotFound = () => (
   <div>
@@ -42,23 +43,6 @@ const Product = ({ params, resource }) => (
   </div>
 )
 
-const Category = ({ params, resource }) => (
-  <div>
-    <Helmet
-        title="Category page"
-        meta={[
-            {"name": "description", "content": "Category description"},
-            {"property": "og:type", "content": "article"}
-        ]}
-        link={[
-            {"rel": "canonical", "href": "http://mysite.com/example"}
-        ]}
-    />
-    <h1>Category: {params.slug}, resource: {resource}</h1>
-    <img src="https://nodejs.org/static/images/interactive/background.jpg" />
-  </div>
-)
-
 const Reserved = () => (
   <div>
     <Helmet
@@ -83,7 +67,7 @@ function checkSiteMap(nextState, cb) {
       //slugData.json.resource": "581f1bdb2b3dde285e44f885"
       if(slugData.json.type === 'product-category') {
         //cb(null, Category)
-        cb(null, props => <Category {...props} resource={slugData.json.resource} />);
+        cb(null, props => <CategoryLayout {...props} resource={slugData.json.resource} />);
       } else if(slugData.json.type === 'reserved') {
         cb(null, Reserved)
       } else {

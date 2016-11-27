@@ -1,70 +1,52 @@
 import React from 'react';
 import {connect} from 'react-redux'
-// import {fetchProductCategories} from './actions'
-import { Link } from 'react-router'
+import {selectCategory, fetchProducts} from '../actions'
 import Helmet from "react-helmet";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap';
 
-class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+const Item = ({ selectedId, categories, category, onClick }) => (
+  <LinkContainer to={'/'+category.slug}><NavItem onClick={() => { onClick(category.id) }}>{category.name}</NavItem></LinkContainer>
+)
 
-  componentDidMount() {
-    //this.props.fetchData();
-  }
+const List = ({ categories, selectedId, onClick }) => {
+  var rows = categories.filter(category => category.parent_id === null).map(category => <Item key={category.id} selectedId={selectedId} categories={categories} category={category} onClick={onClick} />);
 
-  //<Link to={'/'+category.slug} activeStyle={{fontWeight: 'bold'}}>{category.name}</Link>
-
-  getItem(selectedId, categories, category) {
-    return <NavItem key={category.id} active={category.id === selectedId}>{category.name}</NavItem>
-  }
-
-  // getChildren(selectedId, allItems, id){
-  //   if(allItems && id){
-  //     return allItems.filter(item => item.parent_id === id).map(item => this.getItem(selectedId, allItems, item));
-  //   } else {
-  //     return [];
-  //   }
-  // }
-
-  render() {
-    const {categories} = this.props;
-    const selectedId = null;
-    var rows = categories.filter(category => category.parent_id === null).map(category => this.getItem(selectedId, categories, category));
-
-    return (
-      <Navbar inverse collapseOnSelect>
-        <Navbar.Header>
-          <Navbar.Brand>
-            <a href="#">Cezerin</a>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav>
-            {rows}
-          </Nav>
-          <Nav pullRight>
-            <NavItem eventKey={1} href="#">Link Right</NavItem>
-            <NavItem eventKey={2} href="#">Link Right</NavItem>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    )
-  }
+  return (
+    <Navbar inverse collapseOnSelect>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <a href="#">Cezerin</a>
+        </Navbar.Brand>
+        <Navbar.Toggle />
+      </Navbar.Header>
+      <Navbar.Collapse>
+        <Nav>
+          {rows}
+        </Nav>
+        <Nav pullRight>
+          <NavItem eventKey={1} href="#">Link Right</NavItem>
+          <NavItem eventKey={2} href="#">Link Right</NavItem>
+        </Nav>
+      </Navbar.Collapse>
+    </Navbar>
+  )
 }
 
 const mapStateToProps = (state) => {
-  return {categories: state.productCategories.categories}
+  return {
+    categories: state.app.categories,
+    selectedId: state.app.selectedId
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // fetchData: () => {
-    //   dispatch(fetchProductCategories());
-    // }
+    onClick: (categoryId) => {
+      dispatch(selectCategory(categoryId));
+      dispatch(fetchProducts());
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(List);

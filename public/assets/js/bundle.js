@@ -3327,30 +3327,38 @@
 	// Set.prototype.keys
 	Set.prototype != null && typeof Set.prototype.keys === 'function' && isNative(Set.prototype.keys);
 	
+	var setItem;
+	var getItem;
+	var removeItem;
+	var getItemIDs;
+	var addRoot;
+	var removeRoot;
+	var getRootIDs;
+	
 	if (canUseCollections) {
 	  var itemMap = new Map();
 	  var rootIDSet = new Set();
 	
-	  var setItem = function (id, item) {
+	  setItem = function (id, item) {
 	    itemMap.set(id, item);
 	  };
-	  var getItem = function (id) {
+	  getItem = function (id) {
 	    return itemMap.get(id);
 	  };
-	  var removeItem = function (id) {
+	  removeItem = function (id) {
 	    itemMap['delete'](id);
 	  };
-	  var getItemIDs = function () {
+	  getItemIDs = function () {
 	    return Array.from(itemMap.keys());
 	  };
 	
-	  var addRoot = function (id) {
+	  addRoot = function (id) {
 	    rootIDSet.add(id);
 	  };
-	  var removeRoot = function (id) {
+	  removeRoot = function (id) {
 	    rootIDSet['delete'](id);
 	  };
-	  var getRootIDs = function () {
+	  getRootIDs = function () {
 	    return Array.from(rootIDSet.keys());
 	  };
 	} else {
@@ -3366,31 +3374,31 @@
 	    return parseInt(key.substr(1), 10);
 	  };
 	
-	  var setItem = function (id, item) {
+	  setItem = function (id, item) {
 	    var key = getKeyFromID(id);
 	    itemByKey[key] = item;
 	  };
-	  var getItem = function (id) {
+	  getItem = function (id) {
 	    var key = getKeyFromID(id);
 	    return itemByKey[key];
 	  };
-	  var removeItem = function (id) {
+	  removeItem = function (id) {
 	    var key = getKeyFromID(id);
 	    delete itemByKey[key];
 	  };
-	  var getItemIDs = function () {
+	  getItemIDs = function () {
 	    return Object.keys(itemByKey).map(getIDFromKey);
 	  };
 	
-	  var addRoot = function (id) {
+	  addRoot = function (id) {
 	    var key = getKeyFromID(id);
 	    rootByKey[key] = true;
 	  };
-	  var removeRoot = function (id) {
+	  removeRoot = function (id) {
 	    var key = getKeyFromID(id);
 	    delete rootByKey[key];
 	  };
-	  var getRootIDs = function () {
+	  getRootIDs = function () {
 	    return Object.keys(rootByKey).map(getIDFromKey);
 	  };
 	}
@@ -4183,7 +4191,7 @@
 	
 	'use strict';
 	
-	module.exports = '15.4.0';
+	module.exports = '15.4.1';
 
 /***/ },
 /* 31 */
@@ -5624,6 +5632,28 @@
 	  return '.' + inst._rootNodeID;
 	};
 	
+	function isInteractive(tag) {
+	  return tag === 'button' || tag === 'input' || tag === 'select' || tag === 'textarea';
+	}
+	
+	function shouldPreventMouseEvent(name, type, props) {
+	  switch (name) {
+	    case 'onClick':
+	    case 'onClickCapture':
+	    case 'onDoubleClick':
+	    case 'onDoubleClickCapture':
+	    case 'onMouseDown':
+	    case 'onMouseDownCapture':
+	    case 'onMouseMove':
+	    case 'onMouseMoveCapture':
+	    case 'onMouseUp':
+	    case 'onMouseUpCapture':
+	      return !!(props.disabled && isInteractive(type));
+	    default:
+	      return false;
+	  }
+	}
+	
 	/**
 	 * This is a unified interface for event plugins to be installed and configured.
 	 *
@@ -5692,7 +5722,12 @@
 	   * @return {?function} The stored callback.
 	   */
 	  getListener: function (inst, registrationName) {
+	    // TODO: shouldPreventMouseEvent is DOM-specific and definitely should not
+	    // live here; needs to be moved to a better place soon
 	    var bankForRegistrationName = listenerBank[registrationName];
+	    if (shouldPreventMouseEvent(registrationName, inst._currentElement.type, inst._currentElement.props)) {
+	      return null;
+	    }
 	    var key = getDictionaryKey(inst);
 	    return bankForRegistrationName && bankForRegistrationName[key];
 	  },
@@ -20121,18 +20156,6 @@
 	  return tag === 'button' || tag === 'input' || tag === 'select' || tag === 'textarea';
 	}
 	
-	function shouldPreventMouseEvent(inst) {
-	  if (inst) {
-	    var disabled = inst._currentElement && inst._currentElement.props.disabled;
-	
-	    if (disabled) {
-	      return isInteractive(inst._tag);
-	    }
-	  }
-	
-	  return false;
-	}
-	
 	var SimpleEventPlugin = {
 	
 	  eventTypes: eventTypes,
@@ -20203,10 +20226,7 @@
 	      case 'topMouseDown':
 	      case 'topMouseMove':
 	      case 'topMouseUp':
-	        // Disabled elements should not respond to mouse events
-	        if (shouldPreventMouseEvent(targetInst)) {
-	          return null;
-	        }
+	      // TODO: Disabled elements should not respond to mouse events
 	      /* falls through */
 	      case 'topMouseOut':
 	      case 'topMouseOver':
@@ -21616,7 +21636,7 @@
 	
 	'use strict';
 	
-	module.exports = '15.4.0';
+	module.exports = '15.4.1';
 
 /***/ },
 /* 172 */
@@ -26391,9 +26411,9 @@
 
 /***/ },
 /* 234 */
-/*!*******************************************!*\
-  !*** ./~/history/~/query-string/index.js ***!
-  \*******************************************/
+/*!*********************************!*\
+  !*** ./~/query-string/index.js ***!
+  \*********************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30005,14 +30025,18 @@
 	
 	var _redux = __webpack_require__(/*! redux */ 178);
 	
-	var _reducer = __webpack_require__(/*! ./reducer */ 276);
+	var _actionTypes = __webpack_require__(/*! ./actionTypes */ 276);
 	
-	var _reducer2 = _interopRequireDefault(_reducer);
+	var t = _interopRequireWildcard(_actionTypes);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	var initialState = {
-	  location: null
+	  currentPage: null,
+	  location: null,
+	  selectedId: null,
+	  products: [],
+	  categories: []
 	};
 	
 	function appReducer() {
@@ -30024,6 +30048,26 @@
 	      return Object.assign({}, state, {
 	        location: action.payload
 	      });
+	
+	    case t.CATEGORIES_SELECT:
+	      return Object.assign({}, state, {
+	        selectedId: action.selectedId
+	      });
+	    case t.CATEGORIES_DESELECT:
+	      return Object.assign({}, state, {
+	        selectedId: null
+	      });
+	
+	    case t.PRODUCT_CATEGORIES_RECEIVE:
+	      return Object.assign({}, state, {
+	        categories: action.categories
+	      });
+	
+	    case t.PRODUCTS_RECEIVE:
+	      return Object.assign({}, state, {
+	        products: action.products
+	      });
+	
 	    default:
 	      return state;
 	  }
@@ -30031,46 +30075,29 @@
 	
 	exports.default = (0, _redux.combineReducers)({
 	  app: appReducer,
-	  routing: _reactRouterRedux.routerReducer,
-	  productCategories: _reducer2.default
+	  routing: _reactRouterRedux.routerReducer
 	});
 
 /***/ },
 /* 276 */
-/*!*********************************!*\
-  !*** ./store/shared/reducer.js ***!
-  \*********************************/
-/***/ function(module, exports, __webpack_require__) {
+/*!*************************************!*\
+  !*** ./store/shared/actionTypes.js ***!
+  \*************************************/
+/***/ function(module, exports) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	var PRODUCTS_REQUEST = exports.PRODUCTS_REQUEST = 'PRODUCTS_REQUEST';
+	var PRODUCTS_RECEIVE = exports.PRODUCTS_RECEIVE = 'PRODUCTS_RECEIVE';
+	var PRODUCTS_FAILURE = exports.PRODUCTS_FAILURE = 'PRODUCTS_FAILURE';
 	
-	var _actionTypes = __webpack_require__(/*! ./actionTypes */ 547);
+	var CATEGORIES_SELECT = exports.CATEGORIES_SELECT = 'CATEGORIES_SELECT';
+	var CATEGORIES_DESELECT = exports.CATEGORIES_DESELECT = 'CATEGORIES_DESELECT';
 	
-	var t = _interopRequireWildcard(_actionTypes);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	var initialState = {
-	  categories: []
-	};
-	
-	exports.default = function () {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case t.PRODUCT_CATEGORIES_RECEIVE:
-	      return Object.assign({}, state, {
-	        categories: action.categories
-	      });
-	    default:
-	      return state;
-	  }
-	};
+	var PRODUCT_CATEGORIES_RECEIVE = exports.PRODUCT_CATEGORIES_RECEIVE = 'PRODUCT_CATEGORIES_RECEIVE';
 
 /***/ },
 /* 277 */
@@ -30106,9 +30133,13 @@
 	
 	var _shared2 = _interopRequireDefault(_shared);
 	
+	var _category = __webpack_require__(/*! ./layouts/category */ 552);
+	
+	var _category2 = _interopRequireDefault(_category);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var api = __webpack_require__(/*! cezerin-client */ 536);
+	var api = __webpack_require__(/*! cezerin-client */ 538);
 	api.init("http://localhost/api/", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDc0OTgxNTE1fQ.dEyqeTPqFErKqoFKXTi6joNMn8UHgTvGWsjNMHJ7owY");
 	
 	//import Home from './home'
@@ -30156,29 +30187,6 @@
 	  );
 	};
 	
-	var Category = function Category(_ref2) {
-	  var params = _ref2.params,
-	      resource = _ref2.resource;
-	  return _react2.default.createElement(
-	    "div",
-	    null,
-	    _react2.default.createElement(_reactHelmet2.default, {
-	      title: "Category page",
-	      meta: [{ "name": "description", "content": "Category description" }, { "property": "og:type", "content": "article" }],
-	      link: [{ "rel": "canonical", "href": "http://mysite.com/example" }]
-	    }),
-	    _react2.default.createElement(
-	      "h1",
-	      null,
-	      "Category: ",
-	      params.slug,
-	      ", resource: ",
-	      resource
-	    ),
-	    _react2.default.createElement("img", { src: "https://nodejs.org/static/images/interactive/background.jpg" })
-	  );
-	};
-	
 	var Reserved = function Reserved() {
 	  return _react2.default.createElement(
 	    "div",
@@ -30205,7 +30213,7 @@
 	      if (slugData.json.type === 'product-category') {
 	        //cb(null, Category)
 	        cb(null, function (props) {
-	          return _react2.default.createElement(Category, _extends({}, props, { resource: slugData.json.resource }));
+	          return _react2.default.createElement(_category2.default, _extends({}, props, { resource: slugData.json.resource }));
 	        });
 	      } else if (slugData.json.type === 'reserved') {
 	        cb(null, Reserved);
@@ -31151,7 +31159,7 @@
 	
 	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 286);
 	
-	var _categories = __webpack_require__(/*! ../components/categories */ 548);
+	var _categories = __webpack_require__(/*! ../components/categories */ 536);
 	
 	var _categories2 = _interopRequireDefault(_categories);
 	
@@ -50626,6 +50634,212 @@
 
 /***/ },
 /* 536 */
+/*!***********************************************!*\
+  !*** ./store/shared/components/categories.js ***!
+  \***********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 199);
+	
+	var _actions = __webpack_require__(/*! ../actions */ 537);
+	
+	var _reactHelmet = __webpack_require__(/*! react-helmet */ 278);
+	
+	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 286);
+	
+	var _reactRouterBootstrap = __webpack_require__(/*! react-router-bootstrap */ 549);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Item = function Item(_ref) {
+	  var selectedId = _ref.selectedId,
+	      categories = _ref.categories,
+	      category = _ref.category,
+	      _onClick = _ref.onClick;
+	  return _react2.default.createElement(
+	    _reactRouterBootstrap.LinkContainer,
+	    { to: '/' + category.slug },
+	    _react2.default.createElement(
+	      _reactBootstrap.NavItem,
+	      { onClick: function onClick() {
+	          _onClick(category.id);
+	        } },
+	      category.name
+	    )
+	  );
+	};
+	
+	var List = function List(_ref2) {
+	  var categories = _ref2.categories,
+	      selectedId = _ref2.selectedId,
+	      onClick = _ref2.onClick;
+	
+	  var rows = categories.filter(function (category) {
+	    return category.parent_id === null;
+	  }).map(function (category) {
+	    return _react2.default.createElement(Item, { key: category.id, selectedId: selectedId, categories: categories, category: category, onClick: onClick });
+	  });
+	
+	  return _react2.default.createElement(
+	    _reactBootstrap.Navbar,
+	    { inverse: true, collapseOnSelect: true },
+	    _react2.default.createElement(
+	      _reactBootstrap.Navbar.Header,
+	      null,
+	      _react2.default.createElement(
+	        _reactBootstrap.Navbar.Brand,
+	        null,
+	        _react2.default.createElement(
+	          'a',
+	          { href: '#' },
+	          'Cezerin'
+	        )
+	      ),
+	      _react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
+	    ),
+	    _react2.default.createElement(
+	      _reactBootstrap.Navbar.Collapse,
+	      null,
+	      _react2.default.createElement(
+	        _reactBootstrap.Nav,
+	        null,
+	        rows
+	      ),
+	      _react2.default.createElement(
+	        _reactBootstrap.Nav,
+	        { pullRight: true },
+	        _react2.default.createElement(
+	          _reactBootstrap.NavItem,
+	          { eventKey: 1, href: '#' },
+	          'Link Right'
+	        ),
+	        _react2.default.createElement(
+	          _reactBootstrap.NavItem,
+	          { eventKey: 2, href: '#' },
+	          'Link Right'
+	        )
+	      )
+	    )
+	  );
+	};
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    categories: state.app.categories,
+	    selectedId: state.app.selectedId
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    onClick: function onClick(categoryId) {
+	      dispatch((0, _actions.selectCategory)(categoryId));
+	      dispatch((0, _actions.fetchProducts)());
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List);
+
+/***/ },
+/* 537 */
+/*!*********************************!*\
+  !*** ./store/shared/actions.js ***!
+  \*********************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.selectCategory = selectCategory;
+	exports.deselectCategory = deselectCategory;
+	exports.fetchProductCategories = fetchProductCategories;
+	exports.fetchProducts = fetchProducts;
+	
+	var _actionTypes = __webpack_require__(/*! ./actionTypes */ 276);
+	
+	var t = _interopRequireWildcard(_actionTypes);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	var api = __webpack_require__(/*! cezerin-client */ 538);
+	api.init("http://localhost/api/", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDc0OTgxNTE1fQ.dEyqeTPqFErKqoFKXTi6joNMn8UHgTvGWsjNMHJ7owY");
+	
+	function receiveProducts(products) {
+	  return {
+	    type: t.PRODUCTS_RECEIVE,
+	    products: products
+	  };
+	}
+	
+	function selectCategory(id) {
+	  return {
+	    type: t.CATEGORIES_SELECT,
+	    selectedId: id
+	  };
+	}
+	
+	function deselectCategory() {
+	  return {
+	    type: t.CATEGORIES_DESELECT
+	  };
+	}
+	
+	function productCategoriesReceive(categories) {
+	  return {
+	    type: t.PRODUCT_CATEGORIES_RECEIVE,
+	    categories: categories
+	  };
+	}
+	
+	function fetchProductCategories() {
+	  return function (dispatch, getState) {
+	    return api.products.categories.list().then(function (_ref) {
+	      var status = _ref.status,
+	          json = _ref.json;
+	
+	      dispatch(productCategoriesReceive(json));
+	    }).catch(function (error) {});
+	  };
+	}
+	
+	function fetchProducts() {
+	  return function (dispatch, getState) {
+	    var state = getState();
+	    // if (!state.products.isFetching) {
+	    // dispatch(requestProducts());
+	
+	    var filter = { limit: 20, fields: 'id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
+	    filter.category_id = state.app.selectedId;
+	
+	    return api.products.list(filter).then(function (_ref2) {
+	      var status = _ref2.status,
+	          json = _ref2.json;
+	
+	      dispatch(receiveProducts(json));
+	    }).catch(function (error) {
+	      // dispatch(receiveProductsError(error));
+	    });
+	    // }
+	  };
+	}
+
+/***/ },
+/* 538 */
 /*!***************************************!*\
   !*** ./~/cezerin-client/lib/index.js ***!
   \***************************************/
@@ -50633,10 +50847,10 @@
 
 	'use strict';
 	
-	var ProductCategories = __webpack_require__(/*! ./api/products/categories */ 537);
-	var Products = __webpack_require__(/*! ./api/products/products */ 538);
-	var Sitemap = __webpack_require__(/*! ./api/sitemap */ 539);
-	var client = __webpack_require__(/*! ./client */ 540);
+	var ProductCategories = __webpack_require__(/*! ./api/products/categories */ 539);
+	var Products = __webpack_require__(/*! ./api/products/products */ 540);
+	var Sitemap = __webpack_require__(/*! ./api/sitemap */ 541);
+	var client = __webpack_require__(/*! ./client */ 542);
 	
 	var api = {};
 	api.products = {};
@@ -50654,7 +50868,7 @@
 	module.exports = api;
 
 /***/ },
-/* 537 */
+/* 539 */
 /*!*********************************************************!*\
   !*** ./~/cezerin-client/lib/api/products/categories.js ***!
   \*********************************************************/
@@ -50717,7 +50931,7 @@
 	module.exports = ProductCategories;
 
 /***/ },
-/* 538 */
+/* 540 */
 /*!*******************************************************!*\
   !*** ./~/cezerin-client/lib/api/products/products.js ***!
   \*******************************************************/
@@ -50780,7 +50994,7 @@
 	module.exports = Products;
 
 /***/ },
-/* 539 */
+/* 541 */
 /*!*********************************************!*\
   !*** ./~/cezerin-client/lib/api/sitemap.js ***!
   \*********************************************/
@@ -50817,7 +51031,7 @@
 	module.exports = Sitemap;
 
 /***/ },
-/* 540 */
+/* 542 */
 /*!****************************************!*\
   !*** ./~/cezerin-client/lib/client.js ***!
   \****************************************/
@@ -50829,7 +51043,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	__webpack_require__(/*! isomorphic-fetch */ 545);
+	__webpack_require__(/*! isomorphic-fetch */ 547);
 	
 	var RestClient = function () {
 	  function RestClient() {
@@ -50930,10 +51144,10 @@
 	}();
 	
 	module.exports = new RestClient();
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 541).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 543).Buffer))
 
 /***/ },
-/* 541 */
+/* 543 */
 /*!***************************!*\
   !*** ./~/buffer/index.js ***!
   \***************************/
@@ -50949,9 +51163,9 @@
 	
 	'use strict'
 	
-	var base64 = __webpack_require__(/*! base64-js */ 542)
-	var ieee754 = __webpack_require__(/*! ieee754 */ 543)
-	var isArray = __webpack_require__(/*! isarray */ 544)
+	var base64 = __webpack_require__(/*! base64-js */ 544)
+	var ieee754 = __webpack_require__(/*! ieee754 */ 545)
+	var isArray = __webpack_require__(/*! isarray */ 546)
 	
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -52729,10 +52943,10 @@
 	  return val !== val // eslint-disable-line no-self-compare
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 541).Buffer, (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(/*! ./~/buffer/index.js */ 543).Buffer, (function() { return this; }())))
 
 /***/ },
-/* 542 */
+/* 544 */
 /*!******************************!*\
   !*** ./~/base64-js/index.js ***!
   \******************************/
@@ -52855,7 +53069,7 @@
 
 
 /***/ },
-/* 543 */
+/* 545 */
 /*!****************************!*\
   !*** ./~/ieee754/index.js ***!
   \****************************/
@@ -52948,7 +53162,7 @@
 
 
 /***/ },
-/* 544 */
+/* 546 */
 /*!****************************!*\
   !*** ./~/isarray/index.js ***!
   \****************************/
@@ -52962,7 +53176,7 @@
 
 
 /***/ },
-/* 545 */
+/* 547 */
 /*!****************************************************!*\
   !*** ./~/isomorphic-fetch/fetch-npm-browserify.js ***!
   \****************************************************/
@@ -52972,12 +53186,12 @@
 	// on the global object (window or self)
 	//
 	// Return that as the export for use in Webpack, Browserify etc.
-	__webpack_require__(/*! whatwg-fetch */ 546);
+	__webpack_require__(/*! whatwg-fetch */ 548);
 	module.exports = self.fetch.bind(self);
 
 
 /***/ },
-/* 546 */
+/* 548 */
 /*!*********************************!*\
   !*** ./~/whatwg-fetch/fetch.js ***!
   \*********************************/
@@ -53003,6 +53217,28 @@
 	    })(),
 	    formData: 'FormData' in self,
 	    arrayBuffer: 'ArrayBuffer' in self
+	  }
+	
+	  if (support.arrayBuffer) {
+	    var viewClasses = [
+	      '[object Int8Array]',
+	      '[object Uint8Array]',
+	      '[object Uint8ClampedArray]',
+	      '[object Int16Array]',
+	      '[object Uint16Array]',
+	      '[object Int32Array]',
+	      '[object Uint32Array]',
+	      '[object Float32Array]',
+	      '[object Float64Array]'
+	    ]
+	
+	    var isDataView = function(obj) {
+	      return obj && DataView.prototype.isPrototypeOf(obj)
+	    }
+	
+	    var isArrayBufferView = ArrayBuffer.isView || function(obj) {
+	      return obj && viewClasses.indexOf(Object.prototype.toString.call(obj)) > -1
+	    }
 	  }
 	
 	  function normalizeName(name) {
@@ -53058,12 +53294,8 @@
 	  Headers.prototype.append = function(name, value) {
 	    name = normalizeName(name)
 	    value = normalizeValue(value)
-	    var list = this.map[name]
-	    if (!list) {
-	      list = []
-	      this.map[name] = list
-	    }
-	    list.push(value)
+	    var oldValue = this.map[name]
+	    this.map[name] = oldValue ? oldValue+','+value : value
 	  }
 	
 	  Headers.prototype['delete'] = function(name) {
@@ -53071,12 +53303,8 @@
 	  }
 	
 	  Headers.prototype.get = function(name) {
-	    var values = this.map[normalizeName(name)]
-	    return values ? values[0] : null
-	  }
-	
-	  Headers.prototype.getAll = function(name) {
-	    return this.map[normalizeName(name)] || []
+	    name = normalizeName(name)
+	    return this.has(name) ? this.map[name] : null
 	  }
 	
 	  Headers.prototype.has = function(name) {
@@ -53084,15 +53312,15 @@
 	  }
 	
 	  Headers.prototype.set = function(name, value) {
-	    this.map[normalizeName(name)] = [normalizeValue(value)]
+	    this.map[normalizeName(name)] = normalizeValue(value)
 	  }
 	
 	  Headers.prototype.forEach = function(callback, thisArg) {
-	    Object.getOwnPropertyNames(this.map).forEach(function(name) {
-	      this.map[name].forEach(function(value) {
-	        callback.call(thisArg, value, name, this)
-	      }, this)
-	    }, this)
+	    for (var name in this.map) {
+	      if (this.map.hasOwnProperty(name)) {
+	        callback.call(thisArg, this.map[name], name, this)
+	      }
+	    }
 	  }
 	
 	  Headers.prototype.keys = function() {
@@ -53137,14 +53365,36 @@
 	
 	  function readBlobAsArrayBuffer(blob) {
 	    var reader = new FileReader()
+	    var promise = fileReaderReady(reader)
 	    reader.readAsArrayBuffer(blob)
-	    return fileReaderReady(reader)
+	    return promise
 	  }
 	
 	  function readBlobAsText(blob) {
 	    var reader = new FileReader()
+	    var promise = fileReaderReady(reader)
 	    reader.readAsText(blob)
-	    return fileReaderReady(reader)
+	    return promise
+	  }
+	
+	  function readArrayBufferAsText(buf) {
+	    var view = new Uint8Array(buf)
+	    var chars = new Array(view.length)
+	
+	    for (var i = 0; i < view.length; i++) {
+	      chars[i] = String.fromCharCode(view[i])
+	    }
+	    return chars.join('')
+	  }
+	
+	  function bufferClone(buf) {
+	    if (buf.slice) {
+	      return buf.slice(0)
+	    } else {
+	      var view = new Uint8Array(buf.byteLength)
+	      view.set(new Uint8Array(buf))
+	      return view.buffer
+	    }
 	  }
 	
 	  function Body() {
@@ -53152,7 +53402,9 @@
 	
 	    this._initBody = function(body) {
 	      this._bodyInit = body
-	      if (typeof body === 'string') {
+	      if (!body) {
+	        this._bodyText = ''
+	      } else if (typeof body === 'string') {
 	        this._bodyText = body
 	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
 	        this._bodyBlob = body
@@ -53160,11 +53412,12 @@
 	        this._bodyFormData = body
 	      } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
 	        this._bodyText = body.toString()
-	      } else if (!body) {
-	        this._bodyText = ''
-	      } else if (support.arrayBuffer && ArrayBuffer.prototype.isPrototypeOf(body)) {
-	        // Only support ArrayBuffers for POST method.
-	        // Receiving ArrayBuffers happens via Blobs, instead.
+	      } else if (support.arrayBuffer && support.blob && isDataView(body)) {
+	        this._bodyArrayBuffer = bufferClone(body.buffer)
+	        // IE 10-11 can't handle a DataView body.
+	        this._bodyInit = new Blob([this._bodyArrayBuffer])
+	      } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
+	        this._bodyArrayBuffer = bufferClone(body)
 	      } else {
 	        throw new Error('unsupported BodyInit type')
 	      }
@@ -53189,6 +53442,8 @@
 	
 	        if (this._bodyBlob) {
 	          return Promise.resolve(this._bodyBlob)
+	        } else if (this._bodyArrayBuffer) {
+	          return Promise.resolve(new Blob([this._bodyArrayBuffer]))
 	        } else if (this._bodyFormData) {
 	          throw new Error('could not read FormData body as blob')
 	        } else {
@@ -53197,27 +53452,28 @@
 	      }
 	
 	      this.arrayBuffer = function() {
-	        return this.blob().then(readBlobAsArrayBuffer)
-	      }
-	
-	      this.text = function() {
-	        var rejected = consumed(this)
-	        if (rejected) {
-	          return rejected
-	        }
-	
-	        if (this._bodyBlob) {
-	          return readBlobAsText(this._bodyBlob)
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as text')
+	        if (this._bodyArrayBuffer) {
+	          return consumed(this) || Promise.resolve(this._bodyArrayBuffer)
 	        } else {
-	          return Promise.resolve(this._bodyText)
+	          return this.blob().then(readBlobAsArrayBuffer)
 	        }
 	      }
-	    } else {
-	      this.text = function() {
-	        var rejected = consumed(this)
-	        return rejected ? rejected : Promise.resolve(this._bodyText)
+	    }
+	
+	    this.text = function() {
+	      var rejected = consumed(this)
+	      if (rejected) {
+	        return rejected
+	      }
+	
+	      if (this._bodyBlob) {
+	        return readBlobAsText(this._bodyBlob)
+	      } else if (this._bodyArrayBuffer) {
+	        return Promise.resolve(readArrayBufferAsText(this._bodyArrayBuffer))
+	      } else if (this._bodyFormData) {
+	        throw new Error('could not read FormData body as text')
+	      } else {
+	        return Promise.resolve(this._bodyText)
 	      }
 	    }
 	
@@ -53245,7 +53501,10 @@
 	  function Request(input, options) {
 	    options = options || {}
 	    var body = options.body
-	    if (Request.prototype.isPrototypeOf(input)) {
+	
+	    if (typeof input === 'string') {
+	      this.url = input
+	    } else {
 	      if (input.bodyUsed) {
 	        throw new TypeError('Already read')
 	      }
@@ -53256,12 +53515,10 @@
 	      }
 	      this.method = input.method
 	      this.mode = input.mode
-	      if (!body) {
+	      if (!body && input._bodyInit != null) {
 	        body = input._bodyInit
 	        input.bodyUsed = true
 	      }
-	    } else {
-	      this.url = input
 	    }
 	
 	    this.credentials = options.credentials || this.credentials || 'omit'
@@ -53279,7 +53536,7 @@
 	  }
 	
 	  Request.prototype.clone = function() {
-	    return new Request(this)
+	    return new Request(this, { body: this._bodyInit })
 	  }
 	
 	  function decode(body) {
@@ -53295,16 +53552,17 @@
 	    return form
 	  }
 	
-	  function headers(xhr) {
-	    var head = new Headers()
-	    var pairs = (xhr.getAllResponseHeaders() || '').trim().split('\n')
-	    pairs.forEach(function(header) {
-	      var split = header.trim().split(':')
-	      var key = split.shift().trim()
-	      var value = split.join(':').trim()
-	      head.append(key, value)
+	  function parseHeaders(rawHeaders) {
+	    var headers = new Headers()
+	    rawHeaders.split('\r\n').forEach(function(line) {
+	      var parts = line.split(':')
+	      var key = parts.shift().trim()
+	      if (key) {
+	        var value = parts.join(':').trim()
+	        headers.append(key, value)
+	      }
 	    })
-	    return head
+	    return headers
 	  }
 	
 	  Body.call(Request.prototype)
@@ -53315,10 +53573,10 @@
 	    }
 	
 	    this.type = 'default'
-	    this.status = options.status
+	    this.status = 'status' in options ? options.status : 200
 	    this.ok = this.status >= 200 && this.status < 300
-	    this.statusText = options.statusText
-	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers)
+	    this.statusText = 'statusText' in options ? options.statusText : 'OK'
+	    this.headers = new Headers(options.headers)
 	    this.url = options.url || ''
 	    this._initBody(bodyInit)
 	  }
@@ -53356,35 +53614,16 @@
 	
 	  self.fetch = function(input, init) {
 	    return new Promise(function(resolve, reject) {
-	      var request
-	      if (Request.prototype.isPrototypeOf(input) && !init) {
-	        request = input
-	      } else {
-	        request = new Request(input, init)
-	      }
-	
+	      var request = new Request(input, init)
 	      var xhr = new XMLHttpRequest()
-	
-	      function responseURL() {
-	        if ('responseURL' in xhr) {
-	          return xhr.responseURL
-	        }
-	
-	        // Avoid security warnings on getResponseHeader when not allowed by CORS
-	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-	          return xhr.getResponseHeader('X-Request-URL')
-	        }
-	
-	        return
-	      }
 	
 	      xhr.onload = function() {
 	        var options = {
 	          status: xhr.status,
 	          statusText: xhr.statusText,
-	          headers: headers(xhr),
-	          url: responseURL()
+	          headers: parseHeaders(xhr.getAllResponseHeaders() || '')
 	        }
+	        options.url = 'responseURL' in xhr ? xhr.responseURL : options.headers.get('X-Request-URL')
 	        var body = 'response' in xhr ? xhr.response : xhr.responseText
 	        resolve(new Response(body, options))
 	      }
@@ -53419,47 +53658,50 @@
 
 
 /***/ },
-/* 547 */
-/*!*************************************!*\
-  !*** ./store/shared/actionTypes.js ***!
-  \*************************************/
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var PRODUCT_CATEGORIES_RECEIVE = exports.PRODUCT_CATEGORIES_RECEIVE = 'PRODUCT_CATEGORIES_RECEIVE';
-
-/***/ },
-/* 548 */
+/* 549 */
 /*!***********************************************!*\
-  !*** ./store/shared/components/categories.js ***!
+  !*** ./~/react-router-bootstrap/lib/index.js ***!
   \***********************************************/
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
+	exports.__esModule = true;
+	exports.LinkContainer = exports.IndexLinkContainer = undefined;
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _IndexLinkContainer2 = __webpack_require__(/*! ./IndexLinkContainer */ 550);
+	
+	var _IndexLinkContainer3 = _interopRequireDefault(_IndexLinkContainer2);
+	
+	var _LinkContainer2 = __webpack_require__(/*! ./LinkContainer */ 551);
+	
+	var _LinkContainer3 = _interopRequireDefault(_LinkContainer2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.IndexLinkContainer = _IndexLinkContainer3.default;
+	exports.LinkContainer = _LinkContainer3.default;
+
+/***/ },
+/* 550 */
+/*!************************************************************!*\
+  !*** ./~/react-router-bootstrap/lib/IndexLinkContainer.js ***!
+  \************************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRedux = __webpack_require__(/*! react-redux */ 199);
+	var _LinkContainer = __webpack_require__(/*! ./LinkContainer */ 551);
 	
-	var _reactRouter = __webpack_require__(/*! react-router */ 208);
-	
-	var _reactHelmet = __webpack_require__(/*! react-helmet */ 278);
-	
-	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
-	
-	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 286);
+	var _LinkContainer2 = _interopRequireDefault(_LinkContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -53468,107 +53710,286 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	// Don't use a stateless function, to allow users to set a ref.
+	/* eslint-disable react/prefer-stateless-function */
+	var IndexLinkContainer = function (_React$Component) {
+	  _inherits(IndexLinkContainer, _React$Component);
+	
+	  function IndexLinkContainer() {
+	    _classCallCheck(this, IndexLinkContainer);
+	
+	    return _possibleConstructorReturn(this, _React$Component.apply(this, arguments));
+	  }
+	
+	  IndexLinkContainer.prototype.render = function render() {
+	    return _react2.default.createElement(_LinkContainer2.default, _extends({}, this.props, { onlyActiveOnIndex: true }));
+	  };
+	
+	  return IndexLinkContainer;
+	}(_react2.default.Component);
+	/* eslint-enable react/prefer-stateless-function */
+	
+	
+	exports.default = IndexLinkContainer;
+	module.exports = exports['default'];
+
+/***/ },
+/* 551 */
+/*!*******************************************************!*\
+  !*** ./~/react-router-bootstrap/lib/LinkContainer.js ***!
+  \*******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // This is largely taken from react-router/lib/Link.
+	
+	function isLeftClickEvent(event) {
+	  return event.button === 0;
+	}
+	
+	function isModifiedEvent(event) {
+	  return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+	}
+	
+	function createLocationDescriptor(to, query, hash, state) {
+	  if (query || hash || state) {
+	    return { pathname: to, query: query, hash: hash, state: state };
+	  }
+	
+	  return to;
+	}
+	
+	var propTypes = {
+	  onlyActiveOnIndex: _react2.default.PropTypes.bool.isRequired,
+	  to: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.string, _react2.default.PropTypes.object]).isRequired,
+	  query: _react2.default.PropTypes.string,
+	  hash: _react2.default.PropTypes.string,
+	  state: _react2.default.PropTypes.object,
+	  action: _react2.default.PropTypes.oneOf(['push', 'replace']).isRequired,
+	  onClick: _react2.default.PropTypes.func,
+	  active: _react2.default.PropTypes.bool,
+	  target: _react2.default.PropTypes.string,
+	  children: _react2.default.PropTypes.node.isRequired
+	};
+	
+	var contextTypes = {
+	  router: _react2.default.PropTypes.object
+	};
+	
+	var defaultProps = {
+	  onlyActiveOnIndex: false,
+	  action: 'push'
+	};
+	
+	var LinkContainer = function (_React$Component) {
+	  _inherits(LinkContainer, _React$Component);
+	
+	  function LinkContainer() {
+	    var _temp, _this, _ret;
+	
+	    _classCallCheck(this, LinkContainer);
+	
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args))), _this), _this.onClick = function (event) {
+	      var _this$props = _this.props;
+	      var to = _this$props.to;
+	      var query = _this$props.query;
+	      var hash = _this$props.hash;
+	      var state = _this$props.state;
+	      var children = _this$props.children;
+	      var onClick = _this$props.onClick;
+	      var target = _this$props.target;
+	      var action = _this$props.action;
+	
+	
+	      if (children.props.onClick) {
+	        children.props.onClick(event);
+	      }
+	
+	      if (onClick) {
+	        onClick(event);
+	      }
+	
+	      if (target || event.defaultPrevented || isModifiedEvent(event) || !isLeftClickEvent(event)) {
+	        return;
+	      }
+	
+	      event.preventDefault();
+	
+	      _this.context.router[action](createLocationDescriptor(to, query, hash, state));
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+	
+	  LinkContainer.prototype.render = function render() {
+	    var router = this.context.router;
+	    var _props = this.props;
+	    var onlyActiveOnIndex = _props.onlyActiveOnIndex;
+	    var to = _props.to;
+	    var children = _props.children;
+	
+	    var props = _objectWithoutProperties(_props, ['onlyActiveOnIndex', 'to', 'children']);
+	
+	    props.onClick = this.onClick;
+	
+	    // Ignore if rendered outside Router context; simplifies unit testing.
+	    if (router) {
+	      props.href = router.createHref(to);
+	
+	      if (props.active == null) {
+	        props.active = router.isActive(to, onlyActiveOnIndex);
+	      }
+	    }
+	
+	    return _react2.default.cloneElement(_react2.default.Children.only(children), props);
+	  };
+	
+	  return LinkContainer;
+	}(_react2.default.Component);
+	
+	LinkContainer.propTypes = propTypes;
+	LinkContainer.contextTypes = contextTypes;
+	LinkContainer.defaultProps = defaultProps;
+	
+	exports.default = LinkContainer;
+	module.exports = exports['default'];
+
+/***/ },
+/* 552 */
+/*!******************************************!*\
+  !*** ./store/shared/layouts/category.js ***!
+  \******************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactHelmet = __webpack_require__(/*! react-helmet */ 278);
+	
+	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
+	
+	var _products = __webpack_require__(/*! ../components/products */ 553);
+	
+	var _products2 = _interopRequireDefault(_products);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Layout = function Layout(_ref) {
+	    var params = _ref.params,
+	        resource = _ref.resource;
+	    return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(_reactHelmet2.default, {
+	            title: 'Category',
+	            meta: [{ "name": "description", "content": "Category description" }, { "property": "og:type", "content": "article" }],
+	            link: [{ "rel": "canonical", "href": "http://mysite.com/example" }]
+	        }),
+	        _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Category: ',
+	            params.slug,
+	            ', resource: ',
+	            resource
+	        ),
+	        _react2.default.createElement(_products2.default, null)
+	    );
+	};
+	
+	exports.default = Layout;
+
+/***/ },
+/* 553 */
+/*!*********************************************!*\
+  !*** ./store/shared/components/products.js ***!
+  \*********************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(/*! react-redux */ 199);
+	
+	var _reactHelmet = __webpack_require__(/*! react-helmet */ 278);
+	
+	var _reactHelmet2 = _interopRequireDefault(_reactHelmet);
+	
+	var _reactBootstrap = __webpack_require__(/*! react-bootstrap */ 286);
+	
+	var _reactRouterBootstrap = __webpack_require__(/*! react-router-bootstrap */ 549);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ProductsListItem = function ProductsListItem(_ref) {
+	  var product = _ref.product;
+	
+	  return _react2.default.createElement(
+	    'p',
+	    null,
+	    product.name,
+	    ' - ',
+	    product.price
+	  );
+	};
 	// import {fetchProductCategories} from './actions'
 	
 	
-	var Home = function (_React$Component) {
-	  _inherits(Home, _React$Component);
+	var ProductsList = function ProductsList(_ref2) {
+	  var products = _ref2.products,
+	      currentPage = _ref2.currentPage;
 	
-	  function Home(props) {
-	    _classCallCheck(this, Home);
-	
-	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-	  }
-	
-	  _createClass(Home, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
-	    //this.props.fetchData();
-	
-	
-	    //<Link to={'/'+category.slug} activeStyle={{fontWeight: 'bold'}}>{category.name}</Link>
-	
-	  }, {
-	    key: 'getItem',
-	    value: function getItem(selectedId, categories, category) {
-	      return _react2.default.createElement(
-	        _reactBootstrap.NavItem,
-	        { key: category.id, active: category.id === selectedId },
-	        category.name
-	      );
-	    }
-	
-	    // getChildren(selectedId, allItems, id){
-	    //   if(allItems && id){
-	    //     return allItems.filter(item => item.parent_id === id).map(item => this.getItem(selectedId, allItems, item));
-	    //   } else {
-	    //     return [];
-	    //   }
-	    // }
-	
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-	
-	      var categories = this.props.categories;
-	
-	      var selectedId = null;
-	      var rows = categories.filter(function (category) {
-	        return category.parent_id === null;
-	      }).map(function (category) {
-	        return _this2.getItem(selectedId, categories, category);
-	      });
-	
-	      return _react2.default.createElement(
-	        _reactBootstrap.Navbar,
-	        { inverse: true, collapseOnSelect: true },
-	        _react2.default.createElement(
-	          _reactBootstrap.Navbar.Header,
-	          null,
-	          _react2.default.createElement(
-	            _reactBootstrap.Navbar.Brand,
-	            null,
-	            _react2.default.createElement(
-	              'a',
-	              { href: '#' },
-	              'Cezerin'
-	            )
-	          ),
-	          _react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
-	        ),
-	        _react2.default.createElement(
-	          _reactBootstrap.Navbar.Collapse,
-	          null,
-	          _react2.default.createElement(
-	            _reactBootstrap.Nav,
-	            null,
-	            rows
-	          ),
-	          _react2.default.createElement(
-	            _reactBootstrap.Nav,
-	            { pullRight: true },
-	            _react2.default.createElement(
-	              _reactBootstrap.NavItem,
-	              { eventKey: 1, href: '#' },
-	              'Link Right'
-	            ),
-	            _react2.default.createElement(
-	              _reactBootstrap.NavItem,
-	              { eventKey: 2, href: '#' },
-	              'Link Right'
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return Home;
-	}(_react2.default.Component);
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'p',
+	      null,
+	      JSON.stringify(currentPage)
+	    ),
+	    products.map(function (product) {
+	      return _react2.default.createElement(ProductsListItem, { key: product.id, product: product });
+	    })
+	  );
+	};
 	
 	var mapStateToProps = function mapStateToProps(state) {
-	  return { categories: state.productCategories.categories };
+	  return {
+	    products: state.app.products,
+	    currentPage: state.app.currentPage
+	  };
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
@@ -53579,7 +54000,7 @@
 	  };
 	};
 	
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Home);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ProductsList);
 
 /***/ }
 /******/ ]);
