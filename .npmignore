@@ -1,6 +1,7 @@
-admin
 node_modules
+public/assets/css/bundle.*
+public/assets/js/bundle.*
 public/admin/assets/css/bundle.*
 public/admin/assets/js/bundle.*
-public/themes
 public/uploads
+admin
