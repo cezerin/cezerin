@@ -33,7 +33,6 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "accept-language-parser": "^1.2.0",
     "babel-register": "^6.18.0",
     "basic-auth": "^1.0.4",
     "body-parser": "^1.15.2",
@@ -67,13 +66,11 @@
     "react-sortable-hoc": "^0.2.0",
     "react-tap-event-plugin": "^2.0.1",
     "react-tinymce": "^0.5.1",
-    "redis": "^2.6.2",
     "redux": "^3.5.2",
     "redux-form": "^6.1.0",
     "redux-form-material-ui": "^4.1.0",
     "redux-thunk": "^2.1.0",
-    "slug": "^0.9.1",
-    "string": "^3.3.3"
+    "slug": "^0.9.1"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
