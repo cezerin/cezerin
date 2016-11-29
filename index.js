@@ -5,12 +5,14 @@ var apiRouter = require('./api/server');
 
 require('babel-register')({presets: ['react']});
 var storeRouter = require('./store/server');
+var ajaxRouter = require('./store/server/ajax');
 
 app.disable('x-powered-by');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/api', apiRouter);
+app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
 
 const server = app.listen(3000, () => {

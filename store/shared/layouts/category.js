@@ -1,6 +1,9 @@
 import React from 'react'
 import Helmet from "react-helmet";
 import Products from '../components/products'
+import { Button, Grid, Row, Col } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
+import Breadcrumbs from '../components/breadcrumbs'
 
 const Layout = ({ params, resource }) => (
   <div>
@@ -14,6 +17,7 @@ const Layout = ({ params, resource }) => (
             {"rel": "canonical", "href": "http://mysite.com/example"}
         ]}
     />
+    <Breadcrumbs links={[ { path: '/' + params.slug, title: params.slug} ]} />
     <h1>Category: {params.slug}, resource: {resource}</h1>
     <Products />
   </div>

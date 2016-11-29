@@ -186,6 +186,7 @@ class ProductsService {
     			}
     	},
       url: { "$literal" : "" },
+      path: { "$literal" : "" },
       category_name: { "$literal" : "" },
       brand_name: { "$literal" : "" }
     };
@@ -640,7 +641,6 @@ class ProductsService {
         }
       }
 
-
       if(item.id) {
         item.id = item.id.toString();
       }
@@ -665,8 +665,13 @@ class ProductsService {
             if(item.category_name === "") {
               item.category_name = category.name;
             }
+
             if(item.url === "") {
               item.url = path.join(settings.store.url.base, category.slug || '', item.slug || '');
+            }
+
+            if(item.path === "") {
+              item.path = path.join('/', category.slug || '', item.slug || '');
             }
           }
         }

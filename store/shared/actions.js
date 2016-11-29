@@ -1,5 +1,6 @@
-var api = require('cezerin-client');
-api.init("http://localhost/api/", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDc0OTgxNTE1fQ.dEyqeTPqFErKqoFKXTi6joNMn8UHgTvGWsjNMHJ7owY");
+import clientSettings from '../client/settings'
+import api from 'cezerin-client'
+api.initAjax(clientSettings.ajaxBaseUrl);
 
 import * as t from './actionTypes'
 
@@ -33,7 +34,7 @@ function productCategoriesReceive(categories) {
 
 export function fetchProductCategories() {
   return (dispatch, getState) => {
-    return api.products.categories.list().then(({status, json}) => {
+    return api.ajax.products.categories.list().then(({status, json}) => {
       dispatch(productCategoriesReceive(json))
     }).catch(error => {});
   }
@@ -45,10 +46,10 @@ export function fetchProducts() {
     // if (!state.products.isFetching) {
       // dispatch(requestProducts());
 
-      let filter = { limit: 20, fields: 'id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
+      let filter = { limit: 20, fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
       filter.category_id = state.app.selectedId;
 
-      return api.products.list(filter)
+      return api.ajax.products.list(filter)
         .then(({status, json}) => {
           dispatch(receiveProducts(json))
         })

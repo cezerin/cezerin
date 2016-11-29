@@ -1,14 +1,15 @@
-var api = require('cezerin-client');
-api.init("http://localhost/api/", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDc0OTgxNTE1fQ.dEyqeTPqFErKqoFKXTi6joNMn8UHgTvGWsjNMHJ7owY");
 
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Helmet from "react-helmet";
+import clientSettings from '../client/settings'
+import api from 'cezerin-client';
+api.initAjax(clientSettings.ajaxBaseUrl);
 
-//import Home from './home'
 import IndexLayout from './layouts/index'
 import SharedLayout from './layouts/shared'
 import CategoryLayout from './layouts/category'
+import ProductLayout from './layouts/product'
 
 const PageNotFound = () => (
   <div>
@@ -23,23 +24,6 @@ const PageNotFound = () => (
         ]}
     />
     <h1>404: Page not found</h1>
-  </div>
-)
-
-const Product = ({ params, resource }) => (
-  <div>
-    <Helmet
-        title="Product page"
-        meta={[
-            {"name": "description", "content": "Product description"},
-            {"property": "og:type", "content": "article"}
-        ]}
-        link={[
-            {"rel": "canonical", "href": "http://mysite.com/example"}
-        ]}
-    />
-    <h1>Product: {params.productSlug} in {params.categorySlug}, resource: {resource}</h1>
-    <img src="https://nodejs.org/static/images/interactive/background.jpg" />
   </div>
 )
 
@@ -62,7 +46,7 @@ const Reserved = () => (
 function checkSiteMap(nextState, cb) {
   // do asynchronous stuff to find the components
   const slug = nextState.params.slug;
-  api.sitemap.retrieve(slug).then(slugData => {
+  api.ajax.sitemap.retrieve(slug).then(slugData => {
     if(slugData.json) {
       //slugData.json.resource": "581f1bdb2b3dde285e44f885"
       if(slugData.json.type === 'product-category') {
@@ -85,7 +69,7 @@ export let routes = (
   <Route path='/' component={SharedLayout}>
     <IndexRoute component={IndexLayout} />
     <Route path="/:slug" getComponent={checkSiteMap} />
-    <Route path="/:categorySlug/:productSlug" component={Product} />
+    <Route path="/:categorySlug/:productSlug" component={ProductLayout} />
     <Route path="*" component={PageNotFound} status={404} />
   </Route>
 )

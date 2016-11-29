@@ -36,6 +36,10 @@ apiRouter.use(function(err, req, res, next) {
   }
 });
 
+apiRouter.all('*', (req, res, next) => {
+  res.status(405).send({ 'error': 'Method Not Allowed' });
+})
+
 mongo.connect(() => {});
 
 module.exports = apiRouter;

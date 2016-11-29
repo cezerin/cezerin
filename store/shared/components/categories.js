@@ -3,10 +3,11 @@ import {connect} from 'react-redux'
 import {selectCategory, fetchProducts} from '../actions'
 import Helmet from "react-helmet";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap'
+import { Link } from 'react-router'
 
 const Item = ({ selectedId, categories, category, onClick }) => (
-  <LinkContainer to={'/'+category.slug}><NavItem onClick={() => { onClick(category.id) }}>{category.name}</NavItem></LinkContainer>
+  <LinkContainer to={category.path}><NavItem onClick={() => { onClick(category.id) }}>{category.name}</NavItem></LinkContainer>
 )
 
 const List = ({ categories, selectedId, onClick }) => {
@@ -16,7 +17,7 @@ const List = ({ categories, selectedId, onClick }) => {
     <Navbar inverse collapseOnSelect>
       <Navbar.Header>
         <Navbar.Brand>
-          <a href="#">Cezerin</a>
+          <Link to="/">Drone Store</Link>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>
@@ -25,8 +26,8 @@ const List = ({ categories, selectedId, onClick }) => {
           {rows}
         </Nav>
         <Nav pullRight>
-          <NavItem eventKey={1} href="#">Link Right</NavItem>
-          <NavItem eventKey={2} href="#">Link Right</NavItem>
+          <NavItem eventKey={1} href="#">Delivery</NavItem>
+          <NavItem eventKey={2} href="#">Payment</NavItem>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

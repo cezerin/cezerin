@@ -213,6 +213,7 @@ class CategoriesService {
       }
 
       item.url = url.resolve(settings.store.url.base, item.slug || '');
+      item.path = url.resolve('/', item.slug || '');
 
       if(!_.isEmpty(item.image)) {
         item.image = settings.url.uploads.categories + '/' + item.id + '/' + item.image;
