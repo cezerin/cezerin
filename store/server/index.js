@@ -34,15 +34,12 @@ storeRouter.get('*', (req, res, next) => {
           res.redirect(302, redirectLocation.pathname + redirectLocation.search)
         } else if (renderProps) {
 
-
-          const slug = req.url === '/' ? '' : req.url.slice(1);
-          api.ajax.sitemap.retrieve(slug).then(sitemapResponse => {
+          api.ajax.sitemap.retrieve(req.url).then(sitemapResponse => {
             if(sitemapResponse.json) {
 
               const filter = getProductFilter(sitemapResponse.json.resource);
               api.ajax.products.list(filter).then(productsResponse => {
                 api.ajax.products.categories.list().then(({status, json}) => {
-
 
                   const initialState = {
                     app: {

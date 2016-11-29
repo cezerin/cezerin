@@ -1,35 +1,45 @@
+import * as t from './actionTypes'
 import clientSettings from '../client/settings'
 import api from 'cezerin-client'
 api.initAjax(clientSettings.ajaxBaseUrl);
 
-import * as t from './actionTypes'
+
+
+//
+// export const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY'
+
 
 function receiveProducts(products) {
-  return {
-    type: t.PRODUCTS_RECEIVE,
-    products
-  }
+  return {type: t.PRODUCTS_RECEIVE, products}
 }
 
+function receiveProduct(product) {
+  return {type: t.PRODUCT_RECEIVE, product}
+}
+
+function receiveCategories(categories) {
+  return {type: t.SITEMAP_RECEIVE, categories}
+}
+
+function receiveSitemap(currentPage) {
+  return {type: t.CATEGORIES_RECEIVE, currentPage}
+}
+
+
+
+
+
+
 export function selectCategory(id) {
-  return {
-    type: t.CATEGORIES_SELECT,
-    selectedId: id
-  }
+  return {type: t.CATEGORIES_SELECT, selectedId: id}
 }
 
 export function deselectCategory() {
-  return {
-    type: t.CATEGORIES_DESELECT
-  }
+  return {type: t.CATEGORIES_DESELECT}
 }
 
-
 function productCategoriesReceive(categories) {
-  return {
-    type: t.PRODUCT_CATEGORIES_RECEIVE,
-    categories
-  }
+  return {type: t.PRODUCT_CATEGORIES_RECEIVE, categories}
 }
 
 export function fetchProductCategories() {
@@ -40,22 +50,25 @@ export function fetchProductCategories() {
   }
 }
 
+export function fetchCategories() {
+  return (dispatch, getState) => {
+    return api.ajax.products.categories.list().then(({status, json}) => {
+      dispatch(receiveProducts(json))
+    }).catch(error => {});
+  }
+}
+
+
 export function fetchProducts() {
   return (dispatch, getState) => {
     const state = getState();
-    // if (!state.products.isFetching) {
-      // dispatch(requestProducts());
 
-      let filter = { limit: 20, fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
-      filter.category_id = state.app.selectedId;
+    let filter = state.productsFilter;
+    filter.category_id = state.app.currentCategory.id;
+    filter.fields = 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price';
 
-      return api.ajax.products.list(filter)
-        .then(({status, json}) => {
-          dispatch(receiveProducts(json))
-        })
-        .catch(error => {
-            // dispatch(receiveProductsError(error));
-        });
-    // }
+    return api.ajax.products.list(filter).then(({status, json}) => {
+      dispatch(receiveProducts(json))
+    }).catch(error => {});
   }
 }

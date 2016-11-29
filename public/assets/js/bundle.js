@@ -30032,11 +30032,15 @@
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	var initialState = {
-	  currentPage: null,
 	  location: null,
-	  selectedId: null,
+	  currentPage: null,
+	  currentCategory: null,
+	  currentProduct: null,
 	  products: [],
-	  categories: []
+	  categories: [],
+	  productsFilter: {
+	    limit: 20
+	  }
 	};
 	
 	function appReducer() {
@@ -30044,39 +30048,31 @@
 	  var action = arguments[1];
 	
 	  switch (action.type) {
+	
 	    case _reactRouterRedux.LOCATION_CHANGE:
-	      return Object.assign({}, state, {
-	        location: action.payload
-	      });
+	      return Object.assign({}, state, { location: action.payload });
 	
-	    case t.CATEGORIES_SELECT:
-	      return Object.assign({}, state, {
-	        selectedId: action.selectedId
-	      });
-	    case t.CATEGORIES_DESELECT:
-	      return Object.assign({}, state, {
-	        selectedId: null
-	      });
+	    case t.SET_CURRENT_CATEGORY:
+	      return Object.assign({}, state, { currentCategory: action.category });
 	
-	    case t.PRODUCT_CATEGORIES_RECEIVE:
-	      return Object.assign({}, state, {
-	        categories: action.categories
-	      });
+	    case t.PRODUCT_RECEIVE:
+	      return Object.assign({}, state, { currentProduct: action.product });
+	
+	    case t.CATEGORIES_RECEIVE:
+	      return Object.assign({}, state, { categories: action.categories });
+	
+	    case t.SITEMAP_RECEIVE:
+	      return Object.assign({}, state, { currentPage: action.currentPage });
 	
 	    case t.PRODUCTS_RECEIVE:
-	      return Object.assign({}, state, {
-	        products: action.products
-	      });
+	      return Object.assign({}, state, { products: action.products });
 	
 	    default:
 	      return state;
 	  }
 	}
 	
-	exports.default = (0, _redux.combineReducers)({
-	  app: appReducer,
-	  routing: _reactRouterRedux.routerReducer
-	});
+	exports.default = (0, _redux.combineReducers)({ app: appReducer, routing: _reactRouterRedux.routerReducer });
 
 /***/ },
 /* 276 */
@@ -30094,10 +30090,11 @@
 	var PRODUCTS_RECEIVE = exports.PRODUCTS_RECEIVE = 'PRODUCTS_RECEIVE';
 	var PRODUCTS_FAILURE = exports.PRODUCTS_FAILURE = 'PRODUCTS_FAILURE';
 	
-	var CATEGORIES_SELECT = exports.CATEGORIES_SELECT = 'CATEGORIES_SELECT';
-	var CATEGORIES_DESELECT = exports.CATEGORIES_DESELECT = 'CATEGORIES_DESELECT';
+	var PRODUCT_RECEIVE = exports.PRODUCT_RECEIVE = 'PRODUCT_RECEIVE';
+	var SITEMAP_RECEIVE = exports.SITEMAP_RECEIVE = 'SITEMAP_RECEIVE';
+	var CATEGORIES_RECEIVE = exports.CATEGORIES_RECEIVE = 'CATEGORIES_RECEIVE';
 	
-	var PRODUCT_CATEGORIES_RECEIVE = exports.PRODUCT_CATEGORIES_RECEIVE = 'PRODUCT_CATEGORIES_RECEIVE';
+	var SET_CURRENT_CATEGORY = exports.SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY';
 
 /***/ },
 /* 277 */
@@ -30189,7 +30186,7 @@
 	
 	function checkSiteMap(nextState, cb) {
 	  // do asynchronous stuff to find the components
-	  var slug = nextState.params.slug;
+	  var slug = '/' + nextState.params.slug;
 	  _cezerinClient2.default.ajax.sitemap.retrieve(slug).then(function (slugData) {
 	    if (slugData.json) {
 	      //slugData.json.resource": "581f1bdb2b3dde285e44f885"
@@ -53761,7 +53758,12 @@
 	exports.selectCategory = selectCategory;
 	exports.deselectCategory = deselectCategory;
 	exports.fetchProductCategories = fetchProductCategories;
+	exports.fetchCategories = fetchCategories;
 	exports.fetchProducts = fetchProducts;
+	
+	var _actionTypes = __webpack_require__(/*! ./actionTypes */ 276);
+	
+	var t = _interopRequireWildcard(_actionTypes);
 	
 	var _settings = __webpack_require__(/*! ../client/settings */ 284);
 	
@@ -53771,41 +53773,42 @@
 	
 	var _cezerinClient2 = _interopRequireDefault(_cezerinClient);
 	
-	var _actionTypes = __webpack_require__(/*! ./actionTypes */ 276);
-	
-	var t = _interopRequireWildcard(_actionTypes);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
 	_cezerinClient2.default.initAjax(_settings2.default.ajaxBaseUrl);
 	
+	//
+	// export const SET_CURRENT_CATEGORY = 'SET_CURRENT_CATEGORY'
+	
+	
 	function receiveProducts(products) {
-	  return {
-	    type: t.PRODUCTS_RECEIVE,
-	    products: products
-	  };
+	  return { type: t.PRODUCTS_RECEIVE, products: products };
+	}
+	
+	function receiveProduct(product) {
+	  return { type: t.PRODUCT_RECEIVE, product: product };
+	}
+	
+	function receiveCategories(categories) {
+	  return { type: t.SITEMAP_RECEIVE, categories: categories };
+	}
+	
+	function receiveSitemap(currentPage) {
+	  return { type: t.CATEGORIES_RECEIVE, currentPage: currentPage };
 	}
 	
 	function selectCategory(id) {
-	  return {
-	    type: t.CATEGORIES_SELECT,
-	    selectedId: id
-	  };
+	  return { type: t.CATEGORIES_SELECT, selectedId: id };
 	}
 	
 	function deselectCategory() {
-	  return {
-	    type: t.CATEGORIES_DESELECT
-	  };
+	  return { type: t.CATEGORIES_DESELECT };
 	}
 	
 	function productCategoriesReceive(categories) {
-	  return {
-	    type: t.PRODUCT_CATEGORIES_RECEIVE,
-	    categories: categories
-	  };
+	  return { type: t.PRODUCT_CATEGORIES_RECEIVE, categories: categories };
 	}
 	
 	function fetchProductCategories() {
@@ -53819,24 +53822,31 @@
 	  };
 	}
 	
-	function fetchProducts() {
+	function fetchCategories() {
 	  return function (dispatch, getState) {
-	    var state = getState();
-	    // if (!state.products.isFetching) {
-	    // dispatch(requestProducts());
-	
-	    var filter = { limit: 20, fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price' };
-	    filter.category_id = state.app.selectedId;
-	
-	    return _cezerinClient2.default.ajax.products.list(filter).then(function (_ref2) {
+	    return _cezerinClient2.default.ajax.products.categories.list().then(function (_ref2) {
 	      var status = _ref2.status,
 	          json = _ref2.json;
 	
 	      dispatch(receiveProducts(json));
-	    }).catch(function (error) {
-	      // dispatch(receiveProductsError(error));
-	    });
-	    // }
+	    }).catch(function (error) {});
+	  };
+	}
+	
+	function fetchProducts() {
+	  return function (dispatch, getState) {
+	    var state = getState();
+	
+	    var filter = state.productsFilter;
+	    filter.category_id = state.app.currentCategory.id;
+	    filter.fields = 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price';
+	
+	    return _cezerinClient2.default.ajax.products.list(filter).then(function (_ref3) {
+	      var status = _ref3.status,
+	          json = _ref3.json;
+	
+	      dispatch(receiveProducts(json));
+	    }).catch(function (error) {});
 	  };
 	}
 
@@ -54151,7 +54161,7 @@
 	var ProductsListItem = function ProductsListItem(_ref) {
 	  var product = _ref.product;
 	
-	  var imageUrl = product.images && product.images.length > 0 ? product.images[0].url : null;
+	  var imageUrl = product.images && product.images.length > 0 ? product.images[0].url : '/assets/images/placeholder.png';
 	  return _react2.default.createElement(
 	    _reactBootstrap.Col,
 	    { xs: 12, sm: 6, md: 6, lg: 6 },
@@ -54169,11 +54179,6 @@
 	        product.price,
 	        ' ',
 	        product.currency
-	      ),
-	      _react2.default.createElement(
-	        'p',
-	        null,
-	        product.path
 	      ),
 	      _react2.default.createElement(
 	        'p',
@@ -54340,7 +54345,7 @@
 	      meta: [{ "name": "description", "content": "Product description" }, { "property": "og:type", "content": "article" }],
 	      link: [{ "rel": "canonical", "href": "http://mysite.com/example" }]
 	    }),
-	    _react2.default.createElement(_breadcrumbs2.default, { links: [{ path: '/' + params.categorySlug, title: params.categorySlug },, { path: '/' + params.categorySlug + '/' + params.productSlug, title: params.productSlug }] }),
+	    _react2.default.createElement(_breadcrumbs2.default, { links: [{ path: '/' + params.categorySlug, title: params.categorySlug }, { path: '/' + params.categorySlug + '/' + params.productSlug, title: params.productSlug }] }),
 	    _react2.default.createElement(
 	      'h1',
 	      null,
@@ -54350,11 +54355,14 @@
 	      params.categorySlug,
 	      ', resource: ',
 	      resource
-	    )
+	    ),
+	    _react2.default.createElement(_reactBootstrap.Image, { src: '/assets/images/placeholder.png', responsive: true })
 	  );
 	};
 	
 	exports.default = Layout;
+	
+	// const imageUrl = (product.images && product.images.length > 0) ? product.images[0].url : '/assets/images/placeholder.png';
 
 /***/ }
 /******/ ]);

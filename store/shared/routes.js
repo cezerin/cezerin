@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { Route, IndexRoute } from 'react-router'
 import Helmet from "react-helmet";
@@ -45,7 +44,7 @@ const Reserved = () => (
 
 function checkSiteMap(nextState, cb) {
   // do asynchronous stuff to find the components
-  const slug = nextState.params.slug;
+  const slug = '/' + nextState.params.slug;
   api.ajax.sitemap.retrieve(slug).then(slugData => {
     if(slugData.json) {
       //slugData.json.resource": "581f1bdb2b3dde285e44f885"
