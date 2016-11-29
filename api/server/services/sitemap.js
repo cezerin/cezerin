@@ -36,17 +36,22 @@ class SitemapService {
     let paths = [];
 
     paths.push({
-      path: 'api',
+      path: '/api',
       type: 'reserved'
     });
 
     paths.push({
-      path: 'assets',
+      path: '/assets',
       type: 'reserved'
     });
 
     paths.push({
-      path: 'static',
+      path: '/static',
+      type: 'reserved'
+    });
+
+    paths.push({
+      path: '/admin',
       type: 'reserved'
     });
 
@@ -54,20 +59,26 @@ class SitemapService {
   }
 
   getSlugArrayFromProducts() {
-    return mongo.db.collection('products')
+    return mongo.db.collection('productCategories')
       .find()
       .project({ slug:1 })
       .toArray()
-      .then((items) => {
-        let newPath = [];
-        for(const item of items) {
-          newPath.push({
-            path: item.slug,
-            type: 'product',
-            resource: item._id
+      .then(categories => {
+        return mongo.db.collection('products')
+          .find()
+          .project({ slug:1, category_id:1 })
+          .toArray()
+          .then(products => {
+            return products.map(product => {
+              const category = categories.find(c => c._id == product.category_id);
+              const categorySlug = category ? category.slug : '-';
+              return {
+                path: `/${categorySlug}/${product.slug}`,
+                type: 'product',
+                resource: product._id
+              }
+            })
           });
-        }
-        return newPath;
       });
   }
 
@@ -80,7 +91,7 @@ class SitemapService {
         let newPath = [];
         for(const item of items) {
           newPath.push({
-            path: item.slug,
+            path: `/${item.slug}`,
             type: 'product-category',
             resource: item._id
           });
