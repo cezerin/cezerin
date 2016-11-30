@@ -36,6 +36,11 @@ class SitemapService {
     let paths = [];
 
     paths.push({
+      path: '/',
+      type: 'reserved'
+    });
+
+    paths.push({
       path: '/api',
       type: 'reserved'
     });

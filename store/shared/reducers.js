@@ -2,17 +2,7 @@ import {routerReducer, LOCATION_CHANGE} from 'react-router-redux'
 import {combineReducers} from 'redux'
 import * as t from './actionTypes'
 
-const initialState = {
-  location: null,
-  currentPage: null,
-  currentCategory: null,
-  currentProduct: null,
-  products: [],
-  categories: [],
-  productsFilter: {
-    limit: 20
-  }
-};
+const initialState = {};
 
 function appReducer(state = initialState, action) {
   switch (action.type) {

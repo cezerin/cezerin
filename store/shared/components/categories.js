@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {selectCategory, fetchProducts} from '../actions'
+import {setCategory} from '../actions'
 import Helmet from "react-helmet";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
@@ -37,16 +37,15 @@ const List = ({ categories, selectedId, onClick }) => {
 const mapStateToProps = (state) => {
   return {
     categories: state.app.categories,
-    selectedId: state.app.selectedId
+    selectedId: null
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onClick: (categoryId) => {
-      dispatch(selectCategory(categoryId));
-      dispatch(fetchProducts());
-    },
+      dispatch(setCategory(categoryId));
+    }
   }
 }
 
