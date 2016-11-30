@@ -1,21 +1,21 @@
 import express from 'express';
 let storeRouter = express.Router();
 
+import api from 'cezerin-client';
+api.initAjax(clientSettings.ajaxBaseUrl);
+
 import React from 'react'
-import {match} from 'react-router'
+import {match, RouterContext} from 'react-router'
 import {renderToString} from 'react-dom/server'
-import {RouterContext} from 'react-router'
 import {createStore, applyMiddleware} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import {Provider} from 'react-redux'
 import Helmet from 'react-helmet'
-import {routes} from '../shared/routes'
+import createRoutes from '../shared/routes'
 import reducers from '../shared/reducers'
 import Template from './template'
 import {getInitialState} from '../shared/actions'
 import clientSettings from '../client/settings'
-import api from 'cezerin-client';
-api.initAjax(clientSettings.ajaxBaseUrl);
 
 const getHead = () => {
   const helmet = Helmet.rewind();
@@ -32,22 +32,22 @@ const getHead = () => {
 }
 
 storeRouter.get('*', (req, res, next) => {
-  match({
-    routes,
-    location: req.url
-  }, (error, redirectLocation, renderProps) => {
-    if (error) {
-      res.status(500).send(error.message)
-    } else if (redirectLocation) {
-      res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-    } else if (renderProps) {
-      getInitialState(req).then(initialState => {
-        console.log(initialState);
-        if (initialState) {
+  getInitialState(req).then(initialState => {
+    if (initialState) {
+      const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
+      const routes = createRoutes(store);
 
-          const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
-          const {location, params, history} = renderProps
+      match({
+        routes,
+        location: req.url
+      }, (error, redirectLocation, renderProps) => {
+        if (error) {
+          res.status(500).send(error.message)
+        } else if (redirectLocation) {
+          res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+        } else if (renderProps) {
 
+          const {location, params, history} = renderProps;
           const contentHtml = renderToString(
             <Provider store={store}>
               <RouterContext {...renderProps}/>
@@ -57,17 +57,19 @@ storeRouter.get('*', (req, res, next) => {
           const state = store.getState()
           const head = getHead()
 
-          const pageHtml = Template({settings: {}, state, head, contentHtml});
-          res.status(200).send(pageHtml);
+          const html = Template({settings: {}, state, head, contentHtml});
+          res.status(200).send(html);
 
         } else {
           res.status(404).send('Not found')
         }
-      })
+      });
+
     } else {
       res.status(404).send('Not found')
     }
   });
-})
+
+});
 
 module.exports = storeRouter;

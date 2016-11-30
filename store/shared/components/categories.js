@@ -1,17 +1,17 @@
 import React from 'react';
 import {connect} from 'react-redux'
-import {setCategory} from '../actions'
 import Helmet from "react-helmet";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router'
 
-const Item = ({ selectedId, categories, category, onClick }) => (
-  <LinkContainer to={category.path}><NavItem onClick={() => { onClick(category.id) }}>{category.name}</NavItem></LinkContainer>
+const Item = ({ selectedId, categories, category }) => (
+  <LinkContainer to={category.path}><NavItem>{category.name}</NavItem></LinkContainer>
 )
 
-const List = ({ categories, selectedId, onClick }) => {
-  var rows = categories.filter(category => category.parent_id === null).map(category => <Item key={category.id} selectedId={selectedId} categories={categories} category={category} onClick={onClick} />);
+const List = ({ categories, currentCategory }) => {
+  let selectedId = currentCategory ? currentCategory.id : null;
+  var rows = categories.filter(category => category.parent_id === null).map(category => <Item key={category.id} selectedId={selectedId} categories={categories} category={category} />);
 
   return (
     <Navbar inverse collapseOnSelect>
@@ -37,16 +37,8 @@ const List = ({ categories, selectedId, onClick }) => {
 const mapStateToProps = (state) => {
   return {
     categories: state.app.categories,
-    selectedId: null
+    currentCategory: state.app.currentCategory
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onClick: (categoryId) => {
-      dispatch(setCategory(categoryId));
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(mapStateToProps)(List);

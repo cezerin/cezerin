@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux'
-// import {fetchProductCategories} from './actions'
 import Helmet from "react-helmet";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem, Grid, Row, Col, Thumbnail, Button} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap';
@@ -25,7 +24,6 @@ const ProductsListItem = ({ product }) => {
 const ProductsList = ({ products, currentPage }) => {
   return (
     <div>
-      <p>{JSON.stringify(currentPage)}</p>
       <Grid fluid={true}>
          <Row>
            {products.map(product => (<ProductsListItem key={product.id} product={product} />))}
@@ -44,9 +42,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // fetchData: () => {
-    //   dispatch(fetchProductCategories());
-    // }
   }
 }
 

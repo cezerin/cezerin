@@ -16,6 +16,7 @@ function receiveCategories(categories) {
 }
 
 export function receiveSitemap(currentPage) {
+  //console.log(currentPage);
   return {type: t.SITEMAP_RECEIVE, currentPage}
 }
 
@@ -33,6 +34,7 @@ export function setCategory(category_id) {
     const category = state.app.categories.find(c => c.id === category_id);
     dispatch(setCurrentCategory(category));
     dispatch(fetchProducts());
+    dispatch(receiveProduct(null))
   }
 }
 
@@ -75,16 +77,30 @@ const getCategories = () => {
 }
 
 const getProducts = (filter) => {
-  return api.ajax.products.categories.list().then(({status, json}) => json)
+  return api.ajax.products.list(filter).then(({status, json}) => json)
 }
 
-const getProduct = (product_id) => {
-  return api.ajax.products.retrieve(product_id).then(({status, json}) => json)
+const getProduct = (currentPage) => {
+  if (currentPage.type === 'product') {
+    return api.ajax.products.retrieve(currentPage.resource).then(({status, json}) => json)
+  } else {
+    return Promise.resolve();
+  }
 }
 
-const getCommonData = (req, currentPage) => {
-  return Promise.all([getCategories()]).then(([categories]) => {
-    return {categories}
+const getCommonData = (req, currentPage, productsFilter) => {
+  return Promise.all([
+    getCategories(),
+    getProduct(currentPage),
+    getProducts(productsFilter)
+  ]).then(([categories, product, products]) => {
+
+    let currentCategory = null;
+    if (currentPage.type === 'product-category') {
+      currentCategory = categories.find(c => c.id === currentPage.resource);
+    }
+
+    return {categories, product, products, currentCategory}
   });
 }
 
@@ -107,21 +123,16 @@ export const getInitialState = (req) => {
   return getCurrentPage(req.url).then(currentPage => {
     if (currentPage) {
       initialState.app.currentPage = currentPage;
-      return getCommonData(req, currentPage).then(commonData => {
+      if (currentPage.type === 'product-category') {
+        initialState.app.productsFilter.category_id = currentPage.resource;
+      }
+
+      return getCommonData(req, currentPage, initialState.app.productsFilter).then(commonData => {
         initialState.app.categories = commonData.categories;
-        if (currentPage.type === 'product-category') {
-          initialState.app.currentCategory = initialState.app.categories.find(c => c.id === currentPage.resource);
-          initialState.app.productsFilter.category_id = currentPage.resource;
-          return getProducts(initialState.app.productsFilter).then(products => {
-            initialState.app.products = products;
-            return initialState;
-          })
-        } else if (currentPage.type === 'product') {
-          return getProduct(currentPage.resource).then(product => {
-            initialState.app.currentProduct = product;
-            return initialState;
-          })
-        }
+        initialState.app.currentProduct = commonData.product;
+        initialState.app.products = commonData.products;
+        initialState.app.currentCategory = commonData.currentCategory;
+        return initialState;
       })
     } else {
       // page not found
