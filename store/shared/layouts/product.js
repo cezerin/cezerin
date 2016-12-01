@@ -1,6 +1,6 @@
 import React from 'react'
 import Helmet from "react-helmet";
-import Products from '../components/products'
+import ProductDetail from '../components/productDetail'
 import {Button, Grid, Row, Col, Image} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import Breadcrumbs from '../components/breadcrumbs'
@@ -10,10 +10,10 @@ const Layout = ({params, product}) => {
   if(product) {
     return (
       <div>
-        <Helmet title={product.name} meta={[
+        <Helmet title={product.meta_title} meta={[
           {
             "name": "description",
-            "content": "Product description"
+            "content": product.meta_description
           }, {
             "property": "og:type",
             "content": "article"
@@ -28,12 +28,11 @@ const Layout = ({params, product}) => {
             path: '/' + params.categorySlug,
             title: product.category_name
           }, {
-            path: '/' + params.categorySlug + '/' + params.productSlug,
+            path: product.path,
             title: product.name
           }
         ]}/>
-        <h1>{product.name}</h1>
-        <Image src={(product.images && product.images.length > 0) ? product.images[0].url : '/assets/images/placeholder.png'} responsive/>
+        <ProductDetail product={product} />
       </div>
     )
   } else {

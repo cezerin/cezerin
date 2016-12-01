@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from "react-helmet";
 import Products from '../components/products'
-import {Button, Grid, Row, Col} from 'react-bootstrap'
+import {PageHeader, Button, Grid, Row, Col} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
 import Breadcrumbs from '../components/breadcrumbs'
 import {connect} from 'react-redux'
@@ -26,7 +26,7 @@ const Layout = ({params, category}) => (
         title: category.name
       }
     ]}/>
-    <h1>{category.name}</h1>
+    <PageHeader>{category.name}</PageHeader>
     <Products/>
   </div>
 )
