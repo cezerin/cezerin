@@ -26,11 +26,11 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "admin-dev": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
-    "admin-build": "webpack -p --config webpack.config.admin.js --progress --colors",
-    "store-dev": "webpack -d --config webpack.config.store.js --watch --progress --colors",
-    "store-build": "webpack -p --config webpack.config.store.js --progress --colors",
-    "lint": "eslint src"
+    "start:admin": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
+    "start:store": "webpack -d --config webpack.config.store.js --watch --progress --colors",
+    "build:admin": "NODE_ENV=production webpack -p --config webpack.config.admin.js --progress --colors",
+    "build:store": "NODE_ENV=production webpack -p --config webpack.config.store.js --progress --colors",
+    "deploy": "npm run build:store && build:admin"
   },
   "dependencies": {
     "babel-register": "^6.18.0",
