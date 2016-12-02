@@ -11,6 +11,7 @@ Currently in development.
 ## Contributing
 
 ## Documentation
+(API Documentation)[https://doc.cezerin.com]
 
 ## Installing
 
