@@ -20,7 +20,7 @@ Currently in active development.
 
 ## Road Map
 
-1. ~~Products~~
+1. ~~**Products**~~
 2. Template
 3. Customers
 4. Orders
