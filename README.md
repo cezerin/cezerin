@@ -38,6 +38,7 @@ Currently in active development.
 ## Demo
 
 [Demo store](https://store.cezerin.com)
+
 [Demo dashboard](https://store.cezerin.com/admin)
 
 ## Contributing
@@ -67,7 +68,7 @@ npm install
 npm run deploy
 node index.js
 ```
-Then open http://localhost:3000 to see your app.
+Then open [http://localhost:3000](http://localhost:3000) to see your app.
 
 ### Configuration
 - MongoDB
