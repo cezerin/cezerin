@@ -50,16 +50,7 @@ If you can, please contribute by reporting issues, discussing ideas, or submitti
 [API Documentation](https://doc.cezerin.com)
 
 
-## Installing
-
-### Requirements
-
-* NodeJS
-* NPM
-* Mongodb
-* Nginx
-
-### Installation
+## Installation
 
 ```shell
 git clone https://github.com/cezerin/cezerin.git cezerin
@@ -70,7 +61,15 @@ node index.js
 ```
 Then open [http://localhost:3000](http://localhost:3000) to see your app.
 
+### Requirements
+
+* NodeJS
+* NPM
+* Mongodb
+* Nginx
+
 ### Configuration
+
 - MongoDB
 - API keys
 - Nginx
