@@ -1,0 +1,24 @@
+{
+  "name": "theme",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src -d dist"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.8",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-preset-latest": "^6.16.0",
+    "babel-preset-react": "^6.16.0",
+    "react": "^15.4.1",
+    "react-bootstrap": "^0.30.7",
+    "react-dom": "^15.4.1",
+    "react-router-bootstrap": "^0.23.1",
+    "webpack": "^1.13.3"
+  }
+}

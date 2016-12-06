@@ -7,11 +7,11 @@ var slugConfig = {
     lower: true           // result in lower case
 };
 
-cleanSlug = (text) => {
+const cleanSlug = (text) => {
   return slug(text || '', slugConfig);
 }
 
-getAvailableSlug = (path, resource) => {
+const getAvailableSlug = (path, resource) => {
   return SitemapService.getPaths()
   .then(paths => {
     path = cleanSlug(path);

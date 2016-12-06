@@ -3,7 +3,7 @@ const webpack = require( 'webpack' );
 var env = process.env.NODE_ENV;
 
 var config = {
-    entry: './store/client/index.js',
+    entry: './src/store/client/index.js',
 
     output: {
         path: './public/assets',

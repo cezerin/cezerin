@@ -2,8 +2,6 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var apiRouter = require('./api/server');
-
-require('babel-register')({presets: ['react']});
 var storeRouter = require('./store/server');
 var ajaxRouter = require('./store/server/ajax');
 

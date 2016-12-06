@@ -1,30 +1,30 @@
 var ObjectID = require('mongodb').ObjectID;
 var _ = require('lodash');
 
-getString = (value) => {
+const getString = (value) => {
   return value ? value.toString() : "";
 }
 
-getDateIfValid = (value) => {
+const getDateIfValid = (value) => {
   var date = Date.parse(value);
   return isNaN(date) ? null : new Date(date);
 }
 
-getArrayIfValid = (value) => {
+const getArrayIfValid = (value) => {
   return _.isArray(value) ? value : null;
 }
 
-getNumberIfValid = (value) => {
+const getNumberIfValid = (value) => {
   const n = parseFloat(value);
   return n ? n : null;
 }
 
-getNumberIfPositive = (value) => {
+const getNumberIfPositive = (value) => {
   const n = parseFloat(value);
   return n >= 0 ? n : null;
 }
 
-getBooleanIfValid = (value, defaultValue = null) => {
+const getBooleanIfValid = (value, defaultValue = null) => {
   if(value === null || value === undefined) {
   	return defaultValue;
   }
@@ -32,11 +32,11 @@ getBooleanIfValid = (value, defaultValue = null) => {
   return (value === "true" || value === "false") ? value === "true" : defaultValue;
 }
 
-getCurrencyIfValid = (value) => {
+const getCurrencyIfValid = (value) => {
   return (value && value.length === 3) ? value.toUpperCase() : null;
 }
 
-getObjectIDIfValid = (value) => {
+const getObjectIDIfValid = (value) => {
   return ObjectID.isValid(value) ? value : null;
 }
 

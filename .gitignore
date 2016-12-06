@@ -4,4 +4,5 @@ public/assets/js/bundle.*
 public/admin/assets/css/bundle.*
 public/admin/assets/js/bundle.*
 public/uploads
+dist/*
 npm-debug.log*
