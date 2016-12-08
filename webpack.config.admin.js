@@ -5,7 +5,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 var env = process.env.NODE_ENV;
 
 var config = {
-    entry: './admin/client/index.js',
+    entry: './src/admin/client/index.js',
 
     output: {
         path: './public/admin/assets',
@@ -14,10 +14,10 @@ var config = {
 
     resolve: {
       alias:{
-        src: path.resolve('./admin/client' ),
-        layout: path.resolve('./admin/client/layout' ),
-        modules: path.resolve('./admin/client/modules' ),
-        lib: path.resolve('./admin/client/lib' )
+        src: path.resolve('./src/admin/client' ),
+        layout: path.resolve('./src/admin/client/layout' ),
+        modules: path.resolve('./src/admin/client/modules' ),
+        lib: path.resolve('./src/admin/client/lib' )
       },
       extensions: ['', '.js', '.jsx', '.json']
     },

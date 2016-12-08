@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router'
 import { Grid, Row, Col} from 'react-bootstrap'
@@ -27,7 +26,7 @@ export default() => {
          </Row>
          <Row>
            <Col xs={12}>
-             <p style={{ textAlign:'center' }}>Copyright © 2016 Demo Drone Store. All Rights Reserved. <Link to="/">Privacy Policy</Link> <Link to="/">Terms of Use</Link>  <Link to="/">Site Map</Link>.</p>
+             <p style={{ textAlign:'center' }}>Copyright © 2017 Demo Drone Store. All Rights Reserved. <Link to="/">Privacy Policy</Link> <Link to="/">Terms of Use</Link>  <Link to="/">Site Map</Link>.</p>
            </Col>
          </Row>
        </Grid>

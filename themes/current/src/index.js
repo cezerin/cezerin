@@ -1,10 +1,6 @@
-import React from 'react'
-
-const Component = () => {
-  return <div>React component 1</div>
-}
-
-module.exports = {
-  title: "Home page title 2",
-  component: Component
-}
+export {default as SharedContainer} from './containers/shared'
+export {default as IndexContainer} from './containers/index'
+export {default as CategoryContainer} from './containers/category'
+export {default as ProductContainer} from './containers/product'
+export {default as NotFoundContainer} from './containers/notfound'
+export {default as CustomPageContainer} from './containers/customPage'

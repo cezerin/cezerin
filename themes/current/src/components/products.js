@@ -1,6 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import Helmet from "react-helmet";
 import {
   Navbar,
   Nav,
@@ -36,7 +34,7 @@ const ProductsListItem = ({product}) => {
   )
 }
 
-const ProductsList = ({products, currentPage}) => {
+const ProductsList = ({products}) => {
   return (
     <div>
       <Grid fluid={true}>
@@ -48,12 +46,4 @@ const ProductsList = ({products, currentPage}) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {products: state.app.products, currentPage: state.app.currentPage}
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
+export default ProductsList

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button, Carousel } from 'react-bootstrap'
+import {Button, Carousel} from 'react-bootstrap'
 
-const CarouselInstance = ({ }) => (
+const CarouselInstance = ({}) => (
   <Carousel>
     <Carousel.Item>
       <img width={900} height={500} alt="900x500" src="/static/files/slide1.jpg"/>
@@ -27,12 +27,8 @@ const CarouselInstance = ({ }) => (
   </Carousel>
 );
 
-
-
-const Layout = ({ }) => (
+export default({}) => (
   <div>
-    <CarouselInstance />
+    <CarouselInstance/>
   </div>
 )
-
-export default Layout

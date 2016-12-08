@@ -1,6 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux'
-import Helmet from "react-helmet";
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem} from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Link } from 'react-router'
@@ -9,7 +7,7 @@ const Item = ({ selectedId, categories, category }) => (
   <LinkContainer to={category.path}><NavItem>{category.name}</NavItem></LinkContainer>
 )
 
-const List = ({ categories, currentCategory }) => {
+const Header = ({ categories, currentCategory }) => {
   let selectedId = currentCategory ? currentCategory.id : null;
   var rows = categories.filter(category => category.parent_id === null).map(category => <Item key={category.id} selectedId={selectedId} categories={categories} category={category} />);
 
@@ -17,7 +15,7 @@ const List = ({ categories, currentCategory }) => {
     <Navbar inverse collapseOnSelect>
       <Navbar.Header>
         <Navbar.Brand>
-          <Link to="/">Drone Store</Link>
+          <Link to="/">Drone Store 2</Link>
         </Navbar.Brand>
         <Navbar.Toggle />
       </Navbar.Header>
@@ -34,11 +32,4 @@ const List = ({ categories, currentCategory }) => {
   )
 }
 
-const mapStateToProps = (state) => {
-  return {
-    categories: state.app.categories,
-    currentCategory: state.app.currentCategory
-  }
-}
-
-export default connect(mapStateToProps)(List);
+export default Header
