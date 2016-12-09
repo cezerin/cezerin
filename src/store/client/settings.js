@@ -1,5 +1,2 @@
-const settings = {
-  ajaxBaseUrl: 'http://localhost/ajax'
-}
-
-export default settings;
+import settings from '../../../config/clientSide'
+export default settings
