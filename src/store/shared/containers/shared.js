@@ -4,6 +4,7 @@ import {SharedContainer} from 'theme'
 
 const mapStateToProps = (state) => {
   return {
+    language: state.app.language,
     location: state.app.location,
     currentPage: state.app.currentPage,
     currentCategory: state.app.currentCategory,

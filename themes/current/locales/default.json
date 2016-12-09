@@ -1,0 +1,9 @@
+{
+  "cart": {
+    "title":"cart",
+    "empty":"Cart is empty"
+  },
+  "footer": {
+    "copyright": "Copyright © 2017 Demo Drone Store. All Rights Reserved."
+  }
+}

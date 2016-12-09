@@ -107,6 +107,7 @@ const getCommonData = (req, currentPage, productsFilter) => {
 export const getInitialState = (req) => {
   let initialState = {
     app: {
+      language: clientSettings.language,
       location: null,
       currentPage: null,
       currentCategory: null,

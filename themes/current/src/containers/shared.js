@@ -3,6 +3,7 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 
 export default({
+  language,
   children,
   location,
   currentPage,
@@ -13,7 +14,8 @@ export default({
   productsFilter
 }) => (
   <div id="wrapper" className="wrapper">
-    <Header categories={categories} currentCategory={currentCategory}/> {children}
+    <Header categories={categories} currentCategory={currentCategory}/>
+    {children}
     <Footer/>
   </div>
 )
