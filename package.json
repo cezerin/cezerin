@@ -31,11 +31,13 @@
     "dev:server": "babel src -d dist --watch",
     "dev:start": "nodemon --watch dist dist/index.js",
     "dev": "npm run dev:store & npm run dev:admin & npm run dev:server & npm run dev:start",
-    "update-theme": "cd ./themes/current; npm run build; cd ../../; npm install theme; ./script/copy-theme-assets.sh",
+    "theme:update": "cd ./themes/current && npm run build && cd ../../ && npm install theme && ./scripts/theme-copy-assets.sh",
+    "theme:install": "./scripts/theme-install.sh",
+    "theme:zip": "./scripts/theme-zip.sh",
     "build:admin": "NODE_ENV=production webpack -p --config webpack.config.admin.js --progress --colors",
     "build:store": "NODE_ENV=production webpack -p --config webpack.config.store.js --progress --colors",
     "build:server": "babel src -d dist",
-    "build": "npm run update-theme && npm run build:server && npm run build:store && npm run build:admin",
+    "build": "npm run theme:update && npm run build:server && npm run build:store && npm run build:admin",
     "start": "node dist/index.js"
   },
   "dependencies": {
