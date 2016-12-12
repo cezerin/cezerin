@@ -21,7 +21,7 @@ Currently in active development.
 ## Road Map
 
 1. ~~**Products**~~
-2. Template   <-- we are here
+2. Template **<====== we are here**
 3. Customers
 4. Orders
 5. Custom pages
