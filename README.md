@@ -21,7 +21,7 @@ Currently in active development.
 ## Road Map
 
 1. ~~**Products**~~
-2. Template
+2. Template   <-- we are here
 3. Customers
 4. Orders
 5. Custom pages
@@ -34,6 +34,8 @@ Currently in active development.
 12. Refactoring and performance
 13. Translations for admin
 14. Metrics and analytics
+15. Dashboard app for mobile (Electron)
+
 
 ## Demo
 
