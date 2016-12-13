@@ -17,5 +17,6 @@ export default({
     <Header categories={categories} currentCategory={currentCategory}/>
     {children}
     <Footer/>
+	<p>END OF FILE</p>
   </div>
 )

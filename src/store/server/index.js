@@ -32,44 +32,48 @@ const getHead = () => {
 }
 
 storeRouter.get('*', (req, res, next) => {
-  theme.readTemplate().then(templateHtml => {
-    getInitialState(req).then(initialState => {
-      if (initialState) {
-        const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
-        const routes = createRoutes(store);
+  theme.readBuildManifest().then(buildManifestJSON => {
+    theme.readTemplate().then(templateHtml => {
+      getInitialState(req).then(initialState => {
+        if (initialState) {
+          const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
+          const routes = createRoutes(store);
 
-        match({
-          routes,
-          location: req.url
-        }, (error, redirectLocation, renderProps) => {
-          if (error) {
-            res.status(500).send(error.message)
-          } else if (redirectLocation) {
-            res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-          } else if (renderProps) {
+          match({
+            routes,
+            location: req.url
+          }, (error, redirectLocation, renderProps) => {
+            if (error) {
+              res.status(500).send(error.message)
+            } else if (redirectLocation) {
+              res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+            } else if (renderProps) {
 
-            const {location, params, history} = renderProps;
-            const contentHtml = renderToString(
-              <Provider store={store}>
-                <RouterContext {...renderProps}/>
-              </Provider>
-            )
+              const {location, params, history} = renderProps;
+              const contentHtml = renderToString(
+                <Provider store={store}>
+                  <RouterContext {...renderProps}/>
+                </Provider>
+              )
 
-            const state = store.getState();
-            const head = getHead();
-            const html = templateHtml.replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
+              const state = store.getState();
+              const head = getHead();
+              const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
 
-            res.status(200).send(html);
+              res.status(200).send(html);
 
-          } else {
-            res.status(404).send('Not found')
-          }
-        });
+            } else {
+              res.status(404).send('Not found')
+            }
+          });
 
-      } else {
-        res.status(404).send('Not found')
-      }
-    })
+        } else {
+          res.status(404).send('Not found')
+        }
+      })
+    }).catch(err => {
+      res.status(500).send(err)
+    });
   }).catch(err => {
     res.status(500).send(err)
   });

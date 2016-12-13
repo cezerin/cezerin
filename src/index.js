@@ -4,8 +4,10 @@ var bodyParser = require('body-parser');
 var apiRouter = require('./api/server');
 var storeRouter = require('./store/server');
 var ajaxRouter = require('./store/server/ajax');
+var responseTime = require('response-time');
 
 app.disable('x-powered-by');
+app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

@@ -2,6 +2,7 @@ node_modules
 public/assets/*
 public/admin/assets/css/bundle.*
 public/admin/assets/js/bundle.*
+public/admin/assets/js/vendor.bundle.*
 public/uploads
 themes/current/dist/*
 themes/*.zip

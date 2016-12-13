@@ -10,6 +10,7 @@ var utils = require('./lib/utils');
 const СategoriesController = require('./controllers/products/categories');
 const ProductsController = require('./controllers/products/products');
 const SitemapController = require('./controllers/sitemap');
+const ThemesController = require('./controllers/themes');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -25,6 +26,7 @@ apiRouter.post('/authorize', auth.login);
 var cat = new СategoriesController(apiRouter);
 var prod = new ProductsController(apiRouter);
 var sitemap = new SitemapController(apiRouter);
+var themes = new ThemesController(apiRouter);
 
 apiRouter.use(function(err, req, res, next) {
   if(err && err.name === 'UnauthorizedError') {

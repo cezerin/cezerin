@@ -33,11 +33,12 @@
     "dev": "npm run dev:store & npm run dev:admin & npm run dev:server & npm run dev:start",
     "theme:update": "cd ./themes/current && npm run build && cd ../../ && npm install theme && ./scripts/theme-copy-assets.sh",
     "theme:install": "./scripts/theme-install.sh",
-    "theme:zip": "./scripts/theme-zip.sh",
-    "build:admin": "NODE_ENV=production webpack -p --config webpack.config.admin.js --progress --colors",
-    "build:store": "NODE_ENV=production webpack -p --config webpack.config.store.js --progress --colors",
-    "build:server": "babel src -d dist",
-    "build": "npm run theme:update && npm run build:server && npm run build:store && npm run build:admin",
+    "theme:export": "./scripts/theme-export.sh",
+    "build:admin": "NODE_ENV=production webpack -p --config webpack.config.admin.js",
+    "build:store": "NODE_ENV=production webpack -p --config webpack.config.store.js",
+    "build:server": "babel src -d dist --quiet",
+    "build:theme": "npm run theme:update --silent && npm run build:store",
+    "build": "npm run theme:update --silent && npm run build:server && npm run build:store && npm run build:admin",
     "start": "node dist/index.js"
   },
   "dependencies": {
@@ -84,9 +85,11 @@
     "redux-form": "^6.1.0",
     "redux-form-material-ui": "^4.1.0",
     "redux-thunk": "^2.1.0",
+    "response-time": "^2.3.2",
     "slug": "^0.9.1",
     "theme": "file:themes/current",
-    "webpack": "^1.13.2"
+    "webpack": "^1.13.2",
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

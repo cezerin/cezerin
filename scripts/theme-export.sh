@@ -14,4 +14,4 @@ cd themes/current
 zip -rq9 ../$fileName . -x node_modules\* dist\*
 
 # 3. show success message
-echo Zip $fileName successfully created.
+echo success
