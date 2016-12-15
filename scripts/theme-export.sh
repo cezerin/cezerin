@@ -9,9 +9,14 @@ if [ $# -ne 0 ]; then
     fileName=$1
 fi
 
-# 2. zip current theme
-cd themes/current
-zip -rq9 ../$fileName . -x node_modules\* dist\*
+# 2. delete zip if exists
+if [ -f "public/$fileName" ]; then
+    rm public/$fileName
+fi
 
-# 3. show success message
+# 3. zip current theme
+cd themes/current
+zip -rq9 ../../public/$fileName . -x node_modules\* dist\*
+
+# 4. show success message
 echo success

@@ -28,11 +28,11 @@ export default() => {
          </Row>
          <Row>
            <Col xs={12}>
-             <p style={{ textAlign:'center' }}>{text.footer.copyright} <Link to="/">Privacy Policy</Link> <Link to="/">Terms of Use</Link>  <Link to="/">Site Map</Link>.</p>
              <p>
-               <img src="/assets/images/payment/paypal.svg" alt="paypal" />
-               <img src="/assets/images/payment/alipay.svg" alt="alipay" />               
+               <img src="/assets/images/payment/paypal.svg" alt="paypal" width="60" />
+               <img src="/assets/images/payment/alipay.svg" alt="alipay" width="60" />
              </p>
+             <p style={{ textAlign:'center' }}>{text.footer.copyright} <Link to="/">Privacy Policy</Link> <Link to="/">Terms of Use</Link>  <Link to="/">Site Map</Link>.</p>
            </Col>
          </Row>
        </Grid>

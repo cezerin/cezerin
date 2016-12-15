@@ -10,7 +10,7 @@ if [ $# -eq 0 ]; then
 fi
 
 # 1. check file exists
-if [ ! -f "themes/$fileName" ]; then
+if [ ! -f "public/$fileName" ]; then
     echo "File not found!"
     exit 1
 fi
@@ -22,10 +22,10 @@ mkdir -p themes/current
 rm -rf themes/current/
 
 # 4. unzip to current theme
-unzip "themes/$fileName" -d "themes/current"
+unzip "public/$fileName" -d "themes/current"
 cd themes/current
 npm install
 cd ../../
 
 # 5. show success message
-echo -e '\e[1;92m'Theme $fileName successfully installed in themes/current/'\e[0m'
+echo -e '\e[1;92m'Theme $fileName successfully installed'\e[0m'

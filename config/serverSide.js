@@ -3,7 +3,7 @@ const rootDir = '/var/www/cezerin';
 
 module.exports = {
   language: 'en',
-  
+
   security: {
     jwtSecret: 'QjiYppcTZOBGHfFD4g0mZD'
   },

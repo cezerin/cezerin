@@ -105,6 +105,19 @@
     "title": "Categories",
     "aboutDelete": "Will delete category {name} with all childs.",
     "active": "Active"
+  },
+
+  "settings": {
+    "themeExportDesciption": "Download current theme as zip file.",
+    "themeInstallDesciption": "Install theme from zip file. It take a lot of time.",
+    "themeExport": "Download",
+    "themeInstall": "Install",
+    "themeExporting": "Exporting...",
+    "themeInstalling": "Installing...",
+    "theme": "Theme",
+    "general": "General",
+    "payments": "Payments/Checkout",
+    "shipping": "Shipping"
   }
 
 }

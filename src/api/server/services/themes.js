@@ -3,17 +3,19 @@
 const exec = require('child_process').exec;
 const path = require('path');
 const formidable = require('formidable');
+const settings = require('../lib/settings');
 
 class ThemesService {
   constructor() {}
 
   exportCurrentTheme(req, res) {
-    exec('npm run theme:export', (error, stdout, stderr) => {
+    const randomFileName = Math.floor(Math.random() * 10000);
+    exec(`npm --silent run theme:export -- ${randomFileName}.zip`, (error, stdout, stderr) => {
       if (error) {
         res.status(500).send(this.getErrorMessage(error));
       } else {
-        if (stdout.endsWith('success')) {
-          res.send({'file': 'themes/current/theme.zip'});
+        if (stdout.includes('success')) {
+          res.send({'file': `${settings.store.url.base}/${randomFileName}.zip`});
         } else {
           res.status(500).send(this.getErrorMessage('Something went wrong in scripts'));
         }
@@ -47,7 +49,7 @@ class ThemesService {
     form.on('fileBegin', (name, file) => {
       // Emitted whenever a field / value pair has been received.
       if (file.name.endsWith('.zip')) {
-        let dir = path.resolve('themes');
+        let dir = path.resolve('public');
         file.path = dir + '/' + file.name;
       }
       // else - will save to /tmp

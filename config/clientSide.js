@@ -76,21 +76,13 @@ module.exports = {
         title: '-',
         url: 'settings'
       }, {
-        title: 'General',
+        title: 'Settings',
         url: '/admin/settings',
         icon: 'settings'
       }, {
-        title: 'Shipping',
-        url: '/admin/settings/shipping',
-        icon: 'local_shipping'
-      }, {
-        title: 'Payments/Checkout',
-        url: '/admin/settings/payments',
-        icon: 'payment'
-      }, {
         title: 'Logout',
         url: '/admin/logout',
-        icon: 'menu'
+        icon: 'exit_to_app'
       }
     ]
   }
