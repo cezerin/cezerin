@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import { TextField, Toggle } from 'redux-form-material-ui'
 
 import ImageUpload from 'modules/shared/image-upload'
-import messages from 'src/locale'
+import messages from 'src/locales'
 import style from './style.css'
 import settings from 'lib/settings'
 import api from 'lib/api'
@@ -80,7 +80,7 @@ class Form extends React.Component {
                 <Field name="active" component={Toggle} label={messages.productCategories.active} className={style.toggle}/><br />
                 <ImageUpload
                   imageUrl={imageUrl}
-                  postUrl={`${settings.api.url.base}products/categories/${categoryId}/image`}
+                  postUrl={`${settings.apiBaseUrl}products/categories/${categoryId}/image`}
                   apiToken={apiToken}
                   onDelete={() => { api.products.categories.deleteImage(categoryId); }}
                   onUpload={() => {}}

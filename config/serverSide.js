@@ -2,6 +2,7 @@ const domain = 'http://localhost';
 const rootDir = '/var/www/cezerin';
 
 module.exports = {
+  storeBaseUrl: domain,
   language: 'en',
 
   security: {
@@ -26,11 +27,7 @@ module.exports = {
       files: `${domain}/static/files`
     }
   },
-  store: {
-    url: {
-      base: `${domain}`
-    }
-  },
+
   api: {
     baseUrl: `${domain}/api`,
     token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNDc0OTgxNTE1fQ.dEyqeTPqFErKqoFKXTi6joNMn8UHgTvGWsjNMHJ7owY'

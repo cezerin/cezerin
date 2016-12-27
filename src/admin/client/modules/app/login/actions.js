@@ -28,13 +28,13 @@ const loginError = (error) => ({
 export const loginUser = (email, pass) => {
     return (dispatch, getState) => {
         dispatch(requestLogin(email, pass));
-        return api.authorize(settings.api.url.base, email, pass).then(({status, json}) => {
+        return api.authorize(settings.apiBaseUrl, email, pass).then(({status, json}) => {
             console.log(status);
             console.log(json);
             if (json.token) {
                 localStorage.setItem('token', json.token);
                 localStorage.setItem('user', email);
-                api.init(settings.api.url.base, json.token);
+                api.init(settings.apiBaseUrl, json.token);
 
                 dispatch(receiveLogin(email, json.token));
                 dispatch(push(settings.admin.pages.home));

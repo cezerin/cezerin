@@ -118,6 +118,18 @@
     "general": "General",
     "payments": "Payments/Checkout",
     "shipping": "Shipping"
+  },
+
+  "drawer": {
+    "title": "Menu",
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "orders": "Orders",
+    "orderCategories": "Order categories",
+    "customers": "Customers",
+    "settings": "Settings",
+    "logout": "Logout"
   }
 
 }

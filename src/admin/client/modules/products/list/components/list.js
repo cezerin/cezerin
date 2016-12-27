@@ -6,7 +6,7 @@ import ProductsListItem from './item'
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import messages from 'src/locale'
+import messages from 'src/locales'
 import style from './style.css'
 
 export default class ProductsList extends React.Component {

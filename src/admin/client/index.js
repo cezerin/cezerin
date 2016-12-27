@@ -7,20 +7,20 @@ import thunkMiddleware from 'redux-thunk'
 import {syncHistoryWithStore, routerReducer, routerMiddleware, push} from 'react-router-redux'
 
 import settings from 'lib/settings'
-import messages from 'src/locale'
+import messages from 'src/locales'
 import reducers from 'src/rootReducer'
 
-import layoutLogin from 'layout/login'
-import layoutShared from 'layout/shared'
-import layoutHome from 'layout/home'
-import layoutNotFound from 'layout/404'
-import layoutProducts from 'layout/products'
-import layoutProductsEdit from 'layout/products/edit'
-import layoutProductsCategories from 'layout/products/categories'
+import layoutLogin from 'layouts/login'
+import layoutShared from 'layouts/shared'
+import layoutHome from 'layouts/home'
+import layoutNotFound from 'layouts/404'
+import layoutProducts from 'layouts/products'
+import layoutProductsEdit from 'layouts/products/edit'
+import layoutProductsCategories from 'layouts/products/categories'
 
-import layoutSettingsShared from 'layout/settings/shared'
-import layoutSettingsGeneral from 'layout/settings/general'
-import layoutSettingsThemes from 'layout/settings/themes'
+import layoutSettingsShared from 'layouts/settings/shared'
+import layoutSettingsGeneral from 'layouts/settings/general'
+import layoutSettingsThemes from 'layouts/settings/themes'
 
 const routerMiddlewareConst = routerMiddleware(browserHistory);
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddlewareConst));

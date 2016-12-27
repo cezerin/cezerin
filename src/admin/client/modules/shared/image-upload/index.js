@@ -1,5 +1,5 @@
 import React from 'react'
-import messages from 'src/locale'
+import messages from 'src/locales'
 import Dropzone from 'react-dropzone';
 
 import Paper from 'material-ui/Paper';

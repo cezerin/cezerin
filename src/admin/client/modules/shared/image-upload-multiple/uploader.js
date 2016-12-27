@@ -1,6 +1,6 @@
 import React from 'react'
 import Dropzone from 'react-dropzone';
-import messages from 'src/locale'
+import messages from 'src/locales'
 import style from './style.css'
 
 import Snackbar from 'material-ui/Snackbar';

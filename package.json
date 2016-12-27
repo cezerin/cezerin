@@ -62,6 +62,7 @@
     "formidable": "^1.0.17",
     "fs-extra": "^0.30.0",
     "fs-plus": "^2.9.3",
+    "html-webpack-plugin": "^2.24.1",
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.1.9",
     "lodash": "^4.16.4",

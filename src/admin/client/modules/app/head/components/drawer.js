@@ -29,7 +29,7 @@ let styles = {
   }
 }
 
-const SideBar = ({ open, handleClose, menu, title, currentUrl }) => {
+const SideBar = ({ open, handleClose, items, title, currentUrl }) => {
   return (
     <Drawer
       docked={false}
@@ -50,7 +50,7 @@ const SideBar = ({ open, handleClose, menu, title, currentUrl }) => {
       />
 
       <Menu onItemTouchTap={handleClose} value={currentUrl} selectedMenuItemStyle={styles.selected} disableAutoFocus={true}>
-        {menu.map((item) => {
+        {items.map((item) => {
           if(item.title === '-') {
             return <Divider key={item.url} />
           } else {

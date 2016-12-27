@@ -1,7 +1,7 @@
 import React from 'react'
 import Subheader from 'material-ui/Subheader';
 import Checkbox from 'material-ui/Checkbox';
-import messages from 'src/locale'
+import messages from 'src/locales'
 
 export default ({ onSelectAll }) => (
   <Subheader>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router'
 
 import settings from 'lib/settings'
-import messages from 'src/locale'
+import messages from 'src/locales'
 import ProductCategoryHead from 'modules/product-categories/head/index'
 import ProductsHead from 'modules/products/head/index'
 import Drawer from './drawer'
@@ -13,6 +13,45 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import LinearProgress from 'material-ui/LinearProgress';
+
+let drawerItems = [
+  {
+    title: messages.drawer.home,
+    url: '/admin',
+    icon: 'home'
+  }, {
+    title: messages.drawer.products,
+    url: '/admin/products',
+    icon: 'local_offer'
+  }, {
+    title: messages.drawer.categories,
+    url: '/admin/products/categories',
+    icon: 'folder'
+  }, {
+    title: messages.drawer.orders,
+    url: '/admin/orders',
+    icon: 'shopping_cart'
+  }, {
+    title: messages.drawer.orderCategories,
+    url: '/admin/orders/categories',
+    icon: 'folder'
+  }, {
+    title: messages.drawer.customers,
+    url: '/admin/customers',
+    icon: 'people'
+  }, {
+    title: '-',
+    url: 'settings'
+  }, {
+    title: messages.drawer.settings,
+    url: '/admin/settings',
+    icon: 'settings'
+  }, {
+    title: messages.drawer.logout,
+    url: '/admin/logout',
+    icon: 'exit_to_app'
+  }
+]
 
 export default class AppBarTop extends React.Component {
   constructor(props) {
@@ -26,7 +65,6 @@ export default class AppBarTop extends React.Component {
   render() {
     const { isLoading, category, selectedProducts } = this.props;
     const location = this.props.location.pathname;
-    const menu = settings.admin.menu;
 
     let title = 'Dashboard';
     let leftButton = <IconButton onTouchTap={this.handleToggle}><FontIcon className="material-icons">menu</FontIcon></IconButton>;
@@ -73,7 +111,7 @@ export default class AppBarTop extends React.Component {
           iconElementRight={rightElements}
         />
 
-        <Drawer open={this.state.open} handleClose={(open) => this.handleClose()} menu={menu} title={<span>Menu</span>} currentUrl={location} />
+        <Drawer open={this.state.open} handleClose={(open) => this.handleClose()} items={drawerItems} title={<span>{messages.drawer.title}</span>} currentUrl={location} />
       </div>
     );
   }

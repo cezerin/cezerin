@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var env = process.env.NODE_ENV;
 
@@ -24,14 +25,15 @@ var config = {
   },
 
   output: {
-    path: './public/admin/assets',
-    filename: 'js/bundle.js'
+    publicPath: '/admin/',
+    path: './public/admin/',
+    filename: 'assets/js/app-[chunkhash].js'
   },
 
   resolve: {
     alias: {
       src: path.resolve('./src/admin/client'),
-      layout: path.resolve('./src/admin/client/layout'),
+      layouts: path.resolve('./src/admin/client/layouts'),
       modules: path.resolve('./src/admin/client/modules'),
       lib: path.resolve('./src/admin/client/lib')
     },
@@ -56,8 +58,9 @@ var config = {
   },
 
   plugins: [
-    new ExtractTextPlugin("css/bundle.css"),
-    new webpack.optimize.CommonsChunkPlugin("vendor", "js/vendor.bundle.js")
+    new ExtractTextPlugin("assets/css/bundle-[chunkhash].css"),
+    new webpack.optimize.CommonsChunkPlugin("vendor", "assets/js/vendor-[chunkhash].js"),
+    new HtmlWebpackPlugin({template: 'src/admin/client/index.template.ejs', inject: 'body', 'filename':'index.html'})
   ]
 };
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import messages from 'src/locale'
+import messages from 'src/locales'
 import CategorySelect from 'modules/product-categories/select'
 
 import FontIcon from 'material-ui/FontIcon';

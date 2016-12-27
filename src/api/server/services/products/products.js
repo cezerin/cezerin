@@ -667,7 +667,7 @@ class ProductsService {
             }
 
             if(item.url === "") {
-              item.url = path.join(settings.store.url.base, category.slug || '', item.slug || '');
+              item.url = path.join(settings.storeBaseUrl, category.slug || '', item.slug || '');
             }
 
             if(item.path === "") {

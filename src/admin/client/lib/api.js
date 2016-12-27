@@ -3,7 +3,7 @@ import settings from 'lib/settings'
 
 let token = localStorage.getItem('token');
 if(token) {
-  api.init(settings.api.url.base, token);
+  api.init(settings.apiBaseUrl, token);
 }
 
 export default api;

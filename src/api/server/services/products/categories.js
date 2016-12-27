@@ -212,7 +212,7 @@ class CategoriesService {
         item.parent_id = item.parent_id.toString();
       }
 
-      item.url = url.resolve(settings.store.url.base, item.slug || '');
+      item.url = url.resolve(settings.storeBaseUrl, item.slug || '');
       item.path = url.resolve('/', item.slug || '');
 
       if(!_.isEmpty(item.image)) {
