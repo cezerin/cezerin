@@ -1,21 +1,21 @@
 'use strict';
 
-var CategoriesService = require('../../services/products/categories');
+var CategoriesService = require('../services/product_categories');
 
-class CategoriesController {
+class ProductCategoriesController {
   constructor(router) {
         this.router = router;
         this.registerRoutes();
   }
 
   registerRoutes() {
-       this.router.get('/products/categories', this.getCategories.bind(this));
-       this.router.get('/products/categories/:id', this.getSingleCategory.bind(this));
-       this.router.post('/products/categories/', this.addCategory.bind(this));
-       this.router.put('/products/categories/:id', this.updateCategory.bind(this));
-       this.router.delete('/products/categories/:id', this.deleteCategory.bind(this));
-       this.router.post('/products/categories/:id/image', this.uploadCategoryImage.bind(this));
-       this.router.delete('/products/categories/:id/image', this.deleteCategoryImage.bind(this));
+       this.router.get('/product_categories', this.getCategories.bind(this));
+       this.router.post('/product_categories', this.addCategory.bind(this));
+       this.router.get('/product_categories/:id', this.getSingleCategory.bind(this));
+       this.router.put('/product_categories/:id', this.updateCategory.bind(this));
+       this.router.delete('/product_categories/:id', this.deleteCategory.bind(this));
+       this.router.post('/product_categories/:id/image', this.uploadCategoryImage.bind(this));
+       this.router.delete('/product_categories/:id/image', this.deleteCategoryImage.bind(this));
    }
 
    getCategories(req, res) {
@@ -76,4 +76,4 @@ class CategoriesController {
    }
 }
 
-module.exports = CategoriesController;
+module.exports = ProductCategoriesController;

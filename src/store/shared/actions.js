@@ -40,7 +40,7 @@ export function setCategory(category_id) {
 
 export function fetchCategories() {
   return (dispatch, getState) => {
-    return api.ajax.products.categories.list().then(({status, json}) => {
+    return api.ajax.product_categories.list().then(({status, json}) => {
       dispatch(receiveCategories(json))
     }).catch(error => {});
   }
@@ -73,7 +73,7 @@ const getCurrentPage = (path) => {
 }
 
 const getCategories = () => {
-  return api.ajax.products.categories.list().then(({status, json}) => json)
+  return api.ajax.product_categories.list().then(({status, json}) => json)
 }
 
 const getProducts = (filter) => {

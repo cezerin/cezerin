@@ -17,14 +17,14 @@ ajaxRouter.get('/products/:id', (req, res, next) => {
   })
 })
 
-ajaxRouter.get('/products/categories', (req, res, next) => {
-  api.products.categories.list().then(({status, json}) => {
+ajaxRouter.get('/product_categories', (req, res, next) => {
+  api.product_categories.list().then(({status, json}) => {
     res.send(json);
   })
 })
 
-ajaxRouter.get('/products/categories/:id', (req, res, next) => {
-  api.products.categories.retrieve(req.params.id).then(({status, json}) => {
+ajaxRouter.get('/product_categories/:id', (req, res, next) => {
+  api.product_categories.retrieve(req.params.id).then(({status, json}) => {
     res.send(json);
   })
 })

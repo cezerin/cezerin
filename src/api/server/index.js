@@ -7,11 +7,12 @@ var auth = require('./lib/auth');
 var mongo = require('./lib/mongo');
 var utils = require('./lib/utils');
 
-const СategoriesController = require('./controllers/products/categories');
-const ProductsController = require('./controllers/products/products');
+const ProductСategoriesController = require('./controllers/product_categories');
+const ProductsController = require('./controllers/products');
 const SitemapController = require('./controllers/sitemap');
 const ThemesController = require('./controllers/themes');
-const CustomersController = require('./controllers/customers/customers');
+const CustomersController = require('./controllers/customers');
+const CustomerGroupsController = require('./controllers/customer_groups');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -24,11 +25,12 @@ apiRouter.all('/*', function(req, res, next) {
 apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: ['/api/authorize']}));
 apiRouter.post('/authorize', auth.login);
 
-var cat = new СategoriesController(apiRouter);
-var prod = new ProductsController(apiRouter);
+var products = new ProductsController(apiRouter);
+var product_categories = new ProductСategoriesController(apiRouter);
 var sitemap = new SitemapController(apiRouter);
 var themes = new ThemesController(apiRouter);
 var customers = new CustomersController(apiRouter);
+var customer_groups = new CustomerGroupsController(apiRouter);
 
 apiRouter.use(function(err, req, res, next) {
   if(err && err.name === 'UnauthorizedError') {

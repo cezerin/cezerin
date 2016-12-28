@@ -82,7 +82,7 @@ class Form extends React.Component {
                   imageUrl={imageUrl}
                   postUrl={`${settings.apiBaseUrl}products/categories/${categoryId}/image`}
                   apiToken={apiToken}
-                  onDelete={() => { api.products.categories.deleteImage(categoryId); }}
+                  onDelete={() => { api.product_categories.deleteImage(categoryId); }}
                   onUpload={() => {}}
                  />
               </div>

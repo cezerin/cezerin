@@ -82,7 +82,7 @@ function successReplaceCategory(newParentId) {
 function fetchCategories() {
   return dispatch => {
     dispatch(requestCategories());
-    return api.products.categories.list()
+    return api.product_categories.list()
       .then(({status, json}) => {
         json = json.sort((a,b) => (a.position - b.position ));
 
@@ -120,7 +120,7 @@ export function fetchCategoriesIfNeeded() {
 function sendUpdateCategory(id, data) {
   return dispatch => {
     dispatch(requestUpdateCategory(id));
-    return api.products.categories.update(id, data)
+    return api.product_categories.update(id, data)
       .then(({status, json}) => {
           dispatch(receiveUpdateCategory());
           dispatch(fetchCategories());
@@ -139,7 +139,7 @@ export function updateCategory(data) {
 
 export function createCategory() {
   return (dispatch, getState) => {
-    return api.products.categories.create({ active: false })
+    return api.product_categories.create({ active: false })
       .then(({status, json}) => {
           dispatch(successCreateCategory(json.id));
           dispatch(fetchCategories());
@@ -154,7 +154,7 @@ export function createCategory() {
 
 export function deleteCategory(id) {
   return (dispatch, getState) => {
-    return api.products.categories.delete(id)
+    return api.product_categories.delete(id)
       .then(({status, json}) => {
         if(status === 200) {
           dispatch(successDeleteCategory(id));
@@ -183,9 +183,9 @@ function moveCategory(allCategories = [], selectedCategory, isUp = true) {
       let targetCategory = allCategories[0];
       let newPosition = targetCategory.position;
 
-      api.products.categories.update(selectedCategory.id, { position: targetCategory.position })
+      api.product_categories.update(selectedCategory.id, { position: targetCategory.position })
       .then(() => {
-        api.products.categories.update(targetCategory.id, { position: selectedCategory.position })
+        api.product_categories.update(targetCategory.id, { position: selectedCategory.position })
         .then(() => {
           resolve(newPosition);
         })
@@ -236,7 +236,7 @@ export function replaceCategory(parentId) {
     let state = getState();
     var selectedCategory = state.productCategories.items.find((item) => (item.id === state.productCategories.selectedId));
 
-    return api.products.categories.update(selectedCategory.id, { parent_id: parentId })
+    return api.product_categories.update(selectedCategory.id, { parent_id: parentId })
       .then(({status, json}) => {
           dispatch(successReplaceCategory());
           dispatch(fetchCategories());

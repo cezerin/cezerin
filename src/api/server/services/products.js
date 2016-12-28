@@ -1,11 +1,11 @@
 'use strict';
 
 const path = require('path');
-const settings = require('../../lib/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var CategoriesService = require('./categories');
+const settings = require('../lib/settings');
+var mongo = require('../lib/mongo');
+var utils = require('../lib/utils');
+var parse = require('../lib/parse');
+var CategoriesService = require('./product_categories');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');

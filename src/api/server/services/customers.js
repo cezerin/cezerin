@@ -1,10 +1,11 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
+var mongo = require('../lib/mongo');
+var utils = require('../lib/utils');
+var parse = require('../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var _ = require('lodash');
+var customerGroupsService = require('./customer_groups');
 
 class CustomersService {
   constructor() {}
@@ -25,7 +26,13 @@ class CustomersService {
     // gender
     // search
 
-    return mongo.db.collection('customers').find().toArray().then(items => items.map(item => this.renameDocumentFields(item)))
+    return customerGroupsService.getGroups().then(customerGroups => mongo.db.collection('customers').find().toArray().then(customes => customes.map(customer => {
+      const customerGroup = customer.group_id
+        ? customerGroups.find(group => group.id === customer.group_id)
+        : null;
+
+      return this.renameDocumentFields(customer, customerGroup)
+    })));
   }
 
   getSingleCustomer(id) {
@@ -34,7 +41,14 @@ class CustomersService {
     }
     let customerObjectID = new ObjectID(id);
 
-    return mongo.db.collection('customers').findOne({_id: customerObjectID}).then(item => this.renameDocumentFields(item))
+    return mongo.db.collection('customers').findOne({_id: customerObjectID}).then(customer => {
+      return customer && customer.group_id
+        ? customerGroupsService.getSingleGroup(customer.group_id).then(customerGroup => ({customer, group: customerGroup}))
+        : {
+          customer,
+          group: null
+        };
+    }).then(({customer, group}) => this.renameDocumentFields(customer, group));
   }
 
   addCustomer(data) {
@@ -48,7 +62,7 @@ class CustomersService {
       } else {
         return customer;
       }
-    }).then(customer => mongo.db.collection('customers').insertMany([customer])).then(res => this.getSingleCustomer(res.ops[0]._id.toString()))
+    }).then(customer => mongo.db.collection('customers').insertMany([customer])).then(res => this.Group(res.ops[0]._id.toString()))
   }
 
   updateCustomer(id, data) {
@@ -95,13 +109,12 @@ class CustomersService {
     // email can be null
 
     let customer = {
-      // 'group_name': '',
       'date_created': new Date(),
       'date_last_visit': null,
       'date_updated': null,
-      'order_ids': [],
-      'total_spent': 0,
-      'orders_count': 0
+      // 'order_ids': [],
+      // 'total_spent': 0,
+      // 'orders_count': 0
     };
 
     customer.note = parse.getString(data.note);
@@ -121,24 +134,25 @@ class CustomersService {
   validateAddresses(addresses) {
     if (addresses && addresses.length > 0) {
       let validAddresses = addresses.map(addressItem => ({
-        'address1' : parse.getString(addressItem.address1),
-        'address2' : parse.getString(addressItem.address2),
-        'city' : parse.getString(addressItem.city),
-        'country' : parse.getString(addressItem.country),
-        'state' : parse.getString(addressItem.state),
-        'phone' : parse.getString(addressItem.phone),
-        'zip' : parse.getString(addressItem.zip),
-        'first_name' : parse.getString(addressItem.first_name),
-        'last_name' : parse.getString(addressItem.last_name),
-        'company' : parse.getString(addressItem.company),
-        'tax_number' : parse.getString(addressItem.tax_number),
-        'details' : addressItem.details
+        'address1': parse.getString(addressItem.address1),
+        'address2': parse.getString(addressItem.address2),
+        'city': parse.getString(addressItem.city),
+        'country': parse.getString(addressItem.country),
+        'state': parse.getString(addressItem.state),
+        'phone': parse.getString(addressItem.phone),
+        'zip': parse.getString(addressItem.zip),
+        'first_name': parse.getString(addressItem.first_name),
+        'last_name': parse.getString(addressItem.last_name),
+        'company': parse.getString(addressItem.company),
+        'tax_number': parse.getString(addressItem.tax_number),
+        'details': addressItem.details
       }))
 
       return validAddresses;
-    } else
+    } else {
       return [];
     }
+  }
 
   getDocumentForUpdate(id, data) {
     if (_.isEmpty(data)) {
@@ -192,13 +206,17 @@ class CustomersService {
     return customer;
   }
 
-  renameDocumentFields(item) {
-    if (item) {
-      item.id = item._id.toString();
-      delete item._id;
+  renameDocumentFields(customer, customerGroup) {
+    if (customer) {
+      customer.id = customer._id.toString();
+      delete customer._id;
+
+      customer.group_name = customerGroup && customerGroup.name
+        ? customerGroup.name
+        : '';
     }
 
-    return item;
+    return customer;
   }
 }
 

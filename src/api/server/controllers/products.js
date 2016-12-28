@@ -1,6 +1,6 @@
 'use strict';
 
-var ProductsService = require('../../services/products/products');
+var ProductsService = require('../services/products');
 
 class ProductsController {
   constructor(router) {
@@ -10,8 +10,8 @@ class ProductsController {
 
   registerRoutes() {
        this.router.get('/products', this.getProducts.bind(this));
+       this.router.post('/products', this.addProduct.bind(this));
        this.router.get('/products/:id', this.getSingleProduct.bind(this));
-       this.router.post('/products/', this.addProduct.bind(this));
        this.router.put('/products/:id', this.updateProduct.bind(this));
        this.router.delete('/products/:id', this.deleteProduct.bind(this));
        this.router.post('/products/:id/images', this.addProductImage.bind(this));

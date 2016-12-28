@@ -1,6 +1,6 @@
 'use strict';
 
-var CustomersService = require('../../services/customers/customers');
+var CustomersService = require('../services/customers');
 
 class CustomersController {
   constructor(router) {
@@ -10,8 +10,8 @@ class CustomersController {
 
   registerRoutes() {
        this.router.get('/customers', this.getCustomers.bind(this));
+       this.router.post('/customers', this.addCustomer.bind(this));
        this.router.get('/customers/:id', this.getSingleCustomer.bind(this));
-       this.router.post('/customers/', this.addCustomer.bind(this));
        this.router.put('/customers/:id', this.updateCustomer.bind(this));
        this.router.delete('/customers/:id', this.deleteCustomer.bind(this));
    }
@@ -23,7 +23,7 @@ class CustomersController {
    }
 
    getSingleCustomer(req, res) {
-     CustomersService.getSingleCustomer(req.params.id, req.query.currency)
+     CustomersService.getSingleCustomer(req.params.id)
       .then(data => {
         if(data) {
           res.send(data)
