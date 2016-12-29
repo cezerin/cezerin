@@ -1,0 +1,76 @@
+.image {
+  max-width: 80px;
+  max-height: 80px;
+  border: 1px solid #eee;
+  margin: 6px 0;
+}
+
+.placeholder {
+  width: 80px;
+  text-align: center;
+  border: 1px solid #eee;
+  padding: 12px 0;
+  margin: 6px 0;
+}
+
+.productName {
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.productName small {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.productActive {
+  color: rgb(0,142,180);
+}
+
+.productInactive {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.sku {
+  word-break: break-all;
+}
+
+.stock {
+  word-break: break-all;
+}
+
+.inStock {
+  color: rgb(122,179,23);
+}
+
+.outOfStock {
+  color: rgb(228,86,53);
+}
+
+.backorder {
+  color: rgb(251,184,41);
+}
+
+.preorder {
+  /*color: rgb(228,86,53);*/
+}
+
+.discontinued {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.price {
+  word-break: break-all;
+  text-align: right;;
+}
+
+.price small {
+  display: block;
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.more {
+  padding: 40px 0;
+  text-align: center;
+}

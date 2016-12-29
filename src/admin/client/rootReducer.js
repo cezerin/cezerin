@@ -6,6 +6,7 @@ import login from 'modules/app/login/reducer';
 import productCategories from 'modules/product-categories/reducer';
 import products from 'modules/products/reducer';
 import settings from 'modules/settings/reducer';
+import customerGroups from 'modules/customer-groups/reducer';
 
 const initialState = {
   location: null,
@@ -29,5 +30,6 @@ export default combineReducers({
   routing: routerReducer,
   productCategories,
   products,
-  settings
+  settings,
+  customerGroups
 });

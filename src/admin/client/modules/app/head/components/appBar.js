@@ -4,6 +4,8 @@ import { Link } from 'react-router'
 import settings from 'lib/settings'
 import messages from 'src/locales'
 import ProductCategoryHead from 'modules/product-categories/head/index'
+import CustomerGroupHead from 'modules/customer-groups/head/index'
+import CustomersHead from 'modules/customers/head/index'
 import ProductsHead from 'modules/products/head/index'
 import Drawer from './drawer'
 
@@ -24,21 +26,13 @@ let drawerItems = [
     url: '/admin/products',
     icon: 'local_offer'
   }, {
-    title: messages.drawer.categories,
-    url: '/admin/products/categories',
-    icon: 'folder'
-  }, {
     title: messages.drawer.orders,
     url: '/admin/orders',
     icon: 'shopping_cart'
   }, {
-    title: messages.drawer.orderCategories,
-    url: '/admin/orders/categories',
-    icon: 'folder'
-  }, {
     title: messages.drawer.customers,
     url: '/admin/customers',
-    icon: 'people'
+    icon: 'person'
   }, {
     title: '-',
     url: 'settings'
@@ -63,7 +57,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { isLoading, category, selectedProducts } = this.props;
+    const { isLoading, category, selectedProducts, customerGroup } = this.props;
     const location = this.props.location.pathname;
 
     let title = 'Dashboard';
@@ -80,7 +74,7 @@ export default class AppBarTop extends React.Component {
       }
 
       if(selectedCount > 0) {
-        title += ` (${selectedCount})`;
+        title = `${messages.selected} (${selectedCount})`;
       }
 
       rightElements = <ProductsHead />
@@ -92,9 +86,22 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/products/categories'){
       title = messages.productCategories.title;
+      leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
       if(category){
         title = title = messages.productCategories.titleEdit;;
         rightElements = <ProductCategoryHead />
+      }
+    }
+    else if(location === '/admin/customers'){
+      title = messages.customers.title;
+      rightElements = <CustomersHead />
+    }
+    else if(location === '/admin/customers/groups'){
+      title = messages.customerGroups.title;
+      leftButton = <IconButton><Link to="/admin/customers"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      if(customerGroup){
+        title = title = messages.customerGroups.titleEdit;;
+        rightElements = <CustomerGroupHead />
       }
     }
 

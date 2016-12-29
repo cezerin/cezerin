@@ -6,6 +6,7 @@ const mapStateToProps = (state) => {
     selectedProducts: state.products.selected,
     location: state.app.location,
     category: state.productCategories.items.find((item) => (item.id === state.productCategories.selectedId)),
+    customerGroup: state.customerGroups.items.find((item) => (item.id === state.customerGroups.selectedId)),
     isLoading: state.productCategories.isFetching ||
       state.productCategories.isSaving
   }

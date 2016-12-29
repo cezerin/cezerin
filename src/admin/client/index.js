@@ -15,9 +15,11 @@ import layoutShared from 'layouts/shared'
 import layoutHome from 'layouts/home'
 import layoutNotFound from 'layouts/404'
 import layoutProducts from 'layouts/products'
-import layoutProductsEdit from 'layouts/products/edit'
-import layoutProductsCategories from 'layouts/products/categories'
-
+import layoutProductEdit from 'layouts/products/edit'
+import layoutProductCategories from 'layouts/products/categories'
+import layoutCustomers from 'layouts/customers'
+import layoutCustomerEdit from 'layouts/customers/edit'
+import layoutCustomerGroups from 'layouts/customers/groups'
 import layoutSettingsShared from 'layouts/settings/shared'
 import layoutSettingsGeneral from 'layouts/settings/general'
 import layoutSettingsThemes from 'layouts/settings/themes'
@@ -63,10 +65,12 @@ ReactDOM.render(
       <Route component={layoutShared}>
         <IndexRoute component={layoutHome}/>
         <Route path="orders" component={layoutNotFound}/>
-        <Route path="cusomers" component={layoutNotFound}/>
+        <Route path="customers" component={layoutCustomers}/>
+        <Route path="customer/:id" component={layoutCustomerEdit}/>
+        <Route path="customers/groups" component={layoutCustomerGroups}/>
         <Route path="products" component={layoutProducts}/>
-        <Route path="product/:id" component={layoutProductsEdit}/>
-        <Route path="products/categories" component={layoutProductsCategories}/>
+        <Route path="product/:id" component={layoutProductEdit}/>
+        <Route path="products/categories" component={layoutProductCategories}/>
         <Route path="settings" component={layoutSettingsShared}>
           <IndexRoute component={layoutSettingsGeneral}/>
           <Route path="general" component={layoutSettingsGeneral}/>

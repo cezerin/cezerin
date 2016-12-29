@@ -128,7 +128,7 @@ export default class Buttons extends React.Component {
          targetOrigin={{horizontal: 'right', vertical: 'top'}}
          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem containerElement={<Link to="/admin/products/categories" />} primaryText={messages.productCategories.titleEditMany} />
+          <MenuItem containerElement={<Link to="/admin/customers/groups" />} primaryText={messages.customerGroups.titleEditMany} />
           {selectedCount > 0 &&
             <MenuItem primaryText={messages.actions.moveTo} onTouchTap={this.showMoveTo} />
           }

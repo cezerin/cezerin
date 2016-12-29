@@ -12,6 +12,7 @@
   "all": "All",
   "currency": "Currency",
   "images": "Images",
+  "selected":"Selected",
 
   "actions": {
     "cancel": "Cancel",
@@ -97,12 +98,13 @@
   },
 
   "productCategories": {
+    "title": "Product Categories",
     "titleAdd": "Add new category",
     "titleEdit": "Edit category",
+    "titleEditMany": "Manage categories",
     "name": "Category name",
     "all": "All Products",
     "root": "Root",
-    "title": "Categories",
     "aboutDelete": "Will delete category {name} with all childs.",
     "active": "Active"
   },
@@ -130,6 +132,24 @@
     "customers": "Customers",
     "settings": "Settings",
     "logout": "Logout"
+  },
+
+  "customers": {
+    "title": "Customers",
+    "titleAdd": "Add new customer",
+    "titleEdit": "Edit customer",
+    "name": "Customer name",
+    "aboutDelete": "Will delete customer {name}."
+  },
+
+  "customerGroups": {
+    "title": "Customer Groups",
+    "titleAdd": "Add new group",
+    "titleEdit": "Edit group",
+    "titleEditMany": "Manage groups",
+    "name": "Group name",
+    "all": "All Customers",
+    "aboutDelete": "Will delete group {name}."
   }
 
 }
