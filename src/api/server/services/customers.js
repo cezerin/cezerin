@@ -62,7 +62,7 @@ class CustomersService {
       } else {
         return customer;
       }
-    }).then(customer => mongo.db.collection('customers').insertMany([customer])).then(res => this.Group(res.ops[0]._id.toString()))
+    }).then(customer => mongo.db.collection('customers').insertMany([customer])).then(res => this.getSingleCustomer(res.ops[0]._id.toString()))
   }
 
   updateCustomer(id, data) {
@@ -119,21 +119,34 @@ class CustomersService {
 
     customer.note = parse.getString(data.note);
     customer.email = parse.getString(data.email);
-    customer.first_name = parse.getString(data.first_name);
-    customer.last_name = parse.getString(data.last_name);
+    customer.name = parse.getString(data.name);
     customer.gender = parse.getString(data.gender);
     customer.group_id = parse.getObjectIDIfValid(data.group_id);
     customer.tags = parse.getArrayIfValid(data.tags) || [];
     customer.social_accounts = parse.getArrayIfValid(data.social_accounts) || [];
     customer.birthdate = parse.getDateIfValid(data.birthdate);
     customer.addresses = this.validateAddresses(data.addresses);
+    customer.browser = this.validateBrowser(data.browser);
 
     return customer;
+  }
+
+  validateBrowser(browser) {
+    return browser
+      ? {
+        'ip': parse.getString(browser.ip),
+        'user_agent': parse.getString(browser.user_agent)
+      }
+      : {
+        'ip': '',
+        'user_agent': ''
+      }
   }
 
   validateAddresses(addresses) {
     if (addresses && addresses.length > 0) {
       let validAddresses = addresses.map(addressItem => ({
+        'id': new ObjectID(),
         'address1': parse.getString(addressItem.address1),
         'address2': parse.getString(addressItem.address2),
         'city': parse.getString(addressItem.city),
@@ -141,11 +154,12 @@ class CustomersService {
         'state': parse.getString(addressItem.state),
         'phone': parse.getString(addressItem.phone),
         'zip': parse.getString(addressItem.zip),
-        'first_name': parse.getString(addressItem.first_name),
-        'last_name': parse.getString(addressItem.last_name),
+        'name': parse.getString(addressItem.name),
         'company': parse.getString(addressItem.company),
         'tax_number': parse.getString(addressItem.tax_number),
-        'details': addressItem.details
+        'details': addressItem.details,
+        'default_billing': false,
+        'default_shipping': false
       }))
 
       return validAddresses;
@@ -171,12 +185,8 @@ class CustomersService {
       customer.email = parse.getString(data.email);
     }
 
-    if (!_.isUndefined(data.first_name)) {
-      customer.first_name = parse.getString(data.first_name);
-    }
-
-    if (!_.isUndefined(data.last_name)) {
-      customer.last_name = parse.getString(data.last_name);
+    if (!_.isUndefined(data.name)) {
+      customer.name = parse.getString(data.name);
     }
 
     if (!_.isUndefined(data.gender)) {
@@ -203,6 +213,10 @@ class CustomersService {
       customer.addresses = this.validateAddresses(data.addresses);
     }
 
+    if (!_.isUndefined(data.browser)) {
+      customer.browser = this.validateBrowser(data.browser);
+    }
+
     return customer;
   }
 
@@ -214,6 +228,22 @@ class CustomersService {
       customer.group_name = customerGroup && customerGroup.name
         ? customerGroup.name
         : '';
+
+      if (customer.addresses && customer.addresses.length === 1) {
+        customer.billing = customer.shipping = customer.addresses[0];
+      } else if (customer.addresses && customer.addresses.length > 1) {
+        let default_billing = customer.addresses.find(address => address.default_billing);
+        let default_shipping = customer.addresses.find(address => address.default_shipping);
+        customer.billing = default_billing
+          ? default_billing
+          : customer.addresses[0];
+        customer.shipping = default_shipping
+          ? default_shipping
+          : customer.addresses[0];
+      } else {
+        customer.billing = {};
+        customer.shipping = {};
+      }
     }
 
     return customer;
