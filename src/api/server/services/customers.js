@@ -12,21 +12,31 @@ class CustomersService {
 
   getCustomers(params) {
     // sort
-    // group_id
-    // tag
     // fields
-    // limit
-    // offset
+    // tag
+    // gender
     // date_created_to
     // date_created_from
     // total_spent_to
     // total_spent_from
     // orders_count_to
     // orders_count_from
-    // gender
-    // search
 
-    return customerGroupsService.getGroups().then(customerGroups => mongo.db.collection('customers').find().toArray().then(customes => customes.map(customer => {
+    let filter = {};
+    if (params.group_id) {
+      filter.group_id = params.group_id;
+    }
+
+    if (params.search) {
+      filter['$text'] = {
+        '$search': params.search
+      };
+    }
+
+    const limit = parse.getNumberIfPositive(params.limit) || 1000000;
+    const offset = parse.getNumberIfPositive(params.offset) || 0;
+
+    return customerGroupsService.getGroups().then(customerGroups => mongo.db.collection('customers').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(customes => customes.map(customer => {
       const customerGroup = customer.group_id
         ? customerGroups.find(group => group.id === customer.group_id)
         : null;
@@ -119,7 +129,8 @@ class CustomersService {
 
     customer.note = parse.getString(data.note);
     customer.email = parse.getString(data.email);
-    customer.name = parse.getString(data.name);
+    customer.mobile = parse.getString(data.mobile);
+    customer.full_name = parse.getString(data.full_name);
     customer.gender = parse.getString(data.gender);
     customer.group_id = parse.getObjectIDIfValid(data.group_id);
     customer.tags = parse.getArrayIfValid(data.tags) || [];
@@ -145,27 +156,43 @@ class CustomersService {
 
   validateAddresses(addresses) {
     if (addresses && addresses.length > 0) {
-      let validAddresses = addresses.map(addressItem => ({
-        'id': new ObjectID(),
-        'address1': parse.getString(addressItem.address1),
-        'address2': parse.getString(addressItem.address2),
-        'city': parse.getString(addressItem.city),
-        'country': parse.getString(addressItem.country),
-        'state': parse.getString(addressItem.state),
-        'phone': parse.getString(addressItem.phone),
-        'zip': parse.getString(addressItem.zip),
-        'name': parse.getString(addressItem.name),
-        'company': parse.getString(addressItem.company),
-        'tax_number': parse.getString(addressItem.tax_number),
-        'details': addressItem.details,
-        'default_billing': false,
-        'default_shipping': false
-      }))
-
+      let validAddresses = addresses.map(addressItem => this.validateSingleAddress(addressItem));
       return validAddresses;
     } else {
       return [];
     }
+  }
+
+  validateSingleAddress(address) {
+    let coordinates = {
+      'latitude': '',
+      'longitude': ''
+    };
+
+    if (address.coordinates) {
+      coordinates.latitude = address.coordinates.latitude;
+      coordinates.longitude = address.coordinates.longitude;
+    }
+
+    return address
+      ? {
+        'id': new ObjectID(),
+        'address1': parse.getString(address.address1),
+        'address2': parse.getString(address.address2),
+        'city': parse.getString(address.city),
+        'country': parse.getString(address.country),
+        'state': parse.getString(address.state),
+        'phone': parse.getString(address.phone),
+        'zip': parse.getString(address.zip),
+        'full_name': parse.getString(address.full_name),
+        'company': parse.getString(address.company),
+        'tax_number': parse.getString(address.tax_number),
+        'coordinates': coordinates,
+        'details': address.details,
+        'default_billing': false,
+        'default_shipping': false
+      }
+      : {};
   }
 
   getDocumentForUpdate(id, data) {
@@ -185,8 +212,12 @@ class CustomersService {
       customer.email = parse.getString(data.email);
     }
 
-    if (!_.isUndefined(data.name)) {
-      customer.name = parse.getString(data.name);
+    if (!_.isUndefined(data.mobile)) {
+      customer.mobile = parse.getString(data.mobile);
+    }
+
+    if (!_.isUndefined(data.full_name)) {
+      customer.full_name = parse.getString(data.full_name);
     }
 
     if (!_.isUndefined(data.gender)) {
@@ -248,6 +279,115 @@ class CustomersService {
 
     return customer;
   }
+
+  addAddress(customer_id, address) {
+    if (!ObjectID.isValid(customer_id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let customerObjectID = new ObjectID(customer_id);
+    const validAddress = this.validateSingleAddress(address);
+
+    return mongo.db.collection('customers').updateMany({
+      _id: customerObjectID
+    }, {
+      $push: {
+        addresses: validAddress
+      }
+    });
+  }
+
+  createObjectToUpdateAddressFields(data) {
+    let fields = {};
+    for (let fieldName of Object.keys(data)) {
+      fields['addresses.$.' + fieldName] = data[fieldName];
+    }
+    return fields;
+  }
+
+  updateAddress(customer_id, address_id, data) {
+    if (!ObjectID.isValid(customer_id) || !ObjectID.isValid(address_id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let customerObjectID = new ObjectID(customer_id);
+    let addressObjectID = new ObjectID(address_id);
+    const addressFields = this.createObjectToUpdateAddressFields(data);
+
+    return mongo.db.collection('customers').updateOne({
+      _id: customerObjectID,
+      'addresses.id': addressObjectID
+    }, {$set: addressFields});
+  }
+
+  deleteAddress(customer_id, address_id) {
+    if (!ObjectID.isValid(customer_id) || !ObjectID.isValid(address_id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let customerObjectID = new ObjectID(customer_id);
+    let addressObjectID = new ObjectID(address_id);
+
+    return mongo.db.collection('customers').updateOne({
+      _id: customerObjectID
+    }, {
+      $pull: {
+        addresses: {
+          id: addressObjectID
+        }
+      }
+    });
+  }
+
+  setDefaultBilling(customer_id, address_id) {
+    if (!ObjectID.isValid(customer_id) || !ObjectID.isValid(address_id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let customerObjectID = new ObjectID(customer_id);
+    let addressObjectID = new ObjectID(address_id);
+
+    return mongo.db.collection('customers').updateOne({
+      _id: customerObjectID,
+      'addresses.default_billing': true
+    }, {
+      $set: {
+        'addresses.$.default_billing': false
+      }
+    }).then(res => {
+      return mongo.db.collection('customers').updateOne({
+        _id: customerObjectID,
+        'addresses.id': addressObjectID
+      }, {
+        $set: {
+          'addresses.$.default_billing': true
+        }
+      });
+    });
+  }
+
+  setDefaultShipping(customer_id, address_id) {
+    if (!ObjectID.isValid(customer_id) || !ObjectID.isValid(address_id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let customerObjectID = new ObjectID(customer_id);
+    let addressObjectID = new ObjectID(address_id);
+
+    return mongo.db.collection('customers').updateOne({
+      _id: customerObjectID,
+      'addresses.default_shipping': true
+    }, {
+      $set: {
+        'addresses.$.default_shipping': false
+      }
+    }).then(res => {
+      return mongo.db.collection('customers').updateOne({
+        _id: customerObjectID,
+        'addresses.id': addressObjectID
+      }, {
+        $set: {
+          'addresses.$.default_shipping': true
+        }
+      });
+    });
+  }
+
 }
 
 module.exports = new CustomersService();

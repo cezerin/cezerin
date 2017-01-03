@@ -9,7 +9,7 @@ module.exports = {
     jwtSecret: 'QjiYppcTZOBGHfFD4g0mZD'
   },
   server: {
-    mongodb: 'mongodb://139.59.130.223:27017/shop'
+    mongodb: 'mongodb://u2028:DbBWjAcUnoVD6Oai2NlwF5nlFnpjwG@139.59.130.223:27017/shop'
   },
 
   path: {

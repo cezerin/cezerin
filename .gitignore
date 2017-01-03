@@ -8,4 +8,5 @@ public/admin/index.html
 public/uploads
 themes/current/dist/*
 dist/*
+config/*
 npm-debug.log*

@@ -105,6 +105,8 @@ export default class AppBarTop extends React.Component {
       }
     }
 
+    // <span class="material-icons" color="#757575" style="user-select: none;transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;height: 24px;position: relative;top: 5px;width: 24px;">chevron_right</span>
+
     return (
       <div>
         {isLoading &&

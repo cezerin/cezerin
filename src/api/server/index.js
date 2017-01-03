@@ -32,15 +32,15 @@ var themes = new ThemesController(apiRouter);
 var customers = new CustomersController(apiRouter);
 var customer_groups = new CustomerGroupsController(apiRouter);
 
-apiRouter.use(function(err, req, res, next) {
-  if(err && err.name === 'UnauthorizedError') {
-    res.status(401).send({ 'error': err.message });
-  } else if(err) {
-    res.status(500).send({ 'error': err });
-  } else {
-    next();
-  }
-});
+// apiRouter.use(function(err, req, res, next) {
+//   if(err && err.name === 'UnauthorizedError') {
+//     res.status(401).send({ 'error': err.message });
+//   } else if(err) {
+//     res.status(500).send({ 'error': err });
+//   } else {
+//     next();
+//   }
+// });
 
 apiRouter.all('*', (req, res, next) => {
   res.status(405).send({ 'error': 'Method Not Allowed' });
