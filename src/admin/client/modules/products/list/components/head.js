@@ -22,7 +22,7 @@ export default ({ onSelectAll }) => (
       <div className="col-xs-2 col--no-gutter">
         {messages.products.stock}
       </div>
-      <div className="col-xs-2 col--no-gutter">
+      <div className="col-xs-2 col--no-gutter" style={{ textAlign:'right', paddingRight: 23 }}>
         {messages.products.price}
       </div>
     </div>

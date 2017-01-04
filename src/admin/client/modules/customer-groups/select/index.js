@@ -1,17 +1,17 @@
 import { connect } from 'react-redux'
-import { selectCategory, fetchCategoriesIfNeeded, createCategory } from '../actions'
+import { fetchGroupsIfNeeded } from '../actions'
 import List from '../components/list'
 
 const mapStateToProps = (state) => {
   return {
-    items: state.productCategories.items
+    items: state.customerGroups.items
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: () => {
-      dispatch(fetchCategoriesIfNeeded());
+      dispatch(fetchGroupsIfNeeded());
     }
   }
 }

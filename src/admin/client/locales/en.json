@@ -139,7 +139,13 @@
     "titleAdd": "Add new customer",
     "titleEdit": "Edit customer",
     "name": "Customer name",
-    "aboutDelete": "Will delete customer {name}."
+    "aboutDelete": "{count} customers is about to be permanently deleted. You can’t undo this action.",
+    "totalSpent": "Total Spent",
+    "orders": "Orders",
+    "location": "Location",
+    "search": "Search customers",
+    "setGroup": "Set group",
+    "noGroup":"No group"
   },
 
   "customerGroups": {

@@ -41,6 +41,7 @@ export default class Groups extends React.Component {
     	items,
       onCreate,
     	showAll,
+      showRoot,
       showAdd
     } = this.props;
 
@@ -56,6 +57,15 @@ export default class Groups extends React.Component {
     return (
       <div>
         <List>
+          {showRoot &&
+            <ListItem
+              primaryText={messages.customers.noGroup}
+              style={'root' === selectedId ? styles.selectedItem : styles.item}
+              innerDivStyle={styles.innerItem}
+              leftIcon={<FontIcon className="material-icons">clear</FontIcon>}
+              onTouchTap={() => { onSelect('root') }}
+            />
+          }
 
           {showAll &&
             <ListItem

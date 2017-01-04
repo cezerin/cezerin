@@ -19,7 +19,7 @@ const SortableList = SortableContainer(({items, onDelete}) =>
 )
 
 const Gallery = ({ productId, images, onImageDelete, onImageSort, onUpload }) => {
-  const postUrl = `${settings.apiBaseUrl}products/${productId}/images`;
+  const postUrl = `${settings.apiBaseUrl}/products/${productId}/images`;
   const apiToken = api.token;
 
   if(images && images.length > 0) {

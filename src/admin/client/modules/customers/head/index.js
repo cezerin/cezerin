@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchProducts, deleteProducts, setCategory, setFilterSearch } from '../actions'
+import { fetchCustomers, deleteCustomers, setGroup, setFilterSearch } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
   return {
-    search: state.products.filter_search,
-    selectedCount: state.products.selected.length
+    search: state.customers.filter_search,
+    selectedCount: state.customers.selected.length
   }
 }
 
@@ -14,13 +14,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setSearch: (value) => {
       dispatch(setFilterSearch(value));
-      dispatch(fetchProducts());
+      dispatch(fetchCustomers());
     },
     onDelete: () => {
-      dispatch(deleteProducts());
+      dispatch(deleteCustomers());
     },
-    onMoveTo: (category_id) => {
-      dispatch(setCategory(category_id));
+    onSetGroup: (group_id) => {
+      dispatch(setGroup(group_id));
     }
   }
 }

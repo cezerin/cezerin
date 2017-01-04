@@ -1,41 +1,42 @@
 import { connect } from 'react-redux'
-import { fetchProducts, fetchMoreProducts, selectProduct, deselectProduct, selectAllProduct, deselectAllProduct, createProduct } from '../actions'
+import { fetchCustomers, selectCustomer, deselectCustomer, selectAllCustomer, deselectAllCustomer, fetchMoreCustomers } from '../actions'
+// createProduct
 import List from './components/list'
 
 const mapStateToProps = (state) => {
   return {
-    items: state.products.items,
-    selected: state.products.selected,
-    isFetching: state.products.isFetching,
-    isFetchingMore: state.products.isFetchingMore
+    items: state.customers.items,
+    selected: state.customers.selected,
+    isFetchingItems: state.customers.isFetching,
+    isFetchingMore: state.customers.isFetchingMore
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: () => {
-      dispatch(fetchProducts());
+      dispatch(fetchCustomers());
     },
-    onSelect: (productId, checked) => {
+    onSelect: (customerId, checked) => {
       if(checked) {
-        dispatch(selectProduct(productId));
+        dispatch(selectCustomer(customerId));
       } else {
-        dispatch(deselectProduct(productId));
+        dispatch(deselectCustomer(customerId));
       }
     },
     onSelectAll: (checked) => {
       if(checked) {
-        dispatch(selectAllProduct());
+        dispatch(selectAllCustomer());
       } else {
-        dispatch(deselectAllProduct());
+        dispatch(deselectAllCustomer());
       }
     },
     loadMore: () => {
-      dispatch(fetchMoreProducts());
+      dispatch(fetchMoreCustomers());
     },
-    onCreate: () => {
-      dispatch(createProduct())
-    }
+    // onCreate: () => {
+    //   dispatch(createProduct())
+    // }
   }
 }
 

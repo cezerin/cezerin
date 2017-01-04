@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { selectGroup, fetchGroupsIfNeeded, deselectGroup } from '../actions'
-// import { fetchCustomers } from '../../customers/actions'
+import { fetchCustomers } from '../../customers/actions'
 import List from '../components/list'
 
 const mapStateToProps = (state) => {
@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSelect: (groupId) => {
       dispatch(selectGroup(groupId));
-      // dispatch(fetchCustomers());
+      dispatch(fetchCustomers());
     },
     onCreate: () => {
       dispatch(deselectGroup())

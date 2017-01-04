@@ -57,7 +57,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { isLoading, category, selectedProducts, customerGroup } = this.props;
+    const { isLoading, productCategory, productsSelectedCount, customersSelectedCount, customerGroup } = this.props;
     const location = this.props.location.pathname;
 
     let title = 'Dashboard';
@@ -67,14 +67,13 @@ export default class AppBarTop extends React.Component {
 
     if(location === '/admin/products'){
       title = messages.products.title;
-      let selectedCount = selectedProducts.length;
 
-      if(category){
-        title = category.name;
+      if(productCategory){
+        title = <span>{messages.products.title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{productCategory.name}</span>;
       }
 
-      if(selectedCount > 0) {
-        title = `${messages.selected} (${selectedCount})`;
+      if(productsSelectedCount > 0) {
+        title = `${messages.selected} (${productsSelectedCount})`;
       }
 
       rightElements = <ProductsHead />
@@ -87,13 +86,22 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/products/categories'){
       title = messages.productCategories.title;
       leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
-      if(category){
+      if(productCategory){
         title = title = messages.productCategories.titleEdit;;
         rightElements = <ProductCategoryHead />
       }
     }
     else if(location === '/admin/customers'){
       title = messages.customers.title;
+
+      if(customerGroup) {
+        title = <span>{messages.customers.title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{customerGroup.name}</span>;
+      }
+
+      if(customersSelectedCount > 0) {
+        title = `${messages.selected} (${customersSelectedCount})`;
+      }
+
       rightElements = <CustomersHead />
     }
     else if(location === '/admin/customers/groups'){
@@ -104,8 +112,6 @@ export default class AppBarTop extends React.Component {
         rightElements = <CustomerGroupHead />
       }
     }
-
-    // <span class="material-icons" color="#757575" style="user-select: none;transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;height: 24px;position: relative;top: 5px;width: 24px;">chevron_right</span>
 
     return (
       <div>

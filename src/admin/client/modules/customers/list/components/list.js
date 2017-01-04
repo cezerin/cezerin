@@ -2,14 +2,14 @@ import React from 'react';
 import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Head from './head'
-import ProductsListItem from './item'
+import CustomersListItem from './item'
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import messages from 'src/locales'
 import style from './style.css'
 
-export default class ProductsList extends React.Component {
+export default class CustomersList extends React.Component {
     constructor(props){
       super(props);
     }
@@ -19,9 +19,9 @@ export default class ProductsList extends React.Component {
     }
 
     render(){
-      const { items, selected, isFetching, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate } = this.props;
+      const { items, selected, isFetchingItems, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate } = this.props;
       const rows = items.map((item, index) => (
-        <ProductsListItem key={index} product={item} selected={selected} onSelect={onSelect} />
+        <CustomersListItem key={index} customer={item} selected={selected} onSelect={onSelect} />
       ));
 
       return (

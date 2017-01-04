@@ -23,8 +23,9 @@ class CustomersService {
     // orders_count_from
 
     let filter = {};
-    if (params.group_id) {
-      filter.group_id = params.group_id;
+    const group_id = parse.getObjectIDIfValid(params.group_id);
+    if (group_id) {
+      filter.group_id = group_id;
     }
 
     if (params.search) {

@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 import messages from 'src/locales'
-import CategorySelect from 'modules/product-categories/select'
+import GroupSelect from 'modules/customer-groups/select'
 
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
@@ -18,56 +18,56 @@ export default class Buttons extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryIdMoveTo: null,
-      openMoveTo: false,
+      groupId: null,
+      openSetGroup: false,
       openDelete: false
     };
   }
 
-  showMoveTo = () => {
-    this.setState({openMoveTo: true});
+  showSetGroup = () => {
+    this.setState({openSetGroup: true});
   };
 
   showDelete = () => {
     this.setState({openDelete: true});
   };
 
-  closeMoveTo = () => {
-    this.setState({openMoveTo: false});
+  closeSetGroup = () => {
+    this.setState({openSetGroup: false});
   };
 
   closeDelete = () => {
     this.setState({openDelete: false});
   };
 
-  deleteProduct = () => {
+  deleteCustomers = () => {
     this.setState({openDelete: false});
     this.props.onDelete();
   };
 
-  saveMoveTo = () => {
-    this.setState({openMoveTo: false});
-    this.props.onMoveTo(this.state.categoryIdMoveTo);
+  saveSetGroup = () => {
+    this.setState({openSetGroup: false});
+    this.props.onSetGroup(this.state.groupId);
   };
 
-  selectMoveTo = (categoryId) => {
-    this.setState({categoryIdMoveTo: categoryId});
+  selectSetGroup = (groupId) => {
+    this.setState({groupId: groupId});
   }
 
   render() {
     const { search, setSearch, selectedCount, onDelete } = this.props;
 
-    const actionsMoveTo = [
+    const actionsSetGroup = [
       <FlatButton
         label={messages.actions.cancel}
         primary={true}
-        onTouchTap={this.closeMoveTo}
+        onTouchTap={this.closeSetGroup}
       />,
       <FlatButton
-        label={messages.actions.moveHere}
+        label={messages.actions.save}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.saveMoveTo}
+        onTouchTap={this.saveSetGroup}
       />,
     ];
 
@@ -81,7 +81,7 @@ export default class Buttons extends React.Component {
         label={messages.actions.delete}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.deleteProduct}
+        onTouchTap={this.deleteCustomers}
       />,
     ];
 
@@ -100,19 +100,19 @@ export default class Buttons extends React.Component {
               open={this.state.openDelete}
               onRequestClose={this.closeDelete}
               >
-              {messages.products.aboutDelete.replace('{count}', selectedCount)}
+              {messages.customers.aboutDelete.replace('{count}', selectedCount)}
             </Dialog>
             <Dialog
-              title={messages.actions.moveTo}
-              actions={actionsMoveTo}
+              title={messages.customers.setGroup}
+              actions={actionsSetGroup}
               modal={false}
-              open={this.state.openMoveTo}
-              onRequestClose={this.closeMoveTo}
+              open={this.state.openSetGroup}
+              onRequestClose={this.closeSetGroup}
               autoScrollBodyContent={true}
             >
-              <CategorySelect
-                onSelect={this.selectMoveTo}
-                selectedId={this.state.categoryIdMoveTo}
+              <GroupSelect
+                onSelect={this.selectSetGroup}
+                selectedId={this.state.groupId}
                 showRoot={true}
                 showAll={false}
               />
@@ -130,7 +130,7 @@ export default class Buttons extends React.Component {
         >
           <MenuItem containerElement={<Link to="/admin/customers/groups" />} primaryText={messages.customerGroups.titleEditMany} />
           {selectedCount > 0 &&
-            <MenuItem primaryText={messages.actions.moveTo} onTouchTap={this.showMoveTo} />
+            <MenuItem primaryText={messages.customers.setGroup} onTouchTap={this.showSetGroup} />
           }
         </IconMenu>
       </span>

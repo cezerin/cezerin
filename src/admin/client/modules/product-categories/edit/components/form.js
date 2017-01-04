@@ -80,7 +80,7 @@ class Form extends React.Component {
                 <Field name="active" component={Toggle} label={messages.productCategories.active} className={style.toggle}/><br />
                 <ImageUpload
                   imageUrl={imageUrl}
-                  postUrl={`${settings.apiBaseUrl}products/categories/${categoryId}/image`}
+                  postUrl={`${settings.apiBaseUrl}/products/categories/${categoryId}/image`}
                   apiToken={apiToken}
                   onDelete={() => { api.product_categories.deleteImage(categoryId); }}
                   onUpload={() => {}}

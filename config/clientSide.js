@@ -6,6 +6,7 @@ module.exports = {
   apiBaseUrl: `${domain}/api`,
   adminBaseUrl: `${domain}/admin`,
   language: 'en',
+  currency: 'EUR',
 
   currencies: [
     'USD',
