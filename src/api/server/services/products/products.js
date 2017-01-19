@@ -106,6 +106,7 @@ class ProductsService {
       description: 1,
       sku: 1,
       code: 1,
+      tax_class: 1,
       position: 1,
       tags: 1,
       options: 1,
@@ -408,6 +409,7 @@ class ProductsService {
       product.currency = parse.getCurrencyIfValid(data.currency) || "USD";
       product.sku = parse.getString(data.sku);
       product.code = parse.getString(data.code);
+      product.tax_class = parse.getString(data.tax_class);
       product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
       product.prices = parse.getArrayIfValid(data.prices) || [];
       product.options = parse.getArrayIfValid(data) || [];
@@ -500,6 +502,10 @@ class ProductsService {
 
       if(!_.isUndefined(data.code)) {
         product.code = parse.getString(data.code);
+      }
+
+      if(!_.isUndefined(data.tax_class)) {
+        product.tax_class = parse.getString(data.tax_class);
       }
 
       if(!_.isUndefined(data.related_product_ids)) {
