@@ -1,6 +1,6 @@
 'use strict';
 
-var ThemesService = require('../services/themes');
+var ThemesService = require('../../services/themes/themes');
 
 class ThemesController {
   constructor(router) {

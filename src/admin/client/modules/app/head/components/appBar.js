@@ -73,7 +73,7 @@ export default class AppBarTop extends React.Component {
       }
 
       if(productsSelectedCount > 0) {
-        title = `${messages.selected} (${productsSelectedCount})`;
+        title = `${productsSelectedCount} ${messages.selected}`;
       }
 
       rightElements = <ProductsHead />
@@ -99,7 +99,7 @@ export default class AppBarTop extends React.Component {
       }
 
       if(customersSelectedCount > 0) {
-        title = `${messages.selected} (${customersSelectedCount})`;
+        title = `${customersSelectedCount} ${messages.selected}`;
       }
 
       rightElements = <CustomersHead />

@@ -1,8 +1,8 @@
 'use strict';
 
-var mongo = require('../lib/mongo');
-var utils = require('../lib/utils');
-var parse = require('../lib/parse');
+var mongo = require('../../lib/mongo');
+var utils = require('../../lib/utils');
+var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var _ = require('lodash');
 

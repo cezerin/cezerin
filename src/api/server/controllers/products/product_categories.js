@@ -1,6 +1,6 @@
 'use strict';
 
-var CategoriesService = require('../services/product_categories');
+var CategoriesService = require('../../services/products/product_categories');
 
 class ProductCategoriesController {
   constructor(router) {

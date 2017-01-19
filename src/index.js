@@ -11,7 +11,7 @@ app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
-app.use('/api', apiRouter);
+app.use('/api/v1', apiRouter);
 app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
 

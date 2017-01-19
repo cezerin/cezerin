@@ -1,10 +1,10 @@
 'use strict';
 
 const url = require('url');
-const settings = require('../lib/settings');
-var mongo = require('../lib/mongo');
-var utils = require('../lib/utils');
-var parse = require('../lib/parse');
+const settings = require('../../lib/settings');
+var mongo = require('../../lib/mongo');
+var utils = require('../../lib/utils');
+var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');

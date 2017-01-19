@@ -3,7 +3,7 @@
 const exec = require('child_process').exec;
 const path = require('path');
 const formidable = require('formidable');
-const settings = require('../lib/settings');
+const settings = require('../../lib/settings');
 
 class ThemesService {
   constructor() {}

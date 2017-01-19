@@ -7,12 +7,13 @@ var auth = require('./lib/auth');
 var mongo = require('./lib/mongo');
 var utils = require('./lib/utils');
 
-const ProductСategoriesController = require('./controllers/product_categories');
-const ProductsController = require('./controllers/products');
+const ProductСategoriesController = require('./controllers/products/product_categories');
+const ProductsController = require('./controllers/products/products');
 const SitemapController = require('./controllers/sitemap');
-const ThemesController = require('./controllers/themes');
-const CustomersController = require('./controllers/customers');
-const CustomerGroupsController = require('./controllers/customer_groups');
+const ThemesController = require('./controllers/themes/themes');
+const CustomersController = require('./controllers/customers/customers');
+const CustomerGroupsController = require('./controllers/customers/customer_groups');
+const OrdersController = require('./controllers/orders/orders');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -31,6 +32,7 @@ var sitemap = new SitemapController(apiRouter);
 var themes = new ThemesController(apiRouter);
 var customers = new CustomersController(apiRouter);
 var customer_groups = new CustomerGroupsController(apiRouter);
+var orders = new OrdersController(apiRouter);
 
 // apiRouter.use(function(err, req, res, next) {
 //   if(err && err.name === 'UnauthorizedError') {

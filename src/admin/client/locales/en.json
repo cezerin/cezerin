@@ -12,7 +12,7 @@
   "all": "All",
   "currency": "Currency",
   "images": "Images",
-  "selected":"Selected",
+  "selected":"selected",
 
   "actions": {
     "cancel": "Cancel",

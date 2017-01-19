@@ -1,6 +1,6 @@
 'use strict';
 
-var CustomersService = require('../services/customers');
+var CustomersService = require('../../services/customers/customers');
 
 class CustomersController {
   constructor(router) {

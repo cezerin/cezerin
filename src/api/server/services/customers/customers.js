@@ -1,8 +1,8 @@
 'use strict';
 
-var mongo = require('../lib/mongo');
-var utils = require('../lib/utils');
-var parse = require('../lib/parse');
+var mongo = require('../../lib/mongo');
+var utils = require('../../lib/utils');
+var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var _ = require('lodash');
 var customerGroupsService = require('./customer_groups');
@@ -28,16 +28,29 @@ class CustomersService {
       filter.group_id = group_id;
     }
 
+    if (params.email) {
+      filter.email = params.email;
+    }
+
     if (params.search) {
-      filter['$text'] = {
-        '$search': params.search
-      };
+      filter['$or'] = [
+        {
+          '$text': {
+            '$search': params.search
+          }
+        }, {
+          email: {
+            $regex: '*${params.search}*',
+            $options: 'i'
+          }
+        }
+      ]
     }
 
     const limit = parse.getNumberIfPositive(params.limit) || 1000000;
     const offset = parse.getNumberIfPositive(params.offset) || 0;
 
-    return customerGroupsService.getGroups().then(customerGroups => mongo.db.collection('customers').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(customes => customes.map(customer => {
+    return customerGroupsService.getGroups().then(customerGroups => mongo.db.collection('customers').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(customers => customers.map(customer => {
       const customerGroup = customer.group_id
         ? customerGroups.find(group => group.id === customer.group_id)
         : null;
@@ -138,62 +151,18 @@ class CustomersService {
     customer.social_accounts = parse.getArrayIfValid(data.social_accounts) || [];
     customer.birthdate = parse.getDateIfValid(data.birthdate);
     customer.addresses = this.validateAddresses(data.addresses);
-    customer.browser = this.validateBrowser(data.browser);
+    customer.browser = parse.getBrowser(data.browser);
 
     return customer;
   }
 
-  validateBrowser(browser) {
-    return browser
-      ? {
-        'ip': parse.getString(browser.ip),
-        'user_agent': parse.getString(browser.user_agent)
-      }
-      : {
-        'ip': '',
-        'user_agent': ''
-      }
-  }
-
   validateAddresses(addresses) {
     if (addresses && addresses.length > 0) {
-      let validAddresses = addresses.map(addressItem => this.validateSingleAddress(addressItem));
+      let validAddresses = addresses.map(addressItem => parse.getCustomerAddress(addressItem));
       return validAddresses;
     } else {
       return [];
     }
-  }
-
-  validateSingleAddress(address) {
-    let coordinates = {
-      'latitude': '',
-      'longitude': ''
-    };
-
-    if (address.coordinates) {
-      coordinates.latitude = address.coordinates.latitude;
-      coordinates.longitude = address.coordinates.longitude;
-    }
-
-    return address
-      ? {
-        'id': new ObjectID(),
-        'address1': parse.getString(address.address1),
-        'address2': parse.getString(address.address2),
-        'city': parse.getString(address.city),
-        'country': parse.getString(address.country),
-        'state': parse.getString(address.state),
-        'phone': parse.getString(address.phone),
-        'zip': parse.getString(address.zip),
-        'full_name': parse.getString(address.full_name),
-        'company': parse.getString(address.company),
-        'tax_number': parse.getString(address.tax_number),
-        'coordinates': coordinates,
-        'details': address.details,
-        'default_billing': false,
-        'default_shipping': false
-      }
-      : {};
   }
 
   getDocumentForUpdate(id, data) {
@@ -246,7 +215,7 @@ class CustomersService {
     }
 
     if (!_.isUndefined(data.browser)) {
-      customer.browser = this.validateBrowser(data.browser);
+      customer.browser = parse.getBrowser(data.browser);
     }
 
     return customer;
@@ -286,9 +255,9 @@ class CustomersService {
       return Promise.reject('Invalid identifier');
     }
     let customerObjectID = new ObjectID(customer_id);
-    const validAddress = this.validateSingleAddress(address);
+    const validAddress = parse.getCustomerAddress(address);
 
-    return mongo.db.collection('customers').updateMany({
+    return mongo.db.collection('customers').updateOne({
       _id: customerObjectID
     }, {
       $push: {

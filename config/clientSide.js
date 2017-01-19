@@ -3,7 +3,7 @@ const domain = 'http://localhost';
 module.exports = {
   storeBaseUrl: domain,
   ajaxBaseUrl: `${domain}/ajax`,
-  apiBaseUrl: `${domain}/api`,
+  apiBaseUrl: `${domain}/api/v1`,
   adminBaseUrl: `${domain}/admin`,
   language: 'en',
   currency: 'EUR',
