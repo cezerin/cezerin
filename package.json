@@ -26,6 +26,7 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
+    "clear": "rm ./public/admin-assets/js/app-*; rm ./public/admin-assets/js/vendor-*; rm ./public/admin-assets/css/bundle-*",
     "dev:admin": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
     "dev:store": "webpack -d --config webpack.config.store.js --watch --progress --colors",
     "dev:server": "babel src -d dist --watch",
