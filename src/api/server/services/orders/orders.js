@@ -141,7 +141,7 @@ class OrdersService {
     })
   }
 
-  setCustomer(order) {
+  associateOrderWithCustomer(order) {
     /*
     1. check customer_id
     2. find customer by email
@@ -176,7 +176,7 @@ class OrdersService {
   }
 
   addOrder(data) {
-    return this.getDocumentForInsert(data).then(this.setCustomer).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
+    return this.getDocumentForInsert(data).then(this.associateOrderWithCustomer).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
   }
 
   updateOrder(id, data) {

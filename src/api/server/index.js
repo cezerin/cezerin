@@ -14,6 +14,9 @@ const ThemesController = require('./controllers/themes/themes');
 const CustomersController = require('./controllers/customers/customers');
 const CustomerGroupsController = require('./controllers/customers/customer_groups');
 const OrdersController = require('./controllers/orders/orders');
+const OrderStatusesController = require('./controllers/orders/order_statuses');
+const ShippingMethodsController = require('./controllers/orders/shipping_methods');
+const PaymentMethodsController = require('./controllers/orders/payment_methods');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -33,6 +36,9 @@ var themes = new ThemesController(apiRouter);
 var customers = new CustomersController(apiRouter);
 var customer_groups = new CustomerGroupsController(apiRouter);
 var orders = new OrdersController(apiRouter);
+var order_statuses = new OrderStatusesController(apiRouter);
+var shipping_methods = new ShippingMethodsController(apiRouter);
+var payment_methods = new PaymentMethodsController(apiRouter);
 
 // apiRouter.use(function(err, req, res, next) {
 //   if(err && err.name === 'UnauthorizedError') {
