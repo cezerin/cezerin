@@ -1,4 +1,4 @@
-const domain = 'http://localhost';
+const domain = 'http://localhost:3000';
 
 module.exports = {
   storeBaseUrl: domain,

@@ -26,7 +26,7 @@ apiRouter.all('/*', function(req, res, next) {
   next();
 });
 
-apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: ['/api/authorize']}));
+apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: [`${settings.api.baseUrl}/authorize`]}));
 apiRouter.post('/authorize', auth.login);
 
 var products = new ProductsController(apiRouter);

@@ -25,9 +25,9 @@ var config = {
   },
 
   output: {
-    publicPath: '/admin/',
-    path: './public/admin/',
-    filename: 'assets/js/app-[chunkhash].js'
+    publicPath: '/',
+    path: './public/',
+    filename: 'admin-assets/js/app-[chunkhash].js'
   },
 
   resolve: {
@@ -58,9 +58,9 @@ var config = {
   },
 
   plugins: [
-    new ExtractTextPlugin("assets/css/bundle-[chunkhash].css"),
-    new webpack.optimize.CommonsChunkPlugin("vendor", "assets/js/vendor-[chunkhash].js"),
-    new HtmlWebpackPlugin({template: 'src/admin/client/index.template.ejs', inject: 'body', 'filename':'index.html'})
+    new ExtractTextPlugin("admin-assets/css/bundle-[chunkhash].css"),
+    new webpack.optimize.CommonsChunkPlugin("vendor", "admin-assets/js/vendor-[chunkhash].js"),
+    new HtmlWebpackPlugin({template: 'src/admin/client/index.template.ejs', inject: 'body', 'filename':'admin/index.html'})
   ]
 };
 
