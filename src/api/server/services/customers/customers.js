@@ -10,7 +10,7 @@ var customerGroupsService = require('./customer_groups');
 class CustomersService {
   constructor() {}
 
-  getCustomers(params) {
+  getCustomers(params = {}) {
     // sort
     // fields
     // tag

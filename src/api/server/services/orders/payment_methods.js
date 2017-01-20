@@ -8,7 +8,7 @@ var ObjectID = require('mongodb').ObjectID;
 class PaymentMethodsService {
   constructor() {}
 
-  getMethods(params) {
+  getMethods(params = {}) {
     let filter = {};
     const id = parse.getObjectIDIfValid(params.id);
     if (id) {

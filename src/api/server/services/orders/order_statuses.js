@@ -8,7 +8,7 @@ var ObjectID = require('mongodb').ObjectID;
 class OrderStatusesService {
   constructor() {}
 
-  getStatuses(params) {
+  getStatuses(params = {}) {
     let filter = {};
     const id = parse.getObjectIDIfValid(params.id);
     if (id) {

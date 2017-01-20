@@ -14,7 +14,7 @@ var _ = require('lodash');
 class ProductsService {
   constructor() {}
 
-  getProducts(params) {
+  getProducts(params = {}) {
     return Promise.all([
         mongo.db.collection('currencies').find().toArray(),
         CategoriesService.getCategories()

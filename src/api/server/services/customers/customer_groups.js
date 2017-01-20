@@ -9,7 +9,7 @@ var _ = require('lodash');
 class CustomerGroupsService {
   constructor() {}
 
-  getGroups(params) {
+  getGroups(params = {}) {
     return mongo.db.collection('customerGroups').find().toArray().then(items => items.map(item => this.renameDocumentFields(item)))
   }
 

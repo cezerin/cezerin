@@ -6,11 +6,14 @@ var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var CustomersService = require('../customers/customers');
+var OrderStatusesService = require('./order_statuses');
+var PaymentMethodsService = require('./payment_methods');
+var ShippingMethodsService = require('./shipping_methods');
 
 class OrdersService {
   constructor() {}
 
-  getFilter(params) {
+  getFilter(params = {}) {
     // TODO: sort, coupon, tag, channel
 
     let filter = {};
@@ -120,14 +123,19 @@ class OrdersService {
   }
 
   getOrders(params) {
-    let filter = this.getFilter(params);
-    const limit = parse.getNumberIfPositive(params.limit) || 1000000;
-    const offset = parse.getNumberIfPositive(params.offset) || 0;
+    return Promise.all([
+        OrderStatusesService.getStatuses(),
+        ShippingMethodsService.getMethods(),
+        PaymentMethodsService.getMethods()
+      ]).then(([ orderStatuses, shippingMethods, paymentMethods ]) => {
+        let filter = this.getFilter(params);
+        const limit = parse.getNumberIfPositive(params.limit) || 1000000;
+        const offset = parse.getNumberIfPositive(params.offset) || 0;
 
-    return mongo.db.collection('orders').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(orders => orders.map(order => {
-      return this.renameDocumentFields(order);
-      //orderStatuses, shippingMethods, paymentMethods
-    }));
+        return mongo.db.collection('orders').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(orders => orders.map(order => {
+          return this.renameDocumentFields(order, orderStatuses, shippingMethods, paymentMethods);
+        }));
+      });
   }
 
   getSingleOrder(id) {
@@ -430,9 +438,13 @@ class OrdersService {
       order.id = order._id.toString();
       delete order._id;
 
-      order.status = '';
-      order.payment_method = '';
-      order.shipping_method = '';
+      let orderStatus = (order.status_id && orderStatuses.length > 0) ? orderStatuses.find(i => i.id === order.status_id) : null;
+      let orderShippingMethod = (order.shipping_method_id && shippingMethods.length > 0) ? shippingMethods.find(i => i.id === order.shipping_method_id) : null;
+      let orderPaymentMethod = (order.payment_method_id && paymentMethods.length > 0) ? paymentMethods.find(i => i.id === order.payment_method_id) : null;
+
+      order.status = orderStatus ? orderStatus.name : '';
+      order.shipping_method = orderShippingMethod ? orderShippingMethod.name : '';
+      order.payment_method = orderPaymentMethod ? orderPaymentMethod.name : '';
     }
 
     return order;
