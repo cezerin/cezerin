@@ -6,6 +6,7 @@ var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var OrdersService = require('./orders');
+var ProductsService = require('../products/products');
 
 class OrderItemsService {
   constructor() {}
@@ -23,7 +24,7 @@ class OrderItemsService {
       $push: {
         items: item
       }
-    });
+    }).then(() => this.calculateAndUpdateItem(order_id, item.id)).then(() => OrdersService.getSingleOrder(order_id));;
   }
 
   updateItem(order_id, item_id, data) {
@@ -37,7 +38,58 @@ class OrderItemsService {
     return mongo.db.collection('orders').updateOne({
       _id: orderObjectID,
       'items.id': itemObjectID
-    }, {$set: item}).then(res => OrdersService.getSingleOrder(order_id));
+    }, {$set: item}).then(() => this.calculateAndUpdateItem(order_id, item_id)).then(() => OrdersService.getSingleOrder(order_id));
+  }
+
+  calculateAndUpdateItem(order_id, item_id) {
+    // TODO: variant_name, tax_total, discount_total
+
+    let orderObjectID = new ObjectID(order_id);
+    let itemObjectID = new ObjectID(item_id);
+
+    return OrdersService.getSingleOrder(order_id).then(order => {
+      if (order.items.length > 0) {
+        let item = order.items.find(i => i.id.toString() === item_id.toString());
+        if (item) {
+          return ProductsService.getSingleProduct(item.product_id).then(product => {
+            let newItemData = {
+              'items.$.sku': product.sku,
+              'items.$.name': product.name,
+              'items.$.variant_name': '',
+              'items.$.price': product.price,
+              'items.$.tax_class': product.tax_class,
+              'items.$.tax_total': 0,
+              'items.$.weight': product.weight || 0,
+              'items.$.discount_total': 0,
+              'items.$.price_total': product.price * item.quantity
+            }
+
+            return mongo.db.collection('orders').updateOne({
+              _id: orderObjectID,
+              'items.id': itemObjectID
+            }, {$set: newItemData});
+          })
+        } else {
+          // item not exists
+          return null;
+        }
+      } else {
+        // order.items is empty
+        return null;
+      }
+    })
+  }
+
+  calculateAndUpdateAllItems(order_id) {
+    return OrdersService.getSingleOrder(order_id).then(order => {
+      if (order && order.items && order.items.length > 0) {
+        let promises = order.items.map(item => this.calculateAndUpdateItem(order_id, item.id));
+        return Promise.all(promises).then(values => { return OrdersService.getSingleOrder(order_id) });
+      } else {
+        // order.items is empty
+        return null;
+      }
+    })
   }
 
   deleteItem(order_id, item_id) {

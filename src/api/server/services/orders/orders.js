@@ -5,6 +5,7 @@ var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
+var ProductsService = require('../products/products');
 var CustomersService = require('../customers/customers');
 var OrderStatusesService = require('./order_statuses');
 var PaymentMethodsService = require('./payment_methods');
@@ -123,19 +124,15 @@ class OrdersService {
   }
 
   getOrders(params) {
-    return Promise.all([
-        OrderStatusesService.getStatuses(),
-        ShippingMethodsService.getMethods(),
-        PaymentMethodsService.getMethods()
-      ]).then(([ orderStatuses, shippingMethods, paymentMethods ]) => {
-        let filter = this.getFilter(params);
-        const limit = parse.getNumberIfPositive(params.limit) || 1000000;
-        const offset = parse.getNumberIfPositive(params.offset) || 0;
+    return Promise.all([OrderStatusesService.getStatuses(), ShippingMethodsService.getMethods(), PaymentMethodsService.getMethods()]).then(([orderStatuses, shippingMethods, paymentMethods]) => {
+      let filter = this.getFilter(params);
+      const limit = parse.getNumberIfPositive(params.limit) || 1000000;
+      const offset = parse.getNumberIfPositive(params.offset) || 0;
 
-        return mongo.db.collection('orders').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(orders => orders.map(order => {
-          return this.renameDocumentFields(order, orderStatuses, shippingMethods, paymentMethods);
-        }));
-      });
+      return mongo.db.collection('orders').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(orders => orders.map(order => {
+        return this.renameDocumentFields(order, orderStatuses, shippingMethods, paymentMethods);
+      }));
+    });
   }
 
   getSingleOrder(id) {
@@ -273,14 +270,14 @@ class OrdersService {
         'date_paid': null,
         'date_cancelled': null,
         'number': orderNumber,
-        'shipping_status': '',
-        'weight_total': 0,
-        'discount_total': 0, //sum(items.discount_total)+sum(discounts.amount)
-        'tax_included_total': 0, //if(item_tax_included, 0, item_tax) + if(shipment_tax_included, 0, shipping_tax)
-        'tax_total': 0, //item_tax + shipping_tax
-        'sub_total': 0, //sum(items.price_total)
-        'shipping_total': 0, //shipping_price-shipping_discount
-        'grand_total': 0 //sub_total + shipping_total + tax_included_total - (discount_total)
+        'shipping_status': ''
+        // 'weight_total': 0,
+        // 'discount_total': 0, //sum(items.discount_total)+sum(discounts.amount)
+        // 'tax_included_total': 0, //if(item_tax_included, 0, item_tax) + if(shipment_tax_included, 0, shipping_tax)
+        // 'tax_total': 0, //item_tax + shipping_tax
+        // 'sub_total': 0, //sum(items.price_total)
+        // 'shipping_total': 0, //shipping_price-shipping_discount
+        // 'grand_total': 0 //sub_total + shipping_total + tax_included_total - (discount_total)
       }
 
       order.items = data.items && data.items.length > 0
@@ -438,18 +435,62 @@ class OrdersService {
       order.id = order._id.toString();
       delete order._id;
 
-      let orderStatus = (order.status_id && orderStatuses.length > 0) ? orderStatuses.find(i => i.id === order.status_id) : null;
-      let orderShippingMethod = (order.shipping_method_id && shippingMethods.length > 0) ? shippingMethods.find(i => i.id === order.shipping_method_id) : null;
-      let orderPaymentMethod = (order.payment_method_id && paymentMethods.length > 0) ? paymentMethods.find(i => i.id === order.payment_method_id) : null;
+      let orderStatus = (order.status_id && orderStatuses.length > 0)
+        ? orderStatuses.find(i => i.id === order.status_id)
+        : null;
+      let orderShippingMethod = (order.shipping_method_id && shippingMethods.length > 0)
+        ? shippingMethods.find(i => i.id === order.shipping_method_id)
+        : null;
+      let orderPaymentMethod = (order.payment_method_id && paymentMethods.length > 0)
+        ? paymentMethods.find(i => i.id === order.payment_method_id)
+        : null;
 
-      order.status = orderStatus ? orderStatus.name : '';
-      order.shipping_method = orderShippingMethod ? orderShippingMethod.name : '';
-      order.payment_method = orderPaymentMethod ? orderPaymentMethod.name : '';
+      order.status = orderStatus
+        ? orderStatus.name
+        : '';
+      order.shipping_method = orderShippingMethod
+        ? orderShippingMethod.name
+        : '';
+      order.payment_method = orderPaymentMethod
+        ? orderPaymentMethod.name
+        : '';
+
+      let sum_items_weight = 0;
+      let sum_items_price_total = 0;
+      let sum_items_discount_total = 0;
+      let sum_discounts_amount = 0;
+      let tax_included_total = (order.item_tax_included
+        ? 0
+        : order.item_tax) + (order.shipping_tax_included
+        ? 0
+        : order.shipping_tax);
+
+      if (order.items.length > 0) {
+        sum_items_weight = order.items.reduce((a, b) => a.weight * a.quantity + b.weight * b.quantity);
+        sum_items_price_total = order.items.reduce((a, b) => a.price_total + b.price_total);
+        sum_items_discount_total = order.items.reduce((a, b) => a.discount_total + b.discount_total);
+      }
+
+      if (order.discounts.length > 0) {
+        sum_discounts_amount = order.discounts.reduce((a, b) => a.amount + b.amount);
+      }
+
+      let tax_total = order.item_tax + order.shipping_tax;
+      let shipping_total = order.shipping_price - order.shipping_discount;
+      let discount_total = sum_items_discount_total + sum_discounts_amount;
+      let grand_total = sum_items_price_total + shipping_total + tax_included_total - discount_total;
+
+      order.weight_total = sum_items_weight;
+      order.discount_total = discount_total; //sum(items.discount_total)+sum(discounts.amount)
+      order.sub_total = sum_items_price_total; //sum(items.price_total)
+      order.tax_included_total = tax_included_total; //if(item_tax_included, 0, item_tax) + if(shipment_tax_included, 0, shipping_tax)
+      order.tax_total = tax_total; //item_tax + shipping_tax
+      order.shipping_total = shipping_total; //shipping_price-shipping_discount
+      order.grand_total = grand_total; //sub_total + shipping_total + tax_included_total - (discount_total)
     }
 
     return order;
   }
-
 }
 
 module.exports = new OrdersService();

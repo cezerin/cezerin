@@ -324,7 +324,7 @@ class ProductsService {
      return query;
   }
 
-  getSingleProduct(id, currency) {
+  getSingleProduct(id, currency = settings.currency) {
     if(!ObjectID.isValid(id)) {
       return Promise.reject('Invalid identifier');
     }

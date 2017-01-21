@@ -19,6 +19,8 @@ class OrdersController {
       this.router.put('/orders/:id', this.updateOrder.bind(this));
       this.router.delete('/orders/:id', this.deleteOrder.bind(this));
 
+      this.router.put('/orders/:id/recalculate', this.recalculateOrder.bind(this));
+
       this.router.put('/orders/:id/billing_address', this.updateBillingAddress.bind(this));
       this.router.put('/orders/:id/shipping_address', this.updateShippingAddress.bind(this));
 
@@ -74,6 +76,18 @@ class OrdersController {
    deleteOrder(req, res) {
      OrdersService.deleteOrder(req.params.id)
       .then(data => { res.end() })
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+   }
+
+   recalculateOrder(req, res) {
+     OrderItemsService.calculateAndUpdateAllItems(req.params.id)
+      .then(data => {
+        if(data) {
+          res.send(data)
+        } else {
+          res.status(404).end()
+        }
+       })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
