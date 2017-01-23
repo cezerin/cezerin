@@ -34,7 +34,11 @@ const getNumberIfPositive = (value) => {
 }
 
 const getBooleanIfValid = (value, defaultValue = null) => {
-  return (typeof value === 'boolean') ? value : defaultValue;
+  if(value === "true" || value === "false") {
+    return value === "true";
+  } else {
+    return (typeof value === 'boolean') ? value : defaultValue;
+  }
 }
 
 const getCurrencyIfValid = (value) => {

@@ -7,6 +7,7 @@ import productCategories from 'modules/product-categories/reducer';
 import products from 'modules/products/reducer';
 import customerGroups from 'modules/customer-groups/reducer';
 import customers from 'modules/customers/reducer';
+import orders from 'modules/orders/reducer';
 import settings from 'modules/settings/reducer';
 
 const initialState = {
@@ -33,5 +34,6 @@ export default combineReducers({
   products,
   settings,
   customerGroups,
-  customers
+  customers,
+  orders
 });

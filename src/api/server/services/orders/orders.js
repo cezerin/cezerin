@@ -16,7 +16,6 @@ class OrdersService {
 
   getFilter(params = {}) {
     // TODO: sort, coupon, tag, channel
-
     let filter = {};
     const id = parse.getObjectIDIfValid(params.id);
     const status_id = parse.getObjectIDIfValid(params.status_id);
@@ -117,6 +116,11 @@ class OrdersService {
     if (params.search) {
       filter['$text'] = {
         '$search': params.search
+        // +
+        // 'number':'text',
+        // 'referrer_url':'text',
+        // 'landing_url':'text',
+        // 'coupon':'text',
       };
     }
 
@@ -465,13 +469,13 @@ class OrdersService {
         ? 0
         : order.shipping_tax);
 
-      if (order.items.length > 0) {
+      if (order.items && order.items.length > 0) {
         sum_items_weight = order.items.reduce((a, b) => a.weight * a.quantity + b.weight * b.quantity);
         sum_items_price_total = order.items.reduce((a, b) => a.price_total + b.price_total);
         sum_items_discount_total = order.items.reduce((a, b) => a.discount_total + b.discount_total);
       }
 
-      if (order.discounts.length > 0) {
+      if (order.discounts && order.discounts.length > 0) {
         sum_discounts_amount = order.discounts.reduce((a, b) => a.amount + b.amount);
       }
 

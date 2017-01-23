@@ -1,0 +1,23 @@
+.orderName {
+  text-decoration: none;
+  font-weight: 400;
+  color: rgb(0,142,180);
+}
+
+.col small, .price small {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.price {
+  word-break: break-all;
+  text-align: right;
+}
+
+.status {
+  text-align: right;
+}
+
+.more {
+  padding: 40px 0;
+  text-align: center;
+}

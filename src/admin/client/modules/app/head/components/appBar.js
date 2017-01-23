@@ -7,6 +7,7 @@ import ProductCategoryHead from 'modules/product-categories/head/index'
 import CustomerGroupHead from 'modules/customer-groups/head/index'
 import CustomersHead from 'modules/customers/head/index'
 import ProductsHead from 'modules/products/head/index'
+import OrdersHead from 'modules/orders/head/index'
 import Drawer from './drawer'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -57,7 +58,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { isLoading, productCategory, productsSelectedCount, customersSelectedCount, customerGroup } = this.props;
+    const { isLoading, productCategory, productsSelectedCount, customersSelectedCount, customerGroup, ordersSelectedCount } = this.props;
     const location = this.props.location.pathname;
 
     let title = 'Dashboard';
@@ -77,6 +78,15 @@ export default class AppBarTop extends React.Component {
       }
 
       rightElements = <ProductsHead />
+    }
+    if(location === '/admin/orders'){
+      title = messages.orders.title;
+
+      if(ordersSelectedCount > 0) {
+        title = `${ordersSelectedCount} ${messages.selected}`;
+      }
+
+      rightElements = <OrdersHead />
     }
     else if(location.startsWith('/admin/product/')){
       title = title = messages.products.titleEdit;

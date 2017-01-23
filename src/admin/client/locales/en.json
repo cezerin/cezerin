@@ -1,4 +1,7 @@
 {
+  "yes": "Yes",
+  "no": "No",
+  "all": "All",
   "trash": "Trash",
   "slug": "Slug",
   "active": "Active",
@@ -9,7 +12,6 @@
   "seo": "Search Engine Optimization",
   "learnMore": "LEARN MORE",
   "filter": "Filter",
-  "all": "All",
   "currency": "Currency",
   "images": "Images",
   "selected":"selected",
@@ -156,6 +158,32 @@
     "name": "Group name",
     "all": "All Customers",
     "aboutDelete": "Will delete group {name}."
+  },
+
+  "orders": {
+    "title": "Orders",
+    "titleAdd": "Add new order",
+    "titleEdit": "Edit order",
+    "name": "Name",
+    "aboutDelete": "{count} orders is about to be permanently deleted. You can’t undo this action.",
+    "total": "Total",
+    "order": "Order",
+    "status": "Status",
+    "date": "Date",
+    "shippingTo": "Shipping to",
+    "closed": "Closed",
+    "cancelled": "Cancelled",
+    "delivered": "Delivered",
+    "paid": "Paid",
+    "hold": "Hold",
+    "draft": "Draft",
+    "setClosed": "Set as Closed",
+    "setCancelled": "Set as Cancelled",
+    "setDelivered": "Set as Delivered",
+    "setPaid": "Set as Paid",
+    "setHold": "Set as Hold",
+    "setDraft": "Set as Draft",
+    "search": "Search orders"
   }
 
 }

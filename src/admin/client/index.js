@@ -23,6 +23,7 @@ import layoutCustomerGroups from 'layouts/customers/groups'
 import layoutSettingsShared from 'layouts/settings/shared'
 import layoutSettingsGeneral from 'layouts/settings/general'
 import layoutSettingsThemes from 'layouts/settings/themes'
+import layoutOrders from 'layouts/orders'
 
 const routerMiddlewareConst = routerMiddleware(browserHistory);
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddlewareConst));
@@ -64,7 +65,7 @@ ReactDOM.render(
       <Route path="logout" component={layoutNotFound} onEnter={removeToken}/>
       <Route component={layoutShared}>
         <IndexRoute component={layoutHome}/>
-        <Route path="orders" component={layoutNotFound}/>
+        <Route path="orders" component={layoutOrders}/>
         <Route path="customers" component={layoutCustomers}/>
         <Route path="customer/:id" component={layoutCustomerEdit}/>
         <Route path="customers/groups" component={layoutCustomerGroups}/>
