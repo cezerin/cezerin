@@ -16,15 +16,36 @@ class OrderItemsService {
       return Promise.reject('Invalid identifier');
     }
     let orderObjectID = new ObjectID(order_id);
-    const item = this.getDocumentForInsert(data);
+    const newItem = this.getDocumentForInsert(data);
 
-    return mongo.db.collection('orders').updateOne({
-      _id: orderObjectID
-    }, {
-      $push: {
-        items: item
+    return this.getOrderItemIfExists(order_id, newItem.product_id, newItem.variant_id).then(existItem => {
+      if (existItem) {
+        return this.updateItem(order_id, existItem.id, {
+          quantity: existItem.quantity + newItem.quantity
+        });
+      } else {
+        return mongo.db.collection('orders').updateOne({
+          _id: orderObjectID
+        }, {
+          $push: {
+            items: newItem
+          }
+        }).then(() => this.calculateAndUpdateItem(order_id, newItem.id)).then(() => OrdersService.getSingleOrder(order_id));
       }
-    }).then(() => this.calculateAndUpdateItem(order_id, item.id)).then(() => OrdersService.getSingleOrder(order_id));;
+    })
+  }
+
+  getOrderItemIfExists(order_id, product_id, variant_id) {
+    let orderObjectID = new ObjectID(order_id);
+    return mongo.db.collection('orders').findOne({
+      _id: orderObjectID
+    }, {items: 1}).then(order => {
+      if(order && order.items && order.items.length > 0) {
+        return order.items.find(item => item.product_id === product_id && item.variant_id === variant_id);
+      } else {
+        return null;
+      }
+    });
   }
 
   updateItem(order_id, item_id, data) {
@@ -84,7 +105,9 @@ class OrderItemsService {
     return OrdersService.getSingleOrder(order_id).then(order => {
       if (order && order.items && order.items.length > 0) {
         let promises = order.items.map(item => this.calculateAndUpdateItem(order_id, item.id));
-        return Promise.all(promises).then(values => { return OrdersService.getSingleOrder(order_id) });
+        return Promise.all(promises).then(values => {
+          return OrdersService.getSingleOrder(order_id)
+        });
       } else {
         // order.items is empty
         return null;
