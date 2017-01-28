@@ -11,11 +11,15 @@ export default({
   currentProduct,
   categories,
   products,
-  productsFilter
-}) => (
-  <div id="wrapper" className="wrapper">
-    <Header categories={categories} currentCategory={currentCategory}/>
-    {children}
-    <Footer/>
-  </div>
-)
+  productsFilter,
+  cart,
+  addToCart,
+  removeFromCart
+}) => {
+  return (
+    <div id="wrapper" className="wrapper">
+      <Header cart={cart} removeFromCart={removeFromCart} categories={categories} currentCategory={currentCategory}/> {children}
+      <Footer/>
+    </div>
+  )
+}

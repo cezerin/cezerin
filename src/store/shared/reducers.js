@@ -25,6 +25,11 @@ function appReducer(state = initialState, action) {
     case t.PRODUCTS_RECEIVE:
       return Object.assign({}, state, {products: action.products})
 
+    case t.CART_RECEIVE:
+      return Object.assign({}, state, {cart: action.cart})
+
+    case t.CART_REQUEST:
+    case t.CART_FAILURE:
     default:
       return state
   }

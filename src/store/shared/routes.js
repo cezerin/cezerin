@@ -27,7 +27,6 @@ function checkSitemap(nextState, cb) {
       } else if (sitemapResponse.json.type === 'product') {
         dispatch(fetchProduct(sitemapResponse.json.resource))
         cb(null, props => <ProductContainer {...props}/>);
-
       } else if (sitemapResponse.json.type === 'reserved') {
         cb(null, CustomPageContainer)
       } else {

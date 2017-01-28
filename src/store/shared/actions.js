@@ -16,7 +16,6 @@ function receiveCategories(categories) {
 }
 
 export function receiveSitemap(currentPage) {
-  //console.log(currentPage);
   return {type: t.SITEMAP_RECEIVE, currentPage}
 }
 
@@ -28,6 +27,10 @@ function resetCurrentCategory() {
   return {type: t.SET_CURRENT_CATEGORY, category: null}
 }
 
+function receiveCart(cart) {
+  return {type: t.CART_RECEIVE, cart}
+}
+
 export function setCategory(category_id) {
   return (dispatch, getState) => {
     const state = getState();
@@ -35,6 +38,30 @@ export function setCategory(category_id) {
     dispatch(setCurrentCategory(category));
     dispatch(fetchProducts());
     dispatch(receiveProduct(null))
+  }
+}
+
+export function fetchCart() {
+  return (dispatch, getState) => {
+    return api.ajax.cart.retrieve().then(({status, json}) => {
+      dispatch(receiveCart(json))
+    }).catch(error => {});
+  }
+}
+
+export function addToCart(item) {
+  return (dispatch, getState) => {
+    return api.ajax.cart.addItem(item).then(({status, json}) => {
+      dispatch(receiveCart(json))
+    }).catch(error => {});
+  }
+}
+
+export function removeFromCart(item_id) {
+  return (dispatch, getState) => {
+    return api.ajax.cart.deleteItem(item_id).then(({status, json}) => {
+      dispatch(receiveCart(json))
+    }).catch(error => {});
   }
 }
 
@@ -88,19 +115,27 @@ const getProduct = (currentPage) => {
   }
 }
 
+const getCart = (cookie) => {
+  return api.ajax.cart.retrieve(cookie).then(({status, json}) => {
+    return json;
+  })
+}
+
 const getCommonData = (req, currentPage, productsFilter) => {
+  const cookie = req.get('cookie');
   return Promise.all([
     getCategories(),
     getProduct(currentPage),
-    getProducts(productsFilter)
-  ]).then(([categories, product, products]) => {
+    getProducts(productsFilter),
+    getCart(cookie)
+  ]).then(([categories, product, products, cart]) => {
 
     let currentCategory = null;
     if (currentPage.type === 'product-category') {
       currentCategory = categories.find(c => c.id === currentPage.resource);
     }
 
-    return {categories, product, products, currentCategory}
+    return {categories, product, products, currentCategory, cart}
   });
 }
 
@@ -114,6 +149,7 @@ export const getInitialState = (req) => {
       currentProduct: null,
       categories: [],
       products: [],
+      cart: null,
       productsFilter: {
         limit: 20,
         fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price'
@@ -133,6 +169,7 @@ export const getInitialState = (req) => {
         initialState.app.currentProduct = commonData.product;
         initialState.app.products = commonData.products;
         initialState.app.currentCategory = commonData.currentCategory;
+        initialState.app.cart = commonData.cart;
         return initialState;
       })
     } else {

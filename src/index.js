@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var helmet = require('helmet')
 var bodyParser = require('body-parser');
 var apiRouter = require('./api/server');
 var storeRouter = require('./store/server');
@@ -7,13 +8,15 @@ var ajaxRouter = require('./store/server/ajax');
 var responseTime = require('response-time');
 var settings = require('../config/serverSide');
 var path = require('path');
+var cookieParser = require('cookie-parser');
 
-app.disable('x-powered-by');
+app.set('trust proxy', 1) // trust first proxy
+app.use(express.static('public'))
+app.use(helmet())
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-
-app.use(express.static('public'))
+app.use(cookieParser(settings.security.cookieKey));
 app.get('/admin/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../public/admin/index.html'))
 });

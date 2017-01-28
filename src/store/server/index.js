@@ -59,9 +59,7 @@ storeRouter.get('*', (req, res, next) => {
               const state = store.getState();
               const head = getHead();
               const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
-
               res.status(200).send(html);
-
             } else {
               res.status(404).send('Not found')
             }

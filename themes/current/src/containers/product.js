@@ -12,7 +12,10 @@ export default({
   currentProduct,
   categories,
   products,
-  productsFilter
+  productsFilter,
+  cart,
+  addToCart,
+  removeFromCart
 }) => {
   if (currentProduct) {
     return (
