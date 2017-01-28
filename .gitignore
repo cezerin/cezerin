@@ -5,7 +5,7 @@ public/admin-assets/css/bundle-*
 public/admin-assets/js/app-*
 public/admin-assets/js/vendor-*
 public/admin/index.html
-public/uploads
+public/static
 themes/current/dist/*
 dist/*
 config/*
