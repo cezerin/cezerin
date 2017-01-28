@@ -470,13 +470,32 @@ class OrdersService {
         : order.shipping_tax);
 
       if (order.items && order.items.length > 0) {
-        sum_items_weight = order.items.reduce((a, b) => a.weight * a.quantity + b.weight * b.quantity);
-        sum_items_price_total = order.items.reduce((a, b) => a.price_total + b.price_total);
-        sum_items_discount_total = order.items.reduce((a, b) => a.discount_total + b.discount_total);
+        order.items.forEach(item => {
+          let item_weight = item.weight * item.quantity;
+          if (item_weight > 0) {
+            sum_items_weight += item_weight;
+          }
+        })
+
+        order.items.forEach(item => {
+          if (item.price_total > 0) {
+            sum_items_price_total += item.price_total;
+          }
+        })
+
+        order.items.forEach(item => {
+          if (item.discount_total > 0) {
+            sum_items_discount_total += item.discount_total;
+          }
+        })
       }
 
       if (order.discounts && order.discounts.length > 0) {
-        sum_discounts_amount = order.discounts.reduce((a, b) => a.amount + b.amount);
+        order.items.forEach(item => {
+          if (item.amount > 0) {
+            sum_discounts_amount += item.amount;
+          }
+        })
       }
 
       let tax_total = order.item_tax + order.shipping_tax;
