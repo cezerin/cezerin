@@ -140,7 +140,7 @@ class OrdersController {
      const order_id = req.params.id;
      const item_id = req.params.item_id;
      OrderItemsService.deleteItem(order_id, item_id)
-      .then(data => { res.end() })
+      .then(data => { res.send(data) })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
