@@ -41,6 +41,16 @@ class SitemapService {
     });
 
     paths.push({
+      path: '/checkout',
+      type: 'reserved'
+    });
+
+    paths.push({
+      path: '/cart',
+      type: 'reserved'
+    });
+
+    paths.push({
       path: '/api',
       type: 'reserved'
     });
