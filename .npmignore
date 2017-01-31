@@ -1,6 +1,12 @@
 node_modules
-public/assets/css/bundle.*
-public/assets/js/bundle.*
-public/admin/assets/css/bundle.*
-public/admin/assets/js/bundle.*
-public/static
+public/admin-assets/css/bundle-*
+public/admin-assets/js/app-*
+public/admin-assets/js/vendor-*
+public/admin/index.html
+public/assets/*
+public/static/*
+themes/current/dist/*
+dist/*
+config/*
+npm-debug.log*
+*.zip
