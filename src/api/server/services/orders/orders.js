@@ -8,8 +8,8 @@ var ObjectID = require('mongodb').ObjectID;
 var ProductsService = require('../products/products');
 var CustomersService = require('../customers/customers');
 var OrderStatusesService = require('./order_statuses');
-var PaymentMethodsService = require('./payment_methods');
-var ShippingMethodsService = require('./shipping_methods');
+var PaymentMethodsLightService = require('./payment_methods_light');
+var ShippingMethodsLightService = require('./shipping_methods_light');
 
 class OrdersService {
   constructor() {}
@@ -89,7 +89,7 @@ class OrdersService {
         filter.grand_total['$gte'] = grand_total_min;
       }
       if (grand_total_max) {
-        filter.grand_total['lte'] = grand_total_max;
+        filter.grand_total['$lte'] = grand_total_max;
       }
     }
 
@@ -99,7 +99,7 @@ class OrdersService {
         filter.date_created['$gte'] = date_created_min.toISOString();
       }
       if (date_created_max) {
-        filter.date_created['lte'] = date_created_max.toISOString();
+        filter.date_created['$lte'] = date_created_max.toISOString();
       }
     }
 
@@ -109,7 +109,7 @@ class OrdersService {
         filter.date_completed['$gte'] = date_completed_min.toISOString();
       }
       if (date_completed_max) {
-        filter.date_completed['lte'] = date_completed_max.toISOString();
+        filter.date_completed['$lte'] = date_completed_max.toISOString();
       }
     }
 
@@ -128,7 +128,7 @@ class OrdersService {
   }
 
   getOrders(params) {
-    return Promise.all([OrderStatusesService.getStatuses(), ShippingMethodsService.getMethods(), PaymentMethodsService.getMethods()]).then(([orderStatuses, shippingMethods, paymentMethods]) => {
+    return Promise.all([OrderStatusesService.getStatuses(), ShippingMethodsLightService.getMethods(), PaymentMethodsLightService.getMethods()]).then(([orderStatuses, shippingMethods, paymentMethods]) => {
       let filter = this.getFilter(params);
       const limit = parse.getNumberIfPositive(params.limit) || 1000000;
       const offset = parse.getNumberIfPositive(params.offset) || 0;

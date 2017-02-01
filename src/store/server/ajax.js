@@ -115,23 +115,20 @@ ajaxRouter.get('/sitemap', (req, res, next) => {
   })
 })
 
-
-
-
-
-
-
-
-
-
 ajaxRouter.get('/payment_methods', (req, res, next) => {
-  api.payment_methods.list().then(({status, json}) => {
+  const filter = {
+    order_id: req.signedCookies.order_id
+  };
+  api.payment_methods.list(filter).then(({status, json}) => {
     res.send(json);
   })
 })
 
 ajaxRouter.get('/shipping_methods', (req, res, next) => {
-  api.shipping_methods.list().then(({status, json}) => {
+  const filter = {
+    order_id: req.signedCookies.order_id
+  };
+  api.shipping_methods.list(filter).then(({status, json}) => {
     res.send(json);
   })
 })
@@ -141,19 +138,6 @@ ajaxRouter.get('/countries', (req, res, next) => {
     res.send(json);
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ajaxRouter.all('*', (req, res, next) => {
   res.status(405).send({'error': 'Method Not Allowed'});
