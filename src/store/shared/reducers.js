@@ -1,5 +1,6 @@
 import {routerReducer, LOCATION_CHANGE} from 'react-router-redux'
 import {combineReducers} from 'redux'
+import { reducer as formReducer } from 'redux-form'
 import * as t from './actionTypes'
 
 const initialState = {};
@@ -35,4 +36,4 @@ function appReducer(state = initialState, action) {
   }
 }
 
-export default combineReducers({app: appReducer, routing: routerReducer});
+export default combineReducers({app: appReducer, routing: routerReducer, form: formReducer});

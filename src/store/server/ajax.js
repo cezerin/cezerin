@@ -64,6 +64,39 @@ ajaxRouter.delete('/cart/items/:item_id', (req, res, next) => {
   }
 })
 
+ajaxRouter.put('/cart', (req, res, next) => {
+  const order_id = req.signedCookies.order_id;
+  if (order_id) {
+    api.orders.update(order_id, req.body).then(({status, json}) => {
+      res.send(json);
+    })
+  } else {
+    res.end();
+  }
+})
+
+ajaxRouter.put('/cart/shipping_address', (req, res, next) => {
+  const order_id = req.signedCookies.order_id;
+  if (order_id) {
+    api.orders.updateShippingAddress(order_id, req.body).then(({status, json}) => {
+      res.send(json);
+    })
+  } else {
+    res.end();
+  }
+})
+
+ajaxRouter.put('/cart/billing_address', (req, res, next) => {
+  const order_id = req.signedCookies.order_id;
+  if (order_id) {
+    api.orders.updateBillingAddress(order_id, req.body).then(({status, json}) => {
+      res.send(json);
+    })
+  } else {
+    res.end();
+  }
+})
+
 ajaxRouter.get('/product_categories', (req, res, next) => {
   api.product_categories.list().then(({status, json}) => {
     res.send(json);
@@ -81,6 +114,46 @@ ajaxRouter.get('/sitemap', (req, res, next) => {
     res.send(json);
   })
 })
+
+
+
+
+
+
+
+
+
+
+ajaxRouter.get('/payment_methods', (req, res, next) => {
+  api.payment_methods.list().then(({status, json}) => {
+    res.send(json);
+  })
+})
+
+ajaxRouter.get('/shipping_methods', (req, res, next) => {
+  api.shipping_methods.list().then(({status, json}) => {
+    res.send(json);
+  })
+})
+
+ajaxRouter.get('/countries', (req, res, next) => {
+  api.countries.list().then(({status, json}) => {
+    res.send(json);
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ajaxRouter.all('*', (req, res, next) => {
   res.status(405).send({'error': 'Method Not Allowed'});

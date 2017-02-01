@@ -30,8 +30,8 @@ const Header = ({categories, currentCategory, cart, removeFromCart}) => {
             {rows}
           </Nav>
           <Nav pullRight>
-            <NavItem eventKey={1} href="#">Delivery</NavItem>
-            <NavItem eventKey={2} href="#">Payment</NavItem>
+            <LinkContainer to="/cart"><NavItem eventKey={1}>Cart</NavItem></LinkContainer>
+            <LinkContainer to="/checkout"><NavItem eventKey={2}>Checkout</NavItem></LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

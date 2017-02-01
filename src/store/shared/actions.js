@@ -65,6 +65,23 @@ export function removeFromCart(item_id) {
   }
 }
 
+export function updateCart(cart) {
+  return (dispatch, getState) => {
+    return Promise.all([
+      api.ajax.cart.updateShippingAddress(cart.shipping_address),
+      api.ajax.cart.updateBillingAddress(cart.billing_address),
+      api.ajax.cart.update({
+        email: cart.email, mobile: cart.mobile
+        // coupon: cart.coupon
+        // payment_method_id: cart.payment_method_id
+        // shipping_method_id: cart.shipping_method_id
+      })
+    ]).then(([shipping_address_response, billing_address_response, update_response]) => {
+      dispatch(receiveCart(update_response.json))
+    }).catch(error => {});
+  }
+}
+
 export function fetchCategories() {
   return (dispatch, getState) => {
     return api.ajax.product_categories.list().then(({status, json}) => {
@@ -123,12 +140,7 @@ const getCart = (cookie) => {
 
 const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([
-    getCategories(),
-    getProduct(currentPage),
-    getProducts(productsFilter),
-    getCart(cookie)
-  ]).then(([categories, product, products, cart]) => {
+  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie)]).then(([categories, product, products, cart]) => {
 
     let currentCategory = null;
     if (currentPage.type === 'product-category') {

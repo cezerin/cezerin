@@ -58,4 +58,13 @@ Object.defineProperty(exports, 'CustomPageContainer', {
   }
 });
 
+var _checkout = require('./containers/checkout');
+
+Object.defineProperty(exports, 'ChechoutContainer', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_checkout).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

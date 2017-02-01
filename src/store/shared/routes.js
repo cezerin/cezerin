@@ -11,6 +11,7 @@ import SharedContainer from './containers/shared'
 import CategoryContainer from './containers/category'
 import ProductContainer from './containers/product'
 import CustomPageContainer from './containers/customPage'
+import CheckoutContainer from './containers/checkout'
 import NotFoundContainer from './containers/notfound'
 
 function checkSitemap(nextState, cb) {
@@ -28,7 +29,11 @@ function checkSitemap(nextState, cb) {
         dispatch(fetchProduct(sitemapResponse.json.resource))
         cb(null, props => <ProductContainer {...props}/>);
       } else if (sitemapResponse.json.type === 'reserved') {
-        cb(null, CustomPageContainer)
+        if(nextState.location.pathname == '/checkout') {
+          cb(null, CheckoutContainer);
+        } else {
+          cb(null, CustomPageContainer)
+        }
       } else {
         cb(null, NotFoundContainer)
       }
