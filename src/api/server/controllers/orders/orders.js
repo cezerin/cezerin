@@ -20,6 +20,7 @@ class OrdersController {
       this.router.delete('/orders/:id', this.deleteOrder.bind(this));
 
       this.router.put('/orders/:id/recalculate', this.recalculateOrder.bind(this));
+      this.router.put('/orders/:id/checkout', this.checkoutOrder.bind(this));
 
       this.router.put('/orders/:id/billing_address', this.updateBillingAddress.bind(this));
       this.router.put('/orders/:id/shipping_address', this.updateShippingAddress.bind(this));
@@ -87,6 +88,14 @@ class OrdersController {
         } else {
           res.status(404).end()
         }
+       })
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+   }
+
+   checkoutOrder(req, res) {
+     OrdersService.checkoutOrder(req.params.id)
+      .then(data => {
+        res.send(data)
        })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }

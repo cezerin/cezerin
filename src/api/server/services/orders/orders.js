@@ -522,6 +522,16 @@ class OrdersService {
 
     return order;
   }
+
+  checkoutOrder(order_id) {
+    /*
+    1. get order info
+    2. send emails
+    3. fire Webhooks
+    4. return order info
+    */
+    return this.getSingleOrder(order_id);
+  }
 }
 
 module.exports = new OrdersService();
