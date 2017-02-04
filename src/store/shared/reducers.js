@@ -29,6 +29,12 @@ function appReducer(state = initialState, action) {
     case t.CART_RECEIVE:
       return Object.assign({}, state, {cart: action.cart})
 
+    case t.PAYMENT_METHODS_RECEIVE:
+      return Object.assign({}, state, {payment_methods: action.methods})
+
+    case t.SHIPPING_METHODS_RECEIVE:
+      return Object.assign({}, state, {shipping_methods: action.methods})
+
     case t.CART_REQUEST:
     case t.CART_FAILURE:
     default:

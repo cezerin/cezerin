@@ -29,10 +29,11 @@ export default({cart, removeFromCart}) => {
             {items}
           </tbody>
         </table>
-        <p>sub_total: {cart.sub_total}</p>
-        <p>grand_total: {cart.grand_total}</p>
-        <p>weight_total: {cart.weight_total}</p>
-        <p>tax_total: {cart.tax_total}</p>
+        <p>Subtotal: {cart.sub_total}</p>
+        <p>Shipping: {cart.shipping_total}</p>
+        <p>Discount: {cart.discount_total}</p>
+        <p>Tax: {cart.tax_total}</p>
+        <p><b>Grand total: </b>{cart.grand_total}</p>
       </div>
     )
   } else {

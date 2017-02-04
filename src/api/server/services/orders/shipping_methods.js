@@ -121,7 +121,6 @@ class ShippingMethodsService {
 
   getMethods(params = {}) {
     return this.getFilter(params).then(filter => {
-      console.log(filter);
       return ShippingMethodsLightService.getMethods(filter);
     });
   }

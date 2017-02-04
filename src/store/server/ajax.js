@@ -43,7 +43,21 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
       res.send(json);
     })
   } else {
-    api.orders.create({}).then(({status, json}) => {
+    // let ip = req.get('x-forwarded-for') || req.connection.remoteAddress;
+    let ip = req.ip || '';
+    if(ip && ip.includes('::ffff:')) {
+      ip = ip.replace('::ffff:', '');
+    }
+
+    api.orders.create({
+      draft: true,
+      referrer_url: req.signedCookies.referrer_url,
+      landing_url: req.signedCookies.landing_url,
+      browser: {
+        ip: ip,
+        user_agent: req.get('user-agent')
+      }
+    }).then(({status, json}) => {
       res.cookie('order_id', json.id, cartCookieOptions);
       api.orders.addItem(json.id, item).then(({status, json}) => {
         res.send(json);
@@ -63,6 +77,38 @@ ajaxRouter.delete('/cart/items/:item_id', (req, res, next) => {
     res.end();
   }
 })
+
+ajaxRouter.put('/cart/items/:item_id', (req, res, next) => {
+  const order_id = req.signedCookies.order_id;
+  const item_id = req.params.item_id;
+  const item = req.body;
+  if (order_id && item_id) {
+    api.orders.updateItem(order_id, item_id, item).then(({status, json}) => {
+      res.send(json);
+    })
+  } else {
+    res.end();
+  }
+})
+
+ajaxRouter.put('/cart/finish', (req, res, next) => {
+  /*
+  1. get order info
+  2. delete order_id cookie
+  3. send email to client
+  4. response with order info
+  5. call api.order.finish (for Webhooks)
+  */
+  const order_id = req.signedCookies.order_id;
+  if (order_id) {
+    api.orders.retrieve(order_id).then(({status, json}) => {
+      res.clearCookie('order_id');
+      res.send(json);
+    })
+  } else {
+    res.end();
+  }
+});
 
 ajaxRouter.put('/cart', (req, res, next) => {
   const order_id = req.signedCookies.order_id;

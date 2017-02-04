@@ -84,7 +84,6 @@ class PaymentMethodsService {
 
   getMethods(params = {}) {
     return this.getFilter(params).then(filter => {
-      console.log(JSON.stringify(filter));
       return PaymentMethodsLightService.getMethods(filter);
     });
   }

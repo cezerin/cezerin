@@ -31,6 +31,14 @@ function receiveCart(cart) {
   return {type: t.CART_RECEIVE, cart}
 }
 
+function receivePaymentMethods(methods) {
+  return {type: t.PAYMENT_METHODS_RECEIVE, methods}
+}
+
+function receiveShippingMethods(methods) {
+  return {type: t.SHIPPING_METHODS_RECEIVE, methods}
+}
+
 export function setCategory(category_id) {
   return (dispatch, getState) => {
     const state = getState();
@@ -38,6 +46,22 @@ export function setCategory(category_id) {
     dispatch(setCurrentCategory(category));
     dispatch(fetchProducts());
     dispatch(receiveProduct(null))
+  }
+}
+
+export function fetchShippingMethods() {
+  return (dispatch, getState) => {
+    return api.ajax.shipping_methods.list().then(({status, json}) => {
+      dispatch(receiveShippingMethods(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchPaymentMethods() {
+  return (dispatch, getState) => {
+    return api.ajax.payment_methods.list().then(({status, json}) => {
+      dispatch(receivePaymentMethods(json))
+    }).catch(error => {});
   }
 }
 
@@ -71,13 +95,39 @@ export function updateCart(cart) {
       api.ajax.cart.updateShippingAddress(cart.shipping_address),
       api.ajax.cart.updateBillingAddress(cart.billing_address),
       api.ajax.cart.update({
-        email: cart.email, mobile: cart.mobile
+        email: cart.email,
+        mobile: cart.mobile,
+        payment_method_id: cart.payment_method_id,
+        shipping_method_id: cart.shipping_method_id
         // coupon: cart.coupon
-        // payment_method_id: cart.payment_method_id
-        // shipping_method_id: cart.shipping_method_id
       })
     ]).then(([shipping_address_response, billing_address_response, update_response]) => {
+      // console.log('updateCart');
       dispatch(receiveCart(update_response.json))
+      dispatch(fetchShippingMethods())
+      dispatch(fetchPaymentMethods())
+    }).catch(error => {});
+  }
+}
+
+export function finishCheckout(cart) {
+  return (dispatch, getState) => {
+    return Promise.all([
+      api.ajax.cart.updateShippingAddress(cart.shipping_address),
+      api.ajax.cart.updateBillingAddress(cart.billing_address),
+      api.ajax.cart.update({
+        email: cart.email,
+        mobile: cart.mobile,
+        payment_method_id: cart.payment_method_id,
+        draft: false
+        // shipping_method_id: cart.shipping_method_id
+        // coupon: cart.coupon
+      })
+    ]).then(([shipping_address_response, billing_address_response, update_response]) => {
+      api.ajax.cart.finish(cart.billing_address),
+      // console.log('updateCart');
+      dispatch(receiveCart(update_response.json))
+
     }).catch(error => {});
   }
 }
@@ -161,6 +211,8 @@ export const getInitialState = (req) => {
       currentProduct: null,
       categories: [],
       products: [],
+      payment_methods: [],
+      shipping_methods: [],
       cart: null,
       productsFilter: {
         limit: 20,

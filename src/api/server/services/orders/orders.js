@@ -193,11 +193,9 @@ class OrdersService {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(id);
-    const order = this.getDocumentForUpdate(id, data);
-
-    return mongo.db.collection('orders').updateOne({
+    return this.getDocumentForUpdate(id, data).then(order => mongo.db.collection('orders').updateOne({
       _id: orderObjectID
-    }, {$set: order}).then(res => this.getSingleOrder(id))
+    }, {$set: order}).then(res => this.getSingleOrder(id)));
   }
 
   deleteOrder(orderId) {
@@ -335,103 +333,113 @@ class OrdersService {
   }
 
   getDocumentForUpdate(id, data) {
-    if (Object.keys(data).length === 0) {
-      return new Error('Required fields are missing');
-    }
+    return new Promise((resolve, reject) => {
+      if (Object.keys(data).length === 0) {
+        reject(new Error('Required fields are missing'));
+      }
 
-    let order = {
-      'date_updated': new Date()
-    }
+      let order = {
+        'date_updated': new Date()
+      }
 
-    if (data.item_tax !== undefined) {
-      order.item_tax = parse.getNumberIfPositive(data.item_tax) || 0;
-    }
-    if (data.shipping_tax !== undefined) {
-      order.shipping_tax = parse.getNumberIfPositive(data.shipping_tax) || 0;
-    }
-    if (data.shipping_discount !== undefined) {
-      order.shipping_discount = parse.getNumberIfPositive(data.shipping_discount) || 0;
-    }
-    if (data.shipping_price !== undefined) {
-      order.shipping_price = parse.getNumberIfPositive(data.shipping_price) || 0;
-    }
-    if (data.item_tax_included !== undefined) {
-      order.item_tax_included = parse.getBooleanIfValid(data.item_tax_included, true);
-    }
-    if (data.shipping_tax_included !== undefined) {
-      order.shipping_tax_included = parse.getBooleanIfValid(data.shipping_tax_included, true);
-    }
-    if (data.closed !== undefined) {
-      order.closed = parse.getBooleanIfValid(data.closed, false);
-    }
-    if (data.cancelled !== undefined) {
-      order.cancelled = parse.getBooleanIfValid(data.cancelled, false);
-    }
-    if (data.delivered !== undefined) {
-      order.delivered = parse.getBooleanIfValid(data.delivered, false);
-    }
-    if (data.paid !== undefined) {
-      order.paid = parse.getBooleanIfValid(data.paid, false);
-    }
-    if (data.hold !== undefined) {
-      order.hold = parse.getBooleanIfValid(data.hold, false);
-    }
-    if (data.draft !== undefined) {
-      order.draft = parse.getBooleanIfValid(data.draft, true);
-    }
-    if (data.email !== undefined) {
-      order.email = parse.getString(data.email);
-    }
-    if (data.mobile !== undefined) {
-      order.mobile = parse.getString(data.mobile);
-    }
-    if (data.referrer_url !== undefined) {
-      order.referrer_url = parse.getString(data.referrer_url);
-    }
-    if (data.landing_url !== undefined) {
-      order.landing_url = parse.getString(data.landing_url);
-    }
-    if (data.channel !== undefined) {
-      order.channel = parse.getString(data.channel);
-    }
-    if (data.note !== undefined) {
-      order.note = parse.getString(data.note);
-    }
-    if (data.comments !== undefined) {
-      order.comments = parse.getString(data.comments);
-    }
-    if (data.coupon !== undefined) {
-      order.coupon = parse.getString(data.coupon);
-    }
-    if (data.currency !== undefined) {
-      order.currency = parse.getCurrencyIfValid(data.currency) || settings.currency;
-    }
-    if (data.tracking_number !== undefined) {
-      order.tracking_number = parse.getString(data.tracking_number);
-    }
-    if (data.shipping_status !== undefined) {
-      order.shipping_status = parse.getString(data.shipping_status);
-    }
-    if (data.customer_id !== undefined) {
-      order.customer_id = parse.getObjectIDIfValid(data.customer_id);
-    }
-    if (data.status_id !== undefined) {
-      order.status_id = parse.getObjectIDIfValid(data.status_id);
-    }
-    if (data.payment_method_id !== undefined) {
-      order.payment_method_id = parse.getObjectIDIfValid(data.payment_method_id);
-    }
-    if (data.shipping_method_id !== undefined) {
-      order.shipping_method_id = parse.getObjectIDIfValid(data.shipping_method_id);
-    }
-    if (data.tags !== undefined) {
-      order.tags = parse.getArrayIfValid(data.tags) || [];
-    }
-    if (data.browser !== undefined) {
-      order.browser = parse.getBrowser(data.browser);
-    }
+      if (data.item_tax !== undefined) {
+        order.item_tax = parse.getNumberIfPositive(data.item_tax) || 0;
+      }
+      if (data.shipping_tax !== undefined) {
+        order.shipping_tax = parse.getNumberIfPositive(data.shipping_tax) || 0;
+      }
+      if (data.shipping_discount !== undefined) {
+        order.shipping_discount = parse.getNumberIfPositive(data.shipping_discount) || 0;
+      }
+      if (data.shipping_price !== undefined) {
+        order.shipping_price = parse.getNumberIfPositive(data.shipping_price) || 0;
+      }
+      if (data.item_tax_included !== undefined) {
+        order.item_tax_included = parse.getBooleanIfValid(data.item_tax_included, true);
+      }
+      if (data.shipping_tax_included !== undefined) {
+        order.shipping_tax_included = parse.getBooleanIfValid(data.shipping_tax_included, true);
+      }
+      if (data.closed !== undefined) {
+        order.closed = parse.getBooleanIfValid(data.closed, false);
+      }
+      if (data.cancelled !== undefined) {
+        order.cancelled = parse.getBooleanIfValid(data.cancelled, false);
+      }
+      if (data.delivered !== undefined) {
+        order.delivered = parse.getBooleanIfValid(data.delivered, false);
+      }
+      if (data.paid !== undefined) {
+        order.paid = parse.getBooleanIfValid(data.paid, false);
+      }
+      if (data.hold !== undefined) {
+        order.hold = parse.getBooleanIfValid(data.hold, false);
+      }
+      if (data.draft !== undefined) {
+        order.draft = parse.getBooleanIfValid(data.draft, true);
+      }
+      if (data.email !== undefined) {
+        order.email = parse.getString(data.email);
+      }
+      if (data.mobile !== undefined) {
+        order.mobile = parse.getString(data.mobile);
+      }
+      if (data.referrer_url !== undefined) {
+        order.referrer_url = parse.getString(data.referrer_url);
+      }
+      if (data.landing_url !== undefined) {
+        order.landing_url = parse.getString(data.landing_url);
+      }
+      if (data.channel !== undefined) {
+        order.channel = parse.getString(data.channel);
+      }
+      if (data.note !== undefined) {
+        order.note = parse.getString(data.note);
+      }
+      if (data.comments !== undefined) {
+        order.comments = parse.getString(data.comments);
+      }
+      if (data.coupon !== undefined) {
+        order.coupon = parse.getString(data.coupon);
+      }
+      if (data.currency !== undefined) {
+        order.currency = parse.getCurrencyIfValid(data.currency) || settings.currency;
+      }
+      if (data.tracking_number !== undefined) {
+        order.tracking_number = parse.getString(data.tracking_number);
+      }
+      if (data.shipping_status !== undefined) {
+        order.shipping_status = parse.getString(data.shipping_status);
+      }
+      if (data.customer_id !== undefined) {
+        order.customer_id = parse.getObjectIDIfValid(data.customer_id);
+      }
+      if (data.status_id !== undefined) {
+        order.status_id = parse.getObjectIDIfValid(data.status_id);
+      }
+      if (data.payment_method_id !== undefined) {
+        order.payment_method_id = parse.getObjectIDIfValid(data.payment_method_id);
+      }
+      if (data.shipping_method_id !== undefined) {
+        order.shipping_method_id = parse.getObjectIDIfValid(data.shipping_method_id);
+      }
+      if (data.tags !== undefined) {
+        order.tags = parse.getArrayIfValid(data.tags) || [];
+      }
+      if (data.browser !== undefined) {
+        order.browser = parse.getBrowser(data.browser);
+      }
 
-    return order;
+      if (order.shipping_method_id && !order.shipping_price) {
+        ShippingMethodsLightService.getMethodPrice(order.shipping_method_id).then(shippingPrice => {
+          order.shipping_price = shippingPrice;
+          resolve(order);
+        })
+      } else {
+        resolve(order);
+      }
+
+    });
   }
 
   renameDocumentFields(order, orderStatuses, shippingMethods, paymentMethods) {

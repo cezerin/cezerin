@@ -31,7 +31,17 @@ const getHead = () => {
   }
 }
 
+const referrerCookieOptions = {
+  maxAge: 604800000,
+  httpOnly: true,
+  signed: true,
+  sameSite: 'strict'
+}
+
 storeRouter.get('*', (req, res, next) => {
+  const full_url = `${req.protocol}://${req.hostname}${req.url}`;
+  const referrer_url = req.get('referrer') === undefined ? '' : req.get('referrer');
+
   theme.readBuildManifest().then(buildManifestJSON => {
     theme.readTemplate().then(templateHtml => {
       getInitialState(req).then(initialState => {
@@ -59,6 +69,15 @@ storeRouter.get('*', (req, res, next) => {
               const state = store.getState();
               const head = getHead();
               const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
+
+              if(!req.signedCookies.referrer_url) {
+                res.cookie('referrer_url', referrer_url, referrerCookieOptions);
+              }
+
+              if(!req.signedCookies.landing_url) {
+                res.cookie('landing_url', full_url, referrerCookieOptions);
+              }
+
               res.status(200).send(html);
             } else {
               res.status(404).send('Not found')

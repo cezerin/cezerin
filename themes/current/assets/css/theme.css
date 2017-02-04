@@ -1,0 +1,43 @@
+.checkout-form {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.checkout-form h2 {
+  font-size: 18px;
+}
+
+.shipping-methods {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.shipping-method {
+  display: block;
+  padding: 8px 16px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.payment-methods {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.payment-method {
+  display: block;
+  padding: 8px 16px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.payment-method:last-child, .shipping-method:last-child {
+  border-bottom: none;
+}
+
+.checkout-text-input {
+  width: 100%;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 8px 16px;
+  outline: none;
+}
