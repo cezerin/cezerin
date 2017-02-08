@@ -1,6 +1,5 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
-
 const validateRequired = value => value ? undefined : 'Required field.';
 
 const validateEmail = value =>
@@ -46,6 +45,7 @@ class Form extends React.Component {
       loadingShippingMethods,
       loadingPaymentMethods,
       processingCheckout,
+      text,
       initialValues,
       saveShippingCountry,
       saveShippingState,
@@ -69,7 +69,7 @@ class Form extends React.Component {
             <Field className="checkout-field" name="shipping_address.state" id="shipping_address.state" component={inputField} type="text" label="State/Province (optional)" onBlur={(event, value) => setTimeout(() => saveShippingState(value))}/>
             <Field className="checkout-field" name="shipping_address.city" id="shipping_address.city" component={inputField} type="text" label="City" validate={[validateRequired]} onBlur={(event, value) => setTimeout(() => saveShippingCity(value))}/>
 
-            <h2>Shipping method {loadingShippingMethods && <small>Loading...</small>}</h2>
+            <h2>{text.checkout.shippingMethod} {loadingShippingMethods && <small>Loading...</small>}</h2>
             <div className="shipping-methods">
               {shipping_methods.map(method => <label key={method.id} className="shipping-method">
                 <Field name="shipping_method_id" component="input" type="radio" value={method.id} onClick={() => saveShippingMethod(method.id)}/>
@@ -80,7 +80,7 @@ class Form extends React.Component {
               </label>)}
             </div>
 
-            <h2>Payment method {loadingPaymentMethods && <small>Loading...</small>}</h2>
+            <h2>{text.checkout.paymentMethod} {loadingPaymentMethods && <small>Loading...</small>}</h2>
             <div className="payment-methods">
               {payment_methods.map(method => <label key={method.id} className="payment-method">
                 <Field name="payment_method_id" component="input" type="radio" value={method.id} onClick={() => savePaymentMethod(method.id)}/>

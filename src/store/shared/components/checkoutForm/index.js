@@ -5,6 +5,7 @@ import Form from './form'
 
 const mapStateToProps = (state) => {
   return {
+    text: state.app.text,
     initialValues: state.app.cart,
     payment_methods: state.app.payment_methods,
     shipping_methods: state.app.shipping_methods,

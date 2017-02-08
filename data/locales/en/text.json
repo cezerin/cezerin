@@ -4,8 +4,8 @@
 
   "checkout": {
     "shippingTo": "Shipping To",
-    "shippingMethod": "Shipping method",
-    "paymentMethod": "Payment method",
+    "shippingMethod": "Shipping options",
+    "paymentMethod": "Payment options",
     "shippingAddress": "Shipping Address",
     "billingAddress": "Billing Address",
     "orderSubmit": "Place Order",
