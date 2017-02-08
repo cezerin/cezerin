@@ -11,6 +11,7 @@ class DataController {
   registerRoutes() {
        this.router.get('/countries', this.getCountries.bind(this));
        this.router.get('/currencies', this.getCurrencies.bind(this));
+       this.router.get('/text', this.getText.bind(this));
    }
 
    getCountries(req, res) {
@@ -21,6 +22,12 @@ class DataController {
 
    getCurrencies(req, res) {
      DataService.getCurrencies()
+      .then(data => { res.send(data) })
+      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+   }
+
+   getText(req, res) {
+     DataService.getText()
       .then(data => { res.send(data) })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }

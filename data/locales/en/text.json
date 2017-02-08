@@ -1,0 +1,32 @@
+{
+  "loading": "Loading...",
+  "optional": "optional",
+
+  "checkout": {
+    "shippingTo": "Shipping To",
+    "shippingMethod": "Shipping method",
+    "paymentMethod": "Payment method",
+    "shippingAddress": "Shipping Address",
+    "billingAddress": "Billing Address",
+    "orderSubmit": "Place Order",
+    "emptyCheckout": "Cart is empty",
+    "email": "Email",
+    "mobile": "Mobile (optional)",
+    "country": "Country (optional)",
+    "state": "State/Province (optional)",
+    "city": "City",
+    "fullName": "Full name",
+    "address1": "Address line 1",
+    "address2": "Address line 2",
+    "zip": "Postal code",
+    "phone": "Phone (optional)",
+    "company": "Company (optional)",
+    "comments": "Comments (optional)"
+  },
+
+  "errors": {
+    "required": "This field is required.",
+    "email": "Please enter a valid email address.",
+    "number": "Please enter a valid number."
+  }
+}

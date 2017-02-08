@@ -8,6 +8,7 @@ class DataService {
   constructor() {
     this.countriesArray = null;
     this.currenciesArray = null;
+    this.text = null;
   }
 
   getCountries() {
@@ -53,6 +54,25 @@ class DataService {
       }
     });
   }
+
+  getText() {
+    return new Promise((resolve, reject) => {
+      if (this.text) {
+        resolve(this.text);
+      } else {
+        const filePath = path.resolve(`data/locales/${settings.language}/text.json`);
+        fs.readFile(filePath, 'utf8', (err, data) => {
+          if (err) {
+            reject(err);
+          } else {
+            this.text = JSON.parse(data);
+            resolve(this.text);
+          }
+        });
+      }
+    });
+  }
+
 }
 
 module.exports = new DataService();
