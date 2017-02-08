@@ -4,6 +4,7 @@ const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
+var emailSender = require('../../lib/email');
 var ObjectID = require('mongodb').ObjectID;
 var ProductsService = require('../products/products');
 var CustomersService = require('../customers/customers');
@@ -525,12 +526,24 @@ class OrdersService {
 
   checkoutOrder(order_id) {
     /*
-    1. get order info
-    2. send emails
-    3. fire Webhooks
-    4. return order info
+    + get order info
+    + return order info
+    + send emails
+    - order confirmation template
+    - fire Webhooks
     */
-    return this.getSingleOrder(order_id);
+    return this.getSingleOrder(order_id).then(order => {
+      const message = {
+        to: order.email,
+        subject: `Order Confirmation`,
+        html: `<p>Order: ${order.number}</p>
+        <p>Total: ${order.grand_total}</p>
+        <p>Shipping: ${order.shipping_method}</p>
+        <p>Payment: ${order.payment_method}</p>`
+      };
+      emailSender.send(message);
+      return order;
+    });
   }
 }
 
