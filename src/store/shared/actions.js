@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import * as t from './actionTypes'
 import clientSettings from '../client/settings'
 import api from 'cezerin-client'
@@ -35,8 +36,24 @@ function receivePaymentMethods(methods) {
   return {type: t.PAYMENT_METHODS_RECEIVE, methods}
 }
 
+function requestPaymentMethods() {
+  return {type: t.PAYMENT_METHODS_REQUEST}
+}
+
 function receiveShippingMethods(methods) {
   return {type: t.SHIPPING_METHODS_RECEIVE, methods}
+}
+
+function requestShippingMethods() {
+  return {type: t.SHIPPING_METHODS_REQUEST}
+}
+
+function receiveCheckout(order) {
+  return {type: t.CHECKOUT_RECEIVE, order}
+}
+
+function requestCheckout() {
+  return {type: t.CHECKOUT_REQUEST}
 }
 
 export function setCategory(category_id) {
@@ -51,6 +68,7 @@ export function setCategory(category_id) {
 
 export function fetchShippingMethods() {
   return (dispatch, getState) => {
+    dispatch(requestShippingMethods())
     return api.ajax.shipping_methods.list().then(({status, json}) => {
       dispatch(receiveShippingMethods(json))
     }).catch(error => {});
@@ -59,6 +77,7 @@ export function fetchShippingMethods() {
 
 export function fetchPaymentMethods() {
   return (dispatch, getState) => {
+    dispatch(requestPaymentMethods())
     return api.ajax.payment_methods.list().then(({status, json}) => {
       dispatch(receivePaymentMethods(json))
     }).catch(error => {});
@@ -89,9 +108,85 @@ export function removeFromCart(item_id) {
   }
 }
 
+export function updateCartShippingCountry(country) {
+  return (dispatch, getState) => {
+    return [
+      api.ajax.cart.updateShippingAddress({
+        country: country
+      }),
+      api.ajax.cart.update({
+        payment_method_id: null,
+        shipping_method_id: null
+      })
+    ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
+      dispatch(receiveCart(json))
+      dispatch(fetchShippingMethods())
+      dispatch(fetchPaymentMethods())
+    }).catch(error => {});
+  }
+}
+
+export function updateCartShippingState(state) {
+  return (dispatch, getState) => {
+    return [
+      api.ajax.cart.updateShippingAddress({
+        state: state
+      }),
+      api.ajax.cart.update({
+        payment_method_id: null,
+        shipping_method_id: null
+      })
+    ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
+      dispatch(receiveCart(json))
+      dispatch(fetchShippingMethods())
+      dispatch(fetchPaymentMethods())
+    }).catch(error => {});
+  }
+}
+
+export function updateCartShippingCity(city) {
+  return (dispatch, getState) => {
+    return [
+      api.ajax.cart.updateShippingAddress({
+        city: city
+      }),
+      api.ajax.cart.update({
+        payment_method_id: null,
+        shipping_method_id: null
+      })
+    ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
+      dispatch(receiveCart(json))
+      dispatch(fetchShippingMethods())
+      dispatch(fetchPaymentMethods())
+    }).catch(error => {});
+  }
+}
+
+export function updateCartShippingMethod(method_id) {
+  return (dispatch, getState) => {
+    api.ajax.cart.update({
+      payment_method_id: null,
+      shipping_method_id: method_id
+    }).then(({status, json}) => {
+      dispatch(receiveCart(json))
+      dispatch(fetchPaymentMethods())
+    }).catch(error => {});
+  }
+}
+
+export function updateCartPaymentMethod(method_id) {
+  return (dispatch, getState) => {
+    api.ajax.cart.update({
+      payment_method_id: method_id
+    }).then(({status, json}) => {
+      dispatch(receiveCart(json))
+    }).catch(error => {});
+  }
+}
+
 export function updateCart(cart) {
   return (dispatch, getState) => {
-    return Promise.all([
+    return [
       api.ajax.cart.updateShippingAddress(cart.shipping_address),
       api.ajax.cart.updateBillingAddress(cart.billing_address),
       api.ajax.cart.update({
@@ -101,33 +196,32 @@ export function updateCart(cart) {
         shipping_method_id: cart.shipping_method_id
         // coupon: cart.coupon
       })
-    ]).then(([shipping_address_response, billing_address_response, update_response]) => {
-      // console.log('updateCart');
-      dispatch(receiveCart(update_response.json))
+    ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
+      dispatch(receiveCart(json))
       dispatch(fetchShippingMethods())
       dispatch(fetchPaymentMethods())
     }).catch(error => {});
   }
 }
 
-export function finishCheckout(cart) {
+export function checkout(cart) {
   return (dispatch, getState) => {
-    return Promise.all([
+    dispatch(requestCheckout())
+    return [
       api.ajax.cart.updateShippingAddress(cart.shipping_address),
       api.ajax.cart.updateBillingAddress(cart.billing_address),
       api.ajax.cart.update({
         email: cart.email,
         mobile: cart.mobile,
         payment_method_id: cart.payment_method_id,
+        shipping_method_id: cart.shipping_method_id,
         draft: false
-        // shipping_method_id: cart.shipping_method_id
         // coupon: cart.coupon
-      })
-    ]).then(([shipping_address_response, billing_address_response, update_response]) => {
-      api.ajax.cart.finish(cart.billing_address),
-      // console.log('updateCart');
-      dispatch(receiveCart(update_response.json))
-
+      }),
+      api.ajax.cart.checkout()
+    ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
+      dispatch(receiveCheckout(json))
+      dispatch(push('/checkout-success'));
     }).catch(error => {});
   }
 }
@@ -213,7 +307,11 @@ export const getInitialState = (req) => {
       products: [],
       payment_methods: [],
       shipping_methods: [],
+      loadingShippingMethods: false,
+      loadingPaymentMethods: false,
+      processingCheckout: false,
       cart: null,
+      order: null,
       productsFilter: {
         limit: 20,
         fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price'

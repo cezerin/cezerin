@@ -15,8 +15,10 @@ export default({cart, removeFromCart}) => {
         <Button onClick={() => removeFromCart(item.id)} bsStyle="default">Remove</Button>
       </td>
     </tr>);
+
     return (
       <div>
+        <p>{cart.id}, {cart.shipping_method}, {cart.payment_method}</p>
         <table>
           <tbody>
             <tr>

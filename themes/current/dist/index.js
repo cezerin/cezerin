@@ -67,4 +67,13 @@ Object.defineProperty(exports, 'ChechoutContainer', {
   }
 });
 
+var _checkoutSuccess = require('./containers/checkoutSuccess');
+
+Object.defineProperty(exports, 'ChechoutSuccessContainer', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_checkoutSuccess).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

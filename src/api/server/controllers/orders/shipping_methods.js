@@ -18,7 +18,7 @@ class ShippingMethodsController {
 
    getMethods(req, res) {
      ShippingMethodsService.getMethods(req.query)
-      .then(data => { res.send(data) })
+      .then(data => { setTimeout(() => {res.send(data)}, 3000) })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 

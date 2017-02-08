@@ -1,29 +1,44 @@
 import { connect } from 'react-redux'
 import { reset, submit } from 'redux-form';
-import { fetchCart, updateCart, fetchShippingMethods, fetchPaymentMethods } from '../../actions'
+import { fetchCart, updateCart, fetchShippingMethods, fetchPaymentMethods, checkout,  updateCartShippingCountry,  updateCartShippingState,  updateCartShippingCity,  updateCartShippingMethod,  updateCartPaymentMethod} from '../../actions'
 import Form from './form'
 
 const mapStateToProps = (state) => {
   return {
     initialValues: state.app.cart,
     payment_methods: state.app.payment_methods,
-    shipping_methods: state.app.shipping_methods
-    // isLoading
-    // isSaving: state.customerGroups.isSaving
+    shipping_methods: state.app.shipping_methods,
+    loadingShippingMethods: state.app.loadingShippingMethods,
+    loadingPaymentMethods: state.app.loadingPaymentMethods,
+    processingCheckout: state.app.processingCheckout
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (values) => {
-      console.log('onSubmit');
       dispatch(updateCart(values));
     },
-    saveForm: () => {
+    saveForm: (values) => {
       dispatch(submit('FormCheckout'));
     },
     finishCheckout: (values) => {
-      dispatch(updateCart(values));
+      dispatch(checkout(values));
+    },
+    saveShippingCountry: (value) => {
+      dispatch(updateCartShippingCountry(value));
+    },
+    saveShippingState: (value) => {
+      dispatch(updateCartShippingState(value));
+    },
+    saveShippingCity: (value) => {
+      dispatch(updateCartShippingCity(value));
+    },
+    saveShippingMethod: (value) => {
+      dispatch(updateCartShippingMethod(value));
+    },
+    savePaymentMethod: (value) => {
+      dispatch(updateCartPaymentMethod(value));
     },
     onLoad: () => {
       dispatch(fetchShippingMethods());

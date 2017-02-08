@@ -15,6 +15,7 @@ import createRoutes from '../shared/routes'
 import reducers from '../shared/reducers'
 import {getInitialState} from '../shared/actions'
 import clientSettings from '../client/settings'
+import serverSettings from './settings'
 import * as theme from './theme.js'
 
 const getHead = () => {
@@ -29,13 +30,6 @@ const getHead = () => {
     base: helmet.base.toString(),
     noscript: helmet.noscript.toString()
   }
-}
-
-const referrerCookieOptions = {
-  maxAge: 604800000,
-  httpOnly: true,
-  signed: true,
-  sameSite: 'strict'
 }
 
 storeRouter.get('*', (req, res, next) => {
@@ -71,11 +65,11 @@ storeRouter.get('*', (req, res, next) => {
               const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
 
               if(!req.signedCookies.referrer_url) {
-                res.cookie('referrer_url', referrer_url, referrerCookieOptions);
+                res.cookie('referrer_url', referrer_url, serverSettings.referrerCookieOptions);
               }
 
               if(!req.signedCookies.landing_url) {
-                res.cookie('landing_url', full_url, referrerCookieOptions);
+                res.cookie('landing_url', full_url, serverSettings.referrerCookieOptions);
               }
 
               res.status(200).send(html);

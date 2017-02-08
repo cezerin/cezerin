@@ -4,14 +4,6 @@ import serverSettings from './settings'
 import api from 'cezerin-client';
 api.init(serverSettings.api.baseUrl, serverSettings.api.token);
 
-const cartCookieOptions = {
-  maxAge: serverSettings.cart_cookie_max_age,
-  secure: serverSettings.cart_cookie_secure,
-  httpOnly: true,
-  signed: true,
-  sameSite: 'strict'
-}
-
 ajaxRouter.get('/products', (req, res, next) => {
   api.products.list(req.query).then(({status, json}) => {
     res.send(json);
@@ -58,7 +50,7 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
         user_agent: req.get('user-agent')
       }
     }).then(({status, json}) => {
-      res.cookie('order_id', json.id, cartCookieOptions);
+      res.cookie('order_id', json.id, serverSettings.cartCookieOptions);
       api.orders.addItem(json.id, item).then(({status, json}) => {
         res.send(json);
       })
@@ -91,17 +83,10 @@ ajaxRouter.put('/cart/items/:item_id', (req, res, next) => {
   }
 })
 
-ajaxRouter.put('/cart/finish', (req, res, next) => {
-  /*
-  1. get order info
-  2. delete order_id cookie
-  3. send email to client
-  4. response with order info
-  5. call api.order.finish (for Webhooks)
-  */
+ajaxRouter.put('/cart/checkout', (req, res, next) => {
   const order_id = req.signedCookies.order_id;
   if (order_id) {
-    api.orders.retrieve(order_id).then(({status, json}) => {
+    api.orders.checkout(order_id).then(({status, json}) => {
       res.clearCookie('order_id');
       res.send(json);
     })

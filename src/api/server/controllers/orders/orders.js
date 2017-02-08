@@ -95,7 +95,7 @@ class OrdersController {
    checkoutOrder(req, res) {
      OrdersService.checkoutOrder(req.params.id)
       .then(data => {
-        res.send(data)
+        setTimeout(() => {res.send(data)}, 5000)
        })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }

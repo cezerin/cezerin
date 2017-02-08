@@ -12,6 +12,7 @@ import CategoryContainer from './containers/category'
 import ProductContainer from './containers/product'
 import CustomPageContainer from './containers/customPage'
 import CheckoutContainer from './containers/checkout'
+import CheckoutSuccessContainer from './containers/checkoutSuccess'
 import NotFoundContainer from './containers/notfound'
 
 function checkSitemap(nextState, cb) {
@@ -31,6 +32,8 @@ function checkSitemap(nextState, cb) {
       } else if (sitemapResponse.json.type === 'reserved') {
         if(nextState.location.pathname == '/checkout') {
           cb(null, CheckoutContainer);
+        } else if(nextState.location.pathname == '/checkout-success') {
+          cb(null, CheckoutSuccessContainer);
         } else {
           cb(null, CustomPageContainer)
         }
