@@ -23,8 +23,8 @@ Currently in active development.
 * ~~**Products**~~
 * ~~**Template**~~
 * ~~**Customers**~~
-* Orders **〈〈〈〈〈〈 we are here**
-* Settings
+* ~~**Orders**~~
+* Settings **〈〈〈〈〈〈 we are here**
 * Custom pages
 * SEO
 * Security
@@ -68,15 +68,12 @@ Then open <http://localhost:3000> to see your app.
 ### Requirements
 
 * NodeJS
-* NPM
 * Mongodb
-* Nginx
 
 ### Configuration
 
 - MongoDB
 - API keys
-- Nginx
 
 ## Licence
 
