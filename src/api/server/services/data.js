@@ -1,78 +1,23 @@
 'use strict';
 
-const settings = require('../lib/settings')
 const fs = require('fs')
 const path = require('path')
+const text = require('../../../../data/locales/default/text.json');
+const countriesArray = require('../../../../data/locales/default/countries.json');
+const currenciesArray = require('../../../../data/locales/default/currencies.json');
 
 class DataService {
-  constructor() {
-    this.countriesArray = null;
-    this.currenciesArray = null;
-    this.text = null;
-  }
-
   getCountries() {
-    return new Promise((resolve, reject) => {
-      if (this.countriesArray) {
-        resolve(this.countriesArray);
-      } else {
-        const filePath = path.resolve(`data/locales/${settings.language}/countries.json`);
-        fs.readFile(filePath, 'utf8', (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            const countriesObject = JSON.parse(data);
-            this.countriesArray = [];
-            for (let countryCode in countriesObject) {
-              this.countriesArray.push({code: countryCode, name: countriesObject[countryCode]})
-            }
-            resolve(this.countriesArray);
-          }
-        });
-      }
-    });
+    return countriesArray;
   }
 
   getCurrencies() {
-    return new Promise((resolve, reject) => {
-      if (this.currenciesArray) {
-        resolve(this.currenciesArray);
-      } else {
-        const filePath = path.resolve(`data/locales/${settings.language}/currencies.json`);
-        fs.readFile(filePath, 'utf8', (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            const currenciesObject = JSON.parse(data);
-            this.currenciesArray = [];
-            for (let currencyCode in currenciesObject) {
-              this.currenciesArray.push({code: currencyCode, name: currenciesObject[currencyCode]})
-            }
-            resolve(this.currenciesArray);
-          }
-        });
-      }
-    });
+    return currenciesArray;
   }
 
   getText() {
-    return new Promise((resolve, reject) => {
-      if (this.text) {
-        resolve(this.text);
-      } else {
-        const filePath = path.resolve(`data/locales/${settings.language}/text.json`);
-        fs.readFile(filePath, 'utf8', (err, data) => {
-          if (err) {
-            reject(err);
-          } else {
-            this.text = JSON.parse(data);
-            resolve(this.text);
-          }
-        });
-      }
-    });
+    return text;
   }
-
 }
 
 module.exports = new DataService();

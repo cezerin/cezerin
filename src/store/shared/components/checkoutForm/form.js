@@ -1,6 +1,7 @@
 import React from 'react'
+import text from '../../text'
 import {Field, reduxForm} from 'redux-form'
-const validateRequired = value => value ? undefined : 'Required field.';
+const validateRequired = value => value ? undefined : text.errors.required;
 
 const validateEmail = value =>
   value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ?
@@ -45,7 +46,6 @@ class Form extends React.Component {
       loadingShippingMethods,
       loadingPaymentMethods,
       processingCheckout,
-      text,
       initialValues,
       saveShippingCountry,
       saveShippingState,

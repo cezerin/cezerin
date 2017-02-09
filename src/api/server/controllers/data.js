@@ -15,21 +15,15 @@ class DataController {
    }
 
    getCountries(req, res) {
-     DataService.getCountries()
-      .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+     res.send(DataService.getCountries())
    }
 
    getCurrencies(req, res) {
-     DataService.getCurrencies()
-      .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+     res.send(DataService.getCurrencies())
    }
 
    getText(req, res) {
-     DataService.getText()
-      .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+     res.send(DataService.getText())
    }
 
    getErrorMessage(err) {

@@ -282,22 +282,16 @@ const getCart = (cookie) => {
   })
 }
 
-const getText = () => {
-  return api.ajax.text.list().then(({status, json}) => {
-    return json;
-  })
-}
-
 const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie), getText()]).then(([categories, product, products, cart, text]) => {
+  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie)]).then(([categories, product, products, cart]) => {
 
     let currentCategory = null;
     if (currentPage.type === 'product-category') {
       currentCategory = categories.find(c => c.id === currentPage.resource);
     }
 
-    return {categories, product, products, currentCategory, cart, text}
+    return {categories, product, products, currentCategory, cart}
   });
 }
 
@@ -318,7 +312,6 @@ export const getInitialState = (req) => {
       processingCheckout: false,
       cart: null,
       order: null,
-      text: null,
       productsFilter: {
         limit: 20,
         fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price'
@@ -339,7 +332,6 @@ export const getInitialState = (req) => {
         initialState.app.products = commonData.products;
         initialState.app.currentCategory = commonData.currentCategory;
         initialState.app.cart = commonData.cart;
-        initialState.app.text = commonData.text;
         return initialState;
       })
     } else {

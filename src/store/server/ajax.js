@@ -170,12 +170,6 @@ ajaxRouter.get('/countries', (req, res, next) => {
   })
 })
 
-ajaxRouter.get('/text', (req, res, next) => {
-  api.text.list().then(({status, json}) => {
-    res.send(json);
-  })
-})
-
 ajaxRouter.all('*', (req, res, next) => {
   res.status(405).send({'error': 'Method Not Allowed'});
 })
