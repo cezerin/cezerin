@@ -14,8 +14,8 @@ export default({
   products,
   productsFilter,
   cart,
-  addToCart,
-  removeFromCart
+  addCartItem,
+  deleteCartItem
 }) => (
   <div>
     <Helmet title={currentCategory.meta_title} meta={[
@@ -37,6 +37,6 @@ export default({
       }
     ]}/>
     <PageHeader>{currentCategory.name}</PageHeader>
-    <Products products={products} addToCart={addToCart}/>
+    <Products products={products} addCartItem={addCartItem}/>
   </div>
 )

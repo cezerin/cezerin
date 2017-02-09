@@ -12,8 +12,8 @@ export default({
   products,
   productsFilter,
   cart,
-  addToCart,
-  removeFromCart,
+  addCartItem,
+  deleteCartItem,
   checkoutForm
 }) => (
   <div>

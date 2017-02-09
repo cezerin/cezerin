@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {ChechoutContainer} from 'theme'
-import { fetchCart, addToCart, removeFromCart } from '../actions'
+import { fetchCart, addCartItem, deleteCartItem } from '../actions'
 import CheckoutForm from '../components/checkoutForm'
 
 const mapStateToProps = (state, ownProps) => {
@@ -19,11 +19,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addToCart: (item) => {
-      dispatch(addToCart(item));
+    addCartItem: (item) => {
+      dispatch(addCartItem(item));
     },
-    removeFromCart: (item_id) => {
-      dispatch(removeFromCart(item_id));
+    deleteCartItem: (item_id) => {
+      dispatch(deleteCartItem(item_id));
     }
   }
 }

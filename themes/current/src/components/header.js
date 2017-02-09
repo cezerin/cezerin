@@ -10,7 +10,7 @@ const Item = ({selectedId, categories, category}) => (
   </LinkContainer>
 )
 
-const Header = ({categories, currentCategory, cart, removeFromCart}) => {
+const Header = ({categories, currentCategory, cart, deleteCartItem, updateCartItemQuantiry}) => {
   let selectedId = currentCategory
     ? currentCategory.id
     : null;
@@ -35,7 +35,7 @@ const Header = ({categories, currentCategory, cart, removeFromCart}) => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Cart cart={cart} removeFromCart={removeFromCart}/>
+      <Cart cart={cart} deleteCartItem={deleteCartItem} updateCartItemQuantiry={updateCartItemQuantiry}/>
     </div>
   )
 }

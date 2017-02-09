@@ -14,7 +14,7 @@ import {
 import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router'
 
-const ProductsListItem = ({product, addToCart}) => {
+const ProductsListItem = ({product, addCartItem}) => {
   const imageUrl = (product.images && product.images.length > 0)
     ? product.images[0].url
     : '/assets/images/placeholder.png';
@@ -27,19 +27,19 @@ const ProductsListItem = ({product, addToCart}) => {
           <LinkContainer to={product.path}>
             <Button bsStyle="primary">Details</Button>
           </LinkContainer>&nbsp;
-          <Button onClick={() => addToCart({ product_id: product.id, variant_id: null, quantity: 1 })} bsStyle="default">Add to cart</Button>
+          <Button onClick={() => addCartItem({ product_id: product.id, variant_id: null, quantity: 1 })} bsStyle="default">Add to cart</Button>
         </p>
       </Thumbnail>
     </Col>
   )
 }
 
-const ProductsList = ({products, addToCart}) => {
+const ProductsList = ({products, addCartItem}) => {
   return (
     <div>
       <Grid fluid={true}>
         <Row>
-          {products.map(product => (<ProductsListItem key={product.id} product={product} addToCart={addToCart}/>))}
+          {products.map(product => (<ProductsListItem key={product.id} product={product} addCartItem={addCartItem}/>))}
         </Row>
       </Grid>
     </div>

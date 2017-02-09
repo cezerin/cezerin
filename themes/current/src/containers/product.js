@@ -14,8 +14,8 @@ export default({
   products,
   productsFilter,
   cart,
-  addToCart,
-  removeFromCart
+  addCartItem,
+  deleteCartItem
 }) => {
   if (currentProduct) {
     return (

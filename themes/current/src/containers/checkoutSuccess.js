@@ -12,9 +12,9 @@ export default({
   products,
   productsFilter,
   cart,
-  addToCart,
-  removeFromCart,
-  checkoutSuccess  
+  addCartItem,
+  deleteCartItem,
+  checkoutSuccess
 }) => (
   <div>
     <Helmet title="Checkout" meta={[

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {ProductContainer} from 'theme'
-import { fetchCart, addToCart, removeFromCart } from '../actions'
+import { fetchCart, addCartItem, deleteCartItem } from '../actions'
 
 const mapStateToProps = (state) => {
   return {
@@ -18,11 +18,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addToCart: (item) => {
-      dispatch(addToCart(item));
+    addCartItem: (item) => {
+      dispatch(addCartItem(item));
     },
-    removeFromCart: (item_id) => {
-      dispatch(removeFromCart(item_id));
+    deleteCartItem: (item_id) => {
+      dispatch(deleteCartItem(item_id));
     }
   }
 }

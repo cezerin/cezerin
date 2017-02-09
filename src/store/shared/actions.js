@@ -92,7 +92,7 @@ export function fetchCart() {
   }
 }
 
-export function addToCart(item) {
+export function addCartItem(item) {
   return (dispatch, getState) => {
     return api.ajax.cart.addItem(item).then(({status, json}) => {
       dispatch(receiveCart(json))
@@ -100,10 +100,20 @@ export function addToCart(item) {
   }
 }
 
-export function removeFromCart(item_id) {
+export function updateCartItemQuantiry(item_id, quantity) {
+  return (dispatch, getState) => {
+    return api.ajax.cart.updateItem(item_id, {quantity: quantity}).then(({status, json}) => {
+      dispatch(receiveCart(json))
+      dispatch(fetchShippingMethods())
+    }).catch(error => {});
+  }
+}
+
+export function deleteCartItem(item_id) {
   return (dispatch, getState) => {
     return api.ajax.cart.deleteItem(item_id).then(({status, json}) => {
       dispatch(receiveCart(json))
+      dispatch(fetchShippingMethods())
     }).catch(error => {});
   }
 }

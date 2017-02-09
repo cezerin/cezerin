@@ -13,12 +13,13 @@ export default({
   products,
   productsFilter,
   cart,
-  addToCart,
-  removeFromCart
+  addCartItem,
+  deleteCartItem,
+  updateCartItemQuantiry
 }) => {
   return (
     <div id="wrapper" className="wrapper">
-      <Header cart={cart} removeFromCart={removeFromCart} categories={categories} currentCategory={currentCategory}/> {children}
+      <Header cart={cart} deleteCartItem={deleteCartItem} updateCartItemQuantiry={updateCartItemQuantiry} categories={categories} currentCategory={currentCategory}/> {children}
       <Footer/>
     </div>
   )
