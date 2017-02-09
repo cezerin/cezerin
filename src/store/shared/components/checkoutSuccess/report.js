@@ -1,8 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router'
+import text from '../../text'
 
-export default(props) =>  {
-  const { order } = props;
+export default(props) => {
+  const {order} = props;
   if (order && order.items.length > 0) {
     return (
       <div>
