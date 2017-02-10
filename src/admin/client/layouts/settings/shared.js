@@ -18,6 +18,10 @@ const SettingsMenu = () => (
     <Link style={styles.link} to="/admin/settings/shipping"><ListItem primaryText={messages.settings.shipping} leftIcon={<FontIcon className="material-icons">local_shipping</FontIcon>}/></Link>
     <Link style={styles.link} to="/admin/settings/payments"><ListItem primaryText={messages.settings.payments} leftIcon={<FontIcon className="material-icons">payment</FontIcon>}/></Link>
     <Link style={styles.link} to="/admin/settings/theme"><ListItem primaryText={messages.settings.theme} leftIcon={<FontIcon className="material-icons">palette</FontIcon>}/></Link>
+    <Link style={styles.link} to="/admin/settings/checkout"><ListItem primaryText={messages.settings.checkout} leftIcon={<FontIcon className="material-icons">shopping_cart</FontIcon>}/></Link>
+    <Link style={styles.link} to="/admin/settings/emails"><ListItem primaryText={messages.settings.emails} leftIcon={<FontIcon className="material-icons">email</FontIcon>}/></Link>
+    <Link style={styles.link} to="/admin/settings/taxes"><ListItem primaryText={messages.settings.taxes} leftIcon={<FontIcon className="material-icons">attach_money</FontIcon>}/></Link>
+    <Link style={styles.link} to="/admin/settings/security"><ListItem primaryText={messages.settings.security} leftIcon={<FontIcon className="material-icons">security</FontIcon>}/></Link>
   </List>
 )
 

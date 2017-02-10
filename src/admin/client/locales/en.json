@@ -120,8 +120,12 @@
     "themeInstalling": "Installing...",
     "theme": "Theme",
     "general": "General",
-    "payments": "Payments/Checkout",
-    "shipping": "Shipping"
+    "payments": "Payments",
+    "shipping": "Shipping",
+    "checkout": "Checkout",
+    "emails": "Emails",
+    "taxes": "Taxes",
+    "security": "Security"
   },
 
   "drawer": {
@@ -133,7 +137,9 @@
     "orderCategories": "Order categories",
     "customers": "Customers",
     "settings": "Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "discounts": "Discounts",
+    "reports": "Reports"
   },
 
   "customers": {

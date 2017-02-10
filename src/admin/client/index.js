@@ -65,19 +65,25 @@ ReactDOM.render(
       <Route path="logout" component={layoutNotFound} onEnter={removeToken}/>
       <Route component={layoutShared}>
         <IndexRoute component={layoutHome}/>
+        <Route path="products" component={layoutProducts}/>
+        <Route path="product/:id" component={layoutProductEdit}/>
+        <Route path="products/categories" component={layoutProductCategories}/>
         <Route path="orders" component={layoutOrders}/>
         <Route path="customers" component={layoutCustomers}/>
         <Route path="customer/:id" component={layoutCustomerEdit}/>
         <Route path="customers/groups" component={layoutCustomerGroups}/>
-        <Route path="products" component={layoutProducts}/>
-        <Route path="product/:id" component={layoutProductEdit}/>
-        <Route path="products/categories" component={layoutProductCategories}/>
+        <Route path="discounts" component={layoutNotFound}/>
+        <Route path="reports" component={layoutNotFound}/>
         <Route path="settings" component={layoutSettingsShared}>
           <IndexRoute component={layoutSettingsGeneral}/>
           <Route path="general" component={layoutSettingsGeneral}/>
           <Route path="theme" component={layoutSettingsThemes}/>
           <Route path="shipping" component={layoutNotFound}/>
           <Route path="payments" component={layoutNotFound}/>
+          <Route path="checkout" component={layoutNotFound}/>
+          <Route path="emails" component={layoutNotFound}/>
+          <Route path="taxes" component={layoutNotFound}/>
+          <Route path="security" component={layoutNotFound}/>
         </Route>
       </Route>
     </Route>
