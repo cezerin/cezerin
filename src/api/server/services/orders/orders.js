@@ -278,9 +278,9 @@ class OrdersService {
         // 'discount_total': 0, //sum(items.discount_total)+sum(discounts.amount)
         // 'tax_included_total': 0, //if(item_tax_included, 0, item_tax) + if(shipment_tax_included, 0, shipping_tax)
         // 'tax_total': 0, //item_tax + shipping_tax
-        // 'sub_total': 0, //sum(items.price_total)
+        // 'subtotal': 0, //sum(items.price_total)
         // 'shipping_total': 0, //shipping_price-shipping_discount
-        // 'grand_total': 0 //sub_total + shipping_total + tax_included_total - (discount_total)
+        // 'grand_total': 0 //subtotal + shipping_total + tax_included_total - (discount_total)
       }
 
       order.items = data.items && data.items.length > 0
@@ -514,11 +514,11 @@ class OrdersService {
 
       order.weight_total = sum_items_weight;
       order.discount_total = discount_total; //sum(items.discount_total)+sum(discounts.amount)
-      order.sub_total = sum_items_price_total; //sum(items.price_total)
+      order.subtotal = sum_items_price_total; //sum(items.price_total)
       order.tax_included_total = tax_included_total; //if(item_tax_included, 0, item_tax) + if(shipment_tax_included, 0, shipping_tax)
       order.tax_total = tax_total; //item_tax + shipping_tax
       order.shipping_total = shipping_total; //shipping_price-shipping_discount
-      order.grand_total = grand_total; //sub_total + shipping_total + tax_included_total - (discount_total)
+      order.grand_total = grand_total; //subtotal + shipping_total + tax_included_total - (discount_total)
     }
 
     return order;

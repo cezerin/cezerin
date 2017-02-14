@@ -43,7 +43,7 @@ export default({cart, deleteCartItem, updateCartItemQuantiry}) => {
             {items}
           </tbody>
         </table>
-        <p>Subtotal: {cart.sub_total}</p>
+        <p>Subtotal: {cart.subtotal}</p>
         <p>Shipping: {cart.shipping_total}</p>
         <p>Discount: {cart.discount_total}</p>
         <p>Tax: {cart.tax_total}</p>

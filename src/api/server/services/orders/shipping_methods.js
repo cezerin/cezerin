@@ -49,10 +49,10 @@ class ShippingMethodsService {
             filter['$and'].push({
               $or: [
                 {
-                  'conditions.sub_total_min': 0
+                  'conditions.subtotal_min': 0
                 }, {
-                  'conditions.sub_total_min': {
-                    $lte: order.sub_total
+                  'conditions.subtotal_min': {
+                    $lte: order.subtotal
                   }
                 }
               ]
@@ -60,10 +60,10 @@ class ShippingMethodsService {
             filter['$and'].push({
               $or: [
                 {
-                  'conditions.sub_total_max': 0
+                  'conditions.subtotal_max': 0
                 }, {
-                  'conditions.sub_total_max': {
-                    $gte: order.sub_total
+                  'conditions.subtotal_max': {
+                    $gte: order.subtotal
                   }
                 }
               ]
@@ -167,8 +167,8 @@ class ShippingMethodsService {
         'countries': parse.getArrayIfValid(conditions.countries) || [],
         'states': parse.getArrayIfValid(conditions.states) || [],
         'cities': parse.getArrayIfValid(conditions.cities) || [],
-        'sub_total_min': parse.getNumberIfPositive(conditions.sub_total_min) || 0,
-        'sub_total_max': parse.getNumberIfPositive(conditions.sub_total_max) || 0,
+        'subtotal_min': parse.getNumberIfPositive(conditions.subtotal_min) || 0,
+        'subtotal_max': parse.getNumberIfPositive(conditions.subtotal_max) || 0,
         'weight_total_min': parse.getNumberIfPositive(conditions.weight_total_min) || 0,
         'weight_total_max': parse.getNumberIfPositive(conditions.weight_total_max) || 0
       }
@@ -176,8 +176,8 @@ class ShippingMethodsService {
         'countries': [],
         'states': [],
         'cities': [],
-        'sub_total_min': null,
-        'sub_total_max': null,
+        'subtotal_min': null,
+        'subtotal_max': null,
         'weight_total_min': null,
         'weight_total_max': null
       };

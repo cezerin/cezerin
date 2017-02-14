@@ -26,10 +26,10 @@ class PaymentMethodsService {
             filter['$and'].push({
               $or: [
                 {
-                  'conditions.sub_total_min': 0
+                  'conditions.subtotal_min': 0
                 }, {
-                  'conditions.sub_total_min': {
-                    $lte: order.sub_total
+                  'conditions.subtotal_min': {
+                    $lte: order.subtotal
                   }
                 }
               ]
@@ -37,10 +37,10 @@ class PaymentMethodsService {
             filter['$and'].push({
               $or: [
                 {
-                  'conditions.sub_total_max': 0
+                  'conditions.subtotal_max': 0
                 }, {
-                  'conditions.sub_total_max': {
-                    $gte: order.sub_total
+                  'conditions.subtotal_max': {
+                    $gte: order.subtotal
                   }
                 }
               ]
@@ -129,14 +129,14 @@ class PaymentMethodsService {
       ? {
         'countries': parse.getArrayIfValid(conditions.countries) || [],
         'shipping_method_ids': parse.getArrayIfValid(conditions.shipping_method_ids) || [],
-        'sub_total_min': parse.getNumberIfPositive(conditions.sub_total_min) || 0,
-        'sub_total_max': parse.getNumberIfPositive(conditions.sub_total_max) || 0
+        'subtotal_min': parse.getNumberIfPositive(conditions.subtotal_min) || 0,
+        'subtotal_max': parse.getNumberIfPositive(conditions.subtotal_max) || 0
       }
       : {
         'countries': [],
         'shipping_method_ids': [],
-        'sub_total_min': null,
-        'sub_total_max': null
+        'subtotal_min': null,
+        'subtotal_max': null
       };
   }
 
