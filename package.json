@@ -46,7 +46,7 @@
   "dependencies": {
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
-    "babel-loader": "^6.2.5",
+    "babel-loader": "^6.3.1",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
@@ -72,7 +72,7 @@
     "lodash": "^4.16.4",
     "material-ui": "^0.16.7",
     "moment": "^2.16.0",
-    "mongodb": "^2.2.23",
+    "mongodb": "^2.2.24",
     "negotiator": "^0.6.1",
     "nodemailer": "^2.7.2",
     "nodemailer-smtp-transport": "^2.7.2",
