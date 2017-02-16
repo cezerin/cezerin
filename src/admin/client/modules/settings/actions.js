@@ -26,3 +26,53 @@ export function installReceive() {
     type: t.THEMES_INSTALL_RECEIVE
   }
 }
+
+function receiveSettings(settings) {
+  return {
+    type: t.SETTINGS_RECEIVE,
+    settings
+  }
+}
+
+function receiveEmailSettings(emailSettings) {
+  return {
+    type: t.EMAIL_SETTINGS_RECEIVE,
+    emailSettings
+  }
+}
+
+export function fetchSettings() {
+  return (dispatch, getState) => {
+    const state = getState();
+    return api.settings.retrieve().then(({status, json}) => {
+      dispatch(receiveSettings(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchEmailSettings() {
+  return (dispatch, getState) => {
+    const state = getState();
+    return api.settings.retrieveEmailSettings().then(({status, json}) => {
+      dispatch(receiveEmailSettings(json))
+    }).catch(error => {});
+  }
+}
+
+export function updateSettings(settings) {
+  return (dispatch, getState) => {
+    const state = getState();
+    return api.settings.update(settings).then(({status, json}) => {
+      dispatch(receiveSettings(json))
+    }).catch(error => {});
+  }
+}
+
+export function updateEmailSettings(emailSettings) {
+  return (dispatch, getState) => {
+    const state = getState();
+    return api.settings.updateEmailSettings(emailSettings).then(({status, json}) => {
+      dispatch(receiveEmailSettings(json))
+    }).catch(error => {});
+  }
+}
