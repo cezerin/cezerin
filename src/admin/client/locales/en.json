@@ -149,7 +149,16 @@
     "gram":"gram",
     "kilogram":"kilogram",
     "pound":"pound",
-    "ounce":"ounce"
+    "ounce":"ounce",
+    "smtpHost": "Host Name",
+    "smtpPort": "Server Port",
+    "smtpUser": "User Name",
+    "smtpPass": "Password",
+    "emailFromName": "Email From Name",
+    "emailFromAddress": "Email From Address",
+    "emailSettings":"Email settings",
+    "generalSettings":"General settings",
+    "themeSettings":"Theme settings"
   },
 
   "drawer": {

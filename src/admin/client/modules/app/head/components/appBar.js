@@ -130,6 +130,15 @@ export default class AppBarTop extends React.Component {
         rightElements = <CustomerGroupHead />
       }
     }
+    else if(location === '/admin/settings/emails'){
+      title = messages.settings.emailSettings;
+    }
+    else if(location === '/admin/settings/theme'){
+      title = messages.settings.themeSettings;
+    }
+    else if(location === '/admin/settings/general' || location === '/admin/settings'){
+      title = messages.settings.generalSettings;
+    }
 
     return (
       <div>
