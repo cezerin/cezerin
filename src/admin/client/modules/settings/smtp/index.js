@@ -1,11 +1,10 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
-import { fetchEmailSettings } from '../actions'
+import { fetchEmailSettings, updateEmailSettings } from '../actions'
 import Form from './components/form'
 
 const mapStateToProps = (state) => {
   return {
-    emailSettings: state.settings.emailSettings
+    initialValues: state.settings.emailSettings
   }
 }
 
@@ -14,8 +13,8 @@ const mapDispatchToProps = (dispatch) => {
     onLoad: () => {
       dispatch(fetchEmailSettings())
     },
-    pushUrl: (path) => {
-      dispatch(push(path));
+    onSubmit: (values) => {
+      dispatch(updateEmailSettings(values));
     }
   }
 }

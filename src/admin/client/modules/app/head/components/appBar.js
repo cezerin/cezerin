@@ -130,8 +130,24 @@ export default class AppBarTop extends React.Component {
         rightElements = <CustomerGroupHead />
       }
     }
-    else if(location === '/admin/settings/emails'){
+    else if(location === '/admin/settings/email'){
       title = messages.settings.emailSettings;
+    }
+    else if(location === '/admin/settings/email/smtp'){
+      title = messages.settings.smtpSettings;
+      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/email/templates/order_confirmation'){
+      title = messages.settings.orderConfirmation;
+      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/email/templates/customer_registration'){
+      title = messages.settings.customerRegistration;
+      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/email/templates/customer_recovery'){
+      title = messages.settings.customerRecovery;
+      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
     }
     else if(location === '/admin/settings/theme'){
       title = messages.settings.themeSettings;

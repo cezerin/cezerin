@@ -41,6 +41,11 @@ class EmailTemplatesService {
     if (template) {
       delete template._id;
       delete template.name;
+    } else {
+      return {
+        subject: '',
+        body: ''
+      }
     }
 
     return template;

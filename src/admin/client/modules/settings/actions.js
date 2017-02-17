@@ -41,9 +41,21 @@ function receiveEmailSettings(emailSettings) {
   }
 }
 
+function receiveEmailTemplate(emailTemplate) {
+  return {
+    type: t.EMAIL_TEMPLATE_RECEIVE,
+    emailTemplate
+  }
+}
+
+function requestEmailTemplate() {
+  return {
+    type: t.EMAIL_TEMPLATE_REQUEST
+  }
+}
+
 export function fetchSettings() {
   return (dispatch, getState) => {
-    const state = getState();
     return api.settings.retrieve().then(({status, json}) => {
       dispatch(receiveSettings(json))
     }).catch(error => {});
@@ -52,7 +64,6 @@ export function fetchSettings() {
 
 export function fetchEmailSettings() {
   return (dispatch, getState) => {
-    const state = getState();
     return api.settings.retrieveEmailSettings().then(({status, json}) => {
       dispatch(receiveEmailSettings(json))
     }).catch(error => {});
@@ -61,7 +72,6 @@ export function fetchEmailSettings() {
 
 export function updateSettings(settings) {
   return (dispatch, getState) => {
-    const state = getState();
     return api.settings.update(settings).then(({status, json}) => {
       dispatch(receiveSettings(json))
     }).catch(error => {});
@@ -70,9 +80,27 @@ export function updateSettings(settings) {
 
 export function updateEmailSettings(emailSettings) {
   return (dispatch, getState) => {
-    const state = getState();
     return api.settings.updateEmailSettings(emailSettings).then(({status, json}) => {
       dispatch(receiveEmailSettings(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchEmailTemplate(templateName) {
+  return (dispatch, getState) => {
+    dispatch(requestEmailTemplate())
+    return api.settings.retrieveEmailTemplate(templateName).then(({status, json}) => {
+      json.templateName = templateName;
+      dispatch(receiveEmailTemplate(json))
+    }).catch(error => {});
+  }
+}
+
+export function updateEmailTemplate(emailTemplate) {
+  return (dispatch, getState) => {
+    return api.settings.updateEmailTemplate(emailTemplate.templateName, emailTemplate).then(({status, json}) => {
+      json.templateName = templateName;
+      dispatch(receiveEmailTemplate(json))
     }).catch(error => {});
   }
 }

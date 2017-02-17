@@ -150,15 +150,22 @@
     "kilogram":"kilogram",
     "pound":"pound",
     "ounce":"ounce",
-    "smtpHost": "Host Name",
-    "smtpPort": "Server Port",
+    "smtpSettings": "Outgoing server settings (SMTP)",
+    "smtpHost": "SMTP Server",
+    "smtpPort": "Port",
     "smtpUser": "User Name",
     "smtpPass": "Password",
-    "emailFromName": "Email From Name",
-    "emailFromAddress": "Email From Address",
+    "emailFromName": "Your name (displayed on outgoing messages)",
+    "emailFromAddress": "Your email address (From)",
     "emailSettings":"Email settings",
     "generalSettings":"General settings",
-    "themeSettings":"Theme settings"
+    "themeSettings":"Theme settings",
+    "emailTemplates": "Email templates",
+    "orderConfirmation": "Order Confirmation",
+    "customerRegistration": "Customer Registration",
+    "customerRecovery": "Customer Recovery",
+    "emailSubject": "Subject",
+    "emailBody": "Body (HTML)"
   },
 
   "drawer": {

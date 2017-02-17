@@ -22,7 +22,9 @@ import layoutCustomerEdit from 'layouts/customers/edit'
 import layoutCustomerGroups from 'layouts/customers/groups'
 import layoutSettingsShared from 'layouts/settings/shared'
 import layoutSettingsGeneral from 'layouts/settings/general'
-import layoutSettingsEmail from 'layouts/settings/email'
+import layoutSettingsEmail from 'layouts/settings/email/index'
+import layoutSettingsSmtp from 'layouts/settings/email/smtp'
+import layoutSettingsEmailTemplates from 'layouts/settings/email/templates'
 import layoutSettingsThemes from 'layouts/settings/themes'
 import layoutOrders from 'layouts/orders'
 
@@ -82,7 +84,9 @@ ReactDOM.render(
           <Route path="shipping" component={layoutNotFound}/>
           <Route path="payments" component={layoutNotFound}/>
           <Route path="checkout" component={layoutNotFound}/>
-          <Route path="emails" component={layoutSettingsEmail}/>
+          <Route path="email" component={layoutSettingsEmail}/>
+          <Route path="email/smtp" component={layoutSettingsSmtp}/>
+          <Route path="email/templates/:templateName" component={layoutSettingsEmailTemplates}/>
           <Route path="taxes" component={layoutNotFound}/>
           <Route path="security" component={layoutNotFound}/>
         </Route>
