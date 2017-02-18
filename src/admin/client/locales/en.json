@@ -5,6 +5,7 @@
   "trash": "Trash",
   "slug": "Slug",
   "active": "Active",
+  "enabled": "Enabled",
   "draft": "Draft",
   "description": "Description",
   "metaDescription": "Meta Description",
@@ -15,6 +16,7 @@
   "currency": "Currency",
   "images": "Images",
   "selected":"selected",
+  "commaSeparated": "comma separated",
 
   "actions": {
     "cancel": "Cancel",
@@ -167,7 +169,20 @@
     "emailSubject": "Subject",
     "emailBody": "Body (HTML)",
     "shippingMethods": "Shipping methods",
-    "paymentsMethods": "Payment methods"
+    "paymentsMethods": "Payment methods",
+    "shippingMethodName": "Shipping method name",
+    "paymentMethodName": "Payment method name",
+    "shippingRate": "Shipping rate",
+    "freeShippingRate": "Free shipping rate",
+    "conditions": "Conditions",
+    "countries": "Countries",
+    "states": "States",
+    "cities": "Cities",
+    "minTotalWeight": "Minimum total weight",
+    "maxTotalWeight": "Maximum total weight",
+    "minSubtotal": "Minimum subtotal",
+    "maxSubtotal": "Maximum subtotal",
+    "onlyShippingMethods": "Only for this shipping methods"
   },
 
   "drawer": {
