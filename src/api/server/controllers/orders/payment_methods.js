@@ -18,7 +18,7 @@ class PaymentMethodsController {
 
    getMethods(req, res) {
      PaymentMethodsService.getMethods(req.query)
-      .then(data => { setTimeout(() => {res.send(data)}, 3000) })
+      .then(data => { res.send(data) })
       .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
    }
 
