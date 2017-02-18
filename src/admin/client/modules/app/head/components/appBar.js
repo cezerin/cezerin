@@ -152,10 +152,10 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/settings/theme'){
       title = messages.settings.themeSettings;
     }
-    else if(location === '/admin/settings/shipping'){
+    else if(location.startsWith('/admin/settings/shipping')){
       title = messages.settings.shippingMethods;
     }
-    else if(location === '/admin/settings/payments'){
+    else if(location.startsWith('/admin/settings/payments')){
       title = messages.settings.paymentsMethods;
     }
     else if(location === '/admin/settings/general' || location === '/admin/settings'){

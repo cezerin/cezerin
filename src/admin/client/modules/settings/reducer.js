@@ -7,7 +7,9 @@ const initialState = {
   emailSettings: null,
   emailTemplate: null,
   shippingMethods: [],
-  paymentMethods: []
+  paymentMethods: [],
+  shippingMethodEdit: {},
+  paymentMethodEdit: {}
 };
 
 export default(state = initialState, action) => {
@@ -32,6 +34,10 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {shippingMethods: action.shippingMethods})
     case t.PAYMENT_METHODS_RECEIVE:
       return Object.assign({}, state, {paymentMethods: action.paymentMethods})
+    case t.SHIPPING_METHOD_RECEIVE:
+      return Object.assign({}, state, {shippingMethodEdit: action.shippingMethodEdit})
+    case t.PAYMENT_METHOD_RECEIVE:
+      return Object.assign({}, state, {paymentMethodEdit: action.paymentMethodEdit})
     default:
       return state
   }
