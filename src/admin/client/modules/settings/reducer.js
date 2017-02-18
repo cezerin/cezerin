@@ -5,7 +5,9 @@ const initialState = {
   installInProcess: false,
   settings: null,
   emailSettings: null,
-  emailTemplate: null
+  emailTemplate: null,
+  shippingMethods: [],
+  paymentMethods: []
 };
 
 export default(state = initialState, action) => {
@@ -26,6 +28,10 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {emailTemplate: null})
     case t.EMAIL_TEMPLATE_RECEIVE:
       return Object.assign({}, state, {emailTemplate: action.emailTemplate})
+    case t.SHIPPING_METHODS_RECEIVE:
+      return Object.assign({}, state, {shippingMethods: action.shippingMethods})
+    case t.PAYMENT_METHODS_RECEIVE:
+      return Object.assign({}, state, {paymentMethods: action.paymentMethods})
     default:
       return state
   }

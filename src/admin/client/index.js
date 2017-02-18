@@ -26,6 +26,8 @@ import layoutSettingsEmail from 'layouts/settings/email/index'
 import layoutSettingsSmtp from 'layouts/settings/email/smtp'
 import layoutSettingsEmailTemplates from 'layouts/settings/email/templates'
 import layoutSettingsThemes from 'layouts/settings/themes'
+import layoutSettingsShipping from 'layouts/settings/shipping'
+import layoutSettingsPayments from 'layouts/settings/payments'
 import layoutOrders from 'layouts/orders'
 
 const routerMiddlewareConst = routerMiddleware(browserHistory);
@@ -81,8 +83,8 @@ ReactDOM.render(
           <IndexRoute component={layoutSettingsGeneral}/>
           <Route path="general" component={layoutSettingsGeneral}/>
           <Route path="theme" component={layoutSettingsThemes}/>
-          <Route path="shipping" component={layoutNotFound}/>
-          <Route path="payments" component={layoutNotFound}/>
+          <Route path="shipping" component={layoutSettingsShipping}/>
+          <Route path="payments" component={layoutSettingsPayments}/>
           <Route path="checkout" component={layoutNotFound}/>
           <Route path="email" component={layoutSettingsEmail}/>
           <Route path="email/smtp" component={layoutSettingsSmtp}/>

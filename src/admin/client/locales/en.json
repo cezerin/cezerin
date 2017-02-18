@@ -165,7 +165,9 @@
     "customerRegistration": "Customer Registration",
     "customerRecovery": "Customer Recovery",
     "emailSubject": "Subject",
-    "emailBody": "Body (HTML)"
+    "emailBody": "Body (HTML)",
+    "shippingMethods": "Shipping methods",
+    "paymentsMethods": "Payment methods"
   },
 
   "drawer": {

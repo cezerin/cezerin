@@ -54,6 +54,20 @@ function requestEmailTemplate() {
   }
 }
 
+function receiveShippingMethods(shippingMethods) {
+  return {
+    type: t.SHIPPING_METHODS_RECEIVE,
+    shippingMethods
+  }
+}
+
+function receivePaymentMethods(paymentMethods) {
+  return {
+    type: t.PAYMENT_METHODS_RECEIVE,
+    paymentMethods
+  }
+}
+
 export function fetchSettings() {
   return (dispatch, getState) => {
     return api.settings.retrieve().then(({status, json}) => {
@@ -101,6 +115,22 @@ export function updateEmailTemplate(emailTemplate) {
     return api.settings.updateEmailTemplate(emailTemplate.templateName, emailTemplate).then(({status, json}) => {
       json.templateName = templateName;
       dispatch(receiveEmailTemplate(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchShippingMethods() {
+  return (dispatch, getState) => {
+    return api.shipping_methods.list().then(({status, json}) => {
+      dispatch(receiveShippingMethods(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchPaymentMethods() {
+  return (dispatch, getState) => {
+    return api.payment_methods.list().then(({status, json}) => {
+      dispatch(receivePaymentMethods(json))
     }).catch(error => {});
   }
 }
