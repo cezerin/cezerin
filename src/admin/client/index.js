@@ -5,6 +5,7 @@ import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import {syncHistoryWithStore, routerReducer, routerMiddleware, push} from 'react-router-redux'
+import {fetchSettings} from './modules/settings/actions'
 
 import settings from 'lib/settings'
 import messages from 'src/locales'
@@ -37,6 +38,7 @@ import layoutOrders from 'layouts/orders'
 const routerMiddlewareConst = routerMiddleware(browserHistory);
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddlewareConst));
 const history = syncHistoryWithStore(browserHistory, store)
+store.dispatch(fetchSettings());
 
 function checkLogged(nextState, replace) {
   if (localStorage.getItem('token')) {

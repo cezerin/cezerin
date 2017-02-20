@@ -3,7 +3,20 @@ import * as t from './actionTypes'
 const initialState = {
   exportInProcess: false,
   installInProcess: false,
-  settings: null,
+  settings: {
+      language: 'en',
+      currency_code: 'USD',
+      currency_symbol: '$',
+      currency_format: '${amount}',
+      thousand_separator: '',
+      decimal_separator: '.',
+      decimal_number: 2,
+      timezone: 'Asia/Singapore',
+      date_format: 'MMMM D, YYYY',
+      time_format: 'h:mm a',
+      weight_unit: 'kg',
+      length_unit: 'cm'
+  },
   emailSettings: null,
   emailTemplate: null,
   shippingMethods: [],
