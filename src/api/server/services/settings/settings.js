@@ -8,6 +8,7 @@ class SettingsService {
     this.defaultSettings = {
       'language': 'en',
       'currency_code': 'USD',
+      'currency_symbol': '$',
       'currency_format': '${amount}',
       'thousand_separator': ',',
       'decimal_separator': '.',
@@ -60,6 +61,10 @@ class SettingsService {
 
     if (data.currency_code !== undefined) {
       settings.currency_code = parse.getString(data.currency_code);
+    }
+
+    if (data.currency_symbol !== undefined) {
+      settings.currency_symbol = parse.getString(data.currency_symbol);
     }
 
     if (data.currency_format !== undefined) {

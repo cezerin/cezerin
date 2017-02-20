@@ -68,6 +68,8 @@ class GeneralSettings extends React.Component {
               <div className="col-xs-5">
                 <Field component={TextField} fullWidth={true} name="currency_format" floatingLabelText={messages.settings.currencyFormatting}/>
 
+                <Field component={TextField} fullWidth={true} name="currency_symbol" floatingLabelText={messages.settings.currencySymbol}/>
+
                 <Field component={SelectField} autoWidth={true} floatingLabelFixed={true} fullWidth={true} name="thousand_separator" floatingLabelText={messages.settings.thousandSeparator}>
                   <MenuItem value="." primaryText="5.000.000"/>
                   <MenuItem value="," primaryText="5,000,000"/>
@@ -150,10 +152,10 @@ class GeneralSettings extends React.Component {
               <div className="col-xs-7">{messages.settings.weightUnit}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="weight_unit">
-                  <MenuItem value="g" primaryText={messages.settings.gram}/>
-                  <MenuItem value="kg" primaryText={messages.settings.kilogram}/>
-                  <MenuItem value="lb" primaryText={messages.settings.pound}/>
-                  <MenuItem value="oz" primaryText={messages.settings.ounce}/>
+                  <MenuItem value="g" primaryText={messages.settings.gram + ' (g)'}/>
+                  <MenuItem value="kg" primaryText={messages.settings.kilogram + ' (kg)'}/>
+                  <MenuItem value="lb" primaryText={messages.settings.pound + ' (lb)'}/>
+                  <MenuItem value="oz" primaryText={messages.settings.ounce + ' (oz)'}/>
                 </Field>
               </div>
             </div>
@@ -167,8 +169,8 @@ class GeneralSettings extends React.Component {
               <div className="col-xs-7">{messages.settings.lengthUnit}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="length_unit">
-                  <MenuItem value="cm" primaryText={messages.settings.centimeter}/>
-                  <MenuItem value="in" primaryText={messages.settings.inch}/>
+                  <MenuItem value="cm" primaryText={messages.settings.centimeter + ' (cm)'}/>
+                  <MenuItem value="in" primaryText={messages.settings.inch + ' (in)'}/>
                 </Field>
               </div>
             </div>
@@ -244,4 +246,4 @@ class GeneralSettings extends React.Component {
   }
 }
 
-export default reduxForm({form: 'GeneralSettingsForm', enableReinitialize: false})(GeneralSettings)
+export default reduxForm({form: 'GeneralSettingsForm', enableReinitialize: true})(GeneralSettings)

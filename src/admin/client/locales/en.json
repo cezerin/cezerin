@@ -129,6 +129,7 @@
     "taxes": "Taxes",
     "security": "Security",
     "currencyFormatting": "Currency formatting",
+    "currencySymbol": "Currency symbol",
     "thousandSeparator": "Thousand Separator",
     "decimalSeparator": "Decimal Separator",
     "numberOfDecimal": "Number of Decimal",
