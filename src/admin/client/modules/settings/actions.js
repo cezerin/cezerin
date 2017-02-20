@@ -68,14 +68,14 @@ function receivePaymentMethods(paymentMethods) {
   }
 }
 
-function receiveShippingMethod(shippingMethodEdit) {
+export function receiveShippingMethod(shippingMethodEdit) {
   return {
     type: t.SHIPPING_METHOD_RECEIVE,
     shippingMethodEdit
   }
 }
 
-function receivePaymentMethod(paymentMethodEdit) {
+export function receivePaymentMethod(paymentMethodEdit) {
   return {
     type: t.PAYMENT_METHOD_RECEIVE,
     paymentMethodEdit
@@ -177,6 +177,38 @@ export function fetchPaymentMethod(id) {
   return (dispatch, getState) => {
     return api.payment_methods.retrieve(id).then(({status, json}) => {
       dispatch(receivePaymentMethod(json))
+    }).catch(error => {});
+  }
+}
+
+export function deleteShippingMethod(methodId) {
+  return (dispatch, getState) => {
+    return api.shipping_methods.delete(methodId).then(({status, json}) => {
+      dispatch(fetchShippingMethods())
+    }).catch(error => {});
+  }
+}
+
+export function deletePaymentMethod(methodId) {
+  return (dispatch, getState) => {
+    return api.payment_methods.delete(methodId).then(({status, json}) => {
+      dispatch(fetchPaymentMethods())
+    }).catch(error => {});
+  }
+}
+
+export function createShippingMethod(method) {
+  return (dispatch, getState) => {
+    return api.shipping_methods.create(method).then(({status, json}) => {
+      dispatch(fetchShippingMethods())
+    }).catch(error => {});
+  }
+}
+
+export function createPaymentMethod(method) {
+  return (dispatch, getState) => {
+    return api.payment_methods.create(method).then(({status, json}) => {
+      dispatch(fetchPaymentMethods())
     }).catch(error => {});
   }
 }

@@ -170,6 +170,10 @@
     "emailBody": "Body (HTML)",
     "shippingMethods": "Shipping methods",
     "paymentsMethods": "Payment methods",
+    "editShippingMethod": "Edit shipping method",
+    "editPaymentMethod": "Edit payment method",
+    "addShippingMethod": "Add shipping method",
+    "addPaymentMethod": "Add payment method",
     "shippingMethodName": "Shipping method name",
     "paymentMethodName": "Payment method name",
     "shippingRate": "Shipping rate",
@@ -182,7 +186,9 @@
     "maxTotalWeight": "Maximum total weight",
     "minSubtotal": "Minimum subtotal",
     "maxSubtotal": "Maximum subtotal",
-    "onlyShippingMethods": "Only for this shipping methods"
+    "onlyShippingMethods": "Only for this shipping methods",
+    "aboutDeletePaymentMethod": "Will delete payment method {name}.",
+    "aboutDeleteShippingMethod": "Will delete shipping method {name}."
   },
 
   "drawer": {

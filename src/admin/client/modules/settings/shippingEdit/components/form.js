@@ -8,6 +8,19 @@ import style from './style.css'
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 
+const validate = values => {
+  const errors = {}
+  const requiredFields = ['name']
+
+  requiredFields.map(field => {
+    if (values && !values[field]) {
+      errors[field] = messages.errors.required;
+    }
+  })
+
+  return errors
+}
+
 class EditShippingMethodForm extends React.Component {
   constructor(props) {
     super(props)
@@ -18,7 +31,7 @@ class EditShippingMethodForm extends React.Component {
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, isAdd} = this.props;
 
     return (
       <div className="row row--no-gutter col-full-height col--no-gutter scroll">
@@ -63,7 +76,7 @@ class EditShippingMethodForm extends React.Component {
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.actions.add : messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>
@@ -71,4 +84,4 @@ class EditShippingMethodForm extends React.Component {
   }
 }
 
-export default reduxForm({form: 'EditShippingMethodForm', enableReinitialize: true})(EditShippingMethodForm)
+export default reduxForm({form: 'EditShippingMethodForm', validate, enableReinitialize: true})(EditShippingMethodForm)

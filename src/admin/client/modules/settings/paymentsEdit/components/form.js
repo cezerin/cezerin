@@ -10,51 +10,65 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 
+const validate = values => {
+  const errors = {}
+  const requiredFields = ['name']
+
+  requiredFields.map(field => {
+    if (values && !values[field]) {
+      errors[field] = messages.errors.required;
+    }
+  })
+
+  return errors
+}
+
 class SelectShippingMethodsField extends React.Component {
   constructor(props) {
     super(props)
+    const ids = Array.isArray(props.input.value) ? props.input.value : [];
     this.state = {
-      shipping_method_ids: []
+      selectedIds: ids
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    const newIds = Array.isArray(nextProps.input.value) ? nextProps.input.value : [];
+    if (newIds !== this.state.selectedIds) {
+      this.setState({
+        selectedIds: newIds
+      });
+    }
+  }
+
+  onCheckboxChecked = (methodId) => {
+    let ids = this.state.selectedIds;
+    if(ids.includes(methodId)) {
+      ids = ids.filter(id => id !== methodId);
+    } else {
+      ids.push(methodId);
+    }
+    this.setState({ selectedIds: ids});
+    this.props.input.onChange(ids)
+  }
+
+  isCheckboxChecked = (methodId) => {
+    return this.state.selectedIds.includes(methodId);
+  }
+
   render() {
-    const field = this.props;
-    //console.log(field.input.value);
-    let selectedIds = field.input.value || [];
-
-    const items = field.shippingMethods.map(method =>
+    const items = this.props.shippingMethods.map(method =>
       <ListItem key={method.id}
-        leftCheckbox={<Checkbox checked={selectedIds.includes(method.id)} onCheck={(e, isChecked) => {
-
-          if(selectedIds.includes(method.id)) {
-            selectedIds = [];//selectedIds.filter(item => item != method.id);
-          } else {
-            selectedIds.push(method.id);
-          }
-
-          console.log(selectedIds);
-          field.input.onChange(selectedIds);
-          //field.input.onChange(["5891b9394e05b32a570c1346", "5891d11ed869d239a6929e5b"]);
-
-          if(isChecked) {
-            //selectedIds.push(method.id);
-            //console.log(selectedIds);
-            //field.input.onChange(selectedIds)
-          } else {
-            //selectedIds = selectedIds.filter(item => item != method.id);
-            //console.log(selectedIds);
-            //field.input.onChange(selectedIds)
-          }
+        leftCheckbox={<Checkbox checked={this.isCheckboxChecked(method.id)} onCheck={(e, isChecked) => {
+          this.onCheckboxChecked(method.id)
         }} />}
-        primaryText={method.name+',' + selectedIds.includes(method.id)}
-        secondaryText={method.id}
+        primaryText={method.name}
+        secondaryText={method.description}
       />
     )
 
     return (
       <List>
-        {selectedIds.toString()}
         {items}
       </List>
     )
@@ -71,7 +85,7 @@ class EditPaymentMethodForm extends React.Component {
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, shippingMethods} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, shippingMethods, isAdd} = this.props;
 
     return (
       <div className="row row--no-gutter col-full-height col--no-gutter scroll">
@@ -100,12 +114,13 @@ class EditPaymentMethodForm extends React.Component {
             </div>
             <div className="blue-title">{messages.settings.onlyShippingMethods}</div>
             <Field name="conditions.shipping_method_ids" component={SelectShippingMethodsField} shippingMethods={shippingMethods}/>
+            <Divider />
           </div>
           <div style={{
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.actions.add : messages.actions.save} primary={true} className={style.button} disabled={submitting}/>
           </div>
         </form>
       </div>
@@ -113,4 +128,4 @@ class EditPaymentMethodForm extends React.Component {
   }
 }
 
-export default reduxForm({form: 'EditPaymentMethodForm', enableReinitialize: true})(EditPaymentMethodForm)
+export default reduxForm({form: 'EditPaymentMethodForm', validate, enableReinitialize: true})(EditPaymentMethodForm)

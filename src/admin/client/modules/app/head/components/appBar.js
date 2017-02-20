@@ -8,6 +8,8 @@ import CustomerGroupHead from 'modules/customer-groups/head/index'
 import CustomersHead from 'modules/customers/head/index'
 import ProductsHead from 'modules/products/head/index'
 import OrdersHead from 'modules/orders/head/index'
+import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
+import ShippingMethodHead from 'modules/settings/shippingEdit/head'
 import Drawer from './drawer'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -152,11 +154,29 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/settings/theme'){
       title = messages.settings.themeSettings;
     }
-    else if(location.startsWith('/admin/settings/shipping')){
+    else if(location === '/admin/settings/shipping'){
       title = messages.settings.shippingMethods;
     }
-    else if(location.startsWith('/admin/settings/payments')){
+    else if(location === '/admin/settings/payments'){
       title = messages.settings.paymentsMethods;
+    }
+    else if(location === '/admin/settings/shipping/add'){
+      title = messages.settings.addShippingMethod;
+      leftButton = <IconButton><Link to="/admin/settings/shipping"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/payments/add'){
+      title = messages.settings.addPaymentMethod;
+      leftButton = <IconButton><Link to="/admin/settings/payments"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location.startsWith('/admin/settings/shipping/')){
+      title = messages.settings.editShippingMethod;
+      leftButton = <IconButton><Link to="/admin/settings/shipping"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      rightElements = <ShippingMethodHead />
+    }
+    else if(location.startsWith('/admin/settings/payments/')){
+      title = messages.settings.editPaymentMethod;
+      leftButton = <IconButton><Link to="/admin/settings/payments"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      rightElements = <PaymentMethodHead />
     }
     else if(location === '/admin/settings/general' || location === '/admin/settings'){
       title = messages.settings.generalSettings;
