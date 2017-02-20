@@ -31,7 +31,7 @@ class EditShippingMethodForm extends React.Component {
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, isAdd} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, isAdd, settings} = this.props;
 
     return (
       <div className="row row--no-gutter col-full-height col--no-gutter scroll">
@@ -47,7 +47,7 @@ class EditShippingMethodForm extends React.Component {
               <Field component={TextField} fullWidth={true} name="description" multiLine={true} floatingLabelText={messages.description}/>
             </div>
             <div>
-              <Field component={TextField} name="price" type="number" floatingLabelText={messages.settings.shippingRate}/>
+              <Field component={TextField} name="price" type="number" floatingLabelText={messages.settings.shippingRate + ` (${settings.currency_symbol})`}/>
             </div>
             <div style={{maxWidth: 256}}>
               <Field component={Toggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}}/>
@@ -64,12 +64,12 @@ class EditShippingMethodForm extends React.Component {
               <Field component={TextField} fullWidth={true} name="conditions.cities" floatingLabelText={messages.settings.cities} hintText="Los Angeles,San Diego,San Jose"/>
             </div>
             <div>
-              <Field component={TextField} name="conditions.weight_total_min" type="number" floatingLabelText={messages.settings.minTotalWeight}/>
-              <Field component={TextField} name="conditions.weight_total_max" type="number" floatingLabelText={messages.settings.maxTotalWeight}/>
+              <Field component={TextField} name="conditions.weight_total_min" type="number" floatingLabelText={messages.settings.minTotalWeight + ` (${settings.weight_unit})`}/>
+              <Field component={TextField} name="conditions.weight_total_max" type="number" floatingLabelText={messages.settings.maxTotalWeight + ` (${settings.weight_unit})`}/>
             </div>
             <div>
-              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings.minSubtotal}/>
-              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings.maxSubtotal}/>
+              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings.minSubtotal + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings.maxSubtotal + ` (${settings.currency_symbol})`}/>
             </div>
           </div>
           <div style={{

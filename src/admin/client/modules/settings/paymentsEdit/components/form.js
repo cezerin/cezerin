@@ -85,7 +85,7 @@ class EditPaymentMethodForm extends React.Component {
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, shippingMethods, isAdd} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, shippingMethods, isAdd, settings} = this.props;
 
     return (
       <div className="row row--no-gutter col-full-height col--no-gutter scroll">
@@ -109,8 +109,8 @@ class EditPaymentMethodForm extends React.Component {
               <Field component={TextField} fullWidth={true} name="conditions.countries" floatingLabelText={messages.settings.countries} hintText="US,UK,AU,SG"/>
             </div>
             <div>
-              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings.minSubtotal}/>
-              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings.maxSubtotal}/>
+              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings.minSubtotal + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings.maxSubtotal + ` (${settings.currency_symbol})`}/>
             </div>
             <div className="blue-title">{messages.settings.onlyShippingMethods}</div>
             <Field name="conditions.shipping_method_ids" component={SelectShippingMethodsField} shippingMethods={shippingMethods}/>
