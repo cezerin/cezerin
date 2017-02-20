@@ -5,6 +5,7 @@ import Form from './components/form'
 
 const mapStateToProps = (state) => {
   return {
+    settings: state.settings.settings,
     initialValues: state.products.editItem,
     isFetchingEdit: state.products.isFetchingEdit
     // categoryId: state.productCategories.selectedId,

@@ -7,7 +7,6 @@ import thunkMiddleware from 'redux-thunk'
 import {syncHistoryWithStore, routerReducer, routerMiddleware, push} from 'react-router-redux'
 import {fetchSettings} from './modules/settings/actions'
 
-import settings from 'lib/settings'
 import messages from 'src/locales'
 import reducers from 'src/rootReducer'
 
@@ -40,6 +39,9 @@ const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddl
 const history = syncHistoryWithStore(browserHistory, store)
 store.dispatch(fetchSettings());
 
+const loginPath = '/admin/login';
+const logoutPath = '/admin/logout';
+
 function checkLogged(nextState, replace) {
   if (localStorage.getItem('token')) {
     replace({
@@ -52,9 +54,9 @@ function checkLogged(nextState, replace) {
 }
 
 function checkToken(nextState, replace) {
-  if (nextState.location.pathname !== settings.admin.pages.login && !localStorage.getItem('token')) {
+  if (nextState.location.pathname !== loginPath && !localStorage.getItem('token')) {
     replace({
-      pathname: settings.admin.pages.login,
+      pathname: loginPath,
       state: {
         nextPathname: nextState.location.pathname
       }
@@ -64,7 +66,7 @@ function checkToken(nextState, replace) {
 
 function removeToken(nextState, replace) {
   localStorage.removeItem('token');
-  location.replace(settings.admin.pages.login);
+  location.replace(loginPath);
 }
 
 var appElement = document.getElementById('app');

@@ -5,13 +5,9 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import messages from 'src/locales'
-import settings from 'lib/settings'
+import helper from 'lib/helper'
 import style from './style.css'
 import moment from 'moment';
-
-const FormattedPrice = (price, currency, language) => (
-  price.toLocaleString(language, { style: 'currency', currency: currency })
-)
 
 const getOrderIcon = (order) => {
   if(order.closed) {
@@ -38,9 +34,9 @@ const getOrderIcon = (order) => {
   return <FontIcon style={{ color: 'rgba(0, 0, 0, 0.1)'}} className="material-icons">edit</FontIcon>
 }
 
-const OrdersListItem = ({ order, onSelect, selected }) => {
+const OrdersListItem = ({ order, onSelect, selected, settings }) => {
   const checked = selected.includes(order.id);
-  let grandTotalFormatted = FormattedPrice(order.grand_total || 0, settings.currency, settings.language);
+  let grandTotalFormatted = helper.formatCurrency(order.grand_total, settings);
 
   const icon = getOrderIcon(order);
   const dateCreated = moment(order.date_created);

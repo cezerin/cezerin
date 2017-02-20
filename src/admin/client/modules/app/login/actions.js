@@ -37,7 +37,7 @@ export const loginUser = (email, pass) => {
                 api.init(settings.apiBaseUrl, json.token);
 
                 dispatch(receiveLogin(email, json.token));
-                dispatch(push(settings.admin.pages.home));
+                dispatch(push('/admin'));
             } else {
                 dispatch(loginError(json.message));
             }

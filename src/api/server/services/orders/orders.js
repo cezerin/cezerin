@@ -249,7 +249,7 @@ class OrdersService {
         'id': new ObjectID(),
         'transaction_id': parse.getString(transaction.transaction_id),
         'amount': parse.getNumberIfPositive(transaction.amount),
-        'currency': parse.getCurrencyIfValid(transaction.currency) || settings.currency,
+        'currency': parse.getString(transaction.currency),
         'status': parse.getString(transaction.status),
         'details': transaction.details,
         'success': parse.getBooleanIfValid(transaction.success),
@@ -318,7 +318,6 @@ class OrdersService {
       order.note = parse.getString(data.note);
       order.comments = parse.getString(data.comments);
       order.coupon = parse.getString(data.coupon);
-      order.currency = parse.getCurrencyIfValid(data.currency) || settings.currency;
       order.tracking_number = parse.getString(data.tracking_number);
 
       order.customer_id = parse.getObjectIDIfValid(data.customer_id);
@@ -402,9 +401,6 @@ class OrdersService {
       }
       if (data.coupon !== undefined) {
         order.coupon = parse.getString(data.coupon);
-      }
-      if (data.currency !== undefined) {
-        order.currency = parse.getCurrencyIfValid(data.currency) || settings.currency;
       }
       if (data.tracking_number !== undefined) {
         order.tracking_number = parse.getString(data.tracking_number);
@@ -541,8 +537,7 @@ class OrdersService {
         <p>Shipping: ${order.shipping_method}</p>
         <p>Payment: ${order.payment_method}</p>`
       };
-      emailSender.send(message);
-      return order;
+      return emailSender.send(message).then(info => order).catch(err => order);
     });
   }
 }

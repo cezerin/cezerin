@@ -25,7 +25,7 @@ class ProductsController {
    }
 
    getSingleProduct(req, res) {
-     ProductsService.getSingleProduct(req.params.id, req.query.currency)
+     ProductsService.getSingleProduct(req.params.id)
       .then(data => {
         if(data) {
           res.send(data)

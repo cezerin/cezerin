@@ -1,0 +1,23 @@
+const formatNumber = (number = 0, settings) => {
+  const x = 3;
+
+  const re = '\\d(?=(\\d{' + x + '})+' + (settings.decimal_number > 0
+    ? '\\D'
+    : '$') + ')';
+
+  let num = number.toFixed(Math.max(0, ~~ settings.decimal_number));
+
+  return (settings.decimal_separator
+    ? num.replace('.', settings.decimal_separator)
+    : num).replace(new RegExp(re, 'g'), '$&' + (settings.thousand_separator));
+};
+
+const amountPattern = '{amount}';
+const formatCurrency = (number = 0, settings) => {
+  return settings.currency_format.replace(amountPattern, formatNumber(number, settings));
+}
+
+module.exports = {
+  formatNumber,
+  formatCurrency
+};

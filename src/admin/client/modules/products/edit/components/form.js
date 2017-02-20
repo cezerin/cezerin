@@ -7,7 +7,6 @@ import Editor from 'modules/shared/editor'
 import Gallery from './gallery'
 import messages from 'src/locales'
 import style from './style.css'
-import settings from 'lib/settings'
 import api from 'lib/api'
 
 import Paper from 'material-ui/Paper';
@@ -80,7 +79,8 @@ class ProductEdit extends React.Component {
       pristine,
       submitting,
       isSaving,
-      initialValues } = this.props;
+      initialValues,
+      settings } = this.props;
 
     if(!initialValues) {
       return <div></div>
@@ -98,17 +98,14 @@ class ProductEdit extends React.Component {
                 <div className="blue-title">{messages.products.pricing}</div>
 
                 <div className="row row--no-gutter">
-                  <div className="col-xs-7 col--no-gutter">
-                    <Field name="regular_price" component={TextField} floatingLabelText={messages.products.regularPrice} fullWidth={true}/>
+                  <div className="col-xs-6 col--no-gutter">
+                    <Field name="regular_price" component={TextField} floatingLabelText={messages.products.regularPrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
                   </div>
-                  <div className="col-xs-5 col--no-gutter">
-                    <Field name="currency" component={SelectField} floatingLabelText={messages.currency} floatingLabelFixed={true} fullWidth={true} format={(value, name) => value === '' ? 'USD' : value}>
-                      {settings.currencies.map(currency => <MenuItem key={currency} value={currency} primaryText={currency} />)}
-                    </Field>
+                  <div className="col-xs-6 col--no-gutter">
+                    <Field name="sale_price" component={TextField} floatingLabelText={messages.products.salePrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
                   </div>
                 </div>
 
-                <Field name="sale_price" component={TextField} floatingLabelText={messages.products.salePrice} fullWidth={true}/>
 
                 <div className="row row--no-gutter">
                   <div className="col-xs-6 col--no-gutter">
@@ -138,7 +135,7 @@ class ProductEdit extends React.Component {
                     <Field name="stock_quantity" component={TextField} floatingLabelText={messages.products.stockQuantity} fullWidth={true}/>
                   </div>
                   <div className="col-xs-6 col--no-gutter">
-                    <Field name="weight" component={TextField} floatingLabelText={messages.products.weight} fullWidth={true}/>
+                    <Field name="weight" component={TextField} floatingLabelText={messages.products.weight + ` (${settings.weight_unit})`} fullWidth={true}/>
                   </div>
                 </div>
 

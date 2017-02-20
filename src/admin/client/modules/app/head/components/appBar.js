@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router'
 
-import settings from 'lib/settings'
 import messages from 'src/locales'
 import ProductCategoryHead from 'modules/product-categories/head/index'
 import CustomerGroupHead from 'modules/customer-groups/head/index'

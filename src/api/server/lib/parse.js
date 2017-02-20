@@ -41,12 +41,6 @@ const getBooleanIfValid = (value, defaultValue = null) => {
   }
 }
 
-const getCurrencyIfValid = (value) => {
-  return (value && value.length === 3)
-    ? value.toUpperCase()
-    : null;
-}
-
 const getObjectIDIfValid = (value) => {
   return ObjectID.isValid(value)
     ? value
@@ -147,7 +141,6 @@ module.exports = {
   getNumberIfValid: getNumberIfValid,
   getNumberIfPositive: getNumberIfPositive,
   getBooleanIfValid: getBooleanIfValid,
-  getCurrencyIfValid: getCurrencyIfValid,
   getBrowser: getBrowser,
   getCustomerAddress: getCustomerAddress,
   getOrderAddress: getOrderAddress

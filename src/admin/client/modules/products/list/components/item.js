@@ -5,16 +5,12 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import messages from 'src/locales'
-import settings from 'lib/settings'
+import helper from 'lib/helper'
 import style from './style.css'
 
 const ImagePlaceholder = <div className={style.placeholder}><FontIcon style={{fontSize: 30, color: '#cccccc'}} className="material-icons">photo_camera</FontIcon></div>;
 
-const FormattedPrice = (price, currency, language) => (
-  (price > 0 && currency !== '') ? price.toLocaleString(language, { style: 'currency', currency: currency }) : ''
-)
-
-const ProductItem = ({ product, onSelect, selected }) => {
+const ProductItem = ({ product, onSelect, selected, settings }) => {
   let image = null;
   if(product.images && product.images.length > 0) {
     image = <img src={product.images[0].url} className={style.image} />;
@@ -57,8 +53,8 @@ const ProductItem = ({ product, onSelect, selected }) => {
     break;
   }
 
-  let priceFormatted = FormattedPrice(product.price, product.currency, settings.language);
-  let priceOldFormatted = product.on_sale ? FormattedPrice(product.regular_price, product.currency, settings.language) : '';
+  let priceFormatted = helper.formatCurrency(product.price, settings);
+  let priceOldFormatted = product.on_sale ? helper.formatCurrency(product.regular_price, settings) : '';
 
   return (
     <div>

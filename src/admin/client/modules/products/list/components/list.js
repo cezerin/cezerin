@@ -19,9 +19,9 @@ export default class ProductsList extends React.Component {
     }
 
     render(){
-      const { items, selected, isFetching, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate } = this.props;
+      const { items, selected, isFetching, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate, settings } = this.props;
       const rows = items.map((item, index) => (
-        <ProductsListItem key={index} product={item} selected={selected} onSelect={onSelect} />
+        <ProductsListItem key={index} product={item} selected={selected} onSelect={onSelect} settings={settings} />
       ));
 
       return (

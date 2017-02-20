@@ -6,7 +6,7 @@ const Editor = ({ input: { onChange, value } }) =>
   <TinyMCE
     content={value}
     config={{
-      language: settings.language,
+      language: settings.editor.language,
       themes: settings.editor.themes,
       inline: settings.editor.inline,
       plugins: settings.editor.plugins,

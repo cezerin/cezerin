@@ -5,16 +5,12 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import messages from 'src/locales'
-import settings from 'lib/settings'
+import helper from 'lib/helper'
 import style from './style.css'
 
-const FormattedPrice = (price, currency, language) => (
-  price.toLocaleString(language, { style: 'currency', currency: currency })
-)
-
-const CustomersListItem = ({ customer, onSelect, selected }) => {
+const CustomersListItem = ({ customer, onSelect, selected, settings }) => {
   const checked = selected.includes(customer.id);
-  let totalSpentFormatted = FormattedPrice(customer.total_spent || 0, settings.currency, settings.language);
+  let totalSpentFormatted = helper.formatCurrency(customer.total_spent, settings);
 
   return (
     <div>

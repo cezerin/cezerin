@@ -5,19 +5,9 @@ module.exports = {
   ajaxBaseUrl: `${domain}/ajax`,
   apiBaseUrl: `${domain}/api/v1`,
   adminBaseUrl: `${domain}/admin`,
-  language: 'en',
-  currency: 'EUR',
-
-  currencies: [
-    'USD',
-    'EUR',
-    'JPY',
-    'GBP',
-    'CHF',
-    'TRY'
-  ],
 
   editor: {
+    language: 'en',
     inline: true,
     themes: 'inlite',
     plugins: [
@@ -25,14 +15,5 @@ module.exports = {
     ],
     toolbar1: 'image media | styleselect | bold italic bullist numlist link alignleft aligncenter alignright alignjustify',
     toolbar2: 'undo redo | forecolor paste removeformat table | outdent indent | preview code'
-  },
-
-  admin: {
-    pages: {
-      login: '/admin/login',
-      logout: '/admin/logout',
-      home: '/admin'
-    }
-
   }
 }

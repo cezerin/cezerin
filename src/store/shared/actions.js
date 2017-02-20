@@ -258,7 +258,7 @@ export function fetchProducts() {
 
     let filter = state.app.productsFilter;
     filter.category_id = state.app.currentCategory.id;
-    filter.fields = 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price';
+    filter.fields = 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
 
     return api.ajax.products.list(filter).then(({status, json}) => {
       dispatch(receiveProducts(json))
@@ -308,7 +308,7 @@ const getCommonData = (req, currentPage, productsFilter) => {
 export const getInitialState = (req) => {
   let initialState = {
     app: {
-      language: clientSettings.language,
+      language: 'en',
       location: null,
       currentPage: null,
       currentCategory: null,
@@ -324,7 +324,7 @@ export const getInitialState = (req) => {
       order: null,
       productsFilter: {
         limit: 20,
-        fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,currency,on_sale,regular_price'
+        fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       }
     }
   }

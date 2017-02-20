@@ -5,6 +5,7 @@ import List from './components/list'
 
 const mapStateToProps = (state) => {
   return {
+    settings: state.settings.settings,
     items: state.orders.items,
     selected: state.orders.selected,
     isFetchingItems: state.orders.isFetching,

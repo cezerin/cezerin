@@ -16,13 +16,12 @@ class ProductsService {
 
   getProducts(params = {}) {
     return Promise.all([
-        mongo.db.collection('currencies').find().toArray(),
         CategoriesService.getCategories()
-      ]).then(([ currencies, categories ]) => {
+      ]).then(([ categories ]) => {
         const fieldsArray = this.getFieldsArray(params.fields);
         const limit = parse.getNumberIfPositive(params.limit) || 1000000;
         const offset = parse.getNumberIfPositive(params.offset) || 0;
-        const projectQuery = this.getProjectQuery(fieldsArray, params.currency, currencies);
+        const projectQuery = this.getProjectQuery(fieldsArray);
         const sortQuery = this.getSortQuery(params);
         const matchQuery = this.getMatchQuery(params, categories);
         const matchTextQuery = this.getMatchTextQuery(params);
@@ -33,13 +32,6 @@ class ProductsService {
           aggregationPipeline.push({ $match: matchTextQuery });
         }
 
-        aggregationPipeline.push({$lookup: {
-          from: "currencies",
-          localField: "currency",
-          foreignField: "currency",
-          as: "currencies"
-        }});
-
         aggregationPipeline.push({ $project: projectQuery });
         aggregationPipeline.push({ $match: matchQuery });
         aggregationPipeline.push({ $sort: sortQuery });
@@ -47,7 +39,7 @@ class ProductsService {
         aggregationPipeline.push({ $skip : offset });
 
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
-          .then(items => items.map(item => this.renameDocumentFields(categories, item, params.currency, currencies)))
+          .then(items => items.map(item => this.renameDocumentFields(categories, item)))
       });
   }
 
@@ -67,21 +59,10 @@ class ProductsService {
   }
 
 
-  getProjectQuery(fieldsArray, toCurrency, currencies) {
+  getProjectQuery(fieldsArray) {
     let salePrice = "$sale_price";
     let regularPrice = "$regular_price";
     let costPrice = "$cost_price";
-
-    if(toCurrency && toCurrency.length === 3) {
-      let toCurrencyObj = currencies.find(c => c.currency.toUpperCase() === toCurrency.toUpperCase());
-      if(toCurrencyObj) {
-        const toCurrencyRate = toCurrencyObj.rate;
-        const fromCurrencyRateDefault = 1;
-        salePrice = { $multiply: [ "$sale_price", { $divide: [ toCurrencyRate, { $ifNull: [{ $arrayElemAt: [ "$currencies.rate", 0 ] }, fromCurrencyRateDefault] } ] } ] };
-        regularPrice = { $multiply: [ "$regular_price", { $divide: [ toCurrencyRate, { $ifNull: [{ $arrayElemAt: [ "$currencies.rate", 0 ] }, fromCurrencyRateDefault] } ] } ] };
-        costPrice = { $multiply: [ "$cost_price", { $divide: [ toCurrencyRate, { $ifNull: [{ $arrayElemAt: [ "$currencies.rate", 0 ] }, fromCurrencyRateDefault] } ] } ] };
-      }
-    }
 
     let project =
     {
@@ -200,7 +181,6 @@ class ProductsService {
     project._id = 0;
     project.id = "$_id";
     project.category_id = 1;
-    project.currency = 1;
     project.slug = 1;
 
     return project;
@@ -324,11 +304,11 @@ class ProductsService {
      return query;
   }
 
-  getSingleProduct(id, currency = settings.currency) {
+  getSingleProduct(id) {
     if(!ObjectID.isValid(id)) {
       return Promise.reject('Invalid identifier');
     }
-    return this.getProducts({ ids: id, limit: 1, currency: currency})
+    return this.getProducts({ ids: id, limit: 1})
     .then(items => items.length > 0 ? items[0] : {})
   }
 
@@ -406,7 +386,6 @@ class ProductsService {
       product.attributes = parse.getArrayIfValid(data.attributes) || [];
       product.active = parse.getBooleanIfValid(data.active, true);
       product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
-      product.currency = parse.getCurrencyIfValid(data.currency) || "USD";
       product.sku = parse.getString(data.sku);
       product.code = parse.getString(data.code);
       product.tax_class = parse.getString(data.tax_class);
@@ -490,10 +469,6 @@ class ProductsService {
 
       if(!_.isUndefined(data.discontinued)) {
         product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
-      }
-
-      if(!_.isUndefined(data.currency)) {
-        product.currency = parse.getCurrencyIfValid(data.currency) || "USD";
       }
 
       if(!_.isUndefined(data.sku)) {
@@ -613,39 +588,8 @@ class ProductsService {
     });
   }
 
-  renameDocumentFields(categories, item, toCurrency, currencies) {
+  renameDocumentFields(categories, item) {
     if(item) {
-
-      // convert currency for Variants and Prices
-      if(toCurrency && toCurrency.length === 3) {
-        let toCurrencyObj = currencies.find(c => c.currency.toUpperCase() === toCurrency.toUpperCase());
-        let fromCurrencyObj = currencies.find(c => c.currency.toUpperCase() === item.currency.toUpperCase());
-        if(toCurrencyObj && fromCurrencyObj) {
-          const toCurrencyRate = toCurrencyObj.rate;
-          const fromCurrencyRate = fromCurrencyObj.rate;
-          const rate = toCurrencyRate / fromCurrencyRate;
-
-          if(item.prices && item.prices.length > 0) {
-            item.prices = item.variants.map(e => {
-              if(e.price > 0) {
-                e.price = e.price * rate;
-              }
-              return e;
-            });
-          }
-
-          if(item.variants && item.variants.length > 0) {
-            item.variants = item.variants.map(e => {
-              if(e.price > 0) {
-                e.price = e.price * rate;
-              }
-              return e;
-            });
-          }
-
-          item.currency = toCurrency.toUpperCase();
-        }
-      }
 
       if(item.id) {
         item.id = item.id.toString();

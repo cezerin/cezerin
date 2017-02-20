@@ -2,7 +2,6 @@ import React from 'react'
 
 import messages from 'src/locales'
 import style from './style.css'
-import settings from 'lib/settings'
 import api from 'lib/api'
 
 import Paper from 'material-ui/Paper';

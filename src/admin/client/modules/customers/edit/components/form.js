@@ -7,7 +7,6 @@ import Editor from 'modules/shared/editor'
 import Gallery from './gallery'
 import messages from 'src/locales'
 import style from './style.css'
-import settings from 'lib/settings'
 import api from 'lib/api'
 
 import Paper from 'material-ui/Paper';
@@ -102,9 +101,6 @@ class ProductEdit extends React.Component {
                     <Field name="regular_price" component={TextField} floatingLabelText={messages.products.regularPrice} fullWidth={true}/>
                   </div>
                   <div className="col-xs-5 col--no-gutter">
-                    <Field name="currency" component={SelectField} floatingLabelText={messages.currency} floatingLabelFixed={true} fullWidth={true} format={(value, name) => value === '' ? 'USD' : value}>
-                      {settings.currencies.map(currency => <MenuItem key={currency} value={currency} primaryText={currency} />)}
-                    </Field>
                   </div>
                 </div>
 

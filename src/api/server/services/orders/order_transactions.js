@@ -1,6 +1,5 @@
 'use strict';
 
-const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
@@ -63,7 +62,7 @@ class OrdertTansactionsService {
       'id': new ObjectID(),
       'transaction_id': parse.getString(data.transaction_id),
       'amount': parse.getNumberIfPositive(data.amount) || 0,
-      'currency': parse.getCurrencyIfValid(data.currency) || settings.currency,
+      'currency': parse.getString(data.currency),
       'status': parse.getString(data.status),
       'details': parse.getString(data.details),
       'success': parse.getBooleanIfValid(data.success)
@@ -86,7 +85,7 @@ class OrdertTansactionsService {
     }
 
     if (data.currency !== undefined) {
-      transaction['transactions.$.currency'] = parse.getCurrencyIfValid(data.currency) || settings.currency;
+      transaction['transactions.$.currency'] = parse.getString(data.currency);
     }
 
     if (data.status !== undefined) {

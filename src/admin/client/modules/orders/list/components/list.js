@@ -19,9 +19,9 @@ export default class OrdersList extends React.Component {
     }
 
     render(){
-      const { items, selected, isFetchingItems, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate } = this.props;
+      const { items, selected, isFetchingItems, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate, settings } = this.props;
       const rows = items.map((item, index) => (
-        <OrdersListItem key={index} order={item} selected={selected} onSelect={onSelect} />
+        <OrdersListItem key={index} order={item} selected={selected} onSelect={onSelect} settings={settings} />
       ));
 
       return (
