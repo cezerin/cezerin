@@ -12,7 +12,7 @@ const styles = {
     display: 'block'
   },
   linkActive: {
-    backgroundColor: 'rgba(0,0,0,0.2)'
+    backgroundColor: 'rgba(0,0,0,0.1)'
   }
 }
 

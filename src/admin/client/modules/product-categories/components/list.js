@@ -13,7 +13,7 @@ var styles = {
   selectedItem: {
     fontSize: 14,
     lineHeight: '14px',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)'
+    backgroundColor: 'rgba(0, 0, 0, 0.1)'
   },
   innerItem: {
     paddingLeft: 55
