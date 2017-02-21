@@ -1,0 +1,20 @@
+.button {
+  margin-left: 12px;
+}
+
+.toggle {
+  margin-top: 12px;
+  margin-bottom: 22px;
+}
+
+.innerBox {
+  padding: 30px;
+}
+
+.childrenBox {
+  padding: 0 30px 30px 30px;
+}
+
+.error {
+  color: rgb(244, 67, 54);
+}

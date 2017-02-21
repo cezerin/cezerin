@@ -54,6 +54,26 @@ function requestEmailTemplate() {
   }
 }
 
+function receiveCheckoutFields(checkoutFields) {
+  return {
+    type: t.CHECKOUT_FIELDS_RECEIVE,
+    checkoutFields
+  }
+}
+
+function receiveCheckoutField(checkoutField) {
+  return {
+    type: t.CHECKOUT_FIELD_RECEIVE,
+    checkoutField
+  }
+}
+
+function requestCheckoutField() {
+  return {
+    type: t.CHECKOUT_FIELD_REQUEST
+  }
+}
+
 function receiveShippingMethods(shippingMethods) {
   return {
     type: t.SHIPPING_METHODS_RECEIVE,
@@ -129,6 +149,33 @@ export function updateEmailTemplate(emailTemplate) {
     return api.settings.updateEmailTemplate(emailTemplate.templateName, emailTemplate).then(({status, json}) => {
       json.templateName = templateName;
       dispatch(receiveEmailTemplate(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchCheckoutFields() {
+  return (dispatch, getState) => {
+    return api.checkout_fields.list().then(({status, json}) => {
+      dispatch(receiveCheckoutFields(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchCheckoutField(fieldName) {
+  return (dispatch, getState) => {
+    dispatch(requestCheckoutField())
+    return api.checkout_fields.retrieve(fieldName).then(({status, json}) => {
+      json.fieldName = fieldName;
+      dispatch(receiveCheckoutField(json))
+    }).catch(error => {});
+  }
+}
+
+export function updateCheckoutField(checkoutField) {
+  return (dispatch, getState) => {
+    return api.checkout_fields.update(checkoutField.fieldName, checkoutField).then(({status, json}) => {
+      json.fieldName = fieldName;
+      dispatch(receiveCheckoutField(json))
     }).catch(error => {});
   }
 }

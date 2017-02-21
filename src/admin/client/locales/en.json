@@ -17,6 +17,11 @@
   "images": "Images",
   "selected":"selected",
   "commaSeparated": "comma separated",
+  "email": "Email",
+  "mobile": "Mobile",
+  "country": "Country",
+  "state": "State/Province",
+  "city": "City",
 
   "actions": {
     "cancel": "Cancel",
@@ -144,7 +149,7 @@
     "sortByDefault": "Default sorting",
     "enableStockManagement": "Enable stock management",
     "minimumOrderSubtotal": "Minimum order subtotal",
-    "defaultShippingCountry": "Default shipping сountry",
+    "defaultShippingCountry": "Default shipping country",
     "defaultShippingState": "Default shipping state",
     "defaultShippingCity": "Default shipping city",
     "centimeter":"centimeter",
@@ -163,6 +168,7 @@
     "emailSettings":"Email settings",
     "generalSettings":"General settings",
     "themeSettings":"Theme settings",
+    "checkoutSettings":"Checkout settings",
     "emailTemplates": "Email templates",
     "orderConfirmation": "Order Confirmation",
     "customerRegistration": "Customer Registration",
@@ -189,7 +195,14 @@
     "maxSubtotal": "Maximum subtotal",
     "onlyShippingMethods": "Only for this shipping methods",
     "aboutDeletePaymentMethod": "Will delete payment method {name}.",
-    "aboutDeleteShippingMethod": "Will delete shipping method {name}."
+    "aboutDeleteShippingMethod": "Will delete shipping method {name}.",
+    "checkoutFields": "Checkout fields",
+    "fieldStatus": "Field status",
+    "fieldRequired": "Required",
+    "fieldOptional": "Optional",
+    "fieldHidden": "Hidden",
+    "fieldLabel": "Label",
+    "fieldPlaceholder": "Placeholder"
   },
 
   "drawer": {

@@ -305,7 +305,7 @@ const getCommonData = (req, currentPage, productsFilter) => {
   });
 }
 
-export const getInitialState = (req) => {
+export const getInitialState = (req, checkout_fields) => {
   let initialState = {
     app: {
       language: 'en',
@@ -325,7 +325,8 @@ export const getInitialState = (req) => {
       productsFilter: {
         limit: 20,
         fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
-      }
+      },
+      checkout_fields: checkout_fields
     }
   }
 

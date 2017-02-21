@@ -153,6 +153,29 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/settings/theme'){
       title = messages.settings.themeSettings;
     }
+    else if(location === '/admin/settings/checkout'){
+      title = messages.settings.checkoutSettings;
+    }
+    else if(location === '/admin/settings/checkout/fields/email'){
+      title = messages.email;
+      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/checkout/fields/mobile'){
+      title = messages.mobile;
+      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/checkout/fields/country'){
+      title = messages.country;
+      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/checkout/fields/state'){
+      title = messages.state;
+      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location === '/admin/settings/checkout/fields/city'){
+      title = messages.city;
+      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
     else if(location === '/admin/settings/shipping'){
       title = messages.settings.shippingMethods;
     }

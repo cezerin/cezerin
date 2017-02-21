@@ -32,6 +32,8 @@ import layoutSettingsShippingAdd from 'layouts/settings/shipping/add'
 import layoutSettingsPayments from 'layouts/settings/payments'
 import layoutSettingsPaymentsEdit from 'layouts/settings/payments/edit'
 import layoutSettingsPaymentsAdd from 'layouts/settings/payments/add'
+import layoutSettingsCheckout from 'layouts/settings/checkout/index'
+import layoutSettingsCheckoutFields from 'layouts/settings/checkout/fields'
 import layoutOrders from 'layouts/orders'
 
 const routerMiddlewareConst = routerMiddleware(browserHistory);
@@ -97,7 +99,8 @@ ReactDOM.render(
           <Route path="payments" component={layoutSettingsPayments}/>
           <Route path="payments/add" component={layoutSettingsPaymentsAdd}/>
           <Route path="payments/:id" component={layoutSettingsPaymentsEdit}/>
-          <Route path="checkout" component={layoutNotFound}/>
+          <Route path="checkout" component={layoutSettingsCheckout}/>
+          <Route path="checkout/fields/:fieldName" component={layoutSettingsCheckoutFields}/>
           <Route path="email" component={layoutSettingsEmail}/>
           <Route path="email/smtp" component={layoutSettingsSmtp}/>
           <Route path="email/templates/:templateName" component={layoutSettingsEmailTemplates}/>

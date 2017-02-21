@@ -38,6 +38,75 @@ class Form extends React.Component {
     this.props.onLoad();
   }
 
+  getField = (fieldName) => {
+    const fields = this.props.checkout_fields || [];
+    const field = fields.find(item => item.name === fieldName);
+    return field;
+  }
+
+  getFieldStatus = (fieldName) => {
+    const field = this.getField(fieldName);
+    return field && field.status ? field.status : 'required';
+  }
+
+  isFieldOptional = (fieldName) => {
+    return this.getFieldStatus(fieldName) === 'optional';
+  }
+
+  isFieldHidden = (fieldName) => {
+    return this.getFieldStatus(fieldName) === 'hidden';
+  }
+
+  getFieldValidators = (fieldName) => {
+    const isOptional = this.isFieldOptional(fieldName);
+    let validatorsArray = [];
+    if(!isOptional) {
+      validatorsArray.push(validateRequired);
+    }
+    if(fieldName === 'email') {
+      validatorsArray.push(validateEmail);
+    }
+
+    return validatorsArray;
+  }
+
+  getFieldPlaceholder = (fieldName) => {
+    const field = this.getField(fieldName);
+    return field && field.placeholder && field.placeholder.length > 0 ? field.placeholder : '';
+  }
+
+  getFieldLabelText = (fieldName) => {
+    const field = this.getField(fieldName);
+    if(field && field.label && field.label.length > 0) {
+      return field.label;
+    } else {
+      switch (fieldName) {
+        case 'email':
+          return text.checkout.email;
+          break;
+        case 'mobile':
+          return text.checkout.mobile;
+          break;
+        case 'country':
+          return text.checkout.country;
+          break;
+        case 'state':
+          return text.checkout.state;
+          break;
+        case 'city':
+          return text.checkout.city;
+          break;
+        default:
+          return 'Unnamed field';
+      }
+    }
+  }
+
+  getFieldLabel = (fieldName) => {
+    const labelText = this.getFieldLabelText(fieldName);
+    return this.isFieldOptional(fieldName) ? `${labelText} (${text.optional})` : labelText;
+  }
+
   render() {
     const {
       handleSubmit,
@@ -64,13 +133,46 @@ class Form extends React.Component {
       return (
         <form onSubmit={handleSubmit}>
           <div className="checkout-form">
-            <Field className="checkout-field" name="email" id="customer.email" component={inputField} type="email" label={text.checkout.email} validate={[validateRequired, validateEmail]}/>
-            <Field className="checkout-field" name="mobile" id="customer.mobile" component={inputField} type="tel" label={text.checkout.mobile}/>
+
+            {!this.isFieldHidden('email') &&
+              <Field className="checkout-field" name="email" id="customer.email" component={inputField} type="email"
+                label={this.getFieldLabel('email')}
+                validate={this.getFieldValidators('email')}
+                placeholder={this.getFieldPlaceholder('email')}/>
+            }
+
+            {!this.isFieldHidden('mobile') &&
+              <Field className="checkout-field" name="mobile" id="customer.mobile" component={inputField} type="tel"
+                label={this.getFieldLabel('mobile')}
+                validate={this.getFieldValidators('mobile')}
+                placeholder={this.getFieldPlaceholder('mobile')}/>
+            }
 
             <h2>{text.checkout.shippingTo}</h2>
-            <Field className="checkout-field" name="shipping_address.country" id="shipping_address.country" component={inputField} type="text" label={text.checkout.country} onBlur={(event, value) => setTimeout(() => saveShippingCountry(value))}/>
-            <Field className="checkout-field" name="shipping_address.state" id="shipping_address.state" component={inputField} type="text" label={text.checkout.state} onBlur={(event, value) => setTimeout(() => saveShippingState(value))}/>
-            <Field className="checkout-field" name="shipping_address.city" id="shipping_address.city" component={inputField} type="text" label={text.checkout.city} validate={[validateRequired]} onBlur={(event, value) => setTimeout(() => saveShippingCity(value))}/>
+
+            {!this.isFieldHidden('country') &&
+              <Field className="checkout-field" name="shipping_address.country" id="shipping_address.country" component={inputField} type="text"
+                label={this.getFieldLabel('country')}
+                validate={this.getFieldValidators('country')}
+                placeholder={this.getFieldPlaceholder('country')}
+                onBlur={(event, value) => setTimeout(() => saveShippingCountry(value))}/>
+            }
+
+            {!this.isFieldHidden('state') &&
+              <Field className="checkout-field" name="shipping_address.state" id="shipping_address.state" component={inputField} type="text"
+                label={this.getFieldLabel('state')}
+                validate={this.getFieldValidators('state')}
+                placeholder={this.getFieldPlaceholder('state')}
+                onBlur={(event, value) => setTimeout(() => saveShippingState(value))}/>
+            }
+
+            {!this.isFieldHidden('city') &&
+              <Field className="checkout-field" name="shipping_address.city" id="shipping_address.city" component={inputField} type="text"
+                label={this.getFieldLabel('city')}
+                validate={this.getFieldValidators('city')}
+                placeholder={this.getFieldPlaceholder('city')}
+                onBlur={(event, value) => setTimeout(() => saveShippingCity(value))}/>
+            }
 
             <h2>{text.checkout.shippingMethod} {loadingShippingMethods && <small>{text.loading}</small>}</h2>
             <div className="shipping-methods">
@@ -88,9 +190,9 @@ class Form extends React.Component {
               {payment_methods.map(method => <label key={method.id} className="payment-method">
                 <Field name="payment_method_id" component="input" type="radio" value={method.id} onClick={() => savePaymentMethod(method.id)}/>
                 <div>{method.name}<br/>
-                  <small>{method.id}</small>
+                  <small>{method.description}</small>
                 </div>
-                <em>LOGO</em>
+                {/* TODO: LOGO */}
               </label>)}
             </div>
 

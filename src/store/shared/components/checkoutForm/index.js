@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
     shipping_methods: state.app.shipping_methods,
     loadingShippingMethods: state.app.loadingShippingMethods,
     loadingPaymentMethods: state.app.loadingPaymentMethods,
-    processingCheckout: state.app.processingCheckout
+    processingCheckout: state.app.processingCheckout,
+    checkout_fields: state.app.checkout_fields
   }
 }
 

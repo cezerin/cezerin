@@ -199,7 +199,7 @@ class GeneralSettings extends React.Component {
             <div className="row between-xs middle-xs">
               <div className="col-xs-7">{messages.settings.defaultShippingCountry}</div>
               <div className="col-xs-5">
-                <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_shipping_сountry">
+                <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_shipping_country">
                   {countryItems}
                 </Field>
               </div>

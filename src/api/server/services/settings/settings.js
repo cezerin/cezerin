@@ -16,7 +16,7 @@ class SettingsService {
       'timezone': 'Asia/Singapore',
       'date_format': 'MMMM D, YYYY',
       'time_format': 'h:mm a',
-      'default_shipping_сountry': 'SG',
+      'default_shipping_country': 'SG',
       'default_shipping_state': '',
       'default_shipping_city': '',
       'default_product_sorting': 'price_asc',
@@ -95,8 +95,8 @@ class SettingsService {
       settings.time_format = parse.getString(data.time_format);
     }
 
-    if (data.default_shipping_сountry !== undefined) {
-      settings.default_shipping_сountry = parse.getString(data.default_shipping_сountry);
+    if (data.default_shipping_country !== undefined) {
+      settings.default_shipping_country = parse.getString(data.default_shipping_country);
     }
 
     if (data.default_shipping_state !== undefined) {
