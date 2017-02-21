@@ -24,8 +24,8 @@ Currently in active development.
 * ~~**Template**~~
 * ~~**Customers**~~
 * ~~**Orders**~~
-* Settings **〈〈〈〈〈〈 we are here**
-* Custom pages
+* ~~**Settings**~~
+* Custom pages **〈〈〈〈〈〈 we are here**
 * SEO
 * Security
 * Tests
@@ -36,7 +36,7 @@ Currently in active development.
 * Store: Themes
 * Translations for admin
 * Metrics and analytics
-* Dashboard app for mobile (Electron)
+* Progressive Web App (PWA)
 
 
 ## Demo
