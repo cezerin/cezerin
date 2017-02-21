@@ -35,15 +35,17 @@ let drawerItems = [
     title: messages.drawer.customers,
     url: '/admin/customers',
     icon: 'person'
-  },{
-    title: messages.drawer.discounts,
-    url: '/admin/discounts',
-    icon: 'content_cut'
-  },{
-    title: messages.drawer.reports,
-    url: '/admin/reports',
-    icon: 'timeline'
-  },{
+  },
+  // {
+  //   title: messages.drawer.discounts,
+  //   url: '/admin/discounts',
+  //   icon: 'content_cut'
+  // },{
+  //   title: messages.drawer.reports,
+  //   url: '/admin/reports',
+  //   icon: 'timeline'
+  // },
+  {
     title: '-',
     url: 'settings'
   }, {
