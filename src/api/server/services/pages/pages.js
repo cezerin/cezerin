@@ -21,7 +21,7 @@ class PagesService {
 
   getPages(params = {}) {
     const filter = this.getFilter(params);
-    return mongo.db.collection('pages').find(filter).toArray().then(items => items.map(item => this.renameDocumentFields(item)))
+    return mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.renameDocumentFields(item)))
   }
 
   getSinglePage(id) {
@@ -59,7 +59,7 @@ class PagesService {
       return Promise.reject('Invalid identifier');
     }
     const pageObjectID = new ObjectID(id);
-    return mongo.db.collection('pages').deleteOne({'_id': pageObjectID}).then(res => {
+    return mongo.db.collection('pages').deleteOne({'_id': pageObjectID, 'is_system': false}).then(res => {
       return true;
     });
   }
@@ -70,6 +70,7 @@ class PagesService {
 
   getDocumentForInsert(data) {
     let page = {
+      'is_system': false,
       'date_created': new Date()
     };
 
@@ -90,14 +91,12 @@ class PagesService {
   }
 
   getDocumentForUpdate(id, data) {
-    return new Promise((resolve, reject) => {
-      if(!ObjectID.isValid(id)) {
-        reject('Invalid identifier');
-      }
-      if (Object.keys(data).length === 0) {
-        reject('Required fields are missing');
-      }
+    if (Object.keys(data).length === 0) {
+      return Promise.reject('Required fields are missing');
+    } else {
 
+    }
+    return this.getSinglePage(id).then(prevPageData => {
       let page = {
         'date_updated': new Date()
       };
@@ -114,29 +113,26 @@ class PagesService {
         page.meta_title = parse.getString(data.meta_title);
       }
 
-      if (data.enabled !== undefined) {
+      if (data.enabled !== undefined && !prevPageData.is_system) {
         page.enabled = parse.getBooleanIfValid(data.enabled, true);
       }
 
-      if (data.slug !== undefined) {
+      if (data.slug !== undefined  && !prevPageData.is_system) {
         let slug = data.slug;
         if(!slug || slug.length === 0) {
           slug = data.meta_title;
         }
 
-        utils.getAvailableSlug(slug, id)
-        .then((newSlug) => {
+        return utils.getAvailableSlug(slug, id)
+        .then(newSlug => {
           page.slug = newSlug;
-          resolve(page);
+          return page;
         })
-        .catch((err) => {
-          reject(err);
-        });
 
       } else {
-        resolve(page);
+        return page;
       }
-    });
+    })
   }
 
   renameDocumentFields(item) {
