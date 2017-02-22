@@ -72,8 +72,6 @@ class ProductEdit extends React.Component {
   }
 
   render() {
-    const apiToken = api.token;
-
     let {
       handleSubmit,
       pristine,
