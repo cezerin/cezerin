@@ -15,10 +15,10 @@ const getAvailableSlug = (path, resource) => {
   return SitemapService.getPaths()
   .then(paths => {
     path = cleanSlug(path);
-    let pathExists = paths.find(e => e.path === path && e.resource != resource);
+    let pathExists = paths.find(e => e.path === '/' + path && e.resource != resource);
     while(pathExists) {
       path += '-2';
-      pathExists = paths.find(e => e.path === path && e.resource != resource);
+      pathExists = paths.find(e => e.path === '/' + path && e.resource != resource);
     }
     return path;
   })

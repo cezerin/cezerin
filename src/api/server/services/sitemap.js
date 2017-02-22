@@ -11,9 +11,11 @@ class SitemapService {
     return Promise.all([
         this.getSlugArrayFromReserved(),
         this.getSlugArrayFromProductCategories(),
-        this.getSlugArrayFromProducts()
-      ]).then(([ reserved, productCategories, products ]) => {
+        this.getSlugArrayFromProducts(),
+        this.getSlugArrayFromPages()
+      ]).then(([ reserved, productCategories, products, pages ]) => {
 
+        // TODO: Replace for/push to ES6 [...pages, ...products]
         let paths = [];
 
         for(const item of reserved) {
@@ -25,6 +27,10 @@ class SitemapService {
         }
 
         for(const item of products) {
+          paths.push(item);
+        }
+
+        for(const item of pages) {
           paths.push(item);
         }
 
@@ -99,6 +105,24 @@ class SitemapService {
               }
             })
           });
+      });
+  }
+
+  getSlugArrayFromPages() {
+    return mongo.db.collection('pages')
+      .find()
+      .project({ slug:1 })
+      .toArray()
+      .then((items) => {
+        let newPath = [];
+        for(const item of items) {
+          newPath.push({
+            path: `/${item.slug}`,
+            type: 'page',
+            resource: item._id
+          });
+        }
+        return newPath;
       });
   }
 
