@@ -20,6 +20,7 @@ import layoutProductCategories from 'layouts/products/categories'
 import layoutCustomers from 'layouts/customers'
 import layoutCustomerEdit from 'layouts/customers/edit'
 import layoutCustomerGroups from 'layouts/customers/groups'
+import layoutOrders from 'layouts/orders'
 import layoutSettingsShared from 'layouts/settings/shared'
 import layoutSettingsGeneral from 'layouts/settings/general'
 import layoutSettingsEmail from 'layouts/settings/email/index'
@@ -34,7 +35,9 @@ import layoutSettingsPaymentsEdit from 'layouts/settings/payments/edit'
 import layoutSettingsPaymentsAdd from 'layouts/settings/payments/add'
 import layoutSettingsCheckout from 'layouts/settings/checkout/index'
 import layoutSettingsCheckoutFields from 'layouts/settings/checkout/fields'
-import layoutOrders from 'layouts/orders'
+import layoutSettingsPages from 'layouts/settings/pages'
+import layoutSettingsPagesAdd from 'layouts/settings/pages/add'
+import layoutSettingsPagesEdit from 'layouts/settings/pages/edit'
 
 const routerMiddlewareConst = routerMiddleware(browserHistory);
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddlewareConst));
@@ -106,6 +109,9 @@ ReactDOM.render(
           <Route path="email/templates/:templateName" component={layoutSettingsEmailTemplates}/>
           <Route path="taxes" component={layoutNotFound}/>
           <Route path="security" component={layoutNotFound}/>
+          <Route path="pages" component={layoutSettingsPages}/>
+          <Route path="pages/add" component={layoutSettingsPagesAdd}/>
+          <Route path="pages/:pageId" component={layoutSettingsPagesEdit}/>
         </Route>
       </Route>
     </Route>

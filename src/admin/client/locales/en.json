@@ -22,6 +22,7 @@
   "country": "Country",
   "state": "State/Province",
   "city": "City",
+  "content": "Content",
 
   "actions": {
     "cancel": "Cancel",
@@ -202,7 +203,11 @@
     "fieldOptional": "Optional",
     "fieldHidden": "Hidden",
     "fieldLabel": "Label",
-    "fieldPlaceholder": "Placeholder"
+    "fieldPlaceholder": "Placeholder",
+    "pages": "Pages",
+    "addPage": "Add page",
+    "editPage": "Edit page",
+    "aboutDeletePage": "Will delete page {name}."
   },
 
   "drawer": {

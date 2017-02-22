@@ -9,6 +9,7 @@ import ProductsHead from 'modules/products/head/index'
 import OrdersHead from 'modules/orders/head/index'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
+import PageHead from 'modules/settings/pages/edit/head'
 import Drawer from './drawer'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -204,6 +205,18 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/settings/general' || location === '/admin/settings'){
       title = messages.settings.generalSettings;
+    }
+    else if(location === '/admin/settings/pages'){
+      title = messages.settings.pages;
+    }
+    else if(location === '/admin/settings/pages/add'){
+      title = messages.settings.addPage;
+      leftButton = <IconButton><Link to="/admin/settings/pages"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location.startsWith('/admin/settings/pages/')){
+      title = messages.settings.editPage;
+      leftButton = <IconButton><Link to="/admin/settings/pages"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      rightElements = <PageHead />
     }
 
     return (

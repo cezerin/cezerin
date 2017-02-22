@@ -24,7 +24,9 @@ const initialState = {
   shippingMethods: [],
   paymentMethods: [],
   shippingMethodEdit: {},
-  paymentMethodEdit: {}
+  paymentMethodEdit: {},
+  pages: [],
+  pageEdit: {}
 };
 
 export default(state = initialState, action) => {
@@ -59,6 +61,10 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {checkoutField: action.checkoutField})
     case t.CHECKOUT_FIELDS_RECEIVE:
       return Object.assign({}, state, {checkoutFields: action.checkoutFields})
+    case t.PAGES_RECEIVE:
+      return Object.assign({}, state, {pages: action.pages})
+    case t.PAGE_RECEIVE:
+      return Object.assign({}, state, {pageEdit: action.pageEdit})
     default:
       return state
   }
