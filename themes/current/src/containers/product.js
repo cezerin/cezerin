@@ -20,7 +20,7 @@ export default({
   if (currentProduct) {
     return (
       <div>
-        <Helmet title={currentProduct.meta_title} meta={[
+        <Helmet title={currentProduct.meta_title !== '' ? currentProduct.meta_title : currentProduct.name} meta={[
           {
             "name": "description",
             "content": currentProduct.meta_description

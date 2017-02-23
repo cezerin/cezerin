@@ -1,7 +1,7 @@
 import React from 'react'
 import {Route, IndexRoute} from 'react-router'
 import clientSettings from '../client/settings'
-import {fetchProduct, setCategory, receiveSitemap} from './actions'
+import {fetchProduct, fetchPage, setCategory, receiveSitemap} from './actions'
 
 import api from 'cezerin-client';
 api.initAjax(clientSettings.ajaxBaseUrl);
@@ -29,8 +29,11 @@ function checkSitemap(nextState, cb) {
       } else if (sitemapResponse.json.type === 'product') {
         dispatch(fetchProduct(sitemapResponse.json.resource))
         cb(null, props => <ProductContainer {...props}/>);
-      } else if (sitemapResponse.json.type === 'reserved') {
-        if(nextState.location.pathname == '/checkout') {
+      } else if (sitemapResponse.json.type === 'page') {
+        dispatch(fetchPage(sitemapResponse.json.resource))
+        if(nextState.location.pathname == '/') {
+          cb(null, IndexContainer);
+        } else if(nextState.location.pathname == '/checkout') {
           cb(null, CheckoutContainer);
         } else if(nextState.location.pathname == '/checkout-success') {
           cb(null, CheckoutSuccessContainer);
@@ -48,7 +51,7 @@ function checkSitemap(nextState, cb) {
 
 export default(store) => (
   <Route path='/' component={SharedContainer}>
-    <IndexRoute component={IndexContainer}/>
+    <IndexRoute getComponent={checkSitemap} store={store}/>
     <Route path="/:slug" getComponent={checkSitemap} store={store}/>
     <Route path="/:categorySlug/:productSlug" getComponent={checkSitemap} store={store}/>
     <Route path="*" component={NotFoundContainer} status={404}/>

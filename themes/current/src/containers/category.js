@@ -18,7 +18,7 @@ export default({
   deleteCartItem
 }) => (
   <div>
-    <Helmet title={currentCategory.meta_title} meta={[
+    <Helmet title={currentCategory.meta_title !== '' ? currentCategory.meta_title : currentCategory.name} meta={[
       {
         "name": "description",
         "content": currentCategory.meta_description

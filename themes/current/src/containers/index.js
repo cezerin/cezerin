@@ -1,4 +1,5 @@
 import React from 'react'
+import Helmet from 'react-helmet'
 import {Button, Carousel} from 'react-bootstrap'
 
 const CarouselInstance = ({}) => (
@@ -27,8 +28,34 @@ const CarouselInstance = ({}) => (
   </Carousel>
 );
 
-export default({}) => (
+export default({
+  location,
+  currentPage,
+  currentCategory,
+  currentProduct,
+  categories,
+  products,
+  productsFilter,
+  cart,
+  page
+}) => (
   <div>
-    <CarouselInstance/>
+    <Helmet title={page.meta_title} meta={[
+      {
+        "name": "description",
+        "content": page.meta_description
+      }, {
+        "property": "og:type",
+        "content": "article"
+      }
+    ]} link={[{
+        "rel": "canonical",
+        "href": page.url
+      }
+    ]}/>
+    <div>
+      <CarouselInstance/>
+    </div>
+    <div dangerouslySetInnerHTML={{ __html: page.content }} />
   </div>
 )

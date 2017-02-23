@@ -32,7 +32,7 @@ export default() => {
                <img src="/assets/images/payment/paypal.svg" alt="paypal" width="60" />
                <img src="/assets/images/payment/alipay.svg" alt="alipay" width="60" />
              </p>
-             <p style={{ textAlign:'center' }}>{text.footer.copyright} <Link to="/">Privacy Policy</Link> <Link to="/">Terms of Use</Link>  <Link to="/">Site Map</Link>.</p>
+             <p style={{ textAlign:'center' }}>{text.footer.copyright} <Link to="/privacy">Privacy Policy</Link> <Link to="/">Terms of Use</Link> <Link to="/about-us">About</Link> <Link to="/sitemap">Site Map</Link>.</p>
            </Col>
          </Row>
        </Grid>

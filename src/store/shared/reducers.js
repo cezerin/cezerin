@@ -47,6 +47,9 @@ function appReducer(state = initialState, action) {
     case t.CHECKOUT_RECEIVE:
       return Object.assign({}, state, {cart: null, order: action.order, processingCheckout: false})
 
+    case t.PAGE_RECEIVE:
+      return Object.assign({}, state, {page: action.page})
+
     case t.CART_REQUEST:
     case t.CART_FAILURE:
     default:

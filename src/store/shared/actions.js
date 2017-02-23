@@ -4,6 +4,10 @@ import clientSettings from '../client/settings'
 import api from 'cezerin-client'
 api.initAjax(clientSettings.ajaxBaseUrl);
 
+function receivePage(page) {
+  return {type: t.PAGE_RECEIVE, page}
+}
+
 function receiveProducts(products) {
   return {type: t.PRODUCTS_RECEIVE, products}
 }
@@ -266,8 +270,16 @@ export function fetchProducts() {
   }
 }
 
+export function fetchPage(pageId) {
+  return (dispatch, getState) => {
+    return api.ajax.pages.retrieve(pageId).then(({status, json}) => {
+      dispatch(receivePage(json))
+    }).catch(error => {});
+  }
+}
+
 const getCurrentPage = (path) => {
-  return api.ajax.sitemap.retrieve(path).then(({status, json}) => json)
+  return api.ajax.sitemap.retrieve(path);
 }
 
 const getCategories = () => {
@@ -292,16 +304,26 @@ const getCart = (cookie) => {
   })
 }
 
+const getPage = (currentPage) => {
+  if (currentPage.type === 'page') {
+    return api.ajax.pages.retrieve(currentPage.resource).then(pageResponse => {
+      return pageResponse.json;
+    })
+  } else {
+    return Promise.resolve({});
+  }
+}
+
 const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie)]).then(([categories, product, products, cart]) => {
+  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
 
     let currentCategory = null;
     if (currentPage.type === 'product-category') {
       currentCategory = categories.find(c => c.id === currentPage.resource);
     }
 
-    return {categories, product, products, currentCategory, cart}
+    return {categories, product, products, currentCategory, cart, page}
   });
 }
 
@@ -317,6 +339,7 @@ export const getInitialState = (req, checkout_fields) => {
       products: [],
       payment_methods: [],
       shipping_methods: [],
+      page: {},
       loadingShippingMethods: false,
       loadingPaymentMethods: false,
       processingCheckout: false,
@@ -330,9 +353,11 @@ export const getInitialState = (req, checkout_fields) => {
     }
   }
 
-  return getCurrentPage(req.url).then(currentPage => {
-    if (currentPage) {
+  return getCurrentPage(req.path).then(pageDetails => {
+    if (pageDetails.status === 200) {
+      const currentPage = pageDetails.json;
       initialState.app.currentPage = currentPage;
+
       if (currentPage.type === 'product-category') {
         initialState.app.productsFilter.category_id = currentPage.resource;
       }
@@ -343,6 +368,7 @@ export const getInitialState = (req, checkout_fields) => {
         initialState.app.products = commonData.products;
         initialState.app.currentCategory = commonData.currentCategory;
         initialState.app.cart = commonData.cart;
+        initialState.app.page = commonData.page;
         return initialState;
       })
     } else {

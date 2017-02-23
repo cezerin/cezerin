@@ -5,7 +5,8 @@ import CheckoutSuccess from '../components/checkoutSuccess'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    cart: state.app.cart
+    cart: state.app.cart,
+    page: state.app.page
   }
 }
 

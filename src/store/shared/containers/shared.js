@@ -13,7 +13,8 @@ const mapStateToProps = (state) => {
     categories: state.app.categories,
     products: state.app.products,
     productsFilter: state.app.productsFilter,
-    cart: state.app.cart
+    cart: state.app.cart,
+    page: state.app.page
   }
 }
 

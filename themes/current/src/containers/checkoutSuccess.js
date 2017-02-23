@@ -14,16 +14,21 @@ export default({
   cart,
   addCartItem,
   deleteCartItem,
-  checkoutSuccess
+  checkoutSuccess,
+  page
 }) => (
   <div>
-    <Helmet title="Checkout" meta={[
+    <Helmet title={page.meta_title} meta={[
       {
         "name": "description",
-        "content": "Checkout"
+        "content": page.meta_description
       }, {
         "property": "og:type",
         "content": "article"
+      }
+    ]} link={[{
+        "rel": "canonical",
+        "href": page.url
       }
     ]}/>
     <PageHeader>Checkout</PageHeader>

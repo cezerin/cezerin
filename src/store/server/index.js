@@ -46,7 +46,7 @@ storeRouter.get('*', (req, res, next) => {
 
             match({
               routes,
-              location: req.url
+              location: req.path
             }, (error, redirectLocation, renderProps) => {
               if (error) {
                 res.status(500).send(error.message)
