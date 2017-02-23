@@ -25,13 +25,15 @@ Currently in active development.
 * ~~**Customers**~~
 * ~~**Orders**~~
 * ~~**Settings**~~
-* Custom pages **〈〈〈〈〈〈 we are here**
-* SEO
-* Security
-* Tests
-* Refactoring
+* ~~**Custom pages**~~
+* Security **〈〈〈〈〈〈 we are here**
 * Performance
-* Update center
+* Refactoring
+* Tests
+* Central update
+* Default theme
+* Documentation
+* SEO
 * Store: Applications
 * Store: Themes
 * Translations for admin
