@@ -50,7 +50,7 @@ class EmailSettingsService {
     }
 
     if (data.port !== undefined) {
-      settings.port = parse.getString(data.port);
+      settings.port = parse.getNumberIfPositive(data.port);
     }
 
     if (data.user !== undefined) {
