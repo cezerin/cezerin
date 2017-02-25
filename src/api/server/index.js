@@ -3,9 +3,7 @@ var express = require('express');
 var apiRouter = express.Router();
 
 var settings = require('./lib/settings');
-var auth = require('./lib/auth');
 var mongo = require('./lib/mongo');
-var utils = require('./lib/utils');
 
 const ProductСategoriesController = require('./controllers/products/product_categories');
 const ProductsController = require('./controllers/products/products');
@@ -20,6 +18,7 @@ const PaymentMethodsController = require('./controllers/orders/payment_methods')
 const DataController = require('./controllers/data');
 const SettingsController = require('./controllers/settings/settings');
 const PagesController = require('./controllers/pages/pages');
+const SecurityTokensController = require('./controllers/security/tokens');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -29,8 +28,7 @@ apiRouter.all('/*', function(req, res, next) {
   next();
 });
 
-apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: [`${settings.api.baseUrl}/authorize`]}));
-apiRouter.post('/authorize', auth.login);
+apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: [`/api/v1/authorize`]}));
 
 var products = new ProductsController(apiRouter);
 var product_categories = new ProductСategoriesController(apiRouter);
@@ -45,6 +43,7 @@ var payment_methods = new PaymentMethodsController(apiRouter);
 var data = new DataController(apiRouter);
 var settings = new SettingsController(apiRouter);
 var pages = new PagesController(apiRouter);
+var security = new SecurityTokensController(apiRouter);
 
 // apiRouter.use(function(err, req, res, next) {
 //   if(err && err.name === 'UnauthorizedError') {
