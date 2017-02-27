@@ -6,6 +6,11 @@ const settings = require('../../lib/settings');
 const emailSender = require('../../lib/email');
 const ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
+const cache = require('lru-cache')({
+  max: 10000,
+  maxAge: 1000 * 60 * 60 * 24 // 24h
+});
+const BLACKLIST_CACHE_KEY = 'blacklist';
 
 class SecurityTokensService {
   constructor() {}
@@ -28,9 +33,19 @@ class SecurityTokensService {
   }
 
   getTokensBlacklist() {
-    return mongo.db.collection('tokens').find({
-      is_revoked: true
-    }, {_id: 1}).toArray().then(items => items.map(item => item._id))
+    const blacklistFromCache = cache.get(BLACKLIST_CACHE_KEY);
+
+    if (blacklistFromCache) {
+      return Promise.resolve(blacklistFromCache);
+    } else {
+      return mongo.db.collection('tokens').find({
+        is_revoked: true
+      }, {_id: 1}).toArray().then(items => {
+        const blacklistFromDB = items.map(item => item._id.toString());
+        cache.set(BLACKLIST_CACHE_KEY, blacklistFromDB);
+        return blacklistFromDB;
+      })
+    }
   }
 
   getSingleToken(id) {
@@ -83,6 +98,8 @@ class SecurityTokensService {
         is_revoked: true,
         date_created: new Date()
       }
+    }).then(res => {
+      cache.del(BLACKLIST_CACHE_KEY);
     });
   }
 
@@ -130,13 +147,6 @@ class SecurityTokensService {
       item.id = item._id.toString();
       delete item._id;
       delete item.is_revoked;
-
-      if (item.expiration) {
-        const tokenExpiration = new Date(item.expiration * 1000);
-        item.is_expired = Date.now() >= tokenExpiration;
-      } else {
-        item.is_expired = false;
-      }
     }
 
     return item;
@@ -144,6 +154,8 @@ class SecurityTokensService {
 
   getSignedToken(token) {
     return new Promise((resolve, reject) => {
+      const jwtOptions = {};
+
       let payload = {
         email: token.email,
         scopes: token.scopes,
@@ -151,12 +163,11 @@ class SecurityTokensService {
       }
 
       if (token.expiration) {
-        payload.exp = token.expiration;
+        // convert hour to sec
+        jwtOptions.expiresIn = token.expiration * 60 * 60;
       }
 
-      jwt.sign(payload, settings.security.jwtSecret, {
-        noTimestamp: true
-      }, (err, token) => {
+      jwt.sign(payload, settings.security.jwtSecret, jwtOptions, (err, token) => {
         if (err) {
           reject(err)
         } else {
@@ -168,7 +179,7 @@ class SecurityTokensService {
 
   getDashboardSigninUrl(email) {
     return this.getSingleTokenByEmail(email).then(token => {
-      if(token && !token.is_expired) {
+      if(token) {
         return this.getSignedToken(token).then(signedToken => {
           return `${settings.adminLoginUrl}?token=${signedToken}`;
         })
@@ -192,7 +203,6 @@ class SecurityTokensService {
       }
     });
   }
-
 }
 
 module.exports = new SecurityTokensService();

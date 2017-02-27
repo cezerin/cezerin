@@ -5,6 +5,7 @@ var apiRouter = express.Router();
 var settings = require('./lib/settings');
 var mongo = require('./lib/mongo');
 
+const SecurityTokensService = require('./services/security/tokens');
 const ProductСategoriesController = require('./controllers/products/product_categories');
 const ProductsController = require('./controllers/products/products');
 const SitemapController = require('./controllers/sitemap');
@@ -28,7 +29,16 @@ apiRouter.all('/*', function(req, res, next) {
   next();
 });
 
-apiRouter.use(expressJwt({ secret: settings.security.jwtSecret}).unless({path: [`/api/v1/authorize`]}));
+const setTokenAsRevokenOnException = true;
+const checkTokenInBlacklistCallback = (req, payload, done) => {
+  var jti = payload.jti;
+  SecurityTokensService.getTokensBlacklist().then(blacklist => {
+    const tokenIsRevoked = blacklist.includes(jti);
+    return done(null, tokenIsRevoked);
+  }).catch((err) => done(err, setTokenAsRevokenOnException));
+};
+
+apiRouter.use(expressJwt({secret: settings.security.jwtSecret, isRevoked: checkTokenInBlacklistCallback}).unless({path: [`/api/v1/authorize`]}));
 
 var products = new ProductsController(apiRouter);
 var product_categories = new ProductСategoriesController(apiRouter);
@@ -45,18 +55,18 @@ var settings = new SettingsController(apiRouter);
 var pages = new PagesController(apiRouter);
 var security = new SecurityTokensController(apiRouter);
 
-// apiRouter.use(function(err, req, res, next) {
-//   if(err && err.name === 'UnauthorizedError') {
-//     res.status(401).send({ 'error': err.message });
-//   } else if(err) {
-//     res.status(500).send({ 'error': err });
-//   } else {
-//     next();
-//   }
-// });
+apiRouter.use(function(err, req, res, next) {
+  if(err && err.name === 'UnauthorizedError') {
+    res.status(401).send({ 'error': err.message });
+  } else if(err) {
+    res.status(500).send({ 'error': err });
+  } else {
+    next();
+  }
+});
 
 apiRouter.all('*', (req, res, next) => {
-  res.status(405).send({ 'error': 'Method Not Allowed' });
+  res.status(405).send({'error': 'Method Not Allowed'});
 })
 
 mongo.connect(() => {});
