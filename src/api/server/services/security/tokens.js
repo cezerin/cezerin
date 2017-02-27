@@ -139,6 +139,10 @@ class SecurityTokensService {
       token.name = parse.getString(data.name);
     }
 
+    if (data.expiration !== undefined) {
+      token.expiration = parse.getNumberIfPositive(data.expiration);
+    }
+
     return token;
   }
 
