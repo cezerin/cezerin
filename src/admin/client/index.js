@@ -5,8 +5,10 @@ import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import {syncHistoryWithStore, routerReducer, routerMiddleware, push} from 'react-router-redux'
-import {fetchSettings} from './modules/settings/actions'
 
+import {fetchSettings} from './modules/settings/actions'
+import settings from './lib/settings'
+import api from './lib/api'
 import messages from 'src/locales'
 import reducers from 'src/rootReducer'
 
@@ -46,40 +48,91 @@ store.dispatch(fetchSettings());
 
 const loginPath = '/admin/login';
 const logoutPath = '/admin/logout';
+const homePath = '/admin';
 
-function checkLogged(nextState, replace) {
-  if (localStorage.getItem('token')) {
-    replace({
-      pathname: '/admin',
-      state: {
-        nextPathname: nextState.location.pathname
-      }
-    })
+const validateCurrentToken = (nextState, replace) => {
+  if (nextState.location.pathname !== loginPath) {
+    if (!isCurrentTokenValid()) {
+      replace({
+        pathname: loginPath,
+        state: {
+          nextPathname: nextState.location.pathname
+        }
+      })
+    }
   }
 }
 
-function checkToken(nextState, replace) {
-  if (nextState.location.pathname !== loginPath && !localStorage.getItem('token')) {
-    replace({
-      pathname: loginPath,
-      state: {
-        nextPathname: nextState.location.pathname
+const checkTokenFromUrl = (nextState, replace) => {
+  if (nextState.location.pathname === loginPath) {
+    if (nextState.location.query.token) {
+      const token = nextState.location.query.token;
+      const tokenData = parseToken(token);
+
+      if (tokenData) {
+        const expiration_date = tokenData.exp * 1000;
+        if (expiration_date > Date.now()) {
+          saveTokenData({token, email: tokenData.email, expiration_date});
+          api.init(settings.apiBaseUrl, token);
+          replace({
+            pathname: homePath,
+            state: {
+              nextPathname: nextState.location.pathname
+            }
+          })
+        } else {
+          alert('Token is expired')
+        }
+      } else {
+        alert('Token is not valid');
       }
-    })
+    } else {
+      if (isCurrentTokenValid()) {
+        replace({
+          pathname: homePath,
+          state: {
+            nextPathname: nextState.location.pathname
+          }
+        })
+      }
+    }
   }
 }
 
-function removeToken(nextState, replace) {
+const parseToken = (token) => {
+  try {
+    const payload = token.split('.')[1];
+    const tokenData = JSON.parse(atob(payload));
+    return tokenData;
+  } catch (e) {
+    return null;
+  }
+}
+
+const saveTokenData = (data) => {
+  localStorage.setItem('token', data.token);
+  localStorage.setItem('email', data.email);
+  localStorage.setItem('expiration_date', data.expiration_date);
+}
+
+const isCurrentTokenValid = () => {
+  const expiration_date = localStorage.getItem('expiration_date');
+  return localStorage.getItem('token') && expiration_date && expiration_date > Date.now();
+}
+
+const removeToken = (nextState, replace) => {
   localStorage.removeItem('token');
+  localStorage.removeItem('email');
+  localStorage.removeItem('expiration_date');
   location.replace(loginPath);
 }
 
-var appElement = document.getElementById('app');
+const appElement = document.getElementById('app');
 ReactDOM.render(
   <Provider store={store}>
   <Router history={history}>
-    <Route path="/admin" onEnter={checkToken}>
-      <Route path="login" component={layoutLogin} onEnter={checkLogged}/>
+    <Route path="/admin" onEnter={validateCurrentToken}>
+      <Route path="login" component={layoutLogin} onEnter={checkTokenFromUrl}/>
       <Route path="logout" component={layoutNotFound} onEnter={removeToken}/>
       <Route component={layoutShared}>
         <IndexRoute component={layoutHome}/>

@@ -118,9 +118,12 @@ export function receivePage(pageEdit) {
 
 export function fetchSettings() {
   return (dispatch, getState) => {
-    return api.settings.retrieve().then(({status, json}) => {
-      dispatch(receiveSettings(json))
-    }).catch(error => {});
+    // API can be not init on app start
+    if(api.settings) {
+      return api.settings.retrieve().then(({status, json}) => {
+        dispatch(receiveSettings(json))
+      }).catch(error => {});
+    }
   }
 }
 

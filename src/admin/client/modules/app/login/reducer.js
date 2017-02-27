@@ -2,40 +2,33 @@ import * as t from './actionTypes'
 
 const initialState = {
 	isFetching: false,
-	isAuthenticated: false,
-	user: null,
-	errorMessage: null
+	isAuthorized: false,
+	sent: false,
+	error: null
 };
 
 export default(state = initialState, action) => {
 	switch (action.type) {
-		case t.LOGIN_REQUEST:
+		case t.AUTHORIZE_REQUEST:
 			return Object.assign({}, state, {
 				isFetching: true,
-				isAuthenticated: false,
-				user: action.email,
-				errorMessage: null
+				isAuthorized: false,
+				sent: false,
+				error: null
 			});
-		case t.LOGIN_SUCESS:
+		case t.AUTHORIZE_RECEIVE:
 			return Object.assign({}, state, {
 				isFetching: false,
-				isAuthenticated: true,
-				user: action.email,
-				errorMessage: null
+				isAuthorized: false,
+				sent: action.sent,
+				error: action.error
 			});
-		case t.LOGIN_FAILURE:
+		case t.AUTHORIZE_FAILURE:
 			return Object.assign({}, state, {
 				isFetching: false,
-				isAuthenticated: false,
-				user: null,
-				errorMessage: action.error
-			});
-		case t.LOGOUT_SUCCESS:
-			return Object.assign({}, state, {
-				isFetching: false,
-				isAuthenticated: false,
-				user: null,
-				errorMessage: null
+				isAuthorized: false,
+				sent: false,
+				error: action.error
 			});
 		default:
 			return state

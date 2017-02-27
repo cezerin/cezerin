@@ -1,20 +1,18 @@
 import React from 'react'
-import { Field, reduxForm } from 'redux-form'
-import { Link } from 'react-router'
+import {Field, reduxForm} from 'redux-form'
 import messages from 'src/locales'
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import Paper from 'material-ui/Paper'
-import { TextField } from 'redux-form-material-ui'
+import {TextField} from 'redux-form-material-ui'
 import style from './style.css'
-
 
 const validate = values => {
   const errors = {}
-  const requiredFields = [ 'email', 'pass' ]
+  const requiredFields = ['email']
   requiredFields.forEach(field => {
-    if (!values[ field ]) {
-      errors[ field ] = messages.errors.required
+    if (!values[field]) {
+      errors[field] = messages.errors.required
     }
   })
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -23,55 +21,37 @@ const validate = values => {
   return errors
 }
 
-
 const Form = (props) => {
   const {
     handleSubmit,
     pristine,
     submitting,
-    isAuthenticated,
     isFetching,
-    user,
-    errorMessage } = props
+    sentAuth,
+    errorAuth
+  } = props
 
-    var errorMessageHtml = '';
-    if(errorMessage){
-      errorMessageHtml = <p className={style.error}>{errorMessage}</p>
-    }
-    if(isFetching) {
-      errorMessageHtml += 'loading ...'
-    }
+  var response = <span className={style.noResponse}>{messages.messages.loading}</span>;
+  if (sentAuth) {
+    response = <span className={style.successResponse}>{messages.login.linkSent}</span>;
+  } else if(sentAuth === false && errorAuth) {
+    response = <span className={style.errorResponse}>{errorAuth}</span>;
+  }
 
-
-  if(isAuthenticated) {
-    return (
+  return (
     <Paper className={style.login} zDepth={1}>
-      <h2>Already logged in!</h2>
+      <form onSubmit={handleSubmit}>
+        <div className={style.title}>{messages.login.title}</div>
+        <div className={style.input}>
+          <Field name="email" component={TextField} label={messages.login.email} fullWidth={true} inputStyle={{textAlign:'center'}} hintStyle={{textAlign:'center', width: '100%'}} hintText={messages.login.hint}/>
+        </div>
+        <RaisedButton type="submit" label={messages.login.loginButton} primary={true} fullWidth={true} disabled={pristine || submitting || isFetching || sentAuth}/>
+        <div className={style.response}>
+          {response}
+        </div>
+      </form>
     </Paper>
   );
-  } else {
-    return (
-      <Paper className={style.login} zDepth={1}>
-        <form onSubmit={handleSubmit}>
-          <h2>{messages.login.title}</h2>
-          <Field name="email" component={TextField} label={messages.login.email} fullWidth={true}/>
-          <Field name="pass" component={TextField} label={messages.login.password} fullWidth={true} type="password" />
-          <br />
-          <br />
-          <RaisedButton type="submit" label={messages.login.loginButton} primary={true} fullWidth={true} disabled={pristine || submitting} />
-          {errorMessageHtml}
-          <p>
-            <Link to="/admin-recovery">
-              <FlatButton label={messages.login.recoveyButton} />
-            </Link>
-          </p>
-        </form>
-      </Paper>
-    );
-  }
 }
 
-export default reduxForm({
-  form: 'FormLogin',
-  validate
-})(Form)
+export default reduxForm({form: 'FormLogin', validate})(Form)

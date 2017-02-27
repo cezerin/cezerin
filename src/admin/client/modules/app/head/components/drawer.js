@@ -25,7 +25,7 @@ let styles = {
   },
   selected: {
     color: '#ff5722',
-    backgroundColor: '#f5f5f5'
+    backgroundColor: 'rgba(0,0,0,0.05)'
   }
 }
 

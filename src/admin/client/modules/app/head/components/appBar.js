@@ -22,7 +22,7 @@ import LinearProgress from 'material-ui/LinearProgress';
 let drawerItems = [
   {
     title: messages.drawer.home,
-    url: '/admin',
+    url: '/admin/',
     icon: 'home'
   }, {
     title: messages.drawer.products,

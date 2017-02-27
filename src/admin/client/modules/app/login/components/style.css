@@ -1,9 +1,39 @@
 .login {
   margin: 20px;
   padding: 30px;
-  text-align: left;
+  text-align: center;
 }
 
-.error {
+.response {
+  text-align: center;
+  padding: 20px;
+  font-size: 120%;
+}
+
+.noResponse {
+  opacity: 0;
+  transition: all 400ms ease-in-out;
+}
+
+.errorResponse {
   color: rgb(244, 67, 54);
+  opacity: 1;
+  transition: all 400ms ease-in-out;
+}
+
+.successResponse {
+  color: rgb(33, 160, 84);
+  opacity: 1;
+  transition: all 400ms ease-in-out;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 200;
+  text-transform: uppercase;
+  padding: 50px;
+}
+
+.input {
+  margin: 0 0 30px 0;
 }

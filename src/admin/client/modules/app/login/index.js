@@ -1,20 +1,19 @@
 import { connect } from 'react-redux'
-import { loginUser, logoutUser } from './actions'
+import { authorize } from './actions'
 import Form from './components/form'
 
 const mapStateToProps = (state) => {
   return {
-    isAuthenticated: state.auth.isAuthenticated,
     isFetching: state.auth.isFetching,
-    user: state.auth.user,
-    errorMessage: state.auth.errorMessage
+    sentAuth: state.auth.sent,
+    errorAuth: state.auth.error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     onSubmit: (values) => {
-      dispatch(loginUser(values.email, values.pass));
+      dispatch(authorize(values.email));
     }
   }
 }

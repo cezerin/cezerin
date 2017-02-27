@@ -64,12 +64,11 @@
   },
 
   "login": {
-    "title": "Login",
+    "title": "Sign in",
     "email": "Email",
-    "password": "Password",
-    "loginButton": "Login",
-    "recoveyButton": "Forgot password?",
-    "error": "Invalid login or password"
+    "loginButton": "Sign in",
+    "hint": "Enter your email to sign in",
+    "linkSent": "Sign in link was sent to your email"
   },
 
   "products": {

@@ -3,46 +3,28 @@ import api from 'lib/api';
 import settings from 'lib/settings';
 import * as t from './actionTypes'
 
-const requestLogin = (email, pass) => ({
-  type: t.LOGIN_REQUEST,
-  isFetching: true,
-  isAuthenticated: false,
-  email
+const requestAuthorize = () => ({
+  type: t.AUTHORIZE_REQUEST
 });
 
-const receiveLogin = (email, token) => ({
-  type: t.LOGIN_SUCESS,
-  isFetching: false,
-  isAuthenticated: true,
-  email,
-  token
-});
-
-const loginError = (error) => ({
-  type: t.LOGIN_FAILURE,
-  isFetching: false,
-  isAuthenticated: false,
+const receiveAuthorize = (sent, error) => ({
+  type: t.AUTHORIZE_RECEIVE,
+  sent,
   error
 });
 
-export const loginUser = (email, pass) => {
-    return (dispatch, getState) => {
-        dispatch(requestLogin(email, pass));
-        return api.authorize(settings.apiBaseUrl, email, pass).then(({status, json}) => {
-            console.log(status);
-            console.log(json);
-            if (json.token) {
-                localStorage.setItem('token', json.token);
-                localStorage.setItem('user', email);
-                api.init(settings.apiBaseUrl, json.token);
+const failureAuthorize = (error) => ({
+  type: t.AUTHORIZE_FAILURE,
+  error
+});
 
-                dispatch(receiveLogin(email, json.token));
-                dispatch(push('/admin'));
-            } else {
-                dispatch(loginError(json.message));
-            }
-        }).catch(error => {
-            dispatch(loginError(error));
-        });
-    }
+export const authorize = (email) => {
+  return (dispatch, getState) => {
+    dispatch(requestAuthorize());
+    return api.authorize(settings.apiBaseUrl, email).then(authorizeResponse => {
+      dispatch(receiveAuthorize(authorizeResponse.json.sent, authorizeResponse.json.error));
+    }).catch(error => {
+      dispatch(failureAuthorize(error));
+    });
+  }
 }
