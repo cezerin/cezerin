@@ -26,8 +26,8 @@ Currently in active development.
 * ~~**Orders**~~
 * ~~**Settings**~~
 * ~~**Custom pages**~~
-* Security **〈〈〈〈〈〈 we are here**
-* Performance
+* ~~**Security**~~
+* Performance **〈〈〈〈〈〈 we are here**
 * Refactoring
 * Tests
 * Central update
