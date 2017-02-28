@@ -40,6 +40,9 @@ import layoutSettingsCheckoutFields from 'layouts/settings/checkout/fields'
 import layoutSettingsPages from 'layouts/settings/pages'
 import layoutSettingsPagesAdd from 'layouts/settings/pages/add'
 import layoutSettingsPagesEdit from 'layouts/settings/pages/edit'
+import layoutSettingsTokens from 'layouts/settings/tokens'
+import layoutSettingsTokensAdd from 'layouts/settings/tokens/add'
+import layoutSettingsTokensEdit from 'layouts/settings/tokens/edit'
 
 const routerMiddlewareConst = routerMiddleware(browserHistory);
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddlewareConst));
@@ -165,6 +168,9 @@ ReactDOM.render(
           <Route path="pages" component={layoutSettingsPages}/>
           <Route path="pages/add" component={layoutSettingsPagesAdd}/>
           <Route path="pages/:pageId" component={layoutSettingsPagesEdit}/>
+          <Route path="tokens" component={layoutSettingsTokens}/>
+          <Route path="tokens/add" component={layoutSettingsTokensAdd}/>
+          <Route path="tokens/:tokenId" component={layoutSettingsTokensEdit}/>
         </Route>
       </Route>
     </Route>

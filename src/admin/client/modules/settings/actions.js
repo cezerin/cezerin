@@ -116,6 +116,27 @@ export function receivePage(pageEdit) {
   }
 }
 
+function receiveTokens(tokens) {
+  return {
+    type: t.TOKENS_RECEIVE,
+    tokens
+  }
+}
+
+export function receiveToken(tokenEdit) {
+  return {
+    type: t.TOKEN_RECEIVE,
+    tokenEdit
+  }
+}
+
+export function receiveNewToken(newToken) {
+  return {
+    type: t.NEW_TOKEN_RECEIVE,
+    newToken
+  }
+}
+
 export function fetchSettings() {
   return (dispatch, getState) => {
     // API can be not init on app start
@@ -313,6 +334,47 @@ export function deletePage(pageId) {
   return (dispatch, getState) => {
     return api.pages.delete(pageId).then(({status, json}) => {
       dispatch(fetchPages())
+    }).catch(error => {});
+  }
+}
+
+export function fetchTokens() {
+  return (dispatch, getState) => {
+    return api.tokens.list().then(({status, json}) => {
+      dispatch(receiveTokens(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchToken(id) {
+  return (dispatch, getState) => {
+    return api.tokens.retrieve(id).then(({status, json}) => {
+      dispatch(receiveToken(json))
+    }).catch(error => {});
+  }
+}
+
+export function createToken(token) {
+  return (dispatch, getState) => {
+    return api.tokens.create(token).then(({status, json}) => {
+      dispatch(fetchTokens())
+      dispatch(receiveNewToken(json.token))
+    }).catch(error => {});
+  }
+}
+
+export function updateToken(token) {
+  return (dispatch, getState) => {
+    return api.tokens.update(token.id, token).then(({status, json}) => {
+      dispatch(fetchTokens())
+    }).catch(error => {});
+  }
+}
+
+export function deleteToken(tokenId) {
+  return (dispatch, getState) => {
+    return api.tokens.delete(tokenId).then(({status, json}) => {
+      dispatch(fetchTokens())
     }).catch(error => {});
   }
 }

@@ -218,6 +218,17 @@ export default class AppBarTop extends React.Component {
       leftButton = <IconButton><Link to="/admin/settings/pages"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
       rightElements = <PageHead />
     }
+    else if(location === '/admin/settings/tokens'){
+      title = messages.settings.tokens;
+    }
+    else if(location === '/admin/settings/tokens/add'){
+      title = messages.settings.addToken;
+      leftButton = <IconButton><Link to="/admin/settings/tokens"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
+    else if(location.startsWith('/admin/settings/tokens/')){
+      title = messages.settings.editToken;
+      leftButton = <IconButton><Link to="/admin/settings/tokens"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+    }
 
     return (
       <div>

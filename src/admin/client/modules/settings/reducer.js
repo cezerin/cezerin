@@ -26,7 +26,10 @@ const initialState = {
   shippingMethodEdit: {},
   paymentMethodEdit: {},
   pages: [],
-  pageEdit: {}
+  pageEdit: {},
+  tokens: [],
+  tokenEdit: {},
+  newToken: null
 };
 
 export default(state = initialState, action) => {
@@ -65,6 +68,12 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {pages: action.pages})
     case t.PAGE_RECEIVE:
       return Object.assign({}, state, {pageEdit: action.pageEdit})
+    case t.TOKENS_RECEIVE:
+      return Object.assign({}, state, {tokens: action.tokens})
+    case t.TOKEN_RECEIVE:
+      return Object.assign({}, state, {tokenEdit: action.tokenEdit, newToken: null})
+    case t.NEW_TOKEN_RECEIVE:
+      return Object.assign({}, state, {newToken: action.newToken})
     default:
       return state
   }
