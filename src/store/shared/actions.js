@@ -278,10 +278,6 @@ export function fetchPage(pageId) {
   }
 }
 
-const getCurrentPage = (path) => {
-  return api.ajax.sitemap.retrieve(path);
-}
-
 const getCategories = () => {
   return api.ajax.product_categories.list().then(({status, json}) => json)
 }
@@ -299,9 +295,7 @@ const getProduct = (currentPage) => {
 }
 
 const getCart = (cookie) => {
-  return api.ajax.cart.retrieve(cookie).then(({status, json}) => {
-    return json;
-  })
+  return api.ajax.cart.retrieve(cookie).then(({status, json}) => json)
 }
 
 const getPage = (currentPage) => {
@@ -316,23 +310,26 @@ const getPage = (currentPage) => {
 
 const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
-
-    let currentCategory = null;
-    if (currentPage.type === 'product-category') {
-      currentCategory = categories.find(c => c.id === currentPage.resource);
-    }
-
-    return {categories, product, products, currentCategory, cart, page}
+  return Promise.all([
+    getCategories(),
+    getProduct(currentPage),
+    getProducts(productsFilter),
+    getCart(cookie),
+    getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
+      let currentCategory = null;
+      if (currentPage.type === 'product-category') {
+        currentCategory = categories.find(c => c.id === currentPage.resource);
+      }
+      return {categories, product, products, currentCategory, cart, page}
   });
 }
 
-export const getInitialState = (req, checkout_fields) => {
+export const getInitialState = (req, checkout_fields, currentPage) => {
   let initialState = {
     app: {
       language: 'en',
       location: null,
-      currentPage: null,
+      currentPage: currentPage,
       currentCategory: null,
       currentProduct: null,
       categories: [],
@@ -353,28 +350,18 @@ export const getInitialState = (req, checkout_fields) => {
     }
   }
 
-  return getCurrentPage(req.path).then(pageDetails => {
-    if (pageDetails.status === 200) {
-      const currentPage = pageDetails.json;
-      initialState.app.currentPage = currentPage;
+  if (currentPage.type === 'product-category') {
+    initialState.app.productsFilter.category_id = currentPage.resource;
+  }
 
-      if (currentPage.type === 'product-category') {
-        initialState.app.productsFilter.category_id = currentPage.resource;
-      }
-
-      return getCommonData(req, currentPage, initialState.app.productsFilter).then(commonData => {
-        initialState.app.categories = commonData.categories;
-        initialState.app.currentProduct = commonData.product;
-        initialState.app.products = commonData.products;
-        initialState.app.currentCategory = commonData.currentCategory;
-        initialState.app.cart = commonData.cart;
-        initialState.app.page = commonData.page;
-        return initialState;
-      })
-    } else {
-      // page not found
-      return null;
-    }
-  });
+  return getCommonData(req, currentPage, initialState.app.productsFilter).then(commonData => {
+    initialState.app.categories = commonData.categories;
+    initialState.app.currentProduct = commonData.product;
+    initialState.app.products = commonData.products;
+    initialState.app.currentCategory = commonData.currentCategory;
+    initialState.app.cart = commonData.cart;
+    initialState.app.page = commonData.page;
+    return initialState;
+  })
 
 }

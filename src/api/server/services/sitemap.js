@@ -1,36 +1,26 @@
 'use strict';
 
-const settings = require('../lib/settings');
 var mongo = require('../lib/mongo');
-var ObjectID = require('mongodb').ObjectID;
 
 class SitemapService {
   constructor() {}
 
   getPaths() {
     return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(), this.getSlugArrayFromProducts(), this.getSlugArrayFromPages()]).then(([reserved, productCategories, products, pages]) => {
-
-      // TODO: Replace for/push to ES6 [...pages, ...products]
-      let paths = [];
-
-      for (const item of reserved) {
-        paths.push(item);
-      }
-
-      for (const item of productCategories) {
-        paths.push(item);
-      }
-
-      for (const item of products) {
-        paths.push(item);
-      }
-
-      for (const item of pages) {
-        paths.push(item);
-      }
-
+      let paths = [...reserved, ...productCategories, ...products, ...pages];
       return paths;
     });
+  }
+
+  getPathsWithoutSlashes(slug) {
+    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(slug), this.getSlugArrayFromPages(slug)]).then(([reserved, productCategories, pages]) => {
+      let paths = [...reserved, ...productCategories, ...pages];
+      return paths;
+    });
+  }
+
+  getPathsWithSlash(slug) {
+    return this.getSlugArrayFromProducts(slug);
   }
 
   getSlugArrayFromReserved() {
@@ -60,49 +50,63 @@ class SitemapService {
     return paths;
   }
 
-  getSlugArrayFromProducts() {
-    return mongo.db.collection('productCategories').find().project({slug: 1}).toArray().then(categories => {
-      return mongo.db.collection('products').find().project({slug: 1, category_id: 1}).toArray().then(products => {
-        return products.map(product => {
-          const category = categories.find(c => c._id == product.category_id);
-          const categorySlug = category
-            ? category.slug
-            : '-';
-          return {path: `/${categorySlug}/${product.slug}`, type: 'product', resource: product._id}
-        })
-      });
+  getSlugArrayFromProducts(slug) {
+    const categoriesFilter = {};
+    const productsFilter = {};
+
+    if(slug) {
+      const slugParts = slug.split('/');
+      categoriesFilter.slug = slugParts[0];
+      productsFilter.slug = slugParts[1];
+    }
+
+    return Promise.all([
+      mongo.db.collection('productCategories').find(categoriesFilter).project({slug: 1}).toArray(),
+      mongo.db.collection('products').find(productsFilter).project({slug: 1, category_id: 1}).toArray()
+    ]).then(([categories, products]) => {
+      return products.map(product => {
+        const category = categories.find(c => c._id == product.category_id);
+        const categorySlug = category
+          ? category.slug
+          : '-';
+        return {path: `/${categorySlug}/${product.slug}`, type: 'product', resource: product._id}
+      })
     });
+
   }
 
-  getSlugArrayFromPages() {
-    return mongo.db.collection('pages').find().project({slug: 1}).toArray().then((items) => {
-      let newPath = [];
-      for (const item of items) {
-        newPath.push({path: `/${item.slug}`, type: 'page', resource: item._id});
-      }
-      return newPath;
-    });
+  getSlugArrayFromPages(slug) {
+    const filter = this.getFilterWithoutSlashes(slug);
+    return mongo.db.collection('pages').find(filter).project({slug: 1}).toArray().then(items =>
+      items.map(item => ({path: `/${item.slug}`, type: 'page', resource: item._id}))
+    )
   }
 
-  getSlugArrayFromProductCategories() {
-    return mongo.db.collection('productCategories').find().project({slug: 1}).toArray().then((items) => {
-      let newPath = [];
-      for (const item of items) {
-        newPath.push({path: `/${item.slug}`, type: 'product-category', resource: item._id});
-      }
-      return newPath;
-    });
+  getSlugArrayFromProductCategories(slug) {
+    const filter = this.getFilterWithoutSlashes(slug);
+    return mongo.db.collection('productCategories').find(filter).project({slug: 1}).toArray().then(items =>
+      items.map(item => ({path: `/${item.slug}`, type: 'product-category', resource: item._id}))
+    )
+  }
+
+  getFilterWithoutSlashes(slug) {
+    if(slug) {
+      return {slug: slug}
+    } else {
+      return {}
+    }
   }
 
   getSinglePath(path) {
-    return new Promise((resolve, reject) => {
-      this.getPaths().then((paths) => {
-        let findedPath = paths.find(e => e.path === path);
-        resolve(findedPath);
-      }).catch((err) => {
-        reject(this.getErrorMessage(err))
-      });
-    });
+    // convert path to slash (remove first slash)
+    const slug = path.substr(1);
+    if(slug.includes('/')) {
+      // slug = category-slug/product-slug
+      return this.getPathsWithSlash(slug).then(paths => paths.find(e => e.path === path))
+    } else {
+      // slug = slug
+      return this.getPathsWithoutSlashes(slug).then(paths => paths.find(e => e.path === path))
+    }
   }
 
   getErrorMessage(err) {

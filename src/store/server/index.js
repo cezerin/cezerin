@@ -36,56 +36,63 @@ const getHead = () => {
 storeRouter.get('*', (req, res, next) => {
   const full_url = `${req.protocol}://${req.hostname}${req.url}`;
   const referrer_url = req.get('referrer') === undefined ? '' : req.get('referrer');
-  api.checkout_fields.list().then(checkout_fields => {
-    theme.readBuildManifest().then(buildManifestJSON => {
-      theme.readTemplate().then(templateHtml => {
-        getInitialState(req, checkout_fields.json).then(initialState => {
-          if (initialState) {
-            const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
-            const routes = createRoutes(store);
 
-            match({
-              routes,
-              location: req.path
-            }, (error, redirectLocation, renderProps) => {
-              if (error) {
-                res.status(500).send(error.message)
-              } else if (redirectLocation) {
-                res.redirect(302, redirectLocation.pathname + redirectLocation.search)
-              } else if (renderProps) {
+  Promise.all([
+    theme.readBuildManifest(),
+    theme.readTemplate(),
+    api.sitemap.retrieve(req.path),
+    api.checkout_fields.list()
+  ]).then(([buildManifestJSON, templateHtml, sitemapDetails, checkout_fields]) => {
+    if (sitemapDetails.status === 404) {
+      res.status(404).send('Not found');
+      return;
+    }
 
-                const {location, params, history} = renderProps;
-                const contentHtml = renderToString(
-                  <Provider store={store}>
-                    <RouterContext {...renderProps}/>
-                  </Provider>
-                )
+    getInitialState(req, checkout_fields.json, sitemapDetails.json).then(initialState => {
+      if (initialState) {
+        const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
+        const routes = createRoutes(store);
 
-                const state = store.getState();
-                const head = getHead();
-                const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
+        match({
+          routes,
+          location: req.path
+        }, (error, redirectLocation, renderProps) => {
+          if (error) {
+            res.status(500).send(error.message)
+          } else if (redirectLocation) {
+            res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+          } else if (renderProps) {
 
-                if(!req.signedCookies.referrer_url) {
-                  res.cookie('referrer_url', referrer_url, serverSettings.referrerCookieOptions);
-                }
+            const {location, params, history} = renderProps;
+            const contentHtml = renderToString(
+              <Provider store={store}>
+                <RouterContext {...renderProps}/>
+              </Provider>
+            )
 
-                if(!req.signedCookies.landing_url) {
-                  res.cookie('landing_url', full_url, serverSettings.referrerCookieOptions);
-                }
+            const state = store.getState();
+            const head = getHead();
+            const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
 
-                res.status(200).send(html);
-              } else {
-                res.status(404).send('Not found')
-              }
-            });
+            if(!req.signedCookies.referrer_url) {
+              res.cookie('referrer_url', referrer_url, serverSettings.referrerCookieOptions);
+            }
 
+            if(!req.signedCookies.landing_url) {
+              res.cookie('landing_url', full_url, serverSettings.referrerCookieOptions);
+            }
+
+            res.status(200).send(html);
           } else {
             res.status(404).send('Not found')
           }
-        })
-      }).catch(err => { res.status(500).send(err) });
-    }).catch(err => { res.status(500).send(err) });
-  }).catch(err => { res.status(500).send(err) });
+        });
+
+      } else {
+        res.status(404).send('Not found')
+      }
+    })
+  });
 });
 
 module.exports = storeRouter;

@@ -16,11 +16,11 @@ app.use(helmet())
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(cookieParser(settings.security.cookieKey));
+app.use('/api/v1', apiRouter);
 app.get('/admin/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../public/admin/index.html'))
 });
-app.use('/api/v1', apiRouter);
+app.use(cookieParser(settings.security.cookieKey));
 app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
 
