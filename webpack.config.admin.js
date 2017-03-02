@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 var env = process.env.NODE_ENV;
 
@@ -36,43 +36,55 @@ var config = {
       layouts: path.resolve('./src/admin/client/layouts'),
       modules: path.resolve('./src/admin/client/modules'),
       lib: path.resolve('./src/admin/client/lib')
-    },
-    extensions: ['', '.js', '.jsx', '.json']
+    }
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: ['babel-loader']
       }, {
         test: /\.json$/,
         exclude: /node_modules/,
-        loader: 'json-loader'
+        use: ['json-loader']
       }, {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+        exclude: /node_modules/,
+        use: ExtractTextPlugin.extract({
+            use: [
+                {
+                    loader: "css-loader",
+                    options: {
+                        modules: true,
+                        importLoaders: true,
+                        localIdentName: "[name]__[local]___[hash:base64:5]"
+                    }
+                }
+            ]
+        })
       }
     ]
   },
 
   plugins: [
     new ExtractTextPlugin("admin-assets/css/bundle-[chunkhash].css"),
-    new webpack.optimize.CommonsChunkPlugin("vendor", "admin-assets/js/vendor-[chunkhash].js"),
-    new HtmlWebpackPlugin({template: 'src/admin/client/index.template.ejs', inject: 'body', 'filename':'admin/index.html'})
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+      filename: 'admin-assets/js/vendor-[chunkhash].js'
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/admin/client/index.template.ejs',
+      inject: 'body',
+      filename: 'admin/index.html'
+    })
   ]
 };
 
 if (env === 'production') {
-  config.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
-  }))
-
   config.plugins.push(new webpack.optimize.DedupePlugin())
-
   config.plugins.push(new webpack.BannerPlugin(`Created: ${new Date().toUTCString()}`)),
 
   config.stats = {

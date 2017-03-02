@@ -15,33 +15,34 @@ var config = {
   },
 
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: ['babel-loader']
       }, {
         test: /\.json$/,
-        loader: 'json-loader'
+        exclude: /node_modules/,
+        use: ['json-loader']
       }
     ]
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin("theme", "theme-[chunkhash].js"),
-    new ManifestPlugin({fileName: 'build-manifest.json'})
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'theme',
+      minChunks: Infinity,
+      filename: 'theme-[chunkhash].js'
+    }),
+
+    new ManifestPlugin({
+      fileName: 'build-manifest.json'
+    })
   ]
 };
 
 if (env === 'production') {
-  config.plugins.push(new webpack.DefinePlugin({
-    'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
-  }))
-
   config.plugins.push(new webpack.optimize.DedupePlugin())
-
   config.plugins.push(new webpack.BannerPlugin(`Created: ${new Date().toUTCString()}`)),
 
   config.stats = {
