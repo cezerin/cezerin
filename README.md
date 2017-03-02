@@ -27,8 +27,8 @@ Currently in active development.
 * ~~**Settings**~~
 * ~~**Custom pages**~~
 * ~~**Security**~~
-* Performance **〈〈〈〈〈〈 we are here**
-* Refactoring
+* ~~**Performance**~~
+* Refactoring **〈〈〈〈〈〈 we are here**
 * Tests
 * Central update
 * Default theme
