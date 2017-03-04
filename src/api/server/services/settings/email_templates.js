@@ -8,18 +8,18 @@ class EmailTemplatesService {
 
   getEmailTemplate(name) {
     return mongo.db.collection('emailTemplates').findOne({name: name}).then(template => {
-      return this.renameDocumentFields(template);
+      return this.changeProperties(template);
     });
   }
 
   updateEmailTemplate(name, data) {
-    const template = this.getDocumentForUpdate(data);
+    const template = this.getValidDocumentForUpdate(data);
     return mongo.db.collection('emailTemplates').updateOne({name: name}, {
       $set: template
     }, {upsert: true}).then(res => this.getEmailTemplate(name));
   }
 
-  getDocumentForUpdate(data) {
+  getValidDocumentForUpdate(data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -37,7 +37,7 @@ class EmailTemplatesService {
     return template;
   }
 
-  renameDocumentFields(template) {
+  changeProperties(template) {
     if (template) {
       delete template._id;
       delete template.name;

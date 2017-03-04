@@ -135,7 +135,7 @@ class OrdersService {
       const offset = parse.getNumberIfPositive(params.offset) || 0;
 
       return mongo.db.collection('orders').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(orders => orders.map(order => {
-        return this.renameDocumentFields(order, orderStatuses, shippingMethods, paymentMethods);
+        return this.changeProperties(order, orderStatuses, shippingMethods, paymentMethods);
       }));
     });
   }
@@ -186,7 +186,7 @@ class OrdersService {
   }
 
   addOrder(data) {
-    return this.getDocumentForInsert(data).then(this.associateOrderWithCustomer).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
+    return this.getValidDocumentForInsert(data).then(this.associateOrderWithCustomer).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
   }
 
   updateOrder(id, data) {
@@ -194,7 +194,7 @@ class OrdersService {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(id);
-    return this.getDocumentForUpdate(id, data).then(order => mongo.db.collection('orders').updateOne({
+    return this.getValidDocumentForUpdate(id, data).then(order => mongo.db.collection('orders').updateOne({
       _id: orderObjectID
     }, {$set: order}).then(res => this.getSingleOrder(id)));
   }
@@ -204,13 +204,9 @@ class OrdersService {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(orderId);
-    return mongo.db.collection('orders').deleteOne({'_id': orderObjectID}).then(res => {
-      return true;
+    return mongo.db.collection('orders').deleteOne({'_id': orderObjectID}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
     });
-  }
-
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
   }
 
   parseDiscountItem(discount) {
@@ -259,7 +255,7 @@ class OrdersService {
       : null;
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     return mongo.db.collection('orders').find({}, {number: 1}).sort({number: -1}).limit(1).toArray().then(items => {
       let orderNumber = settings.order_start_number;
       if (items && items.length > 0) {
@@ -310,10 +306,10 @@ class OrdersService {
       order.hold = parse.getBooleanIfValid(data.hold, false);
       order.draft = parse.getBooleanIfValid(data.draft, true);
 
-      order.email = parse.getString(data.email);
-      order.mobile = parse.getString(data.mobile);
-      order.referrer_url = parse.getString(data.referrer_url);
-      order.landing_url = parse.getString(data.landing_url);
+      order.email = parse.getString(data.email).toLowerCase();
+      order.mobile = parse.getString(data.mobile).toLowerCase();
+      order.referrer_url = parse.getString(data.referrer_url).toLowerCase();
+      order.landing_url = parse.getString(data.landing_url).toLowerCase();
       order.channel = parse.getString(data.channel);
       order.note = parse.getString(data.note);
       order.comments = parse.getString(data.comments);
@@ -332,7 +328,7 @@ class OrdersService {
     });
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     return new Promise((resolve, reject) => {
       if (Object.keys(data).length === 0) {
         reject(new Error('Required fields are missing'));
@@ -379,16 +375,16 @@ class OrdersService {
         order.draft = parse.getBooleanIfValid(data.draft, true);
       }
       if (data.email !== undefined) {
-        order.email = parse.getString(data.email);
+        order.email = parse.getString(data.email).toLowerCase();
       }
       if (data.mobile !== undefined) {
-        order.mobile = parse.getString(data.mobile);
+        order.mobile = parse.getString(data.mobile).toLowerCase();
       }
       if (data.referrer_url !== undefined) {
-        order.referrer_url = parse.getString(data.referrer_url);
+        order.referrer_url = parse.getString(data.referrer_url).toLowerCase();
       }
       if (data.landing_url !== undefined) {
-        order.landing_url = parse.getString(data.landing_url);
+        order.landing_url = parse.getString(data.landing_url).toLowerCase();
       }
       if (data.channel !== undefined) {
         order.channel = parse.getString(data.channel);
@@ -439,7 +435,7 @@ class OrdersService {
     });
   }
 
-  renameDocumentFields(order, orderStatuses, shippingMethods, paymentMethods) {
+  changeProperties(order, orderStatuses, shippingMethods, paymentMethods) {
     if (order) {
       order.id = order._id.toString();
       delete order._id;

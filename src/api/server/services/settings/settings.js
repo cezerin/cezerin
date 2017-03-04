@@ -27,12 +27,12 @@ class SettingsService {
 
   getSettings() {
     return mongo.db.collection('settings').findOne().then(settings => {
-      return this.renameDocumentFields(settings);
+      return this.changeProperties(settings);
     });
   }
 
   updateSettings(data) {
-    const settings = this.getDocumentForUpdate(data);
+    const settings = this.getValidDocumentForUpdate(data);
     return this.insertDefaultSettingsIfEmpty().then(() => mongo.db.collection('settings').updateOne({}, {
       $set: settings
     }, {upsert: true}).then(res => this.getSettings()));
@@ -48,7 +48,7 @@ class SettingsService {
     });
   }
 
-  getDocumentForUpdate(data) {
+  getValidDocumentForUpdate(data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -122,7 +122,7 @@ class SettingsService {
     return settings;
   }
 
-  renameDocumentFields(settings) {
+  changeProperties(settings) {
     if (settings) {
       delete settings._id;
     } else {

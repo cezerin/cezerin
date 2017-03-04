@@ -1,6 +1,6 @@
 'use strict';
 
-var ProductsService = require('../../services/products/products');
+var ProductsService = require('../services/products/products');
 
 class ProductsController {
   constructor(router) {
@@ -18,13 +18,13 @@ class ProductsController {
        this.router.delete('/products/:id/images/:image', this.deleteProductImage.bind(this));
    }
 
-   getProducts(req, res) {
+   getProducts(req, res, next) {
      ProductsService.getProducts(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleProduct(req, res) {
+   getSingleProduct(req, res, next) {
      ProductsService.getSingleProduct(req.params.id)
       .then(data => {
         if(data) {
@@ -33,17 +33,17 @@ class ProductsController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addProduct(req, res) {
+   addProduct(req, res, next) {
      ProductsService.addProduct(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
-   updateProduct(req, res) {
+   updateProduct(req, res, next) {
      ProductsService.updateProduct(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -52,26 +52,22 @@ class ProductsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteProduct(req, res) {
+   deleteProduct(req, res, next) {
      ProductsService.deleteProduct(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 
-   addProductImage(req, res) {
-     ProductsService.addProductImage(req, res);
+   addProductImage(req, res, next) {
+     ProductsService.addProductImage(req, res, next);
    }
 
-   deleteProductImage(req, res) {
+   deleteProductImage(req, res, next) {
      ProductsService.deleteProductImage(req.params.id, req.params.image)
      .then(data => { res.end() });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
    }
 }
 

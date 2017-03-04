@@ -15,18 +15,18 @@ class CheckoutFieldsService {
 
   getCheckoutField(name) {
     return mongo.db.collection('checkoutFields').findOne({name: name}).then(field => {
-      return this.renameDocumentFields(field);
+      return this.changeProperties(field);
     });
   }
 
   updateCheckoutField(name, data) {
-    const field = this.getDocumentForUpdate(data);
+    const field = this.getValidDocumentForUpdate(data);
     return mongo.db.collection('checkoutFields').updateOne({name: name}, {
       $set: field
     }, {upsert: true}).then(res => this.getCheckoutField(name));
   }
 
-  getDocumentForUpdate(data) {
+  getValidDocumentForUpdate(data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -48,7 +48,7 @@ class CheckoutFieldsService {
     return field;
   }
 
-  renameDocumentFields(field) {
+  changeProperties(field) {
     if (field) {
       delete field._id;
       delete field.name;

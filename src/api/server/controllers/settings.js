@@ -1,9 +1,9 @@
 'use strict';
 
-var SettingsService = require('../../services/settings/settings');
-var EmailSettingsService = require('../../services/settings/email');
-var EmailTemplatesService = require('../../services/settings/email_templates');
-var CheckoutFieldsService = require('../../services/settings/checkout_fields');
+var SettingsService = require('../services/settings/settings');
+var EmailSettingsService = require('../services/settings/email');
+var EmailTemplatesService = require('../services/settings/email_templates');
+var CheckoutFieldsService = require('../services/settings/checkout_fields');
 
 class SettingsController {
   constructor(router) {
@@ -23,13 +23,13 @@ class SettingsController {
       this.router.put('/settings/checkout/fields/:name', this.updateCheckoutField.bind(this));
    }
 
-   getSettings(req, res) {
+   getSettings(req, res, next) {
      SettingsService.getSettings()
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateSettings(req, res) {
+   updateSettings(req, res, next) {
      SettingsService.updateSettings(req.body)
       .then(data => {
         if(data) {
@@ -38,16 +38,16 @@ class SettingsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getEmailSettings(req, res) {
+   getEmailSettings(req, res, next) {
      EmailSettingsService.getEmailSettings()
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateEmailSettings(req, res) {
+   updateEmailSettings(req, res, next) {
      EmailSettingsService.updateEmailSettings(req.body)
       .then(data => {
         if(data) {
@@ -56,16 +56,16 @@ class SettingsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getEmailTemplate(req, res) {
+   getEmailTemplate(req, res, next) {
      EmailTemplatesService.getEmailTemplate(req.params.name)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateEmailTemplate(req, res) {
+   updateEmailTemplate(req, res, next) {
      EmailTemplatesService.updateEmailTemplate(req.params.name, req.body)
       .then(data => {
         if(data) {
@@ -74,22 +74,22 @@ class SettingsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getCheckoutFields(req, res) {
+   getCheckoutFields(req, res, next) {
      CheckoutFieldsService.getCheckoutFields()
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getCheckoutField(req, res) {
+   getCheckoutField(req, res, next) {
      CheckoutFieldsService.getCheckoutField(req.params.name)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateCheckoutField(req, res) {
+   updateCheckoutField(req, res, next) {
      CheckoutFieldsService.updateCheckoutField(req.params.name, req.body)
       .then(data => {
         if(data) {
@@ -98,11 +98,7 @@ class SettingsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .catch(next);
    }
 }
 

@@ -8,14 +8,13 @@ var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');
-var _ = require('lodash');
 
 class ProductСategoriesService {
   constructor() {}
 
   getCategories() {
   	return mongo.db.collection('productCategories').find().toArray()
-    .then(items => items.map(c => this.renameDocumentFields(c)))
+    .then(items => items.map(c => this.changeProperties(c)))
   }
 
   getSingleCategory(id) {
@@ -25,7 +24,7 @@ class ProductСategoriesService {
     let categoryObjectID = new ObjectID(id);
 
     return mongo.db.collection('productCategories').findOne({ _id: categoryObjectID })
-    .then(item => this.renameDocumentFields(item))
+    .then(item => this.changeProperties(item))
   }
 
   addCategory(data) {
@@ -33,9 +32,9 @@ class ProductСategoriesService {
     .then(item => {
       const newPosition = (item && item.position > 0) ? item.position + 1 : 1;
 
-      return this.getDocumentForInsert(data, newPosition)
+      return this.getValidDocumentForInsert(data, newPosition)
       .then(dataToInsert =>
-        mongo.db.collection('productCategories').insertMany([dataToInsert]).then(res => this.renameDocumentFields(res.ops[0])));
+        mongo.db.collection('productCategories').insertMany([dataToInsert]).then(res => this.changeProperties(res.ops[0])));
     });
   }
 
@@ -45,11 +44,9 @@ class ProductСategoriesService {
     }
     let categoryObjectID = new ObjectID(id);
 
-    return this.getDocumentForUpdate(id, data)
-    .then(dataToSet =>
-      mongo.db.collection('productCategories').findOneAndUpdate({ _id: categoryObjectID }, {$set: dataToSet}, { returnOriginal: false })
-      .then(res => res.value ? this.renameDocumentFields(res.value) : Promise.reject('Empty value'))
-    );
+    return this.getValidDocumentForUpdate(id, data)
+      .then(dataToSet => mongo.db.collection('productCategories').updateOne({ _id: categoryObjectID }, {$set: dataToSet}))
+      .then(res => res.modifiedCount > 0 ? this.getSingleCategory(id) : null)
   }
 
   findAllChildren(items, id, result) {
@@ -80,21 +77,26 @@ class ProductСategoriesService {
       return idsToDelete;
     })
     .then(idsToDelete => {
-      // 3. update category_id for products
-      return mongo.db.collection('products').updateMany({ category_id: { $in: idsToDelete}} , { category_id: null }).then(() => idsToDelete);
+      // 3. delete categories
+      let objectsToDelete = idsToDelete.map((id) => ( new ObjectID(id) ));
+      // return mongo.db.collection('productCategories').deleteMany({_id: { $in: objectsToDelete}}).then(() => idsToDelete);
+      return mongo.db.collection('productCategories').deleteMany({_id: { $in: objectsToDelete}}).then(deleteResponse => deleteResponse.deletedCount > 0 ? idsToDelete : null);
     })
     .then(idsToDelete => {
-      // 4. delete categories
-      let objectsToDelete = idsToDelete.map((id) => ( new ObjectID(id) ));
-      return mongo.db.collection('productCategories').deleteMany({_id: { $in: objectsToDelete}}).then(() => idsToDelete);
+      // 4. update category_id for products
+      return idsToDelete ? mongo.db.collection('products').updateMany({ category_id: { $in: idsToDelete}}, { $set: { category_id: null }}).then(() => idsToDelete) : null;
     })
     .then(idsToDelete => {
       // 5. delete directories with images
-      for(let categoryId of idsToDelete) {
-        let deleteDir = settings.path.uploads.categories + '/' + categoryId;
-        fs.remove(deleteDir, err => {});
+      if(idsToDelete) {
+        for(let categoryId of idsToDelete) {
+          let deleteDir = settings.path.uploads.categories + '/' + categoryId;
+          fs.remove(deleteDir, err => {});
+        }
+        return Promise.resolve(true);
+      } else {
+        return Promise.resolve(false);
       }
-      return Promise.resolve();
     });
   }
 
@@ -102,7 +104,7 @@ class ProductСategoriesService {
     return { 'error': true, 'message': err.toString() };
   }
 
-  getDocumentForInsert(data, newPosition) {
+  getValidDocumentForInsert(data, newPosition) {
       //  Allow empty category to create draft
 
       let category = {
@@ -131,12 +133,12 @@ class ProductСategoriesService {
       }
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     return new Promise((resolve, reject) => {
       if(!ObjectID.isValid(id)) {
         reject('Invalid identifier');
       }
-      if(_.isEmpty(data)) {
+      if (Object.keys(data).length === 0) {
         reject('Required fields are missing');
       }
 
@@ -144,27 +146,27 @@ class ProductСategoriesService {
         'date_updated': new Date()
       };
 
-      if(!_.isUndefined(data.name)) {
+      if(data.name !== undefined) {
         category.name = parse.getString(data.name);
       }
 
-      if(!_.isUndefined(data.description)) {
+      if(data.description !== undefined) {
         category.description = parse.getString(data.description);
       }
 
-      if(!_.isUndefined(data.meta_description)) {
+      if(data.meta_description !== undefined) {
         category.meta_description = parse.getString(data.meta_description);
       }
 
-      if(!_.isUndefined(data.meta_title)) {
+      if(data.meta_title !== undefined) {
         category.meta_title = parse.getString(data.meta_title);
       }
 
-      if(!_.isUndefined(data.active)) {
+      if(data.active !== undefined) {
         category.active = parse.getBooleanIfValid(data.active, true);
       }
 
-      if(!_.isUndefined(data.image)) {
+      if(data.image !== undefined) {
         category.image = data.image;
       }
 
@@ -172,17 +174,17 @@ class ProductСategoriesService {
         category.position = data.position;
       }
 
-      if(!_.isUndefined(data.sort)) {
+      if(data.sort !== undefined) {
         category.sort = data.sort;
       }
 
-      if(!_.isUndefined(data.parent_id)) {
+      if(data.parent_id !== undefined) {
         category.parent_id = parse.getObjectIDIfValid(data.parent_id);
       }
 
 
 
-      if(!_.isUndefined(data.slug)){
+      if(data.slug !== undefined){
         let slug = data.slug;
         if(!slug || slug.length === 0) {
           slug = data.name;
@@ -203,7 +205,7 @@ class ProductСategoriesService {
     });
   }
 
-  renameDocumentFields(item) {
+  changeProperties(item) {
     if(item) {
       item.id = item._id.toString();
       delete item._id;
@@ -215,7 +217,7 @@ class ProductСategoriesService {
       item.url = url.resolve(settings.storeBaseUrl, item.slug || '');
       item.path = url.resolve('/', item.slug || '');
 
-      if(!_.isEmpty(item.image)) {
+      if(item.image) {
         item.image = settings.url.uploads.categories + '/' + item.id + '/' + item.image;
       }
     }

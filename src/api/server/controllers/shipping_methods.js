@@ -1,6 +1,6 @@
 'use strict';
 
-var ShippingMethodsService = require('../../services/orders/shipping_methods');
+var ShippingMethodsService = require('../services/orders/shipping_methods');
 
 class ShippingMethodsController {
   constructor(router) {
@@ -16,13 +16,13 @@ class ShippingMethodsController {
        this.router.delete('/shipping_methods/:id', this.deleteMethod.bind(this));
    }
 
-   getMethods(req, res) {
+   getMethods(req, res, next) {
      ShippingMethodsService.getMethods(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleMethod(req, res) {
+   getSingleMethod(req, res, next) {
      ShippingMethodsService.getSingleMethod(req.params.id)
       .then(data => {
         if(data) {
@@ -31,17 +31,17 @@ class ShippingMethodsController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addMethod(req, res) {
+   addMethod(req, res, next) {
      ShippingMethodsService.addMethod(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
-   updateMethod(req, res) {
+   updateMethod(req, res, next) {
      ShippingMethodsService.updateMethod(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -50,17 +50,13 @@ class ShippingMethodsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteMethod(req, res) {
+   deleteMethod(req, res, next) {
      ShippingMethodsService.deleteMethod(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 }
 

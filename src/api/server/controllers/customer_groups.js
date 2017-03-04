@@ -1,6 +1,6 @@
 'use strict';
 
-var CustomerGroupsService = require('../../services/customers/customer_groups');
+var CustomerGroupsService = require('../services/customers/customer_groups');
 
 class CustomerGroupsController {
   constructor(router) {
@@ -16,13 +16,13 @@ class CustomerGroupsController {
        this.router.delete('/customer_groups/:id', this.deleteGroup.bind(this));
    }
 
-   getGroups(req, res) {
+   getGroups(req, res, next) {
      CustomerGroupsService.getGroups(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleGroup(req, res) {
+   getSingleGroup(req, res, next) {
      CustomerGroupsService.getSingleGroup(req.params.id)
       .then(data => {
         if(data) {
@@ -31,17 +31,17 @@ class CustomerGroupsController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addGroup(req, res) {
+   addGroup(req, res, next) {
      CustomerGroupsService.addGroup(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
-   updateGroup(req, res) {
+   updateGroup(req, res, next) {
      CustomerGroupsService.updateGroup(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -50,17 +50,13 @@ class CustomerGroupsController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteGroup(req, res) {
+   deleteGroup(req, res, next) {
      CustomerGroupsService.deleteGroup(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 }
 

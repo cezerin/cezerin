@@ -12,7 +12,7 @@ class SitemapController {
        this.router.get('/sitemap', this.getPaths.bind(this));
    }
 
-   getPaths(req, res) {
+   getPaths(req, res, next) {
      if(req.query.path) {
        SitemapService.getSinglePath(req.query.path)
         .then((data) => {
@@ -21,12 +21,10 @@ class SitemapController {
           } else {
             res.status(404).end()
           }
-        })
-        .catch((err) => { res.status(500).send(err) });
+        }).catch(next);
      } else {
        SitemapService.getPaths()
-        .then((data) => { res.send(data) })
-        .catch((err) => { res.status(500).send(err) });
+        .then((data) => { res.send(data) }).catch(next);
      }
    }
 }

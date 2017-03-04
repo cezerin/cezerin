@@ -4,13 +4,12 @@ var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
-var _ = require('lodash');
 
 class CustomerGroupsService {
   constructor() {}
 
   getGroups(params = {}) {
-    return mongo.db.collection('customerGroups').find().toArray().then(items => items.map(item => this.renameDocumentFields(item)))
+    return mongo.db.collection('customerGroups').find().toArray().then(items => items.map(item => this.changeProperties(item)))
   }
 
   getSingleGroup(id) {
@@ -19,11 +18,11 @@ class CustomerGroupsService {
     }
     let groupObjectID = new ObjectID(id);
 
-    return mongo.db.collection('customerGroups').findOne({_id: groupObjectID}).then(item => this.renameDocumentFields(item))
+    return mongo.db.collection('customerGroups').findOne({_id: groupObjectID}).then(item => this.changeProperties(item))
   }
 
   addGroup(data) {
-    const group = this.getDocumentForInsert(data);
+    const group = this.getValidDocumentForInsert(data);
     return mongo.db.collection('customerGroups').insertMany([group]).then(res => this.getSingleGroup(res.ops[0]._id.toString()));
   }
 
@@ -32,7 +31,7 @@ class CustomerGroupsService {
       return Promise.reject('Invalid identifier');
     }
     const groupObjectID = new ObjectID(id);
-    const group = this.getDocumentForUpdate(id, data);
+    const group = this.getValidDocumentForUpdate(id, data);
 
     return mongo.db.collection('customerGroups').updateOne({
       _id: groupObjectID
@@ -44,16 +43,12 @@ class CustomerGroupsService {
       return Promise.reject('Invalid identifier');
     }
     const groupObjectID = new ObjectID(id);
-    return mongo.db.collection('customerGroups').deleteOne({'_id': groupObjectID}).then(res => {
-      return true;
+    return mongo.db.collection('customerGroups').deleteOne({'_id': groupObjectID}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
     });
   }
 
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
-  }
-
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     let group = {
       'date_created': new Date()
     };
@@ -64,27 +59,27 @@ class CustomerGroupsService {
     return group;
   }
 
-  getDocumentForUpdate(id, data) {
-    if (_.isEmpty(data)) {
+  getValidDocumentForUpdate(id, data) {
+    if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
 
     let group = {
       'date_updated': new Date()
-    };
+    }
 
-    if (!_.isUndefined(data.name)) {
+    if (data.name !== undefined) {
       group.name = parse.getString(data.name);
     }
 
-    if (!_.isUndefined(data.description)) {
+    if (data.description !== undefined) {
       group.description = parse.getString(data.description);
     }
 
     return group;
   }
 
-  renameDocumentFields(item) {
+  changeProperties(item) {
     if (item) {
       item.id = item._id.toString();
       delete item._id;

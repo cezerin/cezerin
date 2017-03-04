@@ -1,10 +1,10 @@
 'use strict';
 
-var OrdersService = require('../../services/orders/orders');
-var OrderAddressService = require('../../services/orders/order_address');
-var OrderItemsService = require('../../services/orders/order_items');
-var OrdertTansactionsService = require('../../services/orders/order_transactions');
-var OrdertDiscountsService = require('../../services/orders/order_discounts');
+var OrdersService = require('../services/orders/orders');
+var OrderAddressService = require('../services/orders/order_address');
+var OrderItemsService = require('../services/orders/order_items');
+var OrdertTansactionsService = require('../services/orders/order_transactions');
+var OrdertDiscountsService = require('../services/orders/order_discounts');
 
 class OrdersController {
   constructor(router) {
@@ -38,13 +38,13 @@ class OrdersController {
       this.router.delete('/orders/:id/discounts/:discount_id', this.deleteDiscount.bind(this));
    }
 
-   getOrders(req, res) {
+   getOrders(req, res, next) {
      OrdersService.getOrders(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleOrder(req, res) {
+   getSingleOrder(req, res, next) {
      OrdersService.getSingleOrder(req.params.id)
       .then(data => {
         if(data) {
@@ -53,16 +53,16 @@ class OrdersController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addOrder(req, res) {
+   addOrder(req, res, next) {
      OrdersService.addOrder(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateOrder(req, res) {
+   updateOrder(req, res, next) {
      OrdersService.updateOrder(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -71,16 +71,16 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteOrder(req, res) {
+   deleteOrder(req, res, next) {
      OrdersService.deleteOrder(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 
-   recalculateOrder(req, res) {
+   recalculateOrder(req, res, next) {
      OrderItemsService.calculateAndUpdateAllItems(req.params.id)
       .then(data => {
         if(data) {
@@ -89,18 +89,18 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   checkoutOrder(req, res) {
+   checkoutOrder(req, res, next) {
      OrdersService.checkoutOrder(req.params.id)
       .then(data => {
         setTimeout(() => {res.send(data)}, 5000)
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateBillingAddress(req, res) {
+   updateBillingAddress(req, res, next) {
      OrderAddressService.updateBillingAddress(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -109,10 +109,10 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateShippingAddress(req, res) {
+   updateShippingAddress(req, res, next) {
      OrderAddressService.updateShippingAddress(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -121,17 +121,17 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addItem(req, res) {
+   addItem(req, res, next) {
      const order_id = req.params.id;
      OrderItemsService.addItem(order_id, req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateItem(req, res) {
+   updateItem(req, res, next) {
      const order_id = req.params.id;
      const item_id = req.params.item_id;
      OrderItemsService.updateItem(order_id, item_id, req.body)
@@ -142,25 +142,25 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteItem(req, res) {
+   deleteItem(req, res, next) {
      const order_id = req.params.id;
      const item_id = req.params.item_id;
      OrderItemsService.deleteItem(order_id, item_id)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addTransaction(req, res) {
+   addTransaction(req, res, next) {
      const order_id = req.params.id;
      OrdertTansactionsService.addTransaction(order_id, req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateTransaction(req, res) {
+   updateTransaction(req, res, next) {
      const order_id = req.params.id;
      const transaction_id = req.params.item_id;
      OrdertTansactionsService.updateTransaction(order_id, transaction_id, req.body)
@@ -171,25 +171,25 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteTransaction(req, res) {
+   deleteTransaction(req, res, next) {
      const order_id = req.params.id;
      const transaction_id = req.params.item_id;
      OrdertTansactionsService.deleteTransaction(order_id, transaction_id)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addDiscount(req, res) {
+   addDiscount(req, res, next) {
      const order_id = req.params.id;
      OrdertDiscountsService.addDiscount(order_id, req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateDiscount(req, res) {
+   updateDiscount(req, res, next) {
      const order_id = req.params.id;
      const discount_id = req.params.item_id;
      OrdertDiscountsService.updateDiscount(order_id, discount_id, req.body)
@@ -200,19 +200,15 @@ class OrdersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteDiscount(req, res) {
+   deleteDiscount(req, res, next) {
      const order_id = req.params.id;
      const discount_id = req.params.item_id;
      OrdertDiscountsService.deleteDiscount(order_id, discount_id)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .catch(next);
    }
 }
 

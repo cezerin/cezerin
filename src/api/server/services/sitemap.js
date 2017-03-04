@@ -108,10 +108,6 @@ class SitemapService {
       return this.getPathsWithoutSlashes(slug).then(paths => paths.find(e => e.path === path))
     }
   }
-
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
-  }
 }
 
 module.exports = new SitemapService();

@@ -15,7 +15,7 @@ class OrderAddressService {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(id);
-    const billing_address = this.getDocumentForUpdate(id, data, 'billing_address');
+    const billing_address = this.getValidDocumentForUpdate(id, data, 'billing_address');
 
     return mongo.db.collection('orders').updateOne({
       _id: orderObjectID
@@ -27,14 +27,14 @@ class OrderAddressService {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(id);
-    const shipping_address = this.getDocumentForUpdate(id, data, 'shipping_address');
+    const shipping_address = this.getValidDocumentForUpdate(id, data, 'shipping_address');
 
     return mongo.db.collection('orders').updateOne({
       _id: orderObjectID
     }, {$set: shipping_address}).then(res => OrdersService.getSingleOrder(id))
   }
 
-  getDocumentForUpdate(id, data, addressTypeName) {
+  getValidDocumentForUpdate(id, data, addressTypeName) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -90,10 +90,6 @@ class OrderAddressService {
     }
 
     return address;
-  }
-
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
   }
 }
 

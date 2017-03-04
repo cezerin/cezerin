@@ -1,6 +1,6 @@
 'use strict';
 
-var PagesService = require('../../services/pages/pages');
+var PagesService = require('../services/pages/pages');
 
 class PagesController {
   constructor(router) {
@@ -16,13 +16,13 @@ class PagesController {
        this.router.delete('/pages/:id', this.deletePage.bind(this));
    }
 
-   getPages(req, res) {
+   getPages(req, res, next) {
      PagesService.getPages(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSinglePage(req, res) {
+   getSinglePage(req, res, next) {
      PagesService.getSinglePage(req.params.id)
       .then(data => {
         if(data) {
@@ -31,17 +31,17 @@ class PagesController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addPage(req, res) {
+   addPage(req, res, next) {
      PagesService.addPage(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
-   updatePage(req, res) {
+   updatePage(req, res, next) {
      PagesService.updatePage(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -50,17 +50,13 @@ class PagesController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deletePage(req, res) {
+   deletePage(req, res, next) {
      PagesService.deletePage(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 }
 

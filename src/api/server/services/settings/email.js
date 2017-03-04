@@ -17,12 +17,12 @@ class EmailSettingsService {
 
   getEmailSettings() {
     return mongo.db.collection('emailSettings').findOne().then(settings => {
-      return this.renameDocumentFields(settings);
+      return this.changeProperties(settings);
     });
   }
 
   updateEmailSettings(data) {
-    const settings = this.getDocumentForUpdate(data);
+    const settings = this.getValidDocumentForUpdate(data);
     return this.insertDefaultSettingsIfEmpty().then(() => mongo.db.collection('emailSettings').updateOne({}, {
       $set: settings
     }, {upsert: true}).then(res => this.getEmailSettings()));
@@ -38,7 +38,7 @@ class EmailSettingsService {
     });
   }
 
-  getDocumentForUpdate(data) {
+  getValidDocumentForUpdate(data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -46,7 +46,7 @@ class EmailSettingsService {
     let settings = {}
 
     if (data.host !== undefined) {
-      settings.host = parse.getString(data.host);
+      settings.host = parse.getString(data.host).toLowerCase();
     }
 
     if (data.port !== undefined) {
@@ -72,7 +72,7 @@ class EmailSettingsService {
     return settings;
   }
 
-  renameDocumentFields(settings) {
+  changeProperties(settings) {
     if (settings) {
       delete settings._id;
     } else {

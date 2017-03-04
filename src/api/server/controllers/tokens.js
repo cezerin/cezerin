@@ -1,6 +1,6 @@
 'use strict';
 
-var SecurityTokensService = require('../../services/security/tokens');
+var SecurityTokensService = require('../services/security/tokens');
 
 class SecurityTokensController {
   constructor(router) {
@@ -18,71 +18,55 @@ class SecurityTokensController {
     this.router.post('/authorize', this.sendDashboardSigninUrl.bind(this));
   }
 
-  getTokens(req, res) {
+  getTokens(req, res, next) {
     SecurityTokensService.getTokens(req.query).then(data => {
       res.send(data)
-    }).catch(err => {
-      res.status(500).send(this.getErrorMessage(err))
-    });
+    }).catch(next)
   }
 
-  getTokensBlacklist(req, res) {
-    SecurityTokensService.getTokensBlacklist(req.query).then(data => {
+  getTokensBlacklist(req, res, next) {
+    SecurityTokensService.getTokensBlacklist().then(data => {
       res.send(data)
-    }).catch(err => {
-      res.status(500).send(this.getErrorMessage(err))
-    });
+    }).catch(next)
   }
 
-  getSingleToken(req, res) {
+  getSingleToken(req, res, next) {
     SecurityTokensService.getSingleToken(req.params.id).then(data => {
       if (data) {
         res.send(data)
       } else {
         res.status(404).end()
       }
-    }).catch(err => {
-      res.status(500).send(this.getErrorMessage(err))
-    });
+    }).catch(next)
   }
 
-  addToken(req, res) {
+  addToken(req, res, next) {
     SecurityTokensService.addToken(req.body).then(data => {
       res.send(data)
-    }).catch(err => {
-      res.status(500).send(this.getErrorMessage(err))
-    });
+    }).catch(next)
   }
 
-  updateToken(req, res) {
+  updateToken(req, res, next) {
     SecurityTokensService.updateToken(req.params.id, req.body).then(data => {
       if (data) {
         res.send(data)
       } else {
         res.status(404).end()
       }
-    }).catch(err => {
-      res.status(500).send(this.getErrorMessage(err))
-    });
+    }).catch(next)
   }
 
-  deleteToken(req, res) {
+  deleteToken(req, res, next) {
    SecurityTokensService.deleteToken(req.params.id)
     .then(data => { res.end() })
-    .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+    .catch(next)
   }
 
-   sendDashboardSigninUrl(req, res) {
+   sendDashboardSigninUrl(req, res, next) {
      SecurityTokensService.sendDashboardSigninUrl(req.body.email).then(data => {
        res.send(data);
-     }).catch(err => {
-       res.status(500).send(this.getErrorMessage(err))
-     });
+     }).catch(next)
    }
-
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
-  }
 }
 
 module.exports = SecurityTokensController;

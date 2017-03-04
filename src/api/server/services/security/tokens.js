@@ -24,12 +24,12 @@ class SecurityTokensService {
       filter._id = new ObjectID(id);
     }
 
-    const email = parse.getString(params.email);
+    const email = parse.getString(params.email).toLowerCase();
     if (email && email.length > 0) {
       filter.email = email;
     }
 
-    return mongo.db.collection('tokens').find(filter).toArray().then(items => items.map(item => this.renameDocumentFields(item)))
+    return mongo.db.collection('tokens').find(filter).toArray().then(items => items.map(item => this.changeProperties(item)))
   }
 
   getTokensBlacklist() {
@@ -68,7 +68,7 @@ class SecurityTokensService {
   }
 
   addToken(data) {
-    return this.getDocumentForInsert(data).then(tokenData => mongo.db.collection('tokens').insertMany([tokenData])).then(res => this.getSingleToken(res.ops[0]._id.toString())).then(token => this.getSignedToken(token).then(signedToken => {
+    return this.getValidDocumentForInsert(data).then(tokenData => mongo.db.collection('tokens').insertMany([tokenData])).then(res => this.getSingleToken(res.ops[0]._id.toString())).then(token => this.getSignedToken(token).then(signedToken => {
       token.token = signedToken;
       return token;
     }))
@@ -79,7 +79,7 @@ class SecurityTokensService {
       return Promise.reject('Invalid identifier');
     }
     const tokenObjectID = new ObjectID(id);
-    const token = this.getDocumentForUpdate(id, data);
+    const token = this.getValidDocumentForUpdate(id, data);
 
     return mongo.db.collection('tokens').updateOne({
       _id: tokenObjectID
@@ -109,7 +109,7 @@ class SecurityTokensService {
       : Promise.reject('Token email must be unique'));
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     const email = parse.getString(data.email);
     return this.checkTokenEmailUnique(email).then(email => {
       let token = {
@@ -118,7 +118,7 @@ class SecurityTokensService {
       }
 
       token.name = parse.getString(data.name);
-      token.email = email;
+      token.email = email.toLowerCase();
       token.scopes = parse.getArrayIfValid(data.scopes);
       token.expiration = parse.getNumberIfPositive(data.expiration);
 
@@ -126,7 +126,7 @@ class SecurityTokensService {
     })
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -146,7 +146,7 @@ class SecurityTokensService {
     return token;
   }
 
-  renameDocumentFields(item) {
+  changeProperties(item) {
     if (item) {
       item.id = item._id.toString();
       delete item._id;
@@ -161,7 +161,7 @@ class SecurityTokensService {
       const jwtOptions = {};
 
       let payload = {
-        email: token.email,
+        email: token.email.toLowerCase(),
         scopes: token.scopes,
         jti: token.id
       }

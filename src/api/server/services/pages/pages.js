@@ -21,7 +21,7 @@ class PagesService {
 
   getPages(params = {}) {
     const filter = this.getFilter(params);
-    return mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.renameDocumentFields(item)))
+    return mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.changeProperties(item)))
   }
 
   getSinglePage(id) {
@@ -36,7 +36,7 @@ class PagesService {
   }
 
   addPage(data) {
-    return this.getDocumentForInsert(data)
+    return this.getValidDocumentForInsert(data)
     .then(page => mongo.db.collection('pages')
       .insertMany([page])
       .then(res => this.getSinglePage(res.ops[0]._id.toString())));
@@ -48,7 +48,7 @@ class PagesService {
     }
     const pageObjectID = new ObjectID(id);
 
-    return this.getDocumentForUpdate(id, data)
+    return this.getValidDocumentForUpdate(id, data)
     .then(page => mongo.db.collection('pages')
       .updateOne({_id: pageObjectID}, {$set: page})
       .then(res => this.getSinglePage(id)));
@@ -59,16 +59,12 @@ class PagesService {
       return Promise.reject('Invalid identifier');
     }
     const pageObjectID = new ObjectID(id);
-    return mongo.db.collection('pages').deleteOne({'_id': pageObjectID, 'is_system': false}).then(res => {
-      return true;
+    return mongo.db.collection('pages').deleteOne({'_id': pageObjectID, 'is_system': false}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
     });
   }
 
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
-  }
-
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     let page = {
       'is_system': false,
       'date_created': new Date()
@@ -90,7 +86,7 @@ class PagesService {
     }
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     if (Object.keys(data).length === 0) {
       return Promise.reject('Required fields are missing');
     } else {
@@ -135,7 +131,7 @@ class PagesService {
     })
   }
 
-  renameDocumentFields(item) {
+  changeProperties(item) {
     if (item) {
       item.id = item._id.toString();
       delete item._id;

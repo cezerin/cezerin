@@ -15,7 +15,7 @@ class OrderStatusesService {
       filter._id = new ObjectID(id);
     }
 
-    return mongo.db.collection('orderStatuses').find(filter).toArray().then(items => items.map(item => this.renameDocumentFields(item)))
+    return mongo.db.collection('orderStatuses').find(filter).toArray().then(items => items.map(item => this.changeProperties(item)))
   }
 
   getSingleStatus(id) {
@@ -30,7 +30,7 @@ class OrderStatusesService {
   }
 
   addStatus(data) {
-    const status = this.getDocumentForInsert(data);
+    const status = this.getValidDocumentForInsert(data);
     return mongo.db.collection('orderStatuses').insertMany([status]).then(res => this.getSingleStatus(res.ops[0]._id.toString()));
   }
 
@@ -39,7 +39,7 @@ class OrderStatusesService {
       return Promise.reject('Invalid identifier');
     }
     const statusObjectID = new ObjectID(id);
-    const status = this.getDocumentForUpdate(id, data);
+    const status = this.getValidDocumentForUpdate(id, data);
 
     return mongo.db.collection('orderStatuses').updateOne({
       _id: statusObjectID
@@ -51,10 +51,12 @@ class OrderStatusesService {
       return Promise.reject('Invalid identifier');
     }
     const statusObjectID = new ObjectID(id);
-    return mongo.db.collection('orderStatuses').deleteOne({'_id': statusObjectID});
+    return mongo.db.collection('orderStatuses').deleteOne({'_id': statusObjectID}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
+    });
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     let status = {}
 
     status.name = parse.getString(data.name);
@@ -66,7 +68,7 @@ class OrderStatusesService {
     return status;
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -96,17 +98,13 @@ class OrderStatusesService {
     return status;
   }
 
-  renameDocumentFields(item) {
+  changeProperties(item) {
     if (item) {
       item.id = item._id.toString();
       delete item._id;
     }
 
     return item;
-  }
-
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
   }
 }
 

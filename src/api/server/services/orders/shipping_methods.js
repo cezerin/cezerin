@@ -137,7 +137,7 @@ class ShippingMethodsService {
   }
 
   addMethod(data) {
-    const method = this.getDocumentForInsert(data);
+    const method = this.getValidDocumentForInsert(data);
     return mongo.db.collection('shippingMethods').insertMany([method]).then(res => this.getSingleMethod(res.ops[0]._id.toString()));
   }
 
@@ -146,7 +146,7 @@ class ShippingMethodsService {
       return Promise.reject('Invalid identifier');
     }
     const methodObjectID = new ObjectID(id);
-    const method = this.getDocumentForUpdate(id, data);
+    const method = this.getValidDocumentForUpdate(id, data);
 
     return mongo.db.collection('shippingMethods').updateOne({
       _id: methodObjectID
@@ -158,7 +158,9 @@ class ShippingMethodsService {
       return Promise.reject('Invalid identifier');
     }
     const methodObjectID = new ObjectID(id);
-    return mongo.db.collection('shippingMethods').deleteOne({'_id': methodObjectID});
+    return mongo.db.collection('shippingMethods').deleteOne({'_id': methodObjectID}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
+    });
   }
 
   getShippingMethodConditions(conditions) {
@@ -183,7 +185,7 @@ class ShippingMethodsService {
       };
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     let method = {
       // 'logo': '',
       // 'app_id': null,
@@ -200,7 +202,7 @@ class ShippingMethodsService {
     return method;
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }

@@ -4,7 +4,6 @@ var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
-var _ = require('lodash');
 var customerGroupsService = require('./customer_groups');
 
 class CustomersService {
@@ -29,7 +28,7 @@ class CustomersService {
     }
 
     if (params.email) {
-      filter.email = params.email;
+      filter.email = params.email.toLowerCase();
     }
 
     if (params.search) {
@@ -55,7 +54,7 @@ class CustomersService {
         ? customerGroups.find(group => group.id === customer.group_id)
         : null;
 
-      return this.renameDocumentFields(customer, customerGroup)
+      return this.changeProperties(customer, customerGroup)
     })));
   }
 
@@ -72,11 +71,11 @@ class CustomersService {
           customer,
           group: null
         };
-    }).then(({customer, group}) => this.renameDocumentFields(customer, group));
+    }).then(({customer, group}) => this.changeProperties(customer, group));
   }
 
   addCustomer(data) {
-    const customer = this.getDocumentForInsert(data);
+    const customer = this.getValidDocumentForInsert(data);
     return Promise.resolve(customer).then(customer => {
       // is email unique
       if (customer.email && customer.email.length > 0) {
@@ -94,7 +93,7 @@ class CustomersService {
       return Promise.reject('Invalid identifier');
     }
     const customerObjectID = new ObjectID(id);
-    const customer = this.getDocumentForUpdate(id, data);
+    const customer = this.getValidDocumentForUpdate(id, data);
 
     return Promise.resolve(customer).then(customer => {
       // is SKU unique
@@ -120,16 +119,12 @@ class CustomersService {
       return Promise.reject('Invalid identifier');
     }
     const customerObjectID = new ObjectID(customerId);
-    return mongo.db.collection('customers').deleteOne({'_id': customerObjectID}).then(res => {
-      return true;
+    return mongo.db.collection('customers').deleteOne({'_id': customerObjectID}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
     });
   }
 
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
-  }
-
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     // email can be null
 
     let customer = {
@@ -142,10 +137,10 @@ class CustomersService {
     };
 
     customer.note = parse.getString(data.note);
-    customer.email = parse.getString(data.email);
-    customer.mobile = parse.getString(data.mobile);
+    customer.email = parse.getString(data.email).toLowerCase();
+    customer.mobile = parse.getString(data.mobile).toLowerCase();
     customer.full_name = parse.getString(data.full_name);
-    customer.gender = parse.getString(data.gender);
+    customer.gender = parse.getString(data.gender).toLowerCase();
     customer.group_id = parse.getObjectIDIfValid(data.group_id);
     customer.tags = parse.getArrayIfValid(data.tags) || [];
     customer.social_accounts = parse.getArrayIfValid(data.social_accounts) || [];
@@ -165,8 +160,8 @@ class CustomersService {
     }
   }
 
-  getDocumentForUpdate(id, data) {
-    if (_.isEmpty(data)) {
+  getValidDocumentForUpdate(id, data) {
+    if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
 
@@ -174,54 +169,54 @@ class CustomersService {
       'date_updated': new Date()
     };
 
-    if (!_.isUndefined(data.note)) {
+    if (data.note !== undefined) {
       customer.note = parse.getString(data.note);
     }
 
-    if (!_.isUndefined(data.email)) {
-      customer.email = parse.getString(data.email);
+    if (data.email !== undefined) {
+      customer.email = parse.getString(data.email).toLowerCase();
     }
 
-    if (!_.isUndefined(data.mobile)) {
-      customer.mobile = parse.getString(data.mobile);
+    if (data.mobile !== undefined) {
+      customer.mobile = parse.getString(data.mobile).toLowerCase();
     }
 
-    if (!_.isUndefined(data.full_name)) {
+    if (data.full_name !== undefined) {
       customer.full_name = parse.getString(data.full_name);
     }
 
-    if (!_.isUndefined(data.gender)) {
+    if (data.gender !== undefined) {
       customer.gender = parse.getString(data.gender);
     }
 
-    if (!_.isUndefined(data.group_id)) {
+    if (data.group_id !== undefined) {
       customer.group_id = parse.getObjectIDIfValid(data.group_id);
     }
 
-    if (!_.isUndefined(data.tags)) {
+    if (data.tags !== undefined) {
       customer.tags = parse.getArrayIfValid(data.tags) || [];
     }
 
-    if (!_.isUndefined(data.social_accounts)) {
+    if (data.social_accounts !== undefined) {
       customer.social_accounts = parse.getArrayIfValid(data.social_accounts) || [];
     }
 
-    if (!_.isUndefined(data.birthdate)) {
+    if (data.birthdate !== undefined) {
       customer.birthdate = parse.getDateIfValid(data.birthdate);
     }
 
-    if (!_.isUndefined(data.addresses)) {
+    if (data.addresses !== undefined) {
       customer.addresses = this.validateAddresses(data.addresses);
     }
 
-    if (!_.isUndefined(data.browser)) {
+    if (data.browser !== undefined) {
       customer.browser = parse.getBrowser(data.browser);
     }
 
     return customer;
   }
 
-  renameDocumentFields(customer, customerGroup) {
+  changeProperties(customer, customerGroup) {
     if (customer) {
       customer.id = customer._id.toString();
       delete customer._id;

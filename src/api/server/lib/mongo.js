@@ -4,14 +4,17 @@ var mongodbConnection = settings.server.mongodb;
 var db;
 
 // Initialize connection once
-function connect(callback){
-  mongo.connect(mongodbConnection, function(err, database) {
-      if(err){
-        throw err;
-      }
-      module.exports.db = db = database;
-      callback();
-  });
+const connect = () => {
+  return new Promise((resolve, reject) => {
+    mongo.connect(mongodbConnection, (err, database) => {
+        if(err){
+          reject(err)
+        } else {
+          module.exports.db = db = database;
+          resolve();
+        }
+    });
+  })
 }
 
 module.exports = {

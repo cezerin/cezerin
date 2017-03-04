@@ -1,6 +1,6 @@
 'use strict';
 
-var CustomersService = require('../../services/customers/customers');
+var CustomersService = require('../services/customers/customers');
 
 class CustomersController {
   constructor(router) {
@@ -21,13 +21,13 @@ class CustomersController {
       this.router.post('/customers/:id/addresses/:address_id/default_shipping', this.setDefaultShipping.bind(this));
    }
 
-   getCustomers(req, res) {
+   getCustomers(req, res, next) {
      CustomersService.getCustomers(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleCustomer(req, res) {
+   getSingleCustomer(req, res, next) {
      CustomersService.getSingleCustomer(req.params.id)
       .then(data => {
         if(data) {
@@ -36,18 +36,18 @@ class CustomersController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
 
-   addCustomer(req, res) {
+   addCustomer(req, res, next) {
      CustomersService.addCustomer(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateCustomer(req, res) {
+   updateCustomer(req, res, next) {
      CustomersService.updateCustomer(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -56,56 +56,52 @@ class CustomersController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteCustomer(req, res) {
+   deleteCustomer(req, res, next) {
      CustomersService.deleteCustomer(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 
-   addAddress(req, res) {
+   addAddress(req, res, next) {
      const customer_id = req.params.id;
      CustomersService.addAddress(customer_id, req.body)
       .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   updateAddress(req, res) {
+   updateAddress(req, res, next) {
      const customer_id = req.params.id;
      const address_id = req.params.address_id;
      CustomersService.updateAddress(customer_id, address_id, req.body)
       .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteAddress(req, res) {
+   deleteAddress(req, res, next) {
      const customer_id = req.params.id;
      const address_id = req.params.address_id;
      CustomersService.deleteAddress(customer_id, address_id)
       .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   setDefaultBilling(req, res) {
+   setDefaultBilling(req, res, next) {
      const customer_id = req.params.id;
      const address_id = req.params.address_id;
      CustomersService.setDefaultBilling(customer_id, address_id)
       .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   setDefaultShipping(req, res) {
+   setDefaultShipping(req, res, next) {
      const customer_id = req.params.id;
      const address_id = req.params.address_id;
      CustomersService.setDefaultShipping(customer_id, address_id)
       .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .catch(next);
    }
 }
 

@@ -1,6 +1,6 @@
 'use strict';
 
-var OrderStatusesService = require('../../services/orders/order_statuses');
+var OrderStatusesService = require('../services/orders/order_statuses');
 
 class OrderStatusesController {
   constructor(router) {
@@ -16,13 +16,13 @@ class OrderStatusesController {
        this.router.delete('/order_statuses/:id', this.deleteStatus.bind(this));
    }
 
-   getStatuses(req, res) {
+   getStatuses(req, res, next) {
      OrderStatusesService.getStatuses(req.query)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleStatus(req, res) {
+   getSingleStatus(req, res, next) {
      OrderStatusesService.getSingleStatus(req.params.id)
       .then(data => {
         if(data) {
@@ -31,17 +31,17 @@ class OrderStatusesController {
           res.status(404).end()
         }
       })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addStatus(req, res) {
+   addStatus(req, res, next) {
      OrderStatusesService.addStatus(req.body)
       .then(data => { res.send(data) })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
-   updateStatus(req, res) {
+   updateStatus(req, res, next) {
      OrderStatusesService.updateStatus(req.params.id, req.body)
       .then(data => {
         if(data) {
@@ -50,17 +50,13 @@ class OrderStatusesController {
           res.status(404).end()
         }
        })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteStatus(req, res) {
+   deleteStatus(req, res, next) {
      OrderStatusesService.deleteStatus(req.params.id)
-      .then(data => { res.end() })
-      .catch(err => { res.status(500).send(this.getErrorMessage(err)) });
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 }
 

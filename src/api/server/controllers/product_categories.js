@@ -1,6 +1,6 @@
 'use strict';
 
-var CategoriesService = require('../../services/products/product_categories');
+var CategoriesService = require('../services/products/product_categories');
 
 class ProductCategoriesController {
   constructor(router) {
@@ -18,33 +18,32 @@ class ProductCategoriesController {
        this.router.delete('/product_categories/:id/image', this.deleteCategoryImage.bind(this));
    }
 
-   getCategories(req, res) {
+   getCategories(req, res, next) {
      CategoriesService.getCategories()
       .then((data) => { res.send(data) })
-      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   getSingleCategory(req, res) {
+   getSingleCategory(req, res, next) {
      CategoriesService.getSingleCategory(req.params.id)
       .then((data) => {
         if(data) {
-          //setTimeout(()=>{ res.send(data) }, 3000);
           res.send(data)
         } else {
           res.status(404).end()
         }
       })
-      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   addCategory(req, res) {
+   addCategory(req, res, next) {
      CategoriesService.addCategory(req.body)
       .then((data) => { res.send(data) })
-      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
 
-   updateCategory(req, res) {
+   updateCategory(req, res, next) {
      CategoriesService.updateCategory(req.params.id, req.body)
       .then((data) => {
         if(data) {
@@ -53,26 +52,22 @@ class ProductCategoriesController {
           res.status(404).end()
         }
        })
-      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
+      .catch(next);
    }
 
-   deleteCategory(req, res) {
+   deleteCategory(req, res, next) {
      CategoriesService.deleteCategory(req.params.id)
-      .then((data) => { res.end() })
-      .catch((err) => { res.status(500).send(this.getErrorMessage(err)) });
+      .then(data => { res.status(data ? 200 : 404).end() })
+      .catch(next);
    }
 
-   uploadCategoryImage(req, res) {
-     CategoriesService.uploadCategoryImage(req, res);
+   uploadCategoryImage(req, res, next) {
+     CategoriesService.uploadCategoryImage(req, res, next);
    }
 
-   deleteCategoryImage(req, res) {
+   deleteCategoryImage(req, res, next) {
      CategoriesService.deleteCategoryImage(req.params.id);
      res.end();
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
    }
 }
 

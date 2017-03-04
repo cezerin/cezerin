@@ -1,6 +1,6 @@
 'use strict';
 
-var ThemesService = require('../../services/themes/themes');
+var ThemesService = require('../services/themes/themes');
 
 class ThemesController {
   constructor(router) {
@@ -13,11 +13,11 @@ class ThemesController {
     this.router.post('/themes/current/zip', this.installTheme.bind(this));
   }
 
-  exportCurrentTheme(req, res) {
+  exportCurrentTheme(req, res, next) {
     ThemesService.exportCurrentTheme(req, res);
   }
 
-  installTheme(req, res) {
+  installTheme(req, res, next) {
     ThemesService.installTheme(req, res);
   }
 

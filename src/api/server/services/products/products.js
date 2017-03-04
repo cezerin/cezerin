@@ -9,7 +9,6 @@ var CategoriesService = require('./product_categories');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');
-var _ = require('lodash');
 
 class ProductsService {
   constructor() {}
@@ -39,7 +38,7 @@ class ProductsService {
         aggregationPipeline.push({ $skip : offset });
 
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
-          .then(items => items.map(item => this.renameDocumentFields(categories, item)))
+          .then(items => items.map(item => this.changeProperties(categories, item)))
       });
   }
 
@@ -313,7 +312,7 @@ class ProductsService {
   }
 
   addProduct(data) {
-    return this.getDocumentForInsert(data)
+    return this.getValidDocumentForInsert(data)
     .then(dataToInsert => {
       // is SKU unique
       if(dataToInsert.sku && dataToInsert.sku.length > 0) {
@@ -332,7 +331,7 @@ class ProductsService {
     }
     const productObjectID = new ObjectID(id);
 
-    return this.getDocumentForUpdate(id, data)
+    return this.getValidDocumentForUpdate(id, data)
     .then(dataToSet => {
       // is SKU unique
       if(dataToSet.sku && dataToSet.sku.length > 0) {
@@ -342,7 +341,7 @@ class ProductsService {
       }
     })
     .then(dataToSet => mongo.db.collection('products').updateOne({ _id: productObjectID }, {$set: dataToSet}))
-    .then(res => this.getSingleProduct(id))
+    .then(res => res.modifiedCount > 0 ? this.getSingleProduct(id) : null)
   }
 
   deleteProduct(productId) {
@@ -352,11 +351,13 @@ class ProductsService {
     const productObjectID = new ObjectID(productId);
     // 1. delete Product
     return mongo.db.collection('products').deleteOne({'_id': productObjectID})
-    .then(res => {
-      // 2. delete directory with images
-      let deleteDir = settings.path.uploads.products + '/' + productId;
-      fs.remove(deleteDir, err => {});
-      return true;
+    .then(deleteResponse => {
+      if(deleteResponse.deletedCount > 0) {
+        // 2. delete directory with images
+        let deleteDir = settings.path.uploads.products + '/' + productId;
+        fs.remove(deleteDir, err => {});
+      }
+      return deleteResponse.deletedCount > 0;
     });
   }
 
@@ -364,7 +365,7 @@ class ProductsService {
     return { 'error': true, 'message': err.toString() };
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
       //  Allow empty product to create draft
 
       let product = {
@@ -425,9 +426,9 @@ class ProductsService {
       }
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     return new Promise((resolve, reject) => {
-      if(_.isEmpty(data)) {
+      if (Object.keys(data).length === 0) {
         reject('Required fields are missing');
       }
 
@@ -435,139 +436,139 @@ class ProductsService {
         'date_updated': new Date()
       };
 
-      if(!_.isUndefined(data.name)) {
+      if(data.name !== undefined) {
         product.name = parse.getString(data.name);
       }
 
-      if(!_.isUndefined(data.description)) {
+      if(data.description !== undefined) {
         product.description = parse.getString(data.description);
       }
 
-      if(!_.isUndefined(data.meta_description)) {
+      if(data.meta_description !== undefined) {
         product.meta_description = parse.getString(data.meta_description);
       }
 
-      if(!_.isUndefined(data.meta_title)) {
+      if(data.meta_title !== undefined) {
         product.meta_title = parse.getString(data.meta_title);
       }
 
-      if(!_.isUndefined(data.tags)) {
+      if(data.tags !== undefined) {
         product.tags = parse.getArrayIfValid(data.tags) || [];
       }
 
-      if(!_.isUndefined(data.attributes)) {
+      if(data.attributes !== undefined) {
         product.attributes = parse.getArrayIfValid(data.attributes) || [];
       }
 
-      if(!_.isUndefined(data.dimensions)) {
+      if(data.dimensions !== undefined) {
         product.dimensions = data.dimensions;
       }
 
-      if(!_.isUndefined(data.active)) {
+      if(data.active !== undefined) {
         product.active = parse.getBooleanIfValid(data.active, true);
       }
 
-      if(!_.isUndefined(data.discontinued)) {
+      if(data.discontinued !== undefined) {
         product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
       }
 
-      if(!_.isUndefined(data.sku)) {
+      if(data.sku !== undefined) {
         product.sku = parse.getString(data.sku);
       }
 
-      if(!_.isUndefined(data.code)) {
+      if(data.code !== undefined) {
         product.code = parse.getString(data.code);
       }
 
-      if(!_.isUndefined(data.tax_class)) {
+      if(data.tax_class !== undefined) {
         product.tax_class = parse.getString(data.tax_class);
       }
 
-      if(!_.isUndefined(data.related_product_ids)) {
+      if(data.related_product_ids !== undefined) {
         product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
       }
 
-      if(!_.isUndefined(data.images)) {
+      if(data.images !== undefined) {
         product.images = parse.getArrayIfValid(data.images) || [];
       }
 
-      if(!_.isUndefined(data.prices)) {
+      if(data.prices !== undefined) {
         product.prices = parse.getArrayIfValid(data.prices) || [];
       }
 
-      if(!_.isUndefined(data.options)) {
+      if(data.options !== undefined) {
         product.options = parse.getArrayIfValid(data.options) || [];
       }
 
-      if(!_.isUndefined(data.variants)) {
+      if(data.variants !== undefined) {
         product.variants = parse.getArrayIfValid(data.variants) || [];
       }
 
-      if(!_.isUndefined(data.cost_price)) {
+      if(data.cost_price !== undefined) {
         product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
       }
 
-      if(!_.isUndefined(data.regular_price)) {
+      if(data.regular_price !== undefined) {
         product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
       }
 
-      if(!_.isUndefined(data.sale_price)) {
+      if(data.sale_price !== undefined) {
         product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
       }
 
-      if(!_.isUndefined(data.quantity_inc)) {
+      if(data.quantity_inc !== undefined) {
         product.quantity_inc = parse.getNumberIfPositive(data.quantity_inc) || 1;
       }
 
-      if(!_.isUndefined(data.quantity_min)) {
+      if(data.quantity_min !== undefined) {
         product.quantity_min = parse.getNumberIfPositive(data.quantity_min) || 1;
       }
 
-      if(!_.isUndefined(data.weight)) {
+      if(data.weight !== undefined) {
         product.weight = parse.getNumberIfPositive(data.weight) || 0;
       }
 
-      if(!_.isUndefined(data.stock_quantity)) {
+      if(data.stock_quantity !== undefined) {
         product.stock_quantity = parse.getNumberIfPositive(data.stock_quantity) || 0;
       }
 
-      if(!_.isUndefined(data.position)) {
+      if(data.position !== undefined) {
         product.position = parse.getNumberIfValid(data.position);
       }
 
-      if(!_.isUndefined(data.date_stock_expected)) {
+      if(data.date_stock_expected !== undefined) {
         product.date_stock_expected = parse.getDateIfValid(data.date_stock_expected);
       }
 
-      if(!_.isUndefined(data.date_sale_from)) {
+      if(data.date_sale_from !== undefined) {
         product.date_sale_from = parse.getDateIfValid(data.date_sale_from);
       }
 
-      if(!_.isUndefined(data.date_sale_to)) {
+      if(data.date_sale_to !== undefined) {
         product.date_sale_to = parse.getDateIfValid(data.date_sale_to);
       }
 
-      if(!_.isUndefined(data.stock_tracking)) {
+      if(data.stock_tracking !== undefined) {
         product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
       }
 
-      if(!_.isUndefined(data.stock_preorder)) {
+      if(data.stock_preorder !== undefined) {
         product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
       }
 
-      if(!_.isUndefined(data.stock_backorder)) {
+      if(data.stock_backorder !== undefined) {
         product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
       }
 
-      if(!_.isUndefined(data.brand_id)) {
+      if(data.brand_id !== undefined) {
         product.brand_id = parse.getObjectIDIfValid(data.brand_id);
       }
 
-      if(!_.isUndefined(data.category_id)) {
+      if(data.category_id !== undefined) {
         product.category_id = parse.getObjectIDIfValid(data.category_id);
       }
 
-      if(!_.isUndefined(data.slug)){
+      if(data.slug){
         let slug = data.slug;
         if(!slug || slug.length === 0) {
           slug = data.name;
@@ -588,7 +589,7 @@ class ProductsService {
     });
   }
 
-  renameDocumentFields(categories, item) {
+  changeProperties(categories, item) {
     if(item) {
 
       if(item.id) {

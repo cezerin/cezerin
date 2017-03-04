@@ -7,7 +7,7 @@ class ShippingMethodsLightService {
   constructor() {}
 
   getMethods(filter = {}) {
-    return mongo.db.collection('shippingMethods').find(filter).toArray().then(items => items.map(item => this.renameDocumentFields(item)));
+    return mongo.db.collection('shippingMethods').find(filter).toArray().then(items => items.map(item => this.changeProperties(item)));
   }
 
   getMethodPrice(id) {
@@ -23,7 +23,7 @@ class ShippingMethodsLightService {
     })
   }
 
-  renameDocumentFields(item) {
+  changeProperties(item) {
     if (item) {
       item.id = item._id.toString();
       delete item._id;

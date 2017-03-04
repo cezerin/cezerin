@@ -16,7 +16,7 @@ class OrderItemsService {
       return Promise.reject('Invalid identifier');
     }
     let orderObjectID = new ObjectID(order_id);
-    const newItem = this.getDocumentForInsert(data);
+    const newItem = this.getValidDocumentForInsert(data);
 
     return this.getOrderItemIfExists(order_id, newItem.product_id, newItem.variant_id).then(existItem => {
       if (existItem) {
@@ -54,7 +54,7 @@ class OrderItemsService {
     }
     let orderObjectID = new ObjectID(order_id);
     let itemObjectID = new ObjectID(item_id);
-    const item = this.getDocumentForUpdate(data);
+    const item = this.getValidDocumentForUpdate(data);
 
     return mongo.db.collection('orders').updateOne({
       _id: orderObjectID,
@@ -133,7 +133,7 @@ class OrderItemsService {
     }).then(res => OrdersService.getSingleOrder(order_id));
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     return {
       'id': new ObjectID(),
       'product_id': parse.getObjectIDIfValid(data.product_id),
@@ -142,7 +142,7 @@ class OrderItemsService {
     }
   }
 
-  getDocumentForUpdate(data) {
+  getValidDocumentForUpdate(data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
@@ -158,10 +158,6 @@ class OrderItemsService {
     }
 
     return item;
-  }
-
-  getErrorMessage(err) {
-    return {'error': true, 'message': err.toString()};
   }
 }
 

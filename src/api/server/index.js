@@ -6,20 +6,20 @@ var settings = require('./lib/settings');
 var mongo = require('./lib/mongo');
 
 const SecurityTokensService = require('./services/security/tokens');
-const ProductСategoriesController = require('./controllers/products/product_categories');
-const ProductsController = require('./controllers/products/products');
+const ProductСategoriesController = require('./controllers/product_categories');
+const ProductsController = require('./controllers/products');
 const SitemapController = require('./controllers/sitemap');
-const ThemesController = require('./controllers/themes/themes');
-const CustomersController = require('./controllers/customers/customers');
-const CustomerGroupsController = require('./controllers/customers/customer_groups');
-const OrdersController = require('./controllers/orders/orders');
-const OrderStatusesController = require('./controllers/orders/order_statuses');
-const ShippingMethodsController = require('./controllers/orders/shipping_methods');
-const PaymentMethodsController = require('./controllers/orders/payment_methods');
+const ThemesController = require('./controllers/themes');
+const CustomersController = require('./controllers/customers');
+const CustomerGroupsController = require('./controllers/customer_groups');
+const OrdersController = require('./controllers/orders');
+const OrderStatusesController = require('./controllers/order_statuses');
+const ShippingMethodsController = require('./controllers/shipping_methods');
+const PaymentMethodsController = require('./controllers/payment_methods');
 const DataController = require('./controllers/data');
-const SettingsController = require('./controllers/settings/settings');
-const PagesController = require('./controllers/pages/pages');
-const SecurityTokensController = require('./controllers/security/tokens');
+const SettingsController = require('./controllers/settings');
+const PagesController = require('./controllers/pages');
+const SecurityTokensController = require('./controllers/tokens');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -32,10 +32,14 @@ apiRouter.all('/*', function(req, res, next) {
 const setTokenAsRevokenOnException = true;
 const checkTokenInBlacklistCallback = (req, payload, done) => {
   var jti = payload.jti;
-  SecurityTokensService.getTokensBlacklist().then(blacklist => {
-    const tokenIsRevoked = blacklist.includes(jti);
-    return done(null, tokenIsRevoked);
-  }).catch((err) => done(err, setTokenAsRevokenOnException));
+  try {
+    SecurityTokensService.getTokensBlacklist().then(blacklist => {
+      const tokenIsRevoked = blacklist.includes(jti);
+      return done(null, tokenIsRevoked);
+    }).catch(err => done(err, setTokenAsRevokenOnException));
+  } catch (e) {
+    done('Can\'t connect to database', setTokenAsRevokenOnException);
+  }
 };
 
 apiRouter.use(expressJwt({secret: settings.security.jwtSecret, isRevoked: checkTokenInBlacklistCallback}).unless({path: [`/api/v1/authorize`]}));
@@ -55,20 +59,24 @@ var settings = new SettingsController(apiRouter);
 var pages = new PagesController(apiRouter);
 var security = new SecurityTokensController(apiRouter);
 
-apiRouter.use(function(err, req, res, next) {
+apiRouter.use((err, req, res, next) => {
   if(err && err.name === 'UnauthorizedError') {
-    res.status(401).send({ 'error': err.message });
+    res.status(401).send({'error': true, 'message': err.message.toString()});
   } else if(err) {
-    res.status(500).send({ 'error': err });
+    res.status(500).send({'error': true, 'message': err.toString()});
   } else {
     next();
   }
 });
 
 apiRouter.all('*', (req, res, next) => {
-  res.status(405).send({'error': 'Method Not Allowed'});
+  res.status(405).send({'error': true, 'message': 'Method Not Allowed'});
 })
 
-mongo.connect(() => {});
+mongo.connect().then(() => {
+  console.log(`${new Date()} - Successfully connected to MongoDB`)
+}).catch(err => {
+  console.log(`${new Date()} - Failed connecting to MongoDB: ${err.message}\n`);
+});
 
 module.exports = apiRouter;

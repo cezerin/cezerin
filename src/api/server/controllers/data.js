@@ -14,20 +14,16 @@ class DataController {
        this.router.get('/text', this.getText.bind(this));
    }
 
-   getCountries(req, res) {
+   getCountries(req, res, next) {
      res.send(DataService.getCountries())
    }
 
-   getCurrencies(req, res) {
+   getCurrencies(req, res, next) {
      res.send(DataService.getCurrencies())
    }
 
-   getText(req, res) {
+   getText(req, res, next) {
      res.send(DataService.getText())
-   }
-
-   getErrorMessage(err) {
-     return { 'error': true, 'message': err.toString() };
    }
 }
 

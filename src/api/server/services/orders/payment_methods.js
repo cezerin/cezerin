@@ -100,7 +100,7 @@ class PaymentMethodsService {
   }
 
   addMethod(data) {
-    const method = this.getDocumentForInsert(data);
+    const method = this.getValidDocumentForInsert(data);
     return mongo.db.collection('paymentMethods').insertMany([method]).then(res => this.getSingleMethod(res.ops[0]._id.toString()));
   }
 
@@ -109,7 +109,7 @@ class PaymentMethodsService {
       return Promise.reject('Invalid identifier');
     }
     const methodObjectID = new ObjectID(id);
-    const method = this.getDocumentForUpdate(id, data);
+    const method = this.getValidDocumentForUpdate(id, data);
 
     return mongo.db.collection('paymentMethods').updateOne({
       _id: methodObjectID
@@ -121,7 +121,9 @@ class PaymentMethodsService {
       return Promise.reject('Invalid identifier');
     }
     const methodObjectID = new ObjectID(id);
-    return mongo.db.collection('paymentMethods').deleteOne({'_id': methodObjectID});
+    return mongo.db.collection('paymentMethods').deleteOne({'_id': methodObjectID}).then(deleteResponse => {
+      return deleteResponse.deletedCount > 0;
+    });
   }
 
   getPaymentMethodConditions(conditions) {
@@ -140,7 +142,7 @@ class PaymentMethodsService {
       };
   }
 
-  getDocumentForInsert(data) {
+  getValidDocumentForInsert(data) {
     let method = {
       // 'logo': '',
       // 'app_id': null,
@@ -156,7 +158,7 @@ class PaymentMethodsService {
     return method;
   }
 
-  getDocumentForUpdate(id, data) {
+  getValidDocumentForUpdate(id, data) {
     if (Object.keys(data).length === 0) {
       return new Error('Required fields are missing');
     }
