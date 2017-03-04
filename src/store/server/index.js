@@ -33,23 +33,49 @@ const getHead = () => {
   }
 }
 
-storeRouter.get('*', (req, res, next) => {
+const renderHtml = (req, res, renderProps, store, templateHtml, buildManifestJSON) => {
   const full_url = `${req.protocol}://${req.hostname}${req.url}`;
   const referrer_url = req.get('referrer') === undefined ? '' : req.get('referrer');
 
+  const {location, params, history} = renderProps;
+  const contentHtml = renderToString(
+    <Provider store={store}>
+      <RouterContext {...renderProps}/>
+    </Provider>
+  )
+
+  const state = store.getState();
+  const head = getHead();
+  const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
+
+  if(!req.signedCookies.referrer_url) {
+    res.cookie('referrer_url', referrer_url, serverSettings.referrerCookieOptions);
+  }
+
+  if(!req.signedCookies.landing_url) {
+    res.cookie('landing_url', full_url, serverSettings.referrerCookieOptions);
+  }
+
+  res.status(200).send(html);
+}
+
+const sendPageNotFound = (res) => {
+  res.status(404).send('Not found')
+}
+
+const sendPageError = (res, status, error) => {
+  res.status(status).send(error)
+}
+
+storeRouter.get('*', (req, res, next) => {
   Promise.all([
     theme.readBuildManifest(),
     theme.readTemplate(),
     api.sitemap.retrieve(req.path),
     api.checkout_fields.list()
   ]).then(([buildManifestJSON, templateHtml, sitemapDetails, checkout_fields]) => {
-    if (sitemapDetails.status === 404) {
-      res.status(404).send('Not found');
-      return;
-    }
-
-    getInitialState(req, checkout_fields.json, sitemapDetails.json).then(initialState => {
-      if (initialState) {
+    if (sitemapDetails.status === 200) {
+      getInitialState(req, checkout_fields.json, sitemapDetails.json).then(initialState => {
         const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
         const routes = createRoutes(store);
 
@@ -58,40 +84,21 @@ storeRouter.get('*', (req, res, next) => {
           location: req.path
         }, (error, redirectLocation, renderProps) => {
           if (error) {
-            res.status(500).send(error.message)
+            sendPageError(res, 500, error.message)
           } else if (redirectLocation) {
             res.redirect(302, redirectLocation.pathname + redirectLocation.search)
           } else if (renderProps) {
-
-            const {location, params, history} = renderProps;
-            const contentHtml = renderToString(
-              <Provider store={store}>
-                <RouterContext {...renderProps}/>
-              </Provider>
-            )
-
-            const state = store.getState();
-            const head = getHead();
-            const html = templateHtml.replace('{app.js}', buildManifestJSON['app.js']).replace('{theme.js}', buildManifestJSON['theme.js']).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
-
-            if(!req.signedCookies.referrer_url) {
-              res.cookie('referrer_url', referrer_url, serverSettings.referrerCookieOptions);
-            }
-
-            if(!req.signedCookies.landing_url) {
-              res.cookie('landing_url', full_url, serverSettings.referrerCookieOptions);
-            }
-
-            res.status(200).send(html);
+            renderHtml(req, res, renderProps, store, templateHtml, buildManifestJSON);
           } else {
-            res.status(404).send('Not found')
+            sendPageNotFound(res)
           }
         });
-
-      } else {
-        res.status(404).send('Not found')
-      }
-    })
+      })
+    } else if (sitemapDetails.status === 404) {
+      sendPageNotFound(res);
+    } else {
+     sendPageError(res, sitemapDetails.status, sitemapDetails.json.message)
+   }
   });
 });
 
