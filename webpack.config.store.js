@@ -5,7 +5,7 @@ var env = process.env.NODE_ENV;
 
 var config = {
   entry: {
-    app: './src/store/client/index.js',
+    app: ['babel-polyfill', './src/store/client/index.js'],
     theme: ['theme']
   },
 
