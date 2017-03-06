@@ -6,7 +6,7 @@ import CustomersListItem from './item'
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import messages from 'src/locales'
+import messages from 'lib/text'
 import style from './style.css'
 
 export default class CustomersList extends React.Component {

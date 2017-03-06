@@ -1,2 +1,2 @@
-import settings from '../../../config/serverSide'
+import settings from '../../../config/server'
 export default settings

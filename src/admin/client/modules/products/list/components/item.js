@@ -4,7 +4,7 @@ import Checkbox from 'material-ui/Checkbox';
 import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
-import messages from 'src/locales'
+import messages from 'lib/text'
 import helper from 'lib/helper'
 import style from './style.css'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import messages from 'src/locales'
+import messages from 'lib/text'
 
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';

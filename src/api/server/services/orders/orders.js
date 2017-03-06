@@ -257,7 +257,7 @@ class OrdersService {
 
   getValidDocumentForInsert(data) {
     return mongo.db.collection('orders').find({}, {number: 1}).sort({number: -1}).limit(1).toArray().then(items => {
-      let orderNumber = settings.order_start_number;
+      let orderNumber = settings.orderStartNumber;
       if (items && items.length > 0) {
         orderNumber = items[0].number + 1;
       }

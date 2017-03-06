@@ -1,6 +1,6 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
-import messages from 'src/locales'
+import messages from 'lib/text'
 // import { push } from 'react-router-redux';
 // import moment from 'moment';
 

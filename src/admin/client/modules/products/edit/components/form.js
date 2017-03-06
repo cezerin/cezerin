@@ -5,7 +5,7 @@ import { TextField, Toggle, SelectField, DatePicker } from 'redux-form-material-
 import Editor from 'modules/shared/editor'
 
 import Gallery from './gallery'
-import messages from 'src/locales'
+import messages from 'lib/text'
 import style from './style.css'
 import api from 'lib/api'
 

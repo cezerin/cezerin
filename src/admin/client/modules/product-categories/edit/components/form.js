@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import { TextField, Toggle } from 'redux-form-material-ui'
 
 import ImageUpload from 'modules/shared/image-upload'
-import messages from 'src/locales'
+import messages from 'lib/text'
 import style from './style.css'
 import settings from 'lib/settings'
 import api from 'lib/api'

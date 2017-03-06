@@ -354,7 +354,7 @@ class ProductsService {
     .then(deleteResponse => {
       if(deleteResponse.deletedCount > 0) {
         // 2. delete directory with images
-        let deleteDir = settings.path.uploads.products + '/' + productId;
+        let deleteDir = settings.path.products + '/' + productId;
         fs.remove(deleteDir, err => {});
       }
       return deleteResponse.deletedCount > 0;
@@ -602,7 +602,7 @@ class ProductsService {
 
       if(item.images && item.images.length > 0) {
         for(let i = 0; i < item.images.length; i++) {
-          item.images[i].url = settings.url.uploads.products + '/' + item.id + '/' + item.images[i].filename;
+          item.images[i].url = settings.url.products + '/' + item.id + '/' + item.images[i].filename;
         }
         item.images = item.images.sort((a,b) => (a.position - b.position ));
       }
@@ -645,7 +645,7 @@ class ProductsService {
         let imageData = item.images.find(i => i.id.toString() === imageId.toString());
         if(imageData) {
           let filename = imageData.filename;
-          let filepath = settings.path.uploads.products + '/' + productId + '/' + filename;
+          let filepath = settings.path.products + '/' + productId + '/' + filename;
           fs.removeSync(filepath);
           return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageId } } })
         } else {
@@ -665,7 +665,7 @@ class ProductsService {
     }
     let productObjectID = new ObjectID(productId);
     let uploadedFiles = [];
-    let uploadDir = settings.path.uploads.products + '/' + productId;
+    let uploadDir = settings.path.products + '/' + productId;
     fs.ensureDirSync(uploadDir);
 
     let form = new formidable.IncomingForm();

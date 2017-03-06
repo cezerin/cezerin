@@ -1,5 +1,5 @@
 import React from 'react'
-import messages from 'src/locales'
+import messages from 'lib/text'
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import {List, ListItem} from 'material-ui/List';

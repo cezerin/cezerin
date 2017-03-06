@@ -1,5 +1,5 @@
 import React from 'react';
-import messages from 'src/locales'
+import messages from 'lib/text'
 import style from './style.css'
 
 import SelectField from 'material-ui/SelectField';

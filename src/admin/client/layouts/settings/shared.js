@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router'
-import messages from 'src/locales'
+import messages from 'lib/text'
 import {List, ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 

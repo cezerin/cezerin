@@ -9,7 +9,7 @@ import {syncHistoryWithStore, routerReducer, routerMiddleware, push} from 'react
 import {fetchSettings} from './modules/settings/actions'
 import settings from './lib/settings'
 import api from './lib/api'
-import messages from 'src/locales'
+import messages from 'lib/text'
 import reducers from 'src/rootReducer'
 
 import layoutLogin from 'layouts/login'

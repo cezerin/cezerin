@@ -1,5 +1,5 @@
 import React from 'react'
-import messages from 'src/locales'
+import messages from 'lib/text'
 
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';

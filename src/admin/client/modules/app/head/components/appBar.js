@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router'
 
-import messages from 'src/locales'
+import messages from 'lib/text'
 import ProductCategoryHead from 'modules/product-categories/head/index'
 import CustomerGroupHead from 'modules/customer-groups/head/index'
 import CustomersHead from 'modules/customers/head/index'

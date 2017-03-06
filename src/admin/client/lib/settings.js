@@ -1,2 +1,1 @@
-const settings = require('../../../../config/clientSide');
-module.exports = settings;
+module.exports = APPLICATION_CONFIG;

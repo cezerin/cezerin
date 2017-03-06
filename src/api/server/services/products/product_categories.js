@@ -90,7 +90,7 @@ class ProductСategoriesService {
       // 5. delete directories with images
       if(idsToDelete) {
         for(let categoryId of idsToDelete) {
-          let deleteDir = settings.path.uploads.categories + '/' + categoryId;
+          let deleteDir = settings.path.categories + '/' + categoryId;
           fs.remove(deleteDir, err => {});
         }
         return Promise.resolve(true);
@@ -218,7 +218,7 @@ class ProductСategoriesService {
       item.path = url.resolve('/', item.slug || '');
 
       if(item.image) {
-        item.image = settings.url.uploads.categories + '/' + item.id + '/' + item.image;
+        item.image = settings.url.categories + '/' + item.id + '/' + item.image;
       }
     }
 
@@ -226,7 +226,7 @@ class ProductСategoriesService {
   }
 
   deleteCategoryImage(id) {
-    let dir = settings.path.uploads.categories + '/' + id;
+    let dir = settings.path.categories + '/' + id;
     fs.emptyDirSync(dir);
     this.updateCategory(id, { 'image': '' });
   }
@@ -240,7 +240,7 @@ class ProductСategoriesService {
     form
       .on('fileBegin', (name, file) => {
         // Emitted whenever a field / value pair has been received.
-        let dir = settings.path.uploads.categories + '/' + categoryId;
+        let dir = settings.path.categories + '/' + categoryId;
         fs.emptyDirSync(dir);
         file.path = dir + '/' + file.name;
       })

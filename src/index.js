@@ -6,7 +6,7 @@ var apiRouter = require('./api/server');
 var storeRouter = require('./store/server');
 var ajaxRouter = require('./store/server/ajax');
 var responseTime = require('response-time');
-var settings = require('../config/serverSide');
+var settings = require('../config/server');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 
@@ -24,7 +24,7 @@ app.use(cookieParser(settings.security.cookieKey));
 app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
 
-const server = app.listen(settings.port, () => {
+const server = app.listen(settings.nodeServerPort, () => {
   var host = server.address().address;
   host = (host === '::'
     ? 'localhost'

@@ -9,22 +9,17 @@ class DataController {
   }
 
   registerRoutes() {
-       this.router.get('/countries', this.getCountries.bind(this));
-       this.router.get('/currencies', this.getCurrencies.bind(this));
-       this.router.get('/text', this.getText.bind(this));
+      //  this.router.get('/countries', this.getCountries.bind(this));
+      //  this.router.get('/currencies', this.getCurrencies.bind(this));
    }
 
-   getCountries(req, res, next) {
-     res.send(DataService.getCountries())
-   }
-
-   getCurrencies(req, res, next) {
-     res.send(DataService.getCurrencies())
-   }
-
-   getText(req, res, next) {
-     res.send(DataService.getText())
-   }
+  //  getCountries(req, res, next) {
+  //    res.send(DataService.getCountries())
+  //  }
+   //
+  //  getCurrencies(req, res, next) {
+  //    res.send(DataService.getCurrencies())
+  //  }
 }
 
 module.exports = DataController;

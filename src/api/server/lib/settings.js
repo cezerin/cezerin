@@ -1,2 +1,2 @@
-const settings = require('../../../../config/serverSide');
+const settings = require('../../../../config/server');
 module.exports = settings;

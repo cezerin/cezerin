@@ -2,7 +2,7 @@ import express from 'express'
 let ajaxRouter = express.Router();
 import serverSettings from './settings'
 import api from 'cezerin-client';
-api.init(serverSettings.api.baseUrl, serverSettings.api.token);
+api.init(serverSettings.apiBaseUrl, serverSettings.security.token);
 
 ajaxRouter.get('/products', (req, res, next) => {
   api.products.list(req.query).then(({status, json}) => {

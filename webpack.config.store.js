@@ -1,66 +1,68 @@
 const webpack = require('webpack');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const env = process.env.NODE_ENV;
 
-var env = process.env.NODE_ENV;
+module.exports = () => {
+  var config = {
+    entry: {
+      app: ['babel-polyfill', './src/store/client/index.js'],
+      theme: ['theme']
+    },
 
-var config = {
-  entry: {
-    app: ['babel-polyfill', './src/store/client/index.js'],
-    theme: ['theme']
-  },
+    output: {
+      publicPath: '/',
+      path: './public/',
+      filename: 'assets/js/app-[chunkhash].js'
+    },
 
-  output: {
-    path: './public/assets/js/',
-    filename: 'app-[chunkhash].js'
-  },
+    module: {
+      rules: [
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: ['babel-loader']
+        }, {
+          test: /\.json$/,
+          exclude: /node_modules/,
+          use: ['json-loader']
+        }
+      ]
+    },
 
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      }, {
-        test: /\.json$/,
-        exclude: /node_modules/,
-        use: ['json-loader']
-      }
+    plugins: [
+      new webpack.optimize.CommonsChunkPlugin({
+        name: 'theme',
+        minChunks: Infinity,
+        filename: 'assets/js/theme-[chunkhash].js'
+      }),
+      new HtmlWebpackPlugin({
+        template: 'public/assets/template.html',
+        inject: 'body',
+        filename: 'assets/index.html'
+      })
     ]
-  },
+  };
 
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'theme',
-      minChunks: Infinity,
-      filename: 'theme-[chunkhash].js'
-    }),
+  if (env === 'production') {
+    config.plugins.push(new webpack.BannerPlugin({banner: `Created: ${new Date().toUTCString()}`, raw: false, entryOnly: false}));
 
-    new ManifestPlugin({
-      fileName: 'build-manifest.json'
-    })
-  ]
-};
-
-if (env === 'production') {
-  config.plugins.push(new webpack.optimize.DedupePlugin())
-  config.plugins.push(new webpack.BannerPlugin(`Created: ${new Date().toUTCString()}`)),
-
-  config.stats = {
-    colors: false,
-    hash: false,
-    version: false,
-    timings: false,
-    assets: false,
-    chunks: false,
-    modules: false,
-    reasons: false,
-    children: false,
-    source: false,
-    errors: false,
-    errorDetails: false,
-    warnings: false,
-    publicPath: false
+    config.stats = {
+      colors: false,
+      hash: false,
+      version: false,
+      timings: false,
+      assets: false,
+      chunks: false,
+      modules: false,
+      reasons: false,
+      children: false,
+      source: false,
+      errors: false,
+      errorDetails: false,
+      warnings: false,
+      publicPath: false
+    }
   }
-}
 
-module.exports = config;
+  return config;
+}

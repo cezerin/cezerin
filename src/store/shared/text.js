@@ -1,2 +1,2 @@
-import text from '../../../data/locales/default/text.json'
-export default text
+import clientSettings from '../client/settings'
+module.exports = require('../../../locales/store/' + clientSettings.language + '.json');

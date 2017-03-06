@@ -1,6 +1,6 @@
 var settings = require('./settings');
 var mongo = require('mongodb').MongoClient;
-var mongodbConnection = settings.server.mongodb;
+var mongodbConnection = settings.mongodbServerUrl;
 var db;
 
 // Initialize connection once

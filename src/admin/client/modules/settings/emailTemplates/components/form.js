@@ -2,7 +2,7 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {TextField, SelectField} from 'redux-form-material-ui'
 
-import messages from 'src/locales'
+import messages from 'lib/text'
 import style from './style.css'
 
 import RaisedButton from 'material-ui/RaisedButton';

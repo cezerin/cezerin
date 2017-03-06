@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 
-import messages from 'src/locales'
+import messages from 'lib/text'
 
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
