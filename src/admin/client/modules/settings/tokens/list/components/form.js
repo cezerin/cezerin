@@ -33,7 +33,7 @@ export default class TokensList extends React.Component {
     return (
       <div className="row row--no-gutter col-full-height col--no-gutter scroll">
           <div style={{padding: '10px 20px', width: '100%'}}>
-            <div style={{color: 'rgba(0,0,0,0.4)', paddingTop: 20}}>{messages.settings.tokenHelp}</div>
+            <div style={{color: 'rgba(0,0,0,0.4)', paddingTop: 20}}>{messages.settings_tokenHelp}</div>
             <List>
               {listItems}
             </List>

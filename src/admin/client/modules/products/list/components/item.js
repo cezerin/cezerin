@@ -31,15 +31,15 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
   let stockClass = "";
   switch(product.stock_status) {
     case "discontinued":
-      stockValue = messages.products.discontinued;
+      stockValue = messages.products_discontinued;
       stockClass = style.discontinued;
     break;
     case "backorder":
-      stockValue = messages.products.backorder;
+      stockValue = messages.products_backorder;
       stockClass = style.backorder;
     break;
     case "preorder":
-      stockValue = messages.products.preorder;
+      stockValue = messages.products_preorder;
       stockClass = style.preorder;
     break;
     case "available":
@@ -48,7 +48,7 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
     break;
     case "out_of_stock":
     default:
-      stockValue = messages.products.outOfStock;
+      stockValue = messages.products_outOfStock;
       stockClass = style.outOfStock;
     break;
   }

@@ -16,7 +16,7 @@ const validate = values => {
 
   requiredFields.map(field => {
     if (values && !values[field]) {
-      errors[field] = messages.errors.required;
+      errors[field] = messages.errors_required;
     }
   })
 
@@ -95,7 +95,7 @@ class EditPaymentMethodForm extends React.Component {
         }}>
           <div className={style.innerBox}>
             <div>
-              <Field component={TextField} fullWidth={true} name="name" floatingLabelText={messages.settings.paymentMethodName}/>
+              <Field component={TextField} fullWidth={true} name="name" floatingLabelText={messages.settings_paymentMethodName}/>
             </div>
             <div>
               <Field component={TextField} fullWidth={true} name="description" multiLine={true} floatingLabelText={messages.description}/>
@@ -104,15 +104,15 @@ class EditPaymentMethodForm extends React.Component {
               <Field component={Toggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}}/>
               <Divider />
             </div>
-            <div className="blue-title">{messages.settings.conditions}</div>
+            <div className="blue-title">{messages.settings_conditions}</div>
             <div>
-              <Field component={TextField} fullWidth={true} name="conditions.countries" floatingLabelText={messages.settings.countries} hintText="US,UK,AU,SG"/>
+              <Field component={TextField} fullWidth={true} name="conditions.countries" floatingLabelText={messages.settings_countries} hintText="US,UK,AU,SG"/>
             </div>
             <div>
-              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings.minSubtotal + ` (${settings.currency_symbol})`}/>
-              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings.maxSubtotal + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings_minSubtotal + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings_maxSubtotal + ` (${settings.currency_symbol})`}/>
             </div>
-            <div className="blue-title">{messages.settings.onlyShippingMethods}</div>
+            <div className="blue-title">{messages.settings_onlyShippingMethods}</div>
             <Field name="conditions.shipping_method_ids" component={SelectShippingMethodsField} shippingMethods={shippingMethods}/>
             <Divider />
           </div>
@@ -120,7 +120,7 @@ class EditPaymentMethodForm extends React.Component {
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={isAdd ? messages.actions.add : messages.actions.save} primary={true} className={style.button} disabled={submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={submitting}/>
           </div>
         </form>
       </div>

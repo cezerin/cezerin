@@ -59,7 +59,7 @@ export default class Groups extends React.Component {
         <List>
           {showRoot &&
             <ListItem
-              primaryText={messages.customers.noGroup}
+              primaryText={messages.customers_noGroup}
               style={'root' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">clear</FontIcon>}
@@ -69,7 +69,7 @@ export default class Groups extends React.Component {
 
           {showAll &&
             <ListItem
-              primaryText={messages.customerGroups.all}
+              primaryText={messages.customerGroups_all}
               style={'all' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">folder</FontIcon>}

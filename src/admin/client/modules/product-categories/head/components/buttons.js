@@ -57,12 +57,12 @@ export default class Buttons extends React.Component {
 
     const actionsMoveTo = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeMoveTo}
       />,
       <FlatButton
-        label={messages.actions.moveHere}
+        label={messages.actions_moveHere}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.saveMoveTo}
@@ -71,12 +71,12 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
-        label={messages.actions.delete}
+        label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.deleteCategory}
@@ -85,13 +85,13 @@ export default class Buttons extends React.Component {
 
     return (
       <span>
-        <IconButton touch={true} tooltip={messages.actions.moveUp} onTouchTap={()=>{ onMoveUp() }}>
+        <IconButton touch={true} tooltip={messages.actions_moveUp} onTouchTap={()=>{ onMoveUp() }}>
           <FontIcon color="#fff" className="material-icons">arrow_upward</FontIcon>
         </IconButton>
-        <IconButton touch={true} tooltip={messages.actions.moveDown} onTouchTap={()=>{ onMoveDown() }}>
+        <IconButton touch={true} tooltip={messages.actions_moveDown} onTouchTap={()=>{ onMoveDown() }}>
           <FontIcon color="#fff" className="material-icons">arrow_downward</FontIcon>
         </IconButton>
-        <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.showDelete}>
+        <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
         <IconMenu
@@ -103,11 +103,11 @@ export default class Buttons extends React.Component {
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
           anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem primaryText={messages.actions.moveTo} onTouchTap={this.showMoveTo} />
+          <MenuItem primaryText={messages.actions_moveTo} onTouchTap={this.showMoveTo} />
         </IconMenu>
 
         <Dialog
-          title={messages.actions.moveTo}
+          title={messages.actions_moveTo}
           actions={actionsMoveTo}
           modal={false}
           open={this.state.openMoveTo}
@@ -123,13 +123,13 @@ export default class Buttons extends React.Component {
         </Dialog>
 
         <Dialog
-          title={messages.messages.deleteConfirmation}
+          title={messages.messages_deleteConfirmation}
           actions={actionsDelete}
           modal={false}
           open={this.state.openDelete}
           onRequestClose={this.closeDelete}
         >
-          {messages.productCategories.aboutDelete.replace('{name}', categoryName)}
+          {messages.productCategories_aboutDelete.replace('{name}', categoryName)}
         </Dialog>
       </span>
     )

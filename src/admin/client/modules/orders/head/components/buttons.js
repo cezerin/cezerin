@@ -39,12 +39,12 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
-        label={messages.actions.delete}
+        label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.deleteOrders}
@@ -56,17 +56,17 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
             <Dialog
-              title={messages.messages.deleteForever}
+              title={messages.messages_deleteForever}
               actions={actionsDelete}
               modal={false}
               open={this.state.openDelete}
               onRequestClose={this.closeDelete}
               >
-              {messages.orders.aboutDelete.replace('{count}', selectedCount)}
+              {messages.orders_aboutDelete.replace('{count}', selectedCount)}
             </Dialog>
           </span>
         }
@@ -82,12 +82,12 @@ export default class Buttons extends React.Component {
           <MenuItem containerElement={<Link to="/admin/orders/statuses" />} primaryText="TODO" />
           {selectedCount > 0 &&
             <span>
-            <MenuItem primaryText={messages.orders.setClosed} onTouchTap={this.props.setClosed} />
-            <MenuItem primaryText={messages.orders.setCancelled} onTouchTap={this.props.setCancelled} />
-            <MenuItem primaryText={messages.orders.setDelivered} onTouchTap={this.props.setDelivered} />
-            <MenuItem primaryText={messages.orders.setPaid} onTouchTap={this.props.setPaid} />
-            <MenuItem primaryText={messages.orders.setHold} onTouchTap={this.props.setHold} />
-            <MenuItem primaryText={messages.orders.setDraft} onTouchTap={this.props.setDraft} />
+            <MenuItem primaryText={messages.orders_setClosed} onTouchTap={this.props.setClosed} />
+            <MenuItem primaryText={messages.orders_setCancelled} onTouchTap={this.props.setCancelled} />
+            <MenuItem primaryText={messages.orders_setDelivered} onTouchTap={this.props.setDelivered} />
+            <MenuItem primaryText={messages.orders_setPaid} onTouchTap={this.props.setPaid} />
+            <MenuItem primaryText={messages.orders_setHold} onTouchTap={this.props.setHold} />
+            <MenuItem primaryText={messages.orders_setDraft} onTouchTap={this.props.setDraft} />
           </span>
           }
         </IconMenu>

@@ -12,11 +12,11 @@ const validate = values => {
   const requiredFields = ['email']
   requiredFields.forEach(field => {
     if (!values[field]) {
-      errors[field] = messages.errors.required
+      errors[field] = messages.errors_required
     }
   })
   if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = messages.errors.email
+    errors.email = messages.errors_email
   }
   return errors
 }
@@ -31,9 +31,9 @@ const Form = (props) => {
     errorAuth
   } = props
 
-  var response = <span className={style.noResponse}>{messages.messages.loading}</span>;
+  var response = <span className={style.noResponse}>{messages.messages_loading}</span>;
   if (sentAuth) {
-    response = <span className={style.successResponse}>{messages.login.linkSent}</span>;
+    response = <span className={style.successResponse}>{messages.login_linkSent}</span>;
   } else if(sentAuth === false && errorAuth) {
     response = <span className={style.errorResponse}>{errorAuth}</span>;
   }
@@ -41,11 +41,11 @@ const Form = (props) => {
   return (
     <Paper className={style.login} zDepth={1}>
       <form onSubmit={handleSubmit}>
-        <div className={style.title}>{messages.login.title}</div>
+        <div className={style.title}>{messages.login_title}</div>
         <div className={style.input}>
-          <Field name="email" component={TextField} label={messages.login.email} fullWidth={true} inputStyle={{textAlign:'center'}} hintStyle={{textAlign:'center', width: '100%'}} hintText={messages.login.hint}/>
+          <Field name="email" component={TextField} label={messages.login_email} fullWidth={true} inputStyle={{textAlign:'center'}} hintStyle={{textAlign:'center', width: '100%'}} hintText={messages.login_hint}/>
         </div>
-        <RaisedButton type="submit" label={messages.login.loginButton} primary={true} fullWidth={true} disabled={pristine || submitting || isFetching || sentAuth}/>
+        <RaisedButton type="submit" label={messages.login_loginButton} primary={true} fullWidth={true} disabled={pristine || submitting || isFetching || sentAuth}/>
         <div className={style.response}>
           {response}
         </div>

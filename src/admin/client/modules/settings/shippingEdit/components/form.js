@@ -14,7 +14,7 @@ const validate = values => {
 
   requiredFields.map(field => {
     if (values && !values[field]) {
-      errors[field] = messages.errors.required;
+      errors[field] = messages.errors_required;
     }
   })
 
@@ -41,42 +41,42 @@ class EditShippingMethodForm extends React.Component {
         }}>
           <div className={style.innerBox}>
             <div>
-              <Field component={TextField} fullWidth={true} name="name" floatingLabelText={messages.settings.shippingMethodName}/>
+              <Field component={TextField} fullWidth={true} name="name" floatingLabelText={messages.settings_shippingMethodName}/>
             </div>
             <div>
               <Field component={TextField} fullWidth={true} name="description" multiLine={true} floatingLabelText={messages.description}/>
             </div>
             <div>
-              <Field component={TextField} name="price" type="number" floatingLabelText={messages.settings.shippingRate + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="price" type="number" floatingLabelText={messages.settings_shippingRate + ` (${settings.currency_symbol})`}/>
             </div>
             <div style={{maxWidth: 256}}>
               <Field component={Toggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}}/>
               <Divider />
             </div>
-            <div className="blue-title">{messages.settings.conditions}</div>
+            <div className="blue-title">{messages.settings_conditions}</div>
             <div>
-              <Field component={TextField} fullWidth={true} name="conditions.countries" floatingLabelText={messages.settings.countries} hintText="US,UK,AU,SG"/>
+              <Field component={TextField} fullWidth={true} name="conditions.countries" floatingLabelText={messages.settings_countries} hintText="US,UK,AU,SG"/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="conditions.states" floatingLabelText={messages.settings.states} hintText="California,Nevada,Oregon"/>
+              <Field component={TextField} fullWidth={true} name="conditions.states" floatingLabelText={messages.settings_states} hintText="California,Nevada,Oregon"/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="conditions.cities" floatingLabelText={messages.settings.cities} hintText="Los Angeles,San Diego,San Jose"/>
+              <Field component={TextField} fullWidth={true} name="conditions.cities" floatingLabelText={messages.settings_cities} hintText="Los Angeles,San Diego,San Jose"/>
             </div>
             <div>
-              <Field component={TextField} name="conditions.weight_total_min" type="number" floatingLabelText={messages.settings.minTotalWeight + ` (${settings.weight_unit})`}/>
-              <Field component={TextField} name="conditions.weight_total_max" type="number" floatingLabelText={messages.settings.maxTotalWeight + ` (${settings.weight_unit})`}/>
+              <Field component={TextField} name="conditions.weight_total_min" type="number" floatingLabelText={messages.settings_minTotalWeight + ` (${settings.weight_unit})`}/>
+              <Field component={TextField} name="conditions.weight_total_max" type="number" floatingLabelText={messages.settings_maxTotalWeight + ` (${settings.weight_unit})`}/>
             </div>
             <div>
-              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings.minSubtotal + ` (${settings.currency_symbol})`}/>
-              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings.maxSubtotal + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="conditions.subtotal_min" type="number" floatingLabelText={messages.settings_minSubtotal + ` (${settings.currency_symbol})`}/>
+              <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings_maxSubtotal + ` (${settings.currency_symbol})`}/>
             </div>
           </div>
           <div style={{
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={isAdd ? messages.actions.add : messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>

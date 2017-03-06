@@ -16,7 +16,7 @@ const validate = values => {
 
   requiredFields.map(field => {
     if (!values.is_system && values && !values[field]) {
-      errors[field] = messages.errors.required;
+      errors[field] = messages.errors_required;
     }
   })
 
@@ -34,7 +34,7 @@ const asyncValidate = (values/*, dispatch */) => {
             resolve();
           } else {
             if(json && !Object.is(json.resource, values.id)) {
-              reject({ slug: messages.errors.urlTaken });
+              reject({ slug: messages.errors_urlTaken });
             } else {
               resolve();
             }
@@ -69,7 +69,7 @@ class EditPageForm extends React.Component {
             </div>
             <div className="blue-title">{messages.seo}</div>
             <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true} disabled={initialValues.is_system}/>
-            <p className="field-hint">{messages.help.slug}</p>
+            <p className="field-hint">{messages.help_slug}</p>
             <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
             <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
             <div style={{maxWidth: 256}}>
@@ -80,7 +80,7 @@ class EditPageForm extends React.Component {
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={isAdd ? messages.actions.add : messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>

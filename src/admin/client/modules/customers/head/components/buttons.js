@@ -59,12 +59,12 @@ export default class Buttons extends React.Component {
 
     const actionsSetGroup = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeSetGroup}
       />,
       <FlatButton
-        label={messages.actions.save}
+        label={messages.actions_save}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.saveSetGroup}
@@ -73,12 +73,12 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
-        label={messages.actions.delete}
+        label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.deleteCustomers}
@@ -90,20 +90,20 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
             <Dialog
-              title={messages.messages.deleteForever}
+              title={messages.messages_deleteForever}
               actions={actionsDelete}
               modal={false}
               open={this.state.openDelete}
               onRequestClose={this.closeDelete}
               >
-              {messages.customers.aboutDelete.replace('{count}', selectedCount)}
+              {messages.customers_aboutDelete.replace('{count}', selectedCount)}
             </Dialog>
             <Dialog
-              title={messages.customers.setGroup}
+              title={messages.customers_setGroup}
               actions={actionsSetGroup}
               modal={false}
               open={this.state.openSetGroup}
@@ -128,9 +128,9 @@ export default class Buttons extends React.Component {
          targetOrigin={{horizontal: 'right', vertical: 'top'}}
          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem containerElement={<Link to="/admin/customers/groups" />} primaryText={messages.customerGroups.titleEditMany} />
+          <MenuItem containerElement={<Link to="/admin/customers/groups" />} primaryText={messages.customerGroups_titleEditMany} />
           {selectedCount > 0 &&
-            <MenuItem primaryText={messages.customers.setGroup} onTouchTap={this.showSetGroup} />
+            <MenuItem primaryText={messages.customers_setGroup} onTouchTap={this.showSetGroup} />
           }
         </IconMenu>
       </span>

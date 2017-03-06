@@ -7,7 +7,7 @@ export default ({ value, setSearch }) => {
     <TextField
       value={value}
       onChange={(e, v) => { setSearch(v); }}
-      hintText={messages.products.search}
+      hintText={messages.products_search}
       underlineShow={false}
       style={{ float: 'left' }}
       hintStyle={{ color: 'rgba(255,255,255,0.4)', textIndent: '16px' }}

@@ -20,13 +20,13 @@ export default class EmailSettings extends React.Component {
     const fieldStatus = field ? field.status : 'required';
     switch (fieldStatus) {
       case 'optional':
-        return messages.settings.fieldOptional;
+        return messages.settings_fieldOptional;
         break;
       case 'hidden':
-        return messages.settings.fieldHidden;
+        return messages.settings_fieldHidden;
         break;
       default:
-        return messages.settings.fieldRequired;
+        return messages.settings_fieldRequired;
     }
   }
 
@@ -37,7 +37,7 @@ export default class EmailSettings extends React.Component {
       <div className="row row--no-gutter col-full-height col--no-gutter scroll">
           <div style={{padding: '10px 20px', width: '100%'}}>
           <List>
-            <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings.checkoutFields}</div>
+            <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings_checkoutFields}</div>
             <ListItem
               rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
               primaryText={messages.email}

@@ -24,13 +24,13 @@ const validate = values => {
 
   requiredFields.map(field => {
     if (values && !values[field]) {
-      errors[field] = messages.errors.required;
+      errors[field] = messages.errors_required;
     }
   })
 
   numberFields.map(field => {
     if (values && values[field] && isNaN(parseFloat(values[field]))) {
-      errors[field] = messages.errors.number;
+      errors[field] = messages.errors_number;
     }
   })
 
@@ -48,7 +48,7 @@ const asyncValidate = (values/*, dispatch */) => {
             resolve();
           } else {
             if(json && !Object.is(json.resource, values.id)) {
-              reject({ slug: messages.errors.urlTaken });
+              reject({ slug: messages.errors_urlTaken });
             } else {
               resolve();
             }
@@ -94,17 +94,17 @@ class ProductEdit extends React.Component {
             <Paper className={style.form} zDepth={1}>
               <div className={style.innerBox}>
 
-                <div className="blue-title">{messages.products.pricing}</div>
+                <div className="blue-title">{messages.products_pricing}</div>
 
                 <div className="row row--no-gutter">
                   <div className="col-xs-7 col--no-gutter">
-                    <Field name="regular_price" component={TextField} floatingLabelText={messages.products.regularPrice} fullWidth={true}/>
+                    <Field name="regular_price" component={TextField} floatingLabelText={messages.products_regularPrice} fullWidth={true}/>
                   </div>
                   <div className="col-xs-5 col--no-gutter">
                   </div>
                 </div>
 
-                <Field name="sale_price" component={TextField} floatingLabelText={messages.products.salePrice} fullWidth={true}/>
+                <Field name="sale_price" component={TextField} floatingLabelText={messages.products_salePrice} fullWidth={true}/>
 
                 <div className="row row--no-gutter">
                   <div className="col-xs-6 col--no-gutter">
@@ -113,7 +113,7 @@ class ProductEdit extends React.Component {
                       textFieldStyle={{ width:'100%' }}
                       autoOk={true}
                       format={(value, name) => value === '' ? null : value}
-                      floatingLabelText={messages.products.dateSaleFrom} />
+                      floatingLabelText={messages.products_dateSaleFrom} />
                   </div>
                   <div className="col-xs-6 col--no-gutter">
                     <Field name="date_sale_to"
@@ -121,20 +121,20 @@ class ProductEdit extends React.Component {
                       textFieldStyle={{ width:'100%' }}
                       autoOk={true}
                       format={(value, name) => value === '' ? null : value}
-                      floatingLabelText={messages.products.dateSaleTo} />
+                      floatingLabelText={messages.products_dateSaleTo} />
                   </div>
                 </div>
 
-                <div className="blue-title">{messages.products.inventory}</div>
+                <div className="blue-title">{messages.products_inventory}</div>
 
-                <Field name="sku" component={TextField} floatingLabelText={messages.products.sku} fullWidth={true}/>
+                <Field name="sku" component={TextField} floatingLabelText={messages.products_sku} fullWidth={true}/>
 
                 <div className="row row--no-gutter">
                   <div className="col-xs-6 col--no-gutter">
-                    <Field name="stock_quantity" component={TextField} floatingLabelText={messages.products.stockQuantity} fullWidth={true}/>
+                    <Field name="stock_quantity" component={TextField} floatingLabelText={messages.products_stockQuantity} fullWidth={true}/>
                   </div>
                   <div className="col-xs-6 col--no-gutter">
-                    <Field name="weight" component={TextField} floatingLabelText={messages.products.weight} fullWidth={true}/>
+                    <Field name="weight" component={TextField} floatingLabelText={messages.products_weight} fullWidth={true}/>
                   </div>
                 </div>
 
@@ -143,23 +143,23 @@ class ProductEdit extends React.Component {
                   textFieldStyle={{ width:'100%' }}
                   autoOk={true}
                   format={(value, name) => value === '' ? null : value}
-                  floatingLabelText={messages.products.dateStockExpected} />
-                <Field name="stock_tracking" component={Toggle} label={messages.products.stockTracking} className={style.toggle}/>
-                <Field name="stock_preorder" component={Toggle} label={messages.products.stockPreorder} className={style.toggle}/>
-                <Field name="stock_backorder" component={Toggle} label={messages.products.stockBackorder} className={style.toggle}/>
+                  floatingLabelText={messages.products_dateStockExpected} />
+                <Field name="stock_tracking" component={Toggle} label={messages.products_stockTracking} className={style.toggle}/>
+                <Field name="stock_preorder" component={Toggle} label={messages.products_stockPreorder} className={style.toggle}/>
+                <Field name="stock_backorder" component={Toggle} label={messages.products_stockBackorder} className={style.toggle}/>
 
 
-                <div className="blue-title">{messages.products.visibility}</div>
+                <div className="blue-title">{messages.products_visibility}</div>
 
-                <Field name="active" component={Toggle} label={messages.products.active} className={style.toggle}/>
-                <Field name="discontinued" component={Toggle} label={messages.products.discontinued} className={style.toggle}/>
+                <Field name="active" component={Toggle} label={messages.products_active} className={style.toggle}/>
+                <Field name="discontinued" component={Toggle} label={messages.products_discontinued} className={style.toggle}/>
               </div>
             </Paper>
           </div>
           <div className="col-xs-9 col--no-gutter scroll">
             <Paper className={style.form} zDepth={1}>
                 <div className={style.innerBox}>
-                  <Field name="name" component={TextField} floatingLabelText={messages.products.name+' *'} fullWidth={true}/><br />
+                  <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/><br />
 
                   <div className="blue-title">{messages.description}</div>
                   <Field
@@ -172,15 +172,15 @@ class ProductEdit extends React.Component {
 
                   <div className="blue-title">{messages.seo}</div>
                   <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
-                  <p className="field-hint">{messages.help.slug}</p>
+                  <p className="field-hint">{messages.help_slug}</p>
                   <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
                   <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
                 </div>
                 <div className="buttons-box">
                   <Link to={'/admin/products'}>
-                    <FlatButton label={messages.actions.cancel} className={style.button} />
+                    <FlatButton label={messages.actions_cancel} className={style.button} />
                   </Link>
-                  <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
+                  <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
                 </div>
             </Paper>
           </div>

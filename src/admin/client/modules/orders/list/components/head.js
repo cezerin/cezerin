@@ -12,16 +12,16 @@ export default ({ onSelectAll }) => (
       <div className="col-xs-1 col--no-gutter">
       </div>
       <div className="col-xs-2 col--no-gutter">
-        {messages.orders.order}
+        {messages.orders_order}
       </div>
       <div className="col-xs-4 col--no-gutter">
-        {messages.orders.shippingTo}
+        {messages.orders_shippingTo}
       </div>
       <div className="col-xs-2 col--no-gutter" style={{ textAlign:'right' }}>
-        {messages.orders.total}
+        {messages.orders_total}
       </div>
       <div className="col-xs-2 col--no-gutter" style={{ textAlign:'right', paddingRight: 16 }}>
-        {messages.orders.status}
+        {messages.orders_status}
       </div>
     </div>
   </Subheader>

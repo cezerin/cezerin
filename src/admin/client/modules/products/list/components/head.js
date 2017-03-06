@@ -12,18 +12,18 @@ export default ({ onSelectAll }) => (
             <Checkbox onCheck={(event, isInputChecked) => { onSelectAll(isInputChecked); }} />
           </div>
           <div className="col-xs-11">
-            {messages.products.name}
+            {messages.products_name}
           </div>
         </div>
       </div>
       <div className="col-xs-2 col--no-gutter">
-        {messages.products.sku}
+        {messages.products_sku}
       </div>
       <div className="col-xs-2 col--no-gutter">
-        {messages.products.stock}
+        {messages.products_stock}
       </div>
       <div className="col-xs-2 col--no-gutter" style={{ textAlign:'right', paddingRight: 23 }}>
-        {messages.products.price}
+        {messages.products_price}
       </div>
     </div>
   </Subheader>

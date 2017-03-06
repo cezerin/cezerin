@@ -24,27 +24,27 @@ export default class EmailSettings extends React.Component {
           <List>
             <ListItem
               rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.settings.smtpSettings}
+              primaryText={messages.settings_smtpSettings}
               secondaryText={smtpHint}
               onClick={() => { pushUrl('/admin/settings/email/smtp') }}
             />
             <Divider />
-            <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings.emailTemplates}</div>
+            <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings_emailTemplates}</div>
             <ListItem
               rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.settings.orderConfirmation}
+              primaryText={messages.settings_orderConfirmation}
               onClick={() => { pushUrl('/admin/settings/email/templates/order_confirmation') }}
             />
             <Divider />
             <ListItem
               rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.settings.customerRegistration}
+              primaryText={messages.settings_customerRegistration}
               onClick={() => { pushUrl('/admin/settings/email/templates/customer_registration') }}
             />
             <Divider />
             <ListItem
               rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.settings.customerRecovery}
+              primaryText={messages.settings_customerRecovery}
               onClick={() => { pushUrl('/admin/settings/email/templates/customer_recovery') }}
             />
             <Divider />

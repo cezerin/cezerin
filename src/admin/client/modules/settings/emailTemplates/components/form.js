@@ -27,17 +27,17 @@ class EmailTemplate extends React.Component {
         }}>
           <div className={style.innerBox}>
             <div>
-              <Field component={TextField} fullWidth={true} name="subject" floatingLabelText={messages.settings.emailSubject}/>
+              <Field component={TextField} fullWidth={true} name="subject" floatingLabelText={messages.settings_emailSubject}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="body" multiLine={true} floatingLabelText={messages.settings.emailBody}/>
+              <Field component={TextField} fullWidth={true} name="body" multiLine={true} floatingLabelText={messages.settings_emailBody}/>
             </div>
           </div>
           <div style={{
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>

@@ -64,25 +64,25 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.currencyFormatting}</div>
+              <div className="col-xs-7">{messages.settings_currencyFormatting}</div>
               <div className="col-xs-5">
-                <Field component={TextField} fullWidth={true} name="currency_format" floatingLabelText={messages.settings.currencyFormatting}/>
+                <Field component={TextField} fullWidth={true} name="currency_format" floatingLabelText={messages.settings_currencyFormatting}/>
 
-                <Field component={TextField} fullWidth={true} name="currency_symbol" floatingLabelText={messages.settings.currencySymbol}/>
+                <Field component={TextField} fullWidth={true} name="currency_symbol" floatingLabelText={messages.settings_currencySymbol}/>
 
-                <Field component={SelectField} autoWidth={true} floatingLabelFixed={true} fullWidth={true} name="thousand_separator" floatingLabelText={messages.settings.thousandSeparator}>
+                <Field component={SelectField} autoWidth={true} floatingLabelFixed={true} fullWidth={true} name="thousand_separator" floatingLabelText={messages.settings_thousandSeparator}>
                   <MenuItem value="." primaryText="5.000.000"/>
                   <MenuItem value="," primaryText="5,000,000"/>
                   <MenuItem value=" " primaryText="5 000 000"/>
                   <MenuItem value="" primaryText="5000000"/>
                 </Field>
 
-                <Field component={SelectField} autoWidth={true} fullWidth={true} name="decimal_separator" floatingLabelText={messages.settings.decimalSeparator}>
+                <Field component={SelectField} autoWidth={true} fullWidth={true} name="decimal_separator" floatingLabelText={messages.settings_decimalSeparator}>
                   <MenuItem value="." primaryText="100.00"/>
                   <MenuItem value="," primaryText="100,00"/>
                 </Field>
 
-                <Field component={SelectField} autoWidth={true} fullWidth={true} name="decimal_number" floatingLabelText={messages.settings.numberOfDecimal}>
+                <Field component={SelectField} autoWidth={true} fullWidth={true} name="decimal_number" floatingLabelText={messages.settings_numberOfDecimal}>
                   <MenuItem value={0} primaryText="100"/>
                   <MenuItem value={1} primaryText="100.0"/>
                   <MenuItem value={2} primaryText="100.00"/>
@@ -98,7 +98,7 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.timezone}</div>
+              <div className="col-xs-7">{messages.settings_timezone}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="timezone">
                   {timezoneItems}
@@ -112,7 +112,7 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.dateFormat}</div>
+              <div className="col-xs-7">{messages.settings_dateFormat}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="date_format">
                   <MenuItem value="MMMM D, YYYY" primaryText="January 30, 2017"/>
@@ -133,7 +133,7 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.timeFormat}</div>
+              <div className="col-xs-7">{messages.settings_timeFormat}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="time_format">
                   <MenuItem value="h:mm a" primaryText="2:30 pm"/>
@@ -149,13 +149,13 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.weightUnit}</div>
+              <div className="col-xs-7">{messages.settings_weightUnit}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="weight_unit">
-                  <MenuItem value="g" primaryText={messages.settings.gram + ' (g)'}/>
-                  <MenuItem value="kg" primaryText={messages.settings.kilogram + ' (kg)'}/>
-                  <MenuItem value="lb" primaryText={messages.settings.pound + ' (lb)'}/>
-                  <MenuItem value="oz" primaryText={messages.settings.ounce + ' (oz)'}/>
+                  <MenuItem value="g" primaryText={messages.settings_gram + ' (g)'}/>
+                  <MenuItem value="kg" primaryText={messages.settings_kilogram + ' (kg)'}/>
+                  <MenuItem value="lb" primaryText={messages.settings_pound + ' (lb)'}/>
+                  <MenuItem value="oz" primaryText={messages.settings_ounce + ' (oz)'}/>
                 </Field>
               </div>
             </div>
@@ -166,11 +166,11 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.lengthUnit}</div>
+              <div className="col-xs-7">{messages.settings_lengthUnit}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="length_unit">
-                  <MenuItem value="cm" primaryText={messages.settings.centimeter + ' (cm)'}/>
-                  <MenuItem value="in" primaryText={messages.settings.inch + ' (in)'}/>
+                  <MenuItem value="cm" primaryText={messages.settings_centimeter + ' (cm)'}/>
+                  <MenuItem value="in" primaryText={messages.settings_inch + ' (in)'}/>
                 </Field>
               </div>
             </div>
@@ -181,12 +181,12 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.defaultProductSorting}</div>
+              <div className="col-xs-7">{messages.settings_defaultProductSorting}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_product_sorting">
-                  <MenuItem value="price_asc" primaryText={messages.settings.sortByPriceAsc}/>
-                  <MenuItem value="price_desc" primaryText={messages.settings.sortByPriceDesc}/>
-                  <MenuItem value="default" primaryText={messages.settings.sortByDefault}/>
+                  <MenuItem value="price_asc" primaryText={messages.settings_sortByPriceAsc}/>
+                  <MenuItem value="price_desc" primaryText={messages.settings_sortByPriceDesc}/>
+                  <MenuItem value="default" primaryText={messages.settings_sortByDefault}/>
                 </Field>
               </div>
             </div>
@@ -197,7 +197,7 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.defaultShippingCountry}</div>
+              <div className="col-xs-7">{messages.settings_defaultShippingCountry}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_shipping_country">
                   {countryItems}
@@ -211,7 +211,7 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.defaultShippingState}</div>
+              <div className="col-xs-7">{messages.settings_defaultShippingState}</div>
               <div className="col-xs-5">
                 <Field component={TextField} fullWidth={true} name="default_shipping_state"/>
               </div>
@@ -223,7 +223,7 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-7">{messages.settings.defaultShippingCity}</div>
+              <div className="col-xs-7">{messages.settings_defaultShippingCity}</div>
               <div className="col-xs-5">
                 <Field component={TextField} fullWidth={true} name="default_shipping_city"/>
               </div>
@@ -238,7 +238,7 @@ class GeneralSettings extends React.Component {
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>

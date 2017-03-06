@@ -18,7 +18,7 @@ const validate = values => {
 
   requiredFields.map(field => {
     if (!values.is_system && values && !values[field]) {
-      errors[field] = messages.errors.required;
+      errors[field] = messages.errors_required;
     }
   })
 
@@ -52,10 +52,10 @@ class EditTokenForm extends React.Component {
           width: '100%'
         }}>
           <div className={style.innerBox}>
-            <Field name="name" component={TextField} floatingLabelText={messages.settings.tokenName} fullWidth={true}/>
+            <Field name="name" component={TextField} floatingLabelText={messages.settings_tokenName} fullWidth={true}/>
             <Field name="email" component={TextField} floatingLabelText={messages.email} fullWidth={true} disabled={!isAdd} type="email"/>
-            <Field name="expiration" component={TextField} floatingLabelText={messages.settings.tokenExp} fullWidth={true} type="number"/>
-            <div className="blue-title">{messages.settings.selectScopes}</div>
+            <Field name="expiration" component={TextField} floatingLabelText={messages.settings_tokenExp} fullWidth={true} type="number"/>
+            <div className="blue-title">{messages.settings_selectScopes}</div>
             <Field name="scopes" component={SelectTokenScopes} scopes={Scopes} disabled={!isAdd}/>
           </div>
           <div style={{
@@ -63,28 +63,28 @@ class EditTokenForm extends React.Component {
             textAlign: 'right'
           }}>
             {!isAdd &&
-              <RaisedButton label={messages.settings.revokeAccess} secondary={true} style={{ float: 'left'}} onTouchTap={this.handleRevoke} />
+              <RaisedButton label={messages.settings_revokeAccess} secondary={true} style={{ float: 'left'}} onTouchTap={this.handleRevoke} />
             }
-            <RaisedButton type="submit" label={isAdd ? messages.settings.generateToken : messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.settings_generateToken : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
 
         <ConfirmationDialog
           open={isTokenAdded}
-          title={messages.settings.copyYourNewToken}
+          title={messages.settings_copyYourNewToken}
           description={newToken}
-          submitLabel={messages.actions.done}
-          cancelLabel={messages.actions.cancel}
+          submitLabel={messages.actions_done}
+          cancelLabel={messages.actions_cancel}
           modal={true}
          />
 
         <ConfirmationDialog
           open={this.state.showRevokeDialog}
-          title={messages.settings.tokenRevokeTitle}
-          description={messages.settings.tokenRevokeDescription}
+          title={messages.settings_tokenRevokeTitle}
+          description={messages.settings_tokenRevokeDescription}
           onSubmit={() => { onDelete(this.props.tokenId) }}
-          submitLabel={messages.settings.revokeAccess}
-          cancelLabel={messages.actions.cancel}
+          submitLabel={messages.settings_revokeAccess}
+          cancelLabel={messages.actions_cancel}
         />
       </div>
     )

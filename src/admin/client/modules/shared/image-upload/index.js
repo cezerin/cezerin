@@ -93,7 +93,7 @@ export default class ImageUpload extends React.Component {
     let htmlPreview =
       <div style={{paddingTop: 20, paddingBottom: 20, textAlign: 'center' }}>
         <FontIcon style={{fontSize: 90, color: '#cccccc'}} className="material-icons">photo_camera</FontIcon>
-        <div className={style.dropText}>{messages.help.dropHere}</div>
+        <div className={style.dropText}>{messages.help_dropHere}</div>
       </div>
 
     if(hasPreview && previewIsFileUrl) {
@@ -125,18 +125,18 @@ export default class ImageUpload extends React.Component {
           <LinearProgress mode="determinate" value={percentComplete} />
         }
         <div className={style.footer}>
-          <IconButton touch={true} tooltip={messages.actions.upload} onTouchTap={() => { this.dropzone.open() }} tooltipPosition="top-right">
+          <IconButton touch={true} tooltip={messages.actions_upload} onTouchTap={() => { this.dropzone.open() }} tooltipPosition="top-right">
             <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">file_upload</FontIcon>
           </IconButton>
           {hasPreview &&
-            <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.onDelete} tooltipPosition="top-right">
+            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.onDelete} tooltipPosition="top-right">
               <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">delete</FontIcon>
             </IconButton>
           }
         </div>
         <Snackbar
           open={uploadIsComplete}
-          message={messages.messages.uploadComplete}
+          message={messages.messages_uploadComplete}
           autoHideDuration={3000}
           onRequestClose={this.closeSnackbar}
         />

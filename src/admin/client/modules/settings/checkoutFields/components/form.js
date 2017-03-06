@@ -34,17 +34,17 @@ class CheckoutFieldForm extends React.Component {
         }}>
           <div className={style.innerBox}>
             <div>
-              <Field component={TextField} fullWidth={true} name="label" floatingLabelText={messages.settings.fieldLabel}/>
+              <Field component={TextField} fullWidth={true} name="label" floatingLabelText={messages.settings_fieldLabel}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="placeholder" floatingLabelText={messages.settings.fieldPlaceholder}/>
+              <Field component={TextField} fullWidth={true} name="placeholder" floatingLabelText={messages.settings_fieldPlaceholder}/>
             </div>
-            <div className="blue-title">{messages.settings.fieldStatus}</div>
+            <div className="blue-title">{messages.settings_fieldStatus}</div>
             <div>
               <Field name="status" component={RadioButtonGroup}>
-                <RadioButton value="required" label={messages.settings.fieldRequired} style={radioButtonStyle}/>
-                <RadioButton value="optional" label={messages.settings.fieldOptional} style={radioButtonStyle}/>
-                <RadioButton value="hidden" label={messages.settings.fieldHidden} style={radioButtonStyle}/>
+                <RadioButton value="required" label={messages.settings_fieldRequired} style={radioButtonStyle}/>
+                <RadioButton value="optional" label={messages.settings_fieldOptional} style={radioButtonStyle}/>
+                <RadioButton value="hidden" label={messages.settings_fieldHidden} style={radioButtonStyle}/>
               </Field>
             </div>
             <Divider />
@@ -53,7 +53,7 @@ class CheckoutFieldForm extends React.Component {
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>

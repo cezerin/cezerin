@@ -72,7 +72,7 @@ export default class Categories extends React.Component {
         <List>
           {showRoot &&
             <ListItem
-              primaryText={messages.productCategories.root}
+              primaryText={messages.productCategories_root}
               style={'root' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">home</FontIcon>}
@@ -82,7 +82,7 @@ export default class Categories extends React.Component {
 
           {showAll &&
             <ListItem
-              primaryText={messages.productCategories.all}
+              primaryText={messages.productCategories_all}
               style={'all' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">folder</FontIcon>}

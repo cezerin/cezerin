@@ -84,14 +84,14 @@ export default class MultiUploader extends React.Component {
           {this.props.children}
           {!this.props.children &&
             <div className={style.dropzoneEmpty}>
-              {messages.help.dropHere}
+              {messages.help_dropHere}
             </div>
           }
         </Dropzone>
 
 
         {percentComplete === 100 &&
-          <RaisedButton label={messages.actions.upload} style={{ marginLeft:10, marginTop:10 }} onTouchTap={() => { this.dropzone.open() }} />
+          <RaisedButton label={messages.actions_upload} style={{ marginLeft:10, marginTop:10 }} onTouchTap={() => { this.dropzone.open() }} />
         }
 
         {percentComplete < 100 &&
@@ -99,7 +99,7 @@ export default class MultiUploader extends React.Component {
         }
         <Snackbar
           open={uploadIsComplete}
-          message={messages.messages.uploadComplete}
+          message={messages.messages_uploadComplete}
           autoHideDuration={3000}
           onRequestClose={this.closeSnackbar}
         />

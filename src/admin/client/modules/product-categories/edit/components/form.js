@@ -18,7 +18,7 @@ const validate = values => {
 
   requiredFields.forEach(field => {
     if (values && !values[ field ]) {
-      errors[ field ] = messages.errors.required;
+      errors[ field ] = messages.errors_required;
     }
   })
 
@@ -36,7 +36,7 @@ const asyncValidate = (values/*, dispatch */) => {
             resolve();
           } else {
             if(json && !Object.is(json.resource, values.id)) {
-              reject({ slug: messages.errors.urlTaken });
+              reject({ slug: messages.errors_urlTaken });
             } else {
               resolve();
             }
@@ -74,10 +74,10 @@ class Form extends React.Component {
         <Paper className={style.form} zDepth={1}>
           <form onSubmit={handleSubmit}>
             <div className={style.innerBox}>
-              <Field name="name" component={TextField} floatingLabelText={messages.productCategories.name+' *'} fullWidth={true}/><br />
+              <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/><br />
               <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={2}/>
               <div className={style.shortBox}>
-                <Field name="active" component={Toggle} label={messages.productCategories.active} className={style.toggle}/><br />
+                <Field name="active" component={Toggle} label={messages.productCategories_active} className={style.toggle}/><br />
                 <ImageUpload
                   imageUrl={imageUrl}
                   postUrl={`${settings.apiBaseUrl}/products/categories/${categoryId}/image`}
@@ -88,13 +88,13 @@ class Form extends React.Component {
               </div>
               <div className="blue-title">{messages.seo}</div>
               <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
-              <p className="field-hint">{messages.help.slug}</p>
+              <p className="field-hint">{messages.help_slug}</p>
               <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
               <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
             </div>
             <div className="buttons-box">
-              <FlatButton label={messages.actions.cancel} className={style.button} onClick={() => { this.props.onCancel(); }} />
-              <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
+              <FlatButton label={messages.actions_cancel} className={style.button} onClick={() => { this.props.onCancel(); }} />
+              <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
             </div>
           </form>
         </Paper>

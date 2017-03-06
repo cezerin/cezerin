@@ -35,12 +35,12 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
-        label={messages.actions.delete}
+        label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.deleteGroup}
@@ -52,18 +52,18 @@ export default class Buttons extends React.Component {
     } else {
       return (
         <span>
-          <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.showDelete}>
+          <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
             <FontIcon color="#fff" className="material-icons">delete</FontIcon>
           </IconButton>
 
           <Dialog
-            title={messages.messages.deleteConfirmation}
+            title={messages.messages_deleteConfirmation}
             actions={actionsDelete}
             modal={false}
             open={this.state.openDelete}
             onRequestClose={this.closeDelete}
           >
-            {messages.settings.aboutDeletePage.replace('{name}', pageName)}
+            {messages.settings_aboutDeletePage.replace('{name}', pageName)}
           </Dialog>
         </span>
       )

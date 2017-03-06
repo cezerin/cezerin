@@ -33,7 +33,7 @@ export default class CustomersList extends React.Component {
             <div className={style.more}>
               <FlatButton
                 disabled={isFetchingMore}
-                 label={messages.actions.loadMore}
+                 label={messages.actions_loadMore}
                  labelPosition="before"
                  primary={false}
                  icon={<FontIcon className="material-icons">refresh</FontIcon>}

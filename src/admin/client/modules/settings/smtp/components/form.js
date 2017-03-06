@@ -30,29 +30,29 @@ class EmailSettings extends React.Component {
         }}>
           <div className={style.innerBox}>
             <div>
-              <Field component={TextField} fullWidth={true} name="host" hintText="smtp.server.com" floatingLabelText={messages.settings.smtpHost}/>
+              <Field component={TextField} fullWidth={true} name="host" hintText="smtp.server.com" floatingLabelText={messages.settings_smtpHost}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="port" type="number" hintText="465" floatingLabelText={messages.settings.smtpPort}/>
+              <Field component={TextField} fullWidth={true} name="port" type="number" hintText="465" floatingLabelText={messages.settings_smtpPort}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="user" floatingLabelText={messages.settings.smtpUser}/>
+              <Field component={TextField} fullWidth={true} name="user" floatingLabelText={messages.settings_smtpUser}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="pass" type="password" floatingLabelText={messages.settings.smtpPass}/>
+              <Field component={TextField} fullWidth={true} name="pass" type="password" floatingLabelText={messages.settings_smtpPass}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="from_name" floatingLabelText={messages.settings.emailFromName}/>
+              <Field component={TextField} fullWidth={true} name="from_name" floatingLabelText={messages.settings_emailFromName}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="from_address" type="email" floatingLabelText={messages.settings.emailFromAddress}/>
+              <Field component={TextField} fullWidth={true} name="from_address" type="email" floatingLabelText={messages.settings_emailFromAddress}/>
             </div>
           </div>
           <div style={{
             padding: 30,
             textAlign: 'right'
           }}>
-            <RaisedButton type="submit" label={messages.actions.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </form>
       </div>

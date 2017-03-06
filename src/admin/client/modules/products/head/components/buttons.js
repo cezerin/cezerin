@@ -59,12 +59,12 @@ export default class Buttons extends React.Component {
 
     const actionsMoveTo = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeMoveTo}
       />,
       <FlatButton
-        label={messages.actions.moveHere}
+        label={messages.actions_moveHere}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.saveMoveTo}
@@ -73,12 +73,12 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions.cancel}
+        label={messages.actions_cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
-        label={messages.actions.delete}
+        label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.deleteProduct}
@@ -90,20 +90,20 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltip={messages.actions.delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
             <Dialog
-              title={messages.messages.deleteForever}
+              title={messages.messages_deleteForever}
               actions={actionsDelete}
               modal={false}
               open={this.state.openDelete}
               onRequestClose={this.closeDelete}
               >
-              {messages.products.aboutDelete.replace('{count}', selectedCount)}
+              {messages.products_aboutDelete.replace('{count}', selectedCount)}
             </Dialog>
             <Dialog
-              title={messages.actions.moveTo}
+              title={messages.actions_moveTo}
               actions={actionsMoveTo}
               modal={false}
               open={this.state.openMoveTo}
@@ -128,9 +128,9 @@ export default class Buttons extends React.Component {
          targetOrigin={{horizontal: 'right', vertical: 'top'}}
          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem containerElement={<Link to="/admin/products/categories" />} primaryText={messages.productCategories.titleEditMany} />
+          <MenuItem containerElement={<Link to="/admin/products/categories" />} primaryText={messages.productCategories_titleEditMany} />
           {selectedCount > 0 &&
-            <MenuItem primaryText={messages.actions.moveTo} onTouchTap={this.showMoveTo} />
+            <MenuItem primaryText={messages.actions_moveTo} onTouchTap={this.showMoveTo} />
           }
         </IconMenu>
       </span>

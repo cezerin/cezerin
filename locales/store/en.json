@@ -1,32 +1,25 @@
 {
   "loading": "Loading...",
   "optional": "optional",
-
-  "checkout": {
-    "shippingTo": "Shipping To",
-    "shippingMethod": "Shipping options",
-    "paymentMethod": "Payment options",
-    "shippingAddress": "Shipping Address",
-    "billingAddress": "Billing Address",
-    "orderSubmit": "Place Order EN",
-    "emptyCheckout": "Cart is empty",
-    "email": "Email",
-    "mobile": "Mobile",
-    "country": "Country",
-    "state": "State/Province",
-    "city": "City",
-    "fullName": "Full name",
-    "address1": "Address line 1",
-    "address2": "Address line 2",
-    "zip": "Postal code",
-    "phone": "Phone (optional)",
-    "company": "Company (optional)",
-    "comments": "Comments (optional)"
-  },
-
-  "errors": {
-    "required": "This field is required.",
-    "email": "Please enter a valid email address.",
-    "number": "Please enter a valid number."
-  }
+  "shippingTo": "Shipping To",
+  "shippingMethod": "Shipping options",
+  "paymentMethod": "Payment options",
+  "shippingAddress": "Shipping Address",
+  "billingAddress": "Billing Address",
+  "orderSubmit": "Place Order EN",
+  "emptyCheckout": "Cart is empty",
+  "email": "Email",
+  "mobile": "Mobile",
+  "country": "Country",
+  "state": "State/Province",
+  "city": "City",
+  "fullName": "Full name",
+  "address1": "Address line 1",
+  "address2": "Address line 2",
+  "zip": "Postal code",
+  "phone": "Phone (optional)",
+  "company": "Company (optional)",
+  "comments": "Comments (optional)",
+  "required": "This field is required.",
+  "emailInvalid": "Please enter a valid email address."
 }

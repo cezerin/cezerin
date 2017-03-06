@@ -4,10 +4,10 @@ import text from '../../text'
 
 const validateRequired = value => value
   ? undefined
-  : text.errors.required;
+  : text.required;
 
 const validateEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-  ? text.errors.email
+  ? text.emailInvalid
   : undefined;
 
 const inputField = (field) => (
@@ -82,19 +82,19 @@ class Form extends React.Component {
     } else {
       switch (fieldName) {
         case 'email':
-          return text.checkout.email;
+          return text.email;
           break;
         case 'mobile':
-          return text.checkout.mobile;
+          return text.mobile;
           break;
         case 'country':
-          return text.checkout.country;
+          return text.country;
           break;
         case 'state':
-          return text.checkout.state;
+          return text.state;
           break;
         case 'city':
-          return text.checkout.city;
+          return text.city;
           break;
         default:
           return 'Unnamed field';
@@ -148,7 +148,7 @@ class Form extends React.Component {
                 placeholder={this.getFieldPlaceholder('mobile')}/>
             }
 
-            <h2>{text.checkout.shippingTo}</h2>
+            <h2>{text.shippingTo}</h2>
 
             {!this.isFieldHidden('country') &&
               <Field className="checkout-field" name="shipping_address.country" id="shipping_address.country" component={inputField} type="text"
@@ -174,7 +174,7 @@ class Form extends React.Component {
                 onBlur={(event, value) => setTimeout(() => saveShippingCity(value))}/>
             }
 
-            <h2>{text.checkout.shippingMethod} {loadingShippingMethods && <small>{text.loading}</small>}</h2>
+            <h2>{text.shippingMethod} {loadingShippingMethods && <small>{text.loading}</small>}</h2>
             <div className="shipping-methods">
               {shipping_methods.map(method => <label key={method.id} className="shipping-method">
                 <Field name="shipping_method_id" component="input" type="radio" value={method.id} onClick={() => saveShippingMethod(method.id)}/>
@@ -185,7 +185,7 @@ class Form extends React.Component {
               </label>)}
             </div>
 
-            <h2>{text.checkout.paymentMethod} {loadingPaymentMethods && <small>{text.loading}</small>}</h2>
+            <h2>{text.paymentMethod} {loadingPaymentMethods && <small>{text.loading}</small>}</h2>
             <div className="payment-methods">
               {payment_methods.map(method => <label key={method.id} className="payment-method">
                 <Field name="payment_method_id" component="input" type="radio" value={method.id} onClick={() => savePaymentMethod(method.id)}/>
@@ -196,26 +196,26 @@ class Form extends React.Component {
               </label>)}
             </div>
 
-            <h2>{text.checkout.shippingAddress}</h2>
+            <h2>{text.shippingAddress}</h2>
 
-            <Field className="checkout-field" name="shipping_address.full_name" id="shipping_address.full_name" component={inputField} type="text" label={text.checkout.fullName} validate={[validateRequired]}/>
-            <Field className="checkout-field" name="shipping_address.address1" id="shipping_address.address1" component={inputField} type="text" label={text.checkout.address1} validate={[validateRequired]}/>
-            <Field className="checkout-field" name="shipping_address.address2" id="shipping_address.address2" component={inputField} type="text" label={text.checkout.address2}/>
-            <Field className="checkout-field" name="shipping_address.zip" id="shipping_address.zip" component={inputField} type="text" label={text.checkout.zip} validate={[validateRequired]}/>
-            <Field className="checkout-field" name="shipping_address.phone" id="shipping_address.phone" component={inputField} type="text" label={text.checkout.phone}/>
-            <Field className="checkout-field" name="shipping_address.company" id="shipping_address.company" component={inputField} type="text" label={text.checkout.company}/>
-            <Field className="checkout-field" name="comments" id="customer.comments" component={textareaField} type="text" label={text.checkout.comments} rows="3"/>
+            <Field className="checkout-field" name="shipping_address.full_name" id="shipping_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
+            <Field className="checkout-field" name="shipping_address.address1" id="shipping_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
+            <Field className="checkout-field" name="shipping_address.address2" id="shipping_address.address2" component={inputField} type="text" label={text.address2}/>
+            <Field className="checkout-field" name="shipping_address.zip" id="shipping_address.zip" component={inputField} type="text" label={text.zip} validate={[validateRequired]}/>
+            <Field className="checkout-field" name="shipping_address.phone" id="shipping_address.phone" component={inputField} type="text" label={text.phone}/>
+            <Field className="checkout-field" name="shipping_address.company" id="shipping_address.company" component={inputField} type="text" label={text.company}/>
+            <Field className="checkout-field" name="comments" id="customer.comments" component={textareaField} type="text" label={text.comments} rows="3"/>
 
             <div className="checkout-button-wrap">
               <button type="button" onClick={handleSubmit(data => {
                 finishCheckout(data)
-              })} disabled={submitting || processingCheckout} className="checkout-button">{text.checkout.orderSubmit}</button>
+              })} disabled={submitting || processingCheckout} className="checkout-button">{text.orderSubmit}</button>
             </div>
           </div>
         </form>
       )
     } else {
-      return <p>{text.checkout.emptyCheckout}</p>
+      return <p>{text.emptyCheckout}</p>
     }
   }
 }

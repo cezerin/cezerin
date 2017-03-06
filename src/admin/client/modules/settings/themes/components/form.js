@@ -65,18 +65,18 @@ export default class Themes extends React.Component {
           <div className={style.innerBox}>
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-6">{messages.settings.themeExportDesciption}</div>
+              <div className="col-xs-6">{messages.settings_themeExportDesciption}</div>
               <div className="col-xs-4" style={{ textAlign: 'right' }}>
-                <RaisedButton label={exportInProcess ? messages.settings.themeExporting : messages.settings.themeExport} disabled={exportInProcess} onTouchTap={this.onExportClick.bind(this)}/>
+                <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess} onTouchTap={this.onExportClick.bind(this)}/>
               </div>
             </div>
 
             <Divider style={{ marginTop: 30, marginBottom: 30 }} />
 
             <div className="row between-xs middle-xs">
-              <div className="col-xs-6">{messages.settings.themeInstallDesciption}</div>
+              <div className="col-xs-6">{messages.settings_themeInstallDesciption}</div>
               <div className="col-xs-4" style={{ textAlign: 'right' }}>
-                <RaisedButton label={installInProcess ? messages.settings.themeInstalling : messages.settings.themeInstall} disabled={installInProcess} labelPosition="before" containerElement="label">
+                <RaisedButton label={installInProcess ? messages.settings_themeInstalling : messages.settings_themeInstall} disabled={installInProcess} labelPosition="before" containerElement="label">
                   <input type="file" onChange={this.onImportFileChoose.bind(this)} style={styles.exampleImageInput}/>
                 </RaisedButton>
               </div>
