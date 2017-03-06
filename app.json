@@ -1,0 +1,16 @@
+{
+  "apps": [{
+    "name": "cezerin",
+    "script": "./dist/index.js",
+    "watch": ["./public/assets/index.html"],
+    "instances": "max",
+    "exec_mode": "cluster",
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "watch_options": {
+      "persistent": true,
+      "ignoreInitial": false
+    }
+  }]
+}

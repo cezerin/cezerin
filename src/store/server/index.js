@@ -17,7 +17,7 @@ import reducers from '../shared/reducers'
 import {getInitialState} from '../shared/actions'
 import clientSettings from '../client/settings'
 import serverSettings from './settings'
-import * as theme from './theme.js'
+import { readIndexHtmlFile } from './theme.js'
 
 const getHead = () => {
   const helmet = Helmet.rewind();
@@ -69,7 +69,7 @@ const sendPageError = (res, status, error) => {
 
 storeRouter.get('*', (req, res, next) => {
   Promise.all([
-    theme.readTemplate(),
+    readIndexHtmlFile(),
     api.sitemap.retrieve(req.path),
     api.checkout_fields.list()
   ]).then(([templateHtml, sitemapDetails, checkout_fields]) => {
@@ -98,7 +98,9 @@ storeRouter.get('*', (req, res, next) => {
     } else {
      sendPageError(res, sitemapDetails.status, sitemapDetails.json.message)
    }
-  });
+ }).catch(err => {
+   sendPageError(res, 500, err)
+ });
 });
 
 module.exports = storeRouter;

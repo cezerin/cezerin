@@ -31,7 +31,7 @@
     "dev:admin": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
     "dev:store": "webpack -d --config webpack.config.store.js --watch --progress --colors",
     "dev:server": "babel src -d dist --watch",
-    "dev:start": "nodemon --watch dist dist/index.js",
+    "dev:start": "nodemon --watch dist --watch public/assets dist/index.js",
     "dev": "npm run dev:store & npm run dev:admin & npm run dev:server & npm run dev:start",
     "theme:update": "cd ./themes/current && npm run build && cd ../../ && npm install theme && ./scripts/theme-copy-assets.sh",
     "theme:install": "./scripts/theme-install.sh",
