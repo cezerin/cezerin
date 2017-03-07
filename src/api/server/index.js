@@ -1,4 +1,5 @@
 var expressJwt = require('express-jwt');
+var winston = require('winston');
 var express = require('express');
 var apiRouter = express.Router();
 
@@ -36,7 +37,9 @@ const checkTokenInBlacklistCallback = (req, payload, done) => {
     SecurityTokensService.getTokensBlacklist().then(blacklist => {
       const tokenIsRevoked = blacklist.includes(jti);
       return done(null, tokenIsRevoked);
-    }).catch(err => done(err, setTokenAsRevokenOnException));
+    }).catch(err => {
+      done(err, setTokenAsRevokenOnException);
+    });
   } catch (e) {
     done('Can\'t connect to database', setTokenAsRevokenOnException);
   }
@@ -63,6 +66,7 @@ apiRouter.use((err, req, res, next) => {
   if(err && err.name === 'UnauthorizedError') {
     res.status(401).send({'error': true, 'message': err.message.toString()});
   } else if(err) {
+    winston.error('API error', err);
     res.status(500).send({'error': true, 'message': err.toString()});
   } else {
     next();
@@ -74,9 +78,9 @@ apiRouter.all('*', (req, res, next) => {
 })
 
 mongo.connect().then(() => {
-  console.log(`${new Date()} - Successfully connected to MongoDB`)
+  winston.info('Successfully connected to MongoDB')
 }).catch(err => {
-  console.log(`${new Date()} - Failed connecting to MongoDB: ${err.message}\n`);
+  winston.error('Failed connecting to MongoDB', err.message);
 });
 
 module.exports = apiRouter;

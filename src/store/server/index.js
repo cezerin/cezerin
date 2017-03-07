@@ -1,3 +1,4 @@
+import winston from 'winston';
 import express from 'express';
 let storeRouter = express.Router();
 
@@ -63,8 +64,9 @@ const sendPageNotFound = (res) => {
   res.status(404).send('Not found')
 }
 
-const sendPageError = (res, status, error) => {
-  res.status(status).send(error)
+const sendPageError = (res, status, err) => {
+  winston.error('Page error', err);
+  res.status(status).send(err);
 }
 
 storeRouter.get('*', (req, res, next) => {

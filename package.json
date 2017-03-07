@@ -52,7 +52,6 @@
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "body-parser": "^1.16.1",
-    "bunyan": "^1.8.8",
     "cezerin-client": "^0.4.33",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.26.2",
@@ -93,7 +92,8 @@
     "response-time": "^2.3.2",
     "slug": "^0.9.1",
     "theme": "file:themes/current",
-    "webpack": "^2.2.1"
+    "webpack": "^2.2.1",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

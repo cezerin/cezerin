@@ -8,5 +8,6 @@ public/static/*
 themes/current/dist/*
 dist/*
 config/*
+logs/*
 npm-debug.log*
 *.zip

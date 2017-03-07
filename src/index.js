@@ -9,6 +9,28 @@ var responseTime = require('response-time');
 var settings = require('../config/server');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var winston = require('winston');
+
+winston.configure({
+  transports: [
+    new (winston.transports.Console)({
+      colorize: true
+    }),
+    new (winston.transports.File)({
+      filename: 'logs/server.log',
+      handleExceptions: true
+    })
+  ]
+});
+
+const logErrors = (err, req, res, next) => {
+  if(err) {
+    winston.error('Server error', err);
+    res.status(500).send(err);
+  } else {
+    next();
+  }
+}
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(express.static('public'))
@@ -23,6 +45,7 @@ app.get('/admin/*', function(req, res) {
 app.use(cookieParser(settings.security.cookieKey));
 app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
+app.use(logErrors);
 
 const server = app.listen(settings.nodeServerPort, () => {
   var host = server.address().address;
@@ -30,5 +53,5 @@ const server = app.listen(settings.nodeServerPort, () => {
     ? 'localhost'
     : host);
   var port = server.address().port;
-  console.log(`${new Date()} - server start at ${host}:${port}`);
+  winston.info(`Server start at ${host}:${port}`)
 });
