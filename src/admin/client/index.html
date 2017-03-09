@@ -2,41 +2,168 @@
 <html>
 
 <head>
-    <title>Dashboard</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" href="/admin-assets/images/shortcut.png">
-    <link rel="apple-touch-icon" href="/admin-assets/images/shortcut.png">
-    <!-- <link rel="manifest" href="/admin-assets/manifest.json"> -->
-    <link href="/admin-assets/css/flexboxgrid.min.css" rel="stylesheet" type="text/css" />
-    <link href="/admin-assets/css/material.min.css" rel="stylesheet" type="text/css" />
-    <link href="/admin-assets/css/style.css" rel="stylesheet" type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&subset=cyrillic" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Dashboard</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="/admin-assets/manifest.json">
+  <link rel="shortcut icon" href="/admin-assets/images/shortcut.png">
 </head>
 
 <body>
-    <div id="app">error</div>
+  <style>
+    .showbox {
+      margin-top: 50px;
+    }
 
-    <script>
+    .loader {
+      position: relative;
+      margin: 0 auto;
+      width: 50px;
+    }
+
+    .loader:before {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+
+    .circular {
+      -webkit-animation: rotate 2s linear infinite;
+      animation: rotate 2s linear infinite;
+      height: 100%;
+      -webkit-transform-origin: center center;
+      transform-origin: center center;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    .path {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+      animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+      stroke-linecap: round;
+    }
+
+    @-webkit-keyframes rotate {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes rotate {
+      100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+      }
+    }
+
+    @-webkit-keyframes dash {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+      50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+      }
+      100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+      }
+    }
+
+    @keyframes dash {
+      0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+      }
+      50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35px;
+      }
+      100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124px;
+      }
+    }
+
+    @-webkit-keyframes color {
+      100%,
+      0% {
+        stroke: #d62d20;
+      }
+      40% {
+        stroke: #0057e7;
+      }
+      66% {
+        stroke: #008744;
+      }
+      80%,
+      90% {
+        stroke: #ffa700;
+      }
+    }
+
+    @keyframes color {
+      100%,
+      0% {
+        stroke: #d62d20;
+      }
+      40% {
+        stroke: #0057e7;
+      }
+      66% {
+        stroke: #008744;
+      }
+      80%,
+      90% {
+        stroke: #ffa700;
+      }
+    }
+  </style>
+
+  <div id="app">
+    <div style="background-color: rgb(25, 118, 210); height: 64px; box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;">
+      <div style="color: #fff; font-size: 18px; padding-left: 68px; line-height: 64px;"></div>
+    </div>
+    <div class="showbox">
+      <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+          </svg>
+      </div>
+    </div>
+  </div>
+
+  <script>
     function resizeElements() {
       var elContainer = document.getElementById('container');
       var elHeadContainer = document.getElementById('headContainer');
       var elBodyContainer = document.getElementById('bodyContainer');
 
-      if(elBodyContainer){
+      if (elBodyContainer) {
         elBodyContainer.style.height = ((elContainer.clientHeight - elHeadContainer.clientHeight) + "px");
       }
     }
-
     window.addEventListener('resize', resizeElements);
     window.addEventListener('load', resizeElements);
-    </script>
-
-    <script src="/admin-assets/data/countries.js"></script>
-    <script src="/admin-assets/data/currencies.js"></script>
-    <script src="/admin-assets/data/timezones.js"></script>
-    <script src="/admin-assets/tinymce/tinymce.min.js"></script>
+  </script>
+  <link href="/admin-assets/css/flexboxgrid.min.css" rel="stylesheet" type="text/css" />
+  <link href="/admin-assets/css/material.min.css" rel="stylesheet" type="text/css" />
+  <link href="/admin-assets/css/style.css" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&subset=cyrillic" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="/admin-assets/data/countries.js" async></script>
+  <script src="/admin-assets/data/currencies.js" async></script>
+  <script src="/admin-assets/data/timezones.js" async></script>
+  <script src="/admin-assets/tinymce/tinymce.min.js" async></script>
 </body>
 
 </html>
