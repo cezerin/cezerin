@@ -65,7 +65,6 @@ class ProductsService {
 
     let project =
     {
-      brand_id: 1,
       related_product_ids: 1,
       active: 1,
       discontinued: 1,
@@ -168,8 +167,7 @@ class ProductsService {
     	},
       url: { "$literal" : "" },
       path: { "$literal" : "" },
-      category_name: { "$literal" : "" },
-      brand_name: { "$literal" : "" }
+      category_name: { "$literal" : "" }
     };
 
     if(fieldsArray && fieldsArray.length > 0) {
@@ -198,7 +196,6 @@ class ProductsService {
   }
 
   getMatchQuery({
-    brand_id,
     category_id,
     active,
     discontinued,
@@ -211,7 +208,6 @@ class ProductsService {
   }, categories) {
 
      // parse values
-     brand_id = parse.getObjectIDIfValid(brand_id);
      category_id = parse.getObjectIDIfValid(category_id);
      active = parse.getBooleanIfValid(active);
      discontinued = parse.getBooleanIfValid(discontinued);
@@ -227,12 +223,6 @@ class ProductsService {
        CategoriesService.findAllChildren(categories, category_id, categoryChildren);
        queries.push({
          category_id: { $in: categoryChildren }
-       });
-     }
-
-     if(brand_id !== null) {
-       queries.push({
-         brand_id: brand_id
        });
      }
 
@@ -408,7 +398,6 @@ class ProductsService {
       product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
       product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
       product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
-      product.brand_id = parse.getObjectIDIfValid(data.brand_id);
       product.category_id = parse.getObjectIDIfValid(data.category_id);
 
       if(data.dimensions) {
@@ -560,10 +549,6 @@ class ProductsService {
         product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
       }
 
-      if(data.brand_id !== undefined) {
-        product.brand_id = parse.getObjectIDIfValid(data.brand_id);
-      }
-
       if(data.category_id !== undefined) {
         product.category_id = parse.getObjectIDIfValid(data.category_id);
       }
@@ -594,10 +579,6 @@ class ProductsService {
 
       if(item.id) {
         item.id = item.id.toString();
-      }
-
-      if(item.brand_id) {
-        item.brand_id = item.brand_id.toString();
       }
 
       if(item.images && item.images.length > 0) {
