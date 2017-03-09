@@ -261,6 +261,7 @@ export function fetchProducts() {
     const state = getState();
 
     let filter = state.app.productsFilter;
+    filter.thumbnail_width = 420,
     filter.category_id = state.app.currentCategory.id;
     filter.fields = 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
 

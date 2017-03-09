@@ -24,6 +24,7 @@ class ProductsService {
         const sortQuery = this.getSortQuery(params);
         const matchQuery = this.getMatchQuery(params, categories);
         const matchTextQuery = this.getMatchTextQuery(params);
+        const thumbnail_width = parse.getNumberIfPositive(params.thumbnail_width);
         const aggregationPipeline = [];
 
         // $match with $text is only allowed as the first pipeline stage"
@@ -38,7 +39,7 @@ class ProductsService {
         aggregationPipeline.push({ $skip : offset });
 
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
-          .then(items => items.map(item => this.changeProperties(categories, item)))
+          .then(items => items.map(item => this.changeProperties(categories, item, thumbnail_width)))
       });
   }
 
@@ -574,7 +575,7 @@ class ProductsService {
     });
   }
 
-  changeProperties(categories, item) {
+  changeProperties(categories, item, thumbnail_width) {
     if(item) {
 
       if(item.id) {
@@ -583,7 +584,9 @@ class ProductsService {
 
       if(item.images && item.images.length > 0) {
         for(let i = 0; i < item.images.length; i++) {
-          item.images[i].url = settings.url.products + '/' + item.id + '/' + item.images[i].filename;
+          const thumbnailWidthDirOrEmpty = thumbnail_width && thumbnail_width > 0 ? `${thumbnail_width}/` : '';
+          const imageFileName = item.images[i].filename || '';
+          item.images[i].url = `${settings.url.products}/${item.id}/${thumbnailWidthDirOrEmpty}${imageFileName}`;
         }
         item.images = item.images.sort((a,b) => (a.position - b.position ));
       }
