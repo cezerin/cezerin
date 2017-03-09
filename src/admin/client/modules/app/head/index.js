@@ -8,9 +8,7 @@ const mapStateToProps = (state) => {
     ordersSelectedCount: state.orders.selected.length,
     location: state.app.location,
     productCategory: state.productCategories.items.find((item) => (item.id === state.productCategories.selectedId)),
-    customerGroup: state.customerGroups.items.find((item) => (item.id === state.customerGroups.selectedId)),
-    isLoading: state.productCategories.isFetching ||
-      state.productCategories.isSaving
+    customerGroup: state.customerGroups.items.find((item) => (item.id === state.customerGroups.selectedId))
   }
 }
 

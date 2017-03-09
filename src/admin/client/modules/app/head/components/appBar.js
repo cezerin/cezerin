@@ -17,7 +17,6 @@ import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import LinearProgress from 'material-ui/LinearProgress';
 
 let drawerItems = [
   {
@@ -70,7 +69,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { isLoading, productCategory, productsSelectedCount, customersSelectedCount, customerGroup, ordersSelectedCount } = this.props;
+    const { productCategory, productsSelectedCount, customersSelectedCount, customerGroup, ordersSelectedCount } = this.props;
     const location = this.props.location.pathname;
 
     let title = 'Dashboard';
@@ -232,9 +231,6 @@ export default class AppBarTop extends React.Component {
 
     return (
       <div>
-        {isLoading &&
-          <LinearProgress mode="indeterminate" color="#fff" style={{ backgroundColor: 'transparent', borderRadius: 0, height: 2, zIndex: 1101, top: 0, position: 'absolute'  }} />
-        }
         <AppBar
           style={{ paddingLeft: 28, paddingRight: 28 }}
           titleStyle={{ fontSize: 18 }}
