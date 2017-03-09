@@ -77,6 +77,7 @@ const checkTokenFromUrl = (nextState, replace) => {
         if (expiration_date > Date.now()) {
           saveTokenData({token, email: tokenData.email, expiration_date});
           api.init(settings.apiBaseUrl, token);
+          store.dispatch(fetchSettings());
           replace({
             pathname: homePath,
             state: {
