@@ -50,3 +50,20 @@ html, body { height: 100%; margin: 0; padding: 0; background-color: #F9F9F9;}
 .mce-edit-focus {
   /*border-bottom: 2px solid rgb(25, 118, 210);*/
 }
+
+.block404 {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.block404 .title {
+  font-weight: 600;
+  font-size: 80px;
+  line-height: 90px;
+  margin-bottom: 20px;
+}
+
+.block404 .description {
+  color: rgba(0,0,0,0.4);
+  font-size: 16px;
+}

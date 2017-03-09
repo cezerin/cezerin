@@ -49,15 +49,14 @@ const store = createStore(reducers, applyMiddleware(thunkMiddleware, routerMiddl
 const history = syncHistoryWithStore(browserHistory, store)
 store.dispatch(fetchSettings());
 
-const loginPath = '/admin/login';
-const logoutPath = '/admin/logout';
-const homePath = '/admin';
+const LOGIN_PATH = '/admin/login';
+const HOME_PATH = '/admin';
 
 const validateCurrentToken = (nextState, replace) => {
-  if (nextState.location.pathname !== loginPath) {
+  if (nextState.location.pathname !== LOGIN_PATH) {
     if (!isCurrentTokenValid()) {
       replace({
-        pathname: loginPath,
+        pathname: LOGIN_PATH,
         state: {
           nextPathname: nextState.location.pathname
         }
@@ -67,7 +66,7 @@ const validateCurrentToken = (nextState, replace) => {
 }
 
 const checkTokenFromUrl = (nextState, replace) => {
-  if (nextState.location.pathname === loginPath) {
+  if (nextState.location.pathname === LOGIN_PATH) {
     if (nextState.location.query.token) {
       const token = nextState.location.query.token;
       const tokenData = parseToken(token);
@@ -79,7 +78,7 @@ const checkTokenFromUrl = (nextState, replace) => {
           api.init(settings.apiBaseUrl, token);
           store.dispatch(fetchSettings());
           replace({
-            pathname: homePath,
+            pathname: HOME_PATH,
             state: {
               nextPathname: nextState.location.pathname
             }
@@ -93,7 +92,7 @@ const checkTokenFromUrl = (nextState, replace) => {
     } else {
       if (isCurrentTokenValid()) {
         replace({
-          pathname: homePath,
+          pathname: HOME_PATH,
           state: {
             nextPathname: nextState.location.pathname
           }
@@ -128,7 +127,7 @@ const removeToken = (nextState, replace) => {
   localStorage.removeItem('token');
   localStorage.removeItem('email');
   localStorage.removeItem('expiration_date');
-  location.replace(loginPath);
+  location.replace(LOGIN_PATH);
 }
 
 const appElement = document.getElementById('app');
@@ -147,8 +146,6 @@ ReactDOM.render(
         <Route path="customers" component={layoutCustomers}/>
         <Route path="customer/:id" component={layoutCustomerEdit}/>
         <Route path="customers/groups" component={layoutCustomerGroups}/>
-        <Route path="discounts" component={layoutNotFound}/>
-        <Route path="reports" component={layoutNotFound}/>
         <Route path="settings" component={layoutSettingsShared}>
           <IndexRoute component={layoutSettingsGeneral}/>
           <Route path="general" component={layoutSettingsGeneral}/>
@@ -164,8 +161,6 @@ ReactDOM.render(
           <Route path="email" component={layoutSettingsEmail}/>
           <Route path="email/smtp" component={layoutSettingsSmtp}/>
           <Route path="email/templates/:templateName" component={layoutSettingsEmailTemplates}/>
-          <Route path="taxes" component={layoutNotFound}/>
-          <Route path="security" component={layoutNotFound}/>
           <Route path="pages" component={layoutSettingsPages}/>
           <Route path="pages/add" component={layoutSettingsPagesAdd}/>
           <Route path="pages/:pageId" component={layoutSettingsPagesEdit}/>
@@ -173,6 +168,7 @@ ReactDOM.render(
           <Route path="tokens/add" component={layoutSettingsTokensAdd}/>
           <Route path="tokens/:tokenId" component={layoutSettingsTokensEdit}/>
         </Route>
+        <Route path="*" component={layoutNotFound} status={404}/>
       </Route>
     </Route>
   </Router>
