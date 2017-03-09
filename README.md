@@ -28,18 +28,35 @@ Currently in active development.
 * ~~**Custom pages**~~
 * ~~**Security**~~
 * ~~**Performance**~~
-* Refactoring **〈〈〈〈〈〈 we are here**
-* Tests
+* ~~**Refactoring**~~
+* Default theme **〈〈〈〈〈〈 we are here**
+* Unfinished features
 * Central update
-* Default theme
 * Documentation
-* SEO
+* Tests
+* WebHooks
 * Store: Applications
 * Store: Themes
-* Translations for admin
-* Metrics and analytics
-* Progressive Web App (PWA)
+* Theme settings in dashboard
 
+
+### Backlog
+
+Google Analytics for Single Page Application
+Order notifications
+Import, export, sync
+301 Redirect
+Customer account and sign in
+Geolocation
+Coupons
+Discounts
+Reporting
+Metrics and analytics
+Progressive Web App (PWA)
+Shipping rate real time
+Linked Products - upsell
+Linked Products - cross sell
+Tax
 
 ## Demo
 
