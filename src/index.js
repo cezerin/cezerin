@@ -47,11 +47,11 @@ app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
 app.use(logErrors);
 
-const server = app.listen(settings.nodeServerPort, () => {
+const server = app.listen(settings.nodeServerPort, settings.nodeServerHost, () => {
   var host = server.address().address;
   host = (host === '::'
     ? 'localhost'
     : host);
   var port = server.address().port;
-  winston.info(`Server start at ${host}:${port}`)
+  winston.info(`Server start at http://${host}:${port}`)
 });
