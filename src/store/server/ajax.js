@@ -35,8 +35,13 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
       res.status(status).send(json);
     })
   } else {
-    // let ip = req.get('x-forwarded-for') || req.connection.remoteAddress;
-    let ip = req.ip || '';
+
+    let ip = req.get('x-forwarded-for') || req.ip;
+
+    if(ip && ip.includes(', ')) {
+      ip = ip.split(', ')[0];
+    }
+
     if(ip && ip.includes('::ffff:')) {
       ip = ip.replace('::ffff:', '');
     }
