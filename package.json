@@ -60,6 +60,7 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "formidable": "^1.1.1",
     "fs-extra": "^2.0.0",
+    "handlebars": "^4.0.6",
     "helmet": "^3.4.1",
     "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",

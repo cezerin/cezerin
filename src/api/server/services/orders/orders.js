@@ -1,16 +1,19 @@
 'use strict';
 
+const winston = require('winston');
+const handlebars = require('handlebars');
 const settings = require('../../lib/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var emailSender = require('../../lib/email');
-var ObjectID = require('mongodb').ObjectID;
-var ProductsService = require('../products/products');
-var CustomersService = require('../customers/customers');
-var OrderStatusesService = require('./order_statuses');
-var PaymentMethodsLightService = require('./payment_methods_light');
-var ShippingMethodsLightService = require('./shipping_methods_light');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
+const emailSender = require('../../lib/email');
+const ObjectID = require('mongodb').ObjectID;
+const ProductsService = require('../products/products');
+const CustomersService = require('../customers/customers');
+const OrderStatusesService = require('./order_statuses');
+const PaymentMethodsLightService = require('./payment_methods_light');
+const ShippingMethodsLightService = require('./shipping_methods_light');
+const EmailTemplatesService = require('../settings/email_templates');
 
 class OrdersService {
   constructor() {}
@@ -524,18 +527,27 @@ class OrdersService {
     - order confirmation template
     - fire Webhooks
     */
-    return this.getSingleOrder(order_id).then(order => {
-      const message = {
-        to: order.email,
-        subject: `Order Confirmation`,
-        html: `<p>Order: ${order.number}</p>
-        <p>Total: ${order.grand_total}</p>
-        <p>Shipping: ${order.shipping_method}</p>
-        <p>Payment: ${order.payment_method}</p>`
-      };
-      return emailSender.send(message).then(info => order).catch(err => order);
-    });
-  }
+    return Promise.all([
+        this.getSingleOrder(order_id),
+        EmailTemplatesService.getEmailTemplate('order_confirmation')
+      ]).then(([ order, emailTemplate ]) => {
+        const handlebarsTemplate = handlebars.compile(emailTemplate.body);
+        const html = handlebarsTemplate(order);
+        const message = {
+          to: order.email,
+          subject: emailTemplate.subject,
+          html: html
+        }
+
+        return emailSender.send(message).then(info => {
+          winston.info('Email order confirmation', info);
+          return order;
+        }).catch(err => {
+          winston.error('Email order confirmation', err);
+          return order;
+        });
+      });
+    }
 }
 
 module.exports = new OrdersService();
