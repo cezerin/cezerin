@@ -36,7 +36,7 @@ export default class EmailSettings extends React.Component {
               onClick={() => { pushUrl('/admin/settings/email/templates/order_confirmation') }}
             />
             <Divider />
-            <ListItem
+            {/* <ListItem
               rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
               primaryText={messages.settings_customerRegistration}
               onClick={() => { pushUrl('/admin/settings/email/templates/customer_registration') }}
@@ -47,7 +47,7 @@ export default class EmailSettings extends React.Component {
               primaryText={messages.settings_customerRecovery}
               onClick={() => { pushUrl('/admin/settings/email/templates/customer_recovery') }}
             />
-            <Divider />
+            <Divider /> */}
           </List>
           </div>
       </div>
