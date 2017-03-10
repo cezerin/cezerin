@@ -14,7 +14,7 @@ class SitemapController {
 
    getPaths(req, res, next) {
      if(req.query.path) {
-       SitemapService.getSinglePath(req.query.path)
+       SitemapService.getSinglePath(req.query.path, req.query.active)
         .then((data) => {
           if(data) {
             res.send(data)

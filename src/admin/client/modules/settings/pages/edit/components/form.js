@@ -28,7 +28,7 @@ const asyncValidate = (values/*, dispatch */) => {
     if(!values.slug && values.is_system) {
       resolve();
     } else {
-      api.sitemap.retrieve(`/${values.slug}`)
+      api.sitemap.retrieve({ path: values.slug })
         .then(({status, json}) => {
           if(status === 404) {
             resolve();

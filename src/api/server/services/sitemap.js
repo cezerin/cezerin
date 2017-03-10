@@ -1,6 +1,7 @@
 'use strict';
 
 var mongo = require('../lib/mongo');
+var parse = require('../lib/parse');
 
 class SitemapService {
   constructor() {}
@@ -12,15 +13,15 @@ class SitemapService {
     });
   }
 
-  getPathsWithoutSlashes(slug) {
-    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(slug), this.getSlugArrayFromPages(slug)]).then(([reserved, productCategories, pages]) => {
+  getPathsWithoutSlashes(slug, onlyActive) {
+    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(slug, onlyActive), this.getSlugArrayFromPages(slug, onlyActive)]).then(([reserved, productCategories, pages]) => {
       let paths = [...reserved, ...productCategories, ...pages];
       return paths;
     });
   }
 
-  getPathsWithSlash(slug) {
-    return this.getSlugArrayFromProducts(slug);
+  getPathsWithSlash(slug, onlyActive) {
+    return this.getSlugArrayFromProducts(slug, onlyActive);
   }
 
   getSlugArrayFromReserved() {
@@ -50,7 +51,7 @@ class SitemapService {
     return paths;
   }
 
-  getSlugArrayFromProducts(slug) {
+  getSlugArrayFromProducts(slug, onlyActive) {
     const categoriesFilter = {};
     const productsFilter = {};
 
@@ -58,6 +59,10 @@ class SitemapService {
       const slugParts = slug.split('/');
       categoriesFilter.slug = slugParts[0];
       productsFilter.slug = slugParts[1];
+    }
+
+    if(onlyActive === true) {
+      categoriesFilter.active = productsFilter.active = true;
     }
 
     return Promise.all([
@@ -75,15 +80,23 @@ class SitemapService {
 
   }
 
-  getSlugArrayFromPages(slug) {
+  getSlugArrayFromPages(slug, onlyActive) {
     const filter = this.getFilterWithoutSlashes(slug);
+    if(onlyActive === true) {
+      filter.enabled = true;
+    }
+
     return mongo.db.collection('pages').find(filter).project({slug: 1}).toArray().then(items =>
       items.map(item => ({path: `/${item.slug}`, type: 'page', resource: item._id}))
     )
   }
 
-  getSlugArrayFromProductCategories(slug) {
+  getSlugArrayFromProductCategories(slug, onlyActive) {
     const filter = this.getFilterWithoutSlashes(slug);
+    if(onlyActive === true) {
+      filter.active = true;
+    }
+
     return mongo.db.collection('productCategories').find(filter).project({slug: 1}).toArray().then(items =>
       items.map(item => ({path: `/${item.slug}`, type: 'product-category', resource: item._id}))
     )
@@ -97,15 +110,16 @@ class SitemapService {
     }
   }
 
-  getSinglePath(path) {
+  getSinglePath(path, onlyActive = false) {
+    onlyActive = parse.getBooleanIfValid(onlyActive, false);
     // convert path to slash (remove first slash)
     const slug = path.substr(1);
     if(slug.includes('/')) {
       // slug = category-slug/product-slug
-      return this.getPathsWithSlash(slug).then(paths => paths.find(e => e.path === path))
+      return this.getPathsWithSlash(slug, onlyActive).then(paths => paths.find(e => e.path === path))
     } else {
       // slug = slug
-      return this.getPathsWithoutSlashes(slug).then(paths => paths.find(e => e.path === path))
+      return this.getPathsWithoutSlashes(slug, onlyActive).then(paths => paths.find(e => e.path === path))
     }
   }
 }

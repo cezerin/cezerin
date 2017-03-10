@@ -134,7 +134,7 @@ ajaxRouter.put('/cart/billing_address', (req, res, next) => {
 })
 
 ajaxRouter.get('/product_categories', (req, res, next) => {
-  api.product_categories.list().then(({status, json}) => {
+  api.product_categories.list(req.query).then(({status, json}) => {
     res.status(status).send(json);
   })
 })
@@ -152,7 +152,7 @@ ajaxRouter.get('/pages/:id', (req, res, next) => {
 })
 
 ajaxRouter.get('/sitemap', (req, res, next) => {
-  api.sitemap.retrieve(req.query.path).then(({status, json}) => {
+  api.sitemap.retrieve(req.query).then(({status, json}) => {
     res.status(status).send(json);
   })
 })

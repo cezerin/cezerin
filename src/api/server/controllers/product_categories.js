@@ -19,7 +19,7 @@ class ProductCategoriesController {
    }
 
    getCategories(req, res, next) {
-     CategoriesService.getCategories()
+     CategoriesService.getCategories(req.query)
       .then((data) => { res.send(data) })
       .catch(next);
    }

@@ -19,7 +19,7 @@ function checkSitemap(nextState, cb) {
   const {dispatch, getState} = this.store;
   const state = getState();
 
-  api.ajax.sitemap.retrieve(nextState.location.pathname).then(sitemapResponse => {
+  api.ajax.sitemap.retrieve({ path: nextState.location.pathname, active: true }).then(sitemapResponse => {
     if (sitemapResponse.json) {
       dispatch(receiveSitemap(sitemapResponse.json))
       if (sitemapResponse.json.type === 'product-category') {

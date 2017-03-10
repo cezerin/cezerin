@@ -12,8 +12,18 @@ var fs = require('fs-extra');
 class ProductСategoriesService {
   constructor() {}
 
-  getCategories() {
-  	return mongo.db.collection('productCategories').find().toArray()
+  getFilter(params = {}) {
+    let filter = {};
+    const active = parse.getBooleanIfValid(params.active);
+    if (active !== null) {
+      filter.active = active;
+    }
+    return filter;
+  }
+
+  getCategories(params = {}) {
+    const filter = this.getFilter(params);
+  	return mongo.db.collection('productCategories').find(filter).toArray()
     .then(items => items.map(c => this.changeProperties(c)))
   }
 
