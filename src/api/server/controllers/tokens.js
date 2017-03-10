@@ -63,7 +63,7 @@ class SecurityTokensController {
   }
 
    sendDashboardSigninUrl(req, res, next) {
-     SecurityTokensService.sendDashboardSigninUrl(req.body.email).then(data => {
+     SecurityTokensService.sendDashboardSigninUrl(req).then(data => {
        res.send(data);
      }).catch(next)
    }

@@ -6,6 +6,8 @@ const settings = require('../../lib/settings');
 const emailSender = require('../../lib/email');
 const ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
+const uaParser = require('ua-parser-js');
 const cache = require('lru-cache')({
   max: 10000,
   maxAge: 1000 * 60 * 60 * 24 // 24h
@@ -193,13 +195,37 @@ class SecurityTokensService {
     })
   }
 
-  sendDashboardSigninUrl(email) {
+  sendDashboardSigninUrl(req) {
+    const email = req.body.email;
+    const userAgent = uaParser(req.get('user-agent'));
+    const cloudFlareCountry = req.get('cf-ipcountry') || '';
+    let ip = req.get('x-forwarded-for') || req.ip;
+
+    if(ip && ip.includes(', ')) {
+      ip = ip.split(', ')[0];
+    }
+
+    if(ip && ip.includes('::ffff:')) {
+      ip = ip.replace('::ffff:', '');
+    }
+
+    const dateEmail = moment(new Date()).format('dddd, MMMM DD, YYYY h:mm A');
+
     return this.getDashboardSigninUrl(email).then(linkUrl => {
       if(linkUrl) {
         const message = {
           to: email,
-          subject: `Sign-in URL`,
-          html: `<p><a href='${linkUrl}'>Sign-in</a></p>`
+          subject: `New sign-in from ${userAgent.os.name}`,
+          html: `Your email address was just used to request a Sign In email to Cezerin Dashboard.<br /><br />
+<b>If this was you</b>, <a href='${linkUrl}'>click here to Sign In</a><br />
+<b>If this was not you</b>, you can safely ignore this email.<br /><br />
+<b>Request from</b>:<br />
+${userAgent.os.name}<br />
+${dateEmail}<br />
+${ip}<br />
+${cloudFlareCountry}<br /><br />
+Best,<br />
+Cezerin Robot`
         };
         return emailSender.send(message).then(info => {return { sent: true, error: null }}).catch(err => {return { sent: false, error: err }});
       } else {
