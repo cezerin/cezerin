@@ -1,15 +1,18 @@
-var express = require('express');
-var app = express();
-var helmet = require('helmet')
-var bodyParser = require('body-parser');
-var apiRouter = require('./api/server');
-var storeRouter = require('./store/server');
-var ajaxRouter = require('./store/server/ajax');
-var responseTime = require('response-time');
-var settings = require('../config/server');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var winston = require('winston');
+const express = require('express');
+const app = express();
+const helmet = require('helmet')
+const bodyParser = require('body-parser');
+const apiRouter = require('./api/server');
+const storeRouter = require('./store/server');
+const ajaxRouter = require('./store/server/ajax');
+const responseTime = require('response-time');
+const settings = require('../config/server');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const winston = require('winston');
+
+const STATIC_ROOT_DIRECTORY = 'public';
+const ADMIN_INDEX_PATH = path.join(__dirname, '../public/admin/index.html');
 
 winston.configure({
   transports: [
@@ -32,15 +35,19 @@ const logErrors = (err, req, res, next) => {
   }
 }
 
+const staticOptions = {
+  maxAge: 31536000000 // One year
+}
+
 app.set('trust proxy', 1) // trust first proxy
-app.use(express.static('public'))
+app.use(express.static(STATIC_ROOT_DIRECTORY, staticOptions))
 app.use(helmet())
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/api/v1', apiRouter);
 app.get('/admin/*', function(req, res) {
-  res.sendFile(path.join(__dirname, '../public/admin/index.html'))
+  res.sendFile(ADMIN_INDEX_PATH)
 });
 app.use(cookieParser(settings.security.cookieKey));
 app.use('/ajax', ajaxRouter);
@@ -48,10 +55,5 @@ app.use('/', storeRouter);
 app.use(logErrors);
 
 const server = app.listen(settings.nodeServerPort, settings.nodeServerHost, () => {
-  var host = server.address().address;
-  host = (host === '::'
-    ? 'localhost'
-    : host);
-  var port = server.address().port;
-  winston.info(`Server start at http://${host}:${port}`)
+  winston.info(`Server start at http://${settings.nodeServerHost}:${settings.nodeServerPort}`)
 });
