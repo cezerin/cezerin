@@ -38,7 +38,7 @@ export default class EmailSettings extends React.Component {
             {methods}
           </List>
           </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px'}} onTouchTap={() => { pushUrl('/admin/settings/shipping/add') }}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/shipping/add') }}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
       </div>

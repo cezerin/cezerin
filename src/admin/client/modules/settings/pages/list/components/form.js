@@ -39,7 +39,7 @@ export default class PagesList extends React.Component {
             {listItems}
           </List>
           </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px'}} onTouchTap={() => { pushUrl('/admin/settings/pages/add') }}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/pages/add') }}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
       </div>

@@ -21,7 +21,8 @@ var styles = {
   fab: {
     position: 'fixed',
     left: '18%',
-    bottom: '15px'
+    bottom: '15px',
+    zIndex: 1
   }
 }
 
