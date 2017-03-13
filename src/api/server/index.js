@@ -7,7 +7,7 @@ var settings = require('./lib/settings');
 var mongo = require('./lib/mongo');
 
 const SecurityTokensService = require('./services/security/tokens');
-const ProductСategoriesController = require('./controllers/product_categories');
+const ProductCategoriesController = require('./controllers/product_categories');
 const ProductsController = require('./controllers/products');
 const SitemapController = require('./controllers/sitemap');
 const ThemesController = require('./controllers/themes');
@@ -48,7 +48,7 @@ const checkTokenInBlacklistCallback = (req, payload, done) => {
 apiRouter.use(expressJwt({secret: settings.security.jwtSecret, isRevoked: checkTokenInBlacklistCallback}).unless({path: [`/api/v1/authorize`]}));
 
 var products = new ProductsController(apiRouter);
-var product_categories = new ProductСategoriesController(apiRouter);
+var product_categories = new ProductCategoriesController(apiRouter);
 var sitemap = new SitemapController(apiRouter);
 var themes = new ThemesController(apiRouter);
 var customers = new CustomersController(apiRouter);

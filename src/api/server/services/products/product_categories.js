@@ -9,7 +9,7 @@ var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');
 
-class ProductСategoriesService {
+class ProductCategoriesService {
   constructor() {}
 
   getFilter(params = {}) {
@@ -277,4 +277,4 @@ class ProductСategoriesService {
 
 }
 
-module.exports = new ProductСategoriesService();
+module.exports = new ProductCategoriesService();

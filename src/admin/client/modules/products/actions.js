@@ -136,15 +136,16 @@ function setCategorySuccess() {
   }
 }
 
-function requestUpdateProduct(id) {
+function requestUpdateProduct() {
   return {
     type: t.PRODUCT_UPDATE_REQUEST
   }
 }
 
-function receiveUpdateProduct() {
+function receiveUpdateProduct(item) {
   return {
-    type: t.PRODUCT_UPDATE_SUCCESS
+    type: t.PRODUCT_UPDATE_SUCCESS,
+    item
   }
 }
 
@@ -285,15 +286,9 @@ export function setCategory(category_id) {
 
 export function updateProduct(data) {
   return (dispatch, getState) => {
-    dispatch(requestUpdateProduct(data.id));
-
-    delete data.images;
-    if(!data.slug || data.slug === '') {
-      data.slug = data.name;
-    }
-
+    dispatch(requestUpdateProduct());
     return api.products.update(data.id, data).then(({status, json}) => {
-        dispatch(receiveUpdateProduct());
+        dispatch(receiveUpdateProduct(json));
         dispatch(fetchProducts());
     })
     .catch(error => {

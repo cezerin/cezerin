@@ -245,5 +245,6 @@
   "orders_setHold": "Set as Hold",
   "orders_setDraft": "Set as Draft",
   "orders_search": "Search orders",
-  "pageNotFound": "Page not found!"
+  "pageNotFound": "Page not found!",
+  "skuTaken": "Product SKU must be unique"
 }

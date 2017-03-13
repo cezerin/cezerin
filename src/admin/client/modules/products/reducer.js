@@ -4,7 +4,7 @@ const initialState = {
   editItem: null,
   items: [],
   selected: [],
-  isFetchingEdit: false,
+  isUpdating: false,
   isFetching: false,
   isFetchedMore: false,
   isFetched: false,
@@ -22,21 +22,18 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case t.PRODUCT_EDIT_REQUEST:
       return Object.assign({}, state, {
-        isFetchingEdit: true
       })
     case t.PRODUCT_EDIT_RECEIVE:
       return Object.assign({}, state, {
-        isFetchingEdit: false,
         editItem: action.item
       })
     case t.PRODUCT_EDIT_ERASE:
       return Object.assign({}, state, {
-        isFetchingEdit: false,
+        isUpdating: false,
         editItem: null
       })
     case t.PRODUCT_EDIT_FAILURE:
       return Object.assign({}, state, {
-        isFetchingEdit: true,
         errorFetchEdit: action.error
       })
     case t.PRODUCTS_REQUEST:
@@ -100,8 +97,15 @@ export default (state = initialState, action) => {
         items: [...state.items, ...action.items]
       })
     case t.PRODUCT_UPDATE_REQUEST:
-    case t.PRODUCT_UPDATE_SUCCESS:
+      return Object.assign({}, state, {
+        isUpdating: true
+      })
     case t.PRODUCT_UPDATE_FAILURE:
+    case t.PRODUCT_UPDATE_SUCCESS:
+      return Object.assign({}, state, {
+        isUpdating: false,
+        editItem: action.item
+      })
     case t.PRODUCT_SET_CATEGORY_SUCCESS:
     case t.PRODUCT_DELETE_SUCCESS:
     default:

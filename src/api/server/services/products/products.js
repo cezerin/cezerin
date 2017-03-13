@@ -304,14 +304,6 @@ class ProductsService {
 
   addProduct(data) {
     return this.getValidDocumentForInsert(data)
-    .then(dataToInsert => {
-      // is SKU unique
-      if(dataToInsert.sku && dataToInsert.sku.length > 0) {
-        return mongo.db.collection('products').count({ sku: dataToInsert.sku }).then(count => count === 0 ? dataToInsert : Promise.reject('Product SKU must be unique'));
-      } else {
-        return dataToInsert;
-      }
-    })
     .then(dataToInsert => mongo.db.collection('products').insertMany([dataToInsert]))
     .then(res => this.getSingleProduct(res.ops[0]._id.toString()))
   }
@@ -323,14 +315,6 @@ class ProductsService {
     const productObjectID = new ObjectID(id);
 
     return this.getValidDocumentForUpdate(id, data)
-    .then(dataToSet => {
-      // is SKU unique
-      if(dataToSet.sku && dataToSet.sku.length > 0) {
-        return mongo.db.collection('products').count({ _id: { $ne: productObjectID }, sku: dataToSet.sku }).then(count => count === 0 ? dataToSet : Promise.reject('Product SKU must be unique'));
-      } else {
-        return dataToSet;
-      }
-    })
     .then(dataToSet => mongo.db.collection('products').updateOne({ _id: productObjectID }, {$set: dataToSet}))
     .then(res => res.modifiedCount > 0 ? this.getSingleProduct(id) : null)
   }
@@ -357,222 +341,204 @@ class ProductsService {
   }
 
   getValidDocumentForInsert(data) {
-      //  Allow empty product to create draft
+    //  Allow empty product to create draft
 
-      let product = {
-        'date_created': new Date(),
-        'date_updated': null,
-        'images': [],
-        'dimensions': {
-            'length': 0,
-            'width': 0,
-            'height': 0
-        }
-      };
-
-      product.name = parse.getString(data.name);
-      product.description = parse.getString(data.description);
-      product.meta_description = parse.getString(data.meta_description);
-      product.meta_title = parse.getString(data.meta_title);
-      product.tags = parse.getArrayIfValid(data.tags) || [];
-      product.attributes = parse.getArrayIfValid(data.attributes) || [];
-      product.enabled = parse.getBooleanIfValid(data.enabled, true);
-      product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
-      product.sku = parse.getString(data.sku);
-      product.code = parse.getString(data.code);
-      product.tax_class = parse.getString(data.tax_class);
-      product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
-      product.prices = parse.getArrayIfValid(data.prices) || [];
-      product.options = parse.getArrayIfValid(data) || [];
-      product.variants = parse.getArrayIfValid(data.variants) || [];
-      product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
-      product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
-      product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
-      product.quantity_inc = parse.getNumberIfPositive(data.quantity_inc) || 1;
-      product.quantity_min = parse.getNumberIfPositive(data.quantity_min) || 1;
-      product.weight = parse.getNumberIfPositive(data.weight) || 0;
-      product.stock_quantity = parse.getNumberIfPositive(data.stock_quantity) || 0;
-      product.position = parse.getNumberIfValid(data.position);
-      product.date_stock_expected = parse.getDateIfValid(data.date_stock_expected);
-      product.date_sale_from = parse.getDateIfValid(data.date_sale_from);
-      product.date_sale_to = parse.getDateIfValid(data.date_sale_to);
-      product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
-      product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
-      product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
-      product.category_id = parse.getObjectIDIfValid(data.category_id);
-
-      if(data.dimensions) {
-        product.dimensions = data.dimensions;
+    let product = {
+      'date_created': new Date(),
+      'date_updated': null,
+      'images': [],
+      'dimensions': {
+          'length': 0,
+          'width': 0,
+          'height': 0
       }
+    };
 
-      let slug = (!data.slug || data.slug.length === 0) ? data.name : data.slug;
-      if(!slug || slug.length === 0) {
-        return Promise.resolve(product);
-      } else {
-        return utils.getAvailableSlug(slug).then(newSlug => {
-          product.slug = newSlug;
-          return product;
-        });
-      }
+    product.name = parse.getString(data.name);
+    product.description = parse.getString(data.description);
+    product.meta_description = parse.getString(data.meta_description);
+    product.meta_title = parse.getString(data.meta_title);
+    product.tags = parse.getArrayIfValid(data.tags) || [];
+    product.attributes = parse.getArrayIfValid(data.attributes) || [];
+    product.enabled = parse.getBooleanIfValid(data.enabled, true);
+    product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
+    product.slug = parse.getString(data.slug);
+    product.sku = parse.getString(data.sku);
+    product.code = parse.getString(data.code);
+    product.tax_class = parse.getString(data.tax_class);
+    product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
+    product.prices = parse.getArrayIfValid(data.prices) || [];
+    product.options = parse.getArrayIfValid(data) || [];
+    product.variants = parse.getArrayIfValid(data.variants) || [];
+    product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
+    product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
+    product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
+    product.quantity_inc = parse.getNumberIfPositive(data.quantity_inc) || 1;
+    product.quantity_min = parse.getNumberIfPositive(data.quantity_min) || 1;
+    product.weight = parse.getNumberIfPositive(data.weight) || 0;
+    product.stock_quantity = parse.getNumberIfPositive(data.stock_quantity) || 0;
+    product.position = parse.getNumberIfValid(data.position);
+    product.date_stock_expected = parse.getDateIfValid(data.date_stock_expected);
+    product.date_sale_from = parse.getDateIfValid(data.date_sale_from);
+    product.date_sale_to = parse.getDateIfValid(data.date_sale_to);
+    product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
+    product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
+    product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
+    product.category_id = parse.getObjectIDIfValid(data.category_id);
+
+    if(data.dimensions) {
+      product.dimensions = data.dimensions;
+    }
+
+    if(product.slug.length === 0) {
+      product.slug = product.name;
+    }
+
+    return this.setAvailableSlug(product).then(product => this.setAvailableSku(product));
   }
 
   getValidDocumentForUpdate(id, data) {
-    return new Promise((resolve, reject) => {
-      if (Object.keys(data).length === 0) {
-        reject('Required fields are missing');
-      }
+    if (Object.keys(data).length === 0) {
+      throw new Error('Required fields are missing');
+    }
 
-      let product = {
-        'date_updated': new Date()
-      };
+    let product = {
+      'date_updated': new Date()
+    }
 
-      if(data.name !== undefined) {
-        product.name = parse.getString(data.name);
-      }
+    if(data.name !== undefined) {
+      product.name = parse.getString(data.name);
+    }
 
-      if(data.description !== undefined) {
-        product.description = parse.getString(data.description);
-      }
+    if(data.description !== undefined) {
+      product.description = parse.getString(data.description);
+    }
 
-      if(data.meta_description !== undefined) {
-        product.meta_description = parse.getString(data.meta_description);
-      }
+    if(data.meta_description !== undefined) {
+      product.meta_description = parse.getString(data.meta_description);
+    }
 
-      if(data.meta_title !== undefined) {
-        product.meta_title = parse.getString(data.meta_title);
-      }
+    if(data.meta_title !== undefined) {
+      product.meta_title = parse.getString(data.meta_title);
+    }
 
-      if(data.tags !== undefined) {
-        product.tags = parse.getArrayIfValid(data.tags) || [];
-      }
+    if(data.tags !== undefined) {
+      product.tags = parse.getArrayIfValid(data.tags) || [];
+    }
 
-      if(data.attributes !== undefined) {
-        product.attributes = parse.getArrayIfValid(data.attributes) || [];
-      }
+    if(data.attributes !== undefined) {
+      product.attributes = parse.getArrayIfValid(data.attributes) || [];
+    }
 
-      if(data.dimensions !== undefined) {
-        product.dimensions = data.dimensions;
-      }
+    if(data.dimensions !== undefined) {
+      product.dimensions = data.dimensions;
+    }
 
-      if(data.enabled !== undefined) {
-        product.enabled = parse.getBooleanIfValid(data.enabled, true);
-      }
+    if(data.enabled !== undefined) {
+      product.enabled = parse.getBooleanIfValid(data.enabled, true);
+    }
 
-      if(data.discontinued !== undefined) {
-        product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
-      }
+    if(data.discontinued !== undefined) {
+      product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
+    }
 
-      if(data.sku !== undefined) {
-        product.sku = parse.getString(data.sku);
-      }
+    if(data.slug !== undefined) {
+      product.slug = parse.getString(data.slug);
+    }
 
-      if(data.code !== undefined) {
-        product.code = parse.getString(data.code);
-      }
+    if(data.sku !== undefined) {
+      product.sku = parse.getString(data.sku);
+    }
 
-      if(data.tax_class !== undefined) {
-        product.tax_class = parse.getString(data.tax_class);
-      }
+    if(data.code !== undefined) {
+      product.code = parse.getString(data.code);
+    }
 
-      if(data.related_product_ids !== undefined) {
-        product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
-      }
+    if(data.tax_class !== undefined) {
+      product.tax_class = parse.getString(data.tax_class);
+    }
 
-      if(data.images !== undefined) {
-        product.images = parse.getArrayIfValid(data.images) || [];
-      }
+    if(data.related_product_ids !== undefined) {
+      product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
+    }
 
-      if(data.prices !== undefined) {
-        product.prices = parse.getArrayIfValid(data.prices) || [];
-      }
+    // if(data.images !== undefined) {
+    //   product.images = parse.getArrayIfValid(data.images) || [];
+    // }
 
-      if(data.options !== undefined) {
-        product.options = parse.getArrayIfValid(data.options) || [];
-      }
+    if(data.prices !== undefined) {
+      product.prices = parse.getArrayIfValid(data.prices) || [];
+    }
 
-      if(data.variants !== undefined) {
-        product.variants = parse.getArrayIfValid(data.variants) || [];
-      }
+    if(data.options !== undefined) {
+      product.options = parse.getArrayIfValid(data.options) || [];
+    }
 
-      if(data.cost_price !== undefined) {
-        product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
-      }
+    if(data.variants !== undefined) {
+      product.variants = parse.getArrayIfValid(data.variants) || [];
+    }
 
-      if(data.regular_price !== undefined) {
-        product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
-      }
+    if(data.cost_price !== undefined) {
+      product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
+    }
 
-      if(data.sale_price !== undefined) {
-        product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
-      }
+    if(data.regular_price !== undefined) {
+      product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
+    }
 
-      if(data.quantity_inc !== undefined) {
-        product.quantity_inc = parse.getNumberIfPositive(data.quantity_inc) || 1;
-      }
+    if(data.sale_price !== undefined) {
+      product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
+    }
 
-      if(data.quantity_min !== undefined) {
-        product.quantity_min = parse.getNumberIfPositive(data.quantity_min) || 1;
-      }
+    if(data.quantity_inc !== undefined) {
+      product.quantity_inc = parse.getNumberIfPositive(data.quantity_inc) || 1;
+    }
 
-      if(data.weight !== undefined) {
-        product.weight = parse.getNumberIfPositive(data.weight) || 0;
-      }
+    if(data.quantity_min !== undefined) {
+      product.quantity_min = parse.getNumberIfPositive(data.quantity_min) || 1;
+    }
 
-      if(data.stock_quantity !== undefined) {
-        product.stock_quantity = parse.getNumberIfPositive(data.stock_quantity) || 0;
-      }
+    if(data.weight !== undefined) {
+      product.weight = parse.getNumberIfPositive(data.weight) || 0;
+    }
 
-      if(data.position !== undefined) {
-        product.position = parse.getNumberIfValid(data.position);
-      }
+    if(data.stock_quantity !== undefined) {
+      product.stock_quantity = parse.getNumberIfPositive(data.stock_quantity) || 0;
+    }
 
-      if(data.date_stock_expected !== undefined) {
-        product.date_stock_expected = parse.getDateIfValid(data.date_stock_expected);
-      }
+    if(data.position !== undefined) {
+      product.position = parse.getNumberIfValid(data.position);
+    }
 
-      if(data.date_sale_from !== undefined) {
-        product.date_sale_from = parse.getDateIfValid(data.date_sale_from);
-      }
+    if(data.date_stock_expected !== undefined) {
+      product.date_stock_expected = parse.getDateIfValid(data.date_stock_expected);
+    }
 
-      if(data.date_sale_to !== undefined) {
-        product.date_sale_to = parse.getDateIfValid(data.date_sale_to);
-      }
+    if(data.date_sale_from !== undefined) {
+      product.date_sale_from = parse.getDateIfValid(data.date_sale_from);
+    }
 
-      if(data.stock_tracking !== undefined) {
-        product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
-      }
+    if(data.date_sale_to !== undefined) {
+      product.date_sale_to = parse.getDateIfValid(data.date_sale_to);
+    }
 
-      if(data.stock_preorder !== undefined) {
-        product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
-      }
+    if(data.stock_tracking !== undefined) {
+      product.stock_tracking = parse.getBooleanIfValid(data.stock_tracking, false);
+    }
 
-      if(data.stock_backorder !== undefined) {
-        product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
-      }
+    if(data.stock_preorder !== undefined) {
+      product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
+    }
 
-      if(data.category_id !== undefined) {
-        product.category_id = parse.getObjectIDIfValid(data.category_id);
-      }
+    if(data.stock_backorder !== undefined) {
+      product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
+    }
 
-      if(data.slug){
-        let slug = data.slug;
-        if(!slug || slug.length === 0) {
-          slug = data.name;
-        }
+    if(data.category_id !== undefined) {
+      product.category_id = parse.getObjectIDIfValid(data.category_id);
+    }
 
-        utils.getAvailableSlug(slug, id)
-        .then(newSlug => {
-          product.slug = newSlug;
-          resolve(product);
-        })
-        .catch(err => {
-          reject(err);
-        });
-
-      } else {
-        resolve(product);
-      }
-    });
+    return this.setAvailableSlug(product, id).then(product => this.setAvailableSku(product, id));
   }
 
   changeProperties(categories, item, thumbnail_width) {
@@ -684,6 +650,75 @@ class ProductsService {
       });
 
     form.parse(req);
+  }
+
+  isSkuExists(sku, productId) {
+    let filter = {
+      sku: sku
+    }
+
+    if(productId && ObjectID.isValid(productId)) {
+      filter._id = { $ne: new ObjectID(productId) }
+    }
+
+    return mongo.db.collection('products').count(filter).then(count => count > 0);
+  }
+
+  setAvailableSku(product, productId) {
+    // SKU can be empty
+    if(product.sku && product.sku.length > 0) {
+      let newSku = product.sku;
+      let filter = {};
+      if(productId && ObjectID.isValid(productId)) {
+        filter._id = { $ne: new ObjectID(productId) }
+      }
+
+      return mongo.db.collection('products').find(filter).project({sku: 1}).toArray()
+        .then(products => {
+          while(products.find(p => p.sku === newSku)) {
+            newSku += '-2';
+          }
+          product.sku = newSku;
+          return product;
+        })
+    } else {
+      return Promise.resolve(product)
+    }
+  }
+
+  isSlugExists(slug, productId) {
+    let filter = {
+      slug: utils.cleanSlug(slug)
+    }
+
+    if(productId && ObjectID.isValid(productId)) {
+      filter._id = { $ne: new ObjectID(productId) }
+    }
+
+    return mongo.db.collection('products').count(filter).then(count => count > 0);
+  }
+
+  setAvailableSlug(product, productId) {
+    let newSlug = utils.cleanSlug(product.slug);
+
+    if(newSlug.length > 0) {
+      let filter = {};
+      if(productId && ObjectID.isValid(productId)) {
+        filter._id = { $ne: new ObjectID(productId) }
+      }
+
+      return mongo.db.collection('products').find(filter).project({slug: 1}).toArray()
+        .then(products => {
+          while(products.find(p => p.slug === newSlug)) {
+            newSlug += '-2';
+          }
+          product.slug = newSlug;
+          return product;
+        })
+    } else {
+      product.slug = '';
+      return Promise.resolve(product)
+    }
   }
 
 }

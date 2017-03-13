@@ -16,6 +16,8 @@ class ProductsController {
        this.router.delete('/products/:id', this.deleteProduct.bind(this));
        this.router.post('/products/:id/images', this.addProductImage.bind(this));
        this.router.delete('/products/:id/images/:image', this.deleteProductImage.bind(this));
+       this.router.get('/products/:id/sku', this.isSkuExists.bind(this));
+       this.router.get('/products/:id/slug', this.isSlugExists.bind(this));
    }
 
    getProducts(req, res, next) {
@@ -68,6 +70,18 @@ class ProductsController {
    deleteProductImage(req, res, next) {
      ProductsService.deleteProductImage(req.params.id, req.params.image)
      .then(data => { res.end() });
+   }
+
+   isSkuExists(req, res, next) {
+     ProductsService.isSkuExists(req.query.sku, req.params.id)
+      .then(exists => { res.status(exists ? 200 : 404).end() })
+      .catch(next);
+   }
+
+   isSlugExists(req, res, next) {
+     ProductsService.isSlugExists(req.query.slug, req.params.id)
+      .then(exists => { res.status(exists ? 200 : 404).end() })
+      .catch(next);
    }
 }
 

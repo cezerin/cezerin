@@ -109,5 +109,6 @@ export default reduxForm({
   form: 'FormProductCategory',
   validate,
   asyncValidate,
+  asyncBlurFields: [ 'slug' ],
   enableReinitialize: true
 })(Form)

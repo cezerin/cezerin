@@ -37,25 +37,43 @@ const validate = values => {
   return errors
 }
 
-const asyncValidate = (values/*, dispatch */) => {
-  return new Promise((resolve, reject) => {
-    if(!values.slug) {
-      resolve();
-    } else {
-      api.sitemap.retrieve({ path: values.slug })
-        .then(({status, json}) => {
-          if(status === 404) {
-            resolve();
-          } else {
-            if(json && !Object.is(json.resource, values.id)) {
-              reject({ slug: messages.errors_urlTaken });
-            } else {
-              resolve();
-            }
-          }
-        });
-    }
-  })
+const slugExists = (values) => {
+  if(values.slug && values.slug.length > 0) {
+    return api.products.slugExists(values.id, values.slug).then(response => response.status === 200);
+  } else {
+    return Promise.resolve(false);
+  }
+}
+
+const skuExists = (values) => {
+  if(values.sku && values.sku.length > 0) {
+    return api.products.skuExists(values.id, values.sku).then(response => response.status === 200);
+  } else {
+    return Promise.resolve(false);
+  }
+}
+
+const asyncValidate = (values) => {
+  return Promise.all([
+      slugExists(values),
+      skuExists(values)
+    ]).then(([ isSlugExists, isSkuExists ]) => {
+      let errors = {};
+
+      if(isSlugExists) {
+        errors.slug = messages.errors_urlTaken;
+      }
+
+      if(isSkuExists) {
+        errors.sku = messages.skuTaken;
+      }
+
+      if (Object.keys(errors).length > 0) {
+        return Promise.reject(errors)
+      } else {
+        return Promise.resolve();
+      }
+    });
 }
 
 class ProductEdit extends React.Component {
@@ -76,122 +94,117 @@ class ProductEdit extends React.Component {
       handleSubmit,
       pristine,
       submitting,
-      isSaving,
       initialValues,
+      isUpdating,
       settings } = this.props;
 
-    if(!initialValues) {
-      return <div></div>
-    }
-
-    let images = initialValues.images;
-
-    return (
-      <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
-        <div className="row row--no-gutter col-full-height">
-          <div className="col-xs-3 col--no-gutter scroll">
-            <Paper className={style.form} zDepth={1}>
-              <div className={style.innerBox}>
-
-                <div className="blue-title">{messages.products_pricing}</div>
-
-                <div className="row row--no-gutter">
-                  <div className="col-xs-6 col--no-gutter">
-                    <Field name="regular_price" component={TextField} floatingLabelText={messages.products_regularPrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
-                  </div>
-                  <div className="col-xs-6 col--no-gutter">
-                    <Field name="sale_price" component={TextField} floatingLabelText={messages.products_salePrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
-                  </div>
-                </div>
-
-
-                <div className="row row--no-gutter">
-                  <div className="col-xs-6 col--no-gutter">
-                    <Field name="date_sale_from"
-                      component={DatePicker}
-                      textFieldStyle={{ width:'100%' }}
-                      autoOk={true}
-                      format={(value, name) => value === '' ? null : value}
-                      floatingLabelText={messages.products_dateSaleFrom} />
-                  </div>
-                  <div className="col-xs-6 col--no-gutter">
-                    <Field name="date_sale_to"
-                      component={DatePicker}
-                      textFieldStyle={{ width:'100%' }}
-                      autoOk={true}
-                      format={(value, name) => value === '' ? null : value}
-                      floatingLabelText={messages.products_dateSaleTo} />
-                  </div>
-                </div>
-
-                <div className="blue-title">{messages.products_inventory}</div>
-
-                <Field name="sku" component={TextField} floatingLabelText={messages.products_sku} fullWidth={true}/>
-
-                <div className="row row--no-gutter">
-                  <div className="col-xs-6 col--no-gutter">
-                    <Field name="stock_quantity" component={TextField} floatingLabelText={messages.products_stockQuantity} fullWidth={true}/>
-                  </div>
-                  <div className="col-xs-6 col--no-gutter">
-                    <Field name="weight" component={TextField} floatingLabelText={messages.products_weight + ` (${settings.weight_unit})`} fullWidth={true}/>
-                  </div>
-                </div>
-
-                <Field name="date_stock_expected"
-                  component={DatePicker}
-                  textFieldStyle={{ width:'100%' }}
-                  autoOk={true}
-                  format={(value, name) => value === '' ? null : value}
-                  floatingLabelText={messages.products_dateStockExpected} />
-                <Field name="stock_tracking" component={Toggle} label={messages.products_stockTracking} className={style.toggle}/>
-                <Field name="stock_preorder" component={Toggle} label={messages.products_stockPreorder} className={style.toggle}/>
-                <Field name="stock_backorder" component={Toggle} label={messages.products_stockBackorder} className={style.toggle}/>
-
-
-                <div className="blue-title">{messages.products_visibility}</div>
-
-                <Field name="enabled" component={Toggle} label={messages.enabled} className={style.toggle}/>
-                <Field name="discontinued" component={Toggle} label={messages.products_discontinued} className={style.toggle}/>
-              </div>
-            </Paper>
-          </div>
-          <div className="col-xs-9 col--no-gutter scroll">
-            <Paper className={style.form} zDepth={1}>
+      return (
+        <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
+          <div className="row row--no-gutter col-full-height">
+            <div className="col-xs-3 col--no-gutter scroll">
+              <Paper className={style.form} zDepth={1}>
                 <div className={style.innerBox}>
-                  <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/><br />
 
-                  <div className="blue-title">{messages.description}</div>
-                  <Field
-                    name="description"
-                    component={Editor}
-                  />
+                  <div className="blue-title">{messages.products_pricing}</div>
 
-                  <div className="blue-title">{messages.images}</div>
-                  <Gallery />
+                  <div className="row row--no-gutter">
+                    <div className="col-xs-6 col--no-gutter">
+                      <Field name="regular_price" component={TextField} floatingLabelText={messages.products_regularPrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
+                    </div>
+                    <div className="col-xs-6 col--no-gutter">
+                      <Field name="sale_price" component={TextField} floatingLabelText={messages.products_salePrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
+                    </div>
+                  </div>
 
-                  <div className="blue-title">{messages.seo}</div>
-                  <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
-                  <p className="field-hint">{messages.help_slug}</p>
-                  <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
-                  <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+
+                  <div className="row row--no-gutter">
+                    <div className="col-xs-6 col--no-gutter">
+                      <Field name="date_sale_from"
+                        component={DatePicker}
+                        textFieldStyle={{ width:'100%' }}
+                        autoOk={true}
+                        format={(value, name) => value === '' ? null : value}
+                        floatingLabelText={messages.products_dateSaleFrom} />
+                    </div>
+                    <div className="col-xs-6 col--no-gutter">
+                      <Field name="date_sale_to"
+                        component={DatePicker}
+                        textFieldStyle={{ width:'100%' }}
+                        autoOk={true}
+                        format={(value, name) => value === '' ? null : value}
+                        floatingLabelText={messages.products_dateSaleTo} />
+                    </div>
+                  </div>
+
+                  <div className="blue-title">{messages.products_inventory}</div>
+
+                  <Field name="sku" component={TextField} floatingLabelText={messages.products_sku} fullWidth={true}/>
+
+                  <div className="row row--no-gutter">
+                    <div className="col-xs-6 col--no-gutter">
+                      <Field name="stock_quantity" component={TextField} floatingLabelText={messages.products_stockQuantity} fullWidth={true}/>
+                    </div>
+                    <div className="col-xs-6 col--no-gutter">
+                      <Field name="weight" component={TextField} floatingLabelText={messages.products_weight + ` (${settings.weight_unit})`} fullWidth={true}/>
+                    </div>
+                  </div>
+
+                  <Field name="date_stock_expected"
+                    component={DatePicker}
+                    textFieldStyle={{ width:'100%' }}
+                    autoOk={true}
+                    format={(value, name) => value === '' ? null : value}
+                    floatingLabelText={messages.products_dateStockExpected} />
+                  <Field name="stock_tracking" component={Toggle} label={messages.products_stockTracking} className={style.toggle}/>
+                  <Field name="stock_preorder" component={Toggle} label={messages.products_stockPreorder} className={style.toggle}/>
+                  <Field name="stock_backorder" component={Toggle} label={messages.products_stockBackorder} className={style.toggle}/>
+
+
+                  <div className="blue-title">{messages.products_visibility}</div>
+
+                  <Field name="enabled" component={Toggle} label={messages.enabled} className={style.toggle}/>
+                  <Field name="discontinued" component={Toggle} label={messages.products_discontinued} className={style.toggle}/>
                 </div>
-                <div className="buttons-box">
-                  <Link to={'/admin/products'}>
-                    <FlatButton label={messages.actions_cancel} className={style.button} />
-                  </Link>
-                  <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
-                </div>
-            </Paper>
+              </Paper>
+            </div>
+            <div className="col-xs-9 col--no-gutter scroll">
+              <Paper className={style.form} zDepth={1}>
+                  <div className={style.innerBox}>
+                    <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/><br />
+
+                    <div className="blue-title">{messages.description}</div>
+                    <Field
+                      name="description"
+                      component={Editor}
+                    />
+
+                    <div className="blue-title">{messages.images}</div>
+                    <Gallery />
+
+                    <div className="blue-title">{messages.seo}</div>
+                    <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
+                    <p className="field-hint">{messages.help_slug}</p>
+                    <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
+                    <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+                  </div>
+                  <div className="buttons-box">
+                    <Link to={'/admin/products'}>
+                      <FlatButton label={messages.actions_cancel} className={style.button} />
+                    </Link>
+                    <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting || isUpdating}/>
+                  </div>
+              </Paper>
+            </div>
           </div>
-        </div>
-      </form>
-    )
+        </form>
+      )
   }
 }
 
 export default reduxForm({
-  form: 'FormProduct',
+  form: 'ProductEditForm',
   validate,
   asyncValidate,
-  enableReinitialize: false
+  asyncBlurFields: [ 'sku', 'slug' ],
+  enableReinitialize: true
 })(ProductEdit)
