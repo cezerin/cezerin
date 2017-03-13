@@ -11,7 +11,7 @@ const initialState = {
   errorFetchEdit: null,
   errorFetch: null,
   errorUpdate: null,
-  filter_active: false,
+  filter_enabled: false,
   filter_discontinued: false,
   filter_on_sale: false,
   filter_search: '',
@@ -78,9 +78,9 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         filter_stock_status: action.stock_status
       })
-    case t.PRODUCTS_FILTER_SET_ACTIVE:
+    case t.PRODUCTS_FILTER_SET_ENABLED:
       return Object.assign({}, state, {
-        filter_active: action.active
+        filter_enabled: action.enabled
       })
     case t.PRODUCTS_FILTER_SET_DISCONTINUED:
       return Object.assign({}, state, {

@@ -139,7 +139,7 @@ export function updateCategory(data) {
 
 export function createCategory() {
   return (dispatch, getState) => {
-    return api.product_categories.create({ active: false })
+    return api.product_categories.create({ enabled: false })
       .then(({status, json}) => {
           dispatch(successCreateCategory(json.id));
           dispatch(fetchCategories());

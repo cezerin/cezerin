@@ -41,7 +41,7 @@ export default class Categories extends React.Component {
       innerDivStyle={styles.innerItem}
       primaryText={item.name}
       nestedItems={this.getChildren(selectedId, allItems, item.id)}
-      leftIcon={<FontIcon className="material-icons">{item.active ? 'folder' : 'visibility_off'}</FontIcon>}
+      leftIcon={<FontIcon className="material-icons">{item.enabled ? 'folder' : 'visibility_off'}</FontIcon>}
       onTouchTap={() => { this.props.onSelect(item.id) }}
            />
   }

@@ -103,10 +103,10 @@ export function setFilterStock(value) {
   }
 }
 
-export function setFilterActive(value) {
+export function setFilterEnabled(value) {
   return {
-    type: t.PRODUCTS_FILTER_SET_ACTIVE,
-    active: value
+    type: t.PRODUCTS_FILTER_SET_ENABLED,
+    enabled: value
   }
 }
 
@@ -168,7 +168,7 @@ export function fetchProducts() {
       dispatch(requestProducts());
       dispatch(deselectAllProduct());
 
-      let filter = { limit: 20, thumbnail_width: 160, fields: 'id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
+      let filter = { limit: 20, thumbnail_width: 160, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
       filter.search = state.products.filter_search;
 
       if(state.products.filter_stock_status && state.products.filter_stock_status !== 'all') {
@@ -179,8 +179,8 @@ export function fetchProducts() {
         filter.category_id = state.productCategories.selectedId;
       }
 
-      if(state.products.filter_active) {
-        filter.active = true;
+      if(state.products.filter_enabled) {
+        filter.enabled = true;
       }
 
       if(state.products.filter_discontinued) {
@@ -215,7 +215,7 @@ export function fetchMoreProducts() {
     const state = getState();
     dispatch(requestMoreProducts());
 
-    let filter = { limit: 50, thumbnail_width: 160, fields: 'id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
+    let filter = { limit: 50, thumbnail_width: 160, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
     filter.offset = state.products.items.length;
     filter.search = state.products.filter_search;
 
@@ -227,8 +227,8 @@ export function fetchMoreProducts() {
       filter.category_id = state.productCategories.selectedId;
     }
 
-    if(state.products.filter_active) {
-      filter.active = true;
+    if(state.products.filter_enabled) {
+      filter.enabled = true;
     }
 
     if(state.products.filter_discontinued) {
@@ -305,7 +305,7 @@ export function updateProduct(data) {
 export function createProduct() {
   return (dispatch, getState) => {
     const state = getState();
-    return api.products.create({ active: false, category_id: state.productCategories.selectedId }).then(({status, json}) => {
+    return api.products.create({ enabled: false, category_id: state.productCategories.selectedId }).then(({status, json}) => {
         dispatch(successCreateProduct(json.id));
         dispatch(fetchProducts());
         dispatch(push('/admin/product/'+json.id));

@@ -67,7 +67,7 @@ class ProductsService {
     let project =
     {
       related_product_ids: 1,
-      active: 1,
+      enabled: 1,
       discontinued: 1,
       date_created: 1,
       date_updated: 1,
@@ -198,7 +198,7 @@ class ProductsService {
 
   getMatchQuery({
     category_id,
-    active,
+    enabled,
     discontinued,
     on_sale,
     stock_status,
@@ -210,7 +210,7 @@ class ProductsService {
 
      // parse values
      category_id = parse.getObjectIDIfValid(category_id);
-     active = parse.getBooleanIfValid(active);
+     enabled = parse.getBooleanIfValid(enabled);
      discontinued = parse.getBooleanIfValid(discontinued);
      on_sale = parse.getBooleanIfValid(on_sale);
      price_from = parse.getNumberIfPositive(price_from);
@@ -227,9 +227,9 @@ class ProductsService {
        });
      }
 
-     if(active !== null) {
+     if(enabled !== null) {
        queries.push({
-         active: active
+         enabled: enabled
        });
      }
 
@@ -376,7 +376,7 @@ class ProductsService {
       product.meta_title = parse.getString(data.meta_title);
       product.tags = parse.getArrayIfValid(data.tags) || [];
       product.attributes = parse.getArrayIfValid(data.attributes) || [];
-      product.active = parse.getBooleanIfValid(data.active, true);
+      product.enabled = parse.getBooleanIfValid(data.enabled, true);
       product.discontinued = parse.getBooleanIfValid(data.discontinued, false);
       product.sku = parse.getString(data.sku);
       product.code = parse.getString(data.code);
@@ -454,8 +454,8 @@ class ProductsService {
         product.dimensions = data.dimensions;
       }
 
-      if(data.active !== undefined) {
-        product.active = parse.getBooleanIfValid(data.active, true);
+      if(data.enabled !== undefined) {
+        product.enabled = parse.getBooleanIfValid(data.enabled, true);
       }
 
       if(data.discontinued !== undefined) {

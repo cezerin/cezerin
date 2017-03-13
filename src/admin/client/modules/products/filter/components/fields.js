@@ -6,15 +6,15 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Toggle from 'material-ui/Toggle';
 
-export default ({ active, discontinued, on_sale, stock_status,
-  setActive, setDiscontinued, setOnSale, setStock }) => {
+export default ({ enabled, discontinued, on_sale, stock_status,
+  setEnabled, setDiscontinued, setOnSale, setStock }) => {
   return (
     <div className={style.filter}>
       <div className="blue-title" style={{ paddingBottom:16 }}>{messages.filter}</div>
       <Toggle
-        label={messages.products_onlyActive}
-        onToggle={(e, value) => { setActive(value) }}
-        toggled={active}
+        label={messages.products_onlyEnabled}
+        onToggle={(e, value) => { setEnabled(value) }}
+        toggled={enabled}
         className={style.toggle}
       />
       <Toggle

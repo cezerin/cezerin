@@ -21,7 +21,7 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
   const checked = selected.includes(product.id);
 
   let productClass = style.productName;
-  if(!product.active || product.discontinued) {
+  if(!product.enabled || product.discontinued) {
     productClass += " " + style.productInactive;
   } else {
     productClass += " " + style.productActive;

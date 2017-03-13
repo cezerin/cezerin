@@ -77,7 +77,7 @@ class Form extends React.Component {
               <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/><br />
               <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={2}/>
               <div className={style.shortBox}>
-                <Field name="active" component={Toggle} label={messages.productCategories_active} className={style.toggle}/><br />
+                <Field name="enabled" component={Toggle} label={messages.productCategories_enabled} className={style.toggle}/><br />
                 <ImageUpload
                   imageUrl={imageUrl}
                   postUrl={`${settings.apiBaseUrl}/products/categories/${categoryId}/image`}

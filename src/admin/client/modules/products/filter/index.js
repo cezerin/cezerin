@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import { fetchProducts, setFilterActive, setFilterDiscontinued, setFilterOnSale, setFilterStock } from '../actions'
+import { fetchProducts, setFilterEnabled, setFilterDiscontinued, setFilterOnSale, setFilterStock } from '../actions'
 import Filter from './components/fields'
 
 const mapStateToProps = (state) => {
   return {
-    active: state.products.filter_active,
+    enabled: state.products.filter_enabled,
     discontinued: state.products.filter_discontinued,
     on_sale: state.products.filter_on_sale,
     stock_status: state.products.filter_stock_status
@@ -13,8 +13,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setActive: (value) => {
-      dispatch(setFilterActive(value));
+    setEnabled: (value) => {
+      dispatch(setFilterEnabled(value));
       dispatch(fetchProducts());
     },
     setDiscontinued: (value) => {

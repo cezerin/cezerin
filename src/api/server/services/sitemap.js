@@ -13,15 +13,15 @@ class SitemapService {
     });
   }
 
-  getPathsWithoutSlashes(slug, onlyActive) {
-    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(slug, onlyActive), this.getSlugArrayFromPages(slug, onlyActive)]).then(([reserved, productCategories, pages]) => {
+  getPathsWithoutSlashes(slug, onlyEnabled) {
+    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(slug, onlyEnabled), this.getSlugArrayFromPages(slug, onlyEnabled)]).then(([reserved, productCategories, pages]) => {
       let paths = [...reserved, ...productCategories, ...pages];
       return paths;
     });
   }
 
-  getPathsWithSlash(slug, onlyActive) {
-    return this.getSlugArrayFromProducts(slug, onlyActive);
+  getPathsWithSlash(slug, onlyEnabled) {
+    return this.getSlugArrayFromProducts(slug, onlyEnabled);
   }
 
   getSlugArrayFromReserved() {
@@ -51,7 +51,7 @@ class SitemapService {
     return paths;
   }
 
-  getSlugArrayFromProducts(slug, onlyActive) {
+  getSlugArrayFromProducts(slug, onlyEnabled) {
     const categoriesFilter = {};
     const productsFilter = {};
 
@@ -61,8 +61,8 @@ class SitemapService {
       productsFilter.slug = slugParts[1];
     }
 
-    if(onlyActive === true) {
-      categoriesFilter.active = productsFilter.active = true;
+    if(onlyEnabled === true) {
+      categoriesFilter.enabled = productsFilter.enabled = true;
     }
 
     return Promise.all([
@@ -80,9 +80,9 @@ class SitemapService {
 
   }
 
-  getSlugArrayFromPages(slug, onlyActive) {
+  getSlugArrayFromPages(slug, onlyEnabled) {
     const filter = this.getFilterWithoutSlashes(slug);
-    if(onlyActive === true) {
+    if(onlyEnabled === true) {
       filter.enabled = true;
     }
 
@@ -91,10 +91,10 @@ class SitemapService {
     )
   }
 
-  getSlugArrayFromProductCategories(slug, onlyActive) {
+  getSlugArrayFromProductCategories(slug, onlyEnabled) {
     const filter = this.getFilterWithoutSlashes(slug);
-    if(onlyActive === true) {
-      filter.active = true;
+    if(onlyEnabled === true) {
+      filter.enabled = true;
     }
 
     return mongo.db.collection('productCategories').find(filter).project({slug: 1}).toArray().then(items =>
@@ -110,16 +110,16 @@ class SitemapService {
     }
   }
 
-  getSinglePath(path, onlyActive = false) {
-    onlyActive = parse.getBooleanIfValid(onlyActive, false);
+  getSinglePath(path, onlyEnabled = false) {
+    onlyEnabled = parse.getBooleanIfValid(onlyEnabled, false);
     // convert path to slash (remove first slash)
     const slug = path.substr(1);
     if(slug.includes('/')) {
       // slug = category-slug/product-slug
-      return this.getPathsWithSlash(slug, onlyActive).then(paths => paths.find(e => e.path === path))
+      return this.getPathsWithSlash(slug, onlyEnabled).then(paths => paths.find(e => e.path === path))
     } else {
       // slug = slug
-      return this.getPathsWithoutSlashes(slug, onlyActive).then(paths => paths.find(e => e.path === path))
+      return this.getPathsWithoutSlashes(slug, onlyEnabled).then(paths => paths.find(e => e.path === path))
     }
   }
 }

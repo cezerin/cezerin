@@ -72,7 +72,7 @@ const sendPageError = (res, status, err) => {
 storeRouter.get('*', (req, res, next) => {
   Promise.all([
     readIndexHtmlFile(),
-    api.sitemap.retrieve({ path: req.path, active: true }),
+    api.sitemap.retrieve({ path: req.path, enabled: true }),
     api.checkout_fields.list()
   ]).then(([templateHtml, sitemapDetails, checkout_fields]) => {
     if (sitemapDetails.status === 200) {

@@ -151,7 +151,7 @@ class ProductEdit extends React.Component {
 
                 <div className="blue-title">{messages.products_visibility}</div>
 
-                <Field name="active" component={Toggle} label={messages.products_active} className={style.toggle}/>
+                <Field name="active" component={Toggle} label={messages.enabled} className={style.toggle}/>
                 <Field name="discontinued" component={Toggle} label={messages.products_discontinued} className={style.toggle}/>
               </div>
             </Paper>

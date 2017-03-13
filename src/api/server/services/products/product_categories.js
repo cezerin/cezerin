@@ -14,9 +14,9 @@ class ProductСategoriesService {
 
   getFilter(params = {}) {
     let filter = {};
-    const active = parse.getBooleanIfValid(params.active);
-    if (active !== null) {
-      filter.active = active;
+    const enabled = parse.getBooleanIfValid(params.enabled);
+    if (enabled !== null) {
+      filter.enabled = enabled;
     }
     return filter;
   }
@@ -127,7 +127,7 @@ class ProductСategoriesService {
       category.description = parse.getString(data.description);
       category.meta_description = parse.getString(data.meta_description);
       category.meta_title = parse.getString(data.meta_title);
-      category.active = parse.getBooleanIfValid(data.active, true);
+      category.enabled = parse.getBooleanIfValid(data.enabled, true);
       category.sort = parse.getString(data.sort);
       category.parent_id = parse.getObjectIDIfValid(data.parent_id);
       category.position = parse.getNumberIfValid(data.position) || newPosition;
@@ -172,8 +172,8 @@ class ProductСategoriesService {
         category.meta_title = parse.getString(data.meta_title);
       }
 
-      if(data.active !== undefined) {
-        category.active = parse.getBooleanIfValid(data.active, true);
+      if(data.enabled !== undefined) {
+        category.enabled = parse.getBooleanIfValid(data.enabled, true);
       }
 
       if(data.image !== undefined) {

@@ -242,7 +242,7 @@ export function checkout(cart) {
 
 export function fetchCategories() {
   return (dispatch, getState) => {
-    return api.ajax.product_categories.list({ active: true }).then(({status, json}) => {
+    return api.ajax.product_categories.list({ enabled: true }).then(({status, json}) => {
       dispatch(receiveCategories(json))
     }).catch(error => {});
   }
@@ -262,9 +262,9 @@ export function fetchProducts() {
 
     let filter = state.app.productsFilter;
     filter.thumbnail_width = 420,
-    filter.active = true;
+    filter.enabled = true;
     filter.category_id = state.app.currentCategory.id;
-    filter.fields = 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
+    filter.fields = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
 
     return api.ajax.products.list(filter).then(({status, json}) => {
       dispatch(receiveProducts(json))
@@ -281,7 +281,7 @@ export function fetchPage(pageId) {
 }
 
 const getCategories = () => {
-  return api.ajax.product_categories.list({ active: true }).then(({status, json}) => json)
+  return api.ajax.product_categories.list({ enabled: true }).then(({status, json}) => json)
 }
 
 const getProducts = (filter) => {
@@ -346,7 +346,7 @@ export const getInitialState = (req, checkout_fields, currentPage) => {
       order: null,
       productsFilter: {
         limit: 20,
-        fields: 'path,id,name,category_id,category_name,sku,images,active,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
+        fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       },
       checkout_fields: checkout_fields
     }
