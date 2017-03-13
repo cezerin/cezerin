@@ -23,7 +23,7 @@ class ProductCategoriesService {
 
   getCategories(params = {}) {
     const filter = this.getFilter(params);
-  	return mongo.db.collection('productCategories').find(filter).toArray()
+  	return mongo.db.collection('productCategories').find(filter).sort({position: 1}).toArray()
     .then(items => items.map(c => this.changeProperties(c)))
   }
 

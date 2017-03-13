@@ -84,8 +84,6 @@ function fetchCategories() {
     dispatch(requestCategories());
     return api.product_categories.list()
       .then(({status, json}) => {
-        json = json.sort((a,b) => (a.position - b.position ));
-
         json.forEach((element, index, theArray) => {
           if(theArray[index].name === '') {
             theArray[index].name = `<${messages.draft}>`;
