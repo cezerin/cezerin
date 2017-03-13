@@ -20,19 +20,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case t.PRODUCT_EDIT_REQUEST:
+    case t.PRODUCT_DETAIL_REQUEST:
       return Object.assign({}, state, {
       })
-    case t.PRODUCT_EDIT_RECEIVE:
+    case t.PRODUCT_DETAIL_RECEIVE:
       return Object.assign({}, state, {
         editItem: action.item
       })
-    case t.PRODUCT_EDIT_ERASE:
+    case t.PRODUCT_DETAIL_ERASE:
       return Object.assign({}, state, {
         isUpdating: false,
         editItem: null
       })
-    case t.PRODUCT_EDIT_FAILURE:
+    case t.PRODUCT_DETAIL_FAILURE:
       return Object.assign({}, state, {
         errorFetchEdit: action.error
       })

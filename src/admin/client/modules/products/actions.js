@@ -6,27 +6,27 @@ import moment from 'moment';
 
 function requestProduct() {
   return {
-    type: t.PRODUCT_EDIT_REQUEST
+    type: t.PRODUCT_DETAIL_REQUEST
   }
 }
 
 function receiveProduct(item) {
   return {
-    type: t.PRODUCT_EDIT_RECEIVE,
+    type: t.PRODUCT_DETAIL_RECEIVE,
     item
   }
 }
 
 function receiveProductError(error) {
   return {
-    type: t.PRODUCT_EDIT_FAILURE,
+    type: t.PRODUCT_DETAIL_FAILURE,
     error
   }
 }
 
 export function cancelProductEdit() {
   return {
-    type: t.PRODUCT_EDIT_ERASE
+    type: t.PRODUCT_DETAIL_ERASE
   }
 }
 
