@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import messages from 'lib/text'
 
 import { List, ListItem } from 'material-ui/List';
@@ -34,21 +34,22 @@ export default class Categories extends React.Component {
     this.props.onLoad();
   }
 
-  getItem(selectedId, allItems, item) {
+  getItem(selectedId, allItems, item, opened) {
     return <ListItem
       key={item.id}
+      initiallyOpen={opened}
       style={item.id === selectedId ? styles.selectedItem : styles.item}
       innerDivStyle={styles.innerItem}
       primaryText={item.name}
-      nestedItems={this.getChildren(selectedId, allItems, item.id)}
+      nestedItems={this.getChildren(selectedId, allItems, item.id, opened)}
       leftIcon={<FontIcon className="material-icons">{item.enabled ? 'folder' : 'visibility_off'}</FontIcon>}
       onTouchTap={() => { this.props.onSelect(item.id) }}
            />
   }
 
-  getChildren(selectedId, allItems, id){
+  getChildren(selectedId, allItems, id, opened){
     if(allItems && id){
-      return allItems.filter(item => item.parent_id === id).map(item => this.getItem(selectedId, allItems, item));
+      return allItems.filter(item => item.parent_id === id).map(item => this.getItem(selectedId, allItems, item, opened));
     } else {
       return [];
     }
@@ -62,10 +63,12 @@ export default class Categories extends React.Component {
       onCreate,
     	showAll,
       showRoot,
-      showAdd
+      showAdd,
+      opened = true
     } = this.props;
 
-    var rows = items.filter(item => item.parent_id === null).map(item => this.getItem(selectedId, items, item));
+
+    var rows = items.filter(item => item.parent_id === null).map(item => this.getItem(selectedId, items, item, opened));
 
     return (
       <div>
