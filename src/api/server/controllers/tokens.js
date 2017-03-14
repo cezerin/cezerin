@@ -16,7 +16,7 @@ class SecurityTokensController {
     this.router.get('/v1/security/tokens/:id', security.checkUserScope.bind(this, security.scope.ADMIN), this.getSingleToken.bind(this));
     this.router.put('/v1/security/tokens/:id', security.checkUserScope.bind(this, security.scope.ADMIN), this.updateToken.bind(this));
     this.router.delete('/v1/security/tokens/:id', security.checkUserScope.bind(this, security.scope.ADMIN), this.deleteToken.bind(this));
-    this.router.post('/v1/authorize', security.checkUserScope.bind(this, security.scope.DASHBOARD), this.sendDashboardSigninUrl.bind(this));
+    this.router.post('/v1/authorize', this.sendDashboardSigninUrl.bind(this));
   }
 
   getTokens(req, res, next) {
