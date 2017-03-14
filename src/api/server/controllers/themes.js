@@ -1,5 +1,6 @@
 'use strict';
 
+const security = require('../lib/security');
 var ThemesService = require('../services/themes/themes');
 
 class ThemesController {
@@ -9,8 +10,8 @@ class ThemesController {
   }
 
   registerRoutes() {
-    this.router.get('/themes/current/zip', this.exportCurrentTheme.bind(this));
-    this.router.post('/themes/current/zip', this.installTheme.bind(this));
+    this.router.get('/themes/current/zip', security.checkUserScope.bind(this, security.scope.READ_THEMES), this.exportCurrentTheme.bind(this));
+    this.router.post('/themes/current/zip', security.checkUserScope.bind(this, security.scope.WRITE_THEMES), this.installTheme.bind(this));
   }
 
   exportCurrentTheme(req, res, next) {

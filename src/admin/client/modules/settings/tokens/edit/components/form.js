@@ -10,7 +10,32 @@ import SelectTokenScopes from './selectScopes'
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const Scopes = ['admin', 'read:products', 'write:products', 'read:orders', 'write:orders'];
+const Scopes = [
+  'admin',
+  'dashboard',
+  'read:products',
+  'write:products',
+  'read:product_categories',
+  'write:product_categories',
+  'read:orders',
+  'write:orders',
+  'read:customers',
+  'write:customers',
+  'read:customer_groups',
+  'write:customer_groups',
+  'read:pages',
+  'write:pages',
+  'read:order_statuses',
+  'write:order_statuses',
+  'read:themes',
+  'write:themes',
+  'read:sitemap',
+  'read:shipping_methods',
+  'write:shipping_methods',
+  'read:payment_methods',
+  'write:payment_methods',
+  'read:settings',
+  'write:settings'];
 
 const validate = values => {
   const errors = {}

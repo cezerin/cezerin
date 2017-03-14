@@ -1,5 +1,6 @@
 'use strict';
 
+const security = require('../lib/security');
 var SecurityTokensService = require('../services/security/tokens');
 
 class SecurityTokensController {
@@ -9,13 +10,13 @@ class SecurityTokensController {
   }
 
   registerRoutes() {
-    this.router.get('/security/tokens', this.getTokens.bind(this));
-    this.router.get('/security/tokens/blacklist', this.getTokensBlacklist.bind(this));
-    this.router.post('/security/tokens', this.addToken.bind(this));
-    this.router.get('/security/tokens/:id', this.getSingleToken.bind(this));
-    this.router.put('/security/tokens/:id', this.updateToken.bind(this));
-    this.router.delete('/security/tokens/:id', this.deleteToken.bind(this));
-    this.router.post('/authorize', this.sendDashboardSigninUrl.bind(this));
+    this.router.get('/security/tokens', security.checkUserScope.bind(this, security.scope.ADMIN), this.getTokens.bind(this));
+    this.router.get('/security/tokens/blacklist', security.checkUserScope.bind(this, security.scope.ADMIN), this.getTokensBlacklist.bind(this));
+    this.router.post('/security/tokens', security.checkUserScope.bind(this, security.scope.ADMIN), this.addToken.bind(this));
+    this.router.get('/security/tokens/:id', security.checkUserScope.bind(this, security.scope.ADMIN), this.getSingleToken.bind(this));
+    this.router.put('/security/tokens/:id', security.checkUserScope.bind(this, security.scope.ADMIN), this.updateToken.bind(this));
+    this.router.delete('/security/tokens/:id', security.checkUserScope.bind(this, security.scope.ADMIN), this.deleteToken.bind(this));
+    this.router.post('/authorize', security.checkUserScope.bind(this, security.scope.DASHBOARD), this.sendDashboardSigninUrl.bind(this));
   }
 
   getTokens(req, res, next) {
@@ -57,16 +58,16 @@ class SecurityTokensController {
   }
 
   deleteToken(req, res, next) {
-   SecurityTokensService.deleteToken(req.params.id)
-    .then(data => { res.end() })
-    .catch(next)
+    SecurityTokensService.deleteToken(req.params.id).then(data => {
+      res.end()
+    }).catch(next)
   }
 
-   sendDashboardSigninUrl(req, res, next) {
-     SecurityTokensService.sendDashboardSigninUrl(req).then(data => {
-       res.send(data);
-     }).catch(next)
-   }
+  sendDashboardSigninUrl(req, res, next) {
+    SecurityTokensService.sendDashboardSigninUrl(req).then(data => {
+      res.send(data);
+    }).catch(next)
+  }
 }
 
 module.exports = SecurityTokensController;
