@@ -10,11 +10,11 @@ class PagesController {
   }
 
   registerRoutes() {
-    this.router.get('/pages', security.checkUserScope.bind(this, security.scope.READ_PAGES), this.getPages.bind(this));
-    this.router.post('/pages', security.checkUserScope.bind(this, security.scope.WRITE_PAGES), this.addPage.bind(this));
-    this.router.get('/pages/:id', security.checkUserScope.bind(this, security.scope.READ_PAGES), this.getSinglePage.bind(this));
-    this.router.put('/pages/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAGES), this.updatePage.bind(this));
-    this.router.delete('/pages/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAGES), this.deletePage.bind(this));
+    this.router.get('/v1/pages', security.checkUserScope.bind(this, security.scope.READ_PAGES), this.getPages.bind(this));
+    this.router.post('/v1/pages', security.checkUserScope.bind(this, security.scope.WRITE_PAGES), this.addPage.bind(this));
+    this.router.get('/v1/pages/:id', security.checkUserScope.bind(this, security.scope.READ_PAGES), this.getSinglePage.bind(this));
+    this.router.put('/v1/pages/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAGES), this.updatePage.bind(this));
+    this.router.delete('/v1/pages/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAGES), this.deletePage.bind(this));
   }
 
   getPages(req, res, next) {

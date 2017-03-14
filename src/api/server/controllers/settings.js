@@ -13,15 +13,15 @@ class SettingsController {
   }
 
   registerRoutes() {
-    this.router.get('/settings', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getSettings.bind(this));
-    this.router.put('/settings', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateSettings.bind(this));
-    this.router.get('/settings/email', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getEmailSettings.bind(this));
-    this.router.put('/settings/email', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateEmailSettings.bind(this));
-    this.router.get('/settings/email/templates/:name', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getEmailTemplate.bind(this));
-    this.router.put('/settings/email/templates/:name', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateEmailTemplate.bind(this));
-    this.router.get('/settings/checkout/fields', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getCheckoutFields.bind(this));
-    this.router.get('/settings/checkout/fields/:name', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getCheckoutField.bind(this));
-    this.router.put('/settings/checkout/fields/:name', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateCheckoutField.bind(this));
+    this.router.get('/v1/settings', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getSettings.bind(this));
+    this.router.put('/v1/settings', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateSettings.bind(this));
+    this.router.get('/v1/settings/email', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getEmailSettings.bind(this));
+    this.router.put('/v1/settings/email', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateEmailSettings.bind(this));
+    this.router.get('/v1/settings/email/templates/:name', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getEmailTemplate.bind(this));
+    this.router.put('/v1/settings/email/templates/:name', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateEmailTemplate.bind(this));
+    this.router.get('/v1/settings/checkout/fields', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getCheckoutFields.bind(this));
+    this.router.get('/v1/settings/checkout/fields/:name', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getCheckoutField.bind(this));
+    this.router.put('/v1/settings/checkout/fields/:name', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateCheckoutField.bind(this));
   }
 
   getSettings(req, res, next) {

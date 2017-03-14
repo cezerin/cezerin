@@ -45,7 +45,7 @@ app.use(helmet())
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use('/api/v1', apiRouter);
+app.use('/api', apiRouter);
 app.get('/admin/*', function(req, res) {
   res.sendFile(ADMIN_INDEX_PATH)
 });

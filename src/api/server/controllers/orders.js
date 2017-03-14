@@ -14,29 +14,29 @@ class OrdersController {
   }
 
   registerRoutes() {
-    this.router.get('/orders', security.checkUserScope.bind(this, security.scope.READ_ORDERS), this.getOrders.bind(this));
-    this.router.post('/orders', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addOrder.bind(this));
-    this.router.get('/orders/:id', security.checkUserScope.bind(this, security.scope.READ_ORDERS), this.getSingleOrder.bind(this));
-    this.router.put('/orders/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateOrder.bind(this));
-    this.router.delete('/orders/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteOrder.bind(this));
+    this.router.get('/v1/orders', security.checkUserScope.bind(this, security.scope.READ_ORDERS), this.getOrders.bind(this));
+    this.router.post('/v1/orders', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addOrder.bind(this));
+    this.router.get('/v1/orders/:id', security.checkUserScope.bind(this, security.scope.READ_ORDERS), this.getSingleOrder.bind(this));
+    this.router.put('/v1/orders/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateOrder.bind(this));
+    this.router.delete('/v1/orders/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteOrder.bind(this));
 
-    this.router.put('/orders/:id/recalculate', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.recalculateOrder.bind(this));
-    this.router.put('/orders/:id/checkout', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.checkoutOrder.bind(this));
+    this.router.put('/v1/orders/:id/recalculate', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.recalculateOrder.bind(this));
+    this.router.put('/v1/orders/:id/checkout', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.checkoutOrder.bind(this));
 
-    this.router.put('/orders/:id/billing_address', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateBillingAddress.bind(this));
-    this.router.put('/orders/:id/shipping_address', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateShippingAddress.bind(this));
+    this.router.put('/v1/orders/:id/billing_address', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateBillingAddress.bind(this));
+    this.router.put('/v1/orders/:id/shipping_address', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateShippingAddress.bind(this));
 
-    this.router.post('/orders/:id/items', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addItem.bind(this));
-    this.router.put('/orders/:id/items/:item_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateItem.bind(this));
-    this.router.delete('/orders/:id/items/:item_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteItem.bind(this));
+    this.router.post('/v1/orders/:id/items', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addItem.bind(this));
+    this.router.put('/v1/orders/:id/items/:item_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateItem.bind(this));
+    this.router.delete('/v1/orders/:id/items/:item_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteItem.bind(this));
 
-    this.router.post('/orders/:id/transactions', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addTransaction.bind(this));
-    this.router.put('/orders/:id/transactions/:transaction_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateTransaction.bind(this));
-    this.router.delete('/orders/:id/transactions/:transaction_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteTransaction.bind(this));
+    this.router.post('/v1/orders/:id/transactions', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addTransaction.bind(this));
+    this.router.put('/v1/orders/:id/transactions/:transaction_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateTransaction.bind(this));
+    this.router.delete('/v1/orders/:id/transactions/:transaction_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteTransaction.bind(this));
 
-    this.router.post('/orders/:id/discounts', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addDiscount.bind(this));
-    this.router.put('/orders/:id/discounts/:discount_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateDiscount.bind(this));
-    this.router.delete('/orders/:id/discounts/:discount_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteDiscount.bind(this));
+    this.router.post('/v1/orders/:id/discounts', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addDiscount.bind(this));
+    this.router.put('/v1/orders/:id/discounts/:discount_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateDiscount.bind(this));
+    this.router.delete('/v1/orders/:id/discounts/:discount_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteDiscount.bind(this));
   }
 
   getOrders(req, res, next) {

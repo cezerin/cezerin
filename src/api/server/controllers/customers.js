@@ -10,16 +10,16 @@ class CustomersController {
   }
 
   registerRoutes() {
-    this.router.get('/customers', security.checkUserScope.bind(this, security.scope.READ_CUSTOMERS), this.getCustomers.bind(this));
-    this.router.post('/customers', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.addCustomer.bind(this));
-    this.router.get('/customers/:id', security.checkUserScope.bind(this, security.scope.READ_CUSTOMERS), this.getSingleCustomer.bind(this));
-    this.router.put('/customers/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.updateCustomer.bind(this));
-    this.router.delete('/customers/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.deleteCustomer.bind(this));
-    this.router.post('/customers/:id/addresses', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.addAddress.bind(this));
-    this.router.put('/customers/:id/addresses/:address_id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.updateAddress.bind(this));
-    this.router.delete('/customers/:id/addresses/:address_id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.deleteAddress.bind(this));
-    this.router.post('/customers/:id/addresses/:address_id/default_billing', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.setDefaultBilling.bind(this));
-    this.router.post('/customers/:id/addresses/:address_id/default_shipping', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.setDefaultShipping.bind(this));
+    this.router.get('/v1/customers', security.checkUserScope.bind(this, security.scope.READ_CUSTOMERS), this.getCustomers.bind(this));
+    this.router.post('/v1/customers', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.addCustomer.bind(this));
+    this.router.get('/v1/customers/:id', security.checkUserScope.bind(this, security.scope.READ_CUSTOMERS), this.getSingleCustomer.bind(this));
+    this.router.put('/v1/customers/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.updateCustomer.bind(this));
+    this.router.delete('/v1/customers/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.deleteCustomer.bind(this));
+    this.router.post('/v1/customers/:id/addresses', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.addAddress.bind(this));
+    this.router.put('/v1/customers/:id/addresses/:address_id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.updateAddress.bind(this));
+    this.router.delete('/v1/customers/:id/addresses/:address_id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.deleteAddress.bind(this));
+    this.router.post('/v1/customers/:id/addresses/:address_id/default_billing', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.setDefaultBilling.bind(this));
+    this.router.post('/v1/customers/:id/addresses/:address_id/default_shipping', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMERS), this.setDefaultShipping.bind(this));
   }
 
   getCustomers(req, res, next) {

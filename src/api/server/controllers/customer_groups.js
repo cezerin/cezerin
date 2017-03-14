@@ -10,11 +10,11 @@ class CustomerGroupsController {
   }
 
   registerRoutes() {
-    this.router.get('/customer_groups', security.checkUserScope.bind(this, security.scope.READ_CUSTOMER_GROUPS), this.getGroups.bind(this));
-    this.router.post('/customer_groups', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMER_GROUPS), this.addGroup.bind(this));
-    this.router.get('/customer_groups/:id', security.checkUserScope.bind(this, security.scope.READ_CUSTOMER_GROUPS), this.getSingleGroup.bind(this));
-    this.router.put('/customer_groups/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMER_GROUPS), this.updateGroup.bind(this));
-    this.router.delete('/customer_groups/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMER_GROUPS), this.deleteGroup.bind(this));
+    this.router.get('/v1/customer_groups', security.checkUserScope.bind(this, security.scope.READ_CUSTOMER_GROUPS), this.getGroups.bind(this));
+    this.router.post('/v1/customer_groups', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMER_GROUPS), this.addGroup.bind(this));
+    this.router.get('/v1/customer_groups/:id', security.checkUserScope.bind(this, security.scope.READ_CUSTOMER_GROUPS), this.getSingleGroup.bind(this));
+    this.router.put('/v1/customer_groups/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMER_GROUPS), this.updateGroup.bind(this));
+    this.router.delete('/v1/customer_groups/:id', security.checkUserScope.bind(this, security.scope.WRITE_CUSTOMER_GROUPS), this.deleteGroup.bind(this));
   }
 
   getGroups(req, res, next) {

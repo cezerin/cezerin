@@ -10,11 +10,11 @@ class OrderStatusesController {
   }
 
   registerRoutes() {
-    this.router.get('/order_statuses', security.checkUserScope.bind(this, security.scope.READ_ORDER_STATUSES), this.getStatuses.bind(this));
-    this.router.post('/order_statuses', security.checkUserScope.bind(this, security.scope.WRITE_ORDER_STATUSES), this.addStatus.bind(this));
-    this.router.get('/order_statuses/:id', security.checkUserScope.bind(this, security.scope.READ_ORDER_STATUSES), this.getSingleStatus.bind(this));
-    this.router.put('/order_statuses/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDER_STATUSES), this.updateStatus.bind(this));
-    this.router.delete('/order_statuses/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDER_STATUSES), this.deleteStatus.bind(this));
+    this.router.get('/v1/order_statuses', security.checkUserScope.bind(this, security.scope.READ_ORDER_STATUSES), this.getStatuses.bind(this));
+    this.router.post('/v1/order_statuses', security.checkUserScope.bind(this, security.scope.WRITE_ORDER_STATUSES), this.addStatus.bind(this));
+    this.router.get('/v1/order_statuses/:id', security.checkUserScope.bind(this, security.scope.READ_ORDER_STATUSES), this.getSingleStatus.bind(this));
+    this.router.put('/v1/order_statuses/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDER_STATUSES), this.updateStatus.bind(this));
+    this.router.delete('/v1/order_statuses/:id', security.checkUserScope.bind(this, security.scope.WRITE_ORDER_STATUSES), this.deleteStatus.bind(this));
   }
 
   getStatuses(req, res, next) {

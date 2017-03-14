@@ -10,11 +10,11 @@ class ShippingMethodsController {
   }
 
   registerRoutes() {
-    this.router.get('/shipping_methods', security.checkUserScope.bind(this, security.scope.READ_SHIPPING_METHODS), this.getMethods.bind(this));
-    this.router.post('/shipping_methods', security.checkUserScope.bind(this, security.scope.WRITE_SHIPPING_METHODS), this.addMethod.bind(this));
-    this.router.get('/shipping_methods/:id', security.checkUserScope.bind(this, security.scope.READ_SHIPPING_METHODS), this.getSingleMethod.bind(this));
-    this.router.put('/shipping_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_SHIPPING_METHODS), this.updateMethod.bind(this));
-    this.router.delete('/shipping_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_SHIPPING_METHODS), this.deleteMethod.bind(this));
+    this.router.get('/v1/shipping_methods', security.checkUserScope.bind(this, security.scope.READ_SHIPPING_METHODS), this.getMethods.bind(this));
+    this.router.post('/v1/shipping_methods', security.checkUserScope.bind(this, security.scope.WRITE_SHIPPING_METHODS), this.addMethod.bind(this));
+    this.router.get('/v1/shipping_methods/:id', security.checkUserScope.bind(this, security.scope.READ_SHIPPING_METHODS), this.getSingleMethod.bind(this));
+    this.router.put('/v1/shipping_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_SHIPPING_METHODS), this.updateMethod.bind(this));
+    this.router.delete('/v1/shipping_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_SHIPPING_METHODS), this.deleteMethod.bind(this));
   }
 
   getMethods(req, res, next) {

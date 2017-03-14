@@ -10,11 +10,11 @@ class PaymentMethodsController {
   }
 
   registerRoutes() {
-    this.router.get('/payment_methods', security.checkUserScope.bind(this, security.scope.READ_PAYMENT_METHODS), this.getMethods.bind(this));
-    this.router.post('/payment_methods', security.checkUserScope.bind(this, security.scope.WRITE_PAYMENT_METHODS), this.addMethod.bind(this));
-    this.router.get('/payment_methods/:id', security.checkUserScope.bind(this, security.scope.READ_PAYMENT_METHODS), this.getSingleMethod.bind(this));
-    this.router.put('/payment_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAYMENT_METHODS), this.updateMethod.bind(this));
-    this.router.delete('/payment_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAYMENT_METHODS), this.deleteMethod.bind(this));
+    this.router.get('/v1/payment_methods', security.checkUserScope.bind(this, security.scope.READ_PAYMENT_METHODS), this.getMethods.bind(this));
+    this.router.post('/v1/payment_methods', security.checkUserScope.bind(this, security.scope.WRITE_PAYMENT_METHODS), this.addMethod.bind(this));
+    this.router.get('/v1/payment_methods/:id', security.checkUserScope.bind(this, security.scope.READ_PAYMENT_METHODS), this.getSingleMethod.bind(this));
+    this.router.put('/v1/payment_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAYMENT_METHODS), this.updateMethod.bind(this));
+    this.router.delete('/v1/payment_methods/:id', security.checkUserScope.bind(this, security.scope.WRITE_PAYMENT_METHODS), this.deleteMethod.bind(this));
   }
 
   getMethods(req, res, next) {

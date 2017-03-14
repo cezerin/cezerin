@@ -10,13 +10,13 @@ class ProductCategoriesController {
   }
 
   registerRoutes() {
-    this.router.get('/product_categories', security.checkUserScope.bind(this, security.scope.READ_PRODUCT_CATEGORIES), this.getCategories.bind(this));
-    this.router.post('/product_categories', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.addCategory.bind(this));
-    this.router.get('/product_categories/:id', security.checkUserScope.bind(this, security.scope.READ_PRODUCT_CATEGORIES), this.getSingleCategory.bind(this));
-    this.router.put('/product_categories/:id', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.updateCategory.bind(this));
-    this.router.delete('/product_categories/:id', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.deleteCategory.bind(this));
-    this.router.post('/product_categories/:id/image', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.uploadCategoryImage.bind(this));
-    this.router.delete('/product_categories/:id/image', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.deleteCategoryImage.bind(this));
+    this.router.get('/v1/product_categories', security.checkUserScope.bind(this, security.scope.READ_PRODUCT_CATEGORIES), this.getCategories.bind(this));
+    this.router.post('/v1/product_categories', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.addCategory.bind(this));
+    this.router.get('/v1/product_categories/:id', security.checkUserScope.bind(this, security.scope.READ_PRODUCT_CATEGORIES), this.getSingleCategory.bind(this));
+    this.router.put('/v1/product_categories/:id', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.updateCategory.bind(this));
+    this.router.delete('/v1/product_categories/:id', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.deleteCategory.bind(this));
+    this.router.post('/v1/product_categories/:id/image', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.uploadCategoryImage.bind(this));
+    this.router.delete('/v1/product_categories/:id/image', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCT_CATEGORIES), this.deleteCategoryImage.bind(this));
   }
 
   getCategories(req, res, next) {

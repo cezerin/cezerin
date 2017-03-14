@@ -10,7 +10,7 @@ class SitemapController {
   }
 
   registerRoutes() {
-    this.router.get('/sitemap', security.checkUserScope.bind(this, security.scope.READ_SITEMAP), this.getPaths.bind(this));
+    this.router.get('/v1/sitemap', security.checkUserScope.bind(this, security.scope.READ_SITEMAP), this.getPaths.bind(this));
   }
 
   getPaths(req, res, next) {
