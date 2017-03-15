@@ -1,88 +1,72 @@
 import React from 'react';
-import {
-  PageHeader,
-  MenuItem,
-  Grid,
-  Row,
-  Col,
-  Image,
-  Thumbnail,
-  Button
-} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router'
 
-const ProductOptions = ({ options, variants }) => {
+const ProductOptions = ({options, variants}) => {
   return null;
 }
 
-const RelatedProducts = ({ ids }) => {
+const RelatedProducts = ({ids}) => {
   return null;
 }
 
-const ProductGallery = ({images}) => {
-  if (images.length > 0) {
-    const cols = images.map(image => (
-      <Col xs={6} sm={4} md={3} lg={3} key={image.id}>
-        <Thumbnail href="#" alt={image.alt} src={image.url}/>
-      </Col>
-    ))
+// const ProductGallery = ({images}) => {
+//   if (images.length > 0) {
+//     const cols = images.map(image => (
+//       <Col xs={6} sm={4} md={3} lg={3} key={image.id}>
+//         <Thumbnail href="#" alt={image.alt} src={image.url}/>
+//       </Col>
+//     ))
+//
+//     return <Grid fluid={true}>
+//       <Row>
+//         {cols}
+//       </Row>
+//     </Grid>
+//
+//   } else {
+//     return null;
+//   }
+// }
 
-    return <Grid fluid={true}>
-      <Row>
-        {cols}
-      </Row>
-    </Grid>
+// options
+// attributes
 
-  } else {
-    return null;
-  }
-}
+//       <ProductGallery images={product.images}/>
+// RELATED PRODUCTS
+//       <ProductOptions options={product.options} variant={product.variant} />
 
-const ProductDetail = ({product}) => {
+const ProductDetail = ({product, addCartItem}) => {
   const imageUrl = (product.images && product.images.length > 0)
     ? product.images[0].url
     : '/assets/images/placeholder.png';
 
-    // {product.regular_price}
-    // {if (product.on_sale}
-    // "active": true,
-    // "discontinued": false,
-    // "tags": [],
-    // "attributes": [],
-
   return (
-    <Grid>
-      <Row>
-        <Col xs={12} md={6}>
-          <Image src={imageUrl} responsive/>
-          <ProductGallery images={product.images}/>
-        </Col>
-        <Col xs={12} md={6}>
-          <PageHeader>{product.name}</PageHeader>
-          <p>{product.price} {product.currency}</p>
-          <p>{product.stock_status}</p>
-          <ProductOptions options={product.options} variant={product.variant} />
-          <p>
-            <Button bsStyle="default">Add to cart</Button>
-          </p>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <div dangerouslySetInnerHTML={{ __html: product.description }} />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}>
-          <p>RECOMMENDED ACCESSORIES</p>
-          <RelatedProducts ids={product.related_product_ids} />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={12}></Col>
-      </Row>
-    </Grid>
+    <section className="section">
+      <div className="container">
+        <div className="columns is-desktop">
+          <div className="column">
+            <div className="image">
+              <img src={imageUrl} style={{
+                background: 'rgba(0,0,0,0.02)'
+              }}/>
+            </div>
+          </div>
+          <div className="column">
+            <div className="content">
+              <h1>{product.name}</h1>
+              <p>{product.stock_status}</p>
+              <p>{product.price} {product.currency}</p>
+              <button className="button" onClick={() => addCartItem({product_id: product.id, variant_id: null, quantity: 1})}>Add to cart</button>
+            </div>
+          </div>
+        </div>
+        <div className="content">
+          <div dangerouslySetInnerHTML={{
+            __html: product.description
+          }}/>
+        </div>
+      </div>
+    </section>
   )
 }
 

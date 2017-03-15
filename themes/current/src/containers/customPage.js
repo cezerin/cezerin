@@ -1,20 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import {PageHeader, Button, Grid, Row, Col} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
-import Breadcrumbs from '../components/breadcrumbs'
 
-export default({
-  location,
-  currentPage,
-  currentCategory,
-  currentProduct,
-  categories,
-  products,
-  productsFilter,
-  cart,
-  page
-}) => (
+export default({page}) => (
   <div>
     <Helmet title={page.meta_title} meta={[
       {
@@ -29,6 +16,14 @@ export default({
         "href": page.url
       }
     ]}/>
-    <div dangerouslySetInnerHTML={{ __html: page.content }} />
+    <section className="section">
+      <div className="container">
+        <div className="content">
+          <div dangerouslySetInnerHTML={{
+            __html: page.content
+          }}/>
+        </div>
+      </div>
+    </section>
   </div>
 )

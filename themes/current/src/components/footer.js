@@ -1,41 +1,25 @@
-import React from 'react';
-import { LinkContainer } from 'react-router-bootstrap'
-import { Link } from 'react-router'
-import { Grid, Row, Col} from 'react-bootstrap'
+import React from 'react'
+import {Link} from 'react-router'
 import config from '../../config.json'
 import text from '../locale'
 
 export default() => {
   return (
-    <footer>
-      <Grid>
-         <Row>
-           <Col xs={12} sm={4} md={4}>
-             Text: {text.cartTitle}
-             <ul>
-               <li><Link to="/">Link to page</Link></li>
-             </ul>
-           </Col>
-           <Col xs={12} sm={4} md={4}>
-             Help & Support
-             <ul>
-               <li><Link to="/">Link to page</Link></li>
-             </ul>
-           </Col>
-           <Col xs={12} sm={4} md={4}>
-             Subscribe
-           </Col>
-         </Row>
-         <Row>
-           <Col xs={12}>
-             <p>
-               <img src="/assets/images/payment/paypal.svg" alt="paypal" width="60" />
-               <img src="/assets/images/payment/alipay.svg" alt="alipay" width="60" />
-             </p>
-             <p style={{ textAlign:'center' }}>{text.footerCopyright} <Link to="/privacy">Privacy Policy</Link> <Link to="/">Terms of Use</Link> <Link to="/about-us">About</Link> <Link to="/sitemap">Site Map</Link>.</p>
-           </Col>
-         </Row>
-       </Grid>
+    <footer className="footer">
+      <div className="container">
+        <div className="content has-text-centered">
+          <p>
+            {text.footerCopyright}&nbsp;
+            <Link to="/privacy">Privacy Policy</Link>. The website content is licensed&nbsp;
+            <Link to="/about-us">About</Link>. This <Link to="/page-not-exists">page</Link> is not exists.
+          </p>
+          <p>
+            <img src="/assets/images/payment/mastercard.svg" alt="mastercard" width="60" style={{ marginRight: '10px' }}/>
+            <img src="/assets/images/payment/visa.svg" alt="visa" width="60" style={{ marginRight: '10px' }}/>
+            <img src="/assets/images/payment/paypal.svg" alt="paypal" width="60" style={{ marginRight: '10px' }}/>
+          </p>
+        </div>
+      </div>
     </footer>
   )
 }

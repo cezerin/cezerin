@@ -1,7 +1,5 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import {PageHeader, Button, Grid, Row, Col} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
 
 export default({
   location,
@@ -31,7 +29,7 @@ export default({
         "href": page.url
       }
     ]}/>
-    <PageHeader>Checkout</PageHeader>
+    <h1>Checkout</h1>
     {checkoutSuccess}
   </div>
 )

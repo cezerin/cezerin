@@ -1,8 +1,5 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import {Button, Grid, Row, Col, Image} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap'
-import Breadcrumbs from '../components/breadcrumbs'
 import ProductDetail from '../components/productDetail'
 
 export default({
@@ -20,32 +17,25 @@ export default({
   if (currentProduct) {
     return (
       <div>
-        <Helmet title={currentProduct.meta_title !== '' ? currentProduct.meta_title : currentProduct.name} meta={[
+        <Helmet title={currentProduct.meta_title !== ''
+          ? currentProduct.meta_title
+          : currentProduct.name} meta={[
           {
-            "name": "description",
-            "content": currentProduct.meta_description
+            name: 'description',
+            content: currentProduct.meta_description
           }, {
-            "property": "og:type",
-            "content": "article"
+            property: 'og:type',
+            content: 'article'
           }
         ]} link={[{
-            "rel": "canonical",
-            "href": currentProduct.url
+            rel: 'canonical',
+            href: currentProduct.url
           }
         ]}/>
-        <Breadcrumbs links={[
-          {
-            path: '/' + currentProduct.category_name,
-            title: currentProduct.category_name
-          }, {
-            path: currentProduct.path,
-            title: currentProduct.name
-          }
-        ]}/>
-        <ProductDetail product={currentProduct}/>
+        <ProductDetail product={currentProduct} addCartItem={addCartItem}/>
       </div>
     )
   } else {
-    return <p>Loading...</p>
+    return <div></div>
   }
 }

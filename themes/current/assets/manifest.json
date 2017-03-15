@@ -1,0 +1,13 @@
+{
+  "name": "Store",
+  "short_name": "Store",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F9F9F9",
+  "theme_color": "#f5f5f5",
+  "icons": [{
+    "src": "/assets/images/shopping-bag.svg",
+    "sizes": "any",
+    "type": "image/svg+xml"
+  }]
+}

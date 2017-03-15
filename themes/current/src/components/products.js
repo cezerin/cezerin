@@ -1,47 +1,31 @@
-import React from 'react';
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavDropdown,
-  MenuItem,
-  Grid,
-  Row,
-  Col,
-  Thumbnail,
-  Button
-} from 'react-bootstrap'
-import {LinkContainer} from 'react-router-bootstrap';
+import React from 'react'
 import {Link} from 'react-router'
 
 const ProductsListItem = ({product, addCartItem}) => {
   const imageUrl = (product.images && product.images.length > 0)
     ? product.images[0].url
     : '/assets/images/placeholder.png';
+
   return (
-    <Col xs={12} sm={6} md={4} lg={3}>
-      <Thumbnail src={imageUrl} alt={product.name}>
-        <h3>{product.name}</h3>
+    <div className="column is-half-mobile is-one-third-tablet">
+      <div className="image">
+        <Link to={product.path}>
+          <img src={imageUrl} style={{ background: 'rgba(0,0,0,0.05)' }}/>
+        </Link>
+      </div>
+      <div className="content has-text-centered">
+        <Link to={product.path}>{product.name}</Link>
         <p>{product.price} {product.currency}</p>
-        <p>
-          <LinkContainer to={product.path}>
-            <Button bsStyle="primary">Details</Button>
-          </LinkContainer>&nbsp;
-          <Button onClick={() => addCartItem({ product_id: product.id, variant_id: null, quantity: 1 })} bsStyle="default">Add to cart</Button>
-        </p>
-      </Thumbnail>
-    </Col>
+      </div>
+    </div>
   )
 }
 
 const ProductsList = ({products, addCartItem}) => {
+  const items = products.map(product => <ProductsListItem key={product.id} product={product} addCartItem={addCartItem}/>)
   return (
-    <div>
-      <Grid fluid={true}>
-        <Row>
-          {products.map(product => (<ProductsListItem key={product.id} product={product} addCartItem={addCartItem}/>))}
-        </Row>
-      </Grid>
+    <div className="columns is-multiline is-mobile">
+      {items}
     </div>
   )
 }
