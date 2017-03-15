@@ -34,7 +34,7 @@ const getHead = () => {
   }
 }
 
-const renderHtml = (req, res, renderProps, store, templateHtml) => {
+const renderHtml = (req, res, renderProps, store, templateHtml, httpStatusCode) => {
   const full_url = `${req.protocol}://${req.hostname}${req.url}`;
   const referrer_url = req.get('referrer') === undefined ? '' : req.get('referrer');
 
@@ -47,7 +47,10 @@ const renderHtml = (req, res, renderProps, store, templateHtml) => {
 
   const state = store.getState();
   const head = getHead();
-  const html = templateHtml.replace('{language}', clientSettings.language).replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link).replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
+  const html = templateHtml
+  .replace('{language}', clientSettings.language)
+  .replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link)
+  .replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{content}', contentHtml);
 
   if(!req.signedCookies.referrer_url) {
     res.cookie('referrer_url', referrer_url, serverSettings.referrerCookieOptions);
@@ -57,11 +60,7 @@ const renderHtml = (req, res, renderProps, store, templateHtml) => {
     res.cookie('landing_url', full_url, serverSettings.referrerCookieOptions);
   }
 
-  res.status(200).send(html);
-}
-
-const sendPageNotFound = (res) => {
-  res.status(404).send('Not found')
+  res.status(httpStatusCode).send(html);
 }
 
 const sendPageError = (res, status, err) => {
@@ -75,8 +74,16 @@ storeRouter.get('*', (req, res, next) => {
     api.sitemap.retrieve({ path: req.path, enabled: true }),
     api.checkout_fields.list()
   ]).then(([templateHtml, sitemapDetails, checkout_fields]) => {
-    if (sitemapDetails.status === 200) {
-      getInitialState(req, checkout_fields.json, sitemapDetails.json).then(initialState => {
+    if (sitemapDetails.status === 200 || sitemapDetails.status === 404) {
+      let currentPage = sitemapDetails.json;
+      if(sitemapDetails.status === 404) {
+        currentPage = {
+          type: 404,
+          resource: null
+        }
+      }
+
+      getInitialState(req, checkout_fields.json, currentPage).then(initialState => {
         const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
         const routes = createRoutes(store);
 
@@ -89,14 +96,12 @@ storeRouter.get('*', (req, res, next) => {
           } else if (redirectLocation) {
             res.redirect(302, redirectLocation.pathname + redirectLocation.search)
           } else if (renderProps) {
-            renderHtml(req, res, renderProps, store, templateHtml);
+            renderHtml(req, res, renderProps, store, templateHtml, sitemapDetails.status);
           } else {
-            sendPageNotFound(res)
+            winston.error('Route not found', req.path);
           }
         });
       })
-    } else if (sitemapDetails.status === 404) {
-      sendPageNotFound(res);
     } else {
      sendPageError(res, sitemapDetails.status, sitemapDetails.json.message)
    }

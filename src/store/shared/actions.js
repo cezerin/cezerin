@@ -261,7 +261,7 @@ export function fetchProducts() {
     const state = getState();
 
     let filter = state.app.productsFilter;
-    filter.thumbnail_width = 420,
+    filter.thumbnail_width = 320,
     filter.enabled = true;
     filter.category_id = state.app.currentCategory.id;
     filter.fields = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
@@ -346,6 +346,8 @@ export const getInitialState = (req, checkout_fields, currentPage) => {
       order: null,
       productsFilter: {
         limit: 20,
+        thumbnail_width: 320,
+        enabled: true,
         fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       },
       checkout_fields: checkout_fields
