@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../components/header'
 import Footer from '../components/footer'
 
-export default(props) => {
+const SharedContainer = (props) => {
   return (
     <div>
       <Header {...props}/>
@@ -11,3 +11,5 @@ export default(props) => {
     </div>
   )
 }
+
+export default SharedContainer

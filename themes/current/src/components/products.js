@@ -1,28 +1,34 @@
 import React from 'react'
 import {Link} from 'react-router'
+import config from '../lib/config'
+import * as helper from '../lib/helper'
 
-const ProductsListItem = ({product, addCartItem}) => {
+const ProductsListItem = ({product, addCartItem, settings}) => {
   const imageUrl = (product.images && product.images.length > 0)
-    ? product.images[0].url
+    ? helper.getThumbnailUrl(product.images[0].url, config.list_thumbnail_width)
     : '/assets/images/placeholder.png';
 
   return (
     <div className="column is-half-mobile is-one-third-tablet">
       <div className="image">
         <Link to={product.path}>
-          <img src={imageUrl} style={{ background: 'rgba(0,0,0,0.05)' }}/>
+          <img src={imageUrl} />
         </Link>
       </div>
       <div className="content has-text-centered">
         <Link to={product.path}>{product.name}</Link>
-        <p>{product.price} {product.currency}</p>
+        <p>{helper.formatCurrency(product.price, settings)}</p>
       </div>
     </div>
   )
 }
 
-const ProductsList = ({products, addCartItem}) => {
-  const items = products.map(product => <ProductsListItem key={product.id} product={product} addCartItem={addCartItem}/>)
+const ProductsList = ({products, addCartItem, settings}) => {
+  let i = 0;
+  const items = products.map(product => {
+    i++;
+    return <ProductsListItem key={i} product={product} addCartItem={addCartItem} settings={settings}/>
+  })
   return (
     <div className="columns is-multiline is-mobile">
       {items}

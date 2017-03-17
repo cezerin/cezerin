@@ -23,7 +23,7 @@ export default class Header extends React.Component {
   menuClose = () => this.setState({mobileMenuIsActive: false});
 
   render() {
-    const {categories, cart} = this.props;
+    const {categories, cart} = this.props.state;
     const classMenu = this.state.mobileMenuIsActive ? 'nav-center nav-menu is-active' : 'nav-center nav-menu is-hidden-mobile';
     const classToggle = this.state.mobileMenuIsActive ? 'nav-toggle is-active' : 'nav-toggle';
     const categoriesLinks = categories.filter(category => category.parent_id === null).map(category => (

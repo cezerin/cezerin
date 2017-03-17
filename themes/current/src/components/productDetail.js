@@ -1,5 +1,8 @@
-import React from 'react';
+import React from 'react'
 import {Link} from 'react-router'
+import ImageGallery from 'react-image-gallery'
+import config from '../lib/config'
+import * as helper from '../lib/helper'
 
 const ProductOptions = ({options, variants}) => {
   return null;
@@ -9,24 +12,36 @@ const RelatedProducts = ({ids}) => {
   return null;
 }
 
-// const ProductGallery = ({images}) => {
-//   if (images.length > 0) {
-//     const cols = images.map(image => (
-//       <Col xs={6} sm={4} md={3} lg={3} key={image.id}>
-//         <Thumbnail href="#" alt={image.alt} src={image.url}/>
-//       </Col>
-//     ))
-//
-//     return <Grid fluid={true}>
-//       <Row>
-//         {cols}
-//       </Row>
-//     </Grid>
-//
-//   } else {
-//     return null;
-//   }
-// }
+const ProductGallery = ({images}) => {
+  if (images.length > 0) {
+    const imagesArray = images.map(image => (
+      {
+        original: helper.getThumbnailUrl(image.url, config.big_thumbnail_width),
+        thumbnail: helper.getThumbnailUrl(image.url, config.preview_thumbnail_width),
+        originalAlt: image.alt,
+        thumbnailAlt: image.alt
+      }
+    ))
+
+    const showThumbnails = images.length > 1;
+
+    return (
+      <ImageGallery
+        items={imagesArray}
+        showThumbnails={showThumbnails}
+        slideInterval={2000}
+        lazyLoad={true}
+        showNav={false}
+        showPlayButton={false}
+        showFullscreenButton={false}
+        thumbnailPosition="bottom"
+      />
+    )
+
+  } else {
+    return null;
+  }
+}
 
 // options
 // attributes
@@ -35,7 +50,7 @@ const RelatedProducts = ({ids}) => {
 // RELATED PRODUCTS
 //       <ProductOptions options={product.options} variant={product.variant} />
 
-const ProductDetail = ({product, addCartItem}) => {
+const ProductDetail = ({product, addCartItem, settings}) => {
   const imageUrl = (product.images && product.images.length > 0)
     ? product.images[0].url
     : '/assets/images/placeholder.png';
@@ -43,19 +58,15 @@ const ProductDetail = ({product, addCartItem}) => {
   return (
     <section className="section">
       <div className="container">
-        <div className="columns is-desktop">
-          <div className="column">
-            <div className="image">
-              <img src={imageUrl} style={{
-                background: 'rgba(0,0,0,0.02)'
-              }}/>
-            </div>
+        <div className="columns">
+          <div className="column is-half">
+            <ProductGallery images={product.images} />
           </div>
-          <div className="column">
+          <div className="column is-half">
             <div className="content">
               <h1>{product.name}</h1>
               <p>{product.stock_status}</p>
-              <p>{product.price} {product.currency}</p>
+              <p>{helper.formatCurrency(product.price, settings)}</p>
               <button className="button" onClick={() => addCartItem({product_id: product.id, variant_id: null, quantity: 1})}>Add to cart</button>
             </div>
           </div>

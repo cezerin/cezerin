@@ -2,18 +2,9 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import ProductDetail from '../components/productDetail'
 
-export default({
-  location,
-  currentPage,
-  currentCategory,
-  currentProduct,
-  categories,
-  products,
-  productsFilter,
-  cart,
-  addCartItem,
-  deleteCartItem
-}) => {
+const ProductContainer = (props) => {
+  const {currentProduct, settings} = props.state;
+
   if (currentProduct) {
     return (
       <div>
@@ -32,10 +23,12 @@ export default({
             href: currentProduct.url
           }
         ]}/>
-        <ProductDetail product={currentProduct} addCartItem={addCartItem}/>
+        <ProductDetail settings={settings} product={currentProduct} addCartItem={props.addCartItem}/>
       </div>
     )
   } else {
     return <div></div>
   }
 }
+
+export default ProductContainer

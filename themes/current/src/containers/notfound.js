@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 
-export default() => (
+const NotFoundContainer = (props) => (
   <div>
     <Helmet title="Page not found"/>
     <section className="section">
@@ -14,3 +14,5 @@ export default() => (
     </section>
   </div>
 )
+
+export default NotFoundContainer

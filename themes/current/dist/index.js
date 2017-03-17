@@ -60,7 +60,7 @@ Object.defineProperty(exports, 'CustomPageContainer', {
 
 var _checkout = require('./containers/checkout');
 
-Object.defineProperty(exports, 'ChechoutContainer', {
+Object.defineProperty(exports, 'CheckoutContainer', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_checkout).default;
@@ -69,7 +69,7 @@ Object.defineProperty(exports, 'ChechoutContainer', {
 
 var _checkoutSuccess = require('./containers/checkoutSuccess');
 
-Object.defineProperty(exports, 'ChechoutSuccessContainer', {
+Object.defineProperty(exports, 'CheckoutSuccessContainer', {
   enumerable: true,
   get: function get() {
     return _interopRequireDefault(_checkoutSuccess).default;
