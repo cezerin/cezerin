@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const env = process.env.NODE_ENV;
 
 module.exports = () => {
@@ -39,6 +40,9 @@ module.exports = () => {
         template: 'public/assets/template.html',
         inject: 'body',
         filename: 'assets/index.html'
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+        defaultAttribute: 'defer'
       })
     ]
   };
