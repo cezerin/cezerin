@@ -35,8 +35,8 @@ class ProductsService {
         aggregationPipeline.push({ $project: projectQuery });
         aggregationPipeline.push({ $match: matchQuery });
         aggregationPipeline.push({ $sort: sortQuery });
-        aggregationPipeline.push({ $limit : limit });
         aggregationPipeline.push({ $skip : offset });
+        aggregationPipeline.push({ $limit : limit });
 
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
           .then(items => items.map(item => this.changeProperties(categories, item, thumbnail_width)))
