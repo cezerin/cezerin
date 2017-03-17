@@ -72,8 +72,9 @@ storeRouter.get('*', (req, res, next) => {
   Promise.all([
     readIndexHtmlFile(),
     api.sitemap.retrieve({ path: req.path, enabled: true }),
-    api.checkout_fields.list()
-  ]).then(([templateHtml, sitemapDetails, checkout_fields]) => {
+    api.checkout_fields.list(),
+    api.settings.retrieve()
+  ]).then(([templateHtml, sitemapDetails, checkout_fields, settings]) => {
     if (sitemapDetails.status === 200 || sitemapDetails.status === 404) {
       let currentPage = sitemapDetails.json;
       if(sitemapDetails.status === 404) {
@@ -83,7 +84,7 @@ storeRouter.get('*', (req, res, next) => {
         }
       }
 
-      getInitialState(req, checkout_fields.json, currentPage).then(initialState => {
+      getInitialState(req, checkout_fields.json, currentPage, settings.json).then(initialState => {
         const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
         const routes = createRoutes(store);
 

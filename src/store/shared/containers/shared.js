@@ -1,24 +1,15 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts} from '../actions'
 import {SharedContainer} from 'theme'
-import { fetchCart, addCartItem, deleteCartItem, updateCartItemQuantiry } from '../actions'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    language: state.app.language,
-    location: state.app.location,
-    currentPage: state.app.currentPage,
-    currentCategory: state.app.currentCategory,
-    currentProduct: state.app.currentProduct,
-    categories: state.app.categories,
-    products: state.app.products,
-    productsFilter: state.app.productsFilter,
-    cart: state.app.cart,
-    page: state.app.page
+    state: state.app
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     addCartItem: (item) => {
       dispatch(addCartItem(item));
@@ -28,6 +19,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateCartItemQuantiry: (item_id, quantity) => {
       dispatch(updateCartItemQuantiry(item_id, quantity));
+    },
+    loadMoreProducts: () => {
+      dispatch(fetchMoreProducts());
     }
   }
 }

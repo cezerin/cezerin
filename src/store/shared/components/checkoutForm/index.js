@@ -1,9 +1,20 @@
-import { connect } from 'react-redux'
-import { reset, submit } from 'redux-form';
-import { fetchCart, updateCart, fetchShippingMethods, fetchPaymentMethods, checkout,  updateCartShippingCountry,  updateCartShippingState,  updateCartShippingCity,  updateCartShippingMethod,  updateCartPaymentMethod} from '../../actions'
+import React from 'react'
+import {connect} from 'react-redux'
+import {reset, submit} from 'redux-form';
+import {
+  checkout,
+  updateCart,
+  fetchShippingMethods,
+  fetchPaymentMethods,
+  updateCartShippingCountry,
+  updateCartShippingState,
+  updateCartShippingCity,
+  updateCartShippingMethod,
+  updateCartPaymentMethod
+} from '../../actions'
 import Form from './form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: state.app.cart,
     payment_methods: state.app.payment_methods,
@@ -15,7 +26,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSubmit: (values) => {
       dispatch(updateCart(values));

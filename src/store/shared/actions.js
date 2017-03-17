@@ -12,6 +12,10 @@ function receiveProducts(products) {
   return {type: t.PRODUCTS_RECEIVE, products}
 }
 
+function requestProducts() {
+  return {type: t.PRODUCTS_REQUEST}
+}
+
 function receiveProduct(product) {
   return {type: t.PRODUCT_RECEIVE, product}
 }
@@ -58,6 +62,19 @@ function receiveCheckout(order) {
 
 function requestCheckout() {
   return {type: t.CHECKOUT_REQUEST}
+}
+
+function requestMoreProducts() {
+  return {
+    type: t.PRODUCTS_MORE_REQUEST
+  }
+}
+
+function receiveProductsMore(products) {
+  return {
+    type: t.PRODUCTS_MORE_RECEIVE,
+    products
+  }
 }
 
 export function setCategory(category_id) {
@@ -259,15 +276,32 @@ export function fetchProduct(product_id) {
 export function fetchProducts() {
   return (dispatch, getState) => {
     const state = getState();
+    dispatch(requestProducts());
 
     let filter = state.app.productsFilter;
-    filter.thumbnail_width = 320,
-    filter.enabled = true;
     filter.category_id = state.app.currentCategory.id;
-    filter.fields = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
-
+    // filter.search =
     return api.ajax.products.list(filter).then(({status, json}) => {
       dispatch(receiveProducts(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchMoreProducts() {
+  return (dispatch, getState) => {
+    const state = getState();
+    if(state.app.loadingProducts) {
+      return Promise.resolve();
+    }
+    dispatch(requestMoreProducts());
+
+    let filter = state.app.productsFilter;
+    filter.limit = 15;
+    filter.offset = state.app.products.length;
+    filter.category_id = state.app.currentCategory.id;
+
+    return api.ajax.products.list(filter).then(({status, json}) => {
+      dispatch(receiveProductsMore(json))
     }).catch(error => {});
   }
 }
@@ -326,10 +360,10 @@ const getCommonData = (req, currentPage, productsFilter) => {
   });
 }
 
-export const getInitialState = (req, checkout_fields, currentPage) => {
+export const getInitialState = (req, checkout_fields, currentPage, settings) => {
   let initialState = {
     app: {
-      language: 'en',
+      settings: settings,
       location: null,
       currentPage: currentPage,
       currentCategory: null,
@@ -339,14 +373,15 @@ export const getInitialState = (req, checkout_fields, currentPage) => {
       payment_methods: [],
       shipping_methods: [],
       page: {},
+      loadingProducts: false,
+      loadingMoreProducts: false,
       loadingShippingMethods: false,
       loadingPaymentMethods: false,
       processingCheckout: false,
       cart: null,
       order: null,
       productsFilter: {
-        limit: 20,
-        thumbnail_width: 320,
+        limit: 30,
         enabled: true,
         fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       },

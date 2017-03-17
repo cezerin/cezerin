@@ -1,6 +1,6 @@
 import {routerReducer, LOCATION_CHANGE} from 'react-router-redux'
 import {combineReducers} from 'redux'
-import { reducer as formReducer } from 'redux-form'
+import {reducer as formReducer} from 'redux-form'
 import * as t from './actionTypes'
 
 const initialState = {};
@@ -23,17 +23,26 @@ function appReducer(state = initialState, action) {
     case t.SITEMAP_RECEIVE:
       return Object.assign({}, state, {currentPage: action.currentPage})
 
+    case t.PRODUCTS_REQUEST:
+      return Object.assign({}, state, {loadingProducts: true})
+
     case t.PRODUCTS_RECEIVE:
-      return Object.assign({}, state, {products: action.products})
+      return Object.assign({}, state, {loadingProducts: false, products: action.products})
 
     case t.CART_RECEIVE:
       return Object.assign({}, state, {cart: action.cart})
 
     case t.PAYMENT_METHODS_RECEIVE:
-      return Object.assign({}, state, {payment_methods: action.methods, loadingPaymentMethods: false})
+      return Object.assign({}, state, {
+        payment_methods: action.methods,
+        loadingPaymentMethods: false
+      })
 
     case t.SHIPPING_METHODS_RECEIVE:
-      return Object.assign({}, state, {shipping_methods: action.methods, loadingShippingMethods: false})
+      return Object.assign({}, state, {
+        shipping_methods: action.methods,
+        loadingShippingMethods: false
+      })
 
     case t.SHIPPING_METHODS_REQUEST:
       return Object.assign({}, state, {loadingShippingMethods: true})
@@ -45,10 +54,26 @@ function appReducer(state = initialState, action) {
       return Object.assign({}, state, {processingCheckout: true})
 
     case t.CHECKOUT_RECEIVE:
-      return Object.assign({}, state, {cart: null, order: action.order, processingCheckout: false})
+      return Object.assign({}, state, {
+        cart: null,
+        order: action.order,
+        processingCheckout: false
+      })
 
     case t.PAGE_RECEIVE:
       return Object.assign({}, state, {page: action.page})
+
+    case t.PRODUCTS_MORE_REQUEST:
+      return Object.assign({}, state, {loadingMoreProducts: true})
+
+    case t.PRODUCTS_MORE_RECEIVE:
+      return Object.assign({}, state, {
+        loadingMoreProducts: false,
+        products: [
+          ...state.products,
+          ...action.products
+        ]
+      })
 
     case t.CART_REQUEST:
     case t.CART_FAILURE:

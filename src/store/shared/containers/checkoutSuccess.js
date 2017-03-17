@@ -1,22 +1,29 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {ChechoutSuccessContainer} from 'theme'
-import CheckoutSuccess from '../components/checkoutSuccess'
+import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts} from '../actions'
+import {CheckoutSuccessContainer} from 'theme'
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    cart: state.app.cart,
-    page: state.app.page
+    state: state.app
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onLoad: () => {}
+    addCartItem: (item) => {
+      dispatch(addCartItem(item));
+    },
+    deleteCartItem: (item_id) => {
+      dispatch(deleteCartItem(item_id));
+    },
+    updateCartItemQuantiry: (item_id, quantity) => {
+      dispatch(updateCartItemQuantiry(item_id, quantity));
+    },
+    loadMoreProducts: () => {
+      dispatch(fetchMoreProducts());
+    }
   }
 }
 
-const CheckoutSuccessPage = connect(mapStateToProps, mapDispatchToProps)(ChechoutSuccessContainer);
-export default() => {
-  return <CheckoutSuccessPage checkoutSuccess={<CheckoutSuccess/>} />
-}
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutSuccessContainer);
