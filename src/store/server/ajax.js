@@ -5,18 +5,19 @@ import api from 'cezerin-client';
 api.init(serverSettings.apiBaseUrl, serverSettings.security.token);
 
 const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
+const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 
 ajaxRouter.get('/products', (req, res, next) => {
   const filter = req.query;
   filter.enabled = true;
   api.products.list(filter).then(({status, json}) => {
-    res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
+    res.status(status).header('Cache-Control', PRODUCTS_CACHE_CONTROL).send(json);
   })
 })
 
 ajaxRouter.get('/products/:id', (req, res, next) => {
   api.products.retrieve(req.params.id).then(({status, json}) => {
-    res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
+    res.status(status).send(json);
   })
 })
 
