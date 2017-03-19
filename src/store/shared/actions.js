@@ -82,7 +82,6 @@ export function setCategory(category_id) {
     const state = getState();
     const category = state.app.categories.find(c => c.id === category_id);
     dispatch(setCurrentCategory(category));
-    dispatch(fetchProducts());
     dispatch(receiveProduct(null))
   }
 }
@@ -290,7 +289,7 @@ export function fetchProducts() {
 export function fetchMoreProducts() {
   return (dispatch, getState) => {
     const state = getState();
-    if(state.app.loadingProducts) {
+    if(state.app.loadingProducts || state.app.products.length === 0) {
       return Promise.resolve();
     }
     dispatch(requestMoreProducts());
@@ -382,7 +381,6 @@ export const getInitialState = (req, checkout_fields, currentPage, settings) => 
       order: null,
       productsFilter: {
         limit: 30,
-        enabled: true,
         fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       },
       checkout_fields: checkout_fields

@@ -7,7 +7,9 @@ api.init(serverSettings.apiBaseUrl, serverSettings.security.token);
 const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
 
 ajaxRouter.get('/products', (req, res, next) => {
-  api.products.list(req.query).then(({status, json}) => {
+  const filter = req.query;
+  filter.enabled = true;
+  api.products.list(filter).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
   })
 })
@@ -154,6 +156,8 @@ ajaxRouter.get('/pages/:id', (req, res, next) => {
 })
 
 ajaxRouter.get('/sitemap', (req, res, next) => {
+  const filter = req.query;
+  filter.enabled = true;
   api.sitemap.retrieve(req.query).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
   })
