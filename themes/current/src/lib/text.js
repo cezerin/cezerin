@@ -1,2 +1,2 @@
-import text from '../../locales/default.json'
-export default text
+import config from './config'
+module.exports = require('../../locales/' + config.language + '.json');
