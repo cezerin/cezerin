@@ -28,7 +28,7 @@ class ThemesService {
       if (err) {
         res.status(500).send(this.getErrorMessage(err));
       } else {
-        exec(`npm run theme:install ${fileName} && npm run build:theme`, (error, stdout, stderr) => {
+        exec(`npm run theme:install ${fileName} && npm run theme:build:prod`, (error, stdout, stderr) => {
           if (error) {
             res.status(500).send(this.getErrorMessage(error));
           } else {
