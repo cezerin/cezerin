@@ -26,8 +26,8 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "clean:admin": "rm ./public/admin-assets/js/app-*.js; rm ./public/admin-assets/js/vendor-*.js; rm ./public/admin-assets/css/app-*.css",
-    "clean:store": "rm ./public/assets/js/app-*.js; rm ./public/assets/js/theme-*.js",
+    "clean:admin": "rm -f ./public/admin-assets/js/app-*.js; rm -f ./public/admin-assets/js/vendor-*.js; rm -f ./public/admin-assets/css/app-*.css",
+    "clean:store": "rm -f ./public/assets/js/app-*.js; rm -f ./public/assets/js/theme-*.js",
     "compile:dev": "babel src -d dist --watch",
     "compile": "babel src -d dist --quiet",
     "webpack:admin:dev": "npm run clean:admin && webpack -d --config webpack.config.admin.js --watch --progress --colors",
