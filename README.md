@@ -4,13 +4,10 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 
 ![Cezerin dashboard](https://cezerin.com/assets/images/products.png)
 
-## Features
+[Demo store](https://store.cezerin.com)
+[Demo dashboard](https://store.cezerin.com/admin)
 
-* API-Centric Architecture
-* Single-page application
-* Server-side rendering
-
-## Full-Stack JavaScript
+## Build with
 
 * NodeJS
 * React
@@ -41,30 +38,6 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 * Store: Themes
 * Theme settings in dashboard
 
-
-### Backlog
-
-Google Analytics for Single Page Application
-Order notifications
-Import, export, sync
-301 Redirect
-Customer account and sign in
-Geolocation
-Coupons
-Discounts
-Reporting
-Metrics and analytics
-Progressive Web App (PWA)
-Shipping rate real time
-Linked Products - upsell
-Linked Products - cross sell
-Tax
-
-## Demo
-
-[Demo store](https://store.cezerin.com)
-
-[Demo dashboard](https://store.cezerin.com/admin)
 
 ## Contributing
 
