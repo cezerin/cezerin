@@ -1,11 +1,9 @@
 # Cezerin
 
-Cezerin is an open-source e-commerce platform built with JavaScript only. Cezerin makes it easy to create SEO-friendly single-page online store.
+Cezerin is an open-source e-commerce platform built with JavaScript only. Cezerin makes it easy to create SEO-friendly single-page online store. [Demo store](https://store.cezerin.com)
 
 ![Cezerin dashboard](https://cezerin.com/assets/images/products.png)
 
-[Demo store](https://store.cezerin.com)
-[Demo dashboard](https://store.cezerin.com/admin)
 
 ## Build with
 
@@ -39,15 +37,6 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 * Theme settings in dashboard
 
 
-## Contributing
-
-If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
-
-## Documentation
-
-[API Documentation](https://doc.cezerin.com)
-
-
 ## Installation
 
 ```shell
@@ -59,15 +48,21 @@ node index.js
 ```
 Then open <http://localhost:3000> to see your app.
 
-### Requirements
-
-* NodeJS
-* Mongodb
-
 ### Configuration
 
 - MongoDB
 - API keys
+
+
+## Documentation
+
+[API Documentation](https://doc.cezerin.com)
+
+
+## Contributing
+
+If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
+
 
 ## Licence
 
