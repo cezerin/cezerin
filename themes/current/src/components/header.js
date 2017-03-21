@@ -1,9 +1,15 @@
 import React from 'react'
 import {Link} from 'react-router'
+import MiniCart from './miniCart'
+import text from '../lib/text'
 
 const CartIndicator = ({cart}) => {
   if (cart && cart.items && cart.items.length > 0) {
-    return <span className="tag is-danger">{cart.items.length}</span>
+    const itemsCount = cart.items.reduce((prev, curr) => {
+      return parseInt(prev || 0) + parseInt(curr.quantity || 0);
+    }, []);
+
+    return <span className="tag is-danger">{itemsCount}</span>
   } else {
     return <span></span>
   }
@@ -13,17 +19,24 @@ export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileMenuIsActive: false
+      mobileMenuIsActive: false,
+      cartIsActive: false
     }
   }
 
   menuToggle = () => this.setState({
-    mobileMenuIsActive: !this.state.mobileMenuIsActive
+    mobileMenuIsActive: !this.state.mobileMenuIsActive,
+    cartIsActive: false
   });
   menuClose = () => this.setState({mobileMenuIsActive: false});
 
+  cartToggle = () => this.setState({
+    cartIsActive: !this.state.cartIsActive,
+    mobileMenuIsActive: false
+  });
+
   render() {
-    const {categories, cart} = this.props.state;
+    const {categories, cart, settings} = this.props.state;
     const classMenu = this.state.mobileMenuIsActive ? 'nav-center nav-menu is-active' : 'nav-center nav-menu is-hidden-mobile';
     const classToggle = this.state.mobileMenuIsActive ? 'nav-toggle is-active' : 'nav-toggle';
     const categoriesLinks = categories.filter(category => category.parent_id === null).map(category => (
@@ -49,12 +62,13 @@ export default class Header extends React.Component {
             {categoriesLinks}
           </div>
           <div className="nav-right is-flex-mobile">
-            <Link className="nav-item" to="/checkout">
+            <span className="nav-item" onClick={this.cartToggle} style={{ cursor: 'pointer' }}>
               <span className="icon">
-                <img src="/assets/images/shopping-bag.svg" alt="cart"/>
+                <img src="/assets/images/shopping-bag.svg" alt={text.cart} title={text.cart}/>
               </span>
               <CartIndicator cart={cart} />
-            </Link>
+            </span>
+            <MiniCart cart={cart} deleteCartItem={this.props.deleteCartItem} active={this.state.cartIsActive} settings={settings} cartToggle={this.cartToggle} />
           </div>
         </div>
       </nav>

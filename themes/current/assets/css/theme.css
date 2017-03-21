@@ -100,3 +100,39 @@
 .payment-method:last-child, .shipping-method:last-child {
   border-bottom: none;
 }
+
+
+
+.mini-cart {
+  visibility: hidden;
+  position: absolute;
+  min-width: 200px;
+  top: calc(100%);
+  right: 0;
+  background: #fff;
+  z-index: 1;
+  opacity: 0;
+  box-shadow: 2px 2px 1px 0 rgba(0,0,0,0.2);
+  border: 1px solid #f3f3f3;
+  border-width: 1px 0 0 1px;
+  transition: all 200ms ease-in-out;
+  padding: 20px;
+  max-width: 500px;
+  text-align: left;
+  font-size: 90%;
+}
+
+.mini-cart.active {
+  visibility: visible;
+  opacity: 1;
+  z-index: 99;
+}
+
+@media screen and (max-width: 768px)
+.mini-cart {
+  width: 100%;
+}
+
+.mini-cart-item-price {
+  padding-bottom: 6px
+}

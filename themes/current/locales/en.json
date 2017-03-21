@@ -1,5 +1,12 @@
 {
-  "cartTitle": "cart",
-  "cartEmpty": "Cart is empty",
+  "cart": "cart",
+  "cartEmpty": "Your cart is empty",
+  "proceedToCheckout": "Proceed to checkout",
+  "subtotal": "Subtotal",
+  "shipping": "Shipping",
+  "discount": "Discount",
+  "total": "Total",
+  "remove": "Remove",
+  "qty": "Qty",
   "footerCopyright": "Copyright © 2017 Demo Drone Store. All Rights Reserved. EN. "
 }
