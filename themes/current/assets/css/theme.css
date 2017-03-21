@@ -1,7 +1,6 @@
 .checkout-form {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 0 20px;
+  margin: 0;
+  padding: 0;
 }
 
 .checkout-button {
@@ -66,6 +65,7 @@
 .shipping-methods, .payment-methods {
   border: 1px solid #e0e0e0;
   border-radius: 3px;
+  margin-bottom: 14px;
 }
 
 .shipping-method, .payment-method {
