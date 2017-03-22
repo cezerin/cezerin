@@ -7,6 +7,24 @@ api.init(serverSettings.apiBaseUrl, serverSettings.security.token);
 const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
 const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 
+const fillCartItemWithProductData = (products, cartItem) => {
+  const product = products.find(p => p.id === cartItem.product_id);
+  if(product) {
+    cartItem.image_url = product.images.length > 0 ? product.images[0].url : null;
+    cartItem.stock_quantity = product.stock_quantity;
+  }
+  return cartItem;
+}
+
+const addProductsDataToCartItems = (cart) => {
+  const productIds = cart.items.map(item => item.product_id);
+  return api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity' }).then(({status, json}) => {
+    const newCartItem = cart.items.map(cartItem => fillCartItemWithProductData(json, cartItem))
+    cart.items = newCartItem;
+    return cart;
+  })
+}
+
 ajaxRouter.get('/products', (req, res, next) => {
   const filter = req.query;
   filter.enabled = true;
@@ -25,7 +43,13 @@ ajaxRouter.get('/cart', (req, res, next) => {
   const order_id = req.signedCookies.order_id;
   if (order_id) {
     api.orders.retrieve(order_id).then(({status, json}) => {
-      res.status(status).send(json);
+      if(json && json.items && json.items.length > 0) {
+        return addProductsDataToCartItems(json).then(cart => {
+          res.status(status).send(cart);
+        })
+      } else {
+        res.status(status).send(json);
+      }
     })
   } else {
     res.end();
