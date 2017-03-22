@@ -2,13 +2,16 @@ import React from 'react';
 import {Link} from 'react-router'
 import * as helper from '../lib/helper'
 import text from '../lib/text'
+import config from '../lib/config'
 
 const MiniCartItem = ({item, deleteCartItem, settings}) => {
+  const thumbnail = helper.getThumbnailUrl(item.image_url, config.cart_thumbnail_width);
+
   return (
     <div className="columns is-mobile">
       <div className="column is-2">
         <div className="image">
-          <a><img src="https://store.cezerin.com/static/products/58b574a593223a427233ed9a/340/8.png" /></a>
+          <a><img src={thumbnail} /></a>
         </div>
       </div>
       <div className="column">

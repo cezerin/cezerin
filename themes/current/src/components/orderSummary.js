@@ -2,12 +2,16 @@ import React from 'react';
 import {Link} from 'react-router'
 import * as helper from '../lib/helper'
 import text from '../lib/text'
+import config from '../lib/config'
 
 const MAX_CART_ITEM_QTY = 10;
 
 const OrderSummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) => {
+  const thumbnail = helper.getThumbnailUrl(item.image_url, config.cart_thumbnail_width);
   const qtyOptions = [];
-  for(let i = 0; i <= MAX_CART_ITEM_QTY; i++){
+  const maxQty = item.stock_quantity >= MAX_CART_ITEM_QTY ? MAX_CART_ITEM_QTY : item.stock_quantity;
+
+  for(let i = 0; i <= maxQty; i++){
     const optionText = i === 0 ? text.remove : i;
     qtyOptions.push(<option key={i} value={i}>{optionText}</option>)
   }
@@ -16,7 +20,7 @@ const OrderSummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantir
     <div className="columns is-mobile">
       <div className="column is-3">
         <div className="image">
-          <img src="https://store.cezerin.com/static/products/58b574a593223a427233ed9a/340/8.png" />
+          <img src={thumbnail} />
         </div>
       </div>
       <div className="column">
