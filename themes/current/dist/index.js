@@ -76,4 +76,13 @@ Object.defineProperty(exports, 'CheckoutSuccessContainer', {
   }
 });
 
+var _config = require('./lib/config');
+
+Object.defineProperty(exports, 'config', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_config).default;
+  }
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }

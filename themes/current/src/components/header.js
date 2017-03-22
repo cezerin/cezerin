@@ -5,10 +5,10 @@ import text from '../lib/text'
 
 const CartIndicator = ({cart}) => {
   if (cart && cart.items && cart.items.length > 0) {
-    const itemsCount = cart.items.reduce((prev, curr) => {
-      return parseInt(prev || 0) + parseInt(curr.quantity || 0);
-    }, []);
-
+    let itemsCount = 0;
+    for(let item of cart.items) {
+      itemsCount += item.quantity;
+    }
     return <span className="tag is-danger">{itemsCount}</span>
   } else {
     return <span></span>

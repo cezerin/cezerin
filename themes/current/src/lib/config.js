@@ -1,2 +1,2 @@
-import text from '../../config.json'
-export default text
+import config from '../../config.json'
+export default config

@@ -3,29 +3,45 @@ import {Link} from 'react-router'
 import * as helper from '../lib/helper'
 import text from '../lib/text'
 
+const MAX_CART_ITEM_QTY = 10;
+
 const OrderSummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) => {
+  const qtyOptions = [];
+  for(let i = 0; i <= MAX_CART_ITEM_QTY; i++){
+    const optionText = i === 0 ? text.remove : i;
+    qtyOptions.push(<option key={i} value={i}>{optionText}</option>)
+  }
+
   return (
     <div className="columns is-mobile">
       <div className="column is-3">
         <div className="image">
-          <a><img src="https://store.cezerin.com/static/products/58b574a593223a427233ed9a/340/8.png" /></a>
+          <img src="https://store.cezerin.com/static/products/58b574a593223a427233ed9a/340/8.png" />
         </div>
       </div>
       <div className="column">
-        <a>{item.name}</a><br />
-        <span>{text.qty}: {item.quantity}</span>
-        <div className="mini-cart-item-price">{helper.formatCurrency(item.price_total, settings)}</div>
-        <a className="button is-light is-small" onClick={() => deleteCartItem(item.id)}>{text.remove}</a>
+        <p>
+          {item.name}
+        </p>
+        <div className="columns is-mobile is-gapless is-flex" style={{ alignItems: 'center' }}>
+          <div className="column is-2">
+            {text.qty}:
+          </div>
+          <div className="column">
+            <span className="select is-small">
+              <select onChange={e => {updateCartItemQuantiry(item.id, e.target.value)}} value={item.quantity}>
+                {qtyOptions}
+              </select>
+            </span>
+          </div>
+          <div className="column is-5 has-text-right">
+            {helper.formatCurrency(item.price_total, settings)}
+          </div>
+        </div>
       </div>
     </div>
   )
 }
-
-// <span className="select is-small" onChange={e => {updateCartItemQuantiry(item.id, e.target.value)}}>
-//     <select>
-//       <option>Select dropdown</option>
-//     </select>
-//   </span>
 
 export default(props) => {
   const {cart, settings} = props.state;
@@ -42,9 +58,11 @@ export default(props) => {
     );
 
     return (
-      <div>
+      <div className="checkout-box content is-small">
+        <div className="title is-4">{text.orderSummary}</div>
+        <hr className="separator" />
         {items}
-
+        <hr className="separator" />
         <div className="columns is-mobile is-gapless is-multiline">
           <div className="column is-7">{text.subtotal}</div>
           <div className="column is-5 has-text-right">
@@ -54,18 +72,27 @@ export default(props) => {
           <div className="column is-5 has-text-right">
             {helper.formatCurrency(cart.shipping_total, settings)}
           </div>
-          <div className="column is-7">{text.discount}</div>
-          <div className="column is-5 has-text-right">
-            {helper.formatCurrency(cart.discount_total, settings)}
+
+          {cart.discount_total > 0 &&
+              <div className="column is-7">{text.discount}</div>
+          }
+          {cart.discount_total > 0 &&
+            <div className="column is-5 has-text-right">
+              {helper.formatCurrency(cart.discount_total, settings)}
+            </div>
+          }
+
+          <div className="column is-12">
+            <hr className="separator" />
           </div>
-          <div className="column is-7">{text.grandTotal}</div>
+          <div className="column is-7"><b>{text.grandTotal}</b></div>
           <div className="column is-5 has-text-right">
-            {helper.formatCurrency(cart.grand_total, settings)}
+            <b>{helper.formatCurrency(cart.grand_total, settings)}</b>
           </div>
         </div>
       </div>
     )
   } else {
-    return <div><p>{text.cartEmpty}</p></div>
+    return <div>{text.cartEmpty}</div>
   }
 }

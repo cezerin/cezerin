@@ -53,7 +53,7 @@ const ProductGallery = ({images}) => {
 const ProductDetail = ({product, addCartItem, settings}) => {
   const imageUrl = (product.images && product.images.length > 0)
     ? product.images[0].url
-    : '/assets/images/placeholder.png';
+    : '/assets/images/placeholder.svg';
 
   return (
     <section className="section">

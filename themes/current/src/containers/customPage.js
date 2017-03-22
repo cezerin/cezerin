@@ -2,28 +2,28 @@ import React from 'react'
 import Helmet from 'react-helmet'
 
 const CustomPageContainer = (props) => {
-  const {page} = props.state;
+  const {pageData} = props.state;
 
   return (
     <div>
-      <Helmet title={page.meta_title} meta={[
+      <Helmet title={pageData.meta_title} meta={[
         {
           "name": "description",
-          "content": page.meta_description
+          "content": pageData.meta_description
         }, {
           "property": "og:type",
           "content": "article"
         }
       ]} link={[{
           "rel": "canonical",
-          "href": page.url
+          "href": pageData.url
         }
       ]}/>
       <section className="section">
         <div className="container">
           <div className="content">
             <div dangerouslySetInnerHTML={{
-              __html: page.content
+              __html: pageData.content
             }}/>
           </div>
         </div>

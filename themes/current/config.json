@@ -2,5 +2,7 @@
   "language": "en",
   "list_thumbnail_width": 340,
   "preview_thumbnail_width": 100,
-  "big_thumbnail_width": 800
+  "big_thumbnail_width": 800,
+  "checkout_input_class": "checkout-field",
+  "checkout_button_class": "checkout-button button is-primary"
 }

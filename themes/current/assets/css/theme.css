@@ -4,15 +4,7 @@
 }
 
 .checkout-button {
-  color: #fff;
-  background-color: rgb(8, 179, 90);
-  border: none;
-  font-weight: 600;
-  font-size: 14px;
-  padding: 14px 40px;
-  border-radius: 3px;
   text-transform: uppercase;
-  text-align: center;
 }
 
 .checkout-button:disabled {
@@ -21,7 +13,7 @@
 
 .checkout-button-wrap {
   text-align: center;
-  margin-bottom: 30px;
+  margin: 30px 0;
 }
 
 .checkout-field {
@@ -60,6 +52,8 @@
 
 .checkout-form h2 {
   font-size: 18px;
+  margin-bottom: 8px;
+  margin-top: 30px;
 }
 
 .shipping-methods, .payment-methods {
@@ -74,7 +68,7 @@
   flex-direction: row;
   justify-content: space-between;
   font-weight: normal;
-  padding: 14px 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid #e0e0e0;
   cursor: pointer;
   margin: 0;
@@ -92,7 +86,7 @@
   background-color: #f9f9f9;
 }
 
-.shipping-method small, .payment-method small {
+.shipping-method-description, .payment-method-description {
   font-size: 12px;
   color: #747679;
 }
@@ -101,7 +95,33 @@
   border-bottom: none;
 }
 
+.payment-method-name {
 
+}
+
+.shipping-method-name {
+
+}
+
+.shipping-method-rate {
+
+}
+
+.payment-method-logo {
+
+}
+
+.checkout-box {
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+hr.separator {
+  background-color: #eee;
+  height: 1px;
+  margin: 1rem 0;
+}
 
 .mini-cart {
   visibility: hidden;
