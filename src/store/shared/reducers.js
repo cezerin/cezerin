@@ -8,9 +8,6 @@ const initialState = {};
 function appReducer(state = initialState, action) {
   switch (action.type) {
 
-    case LOCATION_CHANGE:
-      return Object.assign({}, state, {location: action.payload})
-
     case t.SET_CURRENT_CATEGORY:
       return Object.assign({}, state, {currentCategory: action.category})
 
@@ -34,13 +31,13 @@ function appReducer(state = initialState, action) {
 
     case t.PAYMENT_METHODS_RECEIVE:
       return Object.assign({}, state, {
-        payment_methods: action.methods,
+        paymentMethods: action.methods,
         loadingPaymentMethods: false
       })
 
     case t.SHIPPING_METHODS_RECEIVE:
       return Object.assign({}, state, {
-        shipping_methods: action.methods,
+        shippingMethods: action.methods,
         loadingShippingMethods: false
       })
 
@@ -77,6 +74,7 @@ function appReducer(state = initialState, action) {
 
     case t.CART_REQUEST:
     case t.CART_FAILURE:
+    // case LOCATION_CHANGE: action.payload
     default:
       return state
   }

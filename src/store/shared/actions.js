@@ -359,19 +359,18 @@ const getCommonData = (req, currentPage, productsFilter) => {
   });
 }
 
-export const getInitialState = (req, checkout_fields, currentPage, settings) => {
+export const getInitialState = (req, checkoutFields, currentPage, settings) => {
   let initialState = {
     app: {
-      settings: settings,
-      location: null,
       currentPage: currentPage,
+      pageData: {},
+      settings: settings,
       currentCategory: null,
       currentProduct: null,
       categories: [],
       products: [],
-      payment_methods: [],
-      shipping_methods: [],
-      page: {},
+      paymentMethods: [],
+      shippingMethods: [],
       loadingProducts: false,
       loadingMoreProducts: false,
       loadingShippingMethods: false,
@@ -383,7 +382,7 @@ export const getInitialState = (req, checkout_fields, currentPage, settings) => 
         limit: 30,
         fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       },
-      checkout_fields: checkout_fields
+      checkoutFields: checkoutFields
     }
   }
 
@@ -397,7 +396,7 @@ export const getInitialState = (req, checkout_fields, currentPage, settings) => 
     initialState.app.products = commonData.products;
     initialState.app.currentCategory = commonData.currentCategory;
     initialState.app.cart = commonData.cart;
-    initialState.app.page = commonData.page;
+    initialState.app.pageData = commonData.page;
     return initialState;
   })
 

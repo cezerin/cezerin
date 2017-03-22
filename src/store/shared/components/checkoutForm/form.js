@@ -39,7 +39,7 @@ class Form extends React.Component {
   }
 
   getField = (fieldName) => {
-    const fields = this.props.checkout_fields || [];
+    const fields = this.props.checkoutFields || [];
     const field = fields.find(item => item.name === fieldName);
     return field;
   }
@@ -125,8 +125,10 @@ class Form extends React.Component {
       saveShippingMethod,
       savePaymentMethod,
       finishCheckout,
-      payment_methods,
-      shipping_methods
+      paymentMethods,
+      shippingMethods,
+      inputClassName = 'checkout-field',
+      buttonClassName = 'checkout-button'
     } = this.props;
 
     if (initialValues && initialValues.items.length > 0) {
@@ -135,14 +137,14 @@ class Form extends React.Component {
           <div className="checkout-form">
 
             {!this.isFieldHidden('email') &&
-              <Field className="checkout-field" name="email" id="customer.email" component={inputField} type="email"
+              <Field className={inputClassName} name="email" id="customer.email" component={inputField} type="email"
                 label={this.getFieldLabel('email')}
                 validate={this.getFieldValidators('email')}
                 placeholder={this.getFieldPlaceholder('email')}/>
             }
 
             {!this.isFieldHidden('mobile') &&
-              <Field className="checkout-field" name="mobile" id="customer.mobile" component={inputField} type="tel"
+              <Field className={inputClassName} name="mobile" id="customer.mobile" component={inputField} type="tel"
                 label={this.getFieldLabel('mobile')}
                 validate={this.getFieldValidators('mobile')}
                 placeholder={this.getFieldPlaceholder('mobile')}/>
@@ -151,7 +153,7 @@ class Form extends React.Component {
             <h2>{text.shippingTo}</h2>
 
             {!this.isFieldHidden('country') &&
-              <Field className="checkout-field" name="shipping_address.country" id="shipping_address.country" component={inputField} type="text"
+              <Field className={inputClassName} name="shipping_address.country" id="shipping_address.country" component={inputField} type="text"
                 label={this.getFieldLabel('country')}
                 validate={this.getFieldValidators('country')}
                 placeholder={this.getFieldPlaceholder('country')}
@@ -159,7 +161,7 @@ class Form extends React.Component {
             }
 
             {!this.isFieldHidden('state') &&
-              <Field className="checkout-field" name="shipping_address.state" id="shipping_address.state" component={inputField} type="text"
+              <Field className={inputClassName} name="shipping_address.state" id="shipping_address.state" component={inputField} type="text"
                 label={this.getFieldLabel('state')}
                 validate={this.getFieldValidators('state')}
                 placeholder={this.getFieldPlaceholder('state')}
@@ -167,7 +169,7 @@ class Form extends React.Component {
             }
 
             {!this.isFieldHidden('city') &&
-              <Field className="checkout-field" name="shipping_address.city" id="shipping_address.city" component={inputField} type="text"
+              <Field className={inputClassName} name="shipping_address.city" id="shipping_address.city" component={inputField} type="text"
                 label={this.getFieldLabel('city')}
                 validate={this.getFieldValidators('city')}
                 placeholder={this.getFieldPlaceholder('city')}
@@ -176,40 +178,42 @@ class Form extends React.Component {
 
             <h2>{text.shippingMethod} {loadingShippingMethods && <small>{text.loading}</small>}</h2>
             <div className="shipping-methods">
-              {shipping_methods.map(method => <label key={method.id} className="shipping-method">
+              {shippingMethods.map(method => <label key={method.id} className="shipping-method">
                 <Field name="shipping_method_id" component="input" type="radio" value={method.id} onClick={() => saveShippingMethod(method.id)}/>
-                <div>{method.name}<br/>
-                  <small>{method.id}</small>
+                <div>
+                  <div className="shipping-method-name">{method.name}</div>
+                  <div className="shipping-method-description">{method.description}</div>
                 </div>
-                <em>{method.price}</em>
+                <span className="shipping-method-rate">{method.price > 0 && method.price}</span>
               </label>)}
             </div>
 
             <h2>{text.paymentMethod} {loadingPaymentMethods && <small>{text.loading}</small>}</h2>
             <div className="payment-methods">
-              {payment_methods.map(method => <label key={method.id} className="payment-method">
+              {paymentMethods.map(method => <label key={method.id} className="payment-method">
                 <Field name="payment_method_id" component="input" type="radio" value={method.id} onClick={() => savePaymentMethod(method.id)}/>
-                <div>{method.name}<br/>
-                  <small>{method.description}</small>
+                <div>
+                  <div className="payment-method-name">{method.name}</div>
+                  <div className="payment-method-description">{method.description}</div>
                 </div>
-                {/* TODO: LOGO */}
+                <span className="payment-method-logo"></span>
               </label>)}
             </div>
 
             <h2>{text.shippingAddress}</h2>
 
-            <Field className="checkout-field" name="shipping_address.full_name" id="shipping_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
-            <Field className="checkout-field" name="shipping_address.address1" id="shipping_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
-            <Field className="checkout-field" name="shipping_address.address2" id="shipping_address.address2" component={inputField} type="text" label={text.address2}/>
-            <Field className="checkout-field" name="shipping_address.zip" id="shipping_address.zip" component={inputField} type="text" label={text.zip} validate={[validateRequired]}/>
-            <Field className="checkout-field" name="shipping_address.phone" id="shipping_address.phone" component={inputField} type="text" label={text.phone}/>
-            <Field className="checkout-field" name="shipping_address.company" id="shipping_address.company" component={inputField} type="text" label={text.company}/>
-            <Field className="checkout-field" name="comments" id="customer.comments" component={textareaField} type="text" label={text.comments} rows="3"/>
+            <Field className={inputClassName} name="shipping_address.full_name" id="shipping_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
+            <Field className={inputClassName} name="shipping_address.address1" id="shipping_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
+            <Field className={inputClassName} name="shipping_address.address2" id="shipping_address.address2" component={inputField} type="text" label={text.address2}/>
+            <Field className={inputClassName} name="shipping_address.zip" id="shipping_address.zip" component={inputField} type="text" label={text.zip} validate={[validateRequired]}/>
+            <Field className={inputClassName} name="shipping_address.phone" id="shipping_address.phone" component={inputField} type="text" label={text.phone}/>
+            <Field className={inputClassName} name="shipping_address.company" id="shipping_address.company" component={inputField} type="text" label={text.company}/>
+            <Field className={inputClassName} name="comments" id="customer.comments" component={textareaField} type="text" label={text.comments} rows="3"/>
 
             <div className="checkout-button-wrap">
               <button type="button" onClick={handleSubmit(data => {
                 finishCheckout(data)
-              })} disabled={submitting || processingCheckout} className="checkout-button">{text.orderSubmit}</button>
+              })} disabled={submitting || processingCheckout} className={buttonClassName}>{text.orderSubmit}</button>
             </div>
           </div>
         </form>

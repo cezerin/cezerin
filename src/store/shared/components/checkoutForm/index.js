@@ -17,12 +17,12 @@ import Form from './form'
 const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: state.app.cart,
-    payment_methods: state.app.payment_methods,
-    shipping_methods: state.app.shipping_methods,
+    paymentMethods: state.app.paymentMethods,
+    shippingMethods: state.app.shippingMethods,
     loadingShippingMethods: state.app.loadingShippingMethods,
     loadingPaymentMethods: state.app.loadingPaymentMethods,
     processingCheckout: state.app.processingCheckout,
-    checkout_fields: state.app.checkout_fields
+    checkoutFields: state.app.checkoutFields
   }
 }
 
