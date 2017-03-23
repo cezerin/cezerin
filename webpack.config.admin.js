@@ -29,7 +29,7 @@ module.exports = () => {
 
     output: {
       publicPath: '/',
-      path: './public/',
+      path: path.join(__dirname, 'public'),
       filename: 'admin-assets/js/[name]-[chunkhash].js'
     },
 
