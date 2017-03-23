@@ -1,6 +1,5 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import Breadcrumbs from '../components/breadcrumbs'
 import Products from '../components/products'
 import ProductsSidebar from '../components/productsSidebar'
 import Waypoint from 'react-waypoint'
