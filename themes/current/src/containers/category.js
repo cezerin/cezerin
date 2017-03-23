@@ -2,6 +2,7 @@ import React from 'react'
 import Helmet from 'react-helmet'
 import Breadcrumbs from '../components/breadcrumbs'
 import Products from '../components/products'
+import ProductsSidebar from '../components/productsSidebar'
 import Waypoint from 'react-waypoint'
 
 const CategoryContainer = (props) => {
@@ -40,9 +41,7 @@ const CategoryContainer = (props) => {
       <section className="section">
         <div className="container">
           <div className="columns">
-            <div className="column is-one-quarter is-hidden-mobile">
-              sidebar<br/>CATEGORIES<br/>filter
-            </div>
+            <ProductsSidebar {...props} />
             <div className="column">
               <Products products={products} addCartItem={props.addCartItem} settings={settings}/>
               <Waypoint onEnter={props.loadMoreProducts}/>

@@ -19,12 +19,29 @@ const IndexContainer = (props) => {
           "href": pageData.url
         }
       ]}/>
-      <div>
-        slider
-      </div>
-      <div dangerouslySetInnerHTML={{
-        __html: pageData.content
-      }}/>
+
+      <section className="hero is-primary is-medium">
+        <div className="hero-body">
+          <div className="container">
+            <h1 className="title">
+              Medium title
+            </h1>
+            <h2 className="subtitle">
+              Medium subtitle
+            </h2>
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="content">
+            <div dangerouslySetInnerHTML={{
+              __html: pageData.content
+            }}/>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }

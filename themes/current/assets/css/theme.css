@@ -156,3 +156,72 @@ hr.separator {
 .mini-cart-item-price {
   padding-bottom: 6px
 }
+
+.product-old-price {
+  padding-right: 10px;
+}
+.product-new-price {
+  color: #FE4365;
+}
+
+.categories-tree {
+}
+.categories-tree ul {
+  margin: 0;
+  padding: 0;
+}
+.categories-tree ul ul {
+  display: none;
+}
+.categories-tree a.active + ul {
+  display: block;
+}
+.categories-tree li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categories-tree li a {
+  color: #7a7a7a;
+  margin: 0;
+  padding: 0 0 0 .75em;
+  line-height: 1.9;
+  display: block;
+}
+.categories-tree li li a {
+  padding: 0 0 0 1.5em;
+}
+.categories-tree li li li a {
+  padding: 0 0 0 2.25em;
+}
+.categories-tree li li li li a {
+  padding: 0 0 0 3em;
+}
+.categories-tree li a.active {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.categories-tree li.active > ul {
+  display: block;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 320px;
+  height: 100%;
+  z-index: 1000;
+  background: #fff;
+  overflow: auto;
+  transition: transform 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  box-sizing: border-box;
+  box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+}
+
+.sidebar .categories-tree li a {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  color: #333;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}

@@ -5,5 +5,6 @@
   "preview_thumbnail_width": 100,
   "big_thumbnail_width": 800,
   "checkout_input_class": "checkout-field",
-  "checkout_button_class": "checkout-button button is-primary"
+  "checkout_button_class": "checkout-button button is-primary",
+  "imagePlaceholder": "/assets/images/placeholder.svg"
 }

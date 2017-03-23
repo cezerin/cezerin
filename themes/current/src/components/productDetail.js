@@ -2,17 +2,77 @@ import React from 'react'
 import {Link} from 'react-router'
 import ImageGallery from 'react-image-gallery'
 import config from '../lib/config'
+import text from '../lib/text'
 import * as helper from '../lib/helper'
 
-const ProductOptions = ({options, variants}) => {
-  return null;
+const ProductOptions = ({ product }) => {
+  return (
+    <p>
+      <span className="select is-fullwidth">
+        <select>
+          <option>Not implemented</option>
+        </select>
+      </span>
+    </p>
+  );
 }
 
-const RelatedProducts = ({ids}) => {
-  return null;
+const RelatedProducts = ({ ids }) => {
+  return (
+    <div className="container">
+      <div className="title is-4">{text.relatedProducts}</div>
+      <div>Not implemented</div>
+    </div>
+  );
 }
 
-const ProductGallery = ({images}) => {
+const ProductAttributes = ({ attributes }) => {
+  const items = attributes.map((attribute, index) => <div key={index}>{attribute.name}: {attribute.value}</div>);
+  return (
+    <div className="product-attributes">
+      {items}
+    </div>
+  )
+}
+
+const ProductPrice = ({ product, settings }) => {
+  if(product.on_sale) {
+    return (
+      <div className="subtitle is-5">
+        <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
+        <span className="product-new-price">{helper.formatCurrency(product.price, settings)}</span>
+      </div>
+    )
+  } else {
+    return (
+      <div className="subtitle is-5">
+        {helper.formatCurrency(product.price, settings)}
+      </div>
+    )
+  }
+}
+
+const AddToCartButton = ({ product, addCartItem }) => {
+  if(product.stock_status === 'available') {
+    return <button className="button is-dark is-fullwidth" onClick={() => addCartItem({product_id: product.id, variant_id: null, quantity: 1})}>{text.addToCart}</button>
+  }
+  else if(product.stock_status === 'out_of_stock') {
+    return <button className="button is-dark is-fullwidth" disabled>{text.outOfStock}</button>
+  }
+  else if(product.stock_status === 'discontinued') {
+    return <button className="button is-dark is-fullwidth" disabled>{text.discontinued}</button>
+  } else {
+    return null;
+  }
+}
+
+const ProductDescription = ({ description }) => {
+  return (
+    <div dangerouslySetInnerHTML={{__html: description}}/>
+  )
+}
+
+const ProductGallery = ({ images }) => {
   if (images.length > 0) {
     const imagesArray = images.map(image => (
       {
@@ -43,40 +103,39 @@ const ProductGallery = ({images}) => {
   }
 }
 
-// options
-// attributes
-
-//       <ProductGallery images={product.images}/>
-// RELATED PRODUCTS
-//       <ProductOptions options={product.options} variant={product.variant} />
-
 const ProductDetail = ({product, addCartItem, settings}) => {
-  const imageUrl = (product.images && product.images.length > 0)
-    ? product.images[0].url
-    : '/assets/images/placeholder.svg';
-
   return (
     <section className="section">
       <div className="container">
         <div className="columns">
-          <div className="column is-half">
+          <div className="column is-6">
             <ProductGallery images={product.images} />
           </div>
-          <div className="column is-half">
+          <div className="column is-5 is-offset-1">
             <div className="content">
-              <h1>{product.name}</h1>
-              <p>{product.stock_status}</p>
-              <p>{helper.formatCurrency(product.price, settings)}</p>
-              <button className="button" onClick={() => addCartItem({product_id: product.id, variant_id: null, quantity: 1})}>Add to cart</button>
+
+              <h1 className="title is-4">{product.name}</h1>
+
+              <ProductPrice product={product} settings={settings} />
+
+              <ProductOptions product={product} />
+
+              <div className="columns">
+                <div className="column is-6">
+                  <AddToCartButton product={product} addCartItem={addCartItem} />
+                </div>
+              </div>
+
+              <ProductAttributes attributes={product.attributes} />
+
             </div>
           </div>
         </div>
         <div className="content">
-          <div dangerouslySetInnerHTML={{
-            __html: product.description
-          }}/>
+          <ProductDescription description={product.description} />
         </div>
       </div>
+      <RelatedProducts ids={product.related_product_ids} />
     </section>
   )
 }

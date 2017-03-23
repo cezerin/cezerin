@@ -196,9 +196,8 @@
 .image-gallery-thumbnail {
   display: inline-block;
   margin-right: 5px;
-  border: 4px solid transparent;
+  border: 3px solid transparent;
   transition: border .3s ease-out;
-  opacity: 0.35;
   width: 100px; }
   @media (max-width: 768px) {
     .image-gallery-thumbnail {
@@ -208,10 +207,10 @@
     vertical-align: middle;
     width: 100%; }
   .image-gallery-thumbnail.active {
-    opacity: 1; }
+    border: 3px solid #333; }
     @media (max-width: 768px) {
       .image-gallery-thumbnail.active {
-        opacity: 1; } }
+        border: 3px solid #333; } }
 
 .image-gallery-thumbnail-label {
   color: #1a1a1a;
