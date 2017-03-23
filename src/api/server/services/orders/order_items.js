@@ -56,10 +56,16 @@ class OrderItemsService {
     let itemObjectID = new ObjectID(item_id);
     const item = this.getValidDocumentForUpdate(data);
 
-    return mongo.db.collection('orders').updateOne({
-      _id: orderObjectID,
-      'items.id': itemObjectID
-    }, {$set: item}).then(() => this.calculateAndUpdateItem(order_id, item_id)).then(() => OrdersService.getSingleOrder(order_id));
+    if(parse.getNumberIfPositive(data.quantity) === 0) {
+      // delete item
+      return this.deleteItem(order_id, item_id);
+    } else {
+      // update
+      return mongo.db.collection('orders').updateOne({
+        _id: orderObjectID,
+        'items.id': itemObjectID
+      }, {$set: item}).then(() => this.calculateAndUpdateItem(order_id, item_id)).then(() => OrdersService.getSingleOrder(order_id));
+    }
   }
 
   calculateAndUpdateItem(order_id, item_id) {
