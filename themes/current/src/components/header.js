@@ -46,7 +46,7 @@ export default class Header extends React.Component {
     ));
 
     return (
-      <nav className="nav has-shadow">
+      <nav className="nav has-shadow" style={{ zIndex: 100 }}>
         <div className="container">
           <span className={classToggle} onClick={this.menuToggle}>
             <span/>

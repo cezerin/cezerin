@@ -30,7 +30,7 @@ const ProductsList = ({products, addCartItem, settings}) => {
     return <ProductsListItem key={i} product={product} addCartItem={addCartItem} settings={settings}/>
   })
   return (
-    <div className="columns is-multiline is-mobile">
+    <div className="columns is-multiline is-mobile" style={{ alignItems: 'baseline' }}>
       {items}
     </div>
   )
