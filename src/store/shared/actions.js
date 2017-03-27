@@ -246,8 +246,12 @@ const getCategories = () => {
   return api.ajax.product_categories.list({enabled: true}).then(({status, json}) => json)
 }
 
-const getProducts = filter => {
-  return api.ajax.products.list(filter).then(({status, json}) => json)
+const getProducts = (currentPage, filter) => {
+  if (currentPage.type === 'product-category') {
+    return api.ajax.products.list(filter).then(({status, json}) => json)
+  } else {
+    return Promise.resolve([]);
+  }
 }
 
 const getProduct = currentPage => {
@@ -274,7 +278,7 @@ const getPage = currentPage => {
 
 const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
+  return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
     let categoryDetails = null;
     if (currentPage.type === 'product-category') {
       categoryDetails = categories.find(c => c.id === currentPage.resource);
