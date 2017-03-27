@@ -2,6 +2,7 @@ import React from 'react'
 import {Route, IndexRoute} from 'react-router'
 import clientSettings from '../client/settings'
 import {fetchProduct, fetchProducts, fetchPage, setCategory, receiveSitemap} from './actions'
+import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED} from './pageTypes'
 
 import api from 'cezerin-client';
 api.initAjax(clientSettings.ajaxBaseUrl);
@@ -38,18 +39,18 @@ function getComponent(nextState, cb) {
 
   getSitemap(nextState.location.pathname, state, dispatch).then(({currentPage, currentPageAlreadyInState}) => {
     if (currentPage) {
-      if (currentPage.type === 'product-category') {
+      if (currentPage.type === PRODUCT_CATEGORY) {
         dispatch(setCategory(currentPage.resource))
         if(!currentPageAlreadyInState){
           dispatch(fetchProducts());
         }
         cb(null, props => <CategoryContainer {...props}/>);
-      } else if (currentPage.type === 'product') {
+      } else if (currentPage.type === PRODUCT) {
         if(!currentPageAlreadyInState){
           dispatch(fetchProduct(currentPage.resource))
         }
         cb(null, props => <ProductContainer {...props}/>);
-      } else if (currentPage.type === 'page') {
+      } else if (currentPage.type === PAGE) {
         if(!currentPageAlreadyInState){
           dispatch(fetchPage(currentPage.resource))
         }

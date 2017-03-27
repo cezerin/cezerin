@@ -1,5 +1,6 @@
 import {push} from 'react-router-redux';
 import * as t from './actionTypes'
+import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED} from './pageTypes'
 import clientSettings from '../client/settings'
 import api from 'cezerin-client'
 api.initAjax(clientSettings.ajaxBaseUrl);
@@ -247,7 +248,7 @@ const getCategories = () => {
 }
 
 const getProducts = (currentPage, filter) => {
-  if (currentPage.type === 'product-category') {
+  if (currentPage.type === PRODUCT_CATEGORY) {
     return api.ajax.products.list(filter).then(({status, json}) => json)
   } else {
     return Promise.resolve([]);
@@ -255,7 +256,7 @@ const getProducts = (currentPage, filter) => {
 }
 
 const getProduct = currentPage => {
-  if (currentPage.type === 'product') {
+  if (currentPage.type === PRODUCT) {
     return api.ajax.products.retrieve(currentPage.resource).then(({status, json}) => json)
   } else {
     return Promise.resolve();
@@ -267,7 +268,7 @@ const getCart = cookie => {
 }
 
 const getPage = currentPage => {
-  if (currentPage.type === 'page') {
+  if (currentPage.type === PAGE) {
     return api.ajax.pages.retrieve(currentPage.resource).then(pageResponse => {
       return pageResponse.json;
     })
@@ -280,7 +281,7 @@ const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
   return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
     let categoryDetails = null;
-    if (currentPage.type === 'product-category') {
+    if (currentPage.type === PRODUCT_CATEGORY) {
       categoryDetails = categories.find(c => c.id === currentPage.resource);
     }
     return {
@@ -327,7 +328,7 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
     }
   }
 
-  if (currentPage.type === 'product-category') {
+  if (currentPage.type === PRODUCT_CATEGORY) {
     initialState.app.productsFilter.category_id = currentPage.resource;
   }
 
