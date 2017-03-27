@@ -193,7 +193,7 @@ class ProductsService {
   }
 
   getMatchTextQuery({search }) {
-    return (search && search.length > 0) ? { $text: { $search: search } } : null;
+    return (search && search.length > 0 && search !== 'null' && search !== 'undefined') ? { $text: { $search: search } } : null;
   }
 
   getMatchQuery({
@@ -245,13 +245,13 @@ class ProductsService {
        });
      }
 
-     if(price_from !== null) {
+     if(price_from !== null && price_from > 0) {
        queries.push({
          price: { $gte: price_from }
        });
      }
 
-     if(price_to !== null) {
+     if(price_to !== null && price_to > 0) {
        queries.push({
          price: { $lte: price_to }
        });
