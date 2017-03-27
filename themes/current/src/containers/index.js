@@ -2,21 +2,21 @@ import React from 'react'
 import Helmet from 'react-helmet'
 
 const IndexContainer = (props) => {
-  const {pageData} = props.state;
+  const {pageDetails} = props.state;
 
   return (
     <div>
-      <Helmet title={pageData.meta_title} meta={[
+      <Helmet title={pageDetails.meta_title} meta={[
         {
           "name": "description",
-          "content": pageData.meta_description
+          "content": pageDetails.meta_description
         }, {
           "property": "og:type",
           "content": "article"
         }
       ]} link={[{
           "rel": "canonical",
-          "href": pageData.url
+          "href": pageDetails.url
         }
       ]}/>
 
@@ -37,7 +37,7 @@ const IndexContainer = (props) => {
         <div className="container">
           <div className="content">
             <div dangerouslySetInnerHTML={{
-              __html: pageData.content
+              __html: pageDetails.content
             }}/>
           </div>
         </div>

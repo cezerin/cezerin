@@ -7,33 +7,33 @@ import ProductsSort from '../components/productsSort'
 import Waypoint from 'react-waypoint'
 
 const CategoryContainer = (props) => {
-  const {products, currentCategory, settings} = props.state;
+  const {products, categoryDetails, settings} = props.state;
 
   return (
     <div>
-      <Helmet title={currentCategory.meta_title !== ''
-        ? currentCategory.meta_title
-        : currentCategory.name} meta={[
+      <Helmet title={categoryDetails.meta_title !== ''
+        ? categoryDetails.meta_title
+        : categoryDetails.name} meta={[
         {
           "name": "description",
-          "content": currentCategory.meta_description
+          "content": categoryDetails.meta_description
         }, {
           "property": "og:type",
           "content": "article"
         }
       ]} link={[{
           "rel": "canonical",
-          "href": currentCategory.url
+          "href": categoryDetails.url
         }
       ]}/>
       <section className="hero is-light">
         <div className="hero-body">
           <div className="container">
             <h1 className="title">
-              {currentCategory.name}
+              {categoryDetails.name}
             </h1>
             <h2 className="subtitle">
-              {currentCategory.description}
+              {categoryDetails.description}
             </h2>
           </div>
         </div>
@@ -44,7 +44,7 @@ const CategoryContainer = (props) => {
           <div className="columns">
             <ProductsSidebar {...props} />
             <div className="column">
-              <MediaQuery minWidth={768}>
+              <MediaQuery minWidth={768} values={{width: 1024}}>
                 <div className="columns">
                   <div className="column"></div>
                   <div className="column is-4">

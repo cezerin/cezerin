@@ -28,7 +28,7 @@ export default class Sidebar extends React.Component {
           <button className="button is-fullwidth" onClick={this.sidebarToggle}>{text.filterProducts}</button>
         </div>
 
-        <MediaQuery maxWidth={768}>
+        <MediaQuery maxWidth={768} values={{width: 1024}}>
           <div className={sidebarClass}>
             <div className="modal-background"></div>
             <div className="modal-content">
@@ -36,14 +36,14 @@ export default class Sidebar extends React.Component {
                 <div style={{ marginBottom: 30 }}>
                   <ProductsSort />
                 </div>
-                <CategoriesTree categories={this.props.state.categories} activeCategory={this.props.state.currentCategory} onClick={this.sidebarClose} />
+                <CategoriesTree categories={this.props.state.categories} activeCategory={this.props.state.categoryDetails} onClick={this.sidebarClose} />
               </div>
             </div>
             <button className="modal-close" onClick={this.sidebarClose}></button>
           </div>
         </MediaQuery>
-        <MediaQuery minWidth={768}>
-          <CategoriesTree categories={this.props.state.categories} activeCategory={this.props.state.currentCategory} onClick={this.sidebarClose} />
+        <MediaQuery minWidth={768} values={{width: 1024}}>
+          <CategoriesTree categories={this.props.state.categories} activeCategory={this.props.state.categoryDetails} onClick={this.sidebarClose} />
         </MediaQuery>
       </div>
     )

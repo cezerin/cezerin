@@ -3,27 +3,27 @@ import Helmet from 'react-helmet'
 import ProductDetail from '../components/productDetail'
 
 const ProductContainer = (props) => {
-  const {currentProduct, settings} = props.state;
+  const {productDetails, settings} = props.state;
 
-  if (currentProduct) {
+  if (productDetails) {
     return (
       <div>
-        <Helmet title={currentProduct.meta_title !== ''
-          ? currentProduct.meta_title
-          : currentProduct.name} meta={[
+        <Helmet title={productDetails.meta_title !== ''
+          ? productDetails.meta_title
+          : productDetails.name} meta={[
           {
             name: 'description',
-            content: currentProduct.meta_description
+            content: productDetails.meta_description
           }, {
             property: 'og:type',
             content: 'article'
           }
         ]} link={[{
             rel: 'canonical',
-            href: currentProduct.url
+            href: productDetails.url
           }
         ]}/>
-        <ProductDetail settings={settings} product={currentProduct} addCartItem={props.addCartItem}/>
+        <ProductDetail settings={settings} product={productDetails} addCartItem={props.addCartItem}/>
       </div>
     )
   } else {

@@ -5,14 +5,14 @@ import config from '../lib/config'
 import text from '../lib/text'
 import * as helper from '../lib/helper'
 
-const TreeElement = ({ categories, currentCategory, activeCategory, onClick }) => {
-  const childs = categories.filter(category => category.parent_id === currentCategory.id).map((category, index) => <TreeElement key={index} categories={categories} currentCategory={category} activeCategory={activeCategory} />)
-  const currentCategoryIsActive = activeCategory && activeCategory.id === currentCategory.id;
-  const parentCategoryIsActive = activeCategory && activeCategory.parent_id === currentCategory.id;
+const TreeElement = ({ categories, categoryDetails, activeCategory, onClick }) => {
+  const childs = categories.filter(category => category.parent_id === categoryDetails.id).map((category, index) => <TreeElement key={index} categories={categories} categoryDetails={category} activeCategory={activeCategory} />)
+  const currentCategoryIsActive = activeCategory && activeCategory.id === categoryDetails.id;
+  const parentCategoryIsActive = activeCategory && activeCategory.parent_id === categoryDetails.id;
 
   return (
     <li className={currentCategoryIsActive || parentCategoryIsActive ? 'active' : ''}>
-      <Link to={currentCategory.path} activeClassName="active" onClick={onClick}>{currentCategory.name}</Link>
+      <Link to={categoryDetails.path} activeClassName="active" onClick={onClick}>{categoryDetails.name}</Link>
       {childs && childs.length > 0 &&
         <ul>
           {childs}
@@ -24,7 +24,7 @@ const TreeElement = ({ categories, currentCategory, activeCategory, onClick }) =
 
 const Tree = ({ categories, activeCategory, onClick }) => {
   if(categories) {
-    const elements = categories.filter(category => category.parent_id === null).map((category, index) => <TreeElement key={index} categories={categories} currentCategory={category} activeCategory={activeCategory} onClick={onClick} />)
+    const elements = categories.filter(category => category.parent_id === null).map((category, index) => <TreeElement key={index} categories={categories} categoryDetails={category} activeCategory={activeCategory} onClick={onClick} />)
     return (
       <div className="categories-tree">
         <ul>

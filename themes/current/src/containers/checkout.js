@@ -4,21 +4,21 @@ import text from '../lib/text'
 import OrderSummary from '../components/orderSummary'
 
 const CheckoutContainer = (props) => {
-  const {pageData} = props.state;
+  const {pageDetails} = props.state;
 
   return (
     <div>
-      <Helmet title={pageData.meta_title} meta={[
+      <Helmet title={pageDetails.meta_title} meta={[
         {
           "name": "description",
-          "content": pageData.meta_description
+          "content": pageDetails.meta_description
         }, {
           "property": "og:type",
           "content": "article"
         }
       ]} link={[{
           "rel": "canonical",
-          "href": pageData.url
+          "href": pageDetails.url
         }
       ]}/>
       <section className="section" style={{ backgroundColor: '#f5f5f5' }}>
