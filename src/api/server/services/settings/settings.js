@@ -19,7 +19,7 @@ class SettingsService {
       'default_shipping_country': 'SG',
       'default_shipping_state': '',
       'default_shipping_city': '',
-      'default_product_sorting': 'price_asc',
+      'default_product_sorting': 'stock_status,price,position',
       'weight_unit': 'kg',
       'length_unit': 'cm'
     }
