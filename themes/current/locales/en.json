@@ -20,5 +20,7 @@
   "relatedProducts": "Related products",
   "filterProducts": "Filter products",
   "sort": "Sort",
+  "title404": "Page not found",
+  "text404": "The page you requested does not exist. Click here to continue shopping.",
   "footerCopyright": "Copyright © 2017 Demo Drone Store. All Rights Reserved. EN. "
 }
