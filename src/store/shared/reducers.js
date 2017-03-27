@@ -5,20 +5,10 @@ import * as t from './actionTypes'
 
 const initialState = {};
 
-function appReducer(state = initialState, action) {
+const appReducer = (state = initialState, action) => {
   switch (action.type) {
-
-    case t.SET_CURRENT_CATEGORY:
-      return Object.assign({}, state, {currentCategory: action.category})
-
     case t.PRODUCT_RECEIVE:
-      return Object.assign({}, state, {currentProduct: action.product})
-
-    case t.CATEGORIES_RECEIVE:
-      return Object.assign({}, state, {categories: action.categories})
-
-    case t.SITEMAP_RECEIVE:
-      return Object.assign({}, state, {currentPage: action.currentPage})
+      return Object.assign({}, state, {productDetails: action.product})
 
     case t.PRODUCTS_REQUEST:
       return Object.assign({}, state, {loadingProducts: true})
@@ -26,14 +16,26 @@ function appReducer(state = initialState, action) {
     case t.PRODUCTS_RECEIVE:
       return Object.assign({}, state, {loadingProducts: false, products: action.products})
 
+    case t.MORE_PRODUCTS_REQUEST:
+      return Object.assign({}, state, {loadingMoreProducts: true})
+
+    case t.MORE_PRODUCTS_RECEIVE:
+      return Object.assign({}, state, {
+        loadingMoreProducts: false,
+        products: [
+          ...state.products,
+          ...action.products
+        ]
+      })
+
+    case t.PAGE_RECEIVE:
+      return Object.assign({}, state, {page: action.page})
+
     case t.CART_RECEIVE:
       return Object.assign({}, state, {cart: action.cart})
 
-    case t.PAYMENT_METHODS_RECEIVE:
-      return Object.assign({}, state, {
-        paymentMethods: action.methods,
-        loadingPaymentMethods: false
-      })
+    case t.SHIPPING_METHODS_REQUEST:
+      return Object.assign({}, state, {loadingShippingMethods: true})
 
     case t.SHIPPING_METHODS_RECEIVE:
       return Object.assign({}, state, {
@@ -41,11 +43,14 @@ function appReducer(state = initialState, action) {
         loadingShippingMethods: false
       })
 
-    case t.SHIPPING_METHODS_REQUEST:
-      return Object.assign({}, state, {loadingShippingMethods: true})
-
     case t.PAYMENT_METHODS_REQUEST:
       return Object.assign({}, state, {loadingPaymentMethods: true})
+
+    case t.PAYMENT_METHODS_RECEIVE:
+      return Object.assign({}, state, {
+        paymentMethods: action.methods,
+        loadingPaymentMethods: false
+      })
 
     case t.CHECKOUT_REQUEST:
       return Object.assign({}, state, {processingCheckout: true})
@@ -57,24 +62,25 @@ function appReducer(state = initialState, action) {
         processingCheckout: false
       })
 
-    case t.PAGE_RECEIVE:
-      return Object.assign({}, state, {page: action.page})
+    case t.SITEMAP_RECEIVE:
+      return Object.assign({}, state, {currentPage: action.currentPage})
 
-    case t.PRODUCTS_MORE_REQUEST:
-      return Object.assign({}, state, {loadingMoreProducts: true})
+    case t.SET_CURRENT_CATEGORY:
+      return Object.assign({}, state, {categoryDetails: action.category})
 
-    case t.PRODUCTS_MORE_RECEIVE:
+    case t.SET_PRODUCTS_FILTER:
       return Object.assign({}, state, {
-        loadingMoreProducts: false,
-        products: [
-          ...state.products,
-          ...action.products
-        ]
+        productsFilter: Object.assign({}, state.productsFilter, action.filter)
       })
 
+    case LOCATION_CHANGE:
+    case t.PRODUCT_REQUEST:
+    case t.PAGE_REQUEST:
     case t.CART_REQUEST:
-    case t.CART_FAILURE:
-    // case LOCATION_CHANGE: action.payload
+    case t.CART_ITEM_ADD_REQUEST:
+    case t.CART_ITEM_DELETE_REQUEST:
+    case t.CART_ITEM_UPDATE_REQUEST:
+    case t.SITEMAP_REQUEST:
     default:
       return state
   }
