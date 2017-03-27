@@ -319,7 +319,7 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
         price_from: null,
         price_to: null,
         limit: 30,
-        sort: 'price,stock_status',
+        sort: settings.default_product_sorting,
         fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
       },
       cart: null,
