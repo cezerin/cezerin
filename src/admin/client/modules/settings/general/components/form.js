@@ -184,9 +184,9 @@ class GeneralSettings extends React.Component {
               <div className="col-xs-7">{messages.settings_defaultProductSorting}</div>
               <div className="col-xs-5">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_product_sorting">
-                  <MenuItem value="price_asc" primaryText={messages.settings_sortByPriceAsc}/>
-                  <MenuItem value="price_desc" primaryText={messages.settings_sortByPriceDesc}/>
-                  <MenuItem value="default" primaryText={messages.settings_sortByDefault}/>
+                  <MenuItem value="stock_status,price" primaryText={messages.settings_sortByPriceAsc}/>
+                  <MenuItem value="stock_status,-price" primaryText={messages.settings_sortByPriceDesc}/>
+                  <MenuItem value="stock_status,price,position" primaryText={messages.settings_sortByDefault}/>
                 </Field>
               </div>
             </div>
