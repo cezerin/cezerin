@@ -167,11 +167,11 @@ ajaxRouter.get('/product_categories', (req, res, next) => {
   })
 })
 
-ajaxRouter.get('/product_categories/:id', (req, res, next) => {
-  api.product_categories.retrieve(req.params.id).then(({status, json}) => {
-    res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
-  })
-})
+// ajaxRouter.get('/product_categories/:id', (req, res, next) => {
+//   api.product_categories.retrieve(req.params.id).then(({status, json}) => {
+//     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
+//   })
+// })
 
 ajaxRouter.get('/pages/:id', (req, res, next) => {
   api.pages.retrieve(req.params.id).then(({status, json}) => {
@@ -205,11 +205,11 @@ ajaxRouter.get('/shipping_methods', (req, res, next) => {
   })
 })
 
-ajaxRouter.get('/countries', (req, res, next) => {
-  api.countries.list().then(({status, json}) => {
-    res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
-  })
-})
+// ajaxRouter.get('/countries', (req, res, next) => {
+//   api.countries.list().then(({status, json}) => {
+//     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
+//   })
+// })
 
 ajaxRouter.all('*', (req, res, next) => {
   res.status(405).send({'error': 'Method Not Allowed'});
