@@ -1,5 +1,6 @@
 import React from 'react'
 import text from '../lib/text'
+import config from '../lib/config'
 
 const Sort = ({ defaultSort, currentSort, setSort }) => {
   return (
@@ -7,8 +8,11 @@ const Sort = ({ defaultSort, currentSort, setSort }) => {
       <div className="column is-3">{text.sort}:</div>
       <div className="column">
       <span className="select is-fullwidth">
-        <select>
-          <option>Not implemented</option>
+        <select onChange={e => {setSort(e.target.value)}} value={currentSort}>
+          <option value={defaultSort}>{text.sortFavorite}</option>
+          <option value={config.sort_newest}>{text.sortNewest}</option>
+          <option value={config.sort_price_low}>{text.sortPriceLow}</option>
+          <option value={config.sort_price_high}>{text.sortPriceHigh}</option>
         </select>
       </span>
       </div>

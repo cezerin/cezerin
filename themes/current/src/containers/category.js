@@ -7,7 +7,7 @@ import ProductsSort from '../components/productsSort'
 import Waypoint from 'react-waypoint'
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings} = props.state;
+  const {products, categoryDetails, settings, productsFilter} = props.state;
 
   return (
     <div>
@@ -48,7 +48,7 @@ const CategoryContainer = (props) => {
                 <div className="columns">
                   <div className="column"></div>
                   <div className="column is-4">
-                    <ProductsSort />
+                    <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={props.setSort} />
                   </div>
                 </div>
               </MediaQuery>
