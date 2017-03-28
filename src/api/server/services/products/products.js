@@ -38,8 +38,24 @@ class ProductsService {
         aggregationPipeline.push({ $skip : offset });
         aggregationPipeline.push({ $limit : limit });
 
+        // get total records count
+        const aggregationCount = [];
+        if(matchTextQuery) {
+          aggregationCount.push({ $match: matchTextQuery });
+        }
+        aggregationCount.push({ $match: matchQuery });
+        aggregationCount.push({$group: {_id: null, count: { $sum: 1 }}});
+
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
-          .then(items => items.map(item => this.changeProperties(categories, item, thumbnail_width)))
+          .then(items => items.map(item => this.changeProperties(categories, item, thumbnail_width))).then(items => {
+            return mongo.db.collection('products').aggregate(aggregationCount).toArray().then(countItems => {
+              return {
+                total_count: countItems[0].count,
+                has_more: (offset + items.length) < countItems[0].count,
+                data: items
+              }
+            })
+          })
       });
   }
 
@@ -299,7 +315,7 @@ class ProductsService {
       return Promise.reject('Invalid identifier');
     }
     return this.getProducts({ ids: id, limit: 1})
-    .then(items => items.length > 0 ? items[0] : {})
+    .then(products => products.data.length > 0 ? products.data[0] : {})
   }
 
   addProduct(data) {
