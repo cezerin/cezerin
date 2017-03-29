@@ -2,7 +2,7 @@ import React from 'react'
 import {Route, IndexRoute} from 'react-router'
 import clientSettings from '../client/settings'
 import {fetchProduct, fetchProducts, fetchPage, setCategory, receiveSitemap} from './actions'
-import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED} from './pageTypes'
+import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 
 import api from 'cezerin-client';
 api.initAjax(clientSettings.ajaxBaseUrl);
@@ -15,6 +15,7 @@ import CustomPageContainer from './containers/customPage'
 import CheckoutContainer from './containers/checkout'
 import CheckoutSuccessContainer from './containers/checkoutSuccess'
 import NotFoundContainer from './containers/notfound'
+import SearchContainer from './containers/search'
 
 const getSitemap = (path, state, dispatch) => {
   const currentPageFromState = state.app.currentPage;
@@ -50,6 +51,8 @@ function getComponent(nextState, cb) {
           dispatch(fetchProduct(currentPage.resource))
         }
         cb(null, props => <ProductContainer {...props}/>);
+      } else if(currentPage.type === SEARCH) {
+        cb(null, props => <SearchContainer {...props}/>);
       } else if (currentPage.type === PAGE) {
         if(!currentPageAlreadyInState){
           dispatch(fetchPage(currentPage.resource))
