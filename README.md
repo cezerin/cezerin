@@ -2,7 +2,7 @@
 
 Cezerin is an open-source e-commerce platform built with JavaScript only. Cezerin makes it easy to create SEO-friendly single-page online store. [Demo store](https://store.cezerin.com).
 
-![Cezerin dashboard](https://cezerin.com/assets/images/products.png)
+![Cezerin dashboard](https://cezerin.com/assets/images/cezerin-dashboard.png)
 
 
 ## Build with
