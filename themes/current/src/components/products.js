@@ -38,11 +38,10 @@ const LoadMore = ({ loadMoreProducts, hasMore }) => {
 }
 
 const ProductsList = ({products, addCartItem, settings, loadMoreProducts, hasMore}) => {
-  let i = 0;
-  const items = products.map(product => {
-    i++;
-    return <ProductsListItem key={i} product={product} addCartItem={addCartItem} settings={settings}/>
-  })
+  const items = products ? products.map((product, index) => {
+    return <ProductsListItem key={index} product={product} addCartItem={addCartItem} settings={settings}/>
+  }) : null;
+
   return (
     <div>
       <div className="columns is-multiline is-mobile" style={{ alignItems: 'baseline' }}>

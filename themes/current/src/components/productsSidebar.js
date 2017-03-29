@@ -39,6 +39,14 @@ export default class Sidebar extends React.Component {
                   <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={this.props.setSort} />
                 </div>
                 <CategoriesTree categories={this.props.state.categories} activeCategory={categoryDetails} onClick={this.sidebarClose} />
+                <PriceSlider
+                  minPrice={products_min_price}
+                  maxPrice={products_max_price}
+                  minValue={productsFilter.price_from}
+                  maxValue={productsFilter.price_to}
+                  setPriceFromAndTo={this.props.setPriceFromAndTo}
+                  settings={settings}
+                />
               </div>
             </div>
             <button className="modal-close" onClick={this.sidebarClose}></button>

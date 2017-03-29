@@ -236,3 +236,32 @@ hr.separator {
   max-width: 360px;
   margin: 0 auto;
 }
+
+.search-bar {
+  visibility: hidden;
+  position: absolute;
+  min-width: 200px;
+  top: calc(100%);
+  right: 0;
+  background: #fff;
+  z-index: 1;
+  opacity: 0;
+  box-shadow: 2px 2px 1px 0 rgba(0,0,0,0.2);
+  border: 1px solid #f3f3f3;
+  border-width: 1px 0 0 1px;
+  transition: all 200ms ease-in-out;
+  padding: 20px;
+  max-width: 500px;
+  text-align: left;
+}
+
+.search-bar.active {
+  visibility: visible;
+  opacity: 1;
+  z-index: 99;
+}
+
+@media screen and (max-width: 768px)
+.search-bar {
+  width: 100%;
+}

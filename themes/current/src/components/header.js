@@ -62,6 +62,11 @@ export default class Header extends React.Component {
             {categoriesLinks}
           </div>
           <div className="nav-right is-flex-mobile">
+            <Link className="nav-item" to="/search">
+              <span className="icon">
+                <img src="/assets/images/search.svg" alt={text.search} title={text.search}/>
+              </span>
+            </Link>
             <span className="nav-item" onClick={this.cartToggle} style={{ cursor: 'pointer' }}>
               <span className="icon">
                 <img src="/assets/images/shopping-bag.svg" alt={text.cart} title={text.cart}/>

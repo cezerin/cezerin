@@ -76,6 +76,15 @@ Object.defineProperty(exports, 'CheckoutSuccessContainer', {
   }
 });
 
+var _search = require('./containers/search');
+
+Object.defineProperty(exports, 'SearchContainer', {
+  enumerable: true,
+  get: function get() {
+    return _interopRequireDefault(_search).default;
+  }
+});
+
 var _config = require('./lib/config');
 
 Object.defineProperty(exports, 'config', {
