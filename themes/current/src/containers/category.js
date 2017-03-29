@@ -4,10 +4,9 @@ import MediaQuery from 'react-responsive'
 import Products from '../components/products'
 import ProductsSidebar from '../components/productsSidebar'
 import ProductsSort from '../components/productsSort'
-import Waypoint from 'react-waypoint'
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings, productsFilter} = props.state;
+  const {products, categoryDetails, settings, productsFilter, products_has_more} = props.state;
 
   return (
     <div>
@@ -52,8 +51,13 @@ const CategoryContainer = (props) => {
                   </div>
                 </div>
               </MediaQuery>
-              <Products products={products} addCartItem={props.addCartItem} settings={settings}/>
-              <Waypoint onEnter={props.loadMoreProducts}/>
+              <Products
+                products={products}
+                addCartItem={props.addCartItem}
+                settings={settings}
+                loadMoreProducts={props.loadMoreProducts}
+                hasMore={products_has_more}
+              />
             </div>
           </div>
         </div>

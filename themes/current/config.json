@@ -9,5 +9,6 @@
   "imagePlaceholder": "/assets/images/placeholder.svg",
   "sort_newest": "-date_created",
   "sort_price_low": "price",
-  "sort_price_high": "-price"
+  "sort_price_high": "-price",
+  "infiniteScrolling": false
 }

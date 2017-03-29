@@ -9,6 +9,7 @@
   "total": "Total",
   "remove": "Remove",
   "qty": "Qty",
+  "price": "Price",
   "checkoutPageTitle": "Checkout",
   "grandTotal": "Grand total",
   "orderSummary": "Order Summary",
@@ -25,6 +26,7 @@
   "sortPriceLow":"Price low to high",
   "sortPriceHigh":"Price high to low",
   "title404": "Page not found",
+  "loadMore": "Load more products",
   "text404": "The page you requested does not exist. Click here to continue shopping.",
   "footerCopyright": "Copyright © 2017 Demo Drone Store. All Rights Reserved. EN. "
 }

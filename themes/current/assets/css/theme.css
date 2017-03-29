@@ -218,3 +218,21 @@ hr.separator {
   padding-top: 6px;
   padding-bottom: 6px;
 }
+
+.price-filter {
+  margin: 20px 0;
+}
+.price-filter-range {
+  margin: 10px 0;
+}
+.price-filter-values {
+  font-size: 0.75rem;
+}
+
+.load-more {
+  margin: 30px 0;
+}
+.load-more button {
+  max-width: 360px;
+  margin: 0 auto;
+}

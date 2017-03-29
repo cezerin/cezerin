@@ -4,7 +4,7 @@ import config from '../lib/config'
 
 const Sort = ({ defaultSort, currentSort, setSort }) => {
   return (
-    <div className="columns">
+    <div className="columns" style={{ alignItems: 'center' }}>
       <div className="column is-3">{text.sort}:</div>
       <div className="column">
       <span className="select is-fullwidth">
