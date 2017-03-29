@@ -44,12 +44,15 @@ app.use(express.static(STATIC_ROOT_DIRECTORY, staticOptions))
 app.get('/*.ico', (req, res) => {
   res.status(404).end();
 });
+app.get('/assets/*', (req, res) => {
+  res.status(404).end();
+});
 app.use(helmet())
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use('/api', apiRouter);
-app.get('/admin/*', function(req, res) {
+app.get('/admin/*', (req, res) => {
   res.sendFile(ADMIN_INDEX_PATH)
 });
 app.use(cookieParser(settings.security.cookieKey));
