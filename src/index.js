@@ -41,6 +41,9 @@ const staticOptions = {
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(express.static(STATIC_ROOT_DIRECTORY, staticOptions))
+app.get('/*.ico', (req, res) => {
+  res.status(404).end();
+});
 app.use(helmet())
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
