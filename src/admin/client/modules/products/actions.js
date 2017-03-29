@@ -194,15 +194,17 @@ export function fetchProducts() {
 
       return api.products.list(filter)
         .then(({status, json}) => {
-          json = json.sort((a,b) => (a.position - b.position ));
+          let products = json.data;
 
-          json.forEach((element, index, theArray) => {
+          products = product.sort((a,b) => (a.position - b.position ));
+
+          products.forEach((element, index, theArray) => {
             if(theArray[index].name === '') {
               theArray[index].name = `<${messages.draft}>`;
             }
           })
 
-          dispatch(receiveProducts(json))
+          dispatch(receiveProducts(products))
         })
         .catch(error => {
             dispatch(receiveProductsError(error));
@@ -242,15 +244,17 @@ export function fetchMoreProducts() {
 
     return api.products.list(filter)
       .then(({status, json}) => {
-        json = json.sort((a,b) => (a.position - b.position ));
+        let products = json.data;
 
-        json.forEach((element, index, theArray) => {
+        products = products.sort((a,b) => (a.position - b.position ));
+
+        products.forEach((element, index, theArray) => {
           if(theArray[index].name === '') {
             theArray[index].name = `<${messages.draft}>`;
           }
         })
 
-        dispatch(receiveProductsMore(json))
+        dispatch(receiveProductsMore(products))
       })
       .catch(error => {
           dispatch(receiveProductsError(error));
