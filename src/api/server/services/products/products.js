@@ -21,7 +21,7 @@ class ProductsService {
         const limit = parse.getNumberIfPositive(params.limit) || 1000000;
         const offset = parse.getNumberIfPositive(params.offset) || 0;
         const projectQuery = this.getProjectQuery(fieldsArray);
-        const sortQuery = this.getSortQuery(params);
+        const sortQuery = this.getSortQuery(params); // todo: validate every sort field
         const matchQuery = this.getMatchQuery(params, categories);
         const matchTextQuery = this.getMatchTextQuery(params);
         const thumbnail_width = parse.getNumberIfPositive(params.thumbnail_width);
@@ -43,15 +43,30 @@ class ProductsService {
         if(matchTextQuery) {
           aggregationCount.push({ $match: matchTextQuery });
         }
+        aggregationCount.push({ $project: projectQuery });
         aggregationCount.push({ $match: matchQuery });
-        aggregationCount.push({$group: {_id: null, count: { $sum: 1 }}});
+        aggregationCount.push({$group: {_id: null, count: { $sum: 1 }, min_price: { $min: "$price" }, max_price: { $max: "$price" }}});
 
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
           .then(items => items.map(item => this.changeProperties(categories, item, thumbnail_width))).then(items => {
             return mongo.db.collection('products').aggregate(aggregationCount).toArray().then(countItems => {
+              let total_count = 0;
+              let min_price = 0;
+              let max_price = 0;
+
+              if(countItems && countItems.length === 1) {
+                total_count = countItems[0].count;
+                min_price = countItems[0].min_price || 0;
+                max_price = countItems[0].max_price || 0;
+              }
+
               return {
-                total_count: countItems[0].count,
-                has_more: (offset + items.length) < countItems[0].count,
+                price: {
+                  min: min_price,
+                  max: max_price
+                },
+                total_count: total_count,
+                has_more: (offset + items.length) < total_count,
                 data: items
               }
             })
