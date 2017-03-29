@@ -1,3 +1,4 @@
+import {push} from 'react-router-redux'
 import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts, setSearch, setSort, setPriceFromAndTo, setPriceFrom, setPriceTo} from './actions'
 
 export const mapStateToProps = (state, ownProps) => {
@@ -34,6 +35,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setPriceTo: (price_to) => {
       dispatch(setPriceTo(price_to));
+    },
+    setLocation: (path) => {
+      dispatch(push(path));
     }
   }
 }
