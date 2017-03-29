@@ -21,7 +21,7 @@ const fillCartItems = (cartResponse) => {
   if(cart && cart.items && cart.items.length > 0) {
     const productIds = cart.items.map(item => item.product_id);
     return api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity' }).then(({status, json}) => {
-      const newCartItem = cart.items.map(cartItem => fillCartItemWithProductData(json, cartItem))
+      const newCartItem = cart.items.map(cartItem => fillCartItemWithProductData(json.data, cartItem))
       cartResponse.json.items = newCartItem;
       return cartResponse;
     })
