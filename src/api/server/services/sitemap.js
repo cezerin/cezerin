@@ -47,6 +47,11 @@ class SitemapService {
     paths.push({path: '/users', type: 'reserved'});
     paths.push({path: '/sitemap.xml', type: 'reserved'});
     paths.push({path: '/robots.txt', type: 'reserved'});
+    paths.push({path: '/settings', type: 'reserved'});
+    paths.push({path: '/find', type: 'reserved'});
+    paths.push({path: '/account', type: 'reserved'});
+
+    paths.push({path: '/search', type: 'search'});
 
     return paths;
   }
