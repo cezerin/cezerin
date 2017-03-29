@@ -21,8 +21,13 @@ export const fetchProducts = () => (dispatch, getState) => {
   dispatch(requestProducts());
 
   let filter = app.productsFilter;
+  filter.offset = 0;
+
   return api.ajax.products.list(filter).then(({status, json}) => {
     dispatch(receiveProducts(json))
+    if(!app.products_min_price && !app.products_max_price) {
+      dispatch(setProductsPriceRange(json.price.min, json.price.max));
+    }
   }).catch(error => {});
 }
 
@@ -32,13 +37,13 @@ const receiveProducts = (products) => ({type: t.PRODUCTS_RECEIVE, products})
 
 export const fetchMoreProducts = () => (dispatch, getState) => {
   const {app} = getState();
-  if (app.loadingProducts || app.products.length === 0) {
+  if (app.loadingProducts || app.loadingMoreProducts || app.products.length === 0 || !app.products_has_more) {
     return Promise.resolve();
   } else {
     dispatch(requestMoreProducts());
 
     let filter = app.productsFilter;
-    filter.limit = 15;
+    //filter.limit = 15;
     filter.offset = app.products.length;
 
     return api.ajax.products.list(filter).then(({status, json}) => {
@@ -154,7 +159,10 @@ export const setCategory = category_id => (dispatch, getState) => {
   const category = app.categories.find(c => c.id === category_id);
   if (category) {
     dispatch(setCurrentCategory(category));
+    dispatch(setProductsPriceRange(null, null));
+    dispatch(clearProductsFilter());
     dispatch(setProductsFilter({category_id: category_id}));
+    dispatch(receiveProduct(null));
   }
 }
 
@@ -170,17 +178,31 @@ export const setSort = sort => (dispatch, getState) => {
   dispatch(fetchProducts());
 }
 
+export const setPriceFromAndTo = (price_from, price_to) => (dispatch, getState) => {
+  if(price_to > 0) {
+    dispatch(setProductsFilter({price_from: price_from, price_to: price_to}));
+    dispatch(fetchProducts());
+  }
+}
+
 export const setPriceFrom = price_from => (dispatch, getState) => {
   dispatch(setProductsFilter({price_from: price_from}));
   dispatch(fetchProducts());
 }
 
 export const setPriceTo = price_to => (dispatch, getState) => {
-  dispatch(setProductsFilter({price_to: price_to}));
-  dispatch(fetchProducts());
+  if(price_to > 0) {
+    dispatch(setProductsFilter({price_to: price_to}));
+    dispatch(fetchProducts());
+  }
 }
 
-const setProductsFilter = filter => ({type: t.SET_PRODUCTS_FILTER, filter})
+const setProductsPriceRange = (min, max) => ({type: t.SET_PRODUCTS_PRICE_RANGE, min, max})
+
+const setProductsFilter = filter => ({type: t.SET_PRODUCTS_FILTER, filter: filter})
+
+const EMPTY_FILTER = { on_sale: null, search: '', price_from: 0, price_to: 0 };
+const clearProductsFilter = () => ({type: t.SET_PRODUCTS_FILTER, filter: EMPTY_FILTER});
 
 export const updateCartShippingCountry = country => (dispatch, getState) => {
   return [
@@ -305,6 +327,10 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
       productDetails: null,
       categories: [],
       products: [],
+      products_total_count: 0,
+      products_has_more: false,
+      products_min_price: 0,
+      products_max_price: 0,
       paymentMethods: [],
       shippingMethods: [],
       loadingProducts: false,
@@ -316,8 +342,8 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
         on_sale: null,
         search: '',
         category_id: null,
-        price_from: null,
-        price_to: null,
+        price_from: 0,
+        price_to: 0,
         limit: 30,
         sort: settings.default_product_sorting,
         fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
@@ -335,7 +361,15 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
   return getCommonData(req, currentPage, initialState.app.productsFilter).then(commonData => {
     initialState.app.categories = commonData.categories;
     initialState.app.productDetails = commonData.product;
-    initialState.app.products = commonData.products;
+    if(commonData.products) {
+      initialState.app.products = commonData.products.data;
+      initialState.app.products_total_count = commonData.products.total_count;
+      initialState.app.products_has_more = commonData.products.has_more;
+      if(commonData.products.price) {
+        initialState.app.products_min_price = commonData.products.price.min;
+        initialState.app.products_max_price = commonData.products.price.max;
+      }
+    }
     initialState.app.categoryDetails = commonData.categoryDetails;
     initialState.app.cart = commonData.cart;
     initialState.app.pageDetails = commonData.page;

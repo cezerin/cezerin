@@ -40,8 +40,8 @@ function getComponent(nextState, cb) {
   getSitemap(nextState.location.pathname, state, dispatch).then(({currentPage, currentPageAlreadyInState}) => {
     if (currentPage) {
       if (currentPage.type === PRODUCT_CATEGORY) {
-        dispatch(setCategory(currentPage.resource))
         if(!currentPageAlreadyInState){
+          dispatch(setCategory(currentPage.resource))
           dispatch(fetchProducts());
         }
         cb(null, props => <CategoryContainer {...props}/>);

@@ -1,4 +1,4 @@
-import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts, setSearch, setSort, setPriceFrom, setPriceTo} from './actions'
+import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts, setSearch, setSort, setPriceFromAndTo, setPriceFrom, setPriceTo} from './actions'
 
 export const mapStateToProps = (state, ownProps) => {
   return {
@@ -25,6 +25,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     },
     setSort: (sort) => {
       dispatch(setSort(sort));
+    },
+    setPriceFromAndTo: (price_from, price_to) => {
+      dispatch(setPriceFromAndTo(price_from, price_to));
     },
     setPriceFrom: (price_from) => {
       dispatch(setPriceFrom(price_from));

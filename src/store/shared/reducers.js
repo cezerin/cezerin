@@ -14,7 +14,12 @@ const appReducer = (state = initialState, action) => {
       return Object.assign({}, state, {loadingProducts: true})
 
     case t.PRODUCTS_RECEIVE:
-      return Object.assign({}, state, {loadingProducts: false, products: action.products})
+      return Object.assign({}, state, {
+        loadingProducts: false,
+        products: action.products.data,
+        products_total_count: action.products.total_count,
+        products_has_more: action.products.has_more
+      })
 
     case t.MORE_PRODUCTS_REQUEST:
       return Object.assign({}, state, {loadingMoreProducts: true})
@@ -24,8 +29,10 @@ const appReducer = (state = initialState, action) => {
         loadingMoreProducts: false,
         products: [
           ...state.products,
-          ...action.products
-        ]
+          ...action.products.data
+        ],
+        products_total_count: action.products.total_count,
+        products_has_more: action.products.has_more
       })
 
     case t.PAGE_RECEIVE:
@@ -71,6 +78,12 @@ const appReducer = (state = initialState, action) => {
     case t.SET_PRODUCTS_FILTER:
       return Object.assign({}, state, {
         productsFilter: Object.assign({}, state.productsFilter, action.filter)
+      })
+
+    case t.SET_PRODUCTS_PRICE_RANGE:
+      return Object.assign({}, state, {
+        products_min_price: action.min || 0,
+        products_max_price: action.max || 0
       })
 
     case LOCATION_CHANGE:
