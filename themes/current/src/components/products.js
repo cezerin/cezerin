@@ -5,21 +5,54 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const ProductsListItem = ({product, addCartItem, settings}) => {
-  const imageUrl = (product.images && product.images.length > 0)
-    ? helper.getThumbnailUrl(product.images[0].url, config.list_thumbnail_width)
-    : config.imagePlaceholder;
-
-  return (
-    <div className="column is-half-mobile is-one-third-tablet">
-      <div className="image">
-        <Link to={product.path}>
-          <img src={imageUrl} />
-        </Link>
+const ProductPrice = ({ product, settings }) => {
+  if(product.on_sale) {
+    return (
+      <div>
+        <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
+        <span className="product-new-price">{helper.formatCurrency(product.price, settings)}</span>
       </div>
-      <div className="content has-text-centered">
-        <Link to={product.path}>{product.name}</Link>
-        <p>{helper.formatCurrency(product.price, settings)}</p>
+    )
+  } else {
+    return (
+      <div>
+        {helper.formatCurrency(product.price, settings)}
+      </div>
+    )
+  }
+}
+
+const ProductImage = ({ images, alt }) => {
+  if(images && images.length > 0) {
+    const imageUrl = helper.getThumbnailUrl(images[0].url, config.list_thumbnail_width);
+
+    return (
+      <img src={imageUrl} alt={alt} />
+    )
+  } else {
+    return (
+      <div className="small-image-placeholder"></div>
+    )
+  }
+}
+
+const ProductsListItem = ({product, addCartItem, settings}) => {
+  return (
+    <div className="column is-6-mobile is-4-tablet">
+      <div className="card">
+        <div className="card-image">
+          <figure className="image">
+            <Link to={product.path}>
+              <ProductImage images={product.images} alt={product.name} />
+            </Link>
+          </figure>
+        </div>
+        <div className="card-content">
+          <div className="content">
+            <Link to={product.path}>{product.name}</Link>
+            <ProductPrice product={product} settings={settings} />
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -44,7 +77,7 @@ const ProductsList = ({products, addCartItem, settings, loadMoreProducts, hasMor
 
   return (
     <div>
-      <div className="columns is-multiline is-mobile" style={{ alignItems: 'baseline' }}>
+      <div className="columns is-multiline is-mobile" style={{ alignItems: 'flex-start' }}>
         {items}
       </div>
       <LoadMore loadMoreProducts={loadMoreProducts} hasMore={hasMore} />

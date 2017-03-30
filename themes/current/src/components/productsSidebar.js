@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router'
 import MediaQuery from 'react-responsive'
 import text from '../lib/text'
+import config from '../lib/config'
 import CategoriesTree from './categoriesTree'
 import ProductsSort from './productsSort'
 import PriceSlider from './priceSlider'
@@ -30,7 +31,7 @@ export default class Sidebar extends React.Component {
           <button className="button is-fullwidth" onClick={this.sidebarToggle}>{text.filterProducts}</button>
         </div>
 
-        <MediaQuery maxWidth={768} values={{width: 1024}}>
+        <MediaQuery maxWidth={768} values={{width: config.default_screen_width}}>
           <div className={sidebarClass}>
             <div className="modal-background"></div>
             <div className="modal-content">
@@ -52,7 +53,7 @@ export default class Sidebar extends React.Component {
             <button className="modal-close" onClick={this.sidebarClose}></button>
           </div>
         </MediaQuery>
-        <MediaQuery minWidth={768} values={{width: 1024}}>
+        <MediaQuery minWidth={768} values={{width: config.default_screen_width}}>
           <CategoriesTree categories={this.props.state.categories} activeCategory={categoryDetails} onClick={this.sidebarClose} />
           <PriceSlider
             minPrice={products_min_price}

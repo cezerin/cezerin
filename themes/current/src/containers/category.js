@@ -4,6 +4,7 @@ import MediaQuery from 'react-responsive'
 import Products from '../components/products'
 import ProductsSidebar from '../components/productsSidebar'
 import ProductsSort from '../components/productsSort'
+import config from '../lib/config'
 
 const CategoryContainer = (props) => {
   const {products, categoryDetails, settings, productsFilter, products_has_more} = props.state;
@@ -43,7 +44,7 @@ const CategoryContainer = (props) => {
           <div className="columns">
             <ProductsSidebar {...props} />
             <div className="column">
-              <MediaQuery minWidth={768} values={{width: 1024}}>
+              <MediaQuery minWidth={768} values={{width: config.default_screen_width}}>
                 <div className="columns">
                   <div className="column"></div>
                   <div className="column is-4">

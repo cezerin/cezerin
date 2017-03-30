@@ -5,21 +5,56 @@ import text from '../lib/text'
 
 export default() => {
   return (
-    <footer className="footer">
-      <div className="container">
-        <div className="content has-text-centered">
-          <p>
-            {text.footerCopyright}&nbsp;
-            <Link to="/privacy">Privacy Policy</Link>. The website content is licensed&nbsp;
-            <Link to="/about-us">About</Link>. This <Link to="/page-not-exists">page</Link> is not exists.
-          </p>
-          <p>
-            <img src="/assets/images/payment/mastercard.svg" alt="mastercard" width="60" style={{ marginRight: '10px' }}/>
-            <img src="/assets/images/payment/visa.svg" alt="visa" width="60" style={{ marginRight: '10px' }}/>
-            <img src="/assets/images/payment/paypal.svg" alt="paypal" width="60" style={{ marginRight: '10px' }}/>
-          </p>
+    <section className="section">
+      <footer>
+        <div className="container">
+          <div className="content">
+
+            <hr />
+
+            <div className="columns">
+
+              <div className="column is-3">
+                <div className="image footer-logo">
+                  <img src="/assets/images/logo.png" alt="Store logo" />
+                </div>
+                <p>Brand text text text text text text text text text text text text text text text text text</p>
+              </div>
+
+              <div className="column is-3">
+                <div className="title is-5">About</div>
+                <div>
+                  <ul className="footer-menu">
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="column is-3">
+                <div className="title is-5">Support</div>
+                <div>
+                  <ul className="footer-menu">
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div className="column is-3">
+                <div className="title is-5">Store</div>
+                <p>7000 Melrose Av<br />Los Angeles, California</p>
+                <p>302.012.333.010<br />info@store.com</p>
+              </div>
+
+            </div>
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </section>
   )
 }

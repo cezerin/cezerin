@@ -6,9 +6,9 @@
   "big_thumbnail_width": 800,
   "checkout_input_class": "checkout-field",
   "checkout_button_class": "checkout-button button is-primary",
-  "imagePlaceholder": "/assets/images/placeholder.svg",
   "sort_newest": "-date_created",
   "sort_price_low": "price",
   "sort_price_high": "-price",
+  "default_screen_width": 767,
   "infiniteScrolling": false
 }

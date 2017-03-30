@@ -1,6 +1,5 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-import MediaQuery from 'react-responsive'
 import Products from '../components/products'
 import ProductsSidebar from '../components/productsSidebar'
 import ProductsSort from '../components/productsSort'
@@ -9,7 +8,8 @@ import PriceSlider from '../components/priceSlider'
 import text from '../lib/text'
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings, productsFilter, products_has_more, products_min_price, products_max_price, products_total_count} = props.state;
+  const {products, settings, productsFilter, products_has_more, products_min_price, products_max_price, products_total_count} = props.state;
+  const title = productsFilter.search && productsFilter.search !== '' ? `${products_total_count || 0} ${text.resultsFor} "${productsFilter.search}"` : text.search;
 
   return (
     <div>
@@ -23,16 +23,11 @@ const CategoryContainer = (props) => {
         }
       ]}/>
 
-      <section className="hero is-light">
+      <section className="hero is-dark">
         <div className="hero-body">
           <div className="container">
-            <h1 className="title">
-              {text.search}
-            </h1>
+            <h1 className="title is-4">{title}</h1>
             <SearchBox value={productsFilter.search} onSearch={props.setSearch} />
-            <div style={{ marginTop: 10 }}>
-              {text.found}: <b>{products_total_count || 0}</b>
-            </div>
           </div>
         </div>
       </section>

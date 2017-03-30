@@ -38,7 +38,7 @@ const ProductAttributes = ({ attributes }) => {
 const ProductPrice = ({ product, settings }) => {
   if(product.on_sale) {
     return (
-      <div className="subtitle is-5">
+      <div className="title is-5">
         <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
         <span className="product-new-price">{helper.formatCurrency(product.price, settings)}</span>
       </div>
@@ -99,7 +99,7 @@ const ProductGallery = ({ images }) => {
     )
 
   } else {
-    return null;
+    return <div className="large-image-placeholder"></div>;
   }
 }
 
