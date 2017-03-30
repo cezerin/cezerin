@@ -169,7 +169,7 @@ export function fetchProducts() {
       dispatch(requestProducts());
       dispatch(deselectAllProduct());
 
-      let filter = { limit: 20, thumbnail_width: 160, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
+      let filter = { limit: 20, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
       filter.search = state.products.filter_search;
 
       if(state.products.filter_stock_status && state.products.filter_stock_status !== 'all') {
@@ -218,7 +218,7 @@ export function fetchMoreProducts() {
     const state = getState();
     dispatch(requestMoreProducts());
 
-    let filter = { limit: 50, thumbnail_width: 160, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
+    let filter = { limit: 50, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
     filter.offset = state.products.items.length;
     filter.search = state.products.filter_search;
 
