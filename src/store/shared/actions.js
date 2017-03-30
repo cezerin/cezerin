@@ -65,7 +65,7 @@ export const fetchPage = pageId => (dispatch, getState) => {
 
 const requestPage = () => ({type: t.PAGE_REQUEST})
 
-const receivePage = page => ({type: t.PAGE_RECEIVE, page})
+const receivePage = pageDetails => ({type: t.PAGE_RECEIVE, pageDetails})
 
 export const fetchCart = () => (dispatch, getState) => {
   dispatch(requestCart());
@@ -301,7 +301,7 @@ const getPage = currentPage => {
 
 const getCommonData = (req, currentPage, productsFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, page]) => {
+  return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, pageDetails]) => {
     let categoryDetails = null;
     if (currentPage.type === PRODUCT_CATEGORY) {
       categoryDetails = categories.find(c => c.id === currentPage.resource);
@@ -312,7 +312,7 @@ const getCommonData = (req, currentPage, productsFilter) => {
       products,
       categoryDetails,
       cart,
-      page
+      pageDetails
     }
   });
 }
@@ -372,7 +372,7 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
     }
     initialState.app.categoryDetails = commonData.categoryDetails;
     initialState.app.cart = commonData.cart;
-    initialState.app.pageDetails = commonData.page;
+    initialState.app.pageDetails = commonData.pageDetails;
     return initialState;
   })
 

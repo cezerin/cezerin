@@ -36,7 +36,7 @@ const appReducer = (state = initialState, action) => {
       })
 
     case t.PAGE_RECEIVE:
-      return Object.assign({}, state, {page: action.page})
+      return Object.assign({}, state, {pageDetails: action.pageDetails})
 
     case t.CART_RECEIVE:
       return Object.assign({}, state, {cart: action.cart})
