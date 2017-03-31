@@ -1,5 +1,7 @@
 import React from 'react';
+import {Link} from 'react-router'
 import text from '../lib/text'
+import config from '../lib/config'
 
 export default class SearchBox extends React.Component {
   constructor(props) {

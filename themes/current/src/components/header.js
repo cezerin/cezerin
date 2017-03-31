@@ -1,7 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router'
-import MiniCart from './miniCart'
 import text from '../lib/text'
+import config from '../lib/config'
+
+import MiniCart from './miniCart'
 
 const CartIndicator = ({cart}) => {
   if (cart && cart.items && cart.items.length > 0) {

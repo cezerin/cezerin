@@ -1,7 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router'
-import * as helper from '../lib/helper'
 import text from '../lib/text'
+import config from '../lib/config'
+import * as helper from '../lib/helper'
 
 export default(props) => {
   const {order, settings} = props.state;

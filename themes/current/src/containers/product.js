@@ -1,33 +1,36 @@
 import React from 'react'
-import Helmet from 'react-helmet'
+import text from '../lib/text'
+import config from '../lib/config'
+
+import MetaTags from '../components/metaTags'
 import ProductDetail from '../components/productDetail'
 
 const ProductContainer = (props) => {
   const {productDetails, settings} = props.state;
+  const {addCartItem} = props;
 
   if (productDetails) {
+    const images = productDetails.images;
+    let imageUrl = images && images.length > 0 ? images[0].url : null;
+    const title = productDetails.meta_title && productDetails.meta_title.length > 0 ? productDetails.meta_title : productDetails.name;
+
     return (
       <div>
-        <Helmet title={productDetails.meta_title !== ''
-          ? productDetails.meta_title
-          : productDetails.name} meta={[
-          {
-            name: 'description',
-            content: productDetails.meta_description
-          }, {
-            property: 'og:type',
-            content: 'article'
-          }
-        ]} link={[{
-            rel: 'canonical',
-            href: productDetails.url
-          }
-        ]}/>
-        <ProductDetail settings={settings} product={productDetails} addCartItem={props.addCartItem}/>
+        <MetaTags
+          title={title}
+          description={productDetails.meta_description}
+          canonicalUrl={productDetails.url}
+          imageUrl={imageUrl}
+          ogType="product"
+          ogTitle={productDetails.name}
+          ogDescription={productDetails.meta_description}
+        />
+
+        <ProductDetail settings={settings} product={productDetails} addCartItem={addCartItem}/>
       </div>
     )
   } else {
-    return <div></div>
+    return null
   }
 }
 

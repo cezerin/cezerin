@@ -1,10 +1,14 @@
 import React from 'react'
-import Helmet from 'react-helmet'
 import text from '../lib/text'
+import config from '../lib/config'
+
+import MetaTags from '../components/metaTags'
 
 const NotFoundContainer = (props) => (
   <div>
-    <Helmet title={text.title404}/>
+    <MetaTags
+      title={text.title404}
+    />
     <section className="section">
       <div className="container">
         <div className="content">

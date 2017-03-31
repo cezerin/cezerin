@@ -1,24 +1,23 @@
 import React from 'react'
-import Helmet from 'react-helmet'
+import text from '../lib/text'
+import config from '../lib/config'
+
+import MetaTags from '../components/metaTags'
 
 const CustomPageContainer = (props) => {
   const {pageDetails} = props.state;
 
   return (
     <div>
-      <Helmet title={pageDetails.meta_title} meta={[
-        {
-          "name": "description",
-          "content": pageDetails.meta_description
-        }, {
-          "property": "og:type",
-          "content": "article"
-        }
-      ]} link={[{
-          "rel": "canonical",
-          "href": pageDetails.url
-        }
-      ]}/>
+      <MetaTags
+        title={pageDetails.meta_title}
+        description={pageDetails.meta_description}
+        canonicalUrl={pageDetails.url}
+        ogType="article"
+        ogTitle={pageDetails.meta_title}
+        ogDescription={pageDetails.meta_description}
+      />
+
       <section className="section">
         <div className="container">
           <div className="content">
@@ -28,9 +27,9 @@ const CustomPageContainer = (props) => {
           </div>
         </div>
       </section>
+
     </div>
   )
-
 }
 
 export default CustomPageContainer

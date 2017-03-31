@@ -1,31 +1,30 @@
 import React from 'react'
-import Helmet from 'react-helmet'
-import MediaQuery from 'react-responsive'
+import text from '../lib/text'
+import config from '../lib/config'
+
+import MetaTags from '../components/metaTags'
 import Products from '../components/products'
 import ProductsSidebar from '../components/productsSidebar'
 import ProductsSort from '../components/productsSort'
-import config from '../lib/config'
 
 const CategoryContainer = (props) => {
   const {products, categoryDetails, settings, productsFilter, products_has_more} = props.state;
+  const {setSort, addCartItem, loadMoreProducts} = props;
+
+  const title = categoryDetails.meta_title && categoryDetails.meta_title.length > 0 ? categoryDetails.meta_title : categoryDetails.name;
 
   return (
     <div>
-      <Helmet title={categoryDetails.meta_title !== ''
-        ? categoryDetails.meta_title
-        : categoryDetails.name} meta={[
-        {
-          "name": "description",
-          "content": categoryDetails.meta_description
-        }, {
-          "property": "og:type",
-          "content": "article"
-        }
-      ]} link={[{
-          "rel": "canonical",
-          "href": categoryDetails.url
-        }
-      ]}/>
+      <MetaTags
+        title={title}
+        description={categoryDetails.meta_description}
+        canonicalUrl={categoryDetails.url}
+        imageUrl={categoryDetails.image}
+        ogType="product.group"
+        ogTitle={categoryDetails.name}
+        ogDescription={categoryDetails.meta_description}
+      />
+
       <section className="hero is-light">
         <div className="hero-body">
           <div className="container">
@@ -44,19 +43,17 @@ const CategoryContainer = (props) => {
           <div className="columns">
             <ProductsSidebar {...props} />
             <div className="column">
-              <MediaQuery minWidth={768} values={{width: config.default_screen_width}}>
-                <div className="columns">
-                  <div className="column"></div>
-                  <div className="column is-4">
-                    <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={props.setSort} />
-                  </div>
+              <div className="columns is-hidden-mobile">
+                <div className="column"></div>
+                <div className="column is-4">
+                  <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={setSort} />
                 </div>
-              </MediaQuery>
+              </div>
               <Products
                 products={products}
-                addCartItem={props.addCartItem}
+                addCartItem={addCartItem}
                 settings={settings}
-                loadMoreProducts={props.loadMoreProducts}
+                loadMoreProducts={loadMoreProducts}
                 hasMore={products_has_more}
               />
             </div>

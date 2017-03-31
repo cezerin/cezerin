@@ -1,12 +1,17 @@
 import React from 'react'
+import text from '../lib/text'
+import config from '../lib/config'
+
 import Header from '../components/header'
 import Footer from '../components/footer'
 
 const SharedContainer = (props) => {
-  let hideFooter = props.state.currentPage.path === '/checkout-success' || props.state.currentPage.path === '/checkout';
+  const {currentPage} = props.state;
+  let hideFooter = currentPage.path === '/checkout-success' || currentPage.path === '/checkout';
+
   return (
     <div>
-      <Header {...props}/>
+      <Header {...props} />
       {props.children}
       {!hideFooter &&
         <Footer />

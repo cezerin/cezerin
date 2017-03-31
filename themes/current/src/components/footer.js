@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link} from 'react-router'
-import config from '../lib/config'
 import text from '../lib/text'
+import config from '../lib/config'
 
 export default() => {
   return (

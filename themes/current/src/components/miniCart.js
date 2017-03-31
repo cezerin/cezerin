@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router'
-import * as helper from '../lib/helper'
 import text from '../lib/text'
 import config from '../lib/config'
+import * as helper from '../lib/helper'
 
 const MiniCartItem = ({item, deleteCartItem, settings}) => {
   const thumbnail = helper.getThumbnailUrl(item.image_url, config.cart_thumbnail_width);

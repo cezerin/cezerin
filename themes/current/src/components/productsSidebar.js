@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router'
-import MediaQuery from 'react-responsive'
 import text from '../lib/text'
 import config from '../lib/config'
+
 import CategoriesTree from './categoriesTree'
 import ProductsSort from './productsSort'
 import PriceSlider from './priceSlider'
@@ -22,7 +22,7 @@ export default class Sidebar extends React.Component {
   sidebarClose = () => this.setState({sidebarIsActive: false});
 
   render() {
-    const sidebarClass = this.state.sidebarIsActive ? 'modal is-active' : 'modal';
+    const { sidebarIsActive } = this.state;
     const { categoryDetails, settings, productsFilter, products_min_price, products_max_price} = this.props.state;
 
     return (
@@ -31,39 +31,37 @@ export default class Sidebar extends React.Component {
           <button className="button is-fullwidth" onClick={this.sidebarToggle}>{text.filterProducts}</button>
         </div>
 
-        <MediaQuery maxWidth={768} values={{width: config.default_screen_width}}>
-          <div className={sidebarClass}>
-            <div className="modal-background"></div>
-            <div className="modal-content">
-              <div className="box sidebar">
-                <div style={{ marginBottom: 30 }}>
-                  <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={this.props.setSort} />
-                </div>
-                <CategoriesTree categories={this.props.state.categories} activeCategory={categoryDetails} onClick={this.sidebarClose} />
-                <PriceSlider
-                  minPrice={products_min_price}
-                  maxPrice={products_max_price}
-                  minValue={productsFilter.price_from}
-                  maxValue={productsFilter.price_to}
-                  setPriceFromAndTo={this.props.setPriceFromAndTo}
-                  settings={settings}
-                />
+        <div className={sidebarIsActive ? 'modal is-active' : 'is-hidden-mobile'}>
+          <div className={sidebarIsActive ? 'modal-background' : ''}></div>
+          <div className={sidebarIsActive ? 'modal-content' : ''}>
+            <div className={sidebarIsActive ? 'box sidebar' : ''}>
+
+              <div className="is-hidden-tablet" style={{ marginBottom: 30 }}>
+                <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={this.props.setSort} />
               </div>
+
+              <CategoriesTree
+                categories={this.props.state.categories}
+                activeCategory={categoryDetails}
+                onClick={this.sidebarClose}
+              />
+
+              <PriceSlider
+                minPrice={products_min_price}
+                maxPrice={products_max_price}
+                minValue={productsFilter.price_from}
+                maxValue={productsFilter.price_to}
+                setPriceFromAndTo={this.props.setPriceFromAndTo}
+                settings={settings}
+              />
+
             </div>
-            <button className="modal-close" onClick={this.sidebarClose}></button>
           </div>
-        </MediaQuery>
-        <MediaQuery minWidth={768} values={{width: config.default_screen_width}}>
-          <CategoriesTree categories={this.props.state.categories} activeCategory={categoryDetails} onClick={this.sidebarClose} />
-          <PriceSlider
-            minPrice={products_min_price}
-            maxPrice={products_max_price}
-            minValue={productsFilter.price_from}
-            maxValue={productsFilter.price_to}
-            setPriceFromAndTo={this.props.setPriceFromAndTo}
-            settings={settings}
-          />
-        </MediaQuery>
+          {sidebarIsActive &&
+            <button className="modal-close" onClick={this.sidebarClose}></button>
+          }
+        </div>
+
       </div>
     )
   }

@@ -1,62 +1,22 @@
 import React from 'react'
-import Helmet from 'react-helmet'
+import text from '../lib/text'
+import config from '../lib/config'
+
+import MetaTags from '../components/metaTags'
+import CategoriesGallery from '../components/categoriesGallery'
 
 const IndexContainer = (props) => {
-  const {pageDetails} = props.state;
+  const {pageDetails, categories} = props.state;
 
   return (
     <div>
-      <Helmet title={pageDetails.meta_title} meta={[
-        {
-          "name": "description",
-          "content": pageDetails.meta_description
-        }, {
-          "property": "og:type",
-          "content": "article"
-        }
-      ]} link={[{
-          "rel": "canonical",
-          "href": pageDetails.url
-        }
-      ]}/>
-
-      <section className="section">
-        <div className="container">
-          <div className="columns is-multiline is-mobile">
-
-            <div className="column is-6-tablet is-12-mobile">
-              <div className="card">
-                <div className="card-image">
-                  <figure className="image">
-                    <img src="/assets/images/bg_slide_1.jpg" />
-                  </figure>
-                </div>
-                <div className="card-content">
-                  <div className="content">
-                    <h3 className="title is-6">Category name</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="column is-6-tablet is-12-mobile">
-              <div className="card">
-                <div className="card-image">
-                  <figure className="image">
-                    <img src="/assets/images/bg_slide_2.jpg" />
-                  </figure>
-                </div>
-                <div className="card-content">
-                  <div className="content">
-                    <h3 className="title is-6">Category name</h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
+      <MetaTags
+        title={pageDetails.meta_title}
+        description={pageDetails.meta_description}
+        canonicalUrl={pageDetails.url}
+        ogTitle={pageDetails.meta_title}
+        ogDescription={pageDetails.meta_description}
+      />
 
       <section className="section">
         <div className="container">
@@ -70,8 +30,14 @@ const IndexContainer = (props) => {
 
       <section className="section">
         <div className="container">
+          <CategoriesGallery categories={categories} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
           <div className="notification">
-            <div className="columns is-mobile">
+            <div className="columns">
 
               <div className="column is-4 has-text-centered">
                 <img src="/assets/images/delivery-cart.svg" alt="" style={{ width: 64 }} />

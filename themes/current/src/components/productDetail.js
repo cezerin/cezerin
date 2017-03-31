@@ -1,8 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router'
 import ImageGallery from 'react-image-gallery'
-import config from '../lib/config'
 import text from '../lib/text'
+import config from '../lib/config'
 import * as helper from '../lib/helper'
 
 const ProductOptions = ({ product }) => {
