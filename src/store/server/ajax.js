@@ -6,6 +6,7 @@ api.init(serverSettings.apiBaseUrl, serverSettings.security.token);
 
 const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
 const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
+const PRODUCT_DETAILS_CACHE_CONTROL = 'public, max-age=60';
 
 const fillCartItemWithProductData = (products, cartItem) => {
   const product = products.find(p => p.id === cartItem.product_id);
@@ -40,7 +41,7 @@ ajaxRouter.get('/products', (req, res, next) => {
 
 ajaxRouter.get('/products/:id', (req, res, next) => {
   api.products.retrieve(req.params.id).then(({status, json}) => {
-    res.status(status).send(json);
+    res.status(status).header('Cache-Control', PRODUCT_DETAILS_CACHE_CONTROL).send(json);
   })
 })
 
@@ -167,12 +168,6 @@ ajaxRouter.get('/product_categories', (req, res, next) => {
   })
 })
 
-// ajaxRouter.get('/product_categories/:id', (req, res, next) => {
-//   api.product_categories.retrieve(req.params.id).then(({status, json}) => {
-//     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
-//   })
-// })
-
 ajaxRouter.get('/pages/:id', (req, res, next) => {
   api.pages.retrieve(req.params.id).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
@@ -204,12 +199,6 @@ ajaxRouter.get('/shipping_methods', (req, res, next) => {
     res.status(status).send(json);
   })
 })
-
-// ajaxRouter.get('/countries', (req, res, next) => {
-//   api.countries.list().then(({status, json}) => {
-//     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
-//   })
-// })
 
 ajaxRouter.all('*', (req, res, next) => {
   res.status(405).send({'error': 'Method Not Allowed'});
