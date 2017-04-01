@@ -27,7 +27,7 @@ const GalleryItem = ({ category }) => {
   )
 }
 
-const Gallery = ({ categories }) => {
+const CategoryGallery = ({ categories }) => {
   const items = categories.filter(category => category.parent_id === null).map((category, index) => <GalleryItem key={index} category={category} />)
   return (
     <div className="columns is-multiline is-mobile">
@@ -36,4 +36,4 @@ const Gallery = ({ categories }) => {
   )
 }
 
-export default Gallery
+export default CategoryGallery

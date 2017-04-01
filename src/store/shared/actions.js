@@ -20,7 +20,7 @@ export const fetchProducts = () => (dispatch, getState) => {
   const {app} = getState();
   dispatch(requestProducts());
 
-  let filter = app.productsFilter;
+  let filter = app.productFilter;
   filter.offset = 0;
 
   return api.ajax.products.list(filter).then(({status, json}) => {
@@ -42,7 +42,7 @@ export const fetchMoreProducts = () => (dispatch, getState) => {
   } else {
     dispatch(requestMoreProducts());
 
-    let filter = app.productsFilter;
+    let filter = app.productFilter;
     //filter.limit = 15;
     filter.offset = app.products.length;
 
@@ -299,9 +299,9 @@ const getPage = currentPage => {
   }
 }
 
-const getCommonData = (req, currentPage, productsFilter) => {
+const getCommonData = (req, currentPage, productFilter) => {
   const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productsFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, pageDetails]) => {
+  return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, pageDetails]) => {
     let categoryDetails = null;
     if (currentPage.type === PRODUCT_CATEGORY) {
       categoryDetails = categories.find(c => c.id === currentPage.resource);
@@ -338,7 +338,7 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
       loadingShippingMethods: false,
       loadingPaymentMethods: false,
       processingCheckout: false,
-      productsFilter: {
+      productFilter: {
         on_sale: null,
         search: '',
         category_id: null,
@@ -355,10 +355,10 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
   }
 
   if (currentPage.type === PRODUCT_CATEGORY) {
-    initialState.app.productsFilter.category_id = currentPage.resource;
+    initialState.app.productFilter.category_id = currentPage.resource;
   }
 
-  return getCommonData(req, currentPage, initialState.app.productsFilter).then(commonData => {
+  return getCommonData(req, currentPage, initialState.app.productFilter).then(commonData => {
     initialState.app.categories = commonData.categories;
     initialState.app.productDetails = commonData.product;
     if(commonData.products) {

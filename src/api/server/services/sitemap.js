@@ -58,21 +58,21 @@ class SitemapService {
 
   getSlugArrayFromProducts(slug, onlyEnabled) {
     const categoriesFilter = {};
-    const productsFilter = {};
+    const productFilter = {};
 
     if(slug) {
       const slugParts = slug.split('/');
       categoriesFilter.slug = slugParts[0];
-      productsFilter.slug = slugParts[1];
+      productFilter.slug = slugParts[1];
     }
 
     if(onlyEnabled === true) {
-      categoriesFilter.enabled = productsFilter.enabled = true;
+      categoriesFilter.enabled = productFilter.enabled = true;
     }
 
     return Promise.all([
       mongo.db.collection('productCategories').find(categoriesFilter).project({slug: 1}).toArray(),
-      mongo.db.collection('products').find(productsFilter).project({slug: 1, category_id: 1}).toArray()
+      mongo.db.collection('products').find(productFilter).project({slug: 1, category_id: 1}).toArray()
     ]).then(([categories, products]) => {
       return products.map(product => {
         const category = categories.find(c => c._id == product.category_id);

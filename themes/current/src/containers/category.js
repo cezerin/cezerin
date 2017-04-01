@@ -3,12 +3,12 @@ import text from '../lib/text'
 import config from '../lib/config'
 
 import MetaTags from '../components/metaTags'
-import Products from '../components/products'
-import ProductsSidebar from '../components/productsSidebar'
-import ProductsSort from '../components/productsSort'
+import ProductList from '../components/productList'
+import ProductFilter from '../components/productFilter'
+import Sort from '../components/sort'
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings, productsFilter, products_has_more} = props.state;
+  const {products, categoryDetails, settings, productFilter, products_has_more} = props.state;
   const {setSort, addCartItem, loadMoreProducts} = props;
 
   const title = categoryDetails.meta_title && categoryDetails.meta_title.length > 0 ? categoryDetails.meta_title : categoryDetails.name;
@@ -41,15 +41,15 @@ const CategoryContainer = (props) => {
       <section className="section">
         <div className="container">
           <div className="columns">
-            <ProductsSidebar {...props} />
+            <ProductFilter {...props} />
             <div className="column">
               <div className="columns is-hidden-mobile">
                 <div className="column"></div>
                 <div className="column is-4">
-                  <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={setSort} />
+                  <Sort defaultSort={settings.default_product_sorting} currentSort={productFilter.sort} setSort={setSort} />
                 </div>
               </div>
-              <Products
+              <ProductList
                 products={products}
                 addCartItem={addCartItem}
                 settings={settings}

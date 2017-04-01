@@ -49,12 +49,12 @@ Object.defineProperty(exports, 'NotFoundContainer', {
   }
 });
 
-var _customPage = require('./containers/customPage');
+var _page = require('./containers/page');
 
-Object.defineProperty(exports, 'CustomPageContainer', {
+Object.defineProperty(exports, 'PageContainer', {
   enumerable: true,
   get: function get() {
-    return _interopRequireDefault(_customPage).default;
+    return _interopRequireDefault(_page).default;
   }
 });
 

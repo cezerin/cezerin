@@ -5,7 +5,7 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const ProductPrice = ({ product, settings }) => {
+const ItemPrice = ({ product, settings }) => {
   if(product.on_sale) {
     return (
       <div>
@@ -22,7 +22,7 @@ const ProductPrice = ({ product, settings }) => {
   }
 }
 
-const ProductImage = ({ images, alt }) => {
+const ItemImage = ({ images, alt }) => {
   if(images && images.length > 0) {
     const imageUrl = helper.getThumbnailUrl(images[0].url, config.list_thumbnail_width);
 
@@ -36,21 +36,21 @@ const ProductImage = ({ images, alt }) => {
   }
 }
 
-const ProductsListItem = ({product, addCartItem, settings}) => {
+const ListItem = ({product, addCartItem, settings}) => {
   return (
     <div className="column is-6-mobile is-4-tablet">
       <div className="card">
         <div className="card-image">
           <figure className="image">
             <Link to={product.path}>
-              <ProductImage images={product.images} alt={product.name} />
+              <ItemImage images={product.images} alt={product.name} />
             </Link>
           </figure>
         </div>
         <div className="card-content">
           <div className="content">
             <Link to={product.path}>{product.name}</Link>
-            <ProductPrice product={product} settings={settings} />
+            <ItemPrice product={product} settings={settings} />
           </div>
         </div>
       </div>
@@ -64,15 +64,15 @@ const LoadMore = ({ loadMoreProducts, hasMore }) => {
   ) : (
     <div className="load-more">
       {hasMore &&
-        <button onClick={loadMoreProducts} className="button is-fullwidth">{text.loadMore}</button>
+        <button onClick={loadMoreProducts} className="button is-fullwidth is-dark">{text.loadMore}</button>
       }
     </div>
   )
 }
 
-const ProductsList = ({products, addCartItem, settings, loadMoreProducts, hasMore}) => {
+const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore}) => {
   const items = products ? products.map((product, index) => {
-    return <ProductsListItem key={index} product={product} addCartItem={addCartItem} settings={settings}/>
+    return <ListItem key={index} product={product} addCartItem={addCartItem} settings={settings}/>
   }) : null;
 
   return (
@@ -85,4 +85,4 @@ const ProductsList = ({products, addCartItem, settings, loadMoreProducts, hasMor
   )
 }
 
-export default ProductsList
+export default ProductList

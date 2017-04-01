@@ -3,11 +3,11 @@ import {Link} from 'react-router'
 import text from '../lib/text'
 import config from '../lib/config'
 
-import CategoriesTree from './categoriesTree'
-import ProductsSort from './productsSort'
+import CategoryTree from './categoryTree'
+import Sort from './sort'
 import PriceSlider from './priceSlider'
 
-export default class Sidebar extends React.Component {
+export default class ProductFilter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +23,7 @@ export default class Sidebar extends React.Component {
 
   render() {
     const { sidebarIsActive } = this.state;
-    const { categoryDetails, settings, productsFilter, products_min_price, products_max_price} = this.props.state;
+    const { categoryDetails, settings, productFilter, products_min_price, products_max_price} = this.props.state;
 
     return (
       <div className="column is-one-quarter">
@@ -37,10 +37,10 @@ export default class Sidebar extends React.Component {
             <div className={sidebarIsActive ? 'box sidebar' : ''}>
 
               <div className="is-hidden-tablet" style={{ marginBottom: 30 }}>
-                <ProductsSort defaultSort={settings.default_product_sorting} currentSort={productsFilter.sort} setSort={this.props.setSort} />
+                <Sort defaultSort={settings.default_product_sorting} currentSort={productFilter.sort} setSort={this.props.setSort} />
               </div>
 
-              <CategoriesTree
+              <CategoryTree
                 categories={this.props.state.categories}
                 activeCategory={categoryDetails}
                 onClick={this.sidebarClose}
@@ -49,8 +49,8 @@ export default class Sidebar extends React.Component {
               <PriceSlider
                 minPrice={products_min_price}
                 maxPrice={products_max_price}
-                minValue={productsFilter.price_from}
-                maxValue={productsFilter.price_to}
+                minValue={productFilter.price_from}
+                maxValue={productFilter.price_to}
                 setPriceFromAndTo={this.props.setPriceFromAndTo}
                 settings={settings}
               />

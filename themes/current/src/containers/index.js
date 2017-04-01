@@ -3,7 +3,7 @@ import text from '../lib/text'
 import config from '../lib/config'
 
 import MetaTags from '../components/metaTags'
-import CategoriesGallery from '../components/categoriesGallery'
+import CategoryGallery from '../components/categoryGallery'
 
 const IndexContainer = (props) => {
   const {pageDetails, categories} = props.state;
@@ -30,7 +30,7 @@ const IndexContainer = (props) => {
 
       <section className="section">
         <div className="container">
-          <CategoriesGallery categories={categories} />
+          <CategoryGallery categories={categories} />
         </div>
       </section>
 

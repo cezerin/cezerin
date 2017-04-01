@@ -11,7 +11,7 @@ import IndexContainer from './containers/index'
 import SharedContainer from './containers/shared'
 import CategoryContainer from './containers/category'
 import ProductContainer from './containers/product'
-import CustomPageContainer from './containers/customPage'
+import PageContainer from './containers/page'
 import CheckoutContainer from './containers/checkout'
 import CheckoutSuccessContainer from './containers/checkoutSuccess'
 import NotFoundContainer from './containers/notfound'
@@ -41,7 +41,7 @@ function getComponent(nextState, cb) {
   getSitemap(nextState.location.pathname, state, dispatch).then(({currentPage, currentPageAlreadyInState}) => {
     if (currentPage) {
       if (currentPage.type === PRODUCT_CATEGORY) {
-        const categoryAlreadyInState = currentPage.resource === state.app.productsFilter.category_id;
+        const categoryAlreadyInState = currentPage.resource === state.app.productFilter.category_id;
 
         if(currentPageAlreadyInState || categoryAlreadyInState){
         } else {

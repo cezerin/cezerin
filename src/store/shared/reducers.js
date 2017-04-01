@@ -77,7 +77,7 @@ const appReducer = (state = initialState, action) => {
 
     case t.SET_PRODUCTS_FILTER:
       return Object.assign({}, state, {
-        productsFilter: Object.assign({}, state.productsFilter, action.filter)
+        productFilter: Object.assign({}, state.productFilter, action.filter)
       })
 
     case t.SET_PRODUCTS_PRICE_RANGE:

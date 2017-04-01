@@ -5,7 +5,7 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-export default class PriceRange extends React.Component {
+export default class PriceSlider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -103,7 +103,7 @@ const ProductGallery = ({ images }) => {
   }
 }
 
-const ProductDetail = ({product, addCartItem, settings}) => {
+const ProductDetails = ({product, addCartItem, settings}) => {
   return (
     <section className="section">
       <div className="container">
@@ -140,4 +140,4 @@ const ProductDetail = ({product, addCartItem, settings}) => {
   )
 }
 
-export default ProductDetail
+export default ProductDetails

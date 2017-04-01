@@ -6,7 +6,7 @@ import * as helper from '../lib/helper'
 
 const MAX_CART_ITEM_QTY = 10;
 
-const OrderSummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) => {
+const SummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) => {
   const thumbnail = helper.getThumbnailUrl(item.image_url, config.cart_thumbnail_width);
   const qtyOptions = [];
   const maxQty = item.stock_quantity >= MAX_CART_ITEM_QTY ? MAX_CART_ITEM_QTY : item.stock_quantity;
@@ -47,12 +47,12 @@ const OrderSummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantir
   )
 }
 
-export default(props) => {
+const OrderSummary = (props) => {
   const {cart, settings} = props.state;
 
   if (cart && cart.items && cart.items.length > 0) {
     let items = cart.items.map(item =>
-      <OrderSummaryItem
+      <SummaryItem
         key={item.id}
         item={item}
         deleteCartItem={props.deleteCartItem}
@@ -100,3 +100,5 @@ export default(props) => {
     return <div>{text.cartEmpty}</div>
   }
 }
+
+export default OrderSummary

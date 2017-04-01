@@ -4,7 +4,7 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const MiniCartItem = ({item, deleteCartItem, settings}) => {
+const CartItem = ({item, deleteCartItem, settings}) => {
   const thumbnail = helper.getThumbnailUrl(item.image_url, config.cart_thumbnail_width);
 
   return (
@@ -26,12 +26,12 @@ const MiniCartItem = ({item, deleteCartItem, settings}) => {
   )
 }
 
-export default({cart, deleteCartItem, active, settings, cartToggle}) => {
+const Cart = ({cart, deleteCartItem, active, settings, cartToggle}) => {
   const rootClass = active ? "mini-cart active" : "mini-cart";
 
   if (cart && cart.items && cart.items.length > 0) {
     let items = cart.items.map(item =>
-      <MiniCartItem key={item.id} item={item} deleteCartItem={deleteCartItem} settings={settings} />
+      <CartItem key={item.id} item={item} deleteCartItem={deleteCartItem} settings={settings} />
     );
 
     return (
@@ -51,3 +51,5 @@ export default({cart, deleteCartItem, active, settings, cartToggle}) => {
     return <div className={rootClass}><p>{text.cartEmpty}</p></div>
   }
 }
+
+export default Cart

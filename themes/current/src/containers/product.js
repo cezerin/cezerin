@@ -3,7 +3,7 @@ import text from '../lib/text'
 import config from '../lib/config'
 
 import MetaTags from '../components/metaTags'
-import ProductDetail from '../components/productDetail'
+import ProductDetails from '../components/productDetails'
 
 const ProductContainer = (props) => {
   const {productDetails, settings} = props.state;
@@ -26,7 +26,7 @@ const ProductContainer = (props) => {
           ogDescription={productDetails.meta_description}
         />
 
-        <ProductDetail settings={settings} product={productDetails} addCartItem={addCartItem}/>
+        <ProductDetails settings={settings} product={productDetails} addCartItem={addCartItem}/>
       </div>
     )
   } else {

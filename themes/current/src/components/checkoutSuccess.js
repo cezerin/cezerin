@@ -4,7 +4,7 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-export default(props) => {
+const CheckoutSuccess = (props) => {
   const {order, settings} = props.state;
 
   if (order && order.items && order.items.length > 0) {
@@ -28,3 +28,5 @@ export default(props) => {
     )
   }
 }
+
+export default CheckoutSuccess

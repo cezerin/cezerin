@@ -4,8 +4,8 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const TreeElement = ({ categories, categoryDetails, activeCategory, onClick }) => {
-  const childs = categories.filter(category => category.parent_id === categoryDetails.id).map((category, index) => <TreeElement key={index} categories={categories} categoryDetails={category} activeCategory={activeCategory} />)
+const TreeItem = ({ categories, categoryDetails, activeCategory, onClick }) => {
+  const childs = categories.filter(category => category.parent_id === categoryDetails.id).map((category, index) => <TreeItem key={index} categories={categories} categoryDetails={category} activeCategory={activeCategory} />)
   const currentCategoryIsActive = activeCategory && activeCategory.id === categoryDetails.id;
   const parentCategoryIsActive = activeCategory && activeCategory.parent_id === categoryDetails.id;
 
@@ -21,9 +21,9 @@ const TreeElement = ({ categories, categoryDetails, activeCategory, onClick }) =
   )
 }
 
-const Tree = ({ categories, activeCategory, onClick }) => {
+const CategoryTree = ({ categories, activeCategory, onClick }) => {
   if(categories) {
-    const elements = categories.filter(category => category.parent_id === null).map((category, index) => <TreeElement key={index} categories={categories} categoryDetails={category} activeCategory={activeCategory} onClick={onClick} />)
+    const elements = categories.filter(category => category.parent_id === null).map((category, index) => <TreeItem key={index} categories={categories} categoryDetails={category} activeCategory={activeCategory} onClick={onClick} />)
     return (
       <div className="categories-tree">
         <ul>
@@ -36,4 +36,4 @@ const Tree = ({ categories, activeCategory, onClick }) => {
   }
 }
 
-export default Tree
+export default CategoryTree
