@@ -4,7 +4,7 @@ import config from '../lib/config'
 
 import MetaTags from '../components/metaTags'
 
-const CustomPageContainer = (props) => {
+const PageContainer = (props) => {
   const {pageDetails} = props.state;
 
   return (
@@ -32,4 +32,4 @@ const CustomPageContainer = (props) => {
   )
 }
 
-export default CustomPageContainer
+export default PageContainer

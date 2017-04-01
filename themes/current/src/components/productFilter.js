@@ -23,7 +23,7 @@ export default class ProductFilter extends React.Component {
 
   render() {
     const { sidebarIsActive } = this.state;
-    const { categoryDetails, settings, productFilter, products_min_price, products_max_price} = this.props.state;
+    const { categoryDetails, categories, settings, productFilter, products_min_price, products_max_price} = this.props.state;
 
     return (
       <div className="column is-one-quarter">
@@ -41,7 +41,7 @@ export default class ProductFilter extends React.Component {
               </div>
 
               <CategoryTree
-                categories={this.props.state.categories}
+                categories={categories}
                 activeCategory={categoryDetails}
                 onClick={this.sidebarClose}
               />

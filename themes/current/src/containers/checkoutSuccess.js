@@ -6,7 +6,7 @@ import MetaTags from '../components/metaTags'
 import CheckoutSuccess from '../components/checkoutSuccess'
 
 const CheckoutSuccessContainer = (props) => {
-  const {pageDetails} = props.state;
+  const {pageDetails, order, settings} = props.state;
 
   return (
     <div>
@@ -20,7 +20,7 @@ const CheckoutSuccessContainer = (props) => {
 
       <section className="section">
         <div className="container">
-          <CheckoutSuccess {...props} />
+          <CheckoutSuccess order={order} settings={settings} />
         </div>
       </section>
     </div>
