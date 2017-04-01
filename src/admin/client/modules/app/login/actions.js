@@ -1,4 +1,3 @@
-import { push } from 'react-router-redux';
 import api from 'lib/api';
 import settings from 'lib/settings';
 import * as t from './actionTypes'
@@ -7,9 +6,9 @@ const requestAuthorize = () => ({
   type: t.AUTHORIZE_REQUEST
 });
 
-const receiveAuthorize = (sent, error) => ({
+const receiveAuthorize = (emailIsSent, error) => ({
   type: t.AUTHORIZE_RECEIVE,
-  sent,
+  emailIsSent,
   error
 });
 

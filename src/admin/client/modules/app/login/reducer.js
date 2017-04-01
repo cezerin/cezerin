@@ -3,7 +3,7 @@ import * as t from './actionTypes'
 const initialState = {
 	isFetching: false,
 	isAuthorized: false,
-	sent: false,
+	emailIsSent: false,
 	error: null
 };
 
@@ -13,21 +13,21 @@ export default(state = initialState, action) => {
 			return Object.assign({}, state, {
 				isFetching: true,
 				isAuthorized: false,
-				sent: false,
+				emailIsSent: false,
 				error: null
 			});
 		case t.AUTHORIZE_RECEIVE:
 			return Object.assign({}, state, {
 				isFetching: false,
 				isAuthorized: false,
-				sent: action.sent,
+				emailIsSent: action.emailIsSent,
 				error: action.error
 			});
 		case t.AUTHORIZE_FAILURE:
 			return Object.assign({}, state, {
 				isFetching: false,
 				isAuthorized: false,
-				sent: false,
+				emailIsSent: false,
 				error: action.error
 			});
 		default:

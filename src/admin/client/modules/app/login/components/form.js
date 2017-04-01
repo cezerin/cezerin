@@ -27,14 +27,14 @@ const Form = (props) => {
     pristine,
     submitting,
     isFetching,
-    sentAuth,
+    emailIsSent,
     errorAuth
   } = props
 
   var response = <span className={style.noResponse}>{messages.messages_loading}</span>;
-  if (sentAuth) {
+  if (emailIsSent) {
     response = <span className={style.successResponse}>{messages.login_linkSent}</span>;
-  } else if(sentAuth === false && errorAuth) {
+  } else if(emailIsSent === false && errorAuth) {
     response = <span className={style.errorResponse}>{errorAuth}</span>;
   }
 
@@ -45,7 +45,7 @@ const Form = (props) => {
         <div className={style.input}>
           <Field name="email" component={TextField} label={messages.login_email} fullWidth={true} inputStyle={{textAlign:'center'}} hintStyle={{textAlign:'center', width: '100%'}} hintText={messages.login_hint}/>
         </div>
-        <RaisedButton type="submit" label={messages.login_loginButton} primary={true} fullWidth={true} disabled={pristine || submitting || isFetching || sentAuth}/>
+        <RaisedButton type="submit" label={messages.login_loginButton} primary={true} fullWidth={true} disabled={pristine || submitting || isFetching || emailIsSent}/>
         <div className={style.response}>
           {response}
         </div>

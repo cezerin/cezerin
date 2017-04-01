@@ -5,7 +5,7 @@ import Form from './components/form'
 const mapStateToProps = (state) => {
   return {
     isFetching: state.auth.isFetching,
-    sentAuth: state.auth.sent,
+    emailIsSent: state.auth.emailIsSent,
     errorAuth: state.auth.error
   }
 }

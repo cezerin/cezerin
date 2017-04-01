@@ -1,4 +1,4 @@
-html, body { height: 100%; margin: 0; padding: 0; background-color: #F9F9F9;}
+html, body { height: 100%; margin: 0; padding: 0; background-color: #F9F9F9; box-sizing: border-box;}
 
 #app, #container { height: 100%; }
 #bodyContainer { overflow: hidden; }
@@ -6,7 +6,10 @@ html, body { height: 100%; margin: 0; padding: 0; background-color: #F9F9F9;}
 .scroll { overflow: auto;}
 .col-full-height { height: 100%; }
 
-* { font-family: Roboto, sans-serif;}
+body, button, input, select, textarea {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
 .row--no-gutter {
    margin-left: 0;
    margin-right: 0;
