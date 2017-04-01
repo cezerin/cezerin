@@ -67,7 +67,7 @@ function getComponent(nextState, cb) {
         } else if(nextState.location.pathname == '/checkout-success') {
           cb(null, CheckoutSuccessContainer);
         } else {
-          cb(null, CustomPageContainer)
+          cb(null, PageContainer)
         }
       } else {
         cb(null, NotFoundContainer)
