@@ -18,7 +18,7 @@
     "rc-slider": "^6.3.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-helmet": "^4.0.0",
+    "react-helmet": "^5.0.2",
     "react-image-gallery": "^0.7.15",
     "react-router": "^3.0.3",
     "react-waypoint": "^5.2.1"
