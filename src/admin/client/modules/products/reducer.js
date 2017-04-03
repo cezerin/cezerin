@@ -4,18 +4,23 @@ const initialState = {
   editItem: null,
   items: [],
   selected: [],
+  hasMore: false,
+  totalCount: 0,
+
   isUpdating: false,
-  isFetching: false,
-  isFetchedMore: false,
-  isFetched: false,
+  loadingItems: false,
+
   errorFetchEdit: null,
-  errorFetch: null,
+  errorLoadingItems: null,
   errorUpdate: null,
-  filter_enabled: false,
-  filter_discontinued: false,
-  filter_on_sale: false,
-  filter_search: '',
-  filter_stock_status: 'all'
+
+  filter: {
+    search: '',
+    enabled: null,
+    discontinued: false,
+    onSale: null,
+    stockStatus: null
+  }
 };
 
 export default (state = initialState, action) => {
@@ -38,17 +43,18 @@ export default (state = initialState, action) => {
       })
     case t.PRODUCTS_REQUEST:
       return Object.assign({}, state, {
-        isFetching: true
+        loadingItems: true
       })
     case t.PRODUCTS_RECEIVE:
       return Object.assign({}, state, {
-        isFetching: false,
-        isFetched: true,
-        items: action.items
+        loadingItems: false,
+        hasMore: action.has_more,
+        totalCount: action.total_count,
+        items: action.data
       })
     case t.PRODUCTS_FAILURE:
       return Object.assign({}, state, {
-        errorFetch: action.error
+        errorLoadingItems: action.error
       })
     case t.PRODUCTS_SELECT:
       return Object.assign({}, state, {
@@ -67,34 +73,21 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         selected: selected
       })
-    case t.PRODUCTS_FILTER_SET_SEARCH:
+    case t.PRODUCTS_SET_FILTER:
+      const newFilter = Object.assign({}, state.filter, action.filter)
       return Object.assign({}, state, {
-        filter_search: action.search
-      })
-    case t.PRODUCTS_FILTER_SET_STOCK:
-      return Object.assign({}, state, {
-        filter_stock_status: action.stock_status
-      })
-    case t.PRODUCTS_FILTER_SET_ENABLED:
-      return Object.assign({}, state, {
-        filter_enabled: action.enabled
-      })
-    case t.PRODUCTS_FILTER_SET_DISCONTINUED:
-      return Object.assign({}, state, {
-        filter_discontinued: action.discontinued
-      })
-    case t.PRODUCTS_FILTER_SET_ONSALE:
-      return Object.assign({}, state, {
-        filter_on_sale: action.on_sale
+        filter: newFilter
       })
     case t.PRODUCTS_MORE_REQUEST:
       return Object.assign({}, state, {
-        isFetchingMore: true
+        loadingItems: true
       })
     case t.PRODUCTS_MORE_RECEIVE:
       return Object.assign({}, state, {
-        isFetchingMore: false,
-        items: [...state.items, ...action.items]
+        loadingItems: false,
+        hasMore: action.has_more,
+        totalCount: action.total_count,
+        items: [...state.items, ...action.data]
       })
     case t.PRODUCT_UPDATE_REQUEST:
       return Object.assign({}, state, {

@@ -3,7 +3,7 @@ import Subheader from 'material-ui/Subheader';
 import Checkbox from 'material-ui/Checkbox';
 import messages from 'lib/text'
 
-export default ({ onSelectAll }) => (
+const Head = ({ onSelectAll }) => (
   <Subheader>
     <div className="row row--no-gutter middle-xs">
       <div className="col-xs-6 col--no-gutter">
@@ -28,3 +28,5 @@ export default ({ onSelectAll }) => (
     </div>
   </Subheader>
 )
+
+export default Head

@@ -1,4 +1,4 @@
-const formatNumber = (number = 0, settings) => {
+export const formatNumber = (number = 0, settings) => {
   const x = 3;
 
   const re = '\\d(?=(\\d{' + x + '})+' + (settings.decimal_number > 0
@@ -13,11 +13,16 @@ const formatNumber = (number = 0, settings) => {
 };
 
 const amountPattern = '{amount}';
-const formatCurrency = (number = 0, settings) => {
+export const formatCurrency = (number = 0, settings) => {
   return settings.currency_format.replace(amountPattern, formatNumber(number, settings));
 }
 
-module.exports = {
-  formatNumber,
-  formatCurrency
-};
+export const getThumbnailUrl = (originalUrl, width) => {
+  if(originalUrl && originalUrl.length > 0) {
+    const pos = originalUrl.lastIndexOf('/');
+    const thumbnailUrl = originalUrl.substring(0, pos) + `/${width}/` + originalUrl.substring(pos + 1);
+    return thumbnailUrl;
+  } else {
+    return '';
+  }
+}

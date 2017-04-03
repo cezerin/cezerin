@@ -42,17 +42,21 @@ function requestMoreProducts() {
   }
 }
 
-function receiveProductsMore(items) {
+function receiveProductsMore({ has_more, total_count, data }) {
   return {
     type: t.PRODUCTS_MORE_RECEIVE,
-    items
+    has_more,
+    total_count,
+    data
   }
 }
 
-function receiveProducts(items) {
+function receiveProducts({ has_more, total_count, data }) {
   return {
     type: t.PRODUCTS_RECEIVE,
-    items
+    has_more,
+    total_count,
+    data
   }
 }
 
@@ -89,38 +93,10 @@ export function selectAllProduct() {
   }
 }
 
-export function setFilterSearch(value) {
+export function setFilter(filter) {
   return {
-    type: t.PRODUCTS_FILTER_SET_SEARCH,
-    search: value
-  }
-}
-
-export function setFilterStock(value) {
-  return {
-    type: t.PRODUCTS_FILTER_SET_STOCK,
-    stock_status: value
-  }
-}
-
-export function setFilterEnabled(value) {
-  return {
-    type: t.PRODUCTS_FILTER_SET_ENABLED,
-    enabled: value
-  }
-}
-
-export function setFilterDiscontinued(value) {
-  return {
-    type: t.PRODUCTS_FILTER_SET_DISCONTINUED,
-    discontinued: value
-  }
-}
-
-export function setFilterOnSale(value) {
-  return {
-    type: t.PRODUCTS_FILTER_SET_ONSALE,
-    on_sale: value
+    type: t.PRODUCTS_SET_FILTER,
+    filter: filter
   }
 }
 
@@ -162,49 +138,49 @@ function successCreateProduct(id) {
   }
 }
 
+const getFilter = (state, offset = 0) => {
+  let filter = {
+    limit: 50,
+    fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price',
+    search: state.products.filter.search,
+    offset: offset
+  }
+
+  if(state.productCategories.selectedId !== null && state.productCategories.selectedId !== 'all') {
+    filter.category_id = state.productCategories.selectedId;
+  }
+
+  if(state.products.filter.stockStatus !== null) {
+    filter.stock_status = state.products.filter.stockStatus;
+  }
+
+  if(state.products.filter.enabled !== null) {
+    filter.enabled = state.products.filter.enabled;
+  }
+
+  if(state.products.filter.discontinued !== null) {
+    filter.discontinued =  state.products.filter.discontinued;
+  }
+
+  if(state.products.filter.onSale !== null) {
+    filter.on_sale = state.products.filter.onSale;
+  }
+
+  return filter;
+}
+
 export function fetchProducts() {
   return (dispatch, getState) => {
     const state = getState();
-    if (!state.products.isFetching) {
+    if (!state.products.loadingItems) {
       dispatch(requestProducts());
       dispatch(deselectAllProduct());
 
-      let filter = { limit: 20, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
-      filter.search = state.products.filter_search;
-
-      if(state.products.filter_stock_status && state.products.filter_stock_status !== 'all') {
-        filter.stock_status = state.products.filter_stock_status;
-      }
-
-      if(state.productCategories.selectedId) {
-        filter.category_id = state.productCategories.selectedId;
-      }
-
-      if(state.products.filter_enabled) {
-        filter.enabled = true;
-      }
-
-      if(state.products.filter_discontinued) {
-        filter.discontinued = true;
-      }
-
-      if(state.products.filter_on_sale) {
-        filter.on_sale = true;
-      }
+      let filter = getFilter(state);
 
       return api.products.list(filter)
         .then(({status, json}) => {
-          let products = json.data;
-
-          products = product.sort((a,b) => (a.position - b.position ));
-
-          products.forEach((element, index, theArray) => {
-            if(theArray[index].name === '') {
-              theArray[index].name = `<${messages.draft}>`;
-            }
-          })
-
-          dispatch(receiveProducts(products))
+          dispatch(receiveProducts(json))
         })
         .catch(error => {
             dispatch(receiveProductsError(error));
@@ -216,49 +192,19 @@ export function fetchProducts() {
 export function fetchMoreProducts() {
   return (dispatch, getState) => {
     const state = getState();
-    dispatch(requestMoreProducts());
+    if (!state.products.loadingItems) {
+      dispatch(requestMoreProducts());
 
-    let filter = { limit: 50, fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price' };
-    filter.offset = state.products.items.length;
-    filter.search = state.products.filter_search;
+      let filter = getFilter(state, state.products.items.length);
 
-    if(state.products.filter_stock_status && state.products.filter_stock_status !== 'all') {
-      filter.stock_status = state.products.filter_stock_status;
-    }
-
-    if(state.productCategories.selectedId) {
-      filter.category_id = state.productCategories.selectedId;
-    }
-
-    if(state.products.filter_enabled) {
-      filter.enabled = true;
-    }
-
-    if(state.products.filter_discontinued) {
-      filter.discontinued = true;
-    }
-
-    if(state.products.filter_on_sale) {
-      filter.on_sale = true;
-    }
-
-    return api.products.list(filter)
-      .then(({status, json}) => {
-        let products = json.data;
-
-        products = products.sort((a,b) => (a.position - b.position ));
-
-        products.forEach((element, index, theArray) => {
-          if(theArray[index].name === '') {
-            theArray[index].name = `<${messages.draft}>`;
-          }
+      return api.products.list(filter)
+        .then(({status, json}) => {
+          dispatch(receiveProductsMore(json))
         })
-
-        dispatch(receiveProductsMore(products))
-      })
-      .catch(error => {
-          dispatch(receiveProductsError(error));
-      });
+        .catch(error => {
+            dispatch(receiveProductsError(error));
+        });
+    }
   }
 }
 

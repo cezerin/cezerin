@@ -5,7 +5,7 @@ import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import messages from 'lib/text'
-import helper from 'lib/helper'
+import * as helper from 'lib/helper'
 import style from './style.css'
 
 const CustomersListItem = ({ customer, onSelect, selected, settings }) => {

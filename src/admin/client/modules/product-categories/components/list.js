@@ -45,7 +45,7 @@ export default class Categories extends React.Component {
       nestedItems={this.getChildren(selectedId, allItems, item.id, opened)}
       leftIcon={<FontIcon className="material-icons">{item.enabled ? 'folder' : 'visibility_off'}</FontIcon>}
       onTouchTap={() => { this.props.onSelect(item.id) }}
-           />
+     />
   }
 
   getChildren(selectedId, allItems, id, opened){
@@ -62,10 +62,11 @@ export default class Categories extends React.Component {
     	selectedId,
     	items,
       onCreate,
-    	showAll,
-      showRoot,
-      showAdd,
-      opened = true
+    	showAll = false,
+      showRoot = false,
+      showAdd = false,
+      rootName = messages.productCategories_root,
+      opened = false
     } = this.props;
 
 
@@ -76,7 +77,7 @@ export default class Categories extends React.Component {
         <List>
           {showRoot &&
             <ListItem
-              primaryText={messages.productCategories_root}
+              primaryText={rootName}
               style={'root' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">home</FontIcon>}

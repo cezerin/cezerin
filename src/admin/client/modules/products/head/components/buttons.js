@@ -113,8 +113,7 @@ export default class Buttons extends React.Component {
               <CategorySelect
                 onSelect={this.selectMoveTo}
                 selectedId={this.state.categoryIdMoveTo}
-                showRoot={true}
-                showAll={false}
+                opened={true}
               />
             </Dialog>
           </span>

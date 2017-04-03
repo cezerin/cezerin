@@ -19,10 +19,14 @@ export default class ProductsList extends React.Component {
     }
 
     render(){
-      const { items, selected, isFetching, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate, settings } = this.props;
-      const rows = items.map((item, index) => (
-        <ProductsListItem key={index} product={item} selected={selected} onSelect={onSelect} settings={settings} />
-      ));
+      const { items, selected, loadingItems, onSelect, onSelectAll, loadMore, onCreate, settings, hasMore, totalCount } = this.props;
+
+      const rows = items.map((item, index) => {
+        const itemSelected = selected.includes(item.id);
+        return (
+          <ProductsListItem key={index} product={item} selected={itemSelected} onSelect={onSelect} settings={settings} />
+        )
+      });
 
       return (
         <div>
@@ -32,7 +36,7 @@ export default class ProductsList extends React.Component {
             {rows}
             <div className={style.more}>
               <FlatButton
-                disabled={isFetchingMore}
+                disabled={loadingItems || !hasMore}
                  label={messages.actions_loadMore}
                  labelPosition="before"
                  primary={false}
@@ -41,7 +45,7 @@ export default class ProductsList extends React.Component {
                />
              </div>
           </List>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { onCreate() }}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
         </div>

@@ -1,32 +1,29 @@
 import { connect } from 'react-redux'
-import { fetchProducts, setFilterEnabled, setFilterDiscontinued, setFilterOnSale, setFilterStock } from '../actions'
-import Filter from './components/fields'
+import { fetchProducts, setFilter } from '../actions'
+import Filter from './components/filter'
 
 const mapStateToProps = (state) => {
   return {
-    enabled: state.products.filter_enabled,
-    discontinued: state.products.filter_discontinued,
-    on_sale: state.products.filter_on_sale,
-    stock_status: state.products.filter_stock_status
+    filter: state.products.filter
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setEnabled: (value) => {
-      dispatch(setFilterEnabled(value));
+      dispatch(setFilter({ enabled: value }));
       dispatch(fetchProducts());
     },
     setDiscontinued: (value) => {
-      dispatch(setFilterDiscontinued(value));
+      dispatch(setFilter({ discontinued: value }));
       dispatch(fetchProducts());
     },
     setOnSale: (value) => {
-      dispatch(setFilterOnSale(value));
+      dispatch(setFilter({ onSale: value }));
       dispatch(fetchProducts());
     },
     setStock: (value) => {
-      dispatch(setFilterStock(value));
+      dispatch(setFilter({ stockStatus: value }));
       dispatch(fetchProducts());
     }
   }

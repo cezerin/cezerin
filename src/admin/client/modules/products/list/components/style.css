@@ -1,16 +1,11 @@
-.image {
-  max-width: 80px;
-  max-height: 80px;
-  border: 1px solid #eee;
-  margin: 6px 0;
+.imageBox {
+  height: 80px;
 }
 
-.placeholder {
-  width: 80px;
-  text-align: center;
+.image {
+  max-width: 80px;
+  max-height: 70px;
   border: 1px solid #eee;
-  padding: 12px 0;
-  margin: 6px 0;
 }
 
 .productName {

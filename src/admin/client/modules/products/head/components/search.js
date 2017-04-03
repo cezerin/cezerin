@@ -6,7 +6,7 @@ export default ({ value, setSearch }) => {
   return (
     <TextField
       value={value}
-      onChange={(e, v) => { setSearch(v); }}
+      onChange={setSearch}
       hintText={messages.products_search}
       underlineShow={false}
       style={{ float: 'left' }}
