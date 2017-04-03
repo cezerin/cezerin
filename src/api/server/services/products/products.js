@@ -271,7 +271,7 @@ class ProductsService {
 
      if(on_sale !== null) {
        queries.push({
-         on_sale: true
+         on_sale: on_sale
        });
      }
 
