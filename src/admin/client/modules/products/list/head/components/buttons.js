@@ -93,6 +93,9 @@ export default class Buttons extends React.Component {
             <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
+            <IconButton touch={true} tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
+              <FontIcon color="#fff" className="material-icons">move_to_inbox</FontIcon>
+            </IconButton>
             <Dialog
               title={messages.messages_deleteForever}
               actions={actionsDelete}
@@ -128,9 +131,6 @@ export default class Buttons extends React.Component {
          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
           <MenuItem containerElement={<Link to="/admin/products/categories" />} primaryText={messages.productCategories_titleEditMany} />
-          {selectedCount > 0 &&
-            <MenuItem primaryText={messages.actions_moveTo} onTouchTap={this.showMoveTo} />
-          }
         </IconMenu>
       </span>
     )

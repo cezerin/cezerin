@@ -5,7 +5,8 @@ import messages from 'lib/text'
 import ProductCategoryHead from 'modules/product-categories/head/index'
 import CustomerGroupHead from 'modules/customer-groups/head/index'
 import CustomersHead from 'modules/customers/head/index'
-import ProductsHead from 'modules/products/head/index'
+import ProductsHead from 'modules/products/list/head/index'
+import ProductHead from 'modules/products/edit/head/index'
 import OrdersHead from 'modules/orders/head/index'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
@@ -69,7 +70,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { productCategory, productsSelectedCount, customersSelectedCount, customerGroup, ordersSelectedCount } = this.props;
+    const { productCategoryName, productsSelectedCount, customersSelectedCount, customerGroupName, ordersSelectedCount } = this.props;
     const location = this.props.location.pathname;
 
     let title = 'Dashboard';
@@ -80,8 +81,8 @@ export default class AppBarTop extends React.Component {
     if(location === '/admin/products'){
       title = messages.products_title;
 
-      if(productCategory){
-        title = <span>{messages.products_title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{productCategory.name}</span>;
+      if(productCategoryName){
+        title = <span>{messages.products_title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{productCategoryName}</span>;
       }
 
       if(productsSelectedCount > 0) {
@@ -102,12 +103,12 @@ export default class AppBarTop extends React.Component {
     else if(location.startsWith('/admin/product/')){
       title = title = messages.products_titleEdit;
       leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
-      rightElements = null;
+      rightElements = <ProductHead />;
     }
     else if(location === '/admin/products/categories'){
       title = messages.productCategories_title;
       leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
-      if(productCategory){
+      if(productCategoryName){
         title = title = messages.productCategories_titleEdit;;
         rightElements = <ProductCategoryHead />
       }
@@ -115,8 +116,8 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/customers'){
       title = messages.customers_title;
 
-      if(customerGroup) {
-        title = <span>{messages.customers_title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{customerGroup.name}</span>;
+      if(customerGroupName) {
+        title = <span>{messages.customers_title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{customerGroupName}</span>;
       }
 
       if(customersSelectedCount > 0) {
@@ -128,7 +129,7 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/customers/groups'){
       title = messages.customerGroups_title;
       leftButton = <IconButton><Link to="/admin/customers"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
-      if(customerGroup){
+      if(customerGroupName){
         title = title = messages.customerGroups_titleEdit;;
         rightElements = <CustomerGroupHead />
       }

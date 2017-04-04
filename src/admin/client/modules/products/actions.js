@@ -215,6 +215,19 @@ export function fetchMoreProducts() {
   }
 }
 
+export function deleteCurrentProduct() {
+  return (dispatch, getState) => {
+    const state = getState();
+    let product = state.products.editProduct;
+    if(product && product.id) {
+      return api.products.delete(product.id).then(() => {
+        dispatch(fetchProducts());
+        dispatch(push('/admin/products'));
+      }).catch(err => { console.log(err) });
+    }
+  }
+}
+
 export function deleteProducts() {
   return (dispatch, getState) => {
     const state = getState();
@@ -277,7 +290,7 @@ export function createProduct() {
 export function fetchProduct(id) {
   return (dispatch, getState) => {
     dispatch(requestProduct());
-        
+
     return api.products.retrieve(id).then(({status, json}) => {
       const saleFrom = moment(json.date_sale_from);
       const saleTo = moment(json.date_sale_to);
