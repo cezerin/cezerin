@@ -15,8 +15,11 @@ class ProductsController {
     this.router.get('/v1/products/:id', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.getSingleProduct.bind(this));
     this.router.put('/v1/products/:id', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.updateProduct.bind(this));
     this.router.delete('/v1/products/:id', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.deleteProduct.bind(this));
+
+    this.router.get('/v1/products/:id/images', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.getProductImages.bind(this));
     this.router.post('/v1/products/:id/images', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.addProductImage.bind(this));
     this.router.delete('/v1/products/:id/images/:image', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.deleteProductImage.bind(this));
+
     this.router.get('/v1/products/:id/sku', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.isSkuExists.bind(this));
     this.router.get('/v1/products/:id/slug', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.isSlugExists.bind(this));
   }
@@ -58,6 +61,12 @@ class ProductsController {
       res.status(data
         ? 200
         : 404).end()
+    }).catch(next);
+  }
+
+  getProductImages(req, res, next) {
+    ProductsService.getProductImages(req.params.id).then(data => {
+      res.send(data)
     }).catch(next);
   }
 

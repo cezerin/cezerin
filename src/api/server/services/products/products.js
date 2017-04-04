@@ -611,6 +611,27 @@ class ProductsService {
     return item;
   }
 
+  getProductImages(productId) {
+    if(!ObjectID.isValid(productId)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let productObjectID = new ObjectID(productId);
+
+    return mongo.db.collection('products').findOne({ _id: productObjectID }, {fields: {images: 1}}).then(product => {
+      if(product && product.images && product.images.length > 0) {
+        let images = product.images.map(image => {
+          image.url = `${settings.url.products}/${product._id}/${image.filename}`
+          return image;
+        })
+
+        images = images.sort((a,b) => (a.position - b.position ));
+        return images;
+      } else {
+        return []
+      }
+    })
+  }
+
   deleteProductImage(productId, imageId) {
     if(!ObjectID.isValid(productId) || !ObjectID.isValid(imageId)) {
       return Promise.reject('Invalid identifier');
