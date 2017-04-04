@@ -75,7 +75,7 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
   }
 
   return (
-    <div>
+    <div className="products-item">
       <ListItem style={{ cursor: 'normal' }}
         innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}
         primaryText={

@@ -42,7 +42,7 @@
   "messages_uploadComplete": "Upload complete",
   "messages_deleteConfirmation": "Are you sure you want to delete this item?",
   "messages_deleteForever": "Delete forever?",
-  "help_dropHere": "Drop file here to upload",
+  "help_dropHere": "Drop files here to upload",
   "help_slug": "The “slug” is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.",
   "errors_required": "This field is required.",
   "errors_email": "Please enter a valid email address.",
@@ -245,5 +245,6 @@
   "orders_setDraft": "Set as Draft",
   "orders_search": "Search orders",
   "pageNotFound": "Page not found!",
-  "skuTaken": "Product SKU must be unique"
+  "skuTaken": "Product SKU must be unique",
+  "product_options": "Options"
 }

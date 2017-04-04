@@ -1,29 +1,43 @@
-html, body { height: 100%; margin: 0; padding: 0; background-color: #F9F9F9; box-sizing: border-box;}
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f1f1f1;
+  box-sizing: border-box;
+}
 
-#app, #container { height: 100%; }
-#bodyContainer { overflow: hidden; }
+#app, #container {
+  height: 100%;
+}
 
-.scroll { overflow: auto;}
-.col-full-height { height: 100%; }
+#bodyContainer {
+  overflow: hidden;
+}
+
+.scroll {
+  overflow: auto;
+}
+
+.col-full-height {
+  height: 100%;
+}
 
 body, button, input, select, textarea {
-  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .row--no-gutter {
-   margin-left: 0;
-   margin-right: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .col--no-gutter {
-   padding-left: 0;
-   padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-.col-categories {
-  background-color: #f1f1f1;
+.right-border {
   border-right: 1px solid #ccc;
-  position: relative;
 }
 
 .field-hint {
@@ -34,9 +48,8 @@ body, button, input, select, textarea {
 .buttons-box {
   text-align: right;
   padding: 30px;
-  background-color: rgba(0,0,0,0.05);
+  background-color: rgba(0, 0, 0, 0.05);
   border-top: 1px solid #e0e0e0;
-  /*color: #757575;*/
 }
 
 .blue-title {
@@ -46,12 +59,13 @@ body, button, input, select, textarea {
   padding: 20px 0 5px 0;
 }
 
-.mce-content-body {
-  border-bottom: 1px solid rgb(224, 224, 224);
-}
+.mce-content-body {}
 
-.mce-edit-focus {
-  /*border-bottom: 2px solid rgb(25, 118, 210);*/
+.mce-edit-focus {}
+
+.products-item {
+  background-color: #fff;
+  border-left: 1px solid rgb(224, 224, 224);
 }
 
 .block404 {
@@ -67,6 +81,6 @@ body, button, input, select, textarea {
 }
 
 .block404 .description {
-  color: rgba(0,0,0,0.4);
+  color: rgba(0, 0, 0, 0.4);
   font-size: 16px;
 }

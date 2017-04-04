@@ -4,7 +4,7 @@ import OrdersFilter from 'modules/orders/filter';
 
 export default () => (
   <div className="row row--no-gutter col-full-height">
-    <div className="col-xs-3 col--no-gutter scroll col-categories">
+    <div className="col-xs-3 col--no-gutter scroll right-border">
       <OrdersFilter />
     </div>
     <div className="col-xs-9 col--no-gutter scroll">

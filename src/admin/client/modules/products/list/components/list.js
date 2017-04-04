@@ -3,7 +3,7 @@ import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Head from './head'
 import ProductsListItem from './item'
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import messages from 'lib/text'
@@ -35,7 +35,7 @@ export default class ProductsList extends React.Component {
             <Divider />
             {rows}
             <div className={style.more}>
-              <FlatButton
+              <RaisedButton
                 disabled={loadingItems || !hasMore}
                  label={messages.actions_loadMore}
                  labelPosition="before"

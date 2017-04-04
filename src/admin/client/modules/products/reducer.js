@@ -1,7 +1,8 @@
 import * as t from './actionTypes'
 
 const initialState = {
-  editItem: null,
+  editProductImages: [],
+  editProduct: null,
   items: [],
   selected: [],
   hasMore: false,
@@ -30,12 +31,12 @@ export default (state = initialState, action) => {
       })
     case t.PRODUCT_DETAIL_RECEIVE:
       return Object.assign({}, state, {
-        editItem: action.item
+        editProduct: action.item
       })
     case t.PRODUCT_DETAIL_ERASE:
       return Object.assign({}, state, {
         isUpdating: false,
-        editItem: null
+        editProduct: null
       })
     case t.PRODUCT_DETAIL_FAILURE:
       return Object.assign({}, state, {
@@ -93,11 +94,15 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         isUpdating: true
       })
+    case t.PRODUCT_IMAGES_RECEIVE:
+      return Object.assign({}, state, {
+        editProductImages: action.images
+      })
     case t.PRODUCT_UPDATE_FAILURE:
     case t.PRODUCT_UPDATE_SUCCESS:
       return Object.assign({}, state, {
         isUpdating: false,
-        editItem: action.item
+        editProduct: action.item
       })
     case t.PRODUCT_SET_CATEGORY_SUCCESS:
     case t.PRODUCT_DELETE_SUCCESS:

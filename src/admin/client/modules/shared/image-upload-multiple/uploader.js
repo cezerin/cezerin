@@ -91,7 +91,7 @@ export default class MultiUploader extends React.Component {
 
 
         {percentComplete === 100 &&
-          <RaisedButton label={messages.actions_upload} style={{ marginLeft:10, marginTop:10 }} onTouchTap={() => { this.dropzone.open() }} />
+          <RaisedButton label={messages.actions_upload} style={{ marginLeft:20, marginTop:10 }} onTouchTap={() => { this.dropzone.open() }} />
         }
 
         {percentComplete < 100 &&

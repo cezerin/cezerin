@@ -19,8 +19,9 @@
   color: #a1a1a1;
   font-size: 16px;
   border: 2px dashed rgba(0,0,0,0.1);
-  padding: 40px;
-  margin-left: 10px;
+  padding: 80px;
+  margin: 20px 20px 0 20px;
+  background-color: rgb(255,255,255);
 }
 .dropzoneActive {
   background-color: rgba(18,179,117, 0.4);
@@ -37,7 +38,7 @@
 }
 
 .list {
-  margin: 0;
+  margin: 10px 10px 0 10px;
   padding: 0;
   display: flex;
   flex-wrap: nowrap;

@@ -1,13 +1,12 @@
 import { connect } from 'react-redux'
 import { reset } from 'redux-form';
-import { fetchProduct, cancelProductEdit, updateProduct  } from '../actions'
-import Form from './components/form'
+import { fetchProduct, cancelProductEdit, updateProduct  } from '../../actions'
+import ProductInventoryForm from './components/form'
 
 const mapStateToProps = (state) => {
   return {
     settings: state.settings.settings,
-    initialValues: state.products.editItem,
-    isUpdating: state.products.isUpdating
+    initialValues: state.products.editProduct
   }
 }
 
@@ -25,4 +24,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductInventoryForm);

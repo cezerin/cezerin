@@ -17,7 +17,11 @@ import layoutShared from 'layouts/shared'
 import layoutHome from 'layouts/home'
 import layoutNotFound from 'layouts/404'
 import layoutProducts from 'layouts/products'
-import layoutProductEdit from 'layouts/products/edit'
+import layoutProductEditShared from 'layouts/products/edit/shared'
+import layoutProductEditGeneral from 'layouts/products/edit/general'
+import layoutProductEditInventory from 'layouts/products/edit/inventory'
+import layoutProductEditImages from 'layouts/products/edit/images'
+import layoutProductEditOptions from 'layouts/products/edit/options'
 import layoutProductCategories from 'layouts/products/categories'
 import layoutCustomers from 'layouts/customers'
 import layoutCustomerEdit from 'layouts/customers/edit'
@@ -140,12 +144,21 @@ ReactDOM.render(
       <Route component={layoutShared}>
         <IndexRoute component={layoutHome}/>
         <Route path="products" component={layoutProducts}/>
-        <Route path="product/:id" component={layoutProductEdit}/>
         <Route path="products/categories" component={layoutProductCategories}/>
+
+        <Route path="product/:productId" component={layoutProductEditShared}>
+          <IndexRoute component={layoutProductEditGeneral}/>
+          <Route path="general" component={layoutProductEditGeneral}/>
+          <Route path="inventory" component={layoutProductEditInventory}/>
+          <Route path="images" component={layoutProductEditImages}/>
+          <Route path="options" component={layoutProductEditOptions}/>
+        </Route>
+
         <Route path="orders" component={layoutOrders}/>
         <Route path="customers" component={layoutCustomers}/>
         <Route path="customer/:id" component={layoutCustomerEdit}/>
         <Route path="customers/groups" component={layoutCustomerGroups}/>
+
         <Route path="settings" component={layoutSettingsShared}>
           <IndexRoute component={layoutSettingsGeneral}/>
           <Route path="general" component={layoutSettingsGeneral}/>
@@ -168,6 +181,7 @@ ReactDOM.render(
           <Route path="tokens/add" component={layoutSettingsTokensAdd}/>
           <Route path="tokens/:tokenId" component={layoutSettingsTokensEdit}/>
         </Route>
+
         <Route path="*" component={layoutNotFound} status={404}/>
       </Route>
     </Route>
