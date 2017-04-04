@@ -749,9 +749,8 @@ class ProductsService {
   }
 
   setAvailableSlug(product, productId) {
-    let newSlug = utils.cleanSlug(product.slug);
-
-    if(newSlug.length > 0) {
+    if(product.slug && product.slug.length > 0) {
+      let newSlug = utils.cleanSlug(product.slug);
       let filter = {};
       if(productId && ObjectID.isValid(productId)) {
         filter._id = { $ne: new ObjectID(productId) }
@@ -766,7 +765,6 @@ class ProductsService {
           return product;
         })
     } else {
-      product.slug = '';
       return Promise.resolve(product)
     }
   }
