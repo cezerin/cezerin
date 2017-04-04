@@ -102,12 +102,12 @@ export default class AppBarTop extends React.Component {
     }
     else if(location.startsWith('/admin/product/')){
       title = title = messages.products_titleEdit;
-      leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/products"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <ProductHead />;
     }
     else if(location === '/admin/products/categories'){
       title = messages.productCategories_title;
-      leftButton = <IconButton><Link to="/admin/products"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/products"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       if(productCategoryName){
         title = title = messages.productCategories_titleEdit;;
         rightElements = <ProductCategoryHead />
@@ -128,7 +128,7 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/customers/groups'){
       title = messages.customerGroups_title;
-      leftButton = <IconButton><Link to="/admin/customers"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/customers"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       if(customerGroupName){
         title = title = messages.customerGroups_titleEdit;;
         rightElements = <CustomerGroupHead />
@@ -139,19 +139,19 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/settings/email/smtp'){
       title = messages.settings_smtpSettings;
-      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/email"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/email/templates/order_confirmation'){
       title = messages.settings_orderConfirmation;
-      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/email"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/email/templates/customer_registration'){
       title = messages.settings_customerRegistration;
-      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/email"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/email/templates/customer_recovery'){
       title = messages.settings_customerRecovery;
-      leftButton = <IconButton><Link to="/admin/settings/email"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/email"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/theme'){
       title = messages.settings_themeSettings;
@@ -161,23 +161,23 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/settings/checkout/fields/email'){
       title = messages.email;
-      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/checkout"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/checkout/fields/mobile'){
       title = messages.mobile;
-      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/checkout"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/checkout/fields/country'){
       title = messages.country;
-      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/checkout"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/checkout/fields/state'){
       title = messages.state;
-      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/checkout"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/checkout/fields/city'){
       title = messages.city;
-      leftButton = <IconButton><Link to="/admin/settings/checkout"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/checkout"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/shipping'){
       title = messages.settings_shippingMethods;
@@ -187,20 +187,20 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/settings/shipping/add'){
       title = messages.settings_addShippingMethod;
-      leftButton = <IconButton><Link to="/admin/settings/shipping"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/shipping"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location === '/admin/settings/payments/add'){
       title = messages.settings_addPaymentMethod;
-      leftButton = <IconButton><Link to="/admin/settings/payments"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/payments"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location.startsWith('/admin/settings/shipping/')){
       title = messages.settings_editShippingMethod;
-      leftButton = <IconButton><Link to="/admin/settings/shipping"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/shipping"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <ShippingMethodHead />
     }
     else if(location.startsWith('/admin/settings/payments/')){
       title = messages.settings_editPaymentMethod;
-      leftButton = <IconButton><Link to="/admin/settings/payments"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/payments"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <PaymentMethodHead />
     }
     else if(location === '/admin/settings/general' || location === '/admin/settings'){
@@ -211,11 +211,11 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/settings/pages/add'){
       title = messages.settings_addPage;
-      leftButton = <IconButton><Link to="/admin/settings/pages"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location.startsWith('/admin/settings/pages/')){
       title = messages.settings_editPage;
-      leftButton = <IconButton><Link to="/admin/settings/pages"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <PageHead />
     }
     else if(location === '/admin/settings/tokens'){
@@ -223,11 +223,11 @@ export default class AppBarTop extends React.Component {
     }
     else if(location === '/admin/settings/tokens/add'){
       title = messages.settings_addToken;
-      leftButton = <IconButton><Link to="/admin/settings/tokens"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/tokens"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location.startsWith('/admin/settings/tokens/')){
       title = messages.settings_editToken;
-      leftButton = <IconButton><Link to="/admin/settings/tokens"><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></Link></IconButton>
+      leftButton = <Link to="/admin/settings/tokens"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
 
     return (
