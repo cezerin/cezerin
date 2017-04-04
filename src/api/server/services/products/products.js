@@ -492,9 +492,9 @@ class ProductsService {
       product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
     }
 
-    // if(data.images !== undefined) {
-    //   product.images = parse.getArrayIfValid(data.images) || [];
-    // }
+    if(data.images !== undefined) {
+      product.images = parse.getArrayIfValid(data.images) || [];
+    }
 
     if(data.prices !== undefined) {
       product.prices = parse.getArrayIfValid(data.prices) || [];
