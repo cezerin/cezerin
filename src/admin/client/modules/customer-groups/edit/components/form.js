@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { TextField, Toggle } from 'redux-form-material-ui'
+import { TextField } from 'redux-form-material-ui'
 
 import messages from 'lib/text'
 import style from './style.css'
@@ -42,7 +42,7 @@ class Form extends React.Component {
     }
 
     return (
-      <Paper className={style.form} zDepth={1}>
+      <Paper className="paper-box" zDepth={1}>
         <form onSubmit={handleSubmit}>
           <div className={style.innerBox}>
             <Field name="name" component={TextField} floatingLabelText={messages.customerGroups_name+' *'} fullWidth={true}/><br />

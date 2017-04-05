@@ -2,10 +2,11 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {TextField, SelectField} from 'redux-form-material-ui'
 
-import { CustomCustomToggle } from 'modules/shared/form'
+import { CustomToggle } from 'modules/shared/form'
 import messages from 'lib/text'
 import style from './style.css'
 
+import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -35,11 +36,11 @@ class EditShippingMethodForm extends React.Component {
     let {handleSubmit, pristine, submitting, initialValues, isAdd, settings} = this.props;
 
     return (
-      <div className="row row--no-gutter col-full-height col--no-gutter scroll">
         <form onSubmit={handleSubmit} style={{
           display: 'initial',
           width: '100%'
         }}>
+        <Paper className="paper-box" zDepth={1}>
           <div className={style.innerBox}>
             <div>
               <Field component={TextField} fullWidth={true} name="name" floatingLabelText={messages.settings_shippingMethodName}/>
@@ -73,14 +74,11 @@ class EditShippingMethodForm extends React.Component {
               <Field component={TextField} name="conditions.subtotal_max" type="number" floatingLabelText={messages.settings_maxSubtotal + ` (${settings.currency_symbol})`}/>
             </div>
           </div>
-          <div style={{
-            padding: 30,
-            textAlign: 'right'
-          }}>
+          <div className="buttons-box">
             <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
+        </Paper>
         </form>
-      </div>
     )
   }
 }

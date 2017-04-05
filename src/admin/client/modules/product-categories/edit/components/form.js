@@ -75,7 +75,7 @@ class ProductCategoryEditForm extends React.Component {
 
     if(categoryId) {
       return (
-        <Paper className={style.form} zDepth={1}>
+        <Paper className="paper-box" zDepth={1}>
           <form onSubmit={handleSubmit}>
             <div className={style.innerBox}>
               <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/>

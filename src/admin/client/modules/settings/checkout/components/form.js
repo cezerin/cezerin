@@ -1,6 +1,7 @@
 import React from 'react'
 import messages from 'lib/text'
 
+import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
@@ -34,8 +35,8 @@ export default class EmailSettings extends React.Component {
     const {checkoutFields, pushUrl} = this.props;
 
     return (
-      <div className="row row--no-gutter col-full-height col--no-gutter scroll">
-          <div style={{padding: '10px 20px', width: '100%'}}>
+      <Paper className="paper-box" zDepth={1}>
+          <div style={{width: '100%'}}>
           <List>
             <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings_checkoutFields}</div>
             <ListItem
@@ -72,10 +73,9 @@ export default class EmailSettings extends React.Component {
               secondaryText={this.getFieldStatus('city')}
               onClick={() => { pushUrl('/admin/settings/checkout/fields/city') }}
             />
-            <Divider />
           </List>
           </div>
-      </div>
+      </Paper>
     )
   }
 }

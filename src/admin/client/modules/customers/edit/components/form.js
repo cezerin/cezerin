@@ -91,7 +91,7 @@ class ProductEdit extends React.Component {
       <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
         <div className="row row--no-gutter col-full-height">
           <div className="col-xs-3 col--no-gutter scroll">
-            <Paper className={style.form} zDepth={1}>
+            <Paper className="paper-box" zDepth={1}>
               <div className={style.innerBox}>
 
                 <div className="blue-title">{messages.products_pricing}</div>
@@ -157,7 +157,7 @@ class ProductEdit extends React.Component {
             </Paper>
           </div>
           <div className="col-xs-9 col--no-gutter scroll">
-            <Paper className={style.form} zDepth={1}>
+            <Paper className="paper-box" zDepth={1}>
                 <div className={style.innerBox}>
                   <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/><br />
 

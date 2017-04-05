@@ -1,6 +1,7 @@
 import React from 'react'
 import messages from 'lib/text'
 
+import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
@@ -33,8 +34,8 @@ export default class PagesList extends React.Component {
     )
 
     return (
-      <div className="row row--no-gutter col-full-height col--no-gutter scroll">
-          <div style={{padding: '10px 20px', width: '100%'}}>
+      <Paper className="paper-box" zDepth={1}>
+          <div style={{width: '100%'}}>
           <List>
             {listItems}
           </List>
@@ -42,7 +43,7 @@ export default class PagesList extends React.Component {
           <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/pages/add') }}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
-      </div>
+      </Paper>
     )
   }
 }

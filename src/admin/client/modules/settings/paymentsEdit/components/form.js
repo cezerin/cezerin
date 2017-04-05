@@ -6,6 +6,7 @@ import { CustomToggle } from 'modules/shared/form'
 import messages from 'lib/text'
 import style from './style.css'
 
+import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 import {List, ListItem} from 'material-ui/List';
@@ -89,11 +90,11 @@ class EditPaymentMethodForm extends React.Component {
     let {handleSubmit, pristine, submitting, initialValues, shippingMethods, isAdd, settings} = this.props;
 
     return (
-      <div className="row row--no-gutter col-full-height col--no-gutter scroll">
         <form onSubmit={handleSubmit} style={{
           display: 'initial',
           width: '100%'
         }}>
+        <Paper className="paper-box" zDepth={1}>
           <div className={style.innerBox}>
             <div>
               <Field component={TextField} fullWidth={true} name="name" floatingLabelText={messages.settings_paymentMethodName}/>
@@ -117,14 +118,11 @@ class EditPaymentMethodForm extends React.Component {
             <Field name="conditions.shipping_method_ids" component={SelectShippingMethodsField} shippingMethods={shippingMethods}/>
             <Divider />
           </div>
-          <div style={{
-            padding: 30,
-            textAlign: 'right'
-          }}>
+          <div className="buttons-box">
             <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={submitting}/>
           </div>
+        </Paper>
         </form>
-      </div>
     )
   }
 }

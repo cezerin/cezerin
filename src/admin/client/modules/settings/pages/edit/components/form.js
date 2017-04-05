@@ -8,6 +8,7 @@ import messages from 'lib/text'
 import style from './style.css'
 import api from 'lib/api'
 
+import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -58,11 +59,11 @@ class EditPageForm extends React.Component {
     let {handleSubmit, pristine, submitting, initialValues, isAdd} = this.props;
 
     return (
-      <div className="row row--no-gutter col-full-height col--no-gutter scroll">
         <form onSubmit={handleSubmit} style={{
           display: 'initial',
           width: '100%'
         }}>
+        <Paper className="paper-box" zDepth={1}>
           <div className={style.innerBox}>
             <div className="blue-title">{messages.content}</div>
             <div style={{marginBottom:50}}>
@@ -77,14 +78,11 @@ class EditPageForm extends React.Component {
               <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} disabled={initialValues.is_system}/>
             </div>
           </div>
-          <div style={{
-            padding: 30,
-            textAlign: 'right'
-          }}>
+          <div className="buttons-box">
             <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
+        </Paper>
         </form>
-      </div>
     )
   }
 }

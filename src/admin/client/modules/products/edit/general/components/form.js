@@ -75,7 +75,7 @@ class ProductGeneralForm extends React.Component {
 
       return (
         <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
-              <Paper className={style.form} zDepth={1}>
+              <Paper className="paper-box" zDepth={1}>
                   <div className={style.innerBox}>
                     <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/>
                     <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>

@@ -99,7 +99,7 @@ class ProductInventoryForm extends React.Component {
 
       return (
         <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
-              <Paper className={style.form} zDepth={1}>
+              <Paper className="paper-box" zDepth={1}>
                 <div className={style.innerBox}>
                   <div className="row" style={{ marginBottom: 50 }}>
                     <div className="col-xs-5">

@@ -61,7 +61,7 @@ export default class Themes extends React.Component {
     const {exportInProcess, installInProcess} = this.props;
 
     return (
-      <div className="row row--no-gutter col-full-height col--no-gutter scroll">
+      <Paper className="paper-box" zDepth={1}>
           <div className={style.innerBox}>
 
             <div className="row between-xs middle-xs">
@@ -85,7 +85,7 @@ export default class Themes extends React.Component {
             <Divider style={{ marginTop: 30, marginBottom: 30 }} />
 
           </div>
-      </div>
+      </Paper>
     )
   }
 }

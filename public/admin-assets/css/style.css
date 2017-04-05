@@ -59,7 +59,9 @@ body, button, input, select, textarea {
   padding: 20px 0 5px 0;
 }
 
-.mce-content-body {}
+.mce-content-body {
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
 
 .mce-edit-focus {}
 
@@ -83,4 +85,9 @@ body, button, input, select, textarea {
 .block404 .description {
   color: rgba(0, 0, 0, 0.4);
   font-size: 16px;
+}
+
+.paper-box {
+  margin: 20px;
+  text-align: left;
 }
