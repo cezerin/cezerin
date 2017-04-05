@@ -166,12 +166,12 @@ class ProductInventoryForm extends React.Component {
                     marginTop: 10,
                     marginBottom: 10
                   }}/>
-                  <Field name="enabled" component={CustomToggle} label={messages.enabled}/>
+                  <Field name="discontinued" component={CustomToggle} label={messages.products_discontinued}/>
                   <Divider style={{
                     marginTop: 10,
                     marginBottom: 10
                   }}/>
-                  <Field name="discontinued" component={CustomToggle} label={messages.products_discontinued}/>
+                  <Field name="enabled" component={CustomToggle} label={messages.enabled}/>
                 </div>
                 <div className="buttons-box">
                   <Link to={'/admin/products'}>
