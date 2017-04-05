@@ -8,7 +8,7 @@ import ProductFilter from '../components/productFilter'
 import Sort from '../components/sort'
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings, productFilter, products_has_more} = props.state;
+  const {products, categoryDetails, settings, productFilter, productsHasMore} = props.state;
   const {setSort, addCartItem, loadMoreProducts} = props;
 
   const title = categoryDetails.meta_title && categoryDetails.meta_title.length > 0 ? categoryDetails.meta_title : categoryDetails.name;
@@ -54,7 +54,7 @@ const CategoryContainer = (props) => {
                 addCartItem={addCartItem}
                 settings={settings}
                 loadMoreProducts={loadMoreProducts}
-                hasMore={products_has_more}
+                hasMore={productsHasMore}
               />
             </div>
           </div>

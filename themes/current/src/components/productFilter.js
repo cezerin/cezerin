@@ -23,7 +23,7 @@ export default class ProductFilter extends React.Component {
 
   render() {
     const { sidebarIsActive } = this.state;
-    const { categoryDetails, categories, settings, productFilter, products_min_price, products_max_price} = this.props.state;
+    const { categoryDetails, categories, settings, productFilter, productsMinPrice, productsMaxPrice} = this.props.state;
 
     return (
       <div className="column is-one-quarter">
@@ -47,10 +47,10 @@ export default class ProductFilter extends React.Component {
               />
 
               <PriceSlider
-                minPrice={products_min_price}
-                maxPrice={products_max_price}
-                minValue={productFilter.price_from}
-                maxValue={productFilter.price_to}
+                minPrice={productsMinPrice}
+                maxPrice={productsMaxPrice}
+                minValue={productFilter.priceFrom}
+                maxValue={productFilter.priceTo}
                 setPriceFromAndTo={this.props.setPriceFromAndTo}
                 settings={settings}
               />

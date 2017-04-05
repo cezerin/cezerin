@@ -9,9 +9,9 @@ import SearchBox from '../components/searchBox'
 import PriceSlider from '../components/priceSlider'
 
 const CategoryContainer = (props) => {
-  const {products, settings, productFilter, products_has_more, products_min_price, products_max_price, products_total_count} = props.state;
+  const {products, settings, productFilter, productsHasMore, productsMinPrice, productsMaxPrice, productsTotalCount} = props.state;
   const {setSearch, setSort, setPriceFromAndTo, addCartItem, loadMoreProducts} = props;
-  const title = productFilter.search && productFilter.search !== '' ? `${products_total_count || 0} ${text.resultsFor} "${productFilter.search}"` : text.search;
+  const title = productFilter.search && productFilter.search !== '' ? `${productsTotalCount || 0} ${text.resultsFor} "${productFilter.search}"` : text.search;
 
   return (
     <div>
@@ -34,10 +34,10 @@ const CategoryContainer = (props) => {
             <div className="column is-one-quarter">
               <Sort defaultSort={settings.default_product_sorting} currentSort={productFilter.sort} setSort={setSort} />
               <PriceSlider
-                minPrice={products_min_price}
-                maxPrice={products_max_price}
-                minValue={productFilter.price_from}
-                maxValue={productFilter.price_to}
+                minPrice={productsMinPrice}
+                maxPrice={productsMaxPrice}
+                minValue={productFilter.priceFrom}
+                maxValue={productFilter.priceTo}
                 setPriceFromAndTo={setPriceFromAndTo}
                 settings={settings}
               />
@@ -48,7 +48,7 @@ const CategoryContainer = (props) => {
                 addCartItem={addCartItem}
                 settings={settings}
                 loadMoreProducts={loadMoreProducts}
-                hasMore={products_has_more}
+                hasMore={productsHasMore}
               />
             </div>
           </div>
