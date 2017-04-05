@@ -20,15 +20,31 @@ export const fetchProducts = () => (dispatch, getState) => {
   const {app} = getState();
   dispatch(requestProducts());
 
-  let filter = app.productFilter;
-  filter.offset = 0;
+  let filter = getProductFilter(app.productFilter);
 
   return api.ajax.products.list(filter).then(({status, json}) => {
     dispatch(receiveProducts(json))
-    if(!app.products_min_price && !app.products_max_price) {
+    if(!app.productsMinPrice && !app.productsMaxPrice) {
       dispatch(setProductsPriceRange(json.price.min, json.price.max));
     }
   }).catch(error => {});
+}
+
+const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
+const getProductFilter = (productFilter) => {
+  let filter = {
+    on_sale: productFilter.onSale,
+    search: productFilter.search,
+    category_id: productFilter.categoryId,
+    price_from: productFilter.priceFrom,
+    price_to: productFilter.priceTo,
+    sort: productFilter['sort'],
+    fields: PRODUCTS_FIELDS,
+    limit: 30,
+    offset: 0
+  }
+
+  return filter;
 }
 
 const requestProducts = () => ({type: t.PRODUCTS_REQUEST})
@@ -37,13 +53,12 @@ const receiveProducts = (products) => ({type: t.PRODUCTS_RECEIVE, products})
 
 export const fetchMoreProducts = () => (dispatch, getState) => {
   const {app} = getState();
-  if (app.loadingProducts || app.loadingMoreProducts || app.products.length === 0 || !app.products_has_more) {
+  if (app.loadingProducts || app.loadingMoreProducts || app.products.length === 0 || !app.productsHasMore) {
     return Promise.resolve();
   } else {
     dispatch(requestMoreProducts());
 
-    let filter = app.productFilter;
-    //filter.limit = 15;
+    let filter = getProductFilter(app.productFilter);
     filter.offset = app.products.length;
 
     return api.ajax.products.list(filter).then(({status, json}) => {
@@ -154,14 +169,14 @@ const receiveCheckout = order => ({type: t.CHECKOUT_RECEIVE, order})
 
 export const receiveSitemap = currentPage => ({type: t.SITEMAP_RECEIVE, currentPage})
 
-export const setCategory = category_id => (dispatch, getState) => {
+export const setCategory = categoryId => (dispatch, getState) => {
   const {app} = getState();
-  const category = app.categories.find(c => c.id === category_id);
+  const category = app.categories.find(c => c.id === categoryId);
   if (category) {
     dispatch(setCurrentCategory(category));
     dispatch(setProductsPriceRange(null, null));
     dispatch(clearProductsFilter());
-    dispatch(setProductsFilter({category_id: category_id}));
+    dispatch(setProductsFilter({categoryId: categoryId}));
     dispatch(receiveProduct(null));
   }
 }
@@ -169,7 +184,7 @@ export const setCategory = category_id => (dispatch, getState) => {
 const setCurrentCategory = category => ({type: t.SET_CURRENT_CATEGORY, category})
 
 export const setSearch = search => (dispatch, getState) => {
-  dispatch(setProductsFilter({search: search, category_id: null}));
+  dispatch(setProductsFilter({search: search, categoryId: null}));
   dispatch(fetchProducts());
 }
 
@@ -178,21 +193,21 @@ export const setSort = sort => (dispatch, getState) => {
   dispatch(fetchProducts());
 }
 
-export const setPriceFromAndTo = (price_from, price_to) => (dispatch, getState) => {
-  if(price_to > 0) {
-    dispatch(setProductsFilter({price_from: price_from, price_to: price_to}));
+export const setPriceFromAndTo = (priceFrom, priceTo) => (dispatch, getState) => {
+  if(priceTo > 0) {
+    dispatch(setProductsFilter({priceFrom: priceFrom, priceTo: priceTo}));
     dispatch(fetchProducts());
   }
 }
 
-export const setPriceFrom = price_from => (dispatch, getState) => {
-  dispatch(setProductsFilter({price_from: price_from}));
+export const setPriceFrom = priceFrom => (dispatch, getState) => {
+  dispatch(setProductsFilter({priceFrom: priceFrom}));
   dispatch(fetchProducts());
 }
 
-export const setPriceTo = price_to => (dispatch, getState) => {
-  if(price_to > 0) {
-    dispatch(setProductsFilter({price_to: price_to}));
+export const setPriceTo = priceTo => (dispatch, getState) => {
+  if(priceTo > 0) {
+    dispatch(setProductsFilter({priceTo: priceTo}));
     dispatch(fetchProducts());
   }
 }
@@ -201,7 +216,7 @@ const setProductsPriceRange = (min, max) => ({type: t.SET_PRODUCTS_PRICE_RANGE, 
 
 const setProductsFilter = filter => ({type: t.SET_PRODUCTS_FILTER, filter: filter})
 
-const EMPTY_FILTER = { on_sale: null, search: '', price_from: 0, price_to: 0 };
+const EMPTY_FILTER = { onSale: null, search: '', priceFrom: 0, priceTo: 0 };
 const clearProductsFilter = () => ({type: t.SET_PRODUCTS_FILTER, filter: EMPTY_FILTER});
 
 export const updateCartShippingCountry = country => (dispatch, getState) => {
@@ -269,8 +284,9 @@ const getCategories = () => {
   return api.ajax.product_categories.list({enabled: true}).then(({status, json}) => json)
 }
 
-const getProducts = (currentPage, filter) => {
+const getProducts = (currentPage, productFilter) => {
   if (currentPage.type === PRODUCT_CATEGORY) {
+    let filter = getProductFilter(productFilter);
     return api.ajax.products.list(filter).then(({status, json}) => json)
   } else {
     return Promise.resolve([]);
@@ -327,10 +343,10 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
       productDetails: null,
       categories: [],
       products: [],
-      products_total_count: 0,
-      products_has_more: false,
-      products_min_price: 0,
-      products_max_price: 0,
+      productsTotalCount: 0,
+      productsHasMore: false,
+      productsMinPrice: 0,
+      productsMaxPrice: 0,
       paymentMethods: [],
       shippingMethods: [],
       loadingProducts: false,
@@ -339,14 +355,12 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
       loadingPaymentMethods: false,
       processingCheckout: false,
       productFilter: {
-        on_sale: null,
+        onSale: null,
         search: '',
-        category_id: null,
-        price_from: 0,
-        price_to: 0,
-        limit: 30,
-        sort: settings.default_product_sorting,
-        fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price'
+        categoryId: null,
+        priceFrom: 0,
+        priceTo: 0,
+        sort: settings.default_product_sorting
       },
       cart: null,
       order: null,
@@ -355,7 +369,7 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
   }
 
   if (currentPage.type === PRODUCT_CATEGORY) {
-    initialState.app.productFilter.category_id = currentPage.resource;
+    initialState.app.productFilter.categoryId = currentPage.resource;
   }
 
   return getCommonData(req, currentPage, initialState.app.productFilter).then(commonData => {
@@ -363,11 +377,11 @@ export const getInitialState = (req, checkoutFields, currentPage, settings) => {
     initialState.app.productDetails = commonData.product;
     if(commonData.products) {
       initialState.app.products = commonData.products.data;
-      initialState.app.products_total_count = commonData.products.total_count;
-      initialState.app.products_has_more = commonData.products.has_more;
+      initialState.app.productsTotalCount = commonData.products.total_count;
+      initialState.app.productsHasMore = commonData.products.has_more;
       if(commonData.products.price) {
-        initialState.app.products_min_price = commonData.products.price.min;
-        initialState.app.products_max_price = commonData.products.price.max;
+        initialState.app.productsMinPrice = commonData.products.price.min;
+        initialState.app.productsMaxPrice = commonData.products.price.max;
       }
     }
     initialState.app.categoryDetails = commonData.categoryDetails;

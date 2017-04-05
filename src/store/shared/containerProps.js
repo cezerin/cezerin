@@ -27,14 +27,14 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     setSort: (sort) => {
       dispatch(setSort(sort));
     },
-    setPriceFromAndTo: (price_from, price_to) => {
-      dispatch(setPriceFromAndTo(price_from, price_to));
+    setPriceFromAndTo: (priceFrom, priceTo) => {
+      dispatch(setPriceFromAndTo(priceFrom, priceTo));
     },
-    setPriceFrom: (price_from) => {
-      dispatch(setPriceFrom(price_from));
+    setPriceFrom: (priceFrom) => {
+      dispatch(setPriceFrom(priceFrom));
     },
-    setPriceTo: (price_to) => {
-      dispatch(setPriceTo(price_to));
+    setPriceTo: (priceTo) => {
+      dispatch(setPriceTo(priceTo));
     },
     setLocation: (path) => {
       dispatch(push(path));

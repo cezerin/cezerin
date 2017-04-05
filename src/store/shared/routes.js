@@ -41,7 +41,7 @@ function getComponent(nextState, cb) {
   getSitemap(nextState.location.pathname, state, dispatch).then(({currentPage, currentPageAlreadyInState}) => {
     if (currentPage) {
       if (currentPage.type === PRODUCT_CATEGORY) {
-        const categoryAlreadyInState = currentPage.resource === state.app.productFilter.category_id;
+        const categoryAlreadyInState = currentPage.resource === state.app.productFilter.categoryId;
 
         if(currentPageAlreadyInState || categoryAlreadyInState){
         } else {
