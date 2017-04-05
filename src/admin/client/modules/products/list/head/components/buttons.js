@@ -90,10 +90,10 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
-            <IconButton touch={true} tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
               <FontIcon color="#fff" className="material-icons">move_to_inbox</FontIcon>
             </IconButton>
             <Dialog

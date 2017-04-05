@@ -84,17 +84,17 @@ export default class Buttons extends React.Component {
     ];
 
     return (
-      <span style={{ marginRight: 12 }}>
-        <IconButton touch={true} tooltip={messages.actions_moveUp} onTouchTap={onMoveUp}>
+      <span>
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveUp} onTouchTap={onMoveUp}>
           <FontIcon color="#fff" className="material-icons">arrow_upward</FontIcon>
         </IconButton>
-        <IconButton touch={true} tooltip={messages.actions_moveDown} onTouchTap={onMoveDown}>
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveDown} onTouchTap={onMoveDown}>
           <FontIcon color="#fff" className="material-icons">arrow_downward</FontIcon>
         </IconButton>
-        <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
-        <IconButton touch={true} tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
           <FontIcon color="#fff" className="material-icons">move_to_inbox</FontIcon>
         </IconButton>
         <Dialog
