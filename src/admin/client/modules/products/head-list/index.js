@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchProducts, deleteProducts, setCategory, setFilter } from '../../actions'
+import { fetchProducts, deleteProducts, setCategory, setFilter } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {

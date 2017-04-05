@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { deleteCurrentProduct } from '../../actions'
+import { deleteCurrentProduct } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
