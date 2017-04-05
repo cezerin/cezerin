@@ -66,6 +66,7 @@ export default class Categories extends React.Component {
       showRoot = false,
       showAdd = false,
       rootName = messages.productCategories_root,
+      allName = messages.productCategories_all,
       opened = false
     } = this.props;
 
@@ -87,7 +88,7 @@ export default class Categories extends React.Component {
 
           {showAll &&
             <ListItem
-              primaryText={messages.productCategories_all}
+              primaryText={allName}
               style={'all' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
@@ -99,7 +100,7 @@ export default class Categories extends React.Component {
 
         </List>
         {showAdd &&
-          <FloatingActionButton secondary={false} style={styles.fab} onTouchTap={() => { onCreate() }}>
+          <FloatingActionButton secondary={false} style={styles.fab} onTouchTap={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
         }
