@@ -1,6 +1,5 @@
 import React from 'react'
 import Subheader from 'material-ui/Subheader';
-import Checkbox from 'material-ui/Checkbox';
 import messages from 'lib/text'
 
 const Head = ({ onSelectAll }) => (
@@ -9,7 +8,7 @@ const Head = ({ onSelectAll }) => (
       <div className="col-xs-6 col--no-gutter">
         <div className="row row--no-gutter middle-xs">
           <div className="col-xs-1 col--no-gutter">
-            <Checkbox onCheck={(event, isInputChecked) => { onSelectAll(isInputChecked); }} />
+            <input type="checkbox" onChange={onSelectAll} />
           </div>
           <div className="col-xs-11">
             {messages.products_name}

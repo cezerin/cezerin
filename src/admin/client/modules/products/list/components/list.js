@@ -19,7 +19,7 @@ export default class ProductsList extends React.Component {
     }
 
     render(){
-      const { items, selected, loadingItems, onSelect, onSelectAll, loadMore, onCreate, settings, hasMore, totalCount } = this.props;
+      const { items, selected, loadingItems, onSelect, onSelectAll, selectedAll, loadMore, onCreate, settings, hasMore, totalCount } = this.props;
 
       const rows = items.map((item, index) => {
         const itemSelected = selected.includes(item.id);

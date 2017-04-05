@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router'
-import Checkbox from 'material-ui/Checkbox';
 import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
@@ -83,7 +82,7 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
             <div className="col-xs-6 col--no-gutter">
               <div className="row row--no-gutter middle-xs">
                 <div className="col-xs-1 col--no-gutter">
-                  <Checkbox checked={selected} onCheck={(event, isInputChecked) => { onSelect(product.id, isInputChecked); }} />
+                  <input type="checkbox" onChange={onSelect} checked={selected} value={product.id} />
                 </div>
                 <div className="col-xs-3">
                   <div className={'row middle-xs center-xs ' + style.imageBox}>

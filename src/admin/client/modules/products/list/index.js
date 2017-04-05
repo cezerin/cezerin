@@ -16,16 +16,21 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: () => {
-      dispatch(fetchProducts());
+      dispatch(fetchProducts(true));
     },
-    onSelect: (productId, checked) => {
+    onSelect: (event) => {
+      const productId = event.target.value;
+      const checked = event.target.checked;
+
       if(checked) {
         dispatch(selectProduct(productId));
       } else {
         dispatch(deselectProduct(productId));
       }
     },
-    onSelectAll: (checked) => {
+    onSelectAll: (event) => {
+      const checked = event.target.checked;
+
       if(checked) {
         dispatch(selectAllProduct());
       } else {

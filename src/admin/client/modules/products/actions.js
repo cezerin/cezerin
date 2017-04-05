@@ -176,10 +176,12 @@ const getFilter = (state, offset = 0) => {
   return filter;
 }
 
-export function fetchProducts() {
+export function fetchProducts(canTakeFromState = false) {
   return (dispatch, getState) => {
     const state = getState();
-    if (!state.products.loadingItems) {
+    if (state.products.loadingItems || (canTakeFromState && state.products.items.length > 0)) {
+      // do nothing
+    } else {
       dispatch(requestProducts());
       dispatch(deselectAllProduct());
 
