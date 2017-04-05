@@ -22,6 +22,8 @@ class SettingsController {
     this.router.get('/v1/settings/checkout/fields', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getCheckoutFields.bind(this));
     this.router.get('/v1/settings/checkout/fields/:name', security.checkUserScope.bind(this, security.scope.READ_SETTINGS), this.getCheckoutField.bind(this));
     this.router.put('/v1/settings/checkout/fields/:name', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.updateCheckoutField.bind(this));
+    this.router.post('/v1/settings/logo', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.uploadLogo.bind(this));
+    this.router.delete('/v1/settings/logo', security.checkUserScope.bind(this, security.scope.WRITE_SETTINGS), this.deleteLogo.bind(this));
   }
 
   getSettings(req, res, next) {
@@ -92,6 +94,16 @@ class SettingsController {
         res.status(404).end()
       }
     }).catch(next);
+  }
+
+  uploadLogo(req, res, next) {
+    SettingsService.uploadLogo(req, res, next);
+  }
+
+  deleteLogo(req, res, next) {
+    SettingsService.deleteLogo().then(() => {
+      res.end();
+    })
   }
 }
 

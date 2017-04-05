@@ -156,8 +156,26 @@ export function fetchEmailSettings() {
   }
 }
 
+export function deleteLogo() {
+  return (dispatch, getState) => {
+    return api.settings.deleteLogo()
+      .then(({status, json}) => {
+        if(status === 200) {
+          dispatch(fetchSettings());
+        } else {
+          throw status
+        }
+      })
+      .catch(error => {
+          //dispatch error
+          console.log(error)
+      });
+  }
+}
+
 export function updateSettings(settings) {
   return (dispatch, getState) => {
+    delete settings.logo_file;
     return api.settings.update(settings).then(({status, json}) => {
       dispatch(receiveSettings(json))
     }).catch(error => {});

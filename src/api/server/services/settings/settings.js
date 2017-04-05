@@ -1,11 +1,16 @@
 'use strict';
 
+const fs = require('fs');
+const url = require('url');
+var formidable = require('formidable');
+const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var parse = require('../../lib/parse');
 
 class SettingsService {
   constructor() {
     this.defaultSettings = {
+      'logo_file': null,
       'language': 'en',
       'currency_code': 'USD',
       'currency_symbol': '$',
@@ -119,17 +124,67 @@ class SettingsService {
       settings.length_unit = parse.getString(data.length_unit);
     }
 
-    return settings;
-  }
-
-  changeProperties(settings) {
-    if (settings) {
-      delete settings._id;
-    } else {
-      return this.defaultSettings;
+    if (data.logo_file !== undefined) {
+      settings.logo_file = parse.getString(data.logo_file);
     }
 
     return settings;
+  }
+
+  changeProperties(data) {
+    if (data) {
+      delete data._id;
+      data.logo = (data.logo_file && data.logo_file.length > 0) ? settings.url.files + '/' + data.logo_file : null;
+      return data;
+    } else {
+      return this.defaultSettings;
+    }
+  }
+
+  deleteLogo() {
+    return this.getSettings().then(settings => {
+      if(settings.logo_file && settings.logo_file.length > 0) {
+        let filePath = settings.path.files + '/' + settings.logo_file;
+        fs.unlink(filePath, (err) => {
+          this.updateSettings({ 'logo_file': null });
+        })
+      }
+    })
+  }
+
+  uploadLogo(req, res, next) {
+    let form = new formidable.IncomingForm(),
+        file_name = null,
+        file_size = 0;
+
+    form
+      .on('fileBegin', (name, file) => {
+        // Emitted whenever a field / value pair has been received.
+        file.path = settings.path.files + '/' + file.name;
+      })
+      .on('file', function(field, file) {
+        // every time a file has been uploaded successfully,
+        file_name = file.name;
+        file_size = file.size;
+      })
+      .on('error', (err) => {
+        res.status(500).send(this.getErrorMessage(err));
+      })
+      .on('end', () => {
+        //Emitted when the entire request has been received, and all contained files have finished flushing to disk.
+        if(file_name) {
+          this.updateSettings({ 'logo_file': file_name });
+          res.send({ 'file': file_name, 'size': file_size });
+        } else {
+          res.status(400).send(this.getErrorMessage('Required fields are missing'));
+        }
+      });
+
+    form.parse(req);
+  }
+
+  getErrorMessage(err) {
+    return { 'error': true, 'message': err.toString() };
   }
 }
 

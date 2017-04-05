@@ -28,7 +28,8 @@ import layoutCustomerEdit from 'layouts/customers/edit'
 import layoutCustomerGroups from 'layouts/customers/groups'
 import layoutOrders from 'layouts/orders'
 import layoutSettingsShared from 'layouts/settings/shared'
-import layoutSettingsGeneral from 'layouts/settings/general'
+import layoutSettingsGeneral from 'layouts/settings/general/index'
+import layoutSettingsGeneralLogo from 'layouts/settings/general/logo'
 import layoutSettingsEmail from 'layouts/settings/email/index'
 import layoutSettingsSmtp from 'layouts/settings/email/smtp'
 import layoutSettingsEmailTemplates from 'layouts/settings/email/templates'
@@ -162,6 +163,7 @@ ReactDOM.render(
         <Route path="settings" component={layoutSettingsShared}>
           <IndexRoute component={layoutSettingsGeneral}/>
           <Route path="general" component={layoutSettingsGeneral}/>
+          <Route path="general/logo" component={layoutSettingsGeneralLogo}/>
           <Route path="theme" component={layoutSettingsThemes}/>
           <Route path="shipping" component={layoutSettingsShipping}/>
           <Route path="shipping/add" component={layoutSettingsShippingAdd}/>

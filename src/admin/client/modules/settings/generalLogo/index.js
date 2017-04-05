@@ -1,11 +1,10 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
-import { fetchSettings, updateSettings } from '../actions'
+import { fetchSettings, deleteLogo } from '../actions'
 import Form from './components/form'
 
 const mapStateToProps = (state) => {
   return {
-    initialValues: state.settings.settings
+    settings: state.settings.settings
   }
 }
 
@@ -14,11 +13,11 @@ const mapDispatchToProps = (dispatch) => {
     onLoad: () => {
       dispatch(fetchSettings())
     },
-    onSubmit: (values) => {
-      dispatch(updateSettings(values));
+    onImageDelete: () => {
+      dispatch(deleteLogo());
     },
-    pushUrl: (path) => {
-      dispatch(push(path));
+    onImageUpload: () => {
+      dispatch(fetchSettings());
     }
   }
 }

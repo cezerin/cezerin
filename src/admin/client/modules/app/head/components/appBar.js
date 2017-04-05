@@ -206,6 +206,10 @@ export default class AppBarTop extends React.Component {
     else if(location === '/admin/settings/general' || location === '/admin/settings'){
       title = messages.settings_generalSettings;
     }
+    else if(location === '/admin/settings/general/logo'){
+      title = messages.logo;
+      leftButton = <Link to="/admin/settings/general"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+    }
     else if(location === '/admin/settings/pages'){
       title = messages.settings_pages;
     }

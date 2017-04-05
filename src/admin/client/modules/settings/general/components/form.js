@@ -11,6 +11,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import FontIcon from 'material-ui/FontIcon';
+import {List, ListItem} from 'material-ui/List';
 
 class GeneralSettings extends React.Component {
   constructor(props) {
@@ -22,7 +24,7 @@ class GeneralSettings extends React.Component {
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, pushUrl} = this.props;
 
     let currencyItems = [];
     for (const key in data.currencies) {
@@ -47,6 +49,18 @@ class GeneralSettings extends React.Component {
           width: '100%'
         }}>
         <Paper className="paper-box" zDepth={1}>
+
+          <div style={{width: '100%'}}>
+            <List>
+              <ListItem
+                rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
+                primaryText={messages.logo}
+                onClick={() => { pushUrl('/admin/settings/general/logo') }}
+              />
+              <Divider />
+            </List>
+          </div>
+
           <div className={style.innerBox}>
 
             <div className="row between-xs middle-xs">
