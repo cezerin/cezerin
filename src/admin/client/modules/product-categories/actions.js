@@ -79,7 +79,7 @@ function successReplaceCategory(newParentId) {
   }
 }
 
-function fetchCategories() {
+export function fetchCategories() {
   return dispatch => {
     dispatch(requestCategories());
     return api.product_categories.list()
@@ -142,6 +142,26 @@ export function createCategory() {
           dispatch(successCreateCategory(json.id));
           dispatch(fetchCategories());
           dispatch(selectCategory(json.id));
+      })
+      .catch(error => {
+          //dispatch error
+          console.log(error)
+      });
+  }
+}
+
+export function deleteImage() {
+  return (dispatch, getState) => {
+    const state = getState();
+    const categoryId = state.productCategories.selectedId;
+
+    return api.product_categories.deleteImage(categoryId)
+      .then(({status, json}) => {
+        if(status === 200) {
+          dispatch(fetchCategories());
+        } else {
+          throw status
+        }
       })
       .catch(error => {
           //dispatch error

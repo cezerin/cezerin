@@ -84,28 +84,19 @@ export default class Buttons extends React.Component {
     ];
 
     return (
-      <span>
-        <IconButton touch={true} tooltip={messages.actions_moveUp} onTouchTap={()=>{ onMoveUp() }}>
+      <span style={{ marginRight: 12 }}>
+        <IconButton touch={true} tooltip={messages.actions_moveUp} onTouchTap={onMoveUp}>
           <FontIcon color="#fff" className="material-icons">arrow_upward</FontIcon>
         </IconButton>
-        <IconButton touch={true} tooltip={messages.actions_moveDown} onTouchTap={()=>{ onMoveDown() }}>
+        <IconButton touch={true} tooltip={messages.actions_moveDown} onTouchTap={onMoveDown}>
           <FontIcon color="#fff" className="material-icons">arrow_downward</FontIcon>
         </IconButton>
         <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
-        <IconMenu
-          iconButtonElement={
-            <IconButton touch={true}>
-              <FontIcon color="#fff" className="material-icons">more_vert</FontIcon>
-            </IconButton>
-          }
-          targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-        >
-          <MenuItem primaryText={messages.actions_moveTo} onTouchTap={this.showMoveTo} />
-        </IconMenu>
-
+        <IconButton touch={true} tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
+          <FontIcon color="#fff" className="material-icons">move_to_inbox</FontIcon>
+        </IconButton>
         <Dialog
           title={messages.actions_moveTo}
           actions={actionsMoveTo}

@@ -1,7 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import { TextField, Toggle } from 'redux-form-material-ui'
+import { TextField } from 'redux-form-material-ui'
 
+import { CustomToggle } from 'modules/shared/form'
 import ImageUpload from 'modules/shared/image-upload'
 import messages from 'lib/text'
 import style from './style.css'
@@ -25,12 +26,10 @@ const validate = values => {
   return errors
 }
 
-const asyncValidate = (values/*, dispatch */) => {
+const asyncValidate = (values) => {
   return new Promise((resolve, reject) => {
-    if(!values.slug) {
-      resolve();
-    } else {
-      api.sitemap.retrieve({ path: values.slug })
+    if(values.slug && values.slug.length > 0) {
+      api.sitemap.retrieve({ path: '/' + values.slug })
         .then(({status, json}) => {
           if(status === 404) {
             resolve();
@@ -42,11 +41,13 @@ const asyncValidate = (values/*, dispatch */) => {
             }
           }
         });
+    } else {
+      resolve();
     }
   })
 }
 
-class Form extends React.Component {
+class ProductCategoryEditForm extends React.Component {
   constructor(props){
     super(props);
   }
@@ -58,6 +59,9 @@ class Form extends React.Component {
       handleSubmit,
       pristine,
       submitting,
+      onCancel,
+      onImageUpload,
+      onImageDelete,
       isSaving,
       initialValues } = this.props;
 
@@ -74,41 +78,41 @@ class Form extends React.Component {
         <Paper className={style.form} zDepth={1}>
           <form onSubmit={handleSubmit}>
             <div className={style.innerBox}>
-              <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/><br />
-              <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={2}/>
+              <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/>
+              <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={1}/>
               <div className={style.shortBox}>
-                <Field name="enabled" component={Toggle} label={messages.enabled} className={style.toggle}/><br />
+                <Field name="enabled" component={CustomToggle} label={messages.enabled} className={style.toggle}/>
                 <ImageUpload
                   imageUrl={imageUrl}
                   postUrl={`${settings.apiBaseUrl}/product_categories/${categoryId}/image`}
                   apiToken={apiToken}
-                  onDelete={() => { api.product_categories.deleteImage(categoryId); }}
-                  onUpload={() => {}}
+                  onDelete={onImageDelete}
+                  onUpload={onImageUpload}
                  />
               </div>
               <div className="blue-title">{messages.seo}</div>
               <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
               <p className="field-hint">{messages.help_slug}</p>
-              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
+              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/>
               <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
             </div>
             <div className="buttons-box">
-              <FlatButton label={messages.actions_cancel} className={style.button} onClick={() => { this.props.onCancel(); }} />
+              <FlatButton label={messages.actions_cancel} className={style.button} onClick={onCancel} />
               <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
             </div>
           </form>
         </Paper>
       )
     } else {
-      return <br />
+      return <div></div>
     }
   }
 }
 
 export default reduxForm({
-  form: 'FormProductCategory',
+  form: 'ProductCategoryEditForm',
   validate,
   asyncValidate,
   asyncBlurFields: [ 'slug' ],
   enableReinitialize: true
-})(Form)
+})(ProductCategoryEditForm)

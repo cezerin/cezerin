@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { reset } from 'redux-form';
-import { updateCategory, deselectCategory } from '../actions'
-import Form from './components/form'
+import { updateCategory, deselectCategory, fetchCategories, deleteImage } from '../actions'
+import ProductCategoryEditForm from './components/form'
 
 const mapStateToProps = (state) => {
   return {
@@ -14,6 +14,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    onImageDelete: () => {
+      dispatch(deleteImage());
+    },
+    onImageUpload: () => {
+      dispatch(fetchCategories());
+    },
     onSubmit: (values) => {
       delete values.image;
       if(!values.slug || values.slug === '') {
@@ -28,4 +34,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductCategoryEditForm);
