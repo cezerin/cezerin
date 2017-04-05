@@ -55,7 +55,7 @@ export default class Header extends React.Component {
           </span>
           <div className="nav-left">
             <Link className="nav-item" to="/">
-              <img src="/assets/images/logo.png" alt="Store logo"/>
+              <img src={settings.logo}/>
             </Link>
           </div>
 
