@@ -1,11 +1,12 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
-import {TextField, Toggle} from 'redux-form-material-ui'
+import {TextField} from 'redux-form-material-ui'
 
+import { CustomToggle } from 'modules/shared/form'
+import Editor from 'modules/shared/editor'
 import messages from 'lib/text'
 import style from './style.css'
 import api from 'lib/api'
-import Editor from 'modules/shared/editor'
 
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -73,7 +74,7 @@ class EditPageForm extends React.Component {
             <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
             <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
             <div style={{maxWidth: 256}}>
-              <Field component={Toggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} disabled={initialValues.is_system}/>
+              <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} disabled={initialValues.is_system}/>
             </div>
           </div>
           <div style={{

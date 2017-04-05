@@ -1,7 +1,8 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
-import {TextField, SelectField, Toggle} from 'redux-form-material-ui'
+import {TextField, SelectField} from 'redux-form-material-ui'
 
+import { CustomToggle } from 'modules/shared/form'
 import messages from 'lib/text'
 import style from './style.css'
 
@@ -101,7 +102,7 @@ class EditPaymentMethodForm extends React.Component {
               <Field component={TextField} fullWidth={true} name="description" multiLine={true} floatingLabelText={messages.description}/>
             </div>
             <div style={{maxWidth: 256}}>
-              <Field component={Toggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}}/>
+              <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}}/>
               <Divider />
             </div>
             <div className="blue-title">{messages.settings_conditions}</div>
