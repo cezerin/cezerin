@@ -142,9 +142,9 @@ class SettingsService {
   }
 
   deleteLogo() {
-    return this.getSettings().then(settings => {
-      if(settings.logo_file && settings.logo_file.length > 0) {
-        let filePath = settings.path.files + '/' + settings.logo_file;
+    return this.getSettings().then(data => {
+      if(data.logo_file && data.logo_file.length > 0) {
+        let filePath = settings.path.files + '/' + data.logo_file;
         fs.unlink(filePath, (err) => {
           this.updateSettings({ 'logo_file': null });
         })
