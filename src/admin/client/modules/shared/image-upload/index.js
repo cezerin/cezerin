@@ -97,10 +97,7 @@ export default class ImageUpload extends React.Component {
       </div>
 
     if(hasPreview && previewIsFileUrl) {
-      htmlPreview =
-        <a href={imagePreview} target="_blank">
-          <img src={imagePreview} title={imagePreview} />
-        </a>
+      htmlPreview = <img src={imagePreview} />
     } else if(hasPreview && !previewIsFileUrl) {
       htmlPreview = <img src={imagePreview} />
     }
