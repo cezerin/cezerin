@@ -398,8 +398,6 @@ class ProductsService {
     product.tax_class = parse.getString(data.tax_class);
     product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
     product.prices = parse.getArrayIfValid(data.prices) || [];
-    product.options = parse.getArrayIfValid(data) || [];
-    product.variants = parse.getArrayIfValid(data.variants) || [];
     product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
     product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
     product.sale_price = parse.getNumberIfPositive(data.sale_price) || 0;
@@ -498,14 +496,6 @@ class ProductsService {
 
     if(data.prices !== undefined) {
       product.prices = parse.getArrayIfValid(data.prices) || [];
-    }
-
-    if(data.options !== undefined) {
-      product.options = parse.getArrayIfValid(data.options) || [];
-    }
-
-    if(data.variants !== undefined) {
-      product.variants = parse.getArrayIfValid(data.variants) || [];
     }
 
     if(data.cost_price !== undefined) {
