@@ -42,6 +42,7 @@ class ProductsController {
     this.router.post('/v1/products/:productId/variants', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.addVariant.bind(this));
     this.router.put('/v1/products/:productId/variants/:variantId', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.updateVariant.bind(this));
     this.router.delete('/v1/products/:productId/variants/:variantId', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.deleteVariant.bind(this));
+    this.router.put('/v1/products/:productId/variants/:variantId/options', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.setVariantOption.bind(this));
   }
 
   getProducts(req, res, next) {
@@ -208,6 +209,11 @@ class ProductsController {
     }).catch(next);
   }
 
+  setVariantOption(req, res, next) {
+    ProductVariantsService.setVariantOption(req.params.productId, req.params.variantId, req.body).then(data => {
+      res.send(data)
+    }).catch(next);
+  }
 }
 
 module.exports = ProductsController;

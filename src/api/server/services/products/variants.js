@@ -100,6 +100,64 @@ class ProductVariantsService {
 
     return variant;
   }
+
+  getVariantOptions(productId, variantId) {
+    let productObjectID = new ObjectID(productId);
+
+    return mongo.db.collection('products').findOne({ _id: productObjectID }, {fields: {variants: 1}})
+      .then(product => product && product.variants ? product.variants : null)
+      .then(variants => variants && variants.length > 0 ? variants.find(variant => variant.id.toString() === variantId) : null)
+      .then(variant => variant && variant.options.length > 0 ? variant.options : [])
+  }
+
+  getModifiedVariantOptions(productId, variantId, optionId, valueId){
+    return this.getVariantOptions(productId, variantId).then(options => {
+      if(options && options.length > 0) {
+        const optionToChange = options.find(option => option.option_id.toString() === optionId);
+        if(optionToChange.value_id.toString() === valueId) {
+          return option;
+        }
+
+        if(optionToChange === undefined) {
+          // if option not exists => add new option
+          options.push({
+            option_id: new ObjectID(optionId),
+            value_id: new ObjectID(valueId)
+          })
+        } else {
+          // if option exists => set new valueId
+          options = options.map(option => {
+            if(option.option_id.toString() === optionId) {
+              option.value_id = new ObjectID(valueId);
+              return option;
+            } else {
+              return option
+            }
+          });
+        }
+      } else {
+        options = [];
+        options.push({
+          option_id: new ObjectID(optionId),
+          value_id: new ObjectID(valueId)
+        })
+      }
+
+      return options;
+    })
+  }
+
+  setVariantOption(productId, variantId, data) {
+    if(!ObjectID.isValid(productId) || !ObjectID.isValid(variantId) || !ObjectID.isValid(data.option_id) || !ObjectID.isValid(data.value_id)) {
+      return Promise.reject('Invalid identifier');
+    }
+    let productObjectID = new ObjectID(productId);
+    let variantObjectID = new ObjectID(variantId);
+
+    return this.getModifiedVariantOptions(productId, variantId, data.option_id, data.value_id)
+      .then(options => mongo.db.collection('products').updateOne({ _id: productObjectID, 'variants.id': variantObjectID}, { $set: { 'variants.$.options': options }}))
+      .then(res => this.getVariants(productId));
+  }
 }
 
 module.exports = new ProductVariantsService();
