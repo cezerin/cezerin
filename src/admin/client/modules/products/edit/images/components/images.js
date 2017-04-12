@@ -1,5 +1,6 @@
 import React from 'react'
 import Gallery from 'modules/shared/image-upload-multiple'
+import Paper from 'material-ui/Paper';
 
 export default class ProductImages extends React.Component {
   constructor(props) {
@@ -13,7 +14,11 @@ export default class ProductImages extends React.Component {
   render() {
     let {productId, images, onImageDelete, onImageSort, fetchData} = this.props;
     return (
-      <Gallery productId={productId} images={images} onImageDelete={onImageDelete} onImageSort={onImageSort} onUpload={fetchData} />
+      <Paper className="paper-box" zDepth={1}>
+        <div style={{ padding: '10px 10px 30px 10px' }}>
+          <Gallery productId={productId} images={images} onImageDelete={onImageDelete} onImageSort={onImageSort} onUpload={fetchData} />
+        </div>
+      </Paper>
     )
   }
 }
