@@ -313,7 +313,7 @@ export function fetchProduct(id) {
 
 export function fetchImages(productId) {
   return (dispatch, getState) => {
-    return api.products.getImages(productId).then(({status, json}) => {
+    return api.products.images.list(productId).then(({status, json}) => {
       dispatch(receiveImages(json))
     })
     .catch(error => {});
@@ -323,7 +323,7 @@ export function fetchImages(productId) {
 
 export function deleteImage(productId, imageId) {
   return (dispatch, getState) => {
-    return api.products.deleteImage(productId, imageId).then(({status, json}) => {
+    return api.products.images.delete(productId, imageId).then(({status, json}) => {
       dispatch(fetchImages(productId))
     })
     .catch(error => {});

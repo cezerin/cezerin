@@ -72,7 +72,7 @@ storeRouter.get('*', (req, res, next) => {
   Promise.all([
     readIndexHtmlFile(),
     api.sitemap.retrieve({ path: req.path, enabled: true }),
-    api.checkout_fields.list(),
+    api.checkoutFields.list(),
     api.settings.retrieve()
   ]).then(([templateHtml, sitemapDetails, checkoutFields, settings]) => {
     if (sitemapDetails.status === 200 || sitemapDetails.status === 404) {

@@ -211,7 +211,7 @@ export function updateEmailTemplate(emailTemplate) {
 
 export function fetchCheckoutFields() {
   return (dispatch, getState) => {
-    return api.checkout_fields.list().then(({status, json}) => {
+    return api.checkoutFields.list().then(({status, json}) => {
       dispatch(receiveCheckoutFields(json))
     }).catch(error => {});
   }
@@ -220,7 +220,7 @@ export function fetchCheckoutFields() {
 export function fetchCheckoutField(fieldName) {
   return (dispatch, getState) => {
     dispatch(requestCheckoutField())
-    return api.checkout_fields.retrieve(fieldName).then(({status, json}) => {
+    return api.checkoutFields.retrieve(fieldName).then(({status, json}) => {
       json.fieldName = fieldName;
       dispatch(receiveCheckoutField(json))
     }).catch(error => {});
@@ -229,7 +229,7 @@ export function fetchCheckoutField(fieldName) {
 
 export function updateCheckoutField(checkoutField) {
   return (dispatch, getState) => {
-    return api.checkout_fields.update(checkoutField.fieldName, checkoutField).then(({status, json}) => {
+    return api.checkoutFields.update(checkoutField.fieldName, checkoutField).then(({status, json}) => {
       json.fieldName = fieldName;
       dispatch(receiveCheckoutField(json))
     }).catch(error => {});
@@ -238,7 +238,7 @@ export function updateCheckoutField(checkoutField) {
 
 export function fetchShippingMethods() {
   return (dispatch, getState) => {
-    return api.shipping_methods.list().then(({status, json}) => {
+    return api.shippingMethods.list().then(({status, json}) => {
       dispatch(receiveShippingMethods(json))
     }).catch(error => {});
   }
@@ -246,7 +246,7 @@ export function fetchShippingMethods() {
 
 export function fetchPaymentMethods() {
   return (dispatch, getState) => {
-    return api.payment_methods.list().then(({status, json}) => {
+    return api.paymentMethods.list().then(({status, json}) => {
       dispatch(receivePaymentMethods(json))
     }).catch(error => {});
   }
@@ -254,7 +254,7 @@ export function fetchPaymentMethods() {
 
 export function updateShippingMethod(method) {
   return (dispatch, getState) => {
-    return api.shipping_methods.update(method.id, method).then(({status, json}) => {
+    return api.shippingMethods.update(method.id, method).then(({status, json}) => {
       dispatch(fetchShippingMethods())
     }).catch(error => {});
   }
@@ -262,7 +262,7 @@ export function updateShippingMethod(method) {
 
 export function updatePaymentMethod(method) {
   return (dispatch, getState) => {
-    return api.payment_methods.update(method.id, method).then(({status, json}) => {
+    return api.paymentMethods.update(method.id, method).then(({status, json}) => {
       dispatch(fetchPaymentMethods())
     }).catch(error => {});
   }
@@ -270,7 +270,7 @@ export function updatePaymentMethod(method) {
 
 export function fetchShippingMethod(id) {
   return (dispatch, getState) => {
-    return api.shipping_methods.retrieve(id).then(({status, json}) => {
+    return api.shippingMethods.retrieve(id).then(({status, json}) => {
       dispatch(receiveShippingMethod(json))
     }).catch(error => {});
   }
@@ -278,7 +278,7 @@ export function fetchShippingMethod(id) {
 
 export function fetchPaymentMethod(id) {
   return (dispatch, getState) => {
-    return api.payment_methods.retrieve(id).then(({status, json}) => {
+    return api.paymentMethods.retrieve(id).then(({status, json}) => {
       dispatch(receivePaymentMethod(json))
     }).catch(error => {});
   }
@@ -286,7 +286,7 @@ export function fetchPaymentMethod(id) {
 
 export function deleteShippingMethod(methodId) {
   return (dispatch, getState) => {
-    return api.shipping_methods.delete(methodId).then(({status, json}) => {
+    return api.shippingMethods.delete(methodId).then(({status, json}) => {
       dispatch(fetchShippingMethods())
     }).catch(error => {});
   }
@@ -294,7 +294,7 @@ export function deleteShippingMethod(methodId) {
 
 export function deletePaymentMethod(methodId) {
   return (dispatch, getState) => {
-    return api.payment_methods.delete(methodId).then(({status, json}) => {
+    return api.paymentMethods.delete(methodId).then(({status, json}) => {
       dispatch(fetchPaymentMethods())
     }).catch(error => {});
   }
@@ -302,7 +302,7 @@ export function deletePaymentMethod(methodId) {
 
 export function createShippingMethod(method) {
   return (dispatch, getState) => {
-    return api.shipping_methods.create(method).then(({status, json}) => {
+    return api.shippingMethods.create(method).then(({status, json}) => {
       dispatch(fetchShippingMethods())
     }).catch(error => {});
   }
@@ -310,7 +310,7 @@ export function createShippingMethod(method) {
 
 export function createPaymentMethod(method) {
   return (dispatch, getState) => {
-    return api.payment_methods.create(method).then(({status, json}) => {
+    return api.paymentMethods.create(method).then(({status, json}) => {
       dispatch(fetchPaymentMethods())
     }).catch(error => {});
   }

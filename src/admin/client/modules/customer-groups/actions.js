@@ -69,7 +69,7 @@ function successDeleteGroup(id) {
 function fetchGroups() {
   return dispatch => {
     dispatch(requestGroups());
-    return api.customer_groups.list()
+    return api.customerGroups.list()
       .then(({status, json}) => {
         json = json.sort((a,b) => (a.position - b.position ));
 
@@ -107,7 +107,7 @@ export function fetchGroupsIfNeeded() {
 export function updateGroup(data) {
   return (dispatch, getState) => {
     dispatch(requestUpdateGroup(data.id));
-    return api.customer_groups.update(data.id, data)
+    return api.customerGroups.update(data.id, data)
       .then(({status, json}) => {
           dispatch(receiveUpdateGroup());
           dispatch(fetchGroups());
@@ -120,7 +120,7 @@ export function updateGroup(data) {
 
 export function createGroup(data) {
   return (dispatch, getState) => {
-    return api.customer_groups.create(data)
+    return api.customerGroups.create(data)
       .then(({status, json}) => {
           dispatch(successCreateGroup(json.id));
           dispatch(fetchGroups());
@@ -135,7 +135,7 @@ export function createGroup(data) {
 
 export function deleteGroup(id) {
   return (dispatch, getState) => {
-    return api.customer_groups.delete(id)
+    return api.customerGroups.delete(id)
       .then(({status, json}) => {
         if(status === 200) {
           dispatch(successDeleteGroup(id));

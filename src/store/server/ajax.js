@@ -60,7 +60,7 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
   const order_id = req.signedCookies.order_id;
   const item = req.body;
   if (order_id) {
-    api.orders.addItem(order_id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
+    api.orders.items.create(order_id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
       res.status(status).send(json);
     })
   } else {
@@ -85,7 +85,7 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
       }
     }).then(({status, json}) => {
       res.cookie('order_id', json.id, serverSettings.cartCookieOptions);
-      api.orders.addItem(json.id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
+      api.orders.items.create(json.id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
         res.status(status).send(json);
       })
     })
@@ -96,7 +96,7 @@ ajaxRouter.delete('/cart/items/:item_id', (req, res, next) => {
   const order_id = req.signedCookies.order_id;
   const item_id = req.params.item_id;
   if (order_id && item_id) {
-    api.orders.deleteItem(order_id, item_id).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
+    api.orders.items.delete(order_id, item_id).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
       res.status(status).send(json);
     })
   } else {
@@ -109,7 +109,7 @@ ajaxRouter.put('/cart/items/:item_id', (req, res, next) => {
   const item_id = req.params.item_id;
   const item = req.body;
   if (order_id && item_id) {
-    api.orders.updateItem(order_id, item_id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
+    api.orders.items.update(order_id, item_id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
       res.status(status).send(json);
     })
   } else {
@@ -163,7 +163,7 @@ ajaxRouter.put('/cart/billing_address', (req, res, next) => {
 })
 
 ajaxRouter.get('/product_categories', (req, res, next) => {
-  api.product_categories.list(req.query).then(({status, json}) => {
+  api.productCategories.list(req.query).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
   })
 })
@@ -186,7 +186,7 @@ ajaxRouter.get('/payment_methods', (req, res, next) => {
   const filter = {
     order_id: req.signedCookies.order_id
   };
-  api.payment_methods.list(filter).then(({status, json}) => {
+  api.paymentMethods.list(filter).then(({status, json}) => {
     res.status(status).send(json);
   })
 })
@@ -195,7 +195,7 @@ ajaxRouter.get('/shipping_methods', (req, res, next) => {
   const filter = {
     order_id: req.signedCookies.order_id
   };
-  api.shipping_methods.list(filter).then(({status, json}) => {
+  api.shippingMethods.list(filter).then(({status, json}) => {
     res.status(status).send(json);
   })
 })

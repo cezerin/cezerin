@@ -82,7 +82,7 @@ function successReplaceCategory(newParentId) {
 export function fetchCategories() {
   return dispatch => {
     dispatch(requestCategories());
-    return api.product_categories.list()
+    return api.productCategories.list()
       .then(({status, json}) => {
         json.forEach((element, index, theArray) => {
           if(theArray[index].name === '') {
@@ -118,7 +118,7 @@ export function fetchCategoriesIfNeeded() {
 function sendUpdateCategory(id, data) {
   return dispatch => {
     dispatch(requestUpdateCategory(id));
-    return api.product_categories.update(id, data)
+    return api.productCategories.update(id, data)
       .then(({status, json}) => {
           dispatch(receiveUpdateCategory());
           dispatch(fetchCategories());
@@ -137,7 +137,7 @@ export function updateCategory(data) {
 
 export function createCategory() {
   return (dispatch, getState) => {
-    return api.product_categories.create({ enabled: false })
+    return api.productCategories.create({ enabled: false })
       .then(({status, json}) => {
           dispatch(successCreateCategory(json.id));
           dispatch(fetchCategories());
@@ -155,7 +155,7 @@ export function deleteImage() {
     const state = getState();
     const categoryId = state.productCategories.selectedId;
 
-    return api.product_categories.deleteImage(categoryId)
+    return api.productCategories.deleteImage(categoryId)
       .then(({status, json}) => {
         if(status === 200) {
           dispatch(fetchCategories());
@@ -172,7 +172,7 @@ export function deleteImage() {
 
 export function deleteCategory(id) {
   return (dispatch, getState) => {
-    return api.product_categories.delete(id)
+    return api.productCategories.delete(id)
       .then(({status, json}) => {
         if(status === 200) {
           dispatch(successDeleteCategory(id));
@@ -201,9 +201,9 @@ function moveCategory(allCategories = [], selectedCategory, isUp = true) {
       let targetCategory = allCategories[0];
       let newPosition = targetCategory.position;
 
-      api.product_categories.update(selectedCategory.id, { position: targetCategory.position })
+      api.productCategories.update(selectedCategory.id, { position: targetCategory.position })
       .then(() => {
-        api.product_categories.update(targetCategory.id, { position: selectedCategory.position })
+        api.productCategories.update(targetCategory.id, { position: selectedCategory.position })
         .then(() => {
           resolve(newPosition);
         })
@@ -254,7 +254,7 @@ export function replaceCategory(parentId) {
     let state = getState();
     var selectedCategory = state.productCategories.items.find((item) => (item.id === state.productCategories.selectedId));
 
-    return api.product_categories.update(selectedCategory.id, { parent_id: parentId })
+    return api.productCategories.update(selectedCategory.id, { parent_id: parentId })
       .then(({status, json}) => {
           dispatch(successReplaceCategory());
           dispatch(fetchCategories());

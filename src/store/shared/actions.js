@@ -124,7 +124,7 @@ const requestDeleteCartItem = () => ({type: t.CART_ITEM_DELETE_REQUEST})
 
 export const fetchPaymentMethods = () => (dispatch, getState) => {
   dispatch(requestPaymentMethods())
-  return api.ajax.payment_methods.list().then(({status, json}) => {
+  return api.ajax.paymentMethods.list().then(({status, json}) => {
     dispatch(receivePaymentMethods(json))
   }).catch(error => {});
 }
@@ -135,7 +135,7 @@ const receivePaymentMethods = methods => ({type: t.PAYMENT_METHODS_RECEIVE, meth
 
 export const fetchShippingMethods = () => (dispatch, getState) => {
   dispatch(requestShippingMethods())
-  return api.ajax.shipping_methods.list().then(({status, json}) => {
+  return api.ajax.shippingMethods.list().then(({status, json}) => {
     dispatch(receiveShippingMethods(json))
   }).catch(error => {});
 }
@@ -281,7 +281,7 @@ export const updateCart = cart => (dispatch, getState) => {
 }
 
 const getCategories = () => {
-  return api.ajax.product_categories.list({enabled: true}).then(({status, json}) => json)
+  return api.ajax.productCategories.list({enabled: true}).then(({status, json}) => json)
 }
 
 const getProducts = (currentPage, productFilter) => {
