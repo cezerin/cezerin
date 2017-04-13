@@ -21,7 +21,7 @@ const ProductMenu = ({ productId }) => (
     <Link style={styles.link} activeStyle={styles.linkActive} to={`/admin/product/${productId}/general`}><ListItem primaryText={messages.description} leftIcon={<FontIcon className="material-icons">description</FontIcon>}/></Link>
     <Link style={styles.link} activeStyle={styles.linkActive} to={`/admin/product/${productId}/inventory`}><ListItem primaryText={messages.products_inventory} leftIcon={<FontIcon className="material-icons">store</FontIcon>}/></Link>
     <Link style={styles.link} activeStyle={styles.linkActive} to={`/admin/product/${productId}/images`}><ListItem primaryText={messages.images} leftIcon={<FontIcon className="material-icons">photo_camera</FontIcon>}/></Link>
-    <Link style={styles.link} activeStyle={styles.linkActive} to={`/admin/product/${productId}/options`}><ListItem primaryText={messages.product_options} leftIcon={<FontIcon className="material-icons">palette</FontIcon>}/></Link>
+    <Link style={styles.link} activeStyle={styles.linkActive} to={`/admin/product/${productId}/variants`}><ListItem primaryText={messages.productVariants} leftIcon={<FontIcon className="material-icons">palette</FontIcon>}/></Link>
   </List>
 )
 

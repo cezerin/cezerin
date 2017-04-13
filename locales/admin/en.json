@@ -246,6 +246,10 @@
   "orders_search": "Search orders",
   "pageNotFound": "Page not found!",
   "skuTaken": "Product SKU must be unique",
-  "product_options": "Options",
-  "logo": "Logo"
+  "editProductOption": "Edit option",
+  "productVariants": "Variants",
+  "addVariant": "Add new variant",
+  "addOption": "Add new option",
+  "logo": "Logo",
+  "chooseImage": "Choose an Image"
 }

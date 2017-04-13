@@ -31,6 +31,20 @@ function receiveImages(images) {
   }
 }
 
+function receiveVariants(variants) {
+  return {
+    type: t.PRODUCT_VARIANTS_RECEIVE,
+    variants
+  }
+}
+
+function receiveOptions(options) {
+  return {
+    type: t.PRODUCT_OPTIONS_RECEIVE,
+    options
+  }
+}
+
 export function cancelProductEdit() {
   return {
     type: t.PRODUCT_DETAIL_ERASE
@@ -320,6 +334,71 @@ export function fetchImages(productId) {
   }
 }
 
+export function fetchOptions(productId) {
+  return (dispatch, getState) => {
+    return api.products.options.list(productId).then(({status, json}) => {
+      dispatch(receiveOptions(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function fetchVariants(productId) {
+  return (dispatch, getState) => {
+    return api.products.variants.list(productId).then(({status, json}) => {
+      dispatch(receiveVariants(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function createVariant(productId) {
+  return (dispatch, getState) => {
+    // todo: get price, stock_quantity and weight from product details
+    const variant = { price: 0, stock_quantity: 0, weight: 0 };
+    return api.products.variants.create(productId, variant).then(({status, json}) => {
+      dispatch(receiveVariants(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function updateVariant(productId, variantId, variant) {
+  return (dispatch, getState) => {
+    return api.products.variants.update(productId, variantId, variant).then(({status, json}) => {
+      dispatch(receiveVariants(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function setVariantOption(productId, variantId, optionId, valueId) {
+  return (dispatch, getState) => {
+    const option = { option_id: optionId, value_id: valueId };
+    return api.products.variants.setOption(productId, variantId, option).then(({status, json}) => {
+      dispatch(receiveVariants(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function createOption(productId, option) {
+  return (dispatch, getState) => {
+    return api.products.options.create(productId, option).then(({status, json}) => {
+      dispatch(receiveOptions(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function deleteVariant(productId, variantId) {
+  return (dispatch, getState) => {
+    return api.products.variants.delete(productId, variantId).then(({status, json}) => {
+      dispatch(receiveVariants(json))
+    })
+    .catch(error => {});
+  }
+}
 
 export function deleteImage(productId, imageId) {
   return (dispatch, getState) => {

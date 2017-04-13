@@ -21,7 +21,8 @@ import layoutProductEditShared from 'layouts/products/edit/shared'
 import layoutProductEditGeneral from 'layouts/products/edit/general'
 import layoutProductEditInventory from 'layouts/products/edit/inventory'
 import layoutProductEditImages from 'layouts/products/edit/images'
-import layoutProductEditOptions from 'layouts/products/edit/options'
+import layoutProductEditVariants from 'layouts/products/edit/variants'
+import layoutProductEditOption from 'layouts/products/edit/option'
 import layoutProductCategories from 'layouts/products/categories'
 import layoutCustomers from 'layouts/customers'
 import layoutCustomerEdit from 'layouts/customers/edit'
@@ -152,7 +153,8 @@ ReactDOM.render(
           <Route path="general" component={layoutProductEditGeneral}/>
           <Route path="inventory" component={layoutProductEditInventory}/>
           <Route path="images" component={layoutProductEditImages}/>
-          <Route path="options" component={layoutProductEditOptions}/>
+          <Route path="variants" component={layoutProductEditVariants}/>
+          <Route path="option/:optionId" component={layoutProductEditOption}/>
         </Route>
 
         <Route path="orders" component={layoutOrders}/>

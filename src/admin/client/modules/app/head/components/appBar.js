@@ -100,6 +100,11 @@ export default class AppBarTop extends React.Component {
 
       rightElements = <OrdersHead />
     }
+    else if(location.startsWith('/admin/product/') && location.includes('/option/')){
+      const productId = location.split('/')[3];
+      title = title = messages.editProductOption;
+      leftButton = <Link to={`/admin/product/${productId}/variants`}><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+    }
     else if(location.startsWith('/admin/product/')){
       title = title = messages.products_titleEdit;
       leftButton = <Link to="/admin/products"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>

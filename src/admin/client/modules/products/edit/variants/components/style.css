@@ -1,0 +1,57 @@
+.innerBox {
+  padding: 30px;
+}
+
+.grid {}
+
+.gridHeadRow{
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #a1a1a1;
+  align-items: center;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  min-height: 60px;
+  cursor: default;
+}
+
+.gridHeadRow a {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.gridRow {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.gridCol {
+  flex: 1 1;
+  overflow: hidden;
+}
+
+.gridCol:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.textInput {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 15px;
+  text-align: center;
+  height: 60px;
+}
