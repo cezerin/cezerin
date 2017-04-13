@@ -1,0 +1,16 @@
+.button {
+  margin-left: 12px;
+}
+
+.innerBox {
+  padding: 30px;
+}
+
+.error {
+  color: rgb(244, 67, 54);
+}
+
+.shortControl {
+  max-width: 300px;
+  margin-bottom: 20px;
+}

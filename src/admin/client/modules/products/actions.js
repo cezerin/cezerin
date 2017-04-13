@@ -391,6 +391,26 @@ export function createOption(productId, option) {
   }
 }
 
+export function updateOption(productId, optionId, option) {
+  return (dispatch, getState) => {
+    return api.products.options.update(productId, optionId, option).then(({status, json}) => {
+      dispatch(receiveOptions(json))
+    })
+    .catch(error => {});
+  }
+}
+
+
+export function deleteOption(productId, optionId) {
+  return (dispatch, getState) => {
+    return api.products.options.delete(productId, optionId).then(({status, json}) => {
+      dispatch(receiveOptions(json))
+    })
+    .catch(error => {});
+  }
+}
+
+
 export function deleteVariant(productId, variantId) {
   return (dispatch, getState) => {
     return api.products.variants.delete(productId, variantId).then(({status, json}) => {
