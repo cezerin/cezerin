@@ -257,5 +257,6 @@
   "optionControl": "Option control",
   "optionControlSelect": "Drop-down list",
   "optionValues": "Option values",
-  "newOptionValue": "New value"
+  "newOptionValue": "New value",
+  "deleteProduct": "Delete product"
 }
