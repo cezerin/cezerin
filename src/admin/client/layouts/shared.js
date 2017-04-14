@@ -44,7 +44,4 @@ const Layout = ({ children }) => (
   </MuiThemeProvider>
 )
 
-Layout.propTypes = {
-  children: React.PropTypes.element.isRequired
-}
 export default Layout
