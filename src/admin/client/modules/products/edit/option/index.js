@@ -1,11 +1,13 @@
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
-import { fetchOptions, updateOption, deleteOption } from '../../actions'
-import ProductOptionForm from './components/form'
+import { fetchOptions, updateOption, deleteOption, createOptionValue, updateOptionValue, deleteOptionValue } from '../../actions'
+import ProductOptionForm from './components/option'
 
 const mapStateToProps = (state, ownProps) => {
+  const option = state.products.editProductOptions.find(option => option.id === ownProps.optionId);
   return {
-    initialValues: state.products.editProductOptions.find(option => option.id === ownProps.optionId)
+    initialValues: option,
+    optionValues: (option && option.values && option.values.length > 0) ? option.values : []
   }
 }
 
@@ -20,6 +22,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onSubmit: (values) => {
       dispatch(updateOption(ownProps.productId, ownProps.optionId, values));
+    },
+    createOptionValue: (valueName) => {
+      dispatch(createOptionValue(ownProps.productId, ownProps.optionId, valueName));
+    },
+    updateOptionValue: (valueId, valueName) => {
+      dispatch(updateOptionValue(ownProps.productId, ownProps.optionId, valueId, valueName));
+    },
+    deleteOptionValue: (valueId) => {
+      dispatch(deleteOptionValue(ownProps.productId, ownProps.optionId, valueId));
     }
   }
 }

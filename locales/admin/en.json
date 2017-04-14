@@ -255,5 +255,7 @@
   "position": "Position",
   "optionName": "Option name",
   "optionControl": "Option control",
-  "optionControlSelect": "Drop-down list"
+  "optionControlSelect": "Drop-down list",
+  "optionValues": "Option values",
+  "newOptionValue": "New value"
 }

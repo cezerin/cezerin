@@ -382,10 +382,28 @@ export function setVariantOption(productId, variantId, optionId, valueId) {
   }
 }
 
+export function createOptionValue(productId, optionId, valueName) {
+  return (dispatch, getState) => {
+    return api.products.options.values.create(productId, optionId, { name: valueName }).then(({status, json}) => {
+      dispatch(fetchOptions(productId))
+    })
+    .catch(error => {});
+  }
+}
+
 export function createOption(productId, option) {
   return (dispatch, getState) => {
     return api.products.options.create(productId, option).then(({status, json}) => {
       dispatch(receiveOptions(json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function updateOptionValue(productId, optionId, valueId, valueName) {
+  return (dispatch, getState) => {
+    return api.products.options.values.update(productId, optionId, valueId, { name: valueName }).then(({status, json}) => {
+      dispatch(fetchOptions(productId))
     })
     .catch(error => {});
   }
@@ -400,6 +418,14 @@ export function updateOption(productId, optionId, option) {
   }
 }
 
+export function deleteOptionValue(productId, optionId, valueId) {
+  return (dispatch, getState) => {
+    return api.products.options.values.delete(productId, optionId, valueId).then(({status, json}) => {
+      dispatch(fetchOptions(productId))
+    })
+    .catch(error => {});
+  }
+}
 
 export function deleteOption(productId, optionId) {
   return (dispatch, getState) => {
