@@ -163,6 +163,12 @@ hr.separator {
 .product-new-price {
   color: #FE4365;
 }
+.product-option {
+  margin-bottom: 15px;
+}
+.product-option-name {
+  color: #777;
+}
 
 .categories-tree {
 }

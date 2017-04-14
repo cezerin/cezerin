@@ -5,16 +5,36 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const ProductOptions = ({ product }) => {
+const ProductOption = ({ option, onChange }) => {
+  const values = option.values.map((value, index) => (
+    <option key={index} value={value.id}>{value.name}</option>
+  ))
+
+  const notSelectedTitle = `${text.selectOption} ${option.name}`;
+
   return (
-    <p>
+    <div className="product-option">
+      <div className="product-option-name">{option.name}</div>
       <span className="select is-fullwidth">
-        <select>
-          <option>Not implemented</option>
+        <select onChange={e => {onChange(option.id, e.target.value)}}>
+          <option value="">{notSelectedTitle}</option>
+          {values}
         </select>
       </span>
-    </p>
+    </div>
   );
+}
+
+const ProductOptions = ({ options, onChange }) => {
+  const items = options.map((option, index) => (
+    <ProductOption key={index} option={option} onChange={onChange} />
+  ))
+
+  return (
+    <div className="product-options">
+      {items}
+    </div>
+  )
 }
 
 const RelatedProducts = ({ ids }) => {
@@ -27,7 +47,10 @@ const RelatedProducts = ({ ids }) => {
 }
 
 const ProductAttributes = ({ attributes }) => {
-  const items = attributes.map((attribute, index) => <div key={index}>{attribute.name}: {attribute.value}</div>);
+  const items = attributes.map((attribute, index) =>
+    <div key={index} className="product-attribute">{attribute.name}: {attribute.value}</div>
+  )
+
   return (
     <div className="product-attributes">
       {items}
@@ -35,8 +58,14 @@ const ProductAttributes = ({ attributes }) => {
   )
 }
 
-const ProductPrice = ({ product, settings }) => {
-  if(product.on_sale) {
+const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
+  if(product.variable && variant) {
+    return (
+      <div className="subtitle is-5">
+        {helper.formatCurrency(variant.price, settings)}
+      </div>
+    )
+  } else if(product.on_sale) {
     return (
       <div className="title is-5">
         <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
@@ -52,14 +81,18 @@ const ProductPrice = ({ product, settings }) => {
   }
 }
 
-const AddToCartButton = ({ product, addCartItem }) => {
-  if(product.stock_status === 'available') {
-    return <button className="button is-dark is-fullwidth" onClick={() => addCartItem({product_id: product.id, variant_id: null, quantity: 1})}>{text.addToCart}</button>
-  }
-  else if(product.stock_status === 'out_of_stock') {
+const AddToCartButton = ({ product, variant, addCartItem, isAllOptionsSelected }) => {
+  if(product.variable && variant && variant.stock_quantity > 0) {
+    return <button className="button is-dark is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
+  } else if(product.variable && !isAllOptionsSelected) {
+    return <button className="button is-dark is-fullwidth" disabled>{text.optionsRequired}</button>
+  } else if(product.variable) {
     return <button className="button is-dark is-fullwidth" disabled>{text.outOfStock}</button>
-  }
-  else if(product.stock_status === 'discontinued') {
+  } else if(product.stock_status === 'available') {
+    return <button className="button is-dark is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
+  } else if(product.stock_status === 'out_of_stock') {
+    return <button className="button is-dark is-fullwidth" disabled>{text.outOfStock}</button>
+  } else if(product.stock_status === 'discontinued') {
     return <button className="button is-dark is-fullwidth" disabled>{text.discontinued}</button>
   } else {
     return null;
@@ -103,41 +136,117 @@ const ProductGallery = ({ images }) => {
   }
 }
 
-const ProductDetails = ({product, addCartItem, settings}) => {
-  return (
-    <section className="section">
-      <div className="container">
-        <div className="columns">
-          <div className="column is-6">
-            <ProductGallery images={product.images} />
-          </div>
-          <div className="column is-5 is-offset-1">
-            <div className="content">
+export default class ProductDetails extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedOptions: {},
+      selectedVariant: null,
+      isAllOptionsSelected: false
+    }
 
-              <h1 className="title is-4">{product.name}</h1>
+    this.onOptionChange = this.onOptionChange.bind(this);
+    this.findVariantBySelectedOptions = this.findVariantBySelectedOptions.bind(this);
+    this.addToCart = this.addToCart.bind(this);
+    this.checkSelectedOptions = this.checkSelectedOptions.bind(this);
+  }
 
-              <ProductPrice product={product} settings={settings} />
+  onOptionChange(optionId, valueId) {
+    let {selectedOptions} = this.state;
 
-              <ProductOptions product={product} />
+    if(valueId === '') {
+      delete selectedOptions[optionId];
+    } else {
+      selectedOptions[optionId] = valueId;
+    }
 
-              <div className="columns">
-                <div className="column is-6">
-                  <AddToCartButton product={product} addCartItem={addCartItem} />
+    this.setState({ selectedOptions: selectedOptions });
+    this.findVariantBySelectedOptions();
+    this.checkSelectedOptions();
+  }
+
+  findVariantBySelectedOptions() {
+    const {selectedOptions} = this.state;
+    const {product} = this.props;
+    for(const variant of product.variants) {
+      const variantMutchSelectedOptions = variant.options.every(variantOption => selectedOptions[variantOption.option_id] === variantOption.value_id);
+      if(variantMutchSelectedOptions) {
+        this.setState({ selectedVariant: variant });
+        return;
+      }
+    }
+
+    this.setState({ selectedVariant: null });
+  }
+
+
+  addToCart() {
+    const {product, addCartItem} = this.props;
+    const {selectedVariant} = this.state;
+
+    let item = {
+      product_id: product.id,
+      quantity: 1
+    }
+
+    if(selectedVariant) {
+      item.variant_id = selectedVariant.id;
+    }
+
+    addCartItem(item);
+  }
+
+  checkSelectedOptions() {
+    const {selectedOptions} = this.state;
+    const {product} = this.props;
+
+    const allOptionsSelected = Object.keys(selectedOptions).length === product.options.length;
+    this.setState({ isAllOptionsSelected: allOptionsSelected });
+  }
+
+  render() {
+    const {product, settings} = this.props;
+    const {selectedVariant, isAllOptionsSelected} = this.state;
+
+    return (
+      <section className="section">
+        <div className="container">
+          <div className="columns">
+            <div className="column is-6">
+              <ProductGallery images={product.images} />
+            </div>
+            <div className="column is-5 is-offset-1">
+              <div className="content">
+
+                <h1 className="title is-4">{product.name}</h1>
+
+                <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
+
+                {product.options && product.options.length > 0 &&
+                  <ProductOptions options={product.options} onChange={this.onOptionChange} />
+                }
+
+                <div className="columns">
+                  <div className="column is-6">
+                    <AddToCartButton product={product} variant={selectedVariant} addCartItem={this.addToCart} isAllOptionsSelected={isAllOptionsSelected} />
+                  </div>
                 </div>
+
+                {product.attributes && product.attributes.length > 0 &&
+                  <ProductAttributes attributes={product.attributes} />
+                }
+
               </div>
-
-              <ProductAttributes attributes={product.attributes} />
-
             </div>
           </div>
+          <div className="content">
+            <ProductDescription description={product.description} />
+          </div>
         </div>
-        <div className="content">
-          <ProductDescription description={product.description} />
-        </div>
-      </div>
-      <RelatedProducts ids={product.related_product_ids} />
-    </section>
-  )
+        {product.related_product_ids && product.related_product_ids.length > 0 &&
+          <RelatedProducts ids={product.related_product_ids} />
+        }
+      </section>
+    )
+  }
 }
-
-export default ProductDetails
