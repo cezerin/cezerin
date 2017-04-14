@@ -40,7 +40,8 @@
   overflow: hidden;
 }
 
-.gridCol:hover {
+.gridCol:hover,
+.textInput:focus {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
