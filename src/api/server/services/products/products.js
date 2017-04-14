@@ -141,7 +141,7 @@ class ProductsService {
     	variable: {
     		$gt: [
     			{
-    				$size: "$variants"
+            $size: { "$ifNull": [ "$variants", [] ] }
     			},
     			0
     		]
