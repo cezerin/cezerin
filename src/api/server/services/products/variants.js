@@ -114,9 +114,6 @@ class ProductVariantsService {
     return this.getVariantOptions(productId, variantId).then(options => {
       if(options && options.length > 0) {
         const optionToChange = options.find(option => option.option_id.toString() === optionId);
-        if(optionToChange.value_id.toString() === valueId) {
-          return option;
-        }
 
         if(optionToChange === undefined) {
           // if option not exists => add new option
@@ -126,6 +123,12 @@ class ProductVariantsService {
           })
         } else {
           // if option exists => set new valueId
+
+          if(optionToChange.value_id.toString() === valueId) {
+            // don't save same value
+            return option;
+          }
+
           options = options.map(option => {
             if(option.option_id.toString() === optionId) {
               option.value_id = new ObjectID(valueId);
