@@ -67,7 +67,7 @@
     "json-loader": "^0.5.4",
     "jsonwebtoken": "^7.3.0",
     "lru-cache": "^4.0.2",
-    "material-ui": "^0.17.3",
+    "material-ui": "^0.17.4",
     "moment": "^2.18.1",
     "mongodb": "^2.2.25",
     "nodemailer": "^4.0.1",
@@ -91,7 +91,7 @@
     "slug": "^0.9.1",
     "theme": "file:themes/current",
     "ua-parser-js": "^0.7.12",
-    "webpack": "^2.4.0",
+    "webpack": "^2.4.1",
     "winston": "^2.3.1"
   },
   "devDependencies": {
