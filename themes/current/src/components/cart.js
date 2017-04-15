@@ -11,11 +11,11 @@ const CartItem = ({item, deleteCartItem, settings}) => {
     <div className="columns is-mobile">
       <div className="column is-2">
         <div className="image">
-          <a><img src={thumbnail} /></a>
+          <Link to={item.path}><img src={thumbnail} /></Link>
         </div>
       </div>
       <div className="column">
-        <div><a>{item.name}</a></div>
+        <div><Link to={item.path}>{item.name}</Link></div>
         {item.variant_name.length > 0 &&
           <div className="cart-option-name">{item.variant_name}</div>
         }
