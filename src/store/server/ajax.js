@@ -8,11 +8,24 @@ const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
 const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCT_DETAILS_CACHE_CONTROL = 'public, max-age=60';
 
+const getVariantFromProduct = (product, variantId) => {
+  if(product.variants && product.variants.length > 0) {
+    return product.variants.find(variant => variant.id.toString() === variantId.toString());
+  } else {
+    return null;
+  }
+}
+
 const fillCartItemWithProductData = (products, cartItem) => {
   const product = products.find(p => p.id === cartItem.product_id);
   if(product) {
     cartItem.image_url = product.images.length > 0 ? product.images[0].url : null;
-    cartItem.stock_quantity = product.stock_quantity;
+    if(cartItem.variant_id && cartItem.variant_id.length > 0) {
+      const variant = getVariantFromProduct(product, cartItem.variant_id);
+      cartItem.stock_quantity = variant ? variant.stock_quantity : 0;
+    } else {
+      cartItem.stock_quantity = product.stock_quantity;
+    }
   }
   return cartItem;
 }
@@ -21,7 +34,7 @@ const fillCartItems = (cartResponse) => {
   let cart = cartResponse.json;
   if(cart && cart.items && cart.items.length > 0) {
     const productIds = cart.items.map(item => item.product_id);
-    return api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity' }).then(({status, json}) => {
+    return api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants' }).then(({status, json}) => {
       const newCartItem = cart.items.map(cartItem => fillCartItemWithProductData(json.data, cartItem))
       cartResponse.json.items = newCartItem;
       return cartResponse;
