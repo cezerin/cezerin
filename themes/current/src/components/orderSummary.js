@@ -24,10 +24,11 @@ const SummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) =
         </div>
       </div>
       <div className="column">
-        <p>
-          {item.name}
-        </p>
-        <div className="columns is-mobile is-gapless is-flex" style={{ alignItems: 'center' }}>
+        <div>{item.name}</div>
+        {item.variant_name.length > 0 &&
+          <div className="cart-option-name">{item.variant_name}</div>
+        }
+        <div className="columns is-mobile is-gapless is-flex" style={{ alignItems: 'center', margin: '5px 0' }}>
           <div className="column is-2">
             {text.qty}:
           </div>

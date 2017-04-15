@@ -15,8 +15,11 @@ const CartItem = ({item, deleteCartItem, settings}) => {
         </div>
       </div>
       <div className="column">
-        <a>{item.name}</a><br />
-        <span>{text.qty}: {item.quantity}</span>
+        <div><a>{item.name}</a></div>
+        {item.variant_name.length > 0 &&
+          <div className="cart-option-name">{item.variant_name}</div>
+        }
+        <div>{text.qty}: {item.quantity}</div>
       </div>
       <div className="column is-4 has-text-right">
         <div className="mini-cart-item-price">{helper.formatCurrency(item.price_total, settings)}</div>
