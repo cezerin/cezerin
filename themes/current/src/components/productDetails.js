@@ -6,7 +6,9 @@ import config from '../lib/config'
 import * as helper from '../lib/helper'
 
 const ProductOption = ({ option, onChange }) => {
-  const values = option.values.map((value, index) => (
+  const values = option.values
+    .sort((a,b) => (a.name > b.name) ? 1 : ((b.last_nom > a.last_nom) ? -1 : 0))
+    .map((value, index) => (
     <option key={index} value={value.id}>{value.name}</option>
   ))
 
