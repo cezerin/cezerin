@@ -4,12 +4,10 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const MAX_CART_ITEM_QTY = 10;
-
 const SummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) => {
   const thumbnail = helper.getThumbnailUrl(item.image_url, config.cart_thumbnail_width);
   const qtyOptions = [];
-  const maxQty = item.stock_quantity >= MAX_CART_ITEM_QTY ? MAX_CART_ITEM_QTY : item.stock_quantity;
+  const maxQty = item.stock_quantity >= config.maxCartItemQty ? config.maxCartItemQty : item.stock_quantity;
 
   for(let i = 0; i <= maxQty; i++){
     const optionText = i === 0 ? text.remove : i;
