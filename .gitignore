@@ -7,6 +7,6 @@ public/assets/*
 public/static/*
 themes/current/dist/*
 dist/*
-logs/*
+logs/*.*
 npm-debug.log*
 *.zip
