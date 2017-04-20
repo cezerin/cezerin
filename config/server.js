@@ -1,61 +1,40 @@
-const baseUrl = 'http://localhost:3000';
-const uploadRootDir = '/var/www/cezerin/public/static';
-
 // config used by server side only
+const NODE_SERVER_PORT = 3000;
+const NODE_SERVER_HOST = '127.0.0.1';
+
 module.exports = {
-  // used by API to build full url
-  storeBaseUrl: baseUrl,
+  // used by store server (render and ajax)
+  apiBaseUrl: `http://${NODE_SERVER_HOST}:${NODE_SERVER_PORT}/api/v1`,
+
+  // used by
+  ajaxBaseUrl: `http://${NODE_SERVER_HOST}:${NODE_SERVER_PORT}/ajax`,
 
   // used in sign-in email
-  adminLoginUrl: `${baseUrl}/admin/login`,
+  adminLoginUrl: '/admin/login',
 
-  // used by store server (render and ajax)
-  apiBaseUrl: `${baseUrl}/api/v1`,
-
-  nodeServerPort: 3000,
-  nodeServerHost: '127.0.0.1',
+  nodeServerPort: NODE_SERVER_PORT,
+  nodeServerHost: NODE_SERVER_HOST,
 
   // used by API only
-  mongodbServerUrl: 'mongodb://<user>:<pass>@<ip>:<port>/<db>',
+  mongodbServerUrl: 'mongodb://<user>:<password>@<serverIP>:<serverPort>/<databaseName>',
 
-  orderStartNumber: 1000,
+  // key to sign tokens
+  jwtSecretKey: '-',
 
-  cartCookieOptions: {
-    maxAge: 604800000,
-    httpOnly: true,
-    signed: true,
-    secure: false,
-    sameSite: 'strict'
-  },
+  // key to sign store cookies
+  cookieSecretKey: '-',
 
-  referrerCookieOptions: {
-    maxAge: 604800000,
-    httpOnly: true,
-    signed: true,
-    secure: false,
-    sameSite: 'strict'
-  },
+  // path to uploads
+  categoriesUploadPath: 'public/static/categories',
+  productsUploadPath: 'public/static/products',
+  filesUploadPath: 'public/static/files',
 
-  security: {
-    // key to sign tokens
-    jwtSecret: 'NyDlK17iuWP9k5IjXZOilSVdMvFylG',
-    // key to sign store cookies
-    cookieKey: '4BsUetCikZKSIYkJ6Si2Zkkox8B5Kl',
-    // token to access API from store
-    token: '---'
-  },
+  // url to uploads
+  categoriesUploadUrl: '/static/categories',
+  productsUploadUrl: '/static/products',
+  filesUploadUrl: '/static/files',
 
-  // path to upload files
-  path: {
-    categories: `${uploadRootDir}/categories`,
-    products: `${uploadRootDir}/products`,
-    files: `${uploadRootDir}/files`
-  },
-
-  // url to access uploaded files
-  url: {
-    categories: `${baseUrl}/static/categories`,
-    products: `${baseUrl}/static/products`,
-    files: `${baseUrl}/static/files`
-  }
+  // store UI language
+  language: 'en',
+  orderStartNumber: 1000
 }

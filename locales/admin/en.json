@@ -258,5 +258,6 @@
   "optionControlSelect": "Drop-down list",
   "optionValues": "Option values",
   "newOptionValue": "New value",
-  "deleteProduct": "Delete product"
+  "deleteProduct": "Delete product",
+  "domain": "Domain"
 }

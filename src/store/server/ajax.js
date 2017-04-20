@@ -2,11 +2,18 @@ import express from 'express'
 let ajaxRouter = express.Router();
 import serverSettings from './settings'
 import api from 'cezerin-client';
-api.init(serverSettings.apiBaseUrl, serverSettings.security.token);
 
 const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
 const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCT_DETAILS_CACHE_CONTROL = 'public, max-age=60';
+
+const getCartCookieOptions = (isHttps) => ({
+  maxAge: 604800000,
+  httpOnly: true,
+  signed: true,
+  secure: isHttps,
+  sameSite: 'strict'
+})
 
 const getVariantFromProduct = (product, variantId) => {
   if(product.variants && product.variants.length > 0) {
@@ -71,6 +78,9 @@ ajaxRouter.get('/cart', (req, res, next) => {
 })
 
 ajaxRouter.post('/cart/items', (req, res, next) => {
+  const isHttps = req.protocol === 'https';
+  const CART_COOKIE_OPTIONS = getCartCookieOptions(isHttps);
+
   const order_id = req.signedCookies.order_id;
   const item = req.body;
   if (order_id) {
@@ -98,7 +108,7 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
         user_agent: req.get('user-agent')
       }
     }).then(({status, json}) => {
-      res.cookie('order_id', json.id, serverSettings.cartCookieOptions);
+      res.cookie('order_id', json.id, CART_COOKIE_OPTIONS);
       api.orders.items.create(json.id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
         res.status(status).send(json);
       })

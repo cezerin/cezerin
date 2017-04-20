@@ -1,7 +1,9 @@
 'use strict';
 
+const path = require('path');
 const url = require('url');
 const settings = require('../../lib/settings');
+const SettingsService = require('../settings/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
@@ -18,23 +20,30 @@ class ProductCategoriesService {
     if (enabled !== null) {
       filter.enabled = enabled;
     }
+    const id = parse.getObjectIDIfValid(params.id);
+    if (id) {
+      filter._id = new ObjectID(id);
+    }
     return filter;
   }
 
   getCategories(params = {}) {
     const filter = this.getFilter(params);
-  	return mongo.db.collection('productCategories').find(filter).sort({position: 1}).toArray()
-    .then(items => items.map(c => this.changeProperties(c)))
+    return SettingsService.getSettings().then(generalSettings =>
+      mongo.db.collection('productCategories').find(filter).sort({position: 1}).toArray()
+      .then(items => items.map(c => this.changeProperties(c, generalSettings.domain)))
+    );
   }
 
   getSingleCategory(id) {
-    if(!ObjectID.isValid(id)) {
+    if (!ObjectID.isValid(id)) {
       return Promise.reject('Invalid identifier');
     }
-    let categoryObjectID = new ObjectID(id);
-
-    return mongo.db.collection('productCategories').findOne({ _id: categoryObjectID })
-    .then(item => this.changeProperties(item))
+    return this.getCategories({id: id}).then(categories => {
+      return categories.length > 0
+        ? categories[0]
+        : null;
+    })
   }
 
   addCategory(data) {
@@ -42,9 +51,10 @@ class ProductCategoriesService {
     .then(item => {
       const newPosition = (item && item.position > 0) ? item.position + 1 : 1;
 
-      return this.getValidDocumentForInsert(data, newPosition)
-      .then(dataToInsert =>
-        mongo.db.collection('productCategories').insertMany([dataToInsert]).then(res => this.changeProperties(res.ops[0])));
+      return this.getValidDocumentForInsert(data, newPosition).then(dataToInsert =>
+        mongo.db.collection('productCategories')
+          .insertMany([dataToInsert])
+          .then(res => this.getSingleCategory(res.ops[0]._id.toString())));
     });
   }
 
@@ -100,7 +110,7 @@ class ProductCategoriesService {
       // 5. delete directories with images
       if(idsToDelete) {
         for(let categoryId of idsToDelete) {
-          let deleteDir = settings.path.categories + '/' + categoryId;
+          let deleteDir = path.resolve(settings.categoriesUploadPath + '/' + categoryId);
           fs.remove(deleteDir, err => {});
         }
         return Promise.resolve(true);
@@ -215,7 +225,7 @@ class ProductCategoriesService {
     });
   }
 
-  changeProperties(item) {
+  changeProperties(item, domain) {
     if(item) {
       item.id = item._id.toString();
       delete item._id;
@@ -224,11 +234,11 @@ class ProductCategoriesService {
         item.parent_id = item.parent_id.toString();
       }
 
-      item.url = url.resolve(settings.storeBaseUrl, item.slug || '');
+      item.url = url.resolve(domain, item.slug || '');
       item.path = url.resolve('/', item.slug || '');
 
       if(item.image) {
-        item.image = settings.url.categories + '/' + item.id + '/' + item.image;
+        item.image = url.resolve(domain, settings.categoriesUploadUrl + '/' + item.id + '/' + item.image);
       }
     }
 
@@ -236,7 +246,7 @@ class ProductCategoriesService {
   }
 
   deleteCategoryImage(id) {
-    let dir = settings.path.categories + '/' + id;
+    let dir = path.resolve(settings.categoriesUploadPath + '/' + id);
     fs.emptyDirSync(dir);
     this.updateCategory(id, { 'image': '' });
   }
@@ -250,7 +260,7 @@ class ProductCategoriesService {
     form
       .on('fileBegin', (name, file) => {
         // Emitted whenever a field / value pair has been received.
-        let dir = settings.path.categories + '/' + categoryId;
+        let dir = path.resolve(settings.categoriesUploadPath + '/' + categoryId);
         fs.emptyDirSync(dir);
         file.path = dir + '/' + file.name;
       })

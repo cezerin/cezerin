@@ -15,7 +15,7 @@ class ThemesService {
         res.status(500).send(this.getErrorMessage(error));
       } else {
         if (stdout.includes('success')) {
-          res.send({'file': `${settings.storeBaseUrl}/${randomFileName}.zip`});
+          res.send({'file': `/${randomFileName}.zip`});
         } else {
           res.status(500).send(this.getErrorMessage('Something went wrong in scripts'));
         }

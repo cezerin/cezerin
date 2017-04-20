@@ -45,7 +45,7 @@ const checkTokenInBlacklistCallback = (req, payload, done) => {
   }
 };
 
-apiRouter.use(expressJwt({secret: settings.security.jwtSecret, isRevoked: checkTokenInBlacklistCallback}).unless({path: [`/api/v1/authorize`]}));
+apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: [`/api/v1/authorize`]}));
 
 var products = new ProductsController(apiRouter);
 var product_categories = new ProductCategoriesController(apiRouter);

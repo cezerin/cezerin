@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const fs = require('fs');
 const url = require('url');
 var formidable = require('formidable');
@@ -10,6 +11,7 @@ var parse = require('../../lib/parse');
 class SettingsService {
   constructor() {
     this.defaultSettings = {
+      'domain': 'http://localhost',
       'logo_file': null,
       'language': 'en',
       'currency_code': 'USD',
@@ -66,6 +68,10 @@ class SettingsService {
 
     if (data.currency_code !== undefined) {
       settings.currency_code = parse.getString(data.currency_code);
+    }
+
+    if (data.domain !== undefined) {
+      settings.domain = parse.getString(data.domain);
     }
 
     if (data.currency_symbol !== undefined) {
@@ -134,7 +140,11 @@ class SettingsService {
   changeProperties(data) {
     if (data) {
       delete data._id;
-      data.logo = (data.logo_file && data.logo_file.length > 0) ? settings.url.files + '/' + data.logo_file : null;
+      if(data.logo_file && data.logo_file.length > 0){
+        data.logo = url.resolve(data.domain, settings.filesUploadUrl + '/' + data.logo_file);
+      } else {
+        data.logo = null;
+      }
       return data;
     } else {
       return this.defaultSettings;
@@ -144,7 +154,7 @@ class SettingsService {
   deleteLogo() {
     return this.getSettings().then(data => {
       if(data.logo_file && data.logo_file.length > 0) {
-        let filePath = settings.path.files + '/' + data.logo_file;
+        let filePath = path.resolve(settings.filesUploadPath + '/' + data.logo_file);
         fs.unlink(filePath, (err) => {
           this.updateSettings({ 'logo_file': null });
         })
@@ -160,7 +170,7 @@ class SettingsService {
     form
       .on('fileBegin', (name, file) => {
         // Emitted whenever a field / value pair has been received.
-        file.path = settings.path.files + '/' + file.name;
+        file.path = path.resolve(settings.filesUploadPath + '/' + file.name);
       })
       .on('file', function(field, file) {
         // every time a file has been uploaded successfully,

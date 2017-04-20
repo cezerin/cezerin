@@ -1,11 +1,13 @@
 'use strict';
 
 const path = require('path');
+const url = require('url');
 const settings = require('../../lib/settings');
 var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var CategoriesService = require('./product_categories');
+const SettingsService = require('../settings/settings');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
 var fs = require('fs-extra');
@@ -15,8 +17,9 @@ class ProductsService {
 
   getProducts(params = {}) {
     return Promise.all([
-        CategoriesService.getCategories()
-      ]).then(([ categories ]) => {
+        CategoriesService.getCategories(),
+        SettingsService.getSettings()
+      ]).then(([ categories, generalSettings ]) => {
         const fieldsArray = this.getFieldsArray(params.fields);
         const limit = parse.getNumberIfPositive(params.limit) || 1000000;
         const offset = parse.getNumberIfPositive(params.offset) || 0;
@@ -47,7 +50,7 @@ class ProductsService {
         aggregationCount.push({$group: {_id: null, count: { $sum: 1 }, min_price: { $min: "$price" }, max_price: { $max: "$price" }}});
 
         return mongo.db.collection('products').aggregate(aggregationPipeline).toArray()
-          .then(items => items.map(item => this.changeProperties(categories, item))).then(items => {
+          .then(items => items.map(item => this.changeProperties(categories, item, generalSettings.domain))).then(items => {
             return mongo.db.collection('products').aggregate(aggregationCount).toArray().then(countItems => {
               let total_count = 0;
               let min_price = 0;
@@ -359,7 +362,7 @@ class ProductsService {
     .then(deleteResponse => {
       if(deleteResponse.deletedCount > 0) {
         // 2. delete directory with images
-        let deleteDir = settings.path.products + '/' + productId;
+        let deleteDir = path.resolve(settings.productsUploadPath + '/' + productId);
         fs.remove(deleteDir, err => {});
       }
       return deleteResponse.deletedCount > 0;
@@ -561,7 +564,7 @@ class ProductsService {
     return this.setAvailableSlug(product, id).then(product => this.setAvailableSku(product, id));
   }
 
-  changeProperties(categories, item) {
+  changeProperties(categories, item, domain) {
     if(item) {
 
       if(item.id) {
@@ -571,7 +574,7 @@ class ProductsService {
       if(item.images && item.images.length > 0) {
         for(let i = 0; i < item.images.length; i++) {
           const imageFileName = item.images[i].filename || '';
-          item.images[i].url = `${settings.url.products}/${item.id}/${imageFileName}`;
+          item.images[i].url = url.resolve(domain, settings.productsUploadUrl + '/' + item.id + '/' + imageFileName);
         }
         item.images = item.images.sort((a,b) => (a.position - b.position ));
       }
@@ -587,7 +590,7 @@ class ProductsService {
             }
 
             if(item.url === "") {
-              item.url = path.join(settings.storeBaseUrl, category.slug || '', item.slug || '');
+              item.url = path.join(domain, category.slug || '', item.slug || '');
             }
 
             if(item.path === "") {
@@ -607,19 +610,21 @@ class ProductsService {
     }
     let productObjectID = new ObjectID(productId);
 
-    return mongo.db.collection('products').findOne({ _id: productObjectID }, {fields: {images: 1}}).then(product => {
-      if(product && product.images && product.images.length > 0) {
-        let images = product.images.map(image => {
-          image.url = `${settings.url.products}/${product._id}/${image.filename}`
-          return image;
-        })
+    return SettingsService.getSettings().then(generalSettings =>
+      mongo.db.collection('products').findOne({ _id: productObjectID }, {fields: {images: 1}}).then(product => {
+        if(product && product.images && product.images.length > 0) {
+          let images = product.images.map(image => {
+            image.url = url.resolve(generalSettings.domain, settings.productsUploadUrl + '/' + product._id + '/' + image.filename);
+            return image;
+          })
 
-        images = images.sort((a,b) => (a.position - b.position ));
-        return images;
-      } else {
-        return []
-      }
-    })
+          images = images.sort((a,b) => (a.position - b.position ));
+          return images;
+        } else {
+          return []
+        }
+      })
+    )
   }
 
   deleteProductImage(productId, imageId) {
@@ -635,7 +640,7 @@ class ProductsService {
         let imageData = item.images.find(i => i.id.toString() === imageId.toString());
         if(imageData) {
           let filename = imageData.filename;
-          let filepath = settings.path.products + '/' + productId + '/' + filename;
+          let filepath = path.resolve(settings.productsUploadPath + '/' + productId + '/' + filename);
           fs.removeSync(filepath);
           return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageId } } })
         } else {
@@ -655,7 +660,7 @@ class ProductsService {
     }
     let productObjectID = new ObjectID(productId);
     let uploadedFiles = [];
-    let uploadDir = settings.path.products + '/' + productId;
+    let uploadDir = path.resolve(settings.productsUploadPath + '/' + productId);
     fs.ensureDirSync(uploadDir);
 
     let form = new formidable.IncomingForm();

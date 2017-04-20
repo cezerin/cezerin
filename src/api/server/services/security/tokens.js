@@ -1,9 +1,11 @@
 'use strict';
 
+const url = require('url');
 const mongo = require('../../lib/mongo');
 const parse = require('../../lib/parse');
 const settings = require('../../lib/settings');
 const emailSender = require('../../lib/email');
+const SettingsService = require('../settings/settings');
 const ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
@@ -173,7 +175,7 @@ class SecurityTokensService {
         jwtOptions.expiresIn = token.expiration * 60 * 60;
       }
 
-      jwt.sign(payload, settings.security.jwtSecret, jwtOptions, (err, token) => {
+      jwt.sign(payload, settings.jwtSecretKey, jwtOptions, (err, token) => {
         if (err) {
           reject(err)
         } else {
@@ -184,15 +186,18 @@ class SecurityTokensService {
   }
 
   getDashboardSigninUrl(email) {
-    return this.getSingleTokenByEmail(email).then(token => {
-      if(token) {
-        return this.getSignedToken(token).then(signedToken => {
-          return `${settings.adminLoginUrl}?token=${signedToken}`;
-        })
-      } else {
-        return null;
-      }
-    })
+    return SettingsService.getSettings().then(generalSettings =>
+      this.getSingleTokenByEmail(email).then(token => {
+        if(token) {
+          return this.getSignedToken(token).then(signedToken => {
+            const loginUrl = url.resolve(generalSettings.domain, settings.adminLoginUrl);
+            return `${loginUrl}?token=${signedToken}`;
+          })
+        } else {
+          return null;
+        }
+      })
+    )
   }
 
   sendDashboardSigninUrl(req) {

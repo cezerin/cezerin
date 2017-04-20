@@ -6,6 +6,7 @@ var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
+const SettingsService = require('../settings/settings');
 
 class PagesService {
   constructor() {}
@@ -21,7 +22,9 @@ class PagesService {
 
   getPages(params = {}) {
     const filter = this.getFilter(params);
-    return mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.changeProperties(item)))
+    return SettingsService.getSettings().then(generalSettings =>
+      mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
+    )
   }
 
   getSinglePage(id) {
@@ -131,12 +134,12 @@ class PagesService {
     })
   }
 
-  changeProperties(item) {
+  changeProperties(item, domain) {
     if (item) {
       item.id = item._id.toString();
       delete item._id;
 
-      item.url = url.resolve(settings.storeBaseUrl, item.slug || '');
+      item.url = url.resolve(domain, item.slug || '');
       item.path = url.resolve('/', item.slug || '');
     }
 
