@@ -5,8 +5,9 @@ public/admin-assets/js/vendor-*
 public/admin/index.html
 public/assets/*
 public/static/*
+!public/static/*.md
 themes/current/dist/*
 dist/*
-logs/*.*
+logs/*.log
 npm-debug.log*
 *.zip
