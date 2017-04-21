@@ -34,12 +34,17 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 * Customer details/edit/add
 * Documentation
 * Central update
-* Tests
+* REST API Tests
+* Server tests
+* React tests
 * WebHooks
 * Store: Services
 * Store: Themes
 * Theme settings in dashboard
 * Product Faceted Search
+* Dashboard analytics & metrics
+* Dashboard Real-Time analytics
+* PWA (offline, push notifications)
 
 
 ## Installation
