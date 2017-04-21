@@ -74,7 +74,7 @@
     "nodemailer-smtp-transport": "^2.7.4",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-dropzone": "^3.12.4",
+    "react-dropzone": "^3.13.0",
     "react-helmet": "^5.0.3",
     "react-redux": "^5.0.4",
     "react-router": "^3.0.5",
