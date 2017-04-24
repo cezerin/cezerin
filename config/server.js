@@ -16,7 +16,7 @@ module.exports = {
   nodeServerHost: NODE_SERVER_HOST,
 
   // used by API only
-  mongodbServerUrl: 'mongodb://<user>:<password>@<serverIP>:<serverPort>/<databaseName>',
+  mongodbServerUrl: 'mongodb://127.0.0.1:27017/shop',
 
   // key to sign tokens
   jwtSecretKey: '-',
