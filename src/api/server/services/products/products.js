@@ -654,7 +654,7 @@ class ProductsService {
   }
 
   addProductImage(req, res) {
-    let productId = req.params.id;
+    let productId = req.params.productId;
     if(!ObjectID.isValid(productId)) {
       return Promise.reject('Invalid identifier');
     }
