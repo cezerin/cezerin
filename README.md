@@ -118,7 +118,7 @@ Then open <http://localhost:3000> to see your app.
 
 ## Documentation
 
-[Documentation](https://docs.cezerin.com)
+[Documentation](https://github.com/cezerin/cezerin/wiki)
 
 [API Documentation](https://api.cezerin.com)
 
