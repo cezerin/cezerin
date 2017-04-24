@@ -22,6 +22,7 @@ import createRoutes from '../shared/routes'
 import reducers from '../shared/reducers'
 import {getInitialState} from '../shared/actions'
 import { readIndexHtmlFile } from './theme.js'
+import sm from 'sitemap'
 
 const getHead = () => {
   const helmet = Helmet.rewind();
@@ -80,6 +81,26 @@ const sendPageError = (res, status, err) => {
   winston.error('Page error', err);
   res.status(status).send(err);
 }
+
+storeRouter.get('/sitemap.xml', (req, res) => {
+  Promise.all([
+    api.sitemap.list(),
+    api.settings.retrieve()
+  ]).then(([sitemapResponse, settingsResponse]) => {
+    const urls = sitemapResponse.json.filter(item => item.type !== 'reserved' && item.type !== 'search').map(item => item.path)
+    const sitemap = sm.createSitemap ({
+      hostname: settingsResponse.json.domain,
+      urls: urls
+    });
+    sitemap.toXML((err, xml) => {
+      if (err) {
+        return res.status(500).end();
+      }
+      res.header('Content-Type', 'application/xml');
+      res.send(xml);
+    });
+  })
+});
 
 storeRouter.get('*', (req, res, next) => {
   Promise.all([
