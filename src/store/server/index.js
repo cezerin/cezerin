@@ -11,6 +11,8 @@ import api from 'cezerin-client';
 api.initAjax(serverSettings.ajaxBaseUrl);
 api.init(serverSettings.apiBaseUrl, STORE_ACCESS_TOKEN);
 
+import fs from 'fs'
+import path from 'path'
 import React from 'react'
 import {match, RouterContext} from 'react-router'
 import {renderToString} from 'react-dom/server'
@@ -81,6 +83,20 @@ const sendPageError = (res, status, err) => {
   winston.error('Page error', err);
   res.status(status).send(err);
 }
+
+storeRouter.get('/robots.txt', (req, res) => {
+  api.settings.retrieve().then(settingsResponse => {
+    fs.readFile(path.resolve('public/robots.template'), 'utf8', (err, data) => {
+      if(err) {
+        return res.status(500).end();
+      } else {
+        const robots = data.replace(/{domain}/g, settingsResponse.json.domain)
+        res.header('Content-Type', 'text/plain');
+        res.send(robots);
+      }
+    });
+  })
+})
 
 storeRouter.get('/sitemap.xml', (req, res) => {
   Promise.all([

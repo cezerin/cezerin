@@ -1,0 +1,14 @@
+User-agent: *
+Disallow: /api
+Disallow: /ajax
+Disallow: /admin
+Disallow: /signin
+Disallow: /signout
+Disallow: /signup
+Disallow: /tag
+Disallow: /tags
+Disallow: /settings
+Disallow: /account
+Disallow: /search
+Sitemap: {domain}/sitemap.xml
+Host: {domain}
