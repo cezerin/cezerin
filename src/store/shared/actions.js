@@ -142,10 +142,10 @@ export const fetchShippingMethods = () => (dispatch, getState) => {
 
 const requestShippingMethods = () => ({type: t.SHIPPING_METHODS_REQUEST})
 
-const receiveShippingMethods = methods => {
+const receiveShippingMethods = methods => ({
   type : t.SHIPPING_METHODS_RECEIVE,
   methods
-}
+})
 
 export const checkout = cart => (dispatch, getState) => {
   dispatch(requestCheckout())
