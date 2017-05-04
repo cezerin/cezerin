@@ -60,6 +60,7 @@ app.use('/ajax', ajaxRouter);
 app.use('/', storeRouter);
 app.use(logErrors);
 
-const server = app.listen(settings.nodeServerPort, settings.nodeServerHost, () => {
-  winston.info(`Server start at http://${settings.nodeServerHost}:${settings.nodeServerPort}`)
+const server = app.listen(settings.listenPort, () => {
+  const serverAddress = server.address();
+  winston.info(`Server start at http://${serverAddress.address}:${serverAddress.port}`)
 });

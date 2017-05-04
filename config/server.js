@@ -3,19 +3,18 @@ const NODE_SERVER_PORT = 3000;
 const NODE_SERVER_HOST = '127.0.0.1';
 
 module.exports = {
-  // used by store server (render and ajax)
+  // used by Store (server side)
   apiBaseUrl: `http://${NODE_SERVER_HOST}:${NODE_SERVER_PORT}/api/v1`,
 
-  // used by
+  // used by Store (server and client side)
   ajaxBaseUrl: `http://${NODE_SERVER_HOST}:${NODE_SERVER_PORT}/ajax`,
 
-  // used in sign-in email
+  // used by API
   adminLoginUrl: '/admin/login',
 
-  nodeServerPort: NODE_SERVER_PORT,
-  nodeServerHost: NODE_SERVER_HOST,
+  listenPort: NODE_SERVER_PORT,
 
-  // used by API only
+  // used by API
   mongodbServerUrl: 'mongodb://127.0.0.1:27017/shop',
 
   // key to sign tokens
@@ -36,5 +35,7 @@ module.exports = {
 
   // store UI language
   language: 'en',
+
+  // used by API
   orderStartNumber: 1000
 }
