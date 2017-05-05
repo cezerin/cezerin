@@ -79,8 +79,8 @@ export default class Buttons extends React.Component {
          targetOrigin={{horizontal: 'right', vertical: 'top'}}
          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem containerElement={<Link to="/admin/orders/statuses" />} primaryText="TODO" />
-          {selectedCount > 0 &&
+          <MenuItem containerElement={<Link to="/admin/orders/statuses" />} primaryText={messages.manageOrderStatuses} />
+          {/* {selectedCount > 0 &&
             <span>
             <MenuItem primaryText={messages.orders_setClosed} onTouchTap={this.props.setClosed} />
             <MenuItem primaryText={messages.orders_setCancelled} onTouchTap={this.props.setCancelled} />
@@ -89,7 +89,7 @@ export default class Buttons extends React.Component {
             <MenuItem primaryText={messages.orders_setHold} onTouchTap={this.props.setHold} />
             <MenuItem primaryText={messages.orders_setDraft} onTouchTap={this.props.setDraft} />
           </span>
-          }
+          } */}
         </IconMenu>
       </span>
     )

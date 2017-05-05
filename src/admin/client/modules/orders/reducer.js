@@ -18,7 +18,7 @@ const initialState = {
     delivered: null,
     paid: null,
     hold: null,
-    draft: null,
+    draft: false,
     closed: null,
     status_id: null,
     customer_id: null,

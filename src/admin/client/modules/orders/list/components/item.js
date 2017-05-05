@@ -9,42 +9,47 @@ import * as helper from 'lib/helper'
 import style from './style.css'
 import moment from 'moment';
 
-const getOrderIcon = (order) => {
-  if(order.closed) {
-    return <FontIcon style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">done</FontIcon>
-  }
+const getOrderStateIcons = (order) => {
+  let icons = [];
 
-  if(order.cancelled) {
-    return <FontIcon style={{ color: 'rgba(0, 0, 0, 0.3)'}} className="material-icons">not_interested</FontIcon>
-  }
-
-  if(order.delivered) {
-    return <FontIcon style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">local_shipping</FontIcon>
+  if(order.hold) {
+    icons.push(<FontIcon title={messages.orders_hold} style={{ color: 'rgba(0, 0, 0, 0.2)'}} className="material-icons">pause_circle_outline</FontIcon>);
   }
 
   if(order.paid) {
-    return <FontIcon style={{ color: 'rgba(251, 184, 41, 1)'}} className="material-icons">monetization_on</FontIcon>
+    icons.push(<FontIcon title={messages.orders_paid} style={{ color: 'rgba(251, 184, 41, 1)'}} className="material-icons">monetization_on</FontIcon>);
   }
 
-  if(order.hold) {
-    return <FontIcon style={{ color: 'rgba(0, 0, 0, 0.2)'}} className="material-icons">pause_circle_outline</FontIcon>
+  if(order.delivered) {
+    icons.push(<FontIcon title={messages.orders_delivered} style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">local_shipping</FontIcon>);
   }
 
-  // order.draft or none
-  return <FontIcon style={{ color: 'rgba(0, 0, 0, 0.1)'}} className="material-icons">edit</FontIcon>
+  if(order.cancelled) {
+    return [<FontIcon title={messages.orders_cancelled} style={{ color: 'rgba(0, 0, 0, 0.3)'}} className="material-icons">not_interested</FontIcon>];
+  }
+
+  if(order.closed) {
+    return [<FontIcon title={messages.orders_closed} style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">done</FontIcon>];
+  }
+
+  if(icons.length === 0 && order.draft){
+    icons.unshift(<FontIcon title={messages.orders_draft} style={{ color: 'rgba(0, 0, 0, 0.1)'}} className="material-icons">edit</FontIcon>);
+  }
+
+  return icons;
 }
 
 const OrdersListItem = ({ order, onSelect, selected, settings }) => {
   const checked = selected.includes(order.id);
   let grandTotalFormatted = helper.formatCurrency(order.grand_total, settings);
 
-  const icon = getOrderIcon(order);
-  const dateCreated = moment(order.date_created);
+  const stateIcons = getOrderStateIcons(order);
+  const dateCreated = moment(order.date_placed || order.date_created);
   const dateCreatedFromNow = dateCreated.fromNow();
   let shippingTo = order.shipping_address ? order.shipping_address.full_name : '';
 
   return (
-    <div>
+    <div className="orders-item">
       <ListItem style={{ cursor: 'normal' }}
         primaryText={
           <div className="row middle-xs">
@@ -52,7 +57,7 @@ const OrdersListItem = ({ order, onSelect, selected, settings }) => {
               <Checkbox checked={checked} onCheck={(event, isInputChecked) => { onSelect(order.id, isInputChecked); }} />
             </div>
             <div className="col-xs-1">
-              {icon}
+              {stateIcons}
             </div>
             <div className={"col-xs-2 " + style.col}>
               <Link to={`/admin/order/${order.id}`} className={style.orderName}>{order.number || 0}</Link><br />

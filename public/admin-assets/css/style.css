@@ -65,7 +65,7 @@ body, button, input, select, textarea {
 
 .mce-edit-focus {}
 
-.products-item {
+.products-item, .orders-item {
   background-color: #fff;
   border-left: 1px solid rgb(224, 224, 224);
 }

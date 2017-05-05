@@ -259,5 +259,6 @@
   "optionValues": "Option values",
   "newOptionValue": "New value",
   "deleteProduct": "Delete product",
-  "domain": "Domain"
+  "domain": "Domain",
+  "manageOrderStatuses": "Manage statuses"
 }
