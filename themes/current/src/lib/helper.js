@@ -5,7 +5,7 @@ export const formatNumber = (number = 0, settings) => {
     ? '\\D'
     : '$') + ')';
 
-  let num = number.toFixed(Math.max(0, ~~ settings.decimal_number));
+  let num = (number || 0).toFixed(Math.max(0, ~~ settings.decimal_number));
 
   return (settings.decimal_separator
     ? num.replace('.', settings.decimal_separator)
