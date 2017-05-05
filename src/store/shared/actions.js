@@ -153,7 +153,7 @@ export const checkout = cart => (dispatch, getState) => {
     api.ajax.cart.updateShippingAddress(cart.shipping_address),
     api.ajax.cart.updateBillingAddress(cart.billing_address),
     api.ajax.cart.update({
-      email: cart.email, mobile: cart.mobile, payment_method_id: cart.payment_method_id, shipping_method_id: cart.shipping_method_id, draft: false
+      email: cart.email, mobile: cart.mobile, payment_method_id: cart.payment_method_id, shipping_method_id: cart.shipping_method_id
       // coupon: cart.coupon
     }),
     api.ajax.cart.checkout()

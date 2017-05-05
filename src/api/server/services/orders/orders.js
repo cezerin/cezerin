@@ -98,12 +98,12 @@ class OrdersService {
     }
 
     if (date_created_min || date_created_max) {
-      filter.date_created = {};
+      filter.date_placed = {};
       if (date_created_min) {
-        filter.date_created['$gte'] = date_created_min.toISOString();
+        filter.date_placed['$gte'] = date_created_min.toISOString();
       }
       if (date_created_max) {
-        filter.date_created['$lte'] = date_created_max.toISOString();
+        filter.date_placed['$lte'] = date_created_max.toISOString();
       }
     }
 
@@ -267,6 +267,7 @@ class OrdersService {
 
       let order = {
         'date_created': new Date(),
+        'date_placed': null,
         'date_updated': null,
         'date_completed': null,
         'date_paid': null,
@@ -528,7 +529,10 @@ class OrdersService {
     - fire Webhooks
     */
     return Promise.all([
-        this.getSingleOrder(order_id),
+        this.updateOrder(order_id, {
+          date_placed: new Date(),
+          draft: false
+        }),
         EmailTemplatesService.getEmailTemplate('order_confirmation')
       ]).then(([ order, emailTemplate ]) => {
         const handlebarsTemplate = handlebars.compile(emailTemplate.body);
