@@ -9,9 +9,10 @@ import Sort from '../components/sort'
 
 const CategoryContainer = (props) => {
   const {products, categoryDetails, settings, productFilter, productsHasMore} = props.state;
-  const {setSort, addCartItem, loadMoreProducts} = props;
+  const {setSort, addCartItem, loadMoreProducts, getJSONLD} = props;
 
   const title = categoryDetails.meta_title && categoryDetails.meta_title.length > 0 ? categoryDetails.meta_title : categoryDetails.name;
+  const jsonld = getJSONLD(props.state);
 
   return (
     <div>
@@ -23,6 +24,7 @@ const CategoryContainer = (props) => {
         ogType="product.group"
         ogTitle={categoryDetails.name}
         ogDescription={categoryDetails.meta_description}
+        jsonld={jsonld}
       />
 
       <section className="hero is-light">

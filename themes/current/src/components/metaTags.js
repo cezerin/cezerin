@@ -1,7 +1,7 @@
 import React from 'react'
 import Helmet from 'react-helmet'
 
-const MetaTags = ({ title, description, canonicalUrl, imageUrl, ogType, ogTitle, ogDescription }) => {
+const MetaTags = ({ title, description, canonicalUrl, imageUrl, ogType, ogTitle, ogDescription, jsonld }) => {
   let metaArray = [];
   let linkArray = [];
 
@@ -57,8 +57,12 @@ const MetaTags = ({ title, description, canonicalUrl, imageUrl, ogType, ogTitle,
     });
   }
 
+  const scriptJSONLD = jsonld && jsonld.length > 0 ? <script type="application/ld+json">{jsonld}</script> : null;
+
   return (
-    <Helmet title={title} meta={metaArray} link={linkArray} />
+    <Helmet title={title} meta={metaArray} link={linkArray}>
+      {scriptJSONLD}
+    </Helmet>
   )
 }
 

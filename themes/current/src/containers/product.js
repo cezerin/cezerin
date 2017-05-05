@@ -7,12 +7,13 @@ import ProductDetails from '../components/productDetails'
 
 const ProductContainer = (props) => {
   const {productDetails, settings} = props.state;
-  const {addCartItem} = props;
+  const {addCartItem, getJSONLD} = props;
 
   if (productDetails) {
     const images = productDetails.images;
     let imageUrl = images && images.length > 0 ? images[0].url : null;
     const title = productDetails.meta_title && productDetails.meta_title.length > 0 ? productDetails.meta_title : productDetails.name;
+    const jsonld = getJSONLD(props.state);
 
     return (
       <div>
@@ -24,6 +25,7 @@ const ProductContainer = (props) => {
           ogType="product"
           ogTitle={productDetails.name}
           ogDescription={productDetails.meta_description}
+          jsonld={jsonld}
         />
 
         <ProductDetails settings={settings} product={productDetails} addCartItem={addCartItem}/>
