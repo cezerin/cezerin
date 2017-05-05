@@ -1,16 +1,14 @@
 import * as t from './actionTypes'
 
 const initialState = {
-  // editItem: null,
   items: [],
   selected: [],
-  isFetchingItems: false,
-  isFetchingMore: false,
-  // isFetchingEdit: false,
-  // isFetched: false
-  // errorFetchEdit: null,
-  // errorFetch: null,
-  // errorUpdate: null,
+  hasMore: false,
+  totalCount: 0,
+  isUpdating: false,
+  loadingItems: false,
+  errorLoadingItems: null,
+
   filter: {
     search: '',
     closed: null,
@@ -18,18 +16,18 @@ const initialState = {
     delivered: null,
     paid: null,
     hold: null,
-    draft: false,
-    closed: null,
-    status_id: null,
-    customer_id: null,
-    payment_method_id: null,
-    shipping_method_id: null,
-    grand_total_min: null,
-    grand_total_max: null,
-    date_created_min: null,
-    date_created_max: null,
-    date_completed_min: null,
-    date_completed_max: null
+    draft: false
+
+    // status_id: null,
+    // customer_id: null,
+    // payment_method_id: null,
+    // shipping_method_id: null,
+    // grand_total_min: null,
+    // grand_total_max: null,
+    // date_created_min: null,
+    // date_created_max: null,
+    // date_completed_min: null,
+    // date_completed_max: null
   }
 };
 
@@ -56,16 +54,19 @@ export default (state = initialState, action) => {
     //   })
     case t.ORDERS_REQUEST:
       return Object.assign({}, state, {
-        isFetchingItems: true
+        loadingItems: true
       })
     case t.ORDERS_RECEIVE:
       return Object.assign({}, state, {
-        isFetchingItems: false,
-        items: action.items
+        loadingItems: false,
+        hasMore: action.has_more,
+        totalCount: action.total_count,
+        items: action.data
       })
     case t.ORDERS_FAILURE:
       return Object.assign({}, state, {
-        isFetchingItems: false
+        loadingItems: false,
+        errorLoadingItems: action.error
       })
     case t.ORDERS_SELECT:
       return Object.assign({}, state, {
@@ -91,12 +92,14 @@ export default (state = initialState, action) => {
       })
     case t.ORDERS_MORE_REQUEST:
       return Object.assign({}, state, {
-        isFetchingMore: true
+        loadingItems: true
       })
     case t.ORDERS_MORE_RECEIVE:
       return Object.assign({}, state, {
-        isFetchingMore: false,
-        items: [...state.items, ...action.items]
+        loadingItems: false,
+        hasMore: action.has_more,
+        totalCount: action.total_count,
+        items: [...state.items, ...action.data]
       })
     // case t.ORDER_UPDATE_REQUEST:
     // case t.ORDER_UPDATE_SUCCESS:

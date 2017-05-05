@@ -20,7 +20,7 @@ export default class OrdersList extends React.Component {
     }
 
     render(){
-      const { items, selected, isFetchingItems, isFetchingMore, onSelect, onSelectAll, loadMore, onCreate, settings } = this.props;
+      const { items, selected, loadingItems, hasMore, onSelect, onSelectAll, loadMore, onCreate, settings } = this.props;
       const rows = items.map((item, index) => (
         <OrdersListItem key={index} order={item} selected={selected} onSelect={onSelect} settings={settings} />
       ));
@@ -33,7 +33,7 @@ export default class OrdersList extends React.Component {
             {rows}
             <div className={style.more}>
               <RaisedButton
-                disabled={isFetchingMore}//disabled={loadingItems || !hasMore}
+                disabled={loadingItems || !hasMore}
                 label={messages.actions_loadMore}
                 labelPosition="before"
                 primary={false}

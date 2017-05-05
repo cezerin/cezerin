@@ -8,8 +8,8 @@ const mapStateToProps = (state) => {
     settings: state.settings.settings,
     items: state.orders.items,
     selected: state.orders.selected,
-    isFetchingItems: state.orders.isFetching,
-    isFetchingMore: state.orders.isFetchingMore
+    loadingItems: state.orders.loadingItems,
+    hasMore: state.orders.hasMore
   }
 }
 

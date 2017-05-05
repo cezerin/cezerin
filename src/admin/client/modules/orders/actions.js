@@ -1,8 +1,8 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'lib/text'
-// import { push } from 'react-router-redux';
-// import moment from 'moment';
+import { push } from 'react-router-redux';
+import moment from 'moment';
 
 // function requestOrder() {
 //   return {
@@ -42,17 +42,21 @@ function requestMoreOrders() {
   }
 }
 
-function receiveOrdersMore(items) {
+function receiveOrdersMore({ has_more, total_count, data }) {
   return {
     type: t.ORDERS_MORE_RECEIVE,
-    items
+    has_more,
+    total_count,
+    data
   }
 }
 
-function receiveOrders(items) {
+function receiveOrders({ has_more, total_count, data }) {
   return {
     type: t.ORDERS_RECEIVE,
-    items
+    has_more,
+    total_count,
+    data
   }
 }
 
@@ -151,16 +155,52 @@ function deleteOrdersSuccess() {
 //   }
 // }
 
+const getFilter = (state, offset = 0) => {
+  const filterState = state.orders.filter;
+  let filter = {
+    limit: 50,
+    offset: offset
+  }
+
+  if(filterState.search !== null && filterState.search !== ''){
+    filter.search = filterState.search;
+  }
+
+  if(filterState.closed !== null){
+    filter.closed = filterState.closed;
+  }
+
+  if(filterState.cancelled !== null){
+    filter.cancelled = filterState.cancelled;
+  }
+
+  if(filterState.delivered !== null){
+    filter.delivered = filterState.delivered;
+  }
+
+  if(filterState.paid !== null){
+    filter.paid = filterState.paid;
+  }
+
+  if(filterState.hold !== null){
+    filter.hold = filterState.hold;
+  }
+
+  if(filterState.draft !== null){
+    filter.draft = filterState.draft;
+  }
+
+  return filter;
+}
+
 export function fetchOrders() {
   return (dispatch, getState) => {
     const state = getState();
-    if (!state.orders.isFetchingItems) {
+    if (!state.orders.loadingItems) {
       dispatch(requestOrders());
       dispatch(deselectAllOrder());
 
-      let filter = state.orders.filter;
-      filter.limit = 20;
-      console.log(filter);
+      let filter = getFilter(state);
 
       return api.orders.list(filter)
         .then(({status, json}) => {
@@ -176,20 +216,19 @@ export function fetchOrders() {
 export function fetchMoreOrders() {
   return (dispatch, getState) => {
     const state = getState();
-    dispatch(requestMoreOrders());
+    if (!state.orders.loadingItems) {
+      dispatch(requestMoreOrders());
 
-    let filter = state.orders.filter;
-    filter.limit = 50;
-    filter.offset = state.orders.items.length;
-    console.log(filter);
+      let filter = getFilter(state, state.orders.items.length);
 
-    return api.orders.list(filter)
-      .then(({status, json}) => {
-        dispatch(receiveOrdersMore(json))
-      })
-      .catch(error => {
-          dispatch(receiveOrdersError(error));
-      });
+      return api.orders.list(filter)
+        .then(({status, json}) => {
+          dispatch(receiveOrdersMore(json))
+        })
+        .catch(error => {
+            dispatch(receiveOrdersError(error));
+        });
+    }
   }
 }
 

@@ -13,27 +13,27 @@ const getOrderStateIcons = (order) => {
   let icons = [];
 
   if(order.hold) {
-    icons.push(<FontIcon title={messages.orders_hold} style={{ color: 'rgba(0, 0, 0, 0.2)'}} className="material-icons">pause_circle_outline</FontIcon>);
+    icons.push(<FontIcon key="hold" title={messages.orders_hold} style={{ color: 'rgba(0, 0, 0, 0.2)'}} className="material-icons">pause_circle_outline</FontIcon>);
   }
 
   if(order.paid) {
-    icons.push(<FontIcon title={messages.orders_paid} style={{ color: 'rgba(251, 184, 41, 1)'}} className="material-icons">monetization_on</FontIcon>);
+    icons.push(<FontIcon key="paid" title={messages.orders_paid} style={{ color: 'rgba(251, 184, 41, 1)'}} className="material-icons">monetization_on</FontIcon>);
   }
 
   if(order.delivered) {
-    icons.push(<FontIcon title={messages.orders_delivered} style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">local_shipping</FontIcon>);
+    icons.push(<FontIcon key="delivered" title={messages.orders_delivered} style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">local_shipping</FontIcon>);
   }
 
   if(order.cancelled) {
-    return [<FontIcon title={messages.orders_cancelled} style={{ color: 'rgba(0, 0, 0, 0.3)'}} className="material-icons">not_interested</FontIcon>];
+    return [<FontIcon key="cancelled" title={messages.orders_cancelled} style={{ color: 'rgba(0, 0, 0, 0.3)'}} className="material-icons">not_interested</FontIcon>];
   }
 
   if(order.closed) {
-    return [<FontIcon title={messages.orders_closed} style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">done</FontIcon>];
+    return [<FontIcon key="closed" title={messages.orders_closed} style={{ color: 'rgba(127, 175, 27, 1)'}} className="material-icons">done</FontIcon>];
   }
 
   if(icons.length === 0 && order.draft){
-    icons.unshift(<FontIcon title={messages.orders_draft} style={{ color: 'rgba(0, 0, 0, 0.1)'}} className="material-icons">edit</FontIcon>);
+    icons.unshift(<FontIcon key="draft" title={messages.orders_draft} style={{ color: 'rgba(0, 0, 0, 0.1)'}} className="material-icons">edit</FontIcon>);
   }
 
   return icons;
