@@ -98,14 +98,18 @@ const getCategoryJSONLD = (categoryId, categories) => {
 }
 
 export const getJSONLD = (state) => {
-  switch(state.currentPage.type){
-    case PRODUCT:
-      return getProductJSONLD(state.productDetails, state.categories, state.settings);
-    break;
-    case PRODUCT_CATEGORY:
-      return getCategoryJSONLD(state.categoryDetails.id, state.categories);
-    break;
-    default:
-      return '';
+  if(typeof window === 'undefined'){
+    switch(state.currentPage.type){
+      case PRODUCT:
+        return getProductJSONLD(state.productDetails, state.categories, state.settings);
+      break;
+      case PRODUCT_CATEGORY:
+        return getCategoryJSONLD(state.categoryDetails.id, state.categories);
+      break;
+      default:
+        return '';
+    }
+  } else {
+    return ''
   }
 }
