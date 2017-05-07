@@ -1,0 +1,117 @@
+.button {
+  margin-left: 12px;
+}
+
+.toggle {
+  margin-top: 12px;
+  margin-bottom: 22px;
+}
+
+.innerBox {
+  padding: 30px;
+}
+
+.childrenBox {
+  padding: 0 30px 30px 30px;
+}
+
+.error {
+  color: rgb(244, 67, 54);
+}
+
+.address {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
+}
+
+.address div {
+  margin-bottom: 6px;
+}
+
+.item {
+  padding: 20px 10px;
+}
+
+.itemImage {
+  max-width: 100%;
+  max-height: 100px;
+}
+
+.itemDiscount {
+  color: rgba(0, 0, 0, 0.4);
+  display: block;
+}
+
+.itemName {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.itemName a {
+  color: rgb(0,142,180);
+  text-decoration: none;
+}
+
+.itemName div {
+  margin-top: 4px;
+}
+
+.total {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.total span {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.grandTotal {
+  font-weight: 500;
+}
+
+.link {
+  color: rgb(0,142,180);
+  text-decoration: none;
+}
+
+.summaryRow {
+  margin-bottom: 10px;
+  font-size: 14px;
+  word-break: break-all;
+}
+
+.summaryRow span {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.states {
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 500;
+}
+.states span {
+  padding: 4px 10px;
+  margin-right: 10px;
+  border-radius: 2px;
+}
+.closedState {
+  background-color: rgb(127, 175, 27);
+  color: #fff;
+}
+.cancelledState {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+.deliveredState {
+  background-color: rgb(127, 175, 27);
+  color: #fff;
+}
+.paidState {
+  background-color: rgb(251, 184, 41);
+}
+.holdState {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.draftState {
+  background-color: rgba(0, 0, 0, 0.1);
+}

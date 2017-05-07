@@ -28,6 +28,7 @@ import layoutCustomers from 'layouts/customers'
 import layoutCustomerEdit from 'layouts/customers/edit'
 import layoutCustomerGroups from 'layouts/customers/groups'
 import layoutOrders from 'layouts/orders'
+import layoutOrdersDetails from 'layouts/orders/edit'
 import layoutSettingsShared from 'layouts/settings/shared'
 import layoutSettingsGeneral from 'layouts/settings/general/index'
 import layoutSettingsGeneralLogo from 'layouts/settings/general/logo'
@@ -158,6 +159,7 @@ ReactDOM.render(
         </Route>
 
         <Route path="orders" component={layoutOrders}/>
+        <Route path="order/:orderId" component={layoutOrdersDetails}/>
         <Route path="customers" component={layoutCustomers}/>
         <Route path="customer/:id" component={layoutCustomerEdit}/>
         <Route path="customers/groups" component={layoutCustomerGroups}/>

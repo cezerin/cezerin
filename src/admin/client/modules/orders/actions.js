@@ -4,31 +4,18 @@ import messages from 'lib/text'
 import { push } from 'react-router-redux';
 import moment from 'moment';
 
-// function requestOrder() {
-//   return {
-//     type: t.ORDER_EDIT_REQUEST
-//   }
-// }
-//
-// function receiveOrder(item) {
-//   return {
-//     type: t.ORDER_EDIT_RECEIVE,
-//     item
-//   }
-// }
-//
-// function receiveOrderError(error) {
-//   return {
-//     type: t.ORDER_EDIT_FAILURE,
-//     error
-//   }
-// }
+function requestOrder() {
+  return {
+    type: t.ORDER_DETAIL_REQUEST
+  }
+}
 
-// export function cancelOrderEdit() {
-//   return {
-//     type: t.ORDER_EDIT_ERASE
-//   }
-// }
+function receiveOrder(item) {
+  return {
+    type: t.ORDER_DETAIL_RECEIVE,
+    item
+  }
+}
 
 function requestOrders() {
   return {
@@ -255,6 +242,41 @@ export function deleteOrders() {
       dispatch(deselectAllOrder());
       dispatch(fetchOrders());
     }).catch(err => { console.log(err) });
+  }
+}
+
+export function fetchOrder(orderId) {
+  return (dispatch, getState) => {
+    dispatch(requestOrder());
+
+    return api.orders.retrieve(orderId).then(orderResponse => {
+      let order = orderResponse.json;
+      const productIds = order && order.items && order.items.length > 0 ? order.items.map(item => item.product_id) : [];
+      api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants' }).then(productsResponse => {
+        const products = productsResponse.json.data;
+
+        const newItems = order.items.map(item => {
+          const product = products.find(p => p.id === item.product_id);
+          item.image_url = product && product.images.length > 0 ? product.images[0].url : null;
+          return item;
+        })
+
+        dispatch(receiveOrder(order))
+      });
+    })
+    .catch(error => {});
+  }
+}
+
+export function deleteOrderItem(orderId, orderItemId){
+  return (dispatch, getState) => {
+    const state = getState();
+
+    api.orders.items.delete(orderId, orderItemId)
+    .then(() => {
+      dispatch(fetchOrder(orderId));
+    })
+    .catch(error => {});
   }
 }
 

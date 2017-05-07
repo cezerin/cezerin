@@ -8,6 +8,7 @@ import CustomersHead from 'modules/customers/head/index'
 import ProductsHead from 'modules/products/head-list/index'
 import ProductHead from 'modules/products/head-edit/index'
 import OrdersHead from 'modules/orders/head/index'
+import OrderHead from 'modules/orders/edit/details/components/head'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
 import PageHead from 'modules/settings/pages/edit/head'
@@ -99,6 +100,11 @@ export default class AppBarTop extends React.Component {
       }
 
       rightElements = <OrdersHead />
+    }
+    else if(location.startsWith('/admin/order/')){
+      title = title = messages.order;
+      leftButton = <Link to="/admin/orders"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      rightElements = <OrderHead />;
     }
     else if(location.startsWith('/admin/product/') && location.includes('/option/')){
       const productId = location.split('/')[3];

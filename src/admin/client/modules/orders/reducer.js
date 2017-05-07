@@ -1,6 +1,7 @@
 import * as t from './actionTypes'
 
 const initialState = {
+  editOrder: null,
   items: [],
   selected: [],
   hasMore: false,
@@ -100,6 +101,13 @@ export default (state = initialState, action) => {
         hasMore: action.has_more,
         totalCount: action.total_count,
         items: [...state.items, ...action.data]
+      })
+    case t.ORDER_DETAIL_REQUEST:
+      return Object.assign({}, state, {
+      })
+    case t.ORDER_DETAIL_RECEIVE:
+      return Object.assign({}, state, {
+        editOrder: action.item
       })
     // case t.ORDER_UPDATE_REQUEST:
     // case t.ORDER_UPDATE_SUCCESS:

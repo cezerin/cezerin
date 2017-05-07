@@ -12,7 +12,7 @@ export default ({ onSelectAll }) => (
       <div className="col-xs-1 col--no-gutter">
       </div>
       <div className="col-xs-2 col--no-gutter">
-        {messages.orders_order}
+        {messages.order}
       </div>
       <div className="col-xs-4 col--no-gutter">
         {messages.orders_shippingTo}
