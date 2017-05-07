@@ -97,8 +97,8 @@ class ProductCategoryEditForm extends React.Component {
               <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
             </div>
             <div className="buttons-box">
-              <FlatButton label={messages.actions_cancel} className={style.button} onClick={onCancel} />
-              <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
+              <FlatButton label={messages.cancel} className={style.button} onClick={onCancel} />
+              <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
             </div>
           </form>
         </Paper>

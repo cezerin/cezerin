@@ -89,7 +89,7 @@ class EditTokenForm extends React.Component {
             {!isAdd &&
               <RaisedButton label={messages.settings_revokeAccess} secondary={true} style={{ float: 'left'}} onTouchTap={this.handleRevoke} />
             }
-            <RaisedButton type="submit" label={isAdd ? messages.settings_generateToken : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.settings_generateToken : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
           </Paper>
         </form>
@@ -99,7 +99,7 @@ class EditTokenForm extends React.Component {
           title={messages.settings_copyYourNewToken}
           description={newToken}
           submitLabel={messages.actions_done}
-          cancelLabel={messages.actions_cancel}
+          cancelLabel={messages.cancel}
           modal={true}
          />
 
@@ -109,7 +109,7 @@ class EditTokenForm extends React.Component {
           description={messages.settings_tokenRevokeDescription}
           onSubmit={() => { onDelete(this.props.tokenId) }}
           submitLabel={messages.settings_revokeAccess}
-          cancelLabel={messages.actions_cancel}
+          cancelLabel={messages.cancel}
         />
       </div>
     )

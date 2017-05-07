@@ -65,7 +65,7 @@ class ProductOptionForm extends React.Component {
               </div>
               <div className="buttons-box">
                 <RaisedButton label={messages.actions_delete} style={{ float: 'left'}} onClick={deleteOption} />
-                <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
+                <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
               </div>
             </Paper>
           </form>

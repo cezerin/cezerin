@@ -49,8 +49,8 @@ class Form extends React.Component {
             <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={2}/>
           </div>
           <div className="buttons-box">
-            <FlatButton label={messages.actions_cancel} className={style.button} onClick={() => { this.props.onCancel(); }} />
-            <RaisedButton type="submit" label={groupId ? messages.actions_save : messages.actions_add} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
+            <FlatButton label={messages.cancel} className={style.button} onClick={() => { this.props.onCancel(); }} />
+            <RaisedButton type="submit" label={groupId ? messages.save : messages.add} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
           </div>
         </form>
       </Paper>

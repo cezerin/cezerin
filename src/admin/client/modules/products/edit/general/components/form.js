@@ -90,9 +90,9 @@ class ProductGeneralForm extends React.Component {
                   </div>
                   <div className="buttons-box">
                     <Link to={'/admin/products'}>
-                      <FlatButton label={messages.actions_cancel} className={style.button} />
+                      <FlatButton label={messages.cancel} className={style.button} />
                     </Link>
-                    <RaisedButton type="submit" label={messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
+                    <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
                   </div>
               </Paper>
         </form>

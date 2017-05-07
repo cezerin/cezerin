@@ -10,7 +10,6 @@ export default ({ active, discontinued, on_sale, stock_status,
   setActive, setDiscontinued, setOnSale, setStock }) => {
   return (
     <div className={style.filter}>
-      <div className="blue-title" style={{ paddingBottom:16 }}>{messages.filter}</div>
       <Toggle
         label={messages.products_onlyEnabled}
         onToggle={(e, value) => { setActive(value) }}

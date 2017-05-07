@@ -79,7 +79,7 @@ class EditPageForm extends React.Component {
             </div>
           </div>
           <div className="buttons-box">
-            <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </Paper>
         </form>

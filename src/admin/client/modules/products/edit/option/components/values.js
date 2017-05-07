@@ -84,7 +84,7 @@ class OptionValueAdd extends React.Component {
           <input type="text" className={style.textInput} value={value} placeholder={messages.newOptionValue} onChange={this.onChange} onKeyPress={this.handleKeyPress} />
         </div>
         <div className={style.gridColButton}>
-          <IconButton title={messages.actions_add} onTouchTap={this.onCreate} tabIndex={-1}>
+          <IconButton title={messages.add} onTouchTap={this.onCreate} tabIndex={-1}>
             <FontIcon color="#a1a1a1" className="material-icons">add_circle</FontIcon>
           </IconButton>
         </div>

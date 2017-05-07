@@ -59,12 +59,12 @@ export default class Buttons extends React.Component {
 
     const actionsSetGroup = [
       <FlatButton
-        label={messages.actions_cancel}
+        label={messages.cancel}
         primary={true}
         onTouchTap={this.closeSetGroup}
       />,
       <FlatButton
-        label={messages.actions_save}
+        label={messages.save}
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.saveSetGroup}
@@ -73,7 +73,7 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions_cancel}
+        label={messages.cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,

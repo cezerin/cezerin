@@ -59,7 +59,7 @@ export default class Buttons extends React.Component {
 
     const actionsMoveTo = [
       <FlatButton
-        label={messages.actions_cancel}
+        label={messages.cancel}
         primary={true}
         onTouchTap={this.closeMoveTo}
       />,
@@ -73,7 +73,7 @@ export default class Buttons extends React.Component {
 
     const actionsDelete = [
       <FlatButton
-        label={messages.actions_cancel}
+        label={messages.cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,

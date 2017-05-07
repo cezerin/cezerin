@@ -43,7 +43,7 @@ const Form = (props) => {
       <form onSubmit={handleSubmit}>
         <div className={style.title}>{messages.login_title}</div>
         <div className={style.input}>
-          <Field name="email" component={TextField} label={messages.login_email} fullWidth={true} inputStyle={{textAlign:'center'}} hintStyle={{textAlign:'center', width: '100%'}} hintText={messages.login_hint}/>
+          <Field name="email" component={TextField} label={messages.email} fullWidth={true} inputStyle={{textAlign:'center'}} hintStyle={{textAlign:'center', width: '100%'}} hintText={messages.login_hint}/>
         </div>
         <RaisedButton type="submit" label={messages.login_loginButton} primary={true} fullWidth={true} disabled={pristine || submitting || isFetching || emailIsSent}/>
         <div className={style.response}>

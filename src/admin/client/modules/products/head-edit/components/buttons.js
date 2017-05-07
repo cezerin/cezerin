@@ -30,7 +30,7 @@ export default class Buttons extends React.Component {
   render() {
     const actionsDelete = [
       <FlatButton
-        label={messages.actions_cancel}
+        label={messages.cancel}
         primary={true}
         onTouchTap={this.closeDelete}
       />,

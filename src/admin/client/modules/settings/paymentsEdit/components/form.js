@@ -119,7 +119,7 @@ class EditPaymentMethodForm extends React.Component {
             <Divider />
           </div>
           <div className="buttons-box">
-            <RaisedButton type="submit" label={isAdd ? messages.actions_add : messages.actions_save} primary={true} className={style.button} disabled={submitting}/>
+            <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={submitting}/>
           </div>
         </Paper>
         </form>
