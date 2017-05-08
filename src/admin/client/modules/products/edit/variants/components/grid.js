@@ -45,7 +45,9 @@ const VariantRow = ({ variant, options, onSkuChange, onPriceChange, onStockChang
     const variantOptionValueId = variantOption ? variantOption.value_id : null;
 
     if(option.values && option.values.length > 0) {
-      const menuItems = option.values.map((value, index) => (<MenuItem key={index} value={value.id} primaryText={value.name} />))
+      const menuItems = option.values
+      .sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+      .map((value, index) => (<MenuItem key={index} value={value.id} primaryText={value.name} />))
       return (
         <div key={option.id} className={style.gridCol}>
           <DropDownMenu value={variantOptionValueId} style={{ width: '100%' }} underlineStyle={{ border: 'none' }} onChange={(event, key, value) => { onOptionChange(variant.id, option.id, value) }}>

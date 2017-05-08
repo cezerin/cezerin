@@ -94,7 +94,9 @@ class OptionValueAdd extends React.Component {
 }
 
 const OptionValues = ({ optionValues, createOptionValue, updateOptionValue, deleteOptionValue }) => {
-  const valueRows = optionValues.map((value, index) => (
+  const valueRows = optionValues
+    .sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+    .map((value, index) => (
     <OptionValueEdit key={index} value={value} onChange={updateOptionValue} onDelete={deleteOptionValue} />
   ));
 
