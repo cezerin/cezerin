@@ -280,6 +280,18 @@ export function deleteOrderItem(orderId, orderItemId){
   }
 }
 
+export function updateOrderItem(orderId, orderItemId, quantity){
+  return (dispatch, getState) => {
+    const state = getState();
+
+    api.orders.items.update(orderId, orderItemId, { quantity: quantity })
+    .then(() => {
+      dispatch(fetchOrder(orderId));
+    })
+    .catch(error => {});
+  }
+}
+
 // export function setGroup(group_id) {
 //   return (dispatch, getState) => {
 //     const state = getState();

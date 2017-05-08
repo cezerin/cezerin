@@ -274,5 +274,7 @@
   "orderDiscount": "Discount",
   "grandTotal": "Grand Total",
   "amountPaid": "Amount Paid",
-  "coupon": "Coupon"
+  "coupon": "Coupon",
+  "changeQuantity": "Change quantity",
+  "quantity": "Quantity"
 }

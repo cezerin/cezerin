@@ -20,7 +20,7 @@ export default class OrderDetails extends React.Component {
   }
 
   render() {
-    const {order, settings, onItemDelete} = this.props;
+    const {order, settings, onItemDelete, onItemUpdate} = this.props;
     if (!order)
       return <br/>
 
@@ -35,7 +35,7 @@ export default class OrderDetails extends React.Component {
         </div>
         <div className="col-xs-8 col--no-gutter scroll col-full-height">
           <Paper className="paper-box" zDepth={1}>
-            <OrderItems order={order} settings={settings} onItemDelete={onItemDelete}/>
+            <OrderItems order={order} settings={settings} onItemDelete={onItemDelete} onItemUpdate={onItemUpdate}/>
             <div className={style.innerBox}>
               <div className="row">
                 <div className="col-xs-6"></div>
