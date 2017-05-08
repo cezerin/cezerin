@@ -275,6 +275,7 @@
   "grandTotal": "Grand Total",
   "amountPaid": "Amount Paid",
   "coupon": "Coupon",
-  "changeQuantity": "Change quantity",
+  "editOrderItem": "Edit order item",
+  "addOrderItem": "Add product",
   "quantity": "Quantity"
 }

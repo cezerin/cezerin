@@ -17,8 +17,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onItemDelete: (itemId) => {
       dispatch(deleteOrderItem(ownProps.orderId, itemId));
     },
-    onItemUpdate: (itemId, quantity) => {
-      dispatch(updateOrderItem(ownProps.orderId, itemId, quantity));
+    onItemUpdate: (itemId, quantity, variantId) => {
+      dispatch(updateOrderItem(ownProps.orderId, itemId, quantity, variantId));
     }
   }
 }

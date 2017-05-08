@@ -252,12 +252,11 @@ export function fetchOrder(orderId) {
     return api.orders.retrieve(orderId).then(orderResponse => {
       let order = orderResponse.json;
       const productIds = order && order.items && order.items.length > 0 ? order.items.map(item => item.product_id) : [];
-      api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants' }).then(productsResponse => {
+      api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants,options' }).then(productsResponse => {
         const products = productsResponse.json.data;
 
         const newItems = order.items.map(item => {
-          const product = products.find(p => p.id === item.product_id);
-          item.image_url = product && product.images.length > 0 ? product.images[0].url : null;
+          item.product = products.find(p => p.id === item.product_id);
           return item;
         })
 
@@ -280,11 +279,11 @@ export function deleteOrderItem(orderId, orderItemId){
   }
 }
 
-export function updateOrderItem(orderId, orderItemId, quantity){
+export function updateOrderItem(orderId, orderItemId, quantity, variantId){
   return (dispatch, getState) => {
     const state = getState();
 
-    api.orders.items.update(orderId, orderItemId, { quantity: quantity })
+    api.orders.items.update(orderId, orderItemId, { quantity: quantity, variant_id: variantId })
     .then(() => {
       dispatch(fetchOrder(orderId));
     })
