@@ -149,18 +149,21 @@ const receiveShippingMethods = methods => ({
 
 export const checkout = cart => (dispatch, getState) => {
   dispatch(requestCheckout())
-  return [
-    api.ajax.cart.updateShippingAddress(cart.shipping_address),
-    api.ajax.cart.updateBillingAddress(cart.billing_address),
-    api.ajax.cart.update({
-      email: cart.email, mobile: cart.mobile, payment_method_id: cart.payment_method_id, shipping_method_id: cart.shipping_method_id
+  return api.ajax.cart.updateShippingAddress(cart.shipping_address)
+    .then(() => api.ajax.cart.updateBillingAddress(cart.billing_address))
+    .then(() => api.ajax.cart.update({
+      email: cart.email,
+      mobile: cart.mobile,
+      payment_method_id: cart.payment_method_id,
+      shipping_method_id: cart.shipping_method_id
       // coupon: cart.coupon
-    }),
-    api.ajax.cart.checkout()
-  ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
-    dispatch(receiveCheckout(json))
-    dispatch(push('/checkout-success'));
-  }).catch(error => {});
+    }))
+    .then(() => api.ajax.cart.checkout())
+    .then(orderResponse => {
+      dispatch(receiveCheckout(orderResponse.json))
+      dispatch(push('/checkout-success'));
+    })
+    .catch(error => {});
 }
 
 const requestCheckout = () => ({type: t.CHECKOUT_REQUEST})
