@@ -160,42 +160,38 @@ class OrdersService {
     return this.getOrders({id: id}).then(items => items.data.length > 0 ? items.data[0] : {})
   }
 
-  associateOrderWithCustomer(order) {
-    /*
-    1. check customer_id
-    2. find customer by email
-    3. if customer exists - set new customer_id
-    3. if customer not exists - create new customer and set new customer_id
-    */
+  getOrCreateCustomer(orderId) {
+    return this.getSingleOrder(orderId).then(order => {
+      if (!order.customer_id && order.email) {
+        // find customer by email
+        return CustomersService.getCustomers({email: order.email}).then(customers => {
+          if (customers && customers.length > 0) {
+            // if customer exists - set new customer_id
+            return customers[0].id;
+          } else {
+            // if customer not exists - create new customer and set new customer_id
+            var addresses = [];
+            if (order.shipping_address) {
+              addresses.push(order.shipping_address);
+            }
 
-    if (!order.customer_id && order.email) {
-      return CustomersService.getCustomers({email: order.email}).then(customers => {
-        if (customers && customers.length > 0) {
-          order.customer_id = customers[0].id;
-          return order;
-        } else {
-          var addresses = [];
-          if (order.shipping_address) {
-            addresses.push(order.shipping_address);
+            var customerrFullName = order.shipping_address && order.shipping_address.full_name
+              ? order.shipping_address.full_name
+              : '';
+
+            return CustomersService.addCustomer({email: order.email, full_name: customerrFullName, mobile: order.mobile, browser: order.browser, addresses: addresses}).then(customer => {
+              return customer.id;
+            });
           }
-
-          var customerrFullName = order.shipping_address && order.shipping_address.full_name
-            ? order.shipping_address.full_name
-            : '';
-
-          return CustomersService.addCustomer({email: order.email, full_name: customerrFullName, mobile: order.mobile, browser: order.browser, addresses: addresses}).then(customer => {
-            order.customer_id = customer.id;
-            return order;
-          });
-        }
-      })
-    } else {
-      return order;
-    }
+        })
+      } else {
+        return order.customer_id;
+      }
+    })
   }
 
   addOrder(data) {
-    return this.getValidDocumentForInsert(data).then(this.associateOrderWithCustomer).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
+    return this.getValidDocumentForInsert(data).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
   }
 
   updateOrder(id, data) {
@@ -432,6 +428,9 @@ class OrdersService {
       if (data.browser !== undefined) {
         order.browser = parse.getBrowser(data.browser);
       }
+      if (data.date_placed !== undefined) {
+        order.date_placed = parse.getDateIfValid(data.date_placed);
+      }
 
       if (order.shipping_method_id && !order.shipping_price) {
         ShippingMethodsLightService.getMethodPrice(order.shipping_method_id).then(shippingPrice => {
@@ -535,9 +534,12 @@ class OrdersService {
     - fire Webhooks
     */
     return Promise.all([
-        this.updateOrder(order_id, {
-          date_placed: new Date(),
-          draft: false
+        this.getOrCreateCustomer(order_id).then(customer_id => {
+          return this.updateOrder(order_id, {
+            customer_id: customer_id,
+            date_placed: new Date(),
+            draft: false
+          })
         }),
         EmailTemplatesService.getEmailTemplate('order_confirmation')
       ]).then(([ order, emailTemplate ]) => {
