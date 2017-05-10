@@ -163,11 +163,12 @@ export class OrderItem extends React.Component {
     const discountTotal = helper.formatCurrency(item.discount_total, settings);
     const imageUrl = product && product.images.length > 0 ? product.images[0].url : null;
     const thumbnailUrl = helper.getThumbnailUrl(imageUrl, 100);
+    const productOptions = product ? product.options : [];
 
-    let maxItems = product.stock_quantity;
+    let maxItems = product ? product.stock_quantity : 0;
     if(selectedVariant){
       maxItems = selectedVariant.stock_quantity;
-    } else if(product.options && product.options.length > 0){
+    } else if(product && product.options && product.options.length > 0){
       // product variant not exists with this options
       maxItems = 0;
     }
@@ -220,7 +221,7 @@ export class OrderItem extends React.Component {
           contentStyle={{ width: 400 }}
         >
           <div>
-            <ProductOptions options={product.options} onChange={this.onOptionChange} selectedOptions={selectedOptions} />
+            <ProductOptions options={productOptions} onChange={this.onOptionChange} selectedOptions={selectedOptions} />
             <SelectField
               floatingLabelText={messages.quantity}
               fullWidth={true}
