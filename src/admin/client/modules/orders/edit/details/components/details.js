@@ -19,6 +19,10 @@ export default class OrderDetails extends React.Component {
     this.props.fetchData();
   }
 
+  componentWillUnmount() {
+    this.props.clearData();
+  }
+
   render() {
     const {order, settings, onItemDelete, onItemUpdate} = this.props;
     if (!order)

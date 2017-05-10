@@ -17,6 +17,10 @@ function receiveOrder(item) {
   }
 }
 
+export function clearOrderDetails() {
+  return receiveOrder(null);
+}
+
 function requestOrders() {
   return {
     type: t.ORDERS_REQUEST
@@ -251,6 +255,8 @@ export function fetchOrder(orderId) {
 
     return api.orders.retrieve(orderId).then(orderResponse => {
       let order = orderResponse.json;
+      order.customer = null;
+
       const productIds = order && order.items && order.items.length > 0 ? order.items.map(item => item.product_id) : [];
       api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants,options' }).then(productsResponse => {
         const products = productsResponse.json.data;
@@ -260,7 +266,15 @@ export function fetchOrder(orderId) {
           return item;
         })
 
-        dispatch(receiveOrder(order))
+        if(order.customer_id && order.customer_id.length > 0){
+          api.customers.retrieve(order.customer_id).then(customerResponse => {
+            order.customer = customerResponse.json;
+
+            dispatch(receiveOrder(order))
+          })
+        } else {
+          dispatch(receiveOrder(order))
+        }
       });
     })
     .catch(error => {});

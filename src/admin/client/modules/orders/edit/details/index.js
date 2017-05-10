@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchOrder, deleteOrderItem, updateOrderItem } from '../../actions'
+import { fetchOrder, deleteOrderItem, updateOrderItem, clearOrderDetails } from '../../actions'
 import OrderDetails from './components/details'
 
 const mapStateToProps = (state, ownProps) => {
@@ -13,6 +13,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchData: () => {
       dispatch(fetchOrder(ownProps.orderId));
+    },
+    clearData: () => {
+      dispatch(clearOrderDetails());
     },
     onItemDelete: (itemId) => {
       dispatch(deleteOrderItem(ownProps.orderId, itemId));
