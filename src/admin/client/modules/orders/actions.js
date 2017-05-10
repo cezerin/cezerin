@@ -115,36 +115,24 @@ function deleteOrdersSuccess() {
   }
 }
 
-// function setGroupSuccess() {
-//   return {
-//     type: t.ORDER_SET_GROUP_SUCCESS
-//   }
-// }
-//
-// function requestUpdateOrder(id) {
-//   return {
-//     type: t.ORDER_UPDATE_REQUEST
-//   }
-// }
-//
-// function receiveUpdateOrder() {
-//   return {
-//     type: t.ORDER_UPDATE_SUCCESS
-//   }
-// }
-//
-// function errorUpdateOrder(error) {
-//   return {
-//     type: t.ORDER_UPDATE_FAILURE,
-//     error
-//   }
-// }
-//
-// function successCreateOrder(id) {
-//   return {
-//     type: t.ORDER_CREATE_SUCCESS
-//   }
-// }
+function requestOrderUpdate() {
+  return {
+    type: t.ORDER_UPDATE_REQUEST
+  }
+}
+
+function receiveOrderUpdate() {
+  return {
+    type: t.ORDER_UPDATE_SUCCESS
+  }
+}
+
+function failOrderUpdate(error) {
+  return {
+    type: t.ORDER_UPDATE_FAILURE,
+    error
+  }
+}
 
 const getFilter = (state, offset = 0) => {
   const filterState = state.orders.filter;
@@ -249,6 +237,20 @@ export function deleteOrders() {
   }
 }
 
+export function deleteCurrentOrder() {
+  return (dispatch, getState) => {
+    const state = getState();
+    let order = state.orders.editOrder;
+
+    if(order && order.id) {
+      return api.orders.delete(order.id).then(response => {
+        dispatch(fetchOrders());
+        dispatch(push('/admin/orders'));
+      }).catch(err => { console.log(err) });
+    }
+  }
+}
+
 export function fetchOrder(orderId) {
   return (dispatch, getState) => {
     dispatch(requestOrder());
@@ -305,37 +307,20 @@ export function updateOrderItem(orderId, orderItemId, quantity, variantId){
   }
 }
 
-// export function setGroup(group_id) {
-//   return (dispatch, getState) => {
-//     const state = getState();
-//     let promises = state.orders.selected.map(orderId => api.orders.update(orderId, { group_id: group_id }));
-//
-//     return Promise.all(promises).then(values => {
-//       dispatch(setGroupSuccess());
-//       dispatch(deselectAllOrder());
-//       dispatch(fetchOrders());
-//     }).catch(err => { console.log(err) });
-//   }
-// }
+export function updateOrder(data) {
+  return (dispatch, getState) => {
+    dispatch(requestOrderUpdate());
 
-// export function updateOrder(data) {
-//   return (dispatch, getState) => {
-//     dispatch(requestUpdateOrder(data.id));
-//
-//     delete data.images;
-//     if(!data.slug || data.slug === '') {
-//       data.slug = data.name;
-//     }
-//
-//     return api.orders.update(data.id, data).then(({status, json}) => {
-//         dispatch(receiveUpdateOrder());
-//         dispatch(fetchOrders());
-//     })
-//     .catch(error => {
-//         dispatch(errorUpdateOrder(error));
-//     });
-//   }
-// }
+    return api.orders.update(data.id, data).then(orderResponse => {
+      dispatch(receiveOrderUpdate());
+      dispatch(fetchOrder(data.id));
+      dispatch(fetchOrders());
+    })
+    .catch(error => {
+      dispatch(failOrderUpdate(error));
+    });
+  }
+}
 
 // export function createOrder() {
 //   return (dispatch, getState) => {
@@ -348,29 +333,6 @@ export function updateOrderItem(orderId, orderItemId, quantity, variantId){
 //     .catch(error => {
 //         //dispatch error
 //         console.log(error)
-//     });
-//   }
-// }
-
-
-// export function fetchOrder(id) {
-//   return (dispatch, getState) => {
-//     dispatch(requestOrder());
-//
-//     return api.orders.retrieve(id).then(({status, json}) => {
-//       const saleFrom = moment(json.date_sale_from);
-//       const saleTo = moment(json.date_sale_to);
-//       const stockExpected = moment(json.date_stock_expected);
-//
-//       json.date_sale_from = saleFrom.isValid() ? saleFrom.toDate() : null;
-//       json.date_sale_to = saleTo.isValid() ? saleTo.toDate() : null;
-//       json.date_stock_expected = stockExpected.isValid() ? stockExpected.toDate() : null;
-//       json.weight = '';
-//
-//       dispatch(receiveOrder(json))
-//     })
-//     .catch(error => {
-//       dispatch(receiveOrderError(error));
 //     });
 //   }
 // }

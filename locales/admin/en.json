@@ -277,5 +277,13 @@
   "coupon": "Coupon",
   "editOrderItem": "Edit order item",
   "addOrderItem": "Add product",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+  "deleteOrder": "Delete order",
+  "closeOrder": "Close order",
+  "cancelOrder": "Cancel order",
+  "holdOrder": "Hold order",
+  "resumeOrder": "Resume order",
+  "deleteOrderConfirmation": "Delete order forever? You can’t undo this action.",
+  "closeOrderConfirmation": "Close order? You can’t undo this action.",
+  "cancelOrderConfirmation": "Cancel order? You can’t undo this action."
 }
