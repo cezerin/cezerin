@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchOrders, setFilter, bulkUpdate, deleteOrders } from '../actions'
+import { fetchOrders, setFilter, deleteOrders } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
@@ -18,25 +18,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     onDelete: () => {
       dispatch(deleteOrders());
-    },
-    setCancelled: () => {
-      dispatch(bulkUpdate({ cancelled: true }));
-    },
-    setDelivered: () => {
-      dispatch(bulkUpdate({ delivered: true }));
-    },
-    setPaid: () => {
-      dispatch(bulkUpdate({ paid: true }));
-    },
-    setHold: () => {
-      dispatch(bulkUpdate({ hold: true }));
-    },
-    setDraft: () => {
-      dispatch(bulkUpdate({ draft: true }));
-    },
-    setClosed: () => {
-      dispatch(bulkUpdate({ closed: true }));
-    },
+    }
   }
 }
 
