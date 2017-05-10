@@ -1,6 +1,6 @@
 import React from 'react'
 import OrdersList from 'modules/orders/list';
-import OrdersFilter from 'modules/orders/filter';
+import OrdersFilter from 'modules/orders/listFilter';
 
 export default () => (
   <div className="row row--no-gutter col-full-height">
