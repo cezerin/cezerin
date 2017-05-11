@@ -178,7 +178,7 @@ export class OrderItem extends React.Component {
       quantityItems.push(<MenuItem key={0} value={0} primaryText={messages.products_outOfStock} />);
       quantity = 0;
     } else {
-      for(let i = 1; i <= maxItems; i++){
+      for(let i = 1; i <= maxItems, i <= 100;  i++){
         quantityItems.push(<MenuItem key={i} value={i} primaryText={i.toString()} />);
       }
     }
