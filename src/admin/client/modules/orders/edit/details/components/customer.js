@@ -42,7 +42,9 @@ const OrderCustomer = ({order}) => {
 
         <Divider style={{
           marginTop: 30,
-          marginBottom: 30
+          marginBottom: 30,
+          marginLeft: -30,
+          marginRight: -30
         }}/>
 
         <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.shippingAddress}</div>
@@ -53,7 +55,9 @@ const OrderCustomer = ({order}) => {
 
         <Divider style={{
           marginTop: 30,
-          marginBottom: 30
+          marginBottom: 30,
+          marginLeft: -30,
+          marginRight: -30
         }}/>
 
         <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.billingAddress}</div>
