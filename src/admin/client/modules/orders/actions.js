@@ -250,33 +250,43 @@ export function deleteCurrentOrder() {
   }
 }
 
+const fetchOrderAdditionalData = (order) => {
+  order.customer = null;
+  const productIds = order && order.items && order.items.length > 0 ? order.items.map(item => item.product_id) : [];
+  const productFilter = { ids: productIds, fields: 'images,enabled,stock_quantity,variants,options' };
+
+  return api.products.list(productFilter)
+  .then(productsResponse => {
+    const products = productsResponse.json.data;
+    const newItems = order.items.map(item => {
+      item.product = products.find(p => p.id === item.product_id);
+      return item;
+    })
+    order.items = newItems;
+    return order;
+  })
+  .then(order => {
+    if(order.customer_id && order.customer_id.length > 0){
+      return api.customers.retrieve(order.customer_id).then(customerResponse => {
+        order.customer = customerResponse.json;
+        return order;
+      })
+    } else {
+      return order;
+    }
+  })
+  .catch(error => error);
+}
+
 export function fetchOrder(orderId) {
   return (dispatch, getState) => {
     dispatch(requestOrder());
 
-    return api.orders.retrieve(orderId).then(orderResponse => {
-      let order = orderResponse.json;
-      order.customer = null;
-
-      const productIds = order && order.items && order.items.length > 0 ? order.items.map(item => item.product_id) : [];
-      api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants,options' }).then(productsResponse => {
-        const products = productsResponse.json.data;
-
-        const newItems = order.items.map(item => {
-          item.product = products.find(p => p.id === item.product_id);
-          return item;
-        })
-
-        if(order.customer_id && order.customer_id.length > 0){
-          api.customers.retrieve(order.customer_id).then(customerResponse => {
-            order.customer = customerResponse.json;
-
-            dispatch(receiveOrder(order))
-          })
-        } else {
-          dispatch(receiveOrder(order))
-        }
-      });
+    return api.orders.retrieve(orderId)
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
     })
     .catch(error => {});
   }
@@ -287,8 +297,10 @@ export function deleteOrderItem(orderId, orderItemId){
     const state = getState();
 
     api.orders.items.delete(orderId, orderItemId)
-    .then(() => {
-      dispatch(fetchOrder(orderId));
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
     })
     .catch(error => {});
   }
@@ -303,8 +315,10 @@ export function addOrderItem(orderId, productId){
       variant_id: null,
       quantity: 1
     })
-    .then(() => {
-      dispatch(fetchOrder(orderId));
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
     })
     .catch(error => {});
   }
@@ -315,8 +329,10 @@ export function updateOrderItem(orderId, orderItemId, quantity, variantId){
     const state = getState();
 
     api.orders.items.update(orderId, orderItemId, { quantity: quantity, variant_id: variantId })
-    .then(() => {
-      dispatch(fetchOrder(orderId));
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
     })
     .catch(error => {});
   }
@@ -326,9 +342,12 @@ export function updateOrder(data) {
   return (dispatch, getState) => {
     dispatch(requestOrderUpdate());
 
-    return api.orders.update(data.id, data).then(orderResponse => {
+    return api.orders.update(data.id, data)
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
       dispatch(receiveOrderUpdate());
-      dispatch(fetchOrder(data.id));
+      dispatch(receiveOrder(order))
     })
     .catch(error => {
       dispatch(failOrderUpdate(error));
@@ -338,8 +357,11 @@ export function updateOrder(data) {
 
 export function updateShippingAddress(orderId, address) {
   return (dispatch, getState) => {
-    return api.orders.updateShippingAddress(orderId, address).then(orderResponse => {
-      dispatch(fetchOrder(orderId));
+    return api.orders.updateShippingAddress(orderId, address)
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
     })
     .catch(error => {});
   }
