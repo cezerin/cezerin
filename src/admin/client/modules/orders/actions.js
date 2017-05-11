@@ -244,7 +244,6 @@ export function deleteCurrentOrder() {
 
     if(order && order.id) {
       return api.orders.delete(order.id).then(response => {
-        dispatch(fetchOrders());
         dispatch(push('/admin/orders'));
       }).catch(err => { console.log(err) });
     }
@@ -330,7 +329,6 @@ export function updateOrder(data) {
     return api.orders.update(data.id, data).then(orderResponse => {
       dispatch(receiveOrderUpdate());
       dispatch(fetchOrder(data.id));
-      dispatch(fetchOrders());
     })
     .catch(error => {
       dispatch(failOrderUpdate(error));
@@ -342,7 +340,6 @@ export function updateShippingAddress(orderId, address) {
   return (dispatch, getState) => {
     return api.orders.updateShippingAddress(orderId, address).then(orderResponse => {
       dispatch(fetchOrder(orderId));
-      dispatch(fetchOrders());
     })
     .catch(error => {});
   }
