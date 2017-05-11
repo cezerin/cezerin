@@ -295,6 +295,22 @@ export function deleteOrderItem(orderId, orderItemId){
   }
 }
 
+export function addOrderItem(orderId, productId){
+  return (dispatch, getState) => {
+    const state = getState();
+
+    api.orders.items.create(orderId, {
+      product_id: productId,
+      variant_id: null,
+      quantity: 1
+    })
+    .then(() => {
+      dispatch(fetchOrder(orderId));
+    })
+    .catch(error => {});
+  }
+}
+
 export function updateOrderItem(orderId, orderItemId, quantity, variantId){
   return (dispatch, getState) => {
     const state = getState();

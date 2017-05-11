@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { updateOrder, deleteCurrentOrder } from '../actions'
+import { addOrderItem, updateOrder, deleteCurrentOrder } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
   return {
+    settings: state.settings.settings,
     order: state.orders.editOrder
   }
 }
@@ -25,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     setClosed: (orderId) => {
       dispatch(updateOrder({ id: orderId, closed: true }));
+    },
+    addItem: (orderId, productId) => {
+      dispatch(addOrderItem(orderId, productId));
     }
   }
 }

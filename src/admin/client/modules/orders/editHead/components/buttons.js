@@ -1,6 +1,7 @@
 import React from 'react'
 import messages from 'lib/text'
 import ConfirmationDialog from 'modules/shared/confirmation'
+import ProductSearchDialog from 'modules/shared/productSearch'
 
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
@@ -8,6 +9,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import Divider from 'material-ui/Divider';
 
 export default class Buttons extends React.Component {
   constructor(props) {
@@ -15,7 +17,8 @@ export default class Buttons extends React.Component {
     this.state = {
       showClose: false,
       showCancel: false,
-      showDelete: false
+      showDelete: false,
+      showAddItem: false
     };
   }
 
@@ -66,8 +69,21 @@ export default class Buttons extends React.Component {
     this.props.resumeOrder(this.props.order.id);
   };
 
+  showAddItem = () => {
+    this.setState({showAddItem: true});
+  };
+
+  hideAddItem = () => {
+    this.setState({showAddItem: false});
+  };
+
+  addItem = (productId) => {
+    this.hideAddItem();
+    this.props.addItem(this.props.order.id, productId);
+  }
+
   render() {
-    const { order, onDelete } = this.props;
+    const { settings, order, onDelete } = this.props;
 
     if(order){
       const confirmationDialogTitle = `${messages.order} #${order.number}`;
@@ -78,17 +94,29 @@ export default class Buttons extends React.Component {
       } else if(order.cancelled){
         //
       } else{
+        menuItems.push(<MenuItem key="addItem" primaryText={messages.addOrderItem} onTouchTap={this.showAddItem} />);
+        menuItems.push(<Divider key="dev1" />);
         if(order.hold){
-          menuItems.push(<MenuItem key='resume' primaryText={messages.resumeOrder} onTouchTap={this.resumeOrder} />);
+          menuItems.push(<MenuItem key="resume" primaryText={messages.resumeOrder} onTouchTap={this.resumeOrder} />);
         } else {
-          menuItems.push(<MenuItem key='hold' primaryText={messages.holdOrder} onTouchTap={this.holdOrder} />);
+          menuItems.push(<MenuItem key="hold" primaryText={messages.holdOrder} onTouchTap={this.holdOrder} />);
         }
-        menuItems.push(<MenuItem key='close' primaryText={messages.closeOrder} onTouchTap={this.showClose} />);
-        menuItems.push(<MenuItem key='cancel' primaryText={messages.cancelOrder} onTouchTap={this.showCancel} />);
+        menuItems.push(<MenuItem key="close" primaryText={messages.closeOrder} onTouchTap={this.showClose} />);
+        menuItems.push(<MenuItem key="cancel" primaryText={messages.cancelOrder} onTouchTap={this.showCancel} />);
       }
 
       return (
         <span>
+          <ProductSearchDialog
+            open={this.state.showAddItem}
+            title={messages.addOrderItem}
+            settings={settings}
+            onSubmit={this.addItem}
+            onCancel={this.hideAddItem}
+            submitLabel={messages.add}
+            cancelLabel={messages.cancel}
+          />
+
           <ConfirmationDialog
             open={this.state.showClose}
             title={confirmationDialogTitle}
