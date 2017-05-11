@@ -19,7 +19,7 @@ import Dialog from 'material-ui/Dialog';
 
 const Address = ({ address }) => {
   return (
-    <div className={style.address}>
+    <div className={style.address} style={{ marginBottom:20 }}>
       <div>{address.full_name}</div>
       <div>{address.company}</div>
       <div>{address.address1}</div>
@@ -54,6 +54,7 @@ export default class OrderCustomer extends React.Component {
 
   render() {
     const {order} = this.props;
+    const allowEdit = order.closed === false && order.cancelled === false;
     let mapAddress = `${order.shipping_address.address1} ${order.shipping_address.city} ${order.shipping_address.state} ${order.shipping_address.zip}`;
     mapAddress = mapAddress.replace(/ /g, '+');
     const mapUrl = `https://www.google.com/maps/place/${mapAddress}`;
@@ -79,8 +80,10 @@ export default class OrderCustomer extends React.Component {
           <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.shippingAddress}</div>
           <Address address={order.shipping_address} />
 
-          <RaisedButton label="Edit" style={{ marginTop:20 }} onTouchTap={this.showShippingEdit} />
-          <a href={mapUrl} target="_blank"><FlatButton label="View map" style={{ marginLeft:15 }} /></a>
+          {allowEdit &&
+            <RaisedButton label="Edit" style={{ marginRight:15 }} onTouchTap={this.showShippingEdit} />
+          }
+          <a href={mapUrl} target="_blank"><FlatButton label="View map" /></a>
 
           <Divider style={{
             marginTop: 30,

@@ -71,6 +71,7 @@ export default class OrderSummary extends React.Component {
 
   render() {
     const {order, settings} = this.props;
+    const allowEdit = order.closed === false && order.cancelled === false;
     const dateCreated = moment(order.date_placed || order.date_created);
     const dateCreatedFormated = dateCreated.format(`${settings.date_format}, ${settings.time_format}`);
     const states = getOrderStates(order);
@@ -131,7 +132,9 @@ export default class OrderSummary extends React.Component {
             <div className="col-xs-7">{order.comments}</div>
           </div>
 
-          <RaisedButton label="Edit" style={{ marginTop:20 }} onTouchTap={this.showSummaryEdit} />
+          {allowEdit &&
+            <RaisedButton label="Edit" style={{ marginTop:20 }} onTouchTap={this.showSummaryEdit} />
+          }
 
           <Dialog
             title={messages.order}
