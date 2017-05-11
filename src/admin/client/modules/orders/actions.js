@@ -338,6 +338,16 @@ export function updateOrder(data) {
   }
 }
 
+export function updateShippingAddress(orderId, address) {
+  return (dispatch, getState) => {
+    return api.orders.updateShippingAddress(orderId, address).then(orderResponse => {
+      dispatch(fetchOrder(orderId));
+      dispatch(fetchOrders());
+    })
+    .catch(error => {});
+  }
+}
+
 // export function createOrder() {
 //   return (dispatch, getState) => {
 //     const state = getState();

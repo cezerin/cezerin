@@ -116,3 +116,8 @@
 .draftState {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.shippingButtons{
+  text-align: right;
+  margin-top: 20px;
+}
