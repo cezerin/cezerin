@@ -5,7 +5,6 @@ import api from 'lib/api'
 import * as helper from 'lib/helper'
 
 import Dialog from 'material-ui/Dialog';
-import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import {
@@ -121,13 +120,11 @@ export default class ConfirmationDialog extends React.Component {
     const actions = [
       <FlatButton
         label={cancelLabel}
-        primary={true}
         onTouchTap={this.handleCancel}
       />,
       <FlatButton
         label={submitLabel}
         primary={true}
-        keyboardFocused={true}
         onTouchTap={this.handleSubmit}
       />
     ];
@@ -136,6 +133,7 @@ export default class ConfirmationDialog extends React.Component {
         <Dialog
           title={title}
           actions={actions}
+          actionsContainerStyle={{ borderTop: '1px solid rgb(224, 224, 224)' }}
           modal={modal}
           open={this.state.open}
           onRequestClose={this.handleCancel}
@@ -143,7 +141,6 @@ export default class ConfirmationDialog extends React.Component {
           <div>
             <SearchBox text={this.state.search} onChange={this.handleSearch} />
             <SearchResult products={this.state.products} selectedId={this.state.selectedId} onSelect={this.handleRowSelection} settings={settings} />
-            <Divider />
           </div>
         </Dialog>
     )

@@ -144,13 +144,11 @@ export class OrderItem extends React.Component {
     const editFormActions = [
       <FlatButton
         label={messages.cancel}
-        primary={true}
         onTouchTap={this.hideEditForm}
       />,
       <FlatButton
         label={messages.save}
         primary={true}
-        keyboardFocused={true}
         onTouchTap={this.submitEditForm}
       />,
     ];
