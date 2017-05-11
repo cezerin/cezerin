@@ -81,7 +81,7 @@ export default class Groups extends React.Component {
 
         </List>
         {showAdd &&
-          <FloatingActionButton secondary={false} style={styles.fab} onTouchTap={() => { onCreate() }}>
+          <FloatingActionButton secondary={false} style={styles.fab} onTouchTap={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
         }
