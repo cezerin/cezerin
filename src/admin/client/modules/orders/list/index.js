@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchOrders, selectOrder, deselectOrder, selectAllOrder, deselectAllOrder, fetchMoreOrders } from '../actions'
-// createProduct
+import { fetchOrders, selectOrder, deselectOrder, selectAllOrder, deselectAllOrder, fetchMoreOrders, createOrder } from '../actions'
 import List from './components/list'
 
 const mapStateToProps = (state) => {
@@ -35,9 +34,9 @@ const mapDispatchToProps = (dispatch) => {
     loadMore: () => {
       dispatch(fetchMoreOrders());
     },
-    // onCreate: () => {
-    //   dispatch(createProduct())
-    // }
+    onCreate: () => {
+      dispatch(createOrder())
+    }
   }
 }
 

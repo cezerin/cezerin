@@ -115,6 +115,12 @@ function deleteOrdersSuccess() {
   }
 }
 
+function createOrdersSuccess() {
+  return {
+    type: t.ORDER_CREATE_SUCCESS
+  }
+}
+
 function requestOrderUpdate() {
   return {
     type: t.ORDER_UPDATE_REQUEST
@@ -367,17 +373,14 @@ export function updateShippingAddress(orderId, address) {
   }
 }
 
-// export function createOrder() {
-//   return (dispatch, getState) => {
-//     const state = getState();
-//     return api.orders.create({ active: false, group_id: state.orderGroups.selectedId }).then(({status, json}) => {
-//         dispatch(successCreateOrder(json.id));
-//         dispatch(fetchOrders());
-//         dispatch(push('/admin/product/'+json.id));
-//     })
-//     .catch(error => {
-//         //dispatch error
-//         console.log(error)
-//     });
-//   }
-// }
+export function createOrder() {
+  return (dispatch, getState) => {
+    const state = getState();
+    return api.orders.create({  }).then(orderResponse => {
+      const orderId = orderResponse.json.id;
+      dispatch(createOrdersSuccess());
+      dispatch(push(`/admin/order/${orderId}`));
+    })
+    .catch(error => {});
+  }
+}
