@@ -87,7 +87,7 @@
     "redux-form-material-ui": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "response-time": "^2.3.2",
-    "script-ext-html-webpack-plugin": "^1.7.2",
+    "script-ext-html-webpack-plugin": "^1.7.3",
     "sitemap": "^1.12.0",
     "slug": "^0.9.1",
     "theme": "file:themes/current",
