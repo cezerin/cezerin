@@ -6,8 +6,8 @@ const initialState = {
   selected: [],
   hasMore: false,
   totalCount: 0,
-  isUpdating: false,
   loadingItems: false,
+  processingCheckout: false,
   errorLoadingItems: null,
 
   filter: {
@@ -88,6 +88,18 @@ export default (state = initialState, action) => {
     case t.ORDER_DETAIL_RECEIVE:
       return Object.assign({}, state, {
         editOrder: action.item
+      })
+    case t.ORDER_CHECKOUT_REQUEST:
+      return Object.assign({}, state, {
+        processingCheckout: true
+      })
+    case t.ORDER_CHECKOUT_RECEIVE:
+      return Object.assign({}, state, {
+        processingCheckout: false
+      })
+    case t.ORDER_CHECKOUT_FAILURE:
+      return Object.assign({}, state, {
+        processingCheckout: false
       })
     case t.ORDER_UPDATE_REQUEST:
     case t.ORDER_UPDATE_SUCCESS:

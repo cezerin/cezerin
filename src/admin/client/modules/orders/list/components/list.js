@@ -42,9 +42,9 @@ export default class OrdersList extends React.Component {
               />
              </div>
           </List>
-          {/* <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={onCreate}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton> */}
+          </FloatingActionButton>
         </div>
       )
     }

@@ -70,8 +70,9 @@ export default class OrderSummary extends React.Component {
   }
 
   render() {
-    const {order, settings} = this.props;
+    const {order, settings, onCheckout, processingCheckout} = this.props;
     const allowEdit = order.closed === false && order.cancelled === false;
+    const isDraft = order.draft === true;
     const dateCreated = moment(order.date_placed || order.date_created);
     const dateCreatedFormated = dateCreated.format(`${settings.date_format}, ${settings.time_format}`);
     const states = getOrderStates(order);
@@ -82,6 +83,8 @@ export default class OrderSummary extends React.Component {
       const url = new URL(order.referrer_url);
       referrerDomain = url.hostname;
     } catch(e) {}
+
+    const referrerLink = order.referrer_url && order.referrer_url.includes('http') ? <a className={style.link} href={order.referrer_url} target="_blank">{referrerDomain}</a> : order.referrer_url;
 
     return (
       <Paper className="paper-box" zDepth={1}>
@@ -104,7 +107,7 @@ export default class OrderSummary extends React.Component {
 
           <div className={style.summaryRow + " row"}>
             <div className="col-xs-5"><span>{messages.referrer}</span></div>
-            <div className="col-xs-7"><a className={style.link} href={order.referrer_url} target="_blank">{referrerDomain}</a></div>
+            <div className="col-xs-7">{referrerLink}</div>
           </div>
 
           <div className={style.summaryRow + " row"}>
@@ -132,9 +135,14 @@ export default class OrderSummary extends React.Component {
             <div className="col-xs-7">{order.comments}</div>
           </div>
 
-          {allowEdit &&
-            <RaisedButton label="Edit" style={{ marginTop:20 }} onTouchTap={this.showSummaryEdit} />
-          }
+          <div style={{ marginTop:20 }}>
+            {allowEdit &&
+              <RaisedButton label="Edit" style={{ marginRight:15 }} onTouchTap={this.showSummaryEdit} />
+            }
+            {isDraft &&
+              <RaisedButton label={messages.placeOrder} primary={true} onTouchTap={onCheckout} disabled={processingCheckout} />
+            }
+          </div>
 
           <Dialog
             title={messages.order}

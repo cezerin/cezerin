@@ -85,6 +85,14 @@ class SummaryForm extends React.Component {
             <Field component={SelectField} fullWidth={true} name="payment_method_id" floatingLabelText={messages.paymentsMethod}>
               {paymentItems}
             </Field>
+
+            <div>
+              <Field component={TextField} fullWidth={true} name="email" floatingLabelText={messages.email}/>
+            </div>
+
+            <div>
+              <Field component={TextField} fullWidth={true} name="mobile" floatingLabelText={messages.mobile}/>
+            </div>
           </div>
           <div className={style.shippingButtons}>
             <FlatButton

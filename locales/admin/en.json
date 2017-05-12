@@ -285,5 +285,6 @@
   "resumeOrder": "Resume order",
   "deleteOrderConfirmation": "Delete order forever? You can’t undo this action.",
   "closeOrderConfirmation": "Close order? You can’t undo this action.",
-  "cancelOrderConfirmation": "Cancel order? You can’t undo this action."
+  "cancelOrderConfirmation": "Cancel order? You can’t undo this action.",
+  "placeOrder": "Place Order"
 }
