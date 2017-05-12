@@ -4,23 +4,23 @@ import Checkbox from 'material-ui/Checkbox';
 import messages from 'lib/text'
 
 export default ({ onSelectAll }) => (
-  <Subheader>
-    <div className="row row--no-gutter middle-xs">
-      <div className="col-xs-1 col--no-gutter">
+  <Subheader style={{ paddingRight:16 }}>
+    <div className="row middle-xs">
+      <div className="col-xs-1">
         <Checkbox onCheck={(event, isInputChecked) => { onSelectAll(isInputChecked); }} />
       </div>
-      <div className="col-xs-1 col--no-gutter">
+      <div className="col-xs-1">
       </div>
-      <div className="col-xs-2 col--no-gutter">
+      <div className="col-xs-2">
         {messages.order}
       </div>
-      <div className="col-xs-4 col--no-gutter">
+      <div className="col-xs-4">
         {messages.orders_shippingTo}
       </div>
-      <div className="col-xs-2 col--no-gutter" style={{ textAlign:'right' }}>
+      <div className="col-xs-2" style={{ textAlign:'right' }}>
         {messages.orders_total}
       </div>
-      <div className="col-xs-2 col--no-gutter" style={{ textAlign:'right', paddingRight: 16 }}>
+      <div className="col-xs-2" style={{ textAlign:'right', paddingRight: 16 }}>
         {messages.orders_status}
       </div>
     </div>

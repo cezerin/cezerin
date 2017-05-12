@@ -59,17 +59,17 @@ const OrdersListItem = ({ order, onSelect, selected, settings }) => {
             <div className="col-xs-1">
               {stateIcons}
             </div>
-            <div className={"col-xs-2 " + style.col}>
-              <Link to={`/admin/order/${order.id}`} className={style.orderName}>{order.number || 0}</Link><br />
-              <small>{dateCreatedFromNow}</small>
+            <div className="col-xs-2">
+              <Link to={`/admin/order/${order.id}`} className={style.number}>{order.number || 0}</Link><br />
+              <small className={style.small}>{dateCreatedFromNow}</small>
             </div>
-            <div className={"col-xs-4 " + style.col}>
-              {shippingTo}<br />
-              <small>{order.shipping_method}</small>
+            <div className="col-xs-4">
+              <div className={style.shipping}>{shippingTo}</div>
+              <small className={style.small}>{order.shipping_method}</small>
             </div>
             <div className={"col-xs-2 " + style.price}>
               {grandTotalFormatted}<br />
-              <small>{order.payment_method}</small>
+              <small className={style.small}>{order.payment_method}</small>
             </div>
             <div className={"col-xs-2 " + style.status}>
               {order.status}

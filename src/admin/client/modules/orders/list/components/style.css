@@ -1,10 +1,10 @@
-.orderName {
+.number {
   text-decoration: none;
   font-weight: 400;
   color: rgb(0,142,180);
 }
 
-.col small, .price small {
+.small {
   color: rgba(0, 0, 0, 0.4);
 }
 
@@ -13,8 +13,13 @@
   text-align: right;
 }
 
+.shipping {
+  font-size: 14px;
+}
+
 .status {
   text-align: right;
+  font-size: 14px;
 }
 
 .more {
