@@ -208,6 +208,7 @@ ajaxRouter.get('/sitemap', (req, res, next) => {
 
 ajaxRouter.get('/payment_methods', (req, res, next) => {
   const filter = {
+    enabled: true,
     order_id: req.signedCookies.order_id
   };
   api.paymentMethods.list(filter).then(({status, json}) => {
@@ -217,6 +218,7 @@ ajaxRouter.get('/payment_methods', (req, res, next) => {
 
 ajaxRouter.get('/shipping_methods', (req, res, next) => {
   const filter = {
+    enabled: true,
     order_id: req.signedCookies.order_id
   };
   api.shippingMethods.list(filter).then(({status, json}) => {

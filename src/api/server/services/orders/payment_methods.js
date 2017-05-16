@@ -14,8 +14,14 @@ class PaymentMethodsService {
     return new Promise((resolve, reject) => {
       let filter = {};
       const id = parse.getObjectIDIfValid(params.id);
+      const enabled = parse.getBooleanIfValid(params.enabled);
+
       if (id) {
         filter._id = new ObjectID(id);
+      }
+
+      if (enabled !== null) {
+        filter.enabled = enabled;
       }
 
       const order_id = parse.getObjectIDIfValid(params.order_id);
