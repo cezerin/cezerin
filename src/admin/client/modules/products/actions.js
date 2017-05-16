@@ -278,7 +278,8 @@ export function updateProduct(data) {
     delete data.images;
 
     return api.products.update(data.id, data).then(({status, json}) => {
-        dispatch(receiveUpdateProduct(json));
+        const product = fixProductData(json);
+        dispatch(receiveUpdateProduct(product));
         dispatch(fetchProducts());
     })
     .catch(error => {
@@ -302,22 +303,25 @@ export function createProduct() {
   }
 }
 
+const fixProductData = (product) => {
+  const saleFrom = moment(product.date_sale_from);
+  const saleTo = moment(product.date_sale_to);
+  const stockExpected = moment(product.date_stock_expected);
+
+  product.date_sale_from = saleFrom.isValid() ? saleFrom.toDate() : null;
+  product.date_sale_to = saleTo.isValid() ? saleTo.toDate() : null;
+  product.date_stock_expected = stockExpected.isValid() ? stockExpected.toDate() : null;
+
+  return product;
+}
 
 export function fetchProduct(id) {
   return (dispatch, getState) => {
     dispatch(requestProduct());
 
     return api.products.retrieve(id).then(({status, json}) => {
-      const saleFrom = moment(json.date_sale_from);
-      const saleTo = moment(json.date_sale_to);
-      const stockExpected = moment(json.date_stock_expected);
-
-      json.date_sale_from = saleFrom.isValid() ? saleFrom.toDate() : null;
-      json.date_sale_to = saleTo.isValid() ? saleTo.toDate() : null;
-      json.date_stock_expected = stockExpected.isValid() ? stockExpected.toDate() : null;
-      json.weight = '';
-
-      dispatch(receiveProduct(json))
+      const product = fixProductData(json);
+      dispatch(receiveProduct(product))
     })
     .catch(error => {
       dispatch(receiveProductError(error));
