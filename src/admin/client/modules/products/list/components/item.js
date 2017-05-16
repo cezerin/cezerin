@@ -73,6 +73,8 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
     productClass += " " + style.productActive;
   }
 
+  const productName = product.name && product.name.length > 0 ? product.name : `<${messages.draft}>`;
+
   return (
     <div className="products-item">
       <ListItem style={{ cursor: 'normal' }}
@@ -95,7 +97,7 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
                 </div>
                 <div className="col-xs-8">
                   <Link to={'/admin/product/'+product.id} className={productClass}>
-                    {product.name}<br /><small>{product.category_name}</small>
+                    {productName}<br /><small>{product.category_name}</small>
                   </Link>
                 </div>
               </div>
