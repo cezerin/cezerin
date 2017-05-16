@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ImageUpload from 'modules/shared/image-upload'
+import ImageUpload from 'modules/shared/imageUpload'
 import settings from 'lib/settings'
 import api from 'lib/api'
 

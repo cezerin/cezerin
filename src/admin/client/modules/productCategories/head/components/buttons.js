@@ -1,7 +1,7 @@
 import React from 'react'
 
 import messages from 'lib/text'
-import CategorySelect from 'modules/product-categories/select'
+import CategorySelect from 'modules/productCategories/select'
 
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { fetchProduct, deleteImage, updateImages } from '../../actions'
-import Gallery from 'modules/shared/image-upload-multiple'
+import Gallery from 'modules/shared/imageUploadMultiple'
 
 const mapStateToProps = (state) => {
   let product = state.products.editItem;

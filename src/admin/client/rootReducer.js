@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form'
 
 import login from 'modules/app/login/reducer';
-import productCategories from 'modules/product-categories/reducer';
+import productCategories from 'modules/productCategories/reducer';
 import products from 'modules/products/reducer';
 import customerGroups from 'modules/customer-groups/reducer';
 import customers from 'modules/customers/reducer';

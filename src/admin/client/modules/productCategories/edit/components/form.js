@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 
 import { CustomToggle } from 'modules/shared/form'
-import ImageUpload from 'modules/shared/image-upload'
+import ImageUpload from 'modules/shared/imageUpload'
 import messages from 'lib/text'
 import style from './style.css'
 import settings from 'lib/settings'

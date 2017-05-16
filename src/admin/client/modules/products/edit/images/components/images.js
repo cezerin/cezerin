@@ -1,5 +1,5 @@
 import React from 'react'
-import Gallery from 'modules/shared/image-upload-multiple'
+import Gallery from 'modules/shared/imageUploadMultiple'
 import Paper from 'material-ui/Paper';
 
 export default class ProductImages extends React.Component {
