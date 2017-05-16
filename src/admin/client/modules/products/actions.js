@@ -162,9 +162,10 @@ function successCreateProduct(id) {
 const getFilter = (state, offset = 0) => {
   let filter = {
     limit: 50,
-    fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price',
+    fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,date_updated',
     search: state.products.filter.search,
-    offset: offset
+    offset: offset,
+    sort: '-date_updated'
   }
 
   if(state.productCategories.selectedId !== null && state.productCategories.selectedId !== 'all') {
