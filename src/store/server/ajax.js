@@ -8,7 +8,7 @@ const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCT_DETAILS_CACHE_CONTROL = 'public, max-age=60';
 
 const getCartCookieOptions = (isHttps) => ({
-  maxAge: 604800000,
+  maxAge: 24 * 60 * 60 * 1000, // 24 hours
   httpOnly: true,
   signed: true,
   secure: isHttps,

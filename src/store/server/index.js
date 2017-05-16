@@ -41,7 +41,7 @@ const getHead = () => {
 }
 
 const getReferrerCookieOptions = (isHttps) => ({
-  maxAge: 604800000,
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   httpOnly: true,
   signed: true,
   secure: isHttps,
