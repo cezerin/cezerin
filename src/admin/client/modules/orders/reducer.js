@@ -26,8 +26,8 @@ const initialState = {
     // grand_total_max: null,
     // date_created_min: null,
     // date_created_max: null,
-    // date_completed_min: null,
-    // date_completed_max: null
+    // date_closed_min: null,
+    // date_closed_max: null
   }
 };
 

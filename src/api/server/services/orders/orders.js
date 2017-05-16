@@ -14,6 +14,7 @@ const OrderStatusesService = require('./order_statuses');
 const PaymentMethodsLightService = require('./payment_methods_light');
 const ShippingMethodsLightService = require('./shipping_methods_light');
 const EmailTemplatesService = require('../settings/email_templates');
+const ProductStockService = require('../products/stock');
 
 class OrdersService {
   constructor() {}
@@ -36,8 +37,8 @@ class OrdersService {
     const grand_total_max = parse.getNumberIfPositive(params.grand_total_max);
     const date_created_min = parse.getDateIfValid(params.date_created_min);
     const date_created_max = parse.getDateIfValid(params.date_created_max);
-    const date_completed_min = parse.getDateIfValid(params.date_completed_min);
-    const date_completed_max = parse.getDateIfValid(params.date_completed_max);
+    const date_closed_min = parse.getDateIfValid(params.date_closed_min);
+    const date_closed_max = parse.getDateIfValid(params.date_closed_max);
 
     if (id) {
       filter._id = new ObjectID(id);
@@ -107,13 +108,13 @@ class OrdersService {
       }
     }
 
-    if (date_completed_min || date_completed_max) {
-      filter.date_completed = {};
-      if (date_completed_min) {
-        filter.date_completed['$gte'] = date_completed_min.toISOString();
+    if (date_closed_min || date_closed_max) {
+      filter.date_closed = {};
+      if (date_closed_min) {
+        filter.date_closed['$gte'] = date_closed_min.toISOString();
       }
-      if (date_completed_max) {
-        filter.date_completed['$lte'] = date_completed_max.toISOString();
+      if (date_closed_max) {
+        filter.date_closed['$lte'] = date_closed_max.toISOString();
       }
     }
 
@@ -271,7 +272,7 @@ class OrdersService {
         'date_created': new Date(),
         'date_placed': null,
         'date_updated': null,
-        'date_completed': null,
+        'date_closed': null,
         'date_paid': null,
         'date_cancelled': null,
         'number': orderNumber,
@@ -525,17 +526,28 @@ class OrdersService {
     return order;
   }
 
-  checkoutOrder(order_id) {
+  sendOrderNotification(message) {
+    return emailSender.send(message).then(info => {
+      winston.info('Email order confirmation', info);
+      return info;
+    }).catch(err => {
+      winston.error('Email order confirmation', err);
+      return err;
+    });
+  }
+
+  checkoutOrder(orderId) {
     /*
     + get order info
     + return order info
     + send emails
-    - order confirmation template
+    + order confirmation template
+    - update stock
     - fire Webhooks
     */
     return Promise.all([
-        this.getOrCreateCustomer(order_id).then(customer_id => {
-          return this.updateOrder(order_id, {
+        this.getOrCreateCustomer(orderId).then(customer_id => {
+          return this.updateOrder(orderId, {
             customer_id: customer_id,
             date_placed: new Date(),
             draft: false
@@ -551,15 +563,29 @@ class OrdersService {
           html: html
         }
 
-        return emailSender.send(message).then(info => {
-          winston.info('Email order confirmation', info);
-          return order;
-        }).catch(err => {
-          winston.error('Email order confirmation', err);
-          return order;
-        });
+        return this.sendOrderNotification(message)
+        .then(() => ProductStockService.handleOrderCheckout(orderId))
+        .then(() => order);
       });
-    }
+  }
+
+  cancelOrder(orderId) {
+    const orderData = {
+      cancelled: true,
+      date_cancelled: new Date()
+    };
+
+    return ProductStockService.handleCancelOrder(orderId).then(() => this.updateOrder(orderId, orderData));
+  }
+
+  closeOrder(orderId) {
+    const orderData = {
+      closed: true,
+      date_closed: new Date()
+    };
+
+    return this.updateOrder(orderId, orderData);
+  }
 }
 
 module.exports = new OrdersService();

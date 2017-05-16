@@ -380,6 +380,30 @@ export function updateOrder(data) {
   }
 }
 
+export function closeOrder(orderId) {
+  return (dispatch, getState) => {
+    return api.orders.close(orderId)
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
+    })
+    .catch(error => {});
+  }
+}
+
+export function cancelOrder(orderId) {
+  return (dispatch, getState) => {
+    return api.orders.cancel(orderId)
+    .then(orderResponse => orderResponse.json)
+    .then(fetchOrderAdditionalData)
+    .then(order => {
+      dispatch(receiveOrder(order))
+    })
+    .catch(error => {});
+  }
+}
+
 export function updateShippingAddress(orderId, address) {
   return (dispatch, getState) => {
     return api.orders.updateShippingAddress(orderId, address)

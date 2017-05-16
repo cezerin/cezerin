@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addOrderItem, updateOrder, deleteCurrentOrder } from '../actions'
+import { addOrderItem, updateOrder, deleteCurrentOrder, closeOrder, cancelOrder } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(deleteCurrentOrder());
     },
     setCancelled: (orderId) => {
-      dispatch(updateOrder({ id: orderId, cancelled: true }));
+      dispatch(cancelOrder(orderId));
     },
     holdOrder: (orderId) => {
       dispatch(updateOrder({ id: orderId, hold: true }));
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(updateOrder({ id: orderId, hold: false }));
     },
     setClosed: (orderId) => {
-      dispatch(updateOrder({ id: orderId, closed: true }));
+      dispatch(closeOrder(orderId));
     },
     addItem: (orderId, productId) => {
       dispatch(addOrderItem(orderId, productId));

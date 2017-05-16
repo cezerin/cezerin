@@ -22,6 +22,8 @@ class OrdersController {
 
     this.router.put('/v1/orders/:id/recalculate', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.recalculateOrder.bind(this));
     this.router.put('/v1/orders/:id/checkout', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.checkoutOrder.bind(this));
+    this.router.put('/v1/orders/:id/cancel', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.cancelOrder.bind(this));
+    this.router.put('/v1/orders/:id/close', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.closeOrder.bind(this));
 
     this.router.put('/v1/orders/:id/billing_address', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateBillingAddress.bind(this));
     this.router.put('/v1/orders/:id/shipping_address', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateShippingAddress.bind(this));
@@ -91,9 +93,19 @@ class OrdersController {
 
   checkoutOrder(req, res, next) {
     OrdersService.checkoutOrder(req.params.id).then(data => {
-      setTimeout(() => {
-        res.send(data)
-      }, 5000)
+      res.send(data)
+    }).catch(next);
+  }
+
+  cancelOrder(req, res, next) {
+    OrdersService.cancelOrder(req.params.id).then(data => {
+      res.send(data)
+    }).catch(next);
+  }
+
+  closeOrder(req, res, next) {
+    OrdersService.closeOrder(req.params.id).then(data => {
+      res.send(data)
     }).catch(next);
   }
 

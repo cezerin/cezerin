@@ -7,6 +7,7 @@ var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var OrdersService = require('./orders');
 var ProductsService = require('../products/products');
+const ProductStockService = require('../products/stock');
 
 class OrderItemsService {
   constructor() {}
@@ -30,7 +31,10 @@ class OrderItemsService {
           $push: {
             items: newItem
           }
-        }).then(() => this.calculateAndUpdateItem(order_id, newItem.id)).then(() => OrdersService.getSingleOrder(order_id));
+        })
+        .then(() => this.calculateAndUpdateItem(order_id, newItem.id))
+        .then(() => ProductStockService.handleAddOrderItem(order_id, newItem.id))
+        .then(() => OrdersService.getSingleOrder(order_id));
       }
     })
   }
@@ -61,10 +65,14 @@ class OrderItemsService {
       return this.deleteItem(order_id, item_id);
     } else {
       // update
-      return mongo.db.collection('orders').updateOne({
-        _id: orderObjectID,
-        'items.id': itemObjectID
-      }, {$set: item}).then(() => this.calculateAndUpdateItem(order_id, item_id)).then(() => OrdersService.getSingleOrder(order_id));
+      return ProductStockService.handleDeleteOrderItem(order_id, item_id)
+      .then(() => mongo.db.collection('orders').updateOne({
+          _id: orderObjectID,
+          'items.id': itemObjectID
+        }, {$set: item}))
+      .then(() => this.calculateAndUpdateItem(order_id, item_id))
+      .then(() => ProductStockService.handleAddOrderItem(order_id, item_id))
+      .then(() => OrdersService.getSingleOrder(order_id));
     }
   }
 
@@ -201,7 +209,8 @@ class OrderItemsService {
     let orderObjectID = new ObjectID(order_id);
     let itemObjectID = new ObjectID(item_id);
 
-    return mongo.db.collection('orders').updateOne({
+    return ProductStockService.handleDeleteOrderItem(order_id, item_id)
+    .then(() => mongo.db.collection('orders').updateOne({
       _id: orderObjectID
     }, {
       $pull: {
@@ -209,7 +218,8 @@ class OrderItemsService {
           id: itemObjectID
         }
       }
-    }).then(res => OrdersService.getSingleOrder(order_id));
+    }))
+    .then(() => OrdersService.getSingleOrder(order_id));
   }
 
   getValidDocumentForInsert(data) {
