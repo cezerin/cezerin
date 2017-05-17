@@ -292,15 +292,18 @@ export function updateProduct(data) {
 export function createProduct() {
   return (dispatch, getState) => {
     const state = getState();
-    return api.products.create({ enabled: false, category_id: state.productCategories.selectedId }).then(({status, json}) => {
+
+    const productDraft = {
+      enabled: false,
+      category_id: state.productCategories.selectedId
+    };
+
+    return api.products.create(productDraft).then(({status, json}) => {
         dispatch(successCreateProduct(json.id));
         dispatch(fetchProducts());
         dispatch(push('/admin/product/'+json.id));
     })
-    .catch(error => {
-        //dispatch error
-        console.log(error)
-    });
+    .catch(error => {});
   }
 }
 
