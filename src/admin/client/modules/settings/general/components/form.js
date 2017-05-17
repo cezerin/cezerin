@@ -2,6 +2,7 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import {TextField, SelectField, DatePicker} from 'redux-form-material-ui'
 
+import { CustomToggle } from 'modules/shared/form'
 import messages from 'lib/text'
 import style from './style.css'
 import data from 'lib/data'
@@ -242,6 +243,13 @@ class GeneralSettings extends React.Component {
                 <Field component={TextField} fullWidth={true} name="default_shipping_city"/>
               </div>
             </div>
+
+            <Divider style={{
+              marginTop: 10,
+              marginBottom: 10
+            }}/>
+
+            <Field component={CustomToggle} name="hide_billing_address" label={messages.hideBillingAddress} style={{paddingTop:16, paddingBottom:16}}/>
 
             <Divider style={{
               marginTop: 10,
