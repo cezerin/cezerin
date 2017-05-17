@@ -201,7 +201,8 @@ class ProductsService {
     	},
       url: { "$literal" : "" },
       path: { "$literal" : "" },
-      category_name: { "$literal" : "" }
+      category_name: { "$literal" : "" },
+      category_slug: { "$literal" : "" }
     };
 
     if(fieldsArray && fieldsArray.length > 0) {
@@ -591,6 +592,10 @@ class ProductsService {
           if(category) {
             if(item.category_name === "") {
               item.category_name = category.name;
+            }
+
+            if(item.category_slug === "") {
+              item.category_slug = category.slug;
             }
 
             if(item.url === "") {
