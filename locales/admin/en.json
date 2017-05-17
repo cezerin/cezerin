@@ -287,5 +287,6 @@
   "closeOrderConfirmation": "Close order? You can’t undo this action.",
   "cancelOrderConfirmation": "Cancel order? All products will be restocked back to your store. You can’t undo this action.",
   "placeOrder": "Place Order",
-  "viewOnWebsite": "View on website"
+  "viewOnWebsite": "View on website",
+  "hideBillingAddress": "Don't ask for a billing address"
 }

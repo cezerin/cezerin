@@ -21,5 +21,6 @@
   "company": "Company (optional)",
   "comments": "Comments (optional)",
   "required": "This field is required.",
-  "emailInvalid": "Please enter a valid email address."
+  "emailInvalid": "Please enter a valid email address.",
+  "sameAsShipping": "Same as shipping address"
 }
