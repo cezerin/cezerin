@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 import messages from 'lib/text'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -28,6 +29,8 @@ export default class Buttons extends React.Component {
   };
 
   render() {
+    const {product} = this.props;
+
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
@@ -47,6 +50,13 @@ export default class Buttons extends React.Component {
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.deleteProduct} onTouchTap={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
+        {product && product.enabled &&
+          <a href={product.url} target="_blank">
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.viewOnWebsite}>
+              <FontIcon color="#fff" className="material-icons">open_in_new</FontIcon>
+            </IconButton>
+          </a>
+        }
         <Dialog
           title={messages.messages_deleteForever}
           actions={actionsDelete}

@@ -247,7 +247,7 @@
   "addVariant": "Add new variant",
   "addOption": "Add new option",
   "logo": "Logo",
-  "chooseImage": "Choose an Image",
+  "chooseImage": "Choose images",
   "position": "Position",
   "optionName": "Option name",
   "optionControl": "Option control",
@@ -286,5 +286,6 @@
   "deleteOrderConfirmation": "Delete order forever? You can’t undo this action.",
   "closeOrderConfirmation": "Close order? You can’t undo this action.",
   "cancelOrderConfirmation": "Cancel order? All products will be restocked back to your store. You can’t undo this action.",
-  "placeOrder": "Place Order"
+  "placeOrder": "Place Order",
+  "viewOnWebsite": "View on website"
 }

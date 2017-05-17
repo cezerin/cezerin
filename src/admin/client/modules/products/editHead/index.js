@@ -5,6 +5,7 @@ import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
   return {
+    product: state.products.editProduct
   }
 }
 
