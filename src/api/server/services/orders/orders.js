@@ -119,14 +119,16 @@ class OrdersService {
     }
 
     if (params.search) {
-      filter['$text'] = {
-        '$search': params.search
-        // +
-        // 'number':'text',
-        // 'referrer_url':'text',
-        // 'landing_url':'text',
-        // 'coupon':'text',
-      };
+      let alternativeSearch = [];
+
+      const searchAsNumber = parse.getNumberIfPositive(params.search);
+      if(searchAsNumber) {
+        alternativeSearch.push({ number: searchAsNumber })
+      }
+
+      alternativeSearch.push({ '$text': { '$search': params.search } })
+
+      filter['$or'] = alternativeSearch;
     }
 
     return filter;
