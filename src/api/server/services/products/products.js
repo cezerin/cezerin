@@ -474,7 +474,11 @@ class ProductsService {
     }
 
     if(data.slug !== undefined) {
-      product.slug = parse.getString(data.slug);
+      if(data.slug === '' && product.name && product.name.length > 0) {
+        product.slug = product.name;
+      } else {
+        product.slug = parse.getString(data.slug);
+      }
     }
 
     if(data.sku !== undefined) {
