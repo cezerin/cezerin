@@ -28,7 +28,8 @@ class SettingsService {
       'default_shipping_city': '',
       'default_product_sorting': 'stock_status,price,position',
       'weight_unit': 'kg',
-      'length_unit': 'cm'
+      'length_unit': 'cm',
+      'hide_billing_address': false
     }
   }
 
@@ -132,6 +133,10 @@ class SettingsService {
 
     if (data.logo_file !== undefined) {
       settings.logo_file = parse.getString(data.logo_file);
+    }
+
+    if (data.hide_billing_address !== undefined) {
+      settings.hide_billing_address = parse.getBooleanIfValid(data.hide_billing_address, false);
     }
 
     return settings;
