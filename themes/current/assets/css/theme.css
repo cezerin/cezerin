@@ -117,6 +117,15 @@
   border-radius: 4px;
 }
 
+.billing-as-shipping {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.billing-as-shipping label {
+  padding-left: 10px;
+}
+
 hr.separator {
   background-color: #eee;
   height: 1px;

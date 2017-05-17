@@ -1,6 +1,7 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import text from '../../text'
+import { formatCurrency } from '../../lib/helper'
 
 const validateRequired = value => value
   ? undefined
@@ -32,11 +33,18 @@ const textareaField = (field) => (
 class Form extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      billingAsShipping: true
+    };
   }
 
   componentDidMount() {
     this.props.onLoad();
   }
+
+  onChangeBillingAsShipping = (event) => {
+    this.setState({billingAsShipping: event.target.checked});
+  };
 
   getField = (fieldName) => {
     const fields = this.props.checkoutFields || [];
@@ -119,6 +127,7 @@ class Form extends React.Component {
       loadingPaymentMethods,
       processingCheckout,
       initialValues,
+      settings,
       saveShippingCountry,
       saveShippingState,
       saveShippingCity,
@@ -130,6 +139,8 @@ class Form extends React.Component {
       inputClassName = 'checkout-field',
       buttonClassName = 'checkout-button'
     } = this.props;
+
+    const hideBillingAddress = settings.hide_billing_address === true;
 
     if (initialValues && initialValues.items.length > 0) {
       return (
@@ -184,7 +195,7 @@ class Form extends React.Component {
                   <div className="shipping-method-name">{method.name}</div>
                   <div className="shipping-method-description">{method.description}</div>
                 </div>
-                <span className="shipping-method-rate">{method.price > 0 && method.price}</span>
+                <span className="shipping-method-rate">{formatCurrency(method.price, settings)}</span>
               </label>)}
             </div>
 
@@ -209,6 +220,27 @@ class Form extends React.Component {
             <Field className={inputClassName} name="shipping_address.phone" id="shipping_address.phone" component={inputField} type="text" label={text.phone}/>
             <Field className={inputClassName} name="shipping_address.company" id="shipping_address.company" component={inputField} type="text" label={text.company}/>
             <Field className={inputClassName} name="comments" id="customer.comments" component={textareaField} type="text" label={text.comments} rows="3"/>
+
+            {!hideBillingAddress &&
+              <div>
+                <h2>{text.billingAddress}</h2>
+                <div className="billing-as-shipping">
+                  <input id="billingAsShipping" type="checkbox" onChange={this.onChangeBillingAsShipping} checked={this.state.billingAsShipping} />
+                  <label htmlFor="billingAsShipping">{text.sameAsShipping}</label>
+                </div>
+
+                {!this.state.billingAsShipping &&
+                  <div>
+                    <Field className={inputClassName} name="billing_address.full_name" id="billing_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
+                    <Field className={inputClassName} name="billing_address.address1" id="billing_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
+                    <Field className={inputClassName} name="billing_address.address2" id="billing_address.address2" component={inputField} type="text" label={text.address2}/>
+                    <Field className={inputClassName} name="billing_address.zip" id="billing_address.zip" component={inputField} type="text" label={text.zip} validate={[validateRequired]}/>
+                    <Field className={inputClassName} name="billing_address.phone" id="billing_address.phone" component={inputField} type="text" label={text.phone}/>
+                    <Field className={inputClassName} name="billing_address.company" id="billing_address.company" component={inputField} type="text" label={text.company}/>
+                  </div>
+                }
+              </div>
+            }
 
             <div className="checkout-button-wrap">
               <button type="button" onClick={handleSubmit(data => {
