@@ -99,18 +99,30 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
       ip = ip.replace('::ffff:', '');
     }
 
-    api.orders.create({
+    let orderDraft = {
       draft: true,
       referrer_url: req.signedCookies.referrer_url,
       landing_url: req.signedCookies.landing_url,
       browser: {
         ip: ip,
         user_agent: req.get('user-agent')
-      }
-    }).then(({status, json}) => {
-      res.cookie('order_id', json.id, CART_COOKIE_OPTIONS);
-      api.orders.items.create(json.id, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
-        res.status(status).send(json);
+      },
+      shipping_address: {}
+    };
+
+    api.settings.retrieve().then(settingsResponse => {
+      const storeSettings = settingsResponse.json;
+      orderDraft.shipping_address.country = storeSettings.default_shipping_country.toUpperCase();
+      orderDraft.shipping_address.state = storeSettings.default_shipping_state;
+      orderDraft.shipping_address.city = storeSettings.default_shipping_city;
+      return orderDraft;
+    }).then(orderDraft => {
+      api.orders.create(orderDraft).then(orderResponse => {
+        const orderId = orderResponse.json.id;
+        res.cookie('order_id', orderId, CART_COOKIE_OPTIONS);
+        api.orders.items.create(orderId, item).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
+          res.status(status).send(json);
+        })
       })
     })
   }
