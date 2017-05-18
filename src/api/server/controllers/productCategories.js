@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var CategoriesService = require('../services/products/product_categories');
+var CategoriesService = require('../services/products/productCategories');
 
 class ProductCategoriesController {
   constructor(router) {

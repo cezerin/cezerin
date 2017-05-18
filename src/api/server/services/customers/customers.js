@@ -4,7 +4,7 @@ var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
-var customerGroupsService = require('./customer_groups');
+var customerGroupsService = require('./customerGroups');
 
 class CustomersService {
   constructor() {}

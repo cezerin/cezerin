@@ -2,10 +2,10 @@
 
 const security = require('../lib/security');
 var OrdersService = require('../services/orders/orders');
-var OrderAddressService = require('../services/orders/order_address');
-var OrderItemsService = require('../services/orders/order_items');
-var OrdertTansactionsService = require('../services/orders/order_transactions');
-var OrdertDiscountsService = require('../services/orders/order_discounts');
+var OrderAddressService = require('../services/orders/orderAddress');
+var OrderItemsService = require('../services/orders/orderItems');
+var OrdertTansactionsService = require('../services/orders/orderTransactions');
+var OrdertDiscountsService = require('../services/orders/orderDiscounts');
 
 class OrdersController {
   constructor(router) {

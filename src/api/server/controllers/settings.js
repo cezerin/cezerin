@@ -3,8 +3,8 @@
 const security = require('../lib/security');
 var SettingsService = require('../services/settings/settings');
 var EmailSettingsService = require('../services/settings/email');
-var EmailTemplatesService = require('../services/settings/email_templates');
-var CheckoutFieldsService = require('../services/settings/checkout_fields');
+var EmailTemplatesService = require('../services/settings/emailTemplates');
+var CheckoutFieldsService = require('../services/settings/checkoutFields');
 
 class SettingsController {
   constructor(router) {

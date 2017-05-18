@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var PaymentMethodsService = require('../services/orders/payment_methods');
+var PaymentMethodsService = require('../services/orders/paymentMethods');
 
 class PaymentMethodsController {
   constructor(router) {

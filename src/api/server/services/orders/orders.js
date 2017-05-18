@@ -10,10 +10,10 @@ const emailSender = require('../../lib/email');
 const ObjectID = require('mongodb').ObjectID;
 const ProductsService = require('../products/products');
 const CustomersService = require('../customers/customers');
-const OrderStatusesService = require('./order_statuses');
-const PaymentMethodsLightService = require('./payment_methods_light');
-const ShippingMethodsLightService = require('./shipping_methods_light');
-const EmailTemplatesService = require('../settings/email_templates');
+const OrderStatusesService = require('./orderStatuses');
+const PaymentMethodsLightService = require('./paymentMethodsLight');
+const ShippingMethodsLightService = require('./shippingMethodsLight');
+const EmailTemplatesService = require('../settings/emailTemplates');
 const ProductStockService = require('../products/stock');
 
 class OrdersService {

@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var CustomerGroupsService = require('../services/customers/customer_groups');
+var CustomerGroupsService = require('../services/customers/customerGroups');
 
 class CustomerGroupsController {
   constructor(router) {

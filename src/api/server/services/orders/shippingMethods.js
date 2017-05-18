@@ -4,10 +4,10 @@ var mongo = require('../../lib/mongo');
 var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
-var PaymentMethodsLightService = require('./payment_methods_light');
+var ShippingMethodsLightService = require('./shippingMethodsLight');
 var OrdersService = require('./orders');
 
-class PaymentMethodsService {
+class ShippingMethodsService {
   constructor() {}
 
   getFilter(params = {}) {
@@ -29,6 +29,29 @@ class PaymentMethodsService {
         return OrdersService.getSingleOrder(order_id).then(order => {
           if (order) {
             filter['$and'] = [];
+            filter['$and'].push({
+              $or: [
+                {
+                  'conditions.weight_total_min': 0
+                }, {
+                  'conditions.weight_total_min': {
+                    $lte: order.weight_total
+                  }
+                }
+              ]
+            });
+            filter['$and'].push({
+              $or: [
+                {
+                  'conditions.weight_total_max': 0
+                }, {
+                  'conditions.weight_total_max': {
+                    $gte: order.weight_total
+                  }
+                }
+              ]
+            });
+
             filter['$and'].push({
               $or: [
                 {
@@ -66,15 +89,29 @@ class PaymentMethodsService {
               });
             }
 
-            if (order.shipping_method_id && order.shipping_method_id.length > 0) {
+            if (order.shipping_address.state && order.shipping_address.state.length > 0) {
               filter['$and'].push({
                 $or: [
                   {
-                    'conditions.shipping_method_ids': {
+                    'conditions.states': {
                       $size: 0
                     }
                   }, {
-                    'conditions.shipping_method_ids': order.shipping_method_id
+                    'conditions.states': order.shipping_address.state
+                  }
+                ]
+              });
+            }
+
+            if (order.shipping_address.city && order.shipping_address.city.length > 0) {
+              filter['$and'].push({
+                $or: [
+                  {
+                    'conditions.cities': {
+                      $size: 0
+                    }
+                  }, {
+                    'conditions.cities': order.shipping_address.city
                   }
                 ]
               });
@@ -90,7 +127,7 @@ class PaymentMethodsService {
 
   getMethods(params = {}) {
     return this.getFilter(params).then(filter => {
-      return PaymentMethodsLightService.getMethods(filter);
+      return ShippingMethodsLightService.getMethods(filter);
     });
   }
 
@@ -107,7 +144,7 @@ class PaymentMethodsService {
 
   addMethod(data) {
     const method = this.getValidDocumentForInsert(data);
-    return mongo.db.collection('paymentMethods').insertMany([method]).then(res => this.getSingleMethod(res.ops[0]._id.toString()));
+    return mongo.db.collection('shippingMethods').insertMany([method]).then(res => this.getSingleMethod(res.ops[0]._id.toString()));
   }
 
   updateMethod(id, data) {
@@ -117,7 +154,7 @@ class PaymentMethodsService {
     const methodObjectID = new ObjectID(id);
     const method = this.getValidDocumentForUpdate(id, data);
 
-    return mongo.db.collection('paymentMethods').updateOne({
+    return mongo.db.collection('shippingMethods').updateOne({
       _id: methodObjectID
     }, {$set: method}).then(res => this.getSingleMethod(id));
   }
@@ -127,24 +164,30 @@ class PaymentMethodsService {
       return Promise.reject('Invalid identifier');
     }
     const methodObjectID = new ObjectID(id);
-    return mongo.db.collection('paymentMethods').deleteOne({'_id': methodObjectID}).then(deleteResponse => {
+    return mongo.db.collection('shippingMethods').deleteOne({'_id': methodObjectID}).then(deleteResponse => {
       return deleteResponse.deletedCount > 0;
     });
   }
 
-  getPaymentMethodConditions(conditions) {
+  getShippingMethodConditions(conditions) {
     return conditions
       ? {
         'countries': parse.getArrayIfValid(conditions.countries) || [],
-        'shipping_method_ids': parse.getArrayIfValid(conditions.shipping_method_ids) || [],
+        'states': parse.getArrayIfValid(conditions.states) || [],
+        'cities': parse.getArrayIfValid(conditions.cities) || [],
         'subtotal_min': parse.getNumberIfPositive(conditions.subtotal_min) || 0,
-        'subtotal_max': parse.getNumberIfPositive(conditions.subtotal_max) || 0
+        'subtotal_max': parse.getNumberIfPositive(conditions.subtotal_max) || 0,
+        'weight_total_min': parse.getNumberIfPositive(conditions.weight_total_min) || 0,
+        'weight_total_max': parse.getNumberIfPositive(conditions.weight_total_max) || 0
       }
       : {
         'countries': [],
-        'shipping_method_ids': [],
+        'states': [],
+        'cities': [],
         'subtotal_min': null,
-        'subtotal_max': null
+        'subtotal_max': null,
+        'weight_total_min': null,
+        'weight_total_max': null
       };
   }
 
@@ -159,7 +202,8 @@ class PaymentMethodsService {
     method.description = parse.getString(data.description);
     method.position = parse.getNumberIfPositive(data.position) || 0;
     method.enabled = parse.getBooleanIfValid(data.enabled, true);
-    method.conditions = this.getPaymentMethodConditions(data.conditions);
+    method.price = parse.getNumberIfPositive(data.price) || 0;
+    method.conditions = this.getShippingMethodConditions(data.conditions);
 
     return method;
   }
@@ -187,12 +231,16 @@ class PaymentMethodsService {
       method.enabled = parse.getBooleanIfValid(data.enabled, true);
     }
 
+    if (data.price !== undefined) {
+      method.price = parse.getNumberIfPositive(data.price) || 0;
+    }
+
     if (data.conditions !== undefined) {
-      method.conditions = this.getPaymentMethodConditions(data.conditions);
+      method.conditions = this.getShippingMethodConditions(data.conditions);
     }
 
     return method;
   }
 }
 
-module.exports = new PaymentMethodsService();
+module.exports = new ShippingMethodsService();
