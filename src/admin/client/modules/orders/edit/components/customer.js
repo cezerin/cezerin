@@ -17,7 +17,7 @@ import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import Dialog from 'material-ui/Dialog';
 
-const Address = ({ address }) => {
+const ShippingAddress = ({ address, settings }) => {
   return (
     <div className={style.address} style={{ marginBottom:20 }}>
       <div>{address.full_name}</div>
@@ -29,6 +29,57 @@ const Address = ({ address }) => {
       <div>{address.phone}</div>
     </div>
   )
+}
+
+const BillingAddress = ({ address, settings }) => {
+  const billinsAddressIsEmpty = address.address1 === '' &&
+    address.address2 === '' &&
+    address.city === '' &&
+    address.company === '' &&
+    address.country === '' &&
+    address.full_name === '' &&
+    address.phone === '' &&
+    address.state === '' &&
+    address.tax_number === '' &&
+    address.zip === '';
+
+  if(billinsAddressIsEmpty && settings.hide_billing_address) {
+    return null;
+  } else if(billinsAddressIsEmpty && !settings.hide_billing_address) {
+    return (
+      <div>
+        <Divider style={{
+          marginTop: 30,
+          marginBottom: 30,
+          marginLeft: -30,
+          marginRight: -30
+        }}/>
+        <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.billingAddress}</div>
+        <div className={style.address}>{messages.sameAsShipping}</div>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <Divider style={{
+          marginTop: 30,
+          marginBottom: 30,
+          marginLeft: -30,
+          marginRight: -30
+        }}/>
+        <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.billingAddress}</div>
+        <div className={style.address}>
+          <div>{address.full_name}</div>
+          <div>{address.company}</div>
+          <div>{address.address1}</div>
+          <div>{address.address2}</div>
+          <div>{address.city}, {address.state && address.state.length > 0 ? address.state + ', ' : ''}{address.zip}</div>
+          <div>{address.country}</div>
+          <div>{address.phone}</div>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default class OrderCustomer extends React.Component {
@@ -53,7 +104,7 @@ export default class OrderCustomer extends React.Component {
   }
 
   render() {
-    const {order} = this.props;
+    const {order, settings} = this.props;
     const allowEdit = order.closed === false && order.cancelled === false;
     let mapAddress = `${order.shipping_address.address1} ${order.shipping_address.city} ${order.shipping_address.state} ${order.shipping_address.zip}`;
     mapAddress = mapAddress.replace(/ /g, '+');
@@ -78,22 +129,14 @@ export default class OrderCustomer extends React.Component {
           }}/>
 
           <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.shippingAddress}</div>
-          <Address address={order.shipping_address} />
+          <ShippingAddress address={order.shipping_address} settings={settings} />
 
           {allowEdit &&
             <RaisedButton label="Edit" style={{ marginRight:15 }} onTouchTap={this.showShippingEdit} />
           }
           <a href={mapUrl} target="_blank"><FlatButton label="View map" /></a>
 
-          <Divider style={{
-            marginTop: 30,
-            marginBottom: 30,
-            marginLeft: -30,
-            marginRight: -30
-          }}/>
-
-          <div style={{ paddingBottom:16, paddingTop:0 }}>{messages.billingAddress}</div>
-          <div className={style.address}>{messages.sameAsShipping}</div>
+          <BillingAddress address={order.billing_address} settings={settings} />
 
           <Dialog
             title={messages.shippingAddress}
