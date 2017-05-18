@@ -24,7 +24,7 @@ const ShippingAddress = ({ address, settings }) => {
       <div>{address.company}</div>
       <div>{address.address1}</div>
       <div>{address.address2}</div>
-      <div>{address.city}, {address.state && address.state.length > 0 ? address.state + ', ' : ''}{address.zip}</div>
+      <div>{address.city}, {address.state && address.state.length > 0 ? address.state + ', ' : ''}{address.postal_code}</div>
       <div>{address.country}</div>
       <div>{address.phone}</div>
     </div>
@@ -41,7 +41,7 @@ const BillingAddress = ({ address, settings }) => {
     address.phone === '' &&
     address.state === '' &&
     address.tax_number === '' &&
-    address.zip === '';
+    address.postal_code === '';
 
   if(billinsAddressIsEmpty && settings.hide_billing_address) {
     return null;
@@ -73,7 +73,7 @@ const BillingAddress = ({ address, settings }) => {
           <div>{address.company}</div>
           <div>{address.address1}</div>
           <div>{address.address2}</div>
-          <div>{address.city}, {address.state && address.state.length > 0 ? address.state + ', ' : ''}{address.zip}</div>
+          <div>{address.city}, {address.state && address.state.length > 0 ? address.state + ', ' : ''}{address.postal_code}</div>
           <div>{address.country}</div>
           <div>{address.phone}</div>
         </div>
@@ -106,7 +106,7 @@ export default class OrderCustomer extends React.Component {
   render() {
     const {order, settings} = this.props;
     const allowEdit = order.closed === false && order.cancelled === false;
-    let mapAddress = `${order.shipping_address.address1} ${order.shipping_address.city} ${order.shipping_address.state} ${order.shipping_address.zip}`;
+    let mapAddress = `${order.shipping_address.address1} ${order.shipping_address.city} ${order.shipping_address.state} ${order.shipping_address.postal_code}`;
     mapAddress = mapAddress.replace(/ /g, '+');
     const mapUrl = `https://www.google.com/maps/place/${mapAddress}`;
 

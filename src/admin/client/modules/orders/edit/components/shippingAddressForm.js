@@ -56,7 +56,7 @@ class ShippingAddressForm extends React.Component {
               <Field component={TextField} fullWidth={true} name="state" floatingLabelText={messages.state}/>
             </div>
             <div>
-              <Field component={TextField} fullWidth={true} name="zip" floatingLabelText={messages.zip}/>
+              <Field component={TextField} fullWidth={true} name="postal_code" floatingLabelText={messages.postal_code}/>
             </div>
             <div>
               <Field component={TextField} fullWidth={true} name="country" floatingLabelText={messages.country}/>

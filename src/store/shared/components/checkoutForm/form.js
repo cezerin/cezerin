@@ -216,7 +216,7 @@ class Form extends React.Component {
             <Field className={inputClassName} name="shipping_address.full_name" id="shipping_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
             <Field className={inputClassName} name="shipping_address.address1" id="shipping_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
             <Field className={inputClassName} name="shipping_address.address2" id="shipping_address.address2" component={inputField} type="text" label={text.address2}/>
-            <Field className={inputClassName} name="shipping_address.zip" id="shipping_address.zip" component={inputField} type="text" label={text.zip} validate={[validateRequired]}/>
+            <Field className={inputClassName} name="shipping_address.postal_code" id="shipping_address.postal_code" component={inputField} type="text" label={text.postal_code} validate={[validateRequired]}/>
             <Field className={inputClassName} name="shipping_address.phone" id="shipping_address.phone" component={inputField} type="text" label={text.phone}/>
             <Field className={inputClassName} name="shipping_address.company" id="shipping_address.company" component={inputField} type="text" label={text.company}/>
             <Field className={inputClassName} name="comments" id="customer.comments" component={textareaField} type="text" label={text.comments} rows="3"/>
@@ -234,7 +234,7 @@ class Form extends React.Component {
                     <Field className={inputClassName} name="billing_address.full_name" id="billing_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
                     <Field className={inputClassName} name="billing_address.address1" id="billing_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
                     <Field className={inputClassName} name="billing_address.address2" id="billing_address.address2" component={inputField} type="text" label={text.address2}/>
-                    <Field className={inputClassName} name="billing_address.zip" id="billing_address.zip" component={inputField} type="text" label={text.zip} validate={[validateRequired]}/>
+                    <Field className={inputClassName} name="billing_address.postal_code" id="billing_address.postal_code" component={inputField} type="text" label={text.postal_code} validate={[validateRequired]}/>
                     <Field className={inputClassName} name="billing_address.phone" id="billing_address.phone" component={inputField} type="text" label={text.phone}/>
                     <Field className={inputClassName} name="billing_address.company" id="billing_address.company" component={inputField} type="text" label={text.company}/>
                   </div>
