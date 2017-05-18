@@ -3,7 +3,7 @@ import { Link } from 'react-router'
 
 import messages from 'lib/text'
 import ProductCategoryHead from 'modules/productCategories/head/index'
-import CustomerGroupHead from 'modules/customer-groups/head/index'
+import CustomerGroupHead from 'modules/customerGroups/head/index'
 import CustomersHead from 'modules/customers/head/index'
 import ProductsHead from 'modules/products/listHead/index'
 import ProductHead from 'modules/products/editHead/index'

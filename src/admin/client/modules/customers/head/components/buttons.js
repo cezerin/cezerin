@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 
 import messages from 'lib/text'
-import GroupSelect from 'modules/customer-groups/select'
+import GroupSelect from 'modules/customerGroups/select'
 
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
