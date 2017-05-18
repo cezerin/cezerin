@@ -112,7 +112,7 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
 
     api.settings.retrieve().then(settingsResponse => {
       const storeSettings = settingsResponse.json;
-      orderDraft.shipping_address.country = storeSettings.default_shipping_country.toUpperCase();
+      orderDraft.shipping_address.country = storeSettings.default_shipping_country;
       orderDraft.shipping_address.state = storeSettings.default_shipping_state;
       orderDraft.shipping_address.city = storeSettings.default_shipping_city;
       return orderDraft;

@@ -54,7 +54,7 @@ class OrderAddressService {
     }
 
     if (data.country !== undefined) {
-      address[`${addressTypeName}.country`] = parse.getString(data.country);
+      address[`${addressTypeName}.country`] = parse.getString(data.country).toUpperCase();
     }
 
     if (data.state !== undefined) {
