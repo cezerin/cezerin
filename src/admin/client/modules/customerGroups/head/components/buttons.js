@@ -38,7 +38,6 @@ export default class Buttons extends React.Component {
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
@@ -51,7 +50,7 @@ export default class Buttons extends React.Component {
 
     return (
       <span>
-        <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+        <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="bottom-left" onTouchTap={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
 
