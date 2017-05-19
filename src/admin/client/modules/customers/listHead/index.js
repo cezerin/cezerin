@@ -5,7 +5,7 @@ import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
   return {
-    search: state.customers.filter_search,
+    search: state.customers.search,
     selectedCount: state.customers.selected.length
   }
 }

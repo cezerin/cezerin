@@ -13,7 +13,7 @@ const CustomersListItem = ({ customer, onSelect, selected, settings }) => {
   let totalSpentFormatted = helper.formatCurrency(customer.total_spent, settings);
 
   return (
-    <div>
+    <div className="customers-item">
       <ListItem style={{ cursor: 'normal' }}
         primaryText={
           <div className="row middle-xs">
@@ -34,8 +34,8 @@ const CustomersListItem = ({ customer, onSelect, selected, settings }) => {
             <div className="col-xs-1">
               {customer.orders_count || 0}
             </div>
-            <div className={"col-xs-2 " + style.price}>
-              {totalSpentFormatted}
+            <div className="col-xs-2">
+              <div className={style.price}>{totalSpentFormatted}</div>
             </div>
           </div>
         }

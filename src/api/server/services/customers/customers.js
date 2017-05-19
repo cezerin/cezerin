@@ -1,17 +1,15 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var ObjectID = require('mongodb').ObjectID;
-var customerGroupsService = require('./customerGroups');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
+const ObjectID = require('mongodb').ObjectID;
+const CustomerGroupsService = require('./customerGroups');
 
 class CustomersService {
   constructor() {}
 
-  getCustomers(params = {}) {
-    // sort
-    // fields
+  getFilter(params = {}) {
     // tag
     // gender
     // date_created_to
@@ -22,7 +20,13 @@ class CustomersService {
     // orders_count_from
 
     let filter = {};
+    const id = parse.getObjectIDIfValid(params.id);
     const group_id = parse.getObjectIDIfValid(params.group_id);
+
+    if (id) {
+      filter._id = new ObjectID(id);
+    }
+
     if (group_id) {
       filter.group_id = group_id;
     }
@@ -32,46 +36,39 @@ class CustomersService {
     }
 
     if (params.search) {
-      filter['$or'] = [
-        {
-          '$text': {
-            '$search': params.search
-          }
-        }, {
-          email: {
-            $regex: '*${params.search}*',
-            $options: 'i'
-          }
-        }
-      ]
+      let alternativeSearch = [];
+      alternativeSearch.push({ '$text': { '$search': params.search } })
+      filter['$or'] = alternativeSearch;
     }
 
+    return filter;
+  }
+
+  getCustomers(params = {}) {
+    let filter = this.getFilter(params);
     const limit = parse.getNumberIfPositive(params.limit) || 1000000;
     const offset = parse.getNumberIfPositive(params.offset) || 0;
 
-    return customerGroupsService.getGroups().then(customerGroups => mongo.db.collection('customers').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray().then(customers => customers.map(customer => {
-      const customerGroup = customer.group_id
-        ? customerGroups.find(group => group.id === customer.group_id)
-        : null;
-
-      return this.changeProperties(customer, customerGroup)
-    })));
+    return Promise.all([
+      CustomerGroupsService.getGroups(),
+      mongo.db.collection('customers').find(filter).sort({date_created: -1}).skip(offset).limit(limit).toArray(),
+      mongo.db.collection('customers').find(filter).count()
+    ]).then(([customerGroups, customers, customersCount]) => {
+      const items = customers.map(customer => this.changeProperties(customer, customerGroups));
+      const result = {
+        total_count: customersCount,
+        has_more: (offset + items.length) < customersCount,
+        data: items
+      };
+      return result;
+    })
   }
 
   getSingleCustomer(id) {
     if (!ObjectID.isValid(id)) {
       return Promise.reject('Invalid identifier');
     }
-    let customerObjectID = new ObjectID(id);
-
-    return mongo.db.collection('customers').findOne({_id: customerObjectID}).then(customer => {
-      return customer && customer.group_id
-        ? customerGroupsService.getSingleGroup(customer.group_id).then(customerGroup => ({customer, group: customerGroup}))
-        : {
-          customer,
-          group: null
-        };
-    }).then(({customer, group}) => this.changeProperties(customer, group));
+    return this.getCustomers({id: id}).then(items => items.data.length > 0 ? items.data[0] : {})
   }
 
   addCustomer(data) {
@@ -216,10 +213,14 @@ class CustomersService {
     return customer;
   }
 
-  changeProperties(customer, customerGroup) {
+  changeProperties(customer, customerGroups) {
     if (customer) {
       customer.id = customer._id.toString();
       delete customer._id;
+
+      const customerGroup = customer.group_id
+        ? customerGroups.find(group => group.id === customer.group_id)
+        : null;
 
       customer.group_name = customerGroup && customerGroup.name
         ? customerGroup.name

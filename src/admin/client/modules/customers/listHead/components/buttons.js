@@ -60,7 +60,6 @@ export default class Buttons extends React.Component {
     const actionsSetGroup = [
       <FlatButton
         label={messages.cancel}
-        primary={true}
         onTouchTap={this.closeSetGroup}
       />,
       <FlatButton
@@ -74,7 +73,6 @@ export default class Buttons extends React.Component {
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        primary={true}
         onTouchTap={this.closeDelete}
       />,
       <FlatButton
@@ -82,7 +80,7 @@ export default class Buttons extends React.Component {
         primary={true}
         keyboardFocused={true}
         onTouchTap={this.deleteCustomers}
-      />,
+      />
     ];
 
     return (
@@ -92,6 +90,9 @@ export default class Buttons extends React.Component {
           <span>
             <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
+            </IconButton>
+            <IconButton touch={true} tooltip={messages.customers_setGroup} onTouchTap={this.showSetGroup}>
+              <FontIcon color="#fff" className="material-icons">folder</FontIcon>
             </IconButton>
             <Dialog
               title={messages.messages_deleteForever}
@@ -129,9 +130,6 @@ export default class Buttons extends React.Component {
          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
         >
           <MenuItem containerElement={<Link to="/admin/customers/groups" />} primaryText={messages.customerGroups_titleEditMany} />
-          {selectedCount > 0 &&
-            <MenuItem primaryText={messages.customers_setGroup} onTouchTap={this.showSetGroup} />
-          }
         </IconMenu>
       </span>
     )

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { fetchCustomers, selectCustomer, deselectCustomer, selectAllCustomer, deselectAllCustomer, fetchMoreCustomers } from '../actions'
-// createProduct
 import List from './components/list'
 
 const mapStateToProps = (state) => {
@@ -8,8 +7,8 @@ const mapStateToProps = (state) => {
     settings: state.settings.settings,
     items: state.customers.items,
     selected: state.customers.selected,
-    isFetchingItems: state.customers.isFetching,
-    isFetchingMore: state.customers.isFetchingMore
+    loadingItems: state.customers.loadingItems,
+    hasMore: state.customers.hasMore
   }
 }
 

@@ -1,8 +1,7 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'lib/text'
-// import { push } from 'react-router-redux';
-// import moment from 'moment';
+import { push } from 'react-router-redux';
 
 // function requestCustomer() {
 //   return {
@@ -42,17 +41,21 @@ function requestMoreCustomers() {
   }
 }
 
-function receiveCustomersMore(items) {
+function receiveCustomersMore({ has_more, total_count, data }) {
   return {
     type: t.CUSTOMERS_MORE_RECEIVE,
-    items
+    has_more,
+    total_count,
+    data
   }
 }
 
-function receiveCustomers(items) {
+function receiveCustomers({ has_more, total_count, data }) {
   return {
     type: t.CUSTOMERS_RECEIVE,
-    items
+    has_more,
+    total_count,
+    data
   }
 }
 
@@ -161,19 +164,31 @@ function setGroupSuccess() {
 //   }
 // }
 
+const getFilter = (state, offset = 0) => {
+  let filter = {
+    limit: 50,
+    offset: offset
+  }
+
+  if(state.customers.search && state.customers.search !== ''){
+    filter.search = state.customers.search;
+  }
+
+  if(state.customerGroups.selectedId) {
+    filter.group_id = state.customerGroups.selectedId;
+  }
+
+  return filter;
+}
+
 export function fetchCustomers() {
   return (dispatch, getState) => {
     const state = getState();
-    if (!state.customers.isFetchingItems) {
+    if (!state.customers.loadingItems) {
       dispatch(requestCustomers());
       dispatch(deselectAllCustomer());
 
-      let filter = { limit: 20 };
-      filter.search = state.customers.filter_search;
-
-      if(state.customerGroups.selectedId) {
-        filter.group_id = state.customerGroups.selectedId;
-      }
+      let filter = getFilter(state);
 
       return api.customers.list(filter)
         .then(({status, json}) => {
@@ -189,23 +204,19 @@ export function fetchCustomers() {
 export function fetchMoreCustomers() {
   return (dispatch, getState) => {
     const state = getState();
-    dispatch(requestMoreCustomers());
+    if (!state.customers.loadingItems) {
+      dispatch(requestMoreCustomers());
 
-    let filter = { limit: 50 };
-    filter.offset = state.customers.items.length;
-    filter.search = state.customers.filter_search;
+      let filter = getFilter(state, state.customers.items.length);
 
-    if(state.customerGroups.selectedId) {
-      filter.group_id = state.customerGroups.selectedId;
+      return api.customers.list(filter)
+        .then(({status, json}) => {
+          dispatch(receiveCustomersMore(json))
+        })
+        .catch(error => {
+            dispatch(receiveCustomersError(error));
+        });
     }
-
-    return api.customers.list(filter)
-      .then(({status, json}) => {
-        dispatch(receiveCustomersMore(json))
-      })
-      .catch(error => {
-          dispatch(receiveCustomersError(error));
-      });
   }
 }
 

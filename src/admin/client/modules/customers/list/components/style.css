@@ -14,7 +14,8 @@
 
 .price {
   word-break: break-all;
-  text-align: right;;
+  text-align: right;
+  margin-right: 10px;
 }
 
 .more {
