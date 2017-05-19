@@ -94,7 +94,7 @@ export default class Buttons extends React.Component {
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
             <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
-              <FontIcon color="#fff" className="material-icons">move_to_inbox</FontIcon>
+              <FontIcon color="#fff" className="material-icons">folder</FontIcon>
             </IconButton>
             <Dialog
               title={messages.messages_deleteForever}
