@@ -3,7 +3,6 @@ import { List } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Head from './head'
 import OrdersListItem from './item'
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
