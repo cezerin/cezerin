@@ -1,10 +1,28 @@
 import React from 'react'
+import {Link} from 'react-router'
 import messages from 'lib/text'
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
+
+const CheckoutFieldItem = ({ name, status, path }) => {
+  return (
+    <div>
+      <Divider />
+      <Link to={`/admin/settings/checkout/fields/${path}`} style={{ textDecoration: 'none' }}>
+        <ListItem
+          rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
+          primaryText={<div className="row">
+            <div className="col-xs-6">{name}</div>
+            <div className="col-xs-6" style={{ color: 'rgba(0, 0, 0, 0.4)' }}>{status}</div>
+          </div>}
+        />
+      </Link>
+    </div>
+  )
+}
 
 export default class EmailSettings extends React.Component {
   constructor(props) {
@@ -37,43 +55,14 @@ export default class EmailSettings extends React.Component {
     return (
       <Paper className="paper-box" zDepth={1}>
           <div style={{width: '100%'}}>
-          <List>
             <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings_checkoutFields}</div>
-            <ListItem
-              rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.email}
-              secondaryText={this.getFieldStatus('email')}
-              onClick={() => { pushUrl('/admin/settings/checkout/fields/email') }}
-            />
-            <Divider />
-            <ListItem
-              rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.mobile}
-              secondaryText={this.getFieldStatus('mobile')}
-              onClick={() => { pushUrl('/admin/settings/checkout/fields/mobile') }}
-            />
-            <Divider />
-            <ListItem
-              rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.country}
-              secondaryText={this.getFieldStatus('country')}
-              onClick={() => { pushUrl('/admin/settings/checkout/fields/country') }}
-            />
-            <Divider />
-            <ListItem
-              rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.state}
-              secondaryText={this.getFieldStatus('state')}
-              onClick={() => { pushUrl('/admin/settings/checkout/fields/state') }}
-            />
-            <Divider />
-            <ListItem
-              rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-              primaryText={messages.city}
-              secondaryText={this.getFieldStatus('city')}
-              onClick={() => { pushUrl('/admin/settings/checkout/fields/city') }}
-            />
-          </List>
+            <List style={{ padding: 0 }}>
+              <CheckoutFieldItem name={messages.email} status={this.getFieldStatus('email')} path="email" />
+              <CheckoutFieldItem name={messages.mobile} status={this.getFieldStatus('mobile')} path="mobile" />
+              <CheckoutFieldItem name={messages.country} status={this.getFieldStatus('country')} path="country" />
+              <CheckoutFieldItem name={messages.state} status={this.getFieldStatus('state')} path="state" />
+              <CheckoutFieldItem name={messages.city} status={this.getFieldStatus('city')} path="city" />
+            </List>
           </div>
       </Paper>
     )

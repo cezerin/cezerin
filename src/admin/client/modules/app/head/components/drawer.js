@@ -12,20 +12,28 @@ import IconButton from 'material-ui/IconButton';
 let styles = {
   icon: {
     left: 14,
-    color: '#616161'
+    color: 'rgba(0,0,0,0.54)'
   },
-  activeIcon: {
+  iconActive: {
     left: 14,
     color: 'inherit'
   },
   item: {
     paddingLeft: 80,
-    // fontSize: 14,
-    // fontWeight: 500
+    fontSize: 14,
+    fontWeight: 500
   },
-  selected: {
-    color: '#ff5722',
+  itemActive: {
+    color: 'rgb(25, 118, 210)',
     backgroundColor: 'rgba(0,0,0,0.05)'
+  },
+  appBar: {
+    backgroundColor: '#fff',
+    paddingLeft: 30
+  },
+  appBarTitle: {
+    color: '#777',
+    fontSize: 18
   }
 }
 
@@ -39,8 +47,8 @@ const SideBar = ({ open, handleClose, items, title, currentUrl }) => {
     >
       <AppBar
         title={title}
-        style={{ backgroundColor: '#fff', paddingLeft: 30 }}
-        titleStyle={{ color: '#777', fontSize: 18 }}
+        style={styles.appBar}
+        titleStyle={styles.appBarTitle}
         zDepth={0}
         iconElementLeft={
           <IconButton onTouchTap={handleClose}>
@@ -49,7 +57,7 @@ const SideBar = ({ open, handleClose, items, title, currentUrl }) => {
         }
       />
 
-      <Menu onItemTouchTap={handleClose} value={currentUrl} selectedMenuItemStyle={styles.selected} disableAutoFocus={true}>
+      <Menu onItemTouchTap={handleClose} value={currentUrl} selectedMenuItemStyle={styles.itemActive} listStyle={{ paddingTop: 0 }} disableAutoFocus={true}>
         {items.map((item) => {
           if(item.title === '-') {
             return <Divider key={item.url} />
@@ -60,7 +68,7 @@ const SideBar = ({ open, handleClose, items, title, currentUrl }) => {
               containerElement={<Link to={item.url} />}
               primaryText={item.title}
               innerDivStyle={styles.item}
-              leftIcon={<FontIcon style={item.url === currentUrl ? styles.activeIcon : styles.icon} className="material-icons">{item.icon}</FontIcon>}
+              leftIcon={<FontIcon style={item.url === currentUrl ? styles.iconActive : styles.icon} className="material-icons">{item.icon}</FontIcon>}
             />
           }
         })}

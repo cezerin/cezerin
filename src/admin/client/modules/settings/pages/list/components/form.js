@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router'
 import messages from 'lib/text'
 
 import Paper from 'material-ui/Paper';
@@ -6,6 +7,25 @@ import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+
+const PageItem = ({page}) => {
+  return (
+    <div>
+      <Divider />
+      <Link to={`/admin/settings/pages/${page.id}`} style={{ textDecoration: 'none' }}>
+        <ListItem
+          rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
+          leftIcon={page.is_system ? <FontIcon className="material-icons">lock_outline</FontIcon> : null}
+          style={!page.enabled ? {color: 'rgba(0, 0, 0, 0.3)'} : {}}
+          primaryText={<div className="row">
+            <div className="col-xs-6">{page.meta_title}</div>
+            <div className="col-xs-6" style={{ color: 'rgba(0, 0, 0, 0.4)' }}>{page.path}</div>
+          </div>}
+        />
+      </Link>
+    </div>
+  )
+}
 
 export default class PagesList extends React.Component {
   constructor(props) {
@@ -18,27 +38,14 @@ export default class PagesList extends React.Component {
 
   render() {
     const {pages, pushUrl} = this.props;
-
-    let listItems = pages.map(page =>
-      <div key={page.id}>
-        <ListItem
-          rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-          leftIcon={page.is_system ? <FontIcon className="material-icons">lock_outline</FontIcon> : null}
-          style={!page.enabled ? {color: 'rgba(0, 0, 0, 0.3)'} : {}}
-          primaryText={page.meta_title}
-          secondaryText={page.path}
-          onClick={() => { pushUrl(`/admin/settings/pages/${page.id}`) }}
-        />
-        <Divider />
-      </div>
-    )
+    let listItems = pages.map((page, index) => <PageItem key={index} page={page} />)
 
     return (
       <Paper className="paper-box" zDepth={1}>
           <div style={{width: '100%'}}>
-          <List>
-            {listItems}
-          </List>
+            <List style={{ padding: 0 }}>
+              {listItems}
+            </List>
           </div>
           <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/pages/add') }}>
             <FontIcon className="material-icons">add</FontIcon>
