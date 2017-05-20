@@ -275,9 +275,6 @@ export function updateProduct(data) {
   return (dispatch, getState) => {
     dispatch(requestUpdateProduct());
 
-    // don't overwrite images
-    delete data.images;
-
     return api.products.update(data.id, data).then(({status, json}) => {
         const product = fixProductData(json);
         dispatch(receiveUpdateProduct(product));
@@ -465,9 +462,12 @@ export function deleteImage(productId, imageId) {
 
 export function updateImages(productId, images) {
   return (dispatch, getState) => {
-    return api.products.update(productId, { images: images }).then(({status, json}) => {
-          dispatch(fetchImages(productId))
-      })
-      .catch(error => {});
+    let promises = images.map(image => api.products.images.update(productId, image.id, image));
+
+    return Promise.all(promises)
+    .then(() => {
+      dispatch(fetchImages(productId))
+    })
+    .catch(error => {});
   }
 }
