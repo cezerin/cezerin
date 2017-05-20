@@ -43,7 +43,7 @@ const getBooleanIfValid = (value, defaultValue = null) => {
 
 const getObjectIDIfValid = (value) => {
   return ObjectID.isValid(value)
-    ? value
+    ? new ObjectID(value)
     : null;
 }
 

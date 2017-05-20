@@ -495,11 +495,19 @@ class ProductsService {
     }
 
     if(data.related_product_ids !== undefined) {
-      product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
-    }
+      const relatedProductIds = parse.getArrayIfValid(data.related_product_ids) || [];
+      const relatedProductObjectIds = [];
 
-    if(data.images !== undefined) {
-      product.images = parse.getArrayIfValid(data.images) || [];
+      if(relatedProductIds && relatedProductIds.length > 0){
+        for(const stringId of relatedProductIds){
+          const relatedObjectId = parse.getObjectIDIfValid(stringId);
+          if(relatedObjectId){
+            relatedProductObjectIds.push(relatedObjectId);
+          }
+        }
+      }
+
+      product.related_product_ids = relatedProductObjectIds;
     }
 
     if(data.prices !== undefined) {
