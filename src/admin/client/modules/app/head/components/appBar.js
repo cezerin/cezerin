@@ -102,17 +102,21 @@ export default class AppBarTop extends React.Component {
       rightElements = <OrdersHead />
     }
     else if(location.startsWith('/admin/order/')){
-      title = title = messages.order;
+      title = messages.order;
       leftButton = <Link to="/admin/orders"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <OrderHead />;
     }
+    else if(location.startsWith('/admin/customer/')){
+      title = messages.customer;
+      leftButton = <Link to="/admin/customers"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+    }
     else if(location.startsWith('/admin/product/') && location.includes('/option/')){
       const productId = location.split('/')[3];
-      title = title = messages.editProductOption;
+      title = messages.editProductOption;
       leftButton = <Link to={`/admin/product/${productId}/variants`}><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(location.startsWith('/admin/product/')){
-      title = title = messages.products_titleEdit;
+      title = messages.products_titleEdit;
       leftButton = <Link to="/admin/products"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <ProductHead />;
     }
@@ -120,7 +124,7 @@ export default class AppBarTop extends React.Component {
       title = messages.productCategories_title;
       leftButton = <Link to="/admin/products"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       if(productCategoryName){
-        title = title = messages.productCategories_titleEdit;;
+        title = messages.productCategories_titleEdit;;
         rightElements = <ProductCategoryHead />
       }
     }
@@ -141,7 +145,7 @@ export default class AppBarTop extends React.Component {
       title = messages.customerGroups_title;
       leftButton = <Link to="/admin/customers"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       if(customerGroupName){
-        title = title = messages.customerGroups_titleEdit;;
+        title = messages.customerGroups_titleEdit;;
         rightElements = <CustomerGroupHead />
       }
     }

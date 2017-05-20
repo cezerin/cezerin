@@ -161,7 +161,7 @@ ReactDOM.render(
         <Route path="orders" component={layoutOrders}/>
         <Route path="order/:orderId" component={layoutOrdersDetails}/>
         <Route path="customers" component={layoutCustomers}/>
-        <Route path="customer/:id" component={layoutCustomerEdit}/>
+        <Route path="customer/:customerId" component={layoutCustomerEdit}/>
         <Route path="customers/groups" component={layoutCustomerGroups}/>
 
         <Route path="settings" component={layoutSettingsShared}>

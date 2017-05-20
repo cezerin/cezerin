@@ -1,29 +1,45 @@
 import { connect } from 'react-redux'
-import { reset } from 'redux-form';
-import { fetchProduct, cancelProductEdit, updateProduct  } from '../actions'
-import Form from './components/form'
+import { fetchCustomer, clearCustomerDetails, updateCustomer, updateAddress, deleteAddress, setDefaultBillingAddress, setDefaultShippingAddress } from '../actions'
+import CustomerDetails from './components/details'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
-    initialValues: state.products.editItem,
-    isFetchingEdit: state.products.isFetchingEdit
-    // categoryId: state.productCategories.selectedId,
-    // items: state.productCategories.items,
+    settings: state.settings.settings,
+    customer: state.customers.editCustomer
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchData: (productId) => {
-      dispatch(fetchProduct(productId));
+    fetchData: () => {
+      dispatch(fetchCustomer(ownProps.customerId));
     },
-    eraseData: () => {
-      dispatch(cancelProductEdit());
+    clearData: () => {
+      dispatch(clearCustomerDetails());
     },
-    onSubmit: (values) => {
-      dispatch(updateProduct(values));
+    onUpdateAddress: (address) => {
+      dispatch(updateAddress(ownProps.customerId, address.id, address));
+    },
+    onDeleteAddress: (addressId) => {
+      dispatch(deleteAddress(ownProps.customerId, addressId));
+    },
+    onSetDefaultBillingAddress: (addressId) => {
+      dispatch(setDefaultBillingAddress(ownProps.customerId, addressId));
+    },
+    onSetDefaultShippingAddress: (addressId) => {
+      dispatch(setDefaultShippingAddress(ownProps.customerId, addressId));
+    },
+    onCustomerSummaryUpdate: (customer) => {
+      dispatch(updateCustomer({
+        id: customer.id,
+        note: customer.note,
+        full_name:  customer.full_name,
+        group_id: customer.group_id,
+        email: customer.email,
+        mobile: customer.mobile
+      }));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(CustomerDetails);

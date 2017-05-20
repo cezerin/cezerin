@@ -1,8 +1,6 @@
 import React from 'react'
-// import ProductsEdit from 'modules/products/edit';
+import CustomerDetails from 'modules/customers/edit';
 
-export default({params}) => (
-  <div>
-    {/* <ProductsEdit productId={params.id}/> */}
-  </div>
+export default ({ params }) => (
+  <CustomerDetails customerId={params.customerId} />
 )

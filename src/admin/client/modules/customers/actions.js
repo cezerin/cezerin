@@ -3,31 +3,22 @@ import api from 'lib/api'
 import messages from 'lib/text'
 import { push } from 'react-router-redux';
 
-// function requestCustomer() {
-//   return {
-//     type: t.CUSTOMER_EDIT_REQUEST
-//   }
-// }
-//
-// function receiveCustomer(item) {
-//   return {
-//     type: t.CUSTOMER_EDIT_RECEIVE,
-//     item
-//   }
-// }
-//
-// function receiveCustomerError(error) {
-//   return {
-//     type: t.CUSTOMER_EDIT_FAILURE,
-//     error
-//   }
-// }
+function requestCustomer() {
+  return {
+    type: t.CUSTOMERS_DETAIL_REQUEST
+  }
+}
 
-// export function cancelCustomerEdit() {
-//   return {
-//     type: t.CUSTOMER_EDIT_ERASE
-//   }
-// }
+function receiveCustomer(item) {
+  return {
+    type: t.CUSTOMERS_DETAIL_RECEIVE,
+    item
+  }
+}
+
+export function clearCustomerDetails() {
+  return receiveCustomer(null);
+}
 
 function requestCustomers() {
   return {
@@ -99,34 +90,6 @@ export function setFilterSearch(value) {
   }
 }
 
-// export function setFilterStock(value) {
-//   return {
-//     type: t.CUSTOMERS_FILTER_SET_STOCK,
-//     stock_status: value
-//   }
-// }
-//
-// export function setFilterActive(value) {
-//   return {
-//     type: t.CUSTOMERS_FILTER_SET_ACTIVE,
-//     active: value
-//   }
-// }
-//
-// export function setFilterDiscontinued(value) {
-//   return {
-//     type: t.CUSTOMERS_FILTER_SET_DISCONTINUED,
-//     discontinued: value
-//   }
-// }
-//
-// export function setFilterOnSale(value) {
-//   return {
-//     type: t.CUSTOMERS_FILTER_SET_ONSALE,
-//     on_sale: value
-//   }
-// }
-//
 function deleteCustomersSuccess() {
   return {
     type: t.CUSTOMER_DELETE_SUCCESS
@@ -138,31 +101,6 @@ function setGroupSuccess() {
     type: t.CUSTOMER_SET_GROUP_SUCCESS
   }
 }
-//
-// function requestUpdateCustomer(id) {
-//   return {
-//     type: t.CUSTOMER_UPDATE_REQUEST
-//   }
-// }
-//
-// function receiveUpdateCustomer() {
-//   return {
-//     type: t.CUSTOMER_UPDATE_SUCCESS
-//   }
-// }
-//
-// function errorUpdateCustomer(error) {
-//   return {
-//     type: t.CUSTOMER_UPDATE_FAILURE,
-//     error
-//   }
-// }
-//
-// function successCreateCustomer(id) {
-//   return {
-//     type: t.CUSTOMER_CREATE_SUCCESS
-//   }
-// }
 
 const getFilter = (state, offset = 0) => {
   let filter = {
@@ -229,7 +167,7 @@ export function deleteCustomers() {
       dispatch(deleteCustomersSuccess());
       dispatch(deselectAllCustomer());
       dispatch(fetchCustomers());
-    }).catch(err => { console.log(err) });
+    }).catch(err => {});
   }
 }
 
@@ -242,63 +180,78 @@ export function setGroup(group_id) {
       dispatch(setGroupSuccess());
       dispatch(deselectAllCustomer());
       dispatch(fetchCustomers());
-    }).catch(err => { console.log(err) });
+    }).catch(err => {});
   }
 }
 
-// export function updateCustomer(data) {
-//   return (dispatch, getState) => {
-//     dispatch(requestUpdateCustomer(data.id));
-//
-//     delete data.images;
-//     if(!data.slug || data.slug === '') {
-//       data.slug = data.name;
-//     }
-//
-//     return api.customers.update(data.id, data).then(({status, json}) => {
-//         dispatch(receiveUpdateCustomer());
-//         dispatch(fetchCustomers());
-//     })
-//     .catch(error => {
-//         dispatch(errorUpdateCustomer(error));
-//     });
-//   }
-// }
+export function deleteCustomer(customerId) {
+  return (dispatch, getState) => {
+    return api.customers.delete(customerId)
+    .then(customerResponse => {
+        dispatch(push('/admin/customers'));
+    })
+    .catch(error => {});
+  }
+}
 
-// export function createCustomer() {
-//   return (dispatch, getState) => {
-//     const state = getState();
-//     return api.customers.create({ active: false, group_id: state.customerGroups.selectedId }).then(({status, json}) => {
-//         dispatch(successCreateCustomer(json.id));
-//         dispatch(fetchCustomers());
-//         dispatch(push('/admin/product/'+json.id));
-//     })
-//     .catch(error => {
-//         //dispatch error
-//         console.log(error)
-//     });
-//   }
-// }
+export function updateCustomer(data) {
+  return (dispatch, getState) => {
+    return api.customers.update(data.id, data)
+    .then(customerResponse => {
+        dispatch(receiveCustomer(customerResponse.json));
+    })
+    .catch(error => {});
+  }
+}
 
+export function fetchCustomer(customerId) {
+  return (dispatch, getState) => {
+    dispatch(requestCustomer());
 
-// export function fetchCustomer(id) {
-//   return (dispatch, getState) => {
-//     dispatch(requestCustomer());
-//
-//     return api.customers.retrieve(id).then(({status, json}) => {
-//       const saleFrom = moment(json.date_sale_from);
-//       const saleTo = moment(json.date_sale_to);
-//       const stockExpected = moment(json.date_stock_expected);
-//
-//       json.date_sale_from = saleFrom.isValid() ? saleFrom.toDate() : null;
-//       json.date_sale_to = saleTo.isValid() ? saleTo.toDate() : null;
-//       json.date_stock_expected = stockExpected.isValid() ? stockExpected.toDate() : null;
-//       json.weight = '';
-//
-//       dispatch(receiveCustomer(json))
-//     })
-//     .catch(error => {
-//       dispatch(receiveCustomerError(error));
-//     });
-//   }
-// }
+    return api.customers.retrieve(customerId)
+    .then(customerResponse => {
+      dispatch(receiveCustomer(customerResponse.json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function updateAddress(customerId, addressId, data) {
+  return (dispatch, getState) => {
+    return api.customers.updateAddress(customerId, addressId, data)
+    .then(customerResponse => {
+        dispatch(fetchCustomer(customerId));
+    })
+    .catch(error => {});
+  }
+}
+
+export function deleteAddress(customerId, addressId) {
+  return (dispatch, getState) => {
+    return api.customers.deleteAddress(customerId, addressId)
+    .then(customerResponse => {
+        dispatch(fetchCustomer(customerId));
+    })
+    .catch(error => {});
+  }
+}
+
+export function setDefaultBillingAddress(customerId, addressId) {
+  return (dispatch, getState) => {
+    return api.customers.setDefaultBillingAddress(customerId, addressId)
+    .then(customerResponse => {
+        dispatch(fetchCustomer(customerId));
+    })
+    .catch(error => {});
+  }
+}
+
+export function setDefaultShippingAddress(customerId, addressId) {
+  return (dispatch, getState) => {
+    return api.customers.setDefaultShippingAddress(customerId, addressId)
+    .then(customerResponse => {
+        dispatch(fetchCustomer(customerId));
+    })
+    .catch(error => {});
+  }
+}

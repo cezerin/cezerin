@@ -111,6 +111,19 @@ class CustomersService {
     }, {$set: customer})).then(res => this.getSingleCustomer(id))
   }
 
+  updateCustomerStatistics(customerId, totalSpent, ordersCount) {
+    if (!ObjectID.isValid(customerId)) {
+      return Promise.reject('Invalid identifier');
+    }
+    const customerObjectID = new ObjectID(customerId);
+    const customerData = {
+      total_spent: totalSpent,
+      orders_count: ordersCount
+    };
+
+    return mongo.db.collection('customers').updateOne({_id: customerObjectID}, {$set: customerData});
+  }
+
   deleteCustomer(customerId) {
     if (!ObjectID.isValid(customerId)) {
       return Promise.reject('Invalid identifier');
@@ -122,15 +135,11 @@ class CustomersService {
   }
 
   getValidDocumentForInsert(data) {
-    // email can be null
-
     let customer = {
       'date_created': new Date(),
-      'date_last_visit': null,
       'date_updated': null,
-      // 'order_ids': [],
-      // 'total_spent': 0,
-      // 'orders_count': 0
+      'total_spent': 0,
+      'orders_count': 0
     };
 
     customer.note = parse.getString(data.note);
@@ -262,11 +271,65 @@ class CustomersService {
     });
   }
 
-  createObjectToUpdateAddressFields(data) {
+  createObjectToUpdateAddressFields(address) {
     let fields = {};
-    for (let fieldName of Object.keys(data)) {
-      fields['addresses.$.' + fieldName] = data[fieldName];
+
+    if (address.address1 !== undefined) {
+      fields['addresses.$.address1'] = parse.getString(address.address1);
     }
+
+    if (address.address2 !== undefined) {
+      fields['addresses.$.address2'] = parse.getString(address.address2);
+    }
+
+    if (address.city !== undefined) {
+      fields['addresses.$.city'] = parse.getString(address.city);
+    }
+
+    if (address.country !== undefined) {
+      fields['addresses.$.country'] = parse.getString(address.country).toUpperCase();
+    }
+
+    if (address.state !== undefined) {
+      fields['addresses.$.state'] = parse.getString(address.state);
+    }
+
+    if (address.phone !== undefined) {
+      fields['addresses.$.phone'] = parse.getString(address.phone);
+    }
+
+    if (address.postal_code !== undefined) {
+      fields['addresses.$.postal_code'] = parse.getString(address.postal_code);
+    }
+
+    if (address.full_name !== undefined) {
+      fields['addresses.$.full_name'] = parse.getString(address.full_name);
+    }
+
+    if (address.company !== undefined) {
+      fields['addresses.$.company'] = parse.getString(address.company);
+    }
+
+    if (address.tax_number !== undefined) {
+      fields['addresses.$.tax_number'] = parse.getString(address.tax_number);
+    }
+
+    if (address.coordinates !== undefined) {
+      fields['addresses.$.coordinates'] = address.coordinates;
+    }
+
+    if (address.details !== undefined) {
+      fields['addresses.$.details'] = address.details;
+    }
+
+    if (address.default_billing !== undefined) {
+      fields['addresses.$.default_billing'] = parse.getBooleanIfValid(address.default_billing, false);
+    }
+
+    if (address.default_shipping !== undefined) {
+      fields['addresses.$.default_shipping'] = parse.getBooleanIfValid(address.default_shipping, false);
+    }
+
     return fields;
   }
 

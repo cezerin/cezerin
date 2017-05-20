@@ -13,25 +13,13 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case t.CUSTOMER_EDIT_REQUEST:
-    //   return Object.assign({}, state, {
-    //     isFetchingEdit: true
-    //   })
-    // case t.CUSTOMER_EDIT_RECEIVE:
-    //   return Object.assign({}, state, {
-    //     isFetchingEdit: false,
-    //     editItem: action.item
-    //   })
-    // case t.CUSTOMER_EDIT_ERASE:
-    //   return Object.assign({}, state, {
-    //     isFetchingEdit: false,
-    //     editItem: null
-    //   })
-    // case t.CUSTOMER_EDIT_FAILURE:
-    //   return Object.assign({}, state, {
-    //     isFetchingEdit: true,
-    //     errorFetchEdit: action.error
-    //   })
+    case t.CUSTOMERS_DETAIL_REQUEST:
+      return Object.assign({}, state, {
+      })
+    case t.CUSTOMERS_DETAIL_RECEIVE:
+      return Object.assign({}, state, {
+        editCustomer: action.item
+      })
     case t.CUSTOMERS_REQUEST:
       return Object.assign({}, state, {
         loadingItems: true
@@ -80,9 +68,6 @@ export default (state = initialState, action) => {
         totalCount: action.total_count,
         items: [...state.items, ...action.data]
       })
-    // case t.CUSTOMER_UPDATE_REQUEST:
-    // case t.CUSTOMER_UPDATE_SUCCESS:
-    // case t.CUSTOMER_UPDATE_FAILURE:
     case t.CUSTOMER_SET_CATEGORY_SUCCESS:
     case t.CUSTOMER_DELETE_SUCCESS:
     default:

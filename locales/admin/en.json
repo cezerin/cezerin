@@ -218,6 +218,7 @@
   "customers_setGroup": "Set group",
   "customers_noGroup": "No group",
   "customerGroups_title": "Customer Groups",
+  "group": "Group",
   "customerGroups_titleAdd": "Add new group",
   "customerGroups_titleEdit": "Edit group",
   "customerGroups_titleEditMany": "Manage groups",
@@ -288,5 +289,10 @@
   "cancelOrderConfirmation": "Cancel order? All products will be restocked back to your store. You can’t undo this action.",
   "placeOrder": "Place Order",
   "viewOnWebsite": "View on website",
-  "hideBillingAddress": "Don't ask for a billing address"
+  "hideBillingAddress": "Don't ask for a billing address",
+  "note": "Note",
+  "address": "Address",
+  "editAddress": "Edit Address",
+  "setDefaultBillingAddress": "Set as default Billing",
+  "setDefaultShippingAddress": "Set as default Shipping"
 }

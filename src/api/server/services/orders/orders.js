@@ -202,9 +202,13 @@ class OrdersService {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(id);
-    return this.getValidDocumentForUpdate(id, data).then(order => mongo.db.collection('orders').updateOne({
-      _id: orderObjectID
-    }, {$set: order}).then(res => this.getSingleOrder(id)));
+    return this.getValidDocumentForUpdate(id, data)
+      .then(orderData => mongo.db.collection('orders').updateOne({_id: orderObjectID}, {$set: orderData}))
+      .then(res => this.getSingleOrder(id))
+      .then(order => {
+        this.updateCustomerStatistics(order.customer_id);
+        return order;
+      });
   }
 
   deleteOrder(orderId) {
@@ -587,6 +591,30 @@ class OrdersService {
     };
 
     return this.updateOrder(orderId, orderData);
+  }
+
+  updateCustomerStatistics(customerId) {
+    if(customerId){
+      return this.getOrders({ customer_id: customerId }).then(orders => {
+        let totalSpent = 0;
+        let ordersCount = 0;
+
+        if(orders.data && orders.data.length > 0){
+          for(const order of orders.data){
+            if(order.draft === false){
+              ordersCount++;
+            }
+            if(order.paid === true || order.closed === true){
+              totalSpent += order.grand_total;
+            }
+          }
+        }
+
+        return CustomersService.updateCustomerStatistics(customerId, totalSpent, ordersCount);
+      })
+    } else {
+      return null;
+    }
   }
 }
 
