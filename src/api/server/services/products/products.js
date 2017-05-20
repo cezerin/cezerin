@@ -9,7 +9,6 @@ var parse = require('../../lib/parse');
 var CategoriesService = require('./productCategories');
 const SettingsService = require('../settings/settings');
 var ObjectID = require('mongodb').ObjectID;
-var formidable = require('formidable');
 var fs = require('fs-extra');
 
 class ProductsService {
@@ -370,10 +369,6 @@ class ProductsService {
     });
   }
 
-  getErrorMessage(err) {
-    return { 'error': true, 'message': err.toString() };
-  }
-
   getValidDocumentForInsert(data) {
     //  Allow empty product to create draft
 
@@ -619,99 +614,6 @@ class ProductsService {
     }
 
     return item;
-  }
-
-  getProductImages(productId) {
-    if(!ObjectID.isValid(productId)) {
-      return Promise.reject('Invalid identifier');
-    }
-    let productObjectID = new ObjectID(productId);
-
-    return SettingsService.getSettings().then(generalSettings =>
-      mongo.db.collection('products').findOne({ _id: productObjectID }, {fields: {images: 1}}).then(product => {
-        if(product && product.images && product.images.length > 0) {
-          let images = product.images.map(image => {
-            image.url = url.resolve(generalSettings.domain, settings.productsUploadUrl + '/' + product._id + '/' + image.filename);
-            return image;
-          })
-
-          images = images.sort((a,b) => (a.position - b.position ));
-          return images;
-        } else {
-          return []
-        }
-      })
-    )
-  }
-
-  deleteProductImage(productId, imageId) {
-    if(!ObjectID.isValid(productId) || !ObjectID.isValid(imageId)) {
-      return Promise.reject('Invalid identifier');
-    }
-    let productObjectID = new ObjectID(productId);
-    let imageObjectID = new ObjectID(imageId);
-
-    return this.getSingleProduct(productId)
-    .then(item => {
-      if(item.images && item.images.length > 0) {
-        let imageData = item.images.find(i => i.id.toString() === imageId.toString());
-        if(imageData) {
-          let filename = imageData.filename;
-          let filepath = path.resolve(settings.productsUploadPath + '/' + productId + '/' + filename);
-          fs.removeSync(filepath);
-          return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageId } } })
-        } else {
-          return true;
-        }
-      } else {
-        return true;
-      }
-    })
-    .then(() => true);
-  }
-
-  addProductImage(req, res) {
-    let productId = req.params.productId;
-    if(!ObjectID.isValid(productId)) {
-      return Promise.reject('Invalid identifier');
-    }
-    let productObjectID = new ObjectID(productId);
-    let uploadedFiles = [];
-    let uploadDir = path.resolve(settings.productsUploadPath + '/' + productId);
-    fs.ensureDirSync(uploadDir);
-
-    let form = new formidable.IncomingForm();
-    form.uploadDir = uploadDir;
-
-    form
-      .on('fileBegin', (name, file) => {
-        // Emitted whenever a field / value pair has been received.
-        file.path = uploadDir + '/' + file.name;
-      })
-      .on('file', function(field, file) {
-        // every time a file has been uploaded successfully,
-        if(file.name) {
-          var imageData = {
-            "id": new ObjectID(),
-            "alt": "",
-            "position": 99,
-            "filename": file.name
-          };
-
-          mongo.db.collection('products')
-            .updateOne({ _id: productObjectID }, { $push: { images: imageData } })
-            .then();
-          uploadedFiles.push({ 'file': file.name, 'size': file.size });
-        }
-      })
-      .on('error', (err) => {
-        res.status(500).send(this.getErrorMessage(err));
-      })
-      .on('end', () => {
-        res.send(uploadedFiles);
-      });
-
-    form.parse(req);
   }
 
   isSkuExists(sku, productId) {

@@ -5,6 +5,7 @@ var ProductsService = require('../services/products/products');
 var ProductOptionsService = require('../services/products/options');
 var ProductOptionValuesService = require('../services/products/optionValues');
 var ProductVariantsService = require('../services/products/variants');
+var ProductImagesService = require('../services/products/images');
 
 class ProductsController {
   constructor(router) {
@@ -19,9 +20,10 @@ class ProductsController {
     this.router.put('/v1/products/:productId', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.updateProduct.bind(this));
     this.router.delete('/v1/products/:productId', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.deleteProduct.bind(this));
 
-    this.router.get('/v1/products/:productId/images', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.getProductImages.bind(this));
-    this.router.post('/v1/products/:productId/images', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.addProductImage.bind(this));
-    this.router.delete('/v1/products/:productId/images/:image', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.deleteProductImage.bind(this));
+    this.router.get('/v1/products/:productId/images', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.getImages.bind(this));
+    this.router.post('/v1/products/:productId/images', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.addImage.bind(this));
+    this.router.put('/v1/products/:productId/images/:imageId', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.updateImage.bind(this));
+    this.router.delete('/v1/products/:productId/images/:imageId', security.checkUserScope.bind(this, security.scope.WRITE_PRODUCTS), this.deleteImage.bind(this));
 
     this.router.get('/v1/products/:productId/sku', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.isSkuExists.bind(this));
     this.router.get('/v1/products/:productId/slug', security.checkUserScope.bind(this, security.scope.READ_PRODUCTS), this.isSlugExists.bind(this));
@@ -85,18 +87,24 @@ class ProductsController {
     }).catch(next);
   }
 
-  getProductImages(req, res, next) {
-    ProductsService.getProductImages(req.params.productId).then(data => {
+  getImages(req, res, next) {
+    ProductImagesService.getImages(req.params.productId).then(data => {
       res.send(data)
     }).catch(next);
   }
 
-  addProductImage(req, res, next) {
-    ProductsService.addProductImage(req, res, next);
+  addImage(req, res, next) {
+    ProductImagesService.addImage(req, res, next);
   }
 
-  deleteProductImage(req, res, next) {
-    ProductsService.deleteProductImage(req.params.productId, req.params.image).then(data => {
+  updateImage(req, res, next) {
+    ProductImagesService.updateImage(req.params.productId, req.params.imageId, req.body).then(data => {
+      res.end()
+    });
+  }
+
+  deleteImage(req, res, next) {
+    ProductImagesService.deleteImage(req.params.productId, req.params.imageId).then(data => {
       res.end()
     });
   }
