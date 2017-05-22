@@ -77,10 +77,4 @@ apiRouter.all('*', (req, res, next) => {
   res.status(405).send({'error': true, 'message': 'Method Not Allowed'});
 })
 
-mongo.connect().then(() => {
-  winston.info('Successfully connected to MongoDB')
-}).catch(err => {
-  winston.error('Failed connecting to MongoDB', err.message);
-});
-
 module.exports = apiRouter;

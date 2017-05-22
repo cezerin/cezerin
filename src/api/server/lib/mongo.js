@@ -1,22 +1,19 @@
-var settings = require('./settings');
-var mongo = require('mongodb').MongoClient;
-var mongodbConnection = settings.mongodbServerUrl;
-var db;
+const settings = require('./settings');
+const winston = require('winston');
+const mongo = require('mongodb').MongoClient;
+const mongodbConnection = settings.mongodbServerUrl;
 
-// Initialize connection once
-const connect = () => {
-  return new Promise((resolve, reject) => {
-    mongo.connect(mongodbConnection, (err, database) => {
-        if(err){
-          reject(err)
-        } else {
-          module.exports.db = db = database;
-          resolve();
-        }
-    });
-  })
+const CONNECT_OPTIONS = {
+  reconnectTries: 3600,
+  reconnectInterval: 1000
 }
 
-module.exports = {
-  connect: connect
-};
+// Initialize connection once
+mongo.connect(mongodbConnection, CONNECT_OPTIONS, (err, database) => {
+  if(err){
+    winston.error('Failed connecting to MongoDB', err.message);
+  } else {
+    module.exports.db = database;
+    winston.info('Successfully connected to MongoDB')
+  }
+});
