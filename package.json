@@ -1,23 +1,25 @@
 {
   "name": "cezerin",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "description": "Cezerin allow you to create online store with full-stack JavaScript. https://cezerin.com",
   "keywords": [
     "cezerin",
-    "e-commerce",
-    "shopping cart"
+    "ecommerce",
+    "shopping cart",
+    "shop",
+    "cms"
   ],
-  "homepage": "https://github.com/cezerin/cezerin",
+  "homepage": "https://cezerin.com",
   "bugs": "https://github.com/cezerin/cezerin/issues",
   "license": "MIT",
   "author": {
-    "name": "Cezerin Team <team@cezerin.com>",
-    "url": "https://cezerin.com"
+    "name": "Restmount <jsonmount@gmail.com>",
+    "url": "https://github.com/restmount"
   },
   "contributors": [
     {
       "name": "Restmount <jsonmount@gmail.com>",
-      "url": "https://restmount.com"
+      "url": "https://github.com/restmount"
     }
   ],
   "main": "dist/index.js",
