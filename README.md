@@ -31,19 +31,35 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 * ~~**Unfinished features**~~
 * ~~**Product options**~~
 * ~~**Order details/edit/add**~~
-* Customer details/edit/add  **〈〈〈〈〈〈 we are here**
-* Documentation
-* Central update
-* REST API Tests
-* Server tests
-* React tests
-* WebHooks
-* Store: Services
-* Store: Themes
-* Theme settings in dashboard
+* ~~**Customer details/edit/add**~~
+
+**Short-term (next 3 months)**
+* Google Analytics for Single Page Application  **〈〈〈〈〈〈 we are here**
+* Order notifications
+* Order Timeline
+* Order Statuses
+* Related Products
 * Product Faceted Search
+* Product tags
+* PWA template
+* Central update
+* Store: Services
+
+**Long-term**
+* Tests (REST API, React, server)
+* Documentation
+* WebHooks
+* Store: Themes
+* Theme settings in dashboard (menus, galleries, etc)
+* Customer account
+* Social login
 * Dashboard analytics & metrics
 * Dashboard Real-Time analytics
+* API to manage URL redirects
+* Shipping rate real time
+* Product discount
+* Order discounts
+* Geolocation
 * PWA (offline, push notifications)
 
 
@@ -98,6 +114,7 @@ Then open <http://localhost:3000> to see your app.
 .
 ├── config                   # Project and build configurations
 ├── locales                  # Text files
+├── logs                     # Log files
 ├── public                   # Static public assets and uploads
 ├── scripts                  # Shell scripts for theme install/export
 ├── dist                     # Distribution folder
@@ -112,7 +129,7 @@ Then open <http://localhost:3000> to see your app.
 │   |   └── shared             # Universal code
 │   └── index.js             # Server application start point
 ├── themes                   # Themes
-└── app.json                 # pm2 process file
+└── process.json                 # pm2 process file
 ```
 
 
