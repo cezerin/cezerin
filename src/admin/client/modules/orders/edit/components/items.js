@@ -39,13 +39,16 @@ const ProductOption = ({ option, onChange, selectedOptions }) => {
 }
 
 const ProductOptions = ({ options, onChange, selectedOptions }) => {
-  const items = options.map((option, index) => <ProductOption key={index} option={option} onChange={onChange} selectedOptions={selectedOptions} />)
-
-  return (
-    <div className="product-options">
-      {items}
-    </div>
-  )
+  if(options){
+    const items = options.map((option, index) => <ProductOption key={index} option={option} onChange={onChange} selectedOptions={selectedOptions} />)
+    return (
+      <div className="product-options">
+        {items}
+      </div>
+    )
+  } else {
+    return null
+  }
 }
 
 export class OrderItem extends React.Component {
