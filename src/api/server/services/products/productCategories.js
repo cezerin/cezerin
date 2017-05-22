@@ -71,7 +71,7 @@ class ProductCategoriesService {
 
   findAllChildren(items, id, result) {
     if(id && ObjectID.isValid(id)) {
-      result.push(id.toString());
+      result.push(new ObjectID(id));
       let finded = items.filter(item => (item.parent_id === id));
       if(finded.length > 0) {
         for(let item of finded) {

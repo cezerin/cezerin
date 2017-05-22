@@ -123,10 +123,12 @@ class OrdersService {
 
       const searchAsNumber = parse.getNumberIfPositive(params.search);
       if(searchAsNumber) {
-        alternativeSearch.push({ number: searchAsNumber })
+        alternativeSearch.push({ number: searchAsNumber });
       }
 
-      alternativeSearch.push({ '$text': { '$search': params.search } })
+      alternativeSearch.push({ email: new RegExp(params.search, 'i') });
+      alternativeSearch.push({ mobile: new RegExp(params.search, 'i') });
+      alternativeSearch.push({ '$text': { '$search': params.search } });
 
       filter['$or'] = alternativeSearch;
     }

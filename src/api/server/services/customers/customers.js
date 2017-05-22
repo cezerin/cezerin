@@ -36,9 +36,11 @@ class CustomersService {
     }
 
     if (params.search) {
-      let alternativeSearch = [];
-      alternativeSearch.push({ '$text': { '$search': params.search } })
-      filter['$or'] = alternativeSearch;
+      filter['$or'] = [
+        { email: new RegExp(params.search, 'i') },
+        { mobile: new RegExp(params.search, 'i') },
+        { '$text': { '$search': params.search } }
+      ];
     }
 
     return filter;

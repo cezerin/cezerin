@@ -225,8 +225,17 @@ class ProductsService {
     return Object.assign(...fieldsArray.map(key => ({[key]: project[key]}) ));
   }
 
-  getMatchTextQuery({search }) {
-    return (search && search.length > 0 && search !== 'null' && search !== 'undefined') ? { $text: { $search: search } } : null;
+  getMatchTextQuery({search}) {
+    if (search && search.length > 0 && search !== 'null' && search !== 'undefined') {
+      return {
+        '$or': [
+          { sku: new RegExp(search, 'i') },
+          { '$text': { '$search': search } }
+        ]
+      }
+    } else {
+      return null;
+    }
   }
 
   getMatchQuery({

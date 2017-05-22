@@ -75,7 +75,7 @@ class SitemapService {
       mongo.db.collection('products').find(productFilter).project({slug: 1, category_id: 1}).toArray()
     ]).then(([categories, products]) => {
       return products.map(product => {
-        const category = categories.find(c => c._id == product.category_id);
+        const category = categories.find(c => c._id.toString() === product.category_id.toString());
         const categorySlug = category
           ? category.slug
           : '-';
