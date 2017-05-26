@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { NavLink } from 'react-router-dom'
 import text from '../lib/text'
 import config from '../lib/config'
 
@@ -25,10 +25,10 @@ export default() => {
                 <div className="title is-5">About</div>
                 <div>
                   <ul className="footer-menu">
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
                   </ul>
                 </div>
               </div>
@@ -37,10 +37,10 @@ export default() => {
                 <div className="title is-5">Support</div>
                 <div>
                   <ul className="footer-menu">
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
+                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
                   </ul>
                 </div>
               </div>

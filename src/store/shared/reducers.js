@@ -1,4 +1,3 @@
-import {routerReducer, LOCATION_CHANGE} from 'react-router-redux'
 import {combineReducers} from 'redux'
 import {reducer as formReducer} from 'redux-form'
 import * as t from './actionTypes'
@@ -86,7 +85,6 @@ const appReducer = (state = initialState, action) => {
         productsMaxPrice: action.max || 0
       })
 
-    case LOCATION_CHANGE:
     case t.PRODUCT_REQUEST:
     case t.PAGE_REQUEST:
     case t.CART_REQUEST:
@@ -99,4 +97,4 @@ const appReducer = (state = initialState, action) => {
   }
 }
 
-export default combineReducers({app: appReducer, routing: routerReducer, form: formReducer});
+export default combineReducers({app: appReducer, form: formReducer});

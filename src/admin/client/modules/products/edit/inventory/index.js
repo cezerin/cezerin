@@ -1,18 +1,19 @@
 import { connect } from 'react-redux'
-import { reset } from 'redux-form';
+import { withRouter } from 'react-router'
 import { fetchProduct, cancelProductEdit, updateProduct  } from '../../actions'
 import ProductInventoryForm from './components/form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     settings: state.settings.settings,
     initialValues: state.products.editProduct
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchData: (productId) => {
+    fetchData: () => {
+      const { productId } = ownProps.match.params;
       dispatch(fetchProduct(productId));
     },
     eraseData: () => {
@@ -24,4 +25,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductInventoryForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductInventoryForm));

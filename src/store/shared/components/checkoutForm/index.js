@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {withRouter} from 'react-router'
 import {reset, submit} from 'redux-form';
 import {
   checkout,
@@ -36,7 +37,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(submit('FormCheckout'));
     },
     finishCheckout: (values) => {
-      dispatch(checkout(values));
+      dispatch(checkout(values, ownProps.history));
     },
     saveShippingCountry: (value) => {
       dispatch(updateCartShippingCountry(value));
@@ -60,4 +61,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Form));

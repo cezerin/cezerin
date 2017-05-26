@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { NavLink } from 'react-router-dom'
 import Waypoint from 'react-waypoint'
 import text from '../lib/text'
 import config from '../lib/config'
@@ -42,14 +42,14 @@ const ListItem = ({product, addCartItem, settings}) => {
       <div className="card">
         <div className="card-image">
           <figure className="image">
-            <Link to={product.path}>
+            <NavLink to={product.path}>
               <ItemImage images={product.images} alt={product.name} />
-            </Link>
+            </NavLink>
           </figure>
         </div>
         <div className="card-content">
           <div className="content">
-            <Link to={product.path}>{product.name}</Link>
+            <NavLink to={product.path}>{product.name}</NavLink>
             <ItemPrice product={product} settings={settings} />
           </div>
         </div>

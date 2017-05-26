@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { Link } from 'react-router-dom'
 import messages from 'lib/text'
 
 import Paper from 'material-ui/Paper';
@@ -50,12 +50,13 @@ export default class EmailSettings extends React.Component {
   }
 
   render() {
-    const {checkoutFields, pushUrl} = this.props;
+    const {checkoutFields} = this.props;
 
     return (
-      <Paper className="paper-box" zDepth={1}>
+      <div>
+        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.settings_checkoutFields}</div>
+        <Paper className="paper-box" zDepth={1}>
           <div style={{width: '100%'}}>
-            <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings_checkoutFields}</div>
             <List style={{ padding: 0 }}>
               <CheckoutFieldItem name={messages.email} status={this.getFieldStatus('email')} path="email" />
               <CheckoutFieldItem name={messages.mobile} status={this.getFieldStatus('mobile')} path="mobile" />
@@ -64,7 +65,8 @@ export default class EmailSettings extends React.Component {
               <CheckoutFieldItem name={messages.city} status={this.getFieldStatus('city')} path="city" />
             </List>
           </div>
-      </Paper>
+        </Paper>
+      </div>
     )
   }
 }

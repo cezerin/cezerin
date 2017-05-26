@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { Link } from 'react-router-dom'
 
 import messages from 'lib/text'
 import * as helper from 'lib/helper'
@@ -148,6 +148,7 @@ export class OrderItem extends React.Component {
       <FlatButton
         label={messages.cancel}
         onTouchTap={this.hideEditForm}
+        style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.save}

@@ -1,5 +1,6 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import {Link} from 'react-router-dom'
 import {TextField, SelectField, DatePicker} from 'redux-form-material-ui'
 
 import { CustomToggle } from 'modules/shared/form'
@@ -25,7 +26,7 @@ class GeneralSettings extends React.Component {
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, pushUrl} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues} = this.props;
 
     let currencyItems = [];
     for (const key in data.currencies) {
@@ -53,11 +54,12 @@ class GeneralSettings extends React.Component {
 
           <div style={{width: '100%'}}>
             <List>
-              <ListItem
-                rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
-                primaryText={messages.logo}
-                onClick={() => { pushUrl('/admin/settings/general/logo') }}
-              />
+              <Link to={'/admin/settings/general/logo'} style={{ textDecoration: 'none' }}>
+                <ListItem
+                  rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
+                  primaryText={messages.logo}
+                />
+              </Link>
               <Divider />
             </List>
           </div>

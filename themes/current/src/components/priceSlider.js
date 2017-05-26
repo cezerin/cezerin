@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { NavLink } from 'react-router-dom'
 import {Range} from 'rc-slider';
 import text from '../lib/text'
 import config from '../lib/config'

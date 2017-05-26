@@ -1,6 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
-import messages from 'lib/text'
+import { Link } from 'react-router-dom'
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -35,8 +34,12 @@ export default class EmailSettings extends React.Component {
     this.props.onLoad();
   }
 
+  gotoAddPage = () => {
+    this.props.history.push('/admin/settings/shipping/add');
+  }
+
   render() {
-    const {shippingMethods, pushUrl} = this.props;
+    const {shippingMethods} = this.props;
     let methods = shippingMethods.map((method, index) => <MethodItem key={index} method={method} />)
 
     return (
@@ -46,7 +49,7 @@ export default class EmailSettings extends React.Component {
               {methods}
             </List>
           </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/shipping/add') }}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={this.gotoAddPage}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
       </Paper>

@@ -21,7 +21,7 @@ class CheckoutFieldForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.fieldName);
+    this.props.onLoad();
   }
 
   render() {

@@ -1,18 +1,20 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
 import { fetchShippingMethod, updateShippingMethod, createShippingMethod, receiveShippingMethod } from '../actions'
 import Form from './components/form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const {methodId} = ownProps.match.params;
   return {
+    methodId: methodId,
     settings: state.settings.settings,
     initialValues: state.settings.shippingMethodEdit
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onLoad: (methodId) => {
+    onLoad: () => {
+      const {methodId} = ownProps.match.params;
       if(methodId) {
         dispatch(fetchShippingMethod(methodId))
       } else {
@@ -41,7 +43,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(updateShippingMethod(method));
       } else {
         dispatch(createShippingMethod(method));
-        dispatch(push('/admin/settings/shipping'));
+        ownProps.history.push('/admin/settings/shipping');
       }
     }
   }

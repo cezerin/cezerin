@@ -1,19 +1,21 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
 import { fetchPaymentMethod, updatePaymentMethod, fetchShippingMethods, createPaymentMethod, receivePaymentMethod } from '../actions'
 import Form from './components/form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const {methodId} = ownProps.match.params;
   return {
+    methodId: methodId,
     settings: state.settings.settings,
     initialValues: state.settings.paymentMethodEdit,
     shippingMethods: state.settings.shippingMethods
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onLoad: (methodId) => {
+    onLoad: () => {
+      const {methodId} = ownProps.match.params;
       if(methodId) {
         dispatch(fetchPaymentMethod(methodId));
       } else {
@@ -31,7 +33,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(updatePaymentMethod(method));
       } else {
         dispatch(createPaymentMethod(method));
-        dispatch(push('/admin/settings/payments'));
+        ownProps.history.push('/admin/settings/payments');
       }
     }
   }

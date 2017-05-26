@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { TextField, SelectField } from 'redux-form-material-ui'
 import { CustomToggle } from 'modules/shared/form'

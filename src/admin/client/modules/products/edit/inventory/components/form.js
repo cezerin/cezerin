@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Field, reduxForm } from 'redux-form'
 import { TextField, SelectField, DatePicker } from 'redux-form-material-ui'
 import Editor from 'modules/shared/editor'
@@ -82,7 +82,7 @@ class ProductInventoryForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchData(this.props.productId);
+    this.props.fetchData();
   }
 
   componentWillUnmount() {

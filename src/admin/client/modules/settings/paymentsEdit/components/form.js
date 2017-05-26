@@ -83,11 +83,12 @@ class EditPaymentMethodForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.methodId);
+    this.props.onLoad();
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, shippingMethods, isAdd, settings} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, shippingMethods, methodId, settings} = this.props;
+    const isAdd = methodId === null || methodId === undefined;
 
     return (
         <form onSubmit={handleSubmit} style={{
@@ -116,7 +117,6 @@ class EditPaymentMethodForm extends React.Component {
             </div>
             <div className="blue-title">{messages.settings_onlyShippingMethods}</div>
             <Field name="conditions.shipping_method_ids" component={SelectShippingMethodsField} shippingMethods={shippingMethods}/>
-            <Divider />
           </div>
           <div className="buttons-box">
             <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={submitting}/>

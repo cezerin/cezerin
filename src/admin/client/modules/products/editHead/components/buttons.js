@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import messages from 'lib/text'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -34,8 +34,8 @@ export default class Buttons extends React.Component {
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        primary={true}
         onTouchTap={this.closeDelete}
+        style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}

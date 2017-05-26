@@ -1,22 +1,22 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
 import { fetchCheckoutField, updateCheckoutField } from '../actions'
 import Form from './components/form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: state.settings.checkoutField
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onLoad: (fieldName) => {
+    onLoad: () => {
+      const {fieldName} = ownProps.match.params;
       dispatch(fetchCheckoutField(fieldName))
     },
     onSubmit: (values) => {
       dispatch(updateCheckoutField(values));
-      dispatch(push('/admin/settings/checkout'));
+      ownProps.history.push('/admin/settings/checkout');
     }
   }
 }

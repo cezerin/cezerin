@@ -39,6 +39,7 @@ export default class ConfirmationDialog extends React.Component {
       <FlatButton
         label={cancelLabel}
         onTouchTap={this.handleCancel}
+        style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={submitLabel}

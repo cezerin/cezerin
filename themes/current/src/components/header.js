@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { NavLink } from 'react-router-dom'
 import text from '../lib/text'
 import config from '../lib/config'
 
@@ -8,9 +8,9 @@ import CartIndicator from './cartIndicator'
 
 const HeadMenuItems = ({ categories, onClick, className}) => {
   let items = categories.filter(category => category.parent_id === null).map((category, index) => (
-    <Link className="nav-item" activeClassName="is-active" key={index} to={category.path} onClick={onClick}>
+    <NavLink className="nav-item" activeClassName="is-active" key={index} to={category.path} onClick={onClick}>
       {category.name}
-    </Link>
+    </NavLink>
   ));
 
   return (
@@ -54,19 +54,19 @@ export default class Header extends React.Component {
             <span/>
           </span>
           <div className="nav-left">
-            <Link className="nav-item" to="/">
+            <NavLink className="nav-item" to="/">
               <img src={settings.logo}/>
-            </Link>
+            </NavLink>
           </div>
 
           <HeadMenuItems categories={categories} onClick={this.menuClose} className={classMenu} />
 
           <div className="nav-right is-flex-mobile">
-            <Link className="nav-item" to="/search">
+            <NavLink className="nav-item" to="/search">
               <span className="icon">
                 <img src="/assets/images/search.svg" alt={text.search} title={text.search}/>
               </span>
-            </Link>
+            </NavLink>
             <span className="nav-item" onClick={this.cartToggle} style={{ cursor: 'pointer' }}>
               <span className="icon">
                 <img src="/assets/images/shopping-bag.svg" alt={text.cart} title={text.cart}/>

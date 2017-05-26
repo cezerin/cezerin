@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
 import { fetchSettings, updateSettings } from '../actions'
 import Form from './components/form'
 
@@ -16,9 +15,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onSubmit: (values) => {
       dispatch(updateSettings(values));
-    },
-    pushUrl: (path) => {
-      dispatch(push(path));
     }
   }
 }

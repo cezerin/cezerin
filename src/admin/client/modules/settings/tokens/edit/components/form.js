@@ -64,12 +64,13 @@ class EditTokenForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.tokenId);
+    this.props.onLoad();
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, isAdd, newToken, onDelete} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, tokenId, newToken, onDelete} = this.props;
     const isTokenAdded = !!newToken;
+    const isAdd = tokenId === null || tokenId === undefined;
 
     return (
       <div>
@@ -107,7 +108,7 @@ class EditTokenForm extends React.Component {
           open={this.state.showRevokeDialog}
           title={messages.settings_tokenRevokeTitle}
           description={messages.settings_tokenRevokeDescription}
-          onSubmit={() => { onDelete(this.props.tokenId) }}
+          onSubmit={onDelete}
           submitLabel={messages.settings_revokeAccess}
           cancelLabel={messages.cancel}
         />

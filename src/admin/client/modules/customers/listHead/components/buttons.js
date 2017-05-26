@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import messages from 'lib/text'
 import GroupSelect from 'modules/customerGroups/select'
@@ -61,6 +61,7 @@ export default class Buttons extends React.Component {
       <FlatButton
         label={messages.cancel}
         onTouchTap={this.closeSetGroup}
+        style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.save}
@@ -74,6 +75,7 @@ export default class Buttons extends React.Component {
       <FlatButton
         label={messages.cancel}
         onTouchTap={this.closeDelete}
+        style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}

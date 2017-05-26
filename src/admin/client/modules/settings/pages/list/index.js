@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
 import { fetchPages } from '../../actions'
 import Form from './components/form'
 
@@ -13,9 +12,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: () => {
       dispatch(fetchPages())
-    },
-    pushUrl: (path) => {
-      dispatch(push(path));
     }
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { NavLink } from 'react-router-dom'
 import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
@@ -22,7 +22,7 @@ const TreeItem = ({ categories, categoryDetails, activeCategory, onClick }) => {
 
   return (
     <li className={classNames}>
-      <Link to={categoryDetails.path} activeClassName="active" onClick={onClick}>{categoryDetails.name}</Link>
+      <NavLink to={categoryDetails.path} activeClassName="active" onClick={onClick}>{categoryDetails.name}</NavLink>
       {hasChild &&
         <ul>
           {childs}

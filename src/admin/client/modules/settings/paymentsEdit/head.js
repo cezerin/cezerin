@@ -1,21 +1,21 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
+import { withRouter } from 'react-router'
 import { deletePaymentMethod } from '../actions'
 import Buttons from './components/headButtons'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     paymentMethod: state.settings.paymentMethodEdit
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onDelete: (id) => {
       dispatch(deletePaymentMethod(id));
-      dispatch(push('/admin/settings/payments'));
+      ownProps.history.push('/admin/settings/payments');
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Buttons);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Buttons));

@@ -1,7 +1,7 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'lib/text'
-import { push } from 'react-router-redux';
+const push = () => {}
 
 function requestCustomer() {
   return {
@@ -181,16 +181,6 @@ export function setGroup(group_id) {
       dispatch(deselectAllCustomer());
       dispatch(fetchCustomers());
     }).catch(err => {});
-  }
-}
-
-export function deleteCustomer(customerId) {
-  return (dispatch, getState) => {
-    return api.customers.delete(customerId)
-    .then(customerResponse => {
-        dispatch(push('/admin/customers'));
-    })
-    .catch(error => {});
   }
 }
 

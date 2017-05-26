@@ -1,17 +1,19 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
 import { fetchPage, updatePage, createPage, receivePage } from '../../actions'
 import Form from './components/form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
+  const {pageId} = ownProps.match.params;
   return {
+    pageId: pageId,
     initialValues: state.settings.pageEdit
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onLoad: (pageId) => {
+    onLoad: () => {
+      const {pageId} = ownProps.match.params;
       if(pageId) {
         dispatch(fetchPage(pageId))
       } else {
@@ -23,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(updatePage(page));
       } else {
         dispatch(createPage(page));
-        dispatch(push('/admin/settings/pages'));
+        ownProps.history.push('/admin/settings/pages');
       }
     }
   }

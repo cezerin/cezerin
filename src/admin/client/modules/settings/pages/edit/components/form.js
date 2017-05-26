@@ -52,11 +52,12 @@ class EditPageForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.pageId);
+    this.props.onLoad();
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, isAdd} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, pageId} = this.props;
+    const isAdd = pageId === null || pageId === undefined;
 
     return (
         <form onSubmit={handleSubmit} style={{

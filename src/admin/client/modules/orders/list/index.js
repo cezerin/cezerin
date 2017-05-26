@@ -1,8 +1,9 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { fetchOrders, selectOrder, deselectOrder, selectAllOrder, deselectAllOrder, fetchMoreOrders, createOrder } from '../actions'
 import List from './components/list'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     settings: state.settings.settings,
     items: state.orders.items,
@@ -12,7 +13,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onLoad: () => {
       dispatch(fetchOrders());
@@ -35,9 +36,9 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchMoreOrders());
     },
     onCreate: () => {
-      dispatch(createOrder())
+      dispatch(createOrder(ownProps.history))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));

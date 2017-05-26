@@ -1,20 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { deleteCurrentProduct } from '../actions'
 import Buttons from './components/buttons'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     product: state.products.editProduct
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onDelete: () => {
       dispatch(deleteCurrentProduct());
+      ownProps.history.push('/admin/products');
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Buttons);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Buttons));

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router'
+import { NavLink } from 'react-router-dom'
 import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
@@ -11,11 +11,11 @@ const CartItem = ({item, deleteCartItem, settings}) => {
     <div className="columns is-mobile">
       <div className="column is-2">
         <div className="image">
-          <Link to={item.path}><img src={thumbnail} /></Link>
+          <NavLink to={item.path}><img src={thumbnail} /></NavLink>
         </div>
       </div>
       <div className="column">
-        <div><Link to={item.path}>{item.name}</Link></div>
+        <div><NavLink to={item.path}>{item.name}</NavLink></div>
         {item.variant_name.length > 0 &&
           <div className="cart-option-name">{item.variant_name}</div>
         }
@@ -47,7 +47,7 @@ const Cart = ({cart, deleteCartItem, active, settings, cartToggle}) => {
             <b>{helper.formatCurrency(cart.subtotal, settings)}</b>
           </div>
         </div>
-        <Link className="button is-primary is-fullwidth has-text-centered" style={{ textTransform: 'uppercase' }} to="/checkout" onClick={cartToggle}>{text.proceedToCheckout}</Link>
+        <NavLink className="button is-primary is-fullwidth has-text-centered" style={{ textTransform: 'uppercase' }} to="/checkout" onClick={cartToggle}>{text.proceedToCheckout}</NavLink>
       </div>
     )
   } else {

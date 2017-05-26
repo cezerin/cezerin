@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
+import { Link } from 'react-router-dom'
 import messages from 'lib/text'
 
 import Paper from 'material-ui/Paper';
@@ -34,22 +34,28 @@ export default class TokensList extends React.Component {
     this.props.onLoad();
   }
 
+  gotoAddPage = () => {
+    this.props.history.push('/admin/settings/tokens/add');
+  }
+
   render() {
-    const {tokens, pushUrl} = this.props;
+    const {tokens} = this.props;
     let listItems = tokens.map((token, index) => <TokenItem key={index} token={token} />)
 
     return (
-      <Paper className="paper-box" zDepth={1}>
-          <div style={{width: '100%'}}>
-            <div className="blue-title" style={{paddingLeft: 16, paddingBottom: 16}}>{messages.settings_tokenHelp}</div>
-            <List style={{ padding: 0 }}>
-              {listItems}
-            </List>
-          </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/tokens/add') }}>
-            <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton>
-      </Paper>
+      <div>
+        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.settings_tokenHelp}</div>
+        <Paper className="paper-box" zDepth={1}>
+            <div style={{width: '100%'}}>
+              <List style={{ padding: 0 }}>
+                {listItems}
+              </List>
+            </div>
+            <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={this.gotoAddPage}>
+              <FontIcon className="material-icons">add</FontIcon>
+            </FloatingActionButton>
+        </Paper>
+      </div>
     )
   }
 }

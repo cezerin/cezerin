@@ -198,12 +198,6 @@ ajaxRouter.put('/cart/billing_address', (req, res, next) => {
   }
 })
 
-ajaxRouter.get('/product_categories', (req, res, next) => {
-  api.productCategories.list(req.query).then(({status, json}) => {
-    res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
-  })
-})
-
 ajaxRouter.get('/pages/:id', (req, res, next) => {
   api.pages.retrieve(req.params.id).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);

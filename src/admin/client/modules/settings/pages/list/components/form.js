@@ -1,6 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router'
-import messages from 'lib/text'
+import { Link } from 'react-router-dom'
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -36,8 +35,12 @@ export default class PagesList extends React.Component {
     this.props.onLoad();
   }
 
+  gotoAddPage = () => {
+    this.props.history.push('/admin/settings/pages/add');
+  }
+
   render() {
-    const {pages, pushUrl} = this.props;
+    const {pages} = this.props;
     let listItems = pages.map((page, index) => <PageItem key={index} page={page} />)
 
     return (
@@ -47,7 +50,7 @@ export default class PagesList extends React.Component {
               {listItems}
             </List>
           </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={() => { pushUrl('/admin/settings/pages/add') }}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={this.gotoAddPage}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
       </Paper>

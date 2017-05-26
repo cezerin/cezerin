@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { fetchOrder, updateOrder, deleteOrderItem, updateOrderItem, updateShippingAddress, clearOrderDetails, checkoutOrder } from '../actions'
 import OrderDetails from './components/details'
 
@@ -13,21 +14,26 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchData: () => {
-      dispatch(fetchOrder(ownProps.orderId));
+      const { orderId } = ownProps.match.params;
+      dispatch(fetchOrder(orderId));
     },
     clearData: () => {
       dispatch(clearOrderDetails());
     },
     onItemDelete: (itemId) => {
-      dispatch(deleteOrderItem(ownProps.orderId, itemId));
+      const { orderId } = ownProps.match.params;
+      dispatch(deleteOrderItem(orderId, itemId));
     },
     onItemUpdate: (itemId, quantity, variantId) => {
-      dispatch(updateOrderItem(ownProps.orderId, itemId, quantity, variantId));
+      const { orderId } = ownProps.match.params;
+      dispatch(updateOrderItem(orderId, itemId, quantity, variantId));
     },
     onShippingAddressUpdate: (address) => {
-      dispatch(updateShippingAddress(ownProps.orderId, address));
+      const { orderId } = ownProps.match.params;
+      dispatch(updateShippingAddress(orderId, address));
     },
     onOrderSummaryUpdate: (order) => {
+      const { orderId } = ownProps.match.params;
       dispatch(updateOrder({
         id: order.id,
         tracking_number: order.tracking_number,
@@ -39,9 +45,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }));
     },
     onCheckout: () => {
-      dispatch(checkoutOrder(ownProps.orderId));
+      const { orderId } = ownProps.match.params;
+      dispatch(checkoutOrder(orderId));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(OrderDetails);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OrderDetails));

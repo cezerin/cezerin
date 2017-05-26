@@ -1,10 +1,11 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
+import { withRouter } from 'react-router'
 import { fetchOptions, updateOption, deleteOption, createOptionValue, updateOptionValue, deleteOptionValue } from '../../actions'
 import ProductOptionForm from './components/option'
 
 const mapStateToProps = (state, ownProps) => {
-  const option = state.products.editProductOptions.find(option => option.id === ownProps.optionId);
+  const { productId, optionId } = ownProps.match.params;
+  const option = state.products.editProductOptions.find(option => option.id === optionId);
   return {
     initialValues: option,
     optionValues: (option && option.values && option.values.length > 0) ? option.values : []
@@ -14,25 +15,31 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchData: () => {
-      dispatch(fetchOptions(ownProps.productId));
+      const { productId } = ownProps.match.params;
+      dispatch(fetchOptions(productId));
     },
     deleteOption: () => {
-      dispatch(deleteOption(ownProps.productId, ownProps.optionId));
-      dispatch(push(`/admin/product/${ownProps.productId}/variants`));
+      const { productId, optionId } = ownProps.match.params;
+      dispatch(deleteOption(productId, optionId));
+      ownProps.history.push(`/admin/product/${productId}/variants`);
     },
     onSubmit: (values) => {
-      dispatch(updateOption(ownProps.productId, ownProps.optionId, values));
+      const { productId, optionId } = ownProps.match.params;
+      dispatch(updateOption(productId, optionId, values));
     },
     createOptionValue: (valueName) => {
-      dispatch(createOptionValue(ownProps.productId, ownProps.optionId, valueName));
+      const { productId, optionId } = ownProps.match.params;
+      dispatch(createOptionValue(productId, optionId, valueName));
     },
     updateOptionValue: (valueId, valueName) => {
-      dispatch(updateOptionValue(ownProps.productId, ownProps.optionId, valueId, valueName));
+      const { productId, optionId } = ownProps.match.params;
+      dispatch(updateOptionValue(productId, optionId, valueId, valueName));
     },
     deleteOptionValue: (valueId) => {
-      dispatch(deleteOptionValue(ownProps.productId, ownProps.optionId, valueId));
+      const { productId, optionId } = ownProps.match.params;
+      dispatch(deleteOptionValue(productId, optionId, valueId));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductOptionForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductOptionForm));

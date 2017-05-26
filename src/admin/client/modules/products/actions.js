@@ -1,7 +1,6 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'lib/text'
-import { push } from 'react-router-redux';
 import moment from 'moment';
 
 function requestProduct() {
@@ -239,7 +238,6 @@ export function deleteCurrentProduct() {
     if(product && product.id) {
       return api.products.delete(product.id).then(() => {
         dispatch(fetchProducts());
-        dispatch(push('/admin/products'));
       }).catch(err => { console.log(err) });
     }
   }
@@ -286,7 +284,7 @@ export function updateProduct(data) {
   }
 }
 
-export function createProduct() {
+export function createProduct(history) {
   return (dispatch, getState) => {
     const state = getState();
 
@@ -298,7 +296,7 @@ export function createProduct() {
     return api.products.create(productDraft).then(({status, json}) => {
         dispatch(successCreateProduct(json.id));
         dispatch(fetchProducts());
-        dispatch(push('/admin/product/'+json.id));
+        history.push('/admin/product/' + json.id);
     })
     .catch(error => {});
   }

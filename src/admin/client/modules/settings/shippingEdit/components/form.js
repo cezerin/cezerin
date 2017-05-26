@@ -29,11 +29,12 @@ class EditShippingMethodForm extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.methodId);
+    this.props.onLoad();
   }
 
   render() {
-    let {handleSubmit, pristine, submitting, initialValues, isAdd, settings} = this.props;
+    let {handleSubmit, pristine, submitting, initialValues, methodId, settings} = this.props;
+    const isAdd = methodId === null || methodId === undefined;
 
     return (
         <form onSubmit={handleSubmit} style={{

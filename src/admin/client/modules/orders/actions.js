@@ -1,7 +1,6 @@
 import * as t from './actionTypes'
 import api from 'lib/api'
 import messages from 'lib/text'
-import { push } from 'react-router-redux';
 
 function requestOrder() {
   return {
@@ -267,9 +266,8 @@ export function deleteCurrentOrder() {
     let order = state.orders.editOrder;
 
     if(order && order.id) {
-      return api.orders.delete(order.id).then(response => {
-        dispatch(push('/admin/orders'));
-      }).catch(err => { console.log(err) });
+      return api.orders.delete(order.id)
+      .catch(err => { console.log(err) });
     }
   }
 }
@@ -415,13 +413,13 @@ export function updateShippingAddress(orderId, address) {
   }
 }
 
-export function createOrder() {
+export function createOrder(history) {
   return (dispatch, getState) => {
     const state = getState();
     return api.orders.create({ draft: true, referrer_url: 'admin' }).then(orderResponse => {
       const orderId = orderResponse.json.id;
       dispatch(createOrdersSuccess());
-      dispatch(push(`/admin/order/${orderId}`));
+      history.push(`/admin/order/${orderId}`);
     })
     .catch(error => {});
   }

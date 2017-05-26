@@ -14,7 +14,7 @@ class EmailTemplate extends React.Component {
   }
 
   componentDidMount() {
-    this.props.onLoad(this.props.templateName);
+    this.props.onLoad();
   }
 
   render() {

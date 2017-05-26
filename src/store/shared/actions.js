@@ -1,6 +1,5 @@
-import {push} from 'react-router-redux';
 import * as t from './actionTypes'
-import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED} from './pageTypes'
+import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 import clientSettings from '../client/settings'
 import api from 'cezerin-client'
 api.initAjax(clientSettings.ajaxBaseUrl);
@@ -31,7 +30,7 @@ export const fetchProducts = () => (dispatch, getState) => {
 }
 
 const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
-const getProductFilter = (productFilter) => {
+export const getProductFilter = (productFilter) => {
   let filter = {
     on_sale: productFilter.onSale,
     search: productFilter.search,
@@ -147,7 +146,7 @@ const receiveShippingMethods = methods => ({
   methods
 })
 
-export const checkout = cart => (dispatch, getState) => {
+export const checkout = (cart, history) => (dispatch, getState) => {
   dispatch(requestCheckout())
   return api.ajax.cart.updateShippingAddress(cart.shipping_address)
     .then(() => api.ajax.cart.updateBillingAddress(cart.billing_address))
@@ -161,7 +160,7 @@ export const checkout = cart => (dispatch, getState) => {
     .then(() => api.ajax.cart.checkout())
     .then(orderResponse => {
       dispatch(receiveCheckout(orderResponse.json))
-      dispatch(push('/checkout-success'));
+      history.push('/checkout-success');
     })
     .catch(error => {});
 }
@@ -283,114 +282,48 @@ export const updateCart = cart => (dispatch, getState) => {
   }).catch(error => {});
 }
 
-const getCategories = () => {
-  return api.ajax.productCategories.list({enabled: true}).then(({status, json}) => json)
-}
-
-const getProducts = (currentPage, productFilter) => {
-  if (currentPage.type === PRODUCT_CATEGORY) {
-    let filter = getProductFilter(productFilter);
-    return api.ajax.products.list(filter).then(({status, json}) => json)
-  } else {
-    return Promise.resolve([]);
-  }
-}
-
-const getProduct = currentPage => {
-  if (currentPage.type === PRODUCT) {
-    return api.ajax.products.retrieve(currentPage.resource).then(({status, json}) => json)
-  } else {
-    return Promise.resolve();
-  }
-}
-
-const getCart = cookie => {
-  return api.ajax.cart.retrieve(cookie).then(({status, json}) => json)
-}
-
-const getPage = currentPage => {
-  if (currentPage.type === PAGE) {
-    return api.ajax.pages.retrieve(currentPage.resource).then(pageResponse => {
-      return pageResponse.json;
-    })
-  } else {
-    return Promise.resolve({});
-  }
-}
-
-const getCommonData = (req, currentPage, productFilter) => {
-  const cookie = req.get('cookie');
-  return Promise.all([getCategories(), getProduct(currentPage), getProducts(currentPage, productFilter), getCart(cookie), getPage(currentPage)]).then(([categories, product, products, cart, pageDetails]) => {
-    let categoryDetails = null;
-    if (currentPage.type === PRODUCT_CATEGORY) {
-      categoryDetails = categories.find(c => c.id === currentPage.resource);
-    }
-    return {
-      categories,
-      product,
-      products,
-      categoryDetails,
-      cart,
-      pageDetails
-    }
-  });
-}
-
-export const getInitialState = (req, checkoutFields, currentPage, settings) => {
-  let initialState = {
-    app: {
-      settings: settings,
-      currentPage: currentPage,
-      pageDetails: {},
-      categoryDetails: null,
-      productDetails: null,
-      categories: [],
-      products: [],
-      productsTotalCount: 0,
-      productsHasMore: false,
-      productsMinPrice: 0,
-      productsMaxPrice: 0,
-      paymentMethods: [],
-      shippingMethods: [],
-      loadingProducts: false,
-      loadingMoreProducts: false,
-      loadingShippingMethods: false,
-      loadingPaymentMethods: false,
-      processingCheckout: false,
-      productFilter: {
-        onSale: null,
-        search: '',
-        categoryId: null,
-        priceFrom: 0,
-        priceTo: 0,
-        sort: settings.default_product_sorting
-      },
-      cart: null,
-      order: null,
-      checkoutFields: checkoutFields
+export const setCurrentPage = pathname => (dispatch, getState) => {
+  const {app} = getState();
+  if(app.currentPage.path !== pathname){
+    const category = app.categories.find(c => c.path === pathname);
+    if(category){
+      const newCurrentPage = {
+        type: 'product-category',
+        path: category.path,
+        resource: category.id
+      };
+      dispatch(receiveSitemap(newCurrentPage))
+      dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
+    } else {
+      api.ajax.sitemap.retrieve({ path: pathname })
+      .then(sitemapResponse => {
+        if(sitemapResponse.status === 404){
+          dispatch(receiveSitemap({
+            type: 404,
+            path: pathname,
+            resource: null
+          }))
+        } else {
+          const newCurrentPage = sitemapResponse.json;
+          dispatch(receiveSitemap(newCurrentPage))
+          dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
+        }
+      });
     }
   }
+}
 
-  if (currentPage.type === PRODUCT_CATEGORY) {
-    initialState.app.productFilter.categoryId = currentPage.resource;
+const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
+  switch(currentPage.type){
+    case PRODUCT_CATEGORY:
+      dispatch(setCategory(currentPage.resource))
+      dispatch(fetchProducts());
+      break;
+    case PRODUCT:
+      dispatch(fetchProduct(currentPage.resource))
+      break;
+    case PAGE:
+      dispatch(fetchPage(currentPage.resource))
+      break;
   }
-
-  return getCommonData(req, currentPage, initialState.app.productFilter).then(commonData => {
-    initialState.app.categories = commonData.categories;
-    initialState.app.productDetails = commonData.product;
-    if(commonData.products) {
-      initialState.app.products = commonData.products.data;
-      initialState.app.productsTotalCount = commonData.products.total_count;
-      initialState.app.productsHasMore = commonData.products.has_more;
-      if(commonData.products.price) {
-        initialState.app.productsMinPrice = commonData.products.price.min;
-        initialState.app.productsMaxPrice = commonData.products.price.max;
-      }
-    }
-    initialState.app.categoryDetails = commonData.categoryDetails;
-    initialState.app.cart = commonData.cart;
-    initialState.app.pageDetails = commonData.pageDetails;
-    return initialState;
-  })
-
 }

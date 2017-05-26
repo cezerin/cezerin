@@ -1,4 +1,3 @@
-import {push} from 'react-router-redux'
 import {getJSONLD} from './lib/jsonld'
 import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts, setSearch, setSort, setPriceFromAndTo, setPriceFrom, setPriceTo} from './actions'
 
@@ -38,7 +37,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(setPriceTo(priceTo));
     },
     setLocation: (path) => {
-      dispatch(push(path));
+      ownProps.history.push(path);
     },
     getJSONLD: (state) => {
       return getJSONLD(state);

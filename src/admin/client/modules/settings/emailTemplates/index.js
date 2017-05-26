@@ -2,15 +2,16 @@ import { connect } from 'react-redux'
 import { fetchEmailTemplate, updateEmailTemplate } from '../actions'
 import Form from './components/form'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: state.settings.emailTemplate
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onLoad: (templateName) => {
+    onLoad: () => {
+      const {templateName} = ownProps.match.params;
       dispatch(fetchEmailTemplate(templateName))
     },
     onSubmit: (values) => {

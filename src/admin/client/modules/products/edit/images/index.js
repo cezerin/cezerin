@@ -1,11 +1,13 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { deleteImage, updateImages, fetchImages  } from '../../actions'
 import ProductImages from './components/images'
 
 const mapStateToProps = (state, ownProps) => {
+  const { productId } = ownProps.match.params;
   return {
     images: state.products.editProductImages,
-    productId: ownProps.productId
+    productId: productId
   }
 }
 
@@ -18,9 +20,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(updateImages(productId, images));
     },
     fetchData: () => {
-      dispatch(fetchImages(ownProps.productId));
+      const { productId } = ownProps.match.params;
+      dispatch(fetchImages(productId));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductImages);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductImages));

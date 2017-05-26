@@ -39,6 +39,7 @@ export default class Buttons extends React.Component {
       <FlatButton
         label={messages.cancel}
         onTouchTap={this.closeDelete}
+        style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}

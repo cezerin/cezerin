@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { fetchCustomer, clearCustomerDetails, updateCustomer, updateAddress, deleteAddress, setDefaultBillingAddress, setDefaultShippingAddress } from '../actions'
 import CustomerDetails from './components/details'
 
@@ -12,22 +13,27 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchData: () => {
-      dispatch(fetchCustomer(ownProps.customerId));
+      const { customerId } = ownProps.match.params;
+      dispatch(fetchCustomer(customerId));
     },
     clearData: () => {
       dispatch(clearCustomerDetails());
     },
     onUpdateAddress: (address) => {
-      dispatch(updateAddress(ownProps.customerId, address.id, address));
+      const { customerId } = ownProps.match.params;
+      dispatch(updateAddress(customerId, address.id, address));
     },
     onDeleteAddress: (addressId) => {
-      dispatch(deleteAddress(ownProps.customerId, addressId));
+      const { customerId } = ownProps.match.params;
+      dispatch(deleteAddress(customerId, addressId));
     },
     onSetDefaultBillingAddress: (addressId) => {
-      dispatch(setDefaultBillingAddress(ownProps.customerId, addressId));
+      const { customerId } = ownProps.match.params;
+      dispatch(setDefaultBillingAddress(customerId, addressId));
     },
     onSetDefaultShippingAddress: (addressId) => {
-      dispatch(setDefaultShippingAddress(ownProps.customerId, addressId));
+      const { customerId } = ownProps.match.params;
+      dispatch(setDefaultShippingAddress(customerId, addressId));
     },
     onCustomerSummaryUpdate: (customer) => {
       dispatch(updateCustomer({
@@ -42,4 +48,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CustomerDetails);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CustomerDetails));

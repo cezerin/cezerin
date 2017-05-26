@@ -18,7 +18,6 @@ module.exports = () => {
         'react-redux',
         'redux-thunk',
         'react-router',
-        'react-router-redux',
         'react-tinymce',
         'react-dropzone',
         'redux-form',
@@ -36,7 +35,7 @@ module.exports = () => {
     resolve: {
       alias: {
         src: path.resolve('./src/admin/client'),
-        layouts: path.resolve('./src/admin/client/layouts'),
+        routes: path.resolve('./src/admin/client/routes'),
         modules: path.resolve('./src/admin/client/modules'),
         lib: path.resolve('./src/admin/client/lib')
       }

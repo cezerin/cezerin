@@ -1,21 +1,21 @@
 import { connect } from 'react-redux'
-import { push } from 'react-router-redux';
+import { withRouter } from 'react-router'
 import { deletePage } from '../../actions'
 import Buttons from './components/headButtons'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     page: state.settings.pageEdit
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onDelete: (id) => {
       dispatch(deletePage(id));
-      dispatch(push('/admin/settings/pages'));
+      ownProps.history.push('/admin/settings/pages');
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Buttons);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Buttons));
