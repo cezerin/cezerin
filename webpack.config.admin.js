@@ -10,7 +10,7 @@ const env = process.env.NODE_ENV;
 module.exports = () => {
   var config = {
     entry: {
-      app: './src/admin/client/index.js',
+      app: path.resolve(__dirname, 'src/admin/client/index.js'),
       vendor: [
         'react',
         'react-dom',
@@ -28,16 +28,16 @@ module.exports = () => {
 
     output: {
       publicPath: '/',
-      path: path.join(__dirname, 'public'),
+      path: path.resolve(__dirname, 'public'),
       filename: 'admin-assets/js/[name]-[chunkhash].js'
     },
 
     resolve: {
       alias: {
-        src: path.resolve('./src/admin/client'),
-        routes: path.resolve('./src/admin/client/routes'),
-        modules: path.resolve('./src/admin/client/modules'),
-        lib: path.resolve('./src/admin/client/lib')
+        src: path.resolve(__dirname, 'src/admin/client'),
+        routes: path.resolve(__dirname, 'src/admin/client/routes'),
+        modules: path.resolve(__dirname, 'src/admin/client/modules'),
+        lib: path.resolve(__dirname, 'src/admin/client/lib')
       }
     },
 
