@@ -95,3 +95,11 @@ Object.defineProperty(exports, 'config', {
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// combine all css files into one with webpack. Hack to deal with server side rendering.
+if (typeof window !== 'undefined') {
+  require('bulma/css/bulma.css');
+  require('rc-slider/assets/index.css');
+  require('react-image-gallery/styles/css/image-gallery-no-icon.css');
+  require('../assets/css/theme.css');
+}
