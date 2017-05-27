@@ -10,9 +10,9 @@ const Sort = ({ defaultSort, currentSort, setSort }) => {
       <span className="select is-fullwidth">
         <select onChange={e => {setSort(e.target.value)}} value={currentSort}>
           <option value={defaultSort}>{text.sortFavorite}</option>
-          <option value={config.sort_newest}>{text.sortNewest}</option>
-          <option value={config.sort_price_low}>{text.sortPriceLow}</option>
-          <option value={config.sort_price_high}>{text.sortPriceHigh}</option>
+          <option value={config.sortNewest}>{text.sortNewest}</option>
+          <option value={config.sortPriceLow}>{text.sortPriceLow}</option>
+          <option value={config.sortPriceHigh}>{text.sortPriceHigh}</option>
         </select>
       </span>
       </div>

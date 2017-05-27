@@ -24,7 +24,7 @@ const ItemPrice = ({ product, settings }) => {
 
 const ItemImage = ({ images, alt }) => {
   if(images && images.length > 0) {
-    const imageUrl = helper.getThumbnailUrl(images[0].url, config.list_thumbnail_width);
+    const imageUrl = helper.getThumbnailUrl(images[0].url, config.listThumbnailWidth);
 
     return (
       <img src={imageUrl} alt={alt} />

@@ -5,7 +5,7 @@ import config from '../lib/config'
 import * as helper from '../lib/helper'
 
 const GalleryItem = ({ category }) => {
-  const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, config.category_thumbnail_width) : '';
+  const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, config.categoryThumbnailWidth) : '';
 
   return (
     <div className="column is-6-tablet is-12-mobile">

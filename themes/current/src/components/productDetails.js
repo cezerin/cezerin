@@ -111,8 +111,8 @@ const ProductGallery = ({ images }) => {
   if (images.length > 0) {
     const imagesArray = images.map(image => (
       {
-        original: helper.getThumbnailUrl(image.url, config.big_thumbnail_width),
-        thumbnail: helper.getThumbnailUrl(image.url, config.preview_thumbnail_width),
+        original: helper.getThumbnailUrl(image.url, config.bigThumbnailWidth),
+        thumbnail: helper.getThumbnailUrl(image.url, config.previewThumbnailWidth),
         originalAlt: image.alt,
         thumbnailAlt: image.alt
       }

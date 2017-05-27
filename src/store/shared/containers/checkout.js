@@ -8,7 +8,7 @@ const ConnectedCheckoutContainer = connect(mapStateToProps, mapDispatchToProps)(
 
 export default() => {
   return <ConnectedCheckoutContainer checkoutForm={<CheckoutForm
-    inputClassName={config.checkout_input_class}
-    buttonClassName={config.checkout_button_class}
+    inputClassName={config.checkoutInputClass}
+    buttonClassName={config.checkoutButtonClass}
   />} />
 }
