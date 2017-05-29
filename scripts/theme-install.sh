@@ -22,7 +22,7 @@ mkdir -p themes/current
 rm -rf themes/current/
 
 # 4. unzip to current theme
-unzip "public/$fileName" -d "themes/current"
+unzip -q "public/$fileName" -d "themes/current"
 cd themes/current
 npm install
 cd ../../
