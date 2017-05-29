@@ -15,7 +15,7 @@ module.exports = {
   listenPort: NODE_SERVER_PORT,
 
   // used by API
-  mongodbServerUrl: 'mongodb://127.0.0.1:27017/shop',
+  mongodbServerUrl: 'mongodb://db:27017/shop',
 
   // key to sign tokens
   jwtSecretKey: '-',
