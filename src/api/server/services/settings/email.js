@@ -9,7 +9,7 @@ class EmailSettingsService {
         'host': '',
         'port': '',
         'user': '',
-        'pass': '',
+        'pass': 0,
         'from_name': '',
         'from_address': ''
     }
