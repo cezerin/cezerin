@@ -49,7 +49,7 @@ export default class Buttons extends React.Component {
 
     return (
       <span>
-        <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
 
