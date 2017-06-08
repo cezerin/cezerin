@@ -1,6 +1,10 @@
 # Cezerin
 
-Cezerin is an open-source e-commerce platform built with JavaScript only. Cezerin makes it easy to create SEO-friendly single-page online store. [Demo store](https://store.cezerin.com).
+Cezerin is an open-source e-commerce platform built with JavaScript only. Cezerin makes it easy to create SEO-friendly single-page online store.
+
+[Demo store](https://store.cezerin.com)
+
+[Demo dashboard (read only)](https://store.cezerin.com/admin/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1YmxpY0BjZXplcmluLmNvbSIsInNjb3BlcyI6WyJyZWFkOnNldHRpbmdzIiwicmVhZDpwYXltZW50X21ldGhvZHMiLCJyZWFkOnNoaXBwaW5nX21ldGhvZHMiLCJyZWFkOnNpdGVtYXAiLCJyZWFkOnRoZW1lcyIsInJlYWQ6b3JkZXJfc3RhdHVzZXMiLCJyZWFkOnBhZ2VzIiwicmVhZDpjdXN0b21lcl9ncm91cHMiLCJyZWFkOmN1c3RvbWVycyIsInJlYWQ6b3JkZXJzIiwicmVhZDpwcm9kdWN0X2NhdGVnb3JpZXMiLCJyZWFkOnByb2R1Y3RzIiwiZGFzaGJvYXJkIl0sImp0aSI6IjU5MzkyZjRkMWMwYTQzMDEyMDE2YmEyNSIsImlhdCI6MTQ5NjkxOTg4NSwiZXhwIjoxNTEyNDcxODg1fQ._x3vJ9NoBL1zdNwFvTRFvAQv3HbwCeW53yt14hRm99U)
 
 ![Cezerin dashboard](https://cezerin.com/assets/images/cezerin-dashboard.png)
 
@@ -32,9 +36,9 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 * ~~**Product options**~~
 * ~~**Order details/edit/add**~~
 * ~~**Customer details/edit/add**~~
+* ~~**Google Analytics for Single Page Application**~~
 
 **Short-term (next 3 months)**
-* Google Analytics for Single Page Application  **〈〈〈〈〈〈 we are here**
 * Order notifications
 * Order Timeline
 * Order Statuses
