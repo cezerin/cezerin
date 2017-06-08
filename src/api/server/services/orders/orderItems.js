@@ -45,7 +45,7 @@ class OrderItemsService {
       _id: orderObjectID
     }, {items: 1}).then(order => {
       if(order && order.items && order.items.length > 0) {
-        return order.items.find(item => item.product_id === product_id && item.variant_id === variant_id);
+        return order.items.find(item => item.product_id.toString() === product_id.toString() && (item.variant_id || '').toString() === (variant_id || '').toString());
       } else {
         return null;
       }
@@ -136,7 +136,7 @@ class OrderItemsService {
       if (order.items.length > 0) {
         let item = order.items.find(i => i.id.toString() === item_id.toString());
         if (item) {
-          return ProductsService.getSingleProduct(item.product_id).then(product => {
+          return ProductsService.getSingleProduct(item.product_id.toString()).then(product => {
             let newItemData = null;
             if(item.variant_id) {
               const variant = this.getVariantFromProduct(product, item.variant_id);

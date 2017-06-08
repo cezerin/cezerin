@@ -170,9 +170,11 @@ class OrdersService {
       if (!order.customer_id && order.email) {
         // find customer by email
         return CustomersService.getCustomers({email: order.email}).then(customers => {
-          if (customers && customers.length > 0) {
+          const customerExists = customers && customers.data && customers.data.length > 0;
+
+          if (customerExists) {
             // if customer exists - set new customer_id
-            return customers[0].id;
+            return customers.data[0].id;
           } else {
             // if customer not exists - create new customer and set new customer_id
             var addresses = [];
@@ -459,13 +461,13 @@ class OrdersService {
       delete order._id;
 
       let orderStatus = (order.status_id && orderStatuses.length > 0)
-        ? orderStatuses.find(i => i.id === order.status_id)
+        ? orderStatuses.find(i => i.id.toString() === order.status_id.toString())
         : null;
       let orderShippingMethod = (order.shipping_method_id && shippingMethods.length > 0)
-        ? shippingMethods.find(i => i.id === order.shipping_method_id)
+        ? shippingMethods.find(i => i.id.toString() === order.shipping_method_id.toString())
         : null;
       let orderPaymentMethod = (order.payment_method_id && paymentMethods.length > 0)
-        ? paymentMethods.find(i => i.id === order.payment_method_id)
+        ? paymentMethods.find(i => i.id.toString() === order.payment_method_id.toString())
         : null;
 
       order.status = orderStatus

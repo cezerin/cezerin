@@ -25,9 +25,12 @@ class PaymentMethodsService {
       }
 
       const order_id = parse.getObjectIDIfValid(params.order_id);
+
       if (order_id) {
         return OrdersService.getSingleOrder(order_id).then(order => {
           if (order) {
+            const shippingMethodObjectID = parse.getObjectIDIfValid(order.shipping_method_id);
+
             filter['$and'] = [];
             filter['$and'].push({
               $or: [
@@ -66,7 +69,7 @@ class PaymentMethodsService {
               });
             }
 
-            if (order.shipping_method_id && order.shipping_method_id.length > 0) {
+            if (shippingMethodObjectID) {
               filter['$and'].push({
                 $or: [
                   {
@@ -74,7 +77,7 @@ class PaymentMethodsService {
                       $size: 0
                     }
                   }, {
-                    'conditions.shipping_method_ids': order.shipping_method_id
+                    'conditions.shipping_method_ids': shippingMethodObjectID
                   }
                 ]
               });
@@ -133,18 +136,24 @@ class PaymentMethodsService {
   }
 
   getPaymentMethodConditions(conditions) {
+    let methodIds = conditions ? parse.getArrayIfValid(conditions.shipping_method_ids) || [] : [];
+    let methodObjects = [];
+    if(methodIds.length > 0){
+      methodObjects = methodIds.map(id => new ObjectID(id));
+    }
+
     return conditions
       ? {
         'countries': parse.getArrayIfValid(conditions.countries) || [],
-        'shipping_method_ids': parse.getArrayIfValid(conditions.shipping_method_ids) || [],
+        'shipping_method_ids': methodObjects,
         'subtotal_min': parse.getNumberIfPositive(conditions.subtotal_min) || 0,
         'subtotal_max': parse.getNumberIfPositive(conditions.subtotal_max) || 0
       }
       : {
         'countries': [],
         'shipping_method_ids': [],
-        'subtotal_min': null,
-        'subtotal_max': null
+        'subtotal_min': 0,
+        'subtotal_max': 0
       };
   }
 

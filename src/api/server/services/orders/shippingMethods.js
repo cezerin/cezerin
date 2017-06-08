@@ -184,10 +184,10 @@ class ShippingMethodsService {
         'countries': [],
         'states': [],
         'cities': [],
-        'subtotal_min': null,
-        'subtotal_max': null,
-        'weight_total_min': null,
-        'weight_total_max': null
+        'subtotal_min': 0,
+        'subtotal_max': 0,
+        'weight_total_min': 0,
+        'weight_total_max': 0
       };
   }
 
