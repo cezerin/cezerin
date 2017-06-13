@@ -302,3 +302,37 @@ footer hr {
   max-width: 200px;
   margin-bottom: 30px;
 }
+
+.attribute {
+  margin-bottom: 20px;
+}
+
+.attribute-title {
+  margin-bottom: 6px;
+  display: block;
+}
+
+.attribute label {
+  display: block;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px 0px 0px 6px;
+  margin: 1px 0px 0px 0px;
+  border-radius: 4px;
+}
+
+.attribute label:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.attribute label.attribute-checked {
+  background: rgba(0,0,0,0.05)
+}
+
+.attribute label.attribute-disabled {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.attribute label input {
+  margin-right: 6px;
+}
