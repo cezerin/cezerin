@@ -6,6 +6,7 @@ import config from '../lib/config'
 import CategoryTree from './categoryTree'
 import Sort from './sort'
 import PriceSlider from './priceSlider'
+import AttributeFilter from './attributeFilter'
 
 export default class ProductFilter extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class ProductFilter extends React.Component {
 
   render() {
     const { sidebarIsActive } = this.state;
-    const { categoryDetails, categories, settings, productFilter, productsMinPrice, productsMaxPrice} = this.props.state;
+    const { categoryDetails, categories, settings, productFilter, productsMinPrice, productsMaxPrice, productsAttributes} = this.props.state;
 
     return (
       <div className="column is-one-quarter">
@@ -31,8 +32,8 @@ export default class ProductFilter extends React.Component {
           <button className="button is-fullwidth" onClick={this.sidebarToggle}>{text.filterProducts}</button>
         </div>
 
-        <div className={sidebarIsActive ? 'modal is-active' : 'is-hidden-mobile'}>
-          <div className={sidebarIsActive ? 'modal-background' : ''}></div>
+        <div className={sidebarIsActive ? 'modal is-active' : 'is-hidden-mobile'} style={{ zIndex: 101 }}>
+          <div className={sidebarIsActive ? 'modal-background' : ''} onClick={this.sidebarClose}></div>
           <div className={sidebarIsActive ? 'modal-content' : ''}>
             <div className={sidebarIsActive ? 'box sidebar' : ''}>
 
@@ -55,11 +56,14 @@ export default class ProductFilter extends React.Component {
                 settings={settings}
               />
 
+              <AttributeFilter
+                attributes={productsAttributes}
+                setFilterAttribute={this.props.setFilterAttribute}
+                unsetFilterAttribute={this.props.unsetFilterAttribute}
+              />
+
             </div>
           </div>
-          {sidebarIsActive &&
-            <button className="modal-close" onClick={this.sidebarClose}></button>
-          }
         </div>
 
       </div>

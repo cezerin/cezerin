@@ -108,7 +108,7 @@ const ProductDescription = ({ description }) => {
 }
 
 const ProductGallery = ({ images }) => {
-  if (images.length > 0) {
+  if (images && images.length > 0) {
     const imagesArray = images.map(image => (
       {
         original: helper.getThumbnailUrl(image.url, config.bigThumbnailWidth),
@@ -210,45 +210,49 @@ export default class ProductDetails extends React.Component {
     const {product, settings} = this.props;
     const {selectedVariant, isAllOptionsSelected} = this.state;
 
-    return (
-      <section className="section">
-        <div className="container">
-          <div className="columns">
-            <div className="column is-6">
-              <ProductGallery images={product.images} />
-            </div>
-            <div className="column is-5 is-offset-1">
-              <div className="content">
+    if(product){
+      return (
+        <section className="section" style={{ paddingTop: '1rem' }}>
+          <div className="container">
+            <div className="columns">
+              <div className="column is-6">
+                <ProductGallery images={product.images} />
+              </div>
+              <div className="column is-5 is-offset-1">
+                <div className="content">
 
-                <h1 className="title is-4">{product.name}</h1>
+                  <h1 className="title is-4">{product.name}</h1>
 
-                <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
+                  <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
 
-                {product.options && product.options.length > 0 &&
-                  <ProductOptions options={product.options} onChange={this.onOptionChange} />
-                }
+                  {product.options && product.options.length > 0 &&
+                    <ProductOptions options={product.options} onChange={this.onOptionChange} />
+                  }
 
-                <div className="columns">
-                  <div className="column is-6">
-                    <AddToCartButton product={product} variant={selectedVariant} addCartItem={this.addToCart} isAllOptionsSelected={isAllOptionsSelected} />
+                  <div className="columns">
+                    <div className="column is-6">
+                      <AddToCartButton product={product} variant={selectedVariant} addCartItem={this.addToCart} isAllOptionsSelected={isAllOptionsSelected} />
+                    </div>
                   </div>
+
+                  {product.attributes && product.attributes.length > 0 &&
+                    <ProductAttributes attributes={product.attributes} />
+                  }
+
                 </div>
-
-                {product.attributes && product.attributes.length > 0 &&
-                  <ProductAttributes attributes={product.attributes} />
-                }
-
               </div>
             </div>
+            <div className="content">
+              <ProductDescription description={product.description} />
+            </div>
           </div>
-          <div className="content">
-            <ProductDescription description={product.description} />
-          </div>
-        </div>
-        {product.related_product_ids && product.related_product_ids.length > 0 &&
-          <RelatedProducts ids={product.related_product_ids} />
-        }
-      </section>
-    )
+          {product.related_product_ids && product.related_product_ids.length > 0 &&
+            <RelatedProducts ids={product.related_product_ids} />
+          }
+        </section>
+      )
+    } else {
+      return null;
+    }
   }
 }

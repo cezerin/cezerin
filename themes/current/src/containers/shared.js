@@ -12,7 +12,9 @@ const SharedContainer = (props) => {
   return (
     <div>
       <Header {...props} />
-      {props.children}
+      <div style={{ paddingTop: '3.25rem' }}>
+        {props.children}
+      </div>
       {!hideFooter &&
         <Footer />
       }

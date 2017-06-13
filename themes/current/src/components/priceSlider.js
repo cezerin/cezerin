@@ -23,10 +23,14 @@ export default class PriceSlider extends React.Component {
     }
   }
 
-  setValues = (values) => this.setState({
-    minValue: values[0],
-    maxValue: values[1]
-  });
+  setValues = (values) => {
+    if(Array.isArray(values) && values.length === 2) {
+      this.setState({
+        minValue: values[0],
+        maxValue: values[1]
+      })
+    }
+  }
 
   render() {
     const { minPrice, maxPrice, setPriceFromAndTo, settings } = this.props;

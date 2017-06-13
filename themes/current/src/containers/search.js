@@ -11,18 +11,20 @@ import PriceSlider from '../components/priceSlider'
 const CategoryContainer = (props) => {
   const {products, settings, productFilter, productsHasMore, productsMinPrice, productsMaxPrice, productsTotalCount} = props.state;
   const {setSearch, setSort, setPriceFromAndTo, addCartItem, loadMoreProducts} = props;
-  const title = productFilter.search && productFilter.search !== '' ? `${productsTotalCount || 0} ${text.resultsFor} "${productFilter.search}"` : text.search;
+  const searchNotEmpty = productFilter.search && productFilter.search !== '';
+  const searchDescription = searchNotEmpty ? `${productsTotalCount || 0} ${text.resultsFor} "${productFilter.search}"` : text.search;
+  const title = searchNotEmpty ? `${productFilter.search} - ${text.search}` : text.search;
 
   return (
     <div>
       <MetaTags
-        title={text.search}
+        title={title}
       />
 
       <section className="hero is-dark">
         <div className="hero-body">
           <div className="container">
-            <h1 className="title is-4">{title}</h1>
+            <h1 className="title is-4">{searchDescription}</h1>
             <SearchBox value={productFilter.search} onSearch={setSearch} />
           </div>
         </div>
