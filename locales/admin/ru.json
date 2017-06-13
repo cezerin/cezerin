@@ -294,5 +294,9 @@
   "address": "Адрес",
   "editAddress": "Изменить адрес",
   "setDefaultBillingAddress": "Установить как платежный адрес по умолчанию",
-  "setDefaultShippingAddress": "Установить как адрес доставки по умолчанию"
+  "setDefaultShippingAddress": "Установить как адрес доставки по умолчанию",
+  "attributes": "Свойства",
+  "attributeName": "Название свойства",
+  "attributeValue": "Значение свойства",
+  "addAttribute": "Добавить свойство"
 }
