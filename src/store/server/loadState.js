@@ -1,5 +1,6 @@
 import api from 'cezerin-client'
-import {getProductFilter} from '../shared/actions'
+import queryString from 'query-string'
+import {getParsedProductFilter, getProductFilterForCategory, getProductFilterForSearch} from '../shared/actions'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from '../shared/pageTypes'
 
 const getCurrentPage = path => {
@@ -20,8 +21,8 @@ const getCurrentPage = path => {
 }
 
 const getProducts = (currentPage, productFilter) => {
-  if (currentPage.type === PRODUCT_CATEGORY) {
-    const filter = getProductFilter(productFilter);
+  if (currentPage.type === PRODUCT_CATEGORY || currentPage.type === SEARCH) {
+    const filter = getParsedProductFilter(productFilter);
     return api.ajax.products.list(filter).then(({status, json}) => json);
   } else {
     return null;
@@ -77,7 +78,7 @@ const getAllData = (currentPage, productFilter, cookie) => {
   })
 }
 
-const getState = (currentPage, settings, allData) => {
+const getState = (currentPage, settings, allData, location, productFilter) => {
   const {
     checkoutFields,
     categories,
@@ -92,10 +93,12 @@ const getState = (currentPage, settings, allData) => {
   let productsHasMore = false;
   let productsMinPrice = 0;
   let productsMaxPrice = 0;
+  let productsAttributes = [];
 
   if(products){
     productsTotalCount = products.total_count;
     productsHasMore = products.has_more;
+    productsAttributes = products.attributes;
 
     if(products.price) {
       productsMinPrice = products.price.min;
@@ -105,6 +108,7 @@ const getState = (currentPage, settings, allData) => {
 
   const state = { app: {
       settings: settings,
+      location: location,
       currentPage: currentPage,
       pageDetails: page,
       categoryDetails: categoryDetails,
@@ -115,6 +119,7 @@ const getState = (currentPage, settings, allData) => {
       productsHasMore: productsHasMore,
       productsMinPrice: productsMinPrice,
       productsMaxPrice: productsMaxPrice,
+      productsAttributes: productsAttributes,
       paymentMethods: [],
       shippingMethods: [],
       loadingProducts: false,
@@ -124,10 +129,11 @@ const getState = (currentPage, settings, allData) => {
       processingCheckout: false,
       productFilter: {
         onSale: null,
-        search: '',
-        categoryId: currentPage.type === PRODUCT_CATEGORY ? currentPage.resource : null,
-        priceFrom: 0,
-        priceTo: 0,
+        search: productFilter.search || '',
+        categoryId: productFilter.categoryId,
+        priceFrom: productFilter.priceFrom || 0,
+        priceTo: productFilter.priceTo || 0,
+        attributes: productFilter.attributes,
         sort: settings.default_product_sorting
       },
       cart: cart,
@@ -139,22 +145,42 @@ const getState = (currentPage, settings, allData) => {
   return state;
 }
 
+const getFilter = (currentPage, urlQuery) => {
+  let productFilter = {};
+
+  if(currentPage.type === PRODUCT_CATEGORY){
+    productFilter = getProductFilterForCategory(urlQuery);
+    productFilter.categoryId = currentPage.resource;
+  } else if(currentPage.type === SEARCH){
+    productFilter = getProductFilterForSearch(urlQuery);
+  }
+
+  return productFilter;
+}
+
 export const loadState = (req) => {
   const cookie = req.get('cookie');
+  const urlPath = req.path;
+  const urlQuery = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
+  const location = {
+    hasHistory: false,
+    pathname: urlPath,
+    search: urlQuery,
+    hash: ''
+  }
   let currentPage = null;
   let settings = null;
+  let productFilter = null;
+
   return getCurrentPage(req.path)
     .then(page => {
       currentPage = page;
+      productFilter = getFilter(currentPage, urlQuery);
       return api.settings.retrieve()
     })
     .then(settingsResponse => {
       settings = settingsResponse.json;
-      const productFilter = {
-        categoryId: currentPage.type === PRODUCT_CATEGORY ? currentPage.resource : null,
-        sort: settings.default_product_sorting
-      };
       return getAllData(currentPage, productFilter, cookie);
     })
-    .then(allData => getState(currentPage, settings, allData));
+    .then(allData => getState(currentPage, settings, allData, location, productFilter));
 }

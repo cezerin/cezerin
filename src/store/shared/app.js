@@ -32,7 +32,7 @@ class SwitchContainers extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.props.setCurrentPage(nextProps.location.pathname);
+    this.props.setCurrentPage(nextProps.location);
   }
 
   render() {
@@ -73,8 +73,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setCurrentPage: (pathname) => {
-      dispatch(setCurrentPage(pathname))
+    setCurrentPage: (location) => {
+      dispatch(setCurrentPage(location))
     }
   }
 }

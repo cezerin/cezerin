@@ -1,8 +1,11 @@
 import * as t from './actionTypes'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 import clientSettings from '../client/settings'
+import queryString from 'query-string'
 import api from 'cezerin-client'
 api.initAjax(clientSettings.ajaxBaseUrl);
+
+const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes';
 
 export const fetchProduct = product_id => (dispatch, getState) => {
   dispatch(requestProduct())
@@ -19,29 +22,57 @@ export const fetchProducts = () => (dispatch, getState) => {
   const {app} = getState();
   dispatch(requestProducts());
 
-  let filter = getProductFilter(app.productFilter);
+  let filter = getParsedProductFilter(app.productFilter);
 
   return api.ajax.products.list(filter).then(({status, json}) => {
     dispatch(receiveProducts(json))
-    if(!app.productsMinPrice && !app.productsMaxPrice) {
-      dispatch(setProductsPriceRange(json.price.min, json.price.max));
-    }
   }).catch(error => {});
 }
 
-const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price';
-export const getProductFilter = (productFilter) => {
-  let filter = {
-    on_sale: productFilter.onSale,
-    search: productFilter.search,
-    category_id: productFilter.categoryId,
-    price_from: productFilter.priceFrom,
-    price_to: productFilter.priceTo,
-    sort: productFilter['sort'],
-    fields: PRODUCTS_FIELDS,
-    limit: 30,
-    offset: 0
+export const getProductFilterForCategory = (locationSearch) => {
+  const queryFilter = queryString.parse(locationSearch);
+
+  let attributes = {};
+  for(const querykey in queryFilter){
+    if(querykey.startsWith('attributes.')){
+      attributes[querykey] = queryFilter[querykey];
+    }
   }
+
+  return {
+    priceFrom: parseInt(queryFilter.price_from || 0),
+    priceTo: parseInt(queryFilter.price_to || 0),
+    attributes: attributes
+  }
+}
+
+export const getProductFilterForSearch = (locationSearch) => {
+  const queryFilter = queryString.parse(locationSearch);
+
+  return {
+    categoryId: null,
+    priceFrom: parseInt(queryFilter.price_from || 0),
+    priceTo: parseInt(queryFilter.price_to || 0),
+    search: queryFilter.search
+  }
+}
+
+
+export const getParsedProductFilter = (productFilter) => {
+  const filter = Object.assign({},
+    {
+      on_sale: productFilter.onSale,
+      search: productFilter.search,
+      category_id: productFilter.categoryId,
+      price_from: productFilter.priceFrom,
+      price_to: productFilter.priceTo,
+      sort: productFilter['sort'],
+      fields: PRODUCTS_FIELDS,
+      limit: 30,
+      offset: 0
+    },
+    productFilter.attributes
+  )
 
   return filter;
 }
@@ -57,7 +88,7 @@ export const fetchMoreProducts = () => (dispatch, getState) => {
   } else {
     dispatch(requestMoreProducts());
 
-    let filter = getProductFilter(app.productFilter);
+    let filter = getParsedProductFilter(app.productFilter);
     filter.offset = app.products.length;
 
     return api.ajax.products.list(filter).then(({status, json}) => {
@@ -171,13 +202,13 @@ const receiveCheckout = order => ({type: t.CHECKOUT_RECEIVE, order})
 
 export const receiveSitemap = currentPage => ({type: t.SITEMAP_RECEIVE, currentPage})
 
+export const setCurrentLocation = location => ({type: t.LOCATION_CHANGED, location})
+
 export const setCategory = categoryId => (dispatch, getState) => {
   const {app} = getState();
   const category = app.categories.find(c => c.id === categoryId);
   if (category) {
     dispatch(setCurrentCategory(category));
-    dispatch(setProductsPriceRange(null, null));
-    dispatch(clearProductsFilter());
     dispatch(setProductsFilter({categoryId: categoryId}));
     dispatch(receiveProduct(null));
   }
@@ -185,41 +216,12 @@ export const setCategory = categoryId => (dispatch, getState) => {
 
 const setCurrentCategory = category => ({type: t.SET_CURRENT_CATEGORY, category})
 
-export const setSearch = search => (dispatch, getState) => {
-  dispatch(setProductsFilter({search: search, categoryId: null}));
-  dispatch(fetchProducts());
-}
-
 export const setSort = sort => (dispatch, getState) => {
   dispatch(setProductsFilter({sort: sort}));
   dispatch(fetchProducts());
 }
 
-export const setPriceFromAndTo = (priceFrom, priceTo) => (dispatch, getState) => {
-  if(priceTo > 0) {
-    dispatch(setProductsFilter({priceFrom: priceFrom, priceTo: priceTo}));
-    dispatch(fetchProducts());
-  }
-}
-
-export const setPriceFrom = priceFrom => (dispatch, getState) => {
-  dispatch(setProductsFilter({priceFrom: priceFrom}));
-  dispatch(fetchProducts());
-}
-
-export const setPriceTo = priceTo => (dispatch, getState) => {
-  if(priceTo > 0) {
-    dispatch(setProductsFilter({priceTo: priceTo}));
-    dispatch(fetchProducts());
-  }
-}
-
-const setProductsPriceRange = (min, max) => ({type: t.SET_PRODUCTS_PRICE_RANGE, min, max})
-
 const setProductsFilter = filter => ({type: t.SET_PRODUCTS_FILTER, filter: filter})
-
-const EMPTY_FILTER = { onSale: null, search: '', priceFrom: 0, priceTo: 0 };
-const clearProductsFilter = () => ({type: t.SET_PRODUCTS_FILTER, filter: EMPTY_FILTER});
 
 export const updateCartShippingCountry = country => (dispatch, getState) => {
   return [
@@ -282,9 +284,20 @@ export const updateCart = cart => (dispatch, getState) => {
   }).catch(error => {});
 }
 
-export const setCurrentPage = pathname => (dispatch, getState) => {
+export const setCurrentPage = location => (dispatch, getState) => {
+  const { pathname, search, hash } = location;
   const {app} = getState();
-  if(app.currentPage.path !== pathname){
+
+  if(app.location.pathname === pathname && app.location.search === search) {
+    // same page
+  } else {
+    dispatch(setCurrentLocation({
+      hasHistory: true,
+      pathname: location.pathname,
+      search: location.search,
+      hash: location.hash
+    }));
+
     const category = app.categories.find(c => c.path === pathname);
     if(category){
       const newCurrentPage = {
@@ -314,9 +327,19 @@ export const setCurrentPage = pathname => (dispatch, getState) => {
 }
 
 const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
+  const {app} = getState();
+  let productFilter = null;
+
   switch(currentPage.type){
     case PRODUCT_CATEGORY:
-      dispatch(setCategory(currentPage.resource))
+      productFilter = getProductFilterForCategory(app.location.search);
+      dispatch(setCategory(currentPage.resource));
+      dispatch(setProductsFilter(productFilter));
+      dispatch(fetchProducts());
+      break;
+    case SEARCH:
+      productFilter = getProductFilterForSearch(app.location.search);
+      dispatch(setProductsFilter(productFilter));
       dispatch(fetchProducts());
       break;
     case PRODUCT:
