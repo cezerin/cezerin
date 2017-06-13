@@ -1,11 +1,12 @@
-export const formatNumber = (number = 0, settings) => {
+export const formatNumber = (number, settings) => {
   const x = 3;
+  const floatNumber = parseFloat(number || 0) || 0;
 
   const re = '\\d(?=(\\d{' + x + '})+' + (settings.decimal_number > 0
     ? '\\D'
     : '$') + ')';
 
-  let num = (number || 0).toFixed(Math.max(0, ~~ settings.decimal_number));
+  let num = floatNumber.toFixed(Math.max(0, ~~ settings.decimal_number));
 
   return (settings.decimal_separator
     ? num.replace('.', settings.decimal_separator)
