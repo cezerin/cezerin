@@ -294,5 +294,9 @@
   "address": "Address",
   "editAddress": "Edit Address",
   "setDefaultBillingAddress": "Set as default Billing",
-  "setDefaultShippingAddress": "Set as default Shipping"
+  "setDefaultShippingAddress": "Set as default Shipping",
+  "attributes": "Attributes",
+  "attributeName": "Attribute name",
+  "attributeValue": "Attribute value",
+  "addAttribute": "Add new attribute"
 }
