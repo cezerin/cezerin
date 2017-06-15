@@ -70,9 +70,9 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 ## Installation
 
 ### Requirements
-* NodeJS
-* NPM
-* MongoDB
+* NodeJS >= 6
+* NPM >= 5
+* MongoDB >= 3.2
 
 
 ### Installation
@@ -87,7 +87,6 @@ node start
 
 Then open <http://localhost:3000> to see your app.
 
-[Configuration details](https://docs.cezerin.com/configuration.html)
 
 
 |`npm run <script>`|Description|
@@ -133,7 +132,7 @@ Then open <http://localhost:3000> to see your app.
 │   |   └── shared             # Universal code
 │   └── index.js             # Server application start point
 ├── themes                   # Themes
-└── process.json                 # pm2 process file
+└── process.json             # pm2 process file
 ```
 
 
