@@ -47,14 +47,7 @@ export default class Themes extends React.Component {
     var formData = new FormData();
     formData.append('file', file);
 
-    api.themes.importAndInstall(formData).then(({satus, json}) => {
-      this.props.installReceive();
-      if(json.success) {
-        alert('success');
-      } else {
-        alert('Error: ' + JSON.stringify(json));
-      }
-    });
+    api.themes.importAndInstall(formData);
   }
 
   render() {
@@ -67,7 +60,7 @@ export default class Themes extends React.Component {
             <div className="row between-xs middle-xs">
               <div className="col-xs-6">{messages.settings_themeExportDesciption}</div>
               <div className="col-xs-4" style={{ textAlign: 'right' }}>
-                <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess} onTouchTap={this.onExportClick.bind(this)} primary={true}/>
+                <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess || installInProcess} onTouchTap={this.onExportClick.bind(this)} primary={true}/>
               </div>
             </div>
 
@@ -77,7 +70,7 @@ export default class Themes extends React.Component {
               <div className="col-xs-6">{messages.settings_themeInstallDesciption}</div>
               <div className="col-xs-4" style={{ textAlign: 'right' }}>
                 <RaisedButton label={installInProcess ? messages.settings_themeInstalling : messages.settings_themeInstall} disabled={installInProcess} labelPosition="before" containerElement="label" primary={true}>
-                  <input type="file" onChange={this.onImportFileChoose.bind(this)} style={styles.exampleImageInput}/>
+                  <input type="file" onChange={this.onImportFileChoose.bind(this)} disabled={installInProcess} style={styles.exampleImageInput}/>
                 </RaisedButton>
               </div>
             </div>
