@@ -38,11 +38,11 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 * ~~**Customer details/edit/add**~~
 * ~~**Google Analytics for Single Page Application**~~
 * ~~**Product Faceted Search**~~
+* ~~**Order Statuses**~~
+* ~~**Order notifications**~~
 
 **Short-term (next 3 months)**
-* Order notifications
 * Order Timeline
-* Order Statuses
 * Related Products
 * Product tags
 * PWA template
