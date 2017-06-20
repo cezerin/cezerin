@@ -6,6 +6,7 @@ const settings = require('../../lib/settings');
 const mongo = require('../../lib/mongo');
 const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
+const dashboardEvents = require('../../lib/events');
 const emailSender = require('../../lib/email');
 const ObjectID = require('mongodb').ObjectID;
 const ProductsService = require('../products/products');
@@ -572,6 +573,13 @@ class OrdersService {
           subject: emailTemplate.subject,
           html: html
         }
+
+        dashboardEvents.sendMessage({
+          'type': dashboardEvents.ORDER_RECEIVED,
+          'id': orderId,
+          'number': order.number,
+          'total': order.grand_total
+        })
 
         return this.sendOrderNotification(message)
         .then(() => ProductStockService.handleOrderCheckout(orderId))
