@@ -385,6 +385,7 @@ class ProductsService {
      on_sale = parse.getBooleanIfValid(on_sale);
      price_from = parse.getNumberIfPositive(price_from);
      price_to = parse.getNumberIfPositive(price_to);
+     ids = ids.toString();
 
      let queries = [];
      const currentDate = new Date();
