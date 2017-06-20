@@ -1,3 +1,13 @@
+const jwt = require('jsonwebtoken');
+
+const verifyToken = (jwtToken, secretKey) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(jwtToken, secretKey, (err, decoded) => {
+      resolve(err);
+    });
+  })
+}
+
 const scope = {
   ADMIN: 'admin',
   DASHBOARD: 'dashboard',
@@ -36,5 +46,6 @@ const checkUserScope = (requiredScope, req, res, next) => {
 
 module.exports = {
   checkUserScope: checkUserScope,
-  scope: scope
+  scope: scope,
+  verifyToken: verifyToken
 }

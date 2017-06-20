@@ -5,6 +5,7 @@ var apiRouter = express.Router();
 
 var settings = require('./lib/settings');
 var mongo = require('./lib/mongo');
+var dashboardEvents = require('./lib/events');
 
 const SecurityTokensService = require('./services/security/tokens');
 const ProductCategoriesController = require('./controllers/productCategories');
@@ -45,7 +46,7 @@ const checkTokenInBlacklistCallback = (req, payload, done) => {
   }
 };
 
-apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: [`/api/v1/authorize`]}));
+apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: ['/api/v1/authorize', '/api/dashboard/events']}));
 
 var products = new ProductsController(apiRouter);
 var productCategories = new ProductCategoriesController(apiRouter);
@@ -61,6 +62,10 @@ var data = new DataController(apiRouter);
 var settings = new SettingsController(apiRouter);
 var pages = new PagesController(apiRouter);
 var security = new SecurityTokensController(apiRouter);
+
+apiRouter.get('/dashboard/events', function(req, res, next) {
+  dashboardEvents.subscribe(req, res);
+})
 
 apiRouter.use((err, req, res, next) => {
   if(err && err.name === 'UnauthorizedError') {
