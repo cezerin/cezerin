@@ -44,7 +44,8 @@
     "build:dev": "npm run compile:dev & npm run webpack:store:dev & npm run webpack:admin:dev",
     "build": "npm run compile && npm run theme:build:prod && npm run webpack:admin:prod",
     "start:dev": "nodemon --watch dist --watch public/assets dist/index.js",
-    "start": "NODE_ENV=production node dist/index.js"
+    "start": "NODE_ENV=production node dist/index.js",
+    "restart": "pm2 reload cezerin"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
