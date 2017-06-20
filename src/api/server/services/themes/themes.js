@@ -4,6 +4,7 @@ const exec = require('child_process').exec;
 const path = require('path');
 const formidable = require('formidable');
 const settings = require('../../lib/settings');
+const dashboardEvents = require('../../lib/events');
 
 class ThemesService {
   constructor() {}
@@ -28,13 +29,17 @@ class ThemesService {
       if (err) {
         res.status(500).send(this.getErrorMessage(err));
       } else {
+        // run async NPM script
         exec(`npm run theme:install ${fileName} && npm run theme:build:prod`, (error, stdout, stderr) => {
           if (error) {
-            res.status(500).send(this.getErrorMessage(error));
+            dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': false})
           } else {
-            res.send({'success': true, 'warn': stderr});
+            dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': true})
+            exec('npm run restart', (error, stdout, stderr) => {});
           }
         });
+        // close request and don't wait result from NPM script
+        res.status(200).end();
       }
     });
   }
