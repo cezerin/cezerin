@@ -1,0 +1,20 @@
+.shortBox {
+  max-width: 300px;
+}
+
+.button {
+  margin-left: 12px;
+}
+
+.toggle {
+  margin-top: 12px;
+  margin-bottom: 22px;
+}
+
+.innerBox {
+  padding: 30px;
+}
+
+.error {
+  color: rgb(244, 67, 54);
+}

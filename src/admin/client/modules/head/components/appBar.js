@@ -9,6 +9,7 @@ import ProductsHead from 'modules/products/listHead/index'
 import ProductHead from 'modules/products/editHead/index'
 import OrdersHead from 'modules/orders/listHead/index'
 import OrderHead from 'modules/orders/editHead/index'
+import OrderStatusHead from 'modules/orderStatuses/head/index'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
 import PageHead from 'modules/settings/pages/edit/head'
@@ -28,7 +29,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { location, productCategoryName, productsSelectedCount, customersSelectedCount, customerGroupName, ordersSelectedCount } = this.props;
+    const { location, productCategoryName, productsSelectedCount, customersSelectedCount, customerGroupName, ordersSelectedCount, orderStatusName } = this.props;
     const pathname = location.pathname;
 
     if(pathname === '/admin/login' || pathname === '/admin/logout'){
@@ -56,11 +57,23 @@ export default class AppBarTop extends React.Component {
     if(pathname === '/admin/orders'){
       title = messages.orders_title;
 
+      if(orderStatusName) {
+        title = <span>{messages.orders_title}<FontIcon style={{top: 6}} color="#fff" className="material-icons">chevron_right</FontIcon>{orderStatusName}</span>;
+      }
+
       if(ordersSelectedCount > 0) {
         title = `${ordersSelectedCount} ${messages.selected}`;
       }
 
       rightElements = <OrdersHead />
+    }
+    else if(pathname === '/admin/orders/statuses'){
+      title = messages.orderStatuses;
+      leftButton = <Link to="/admin/orders"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      if(orderStatusName){
+        title = messages.editOrderStatus;
+        rightElements = <OrderStatusHead />
+      }
     }
     else if(pathname.startsWith('/admin/order/')){
       title = messages.order;

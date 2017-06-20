@@ -192,6 +192,10 @@ const getFilter = (state, offset = 0) => {
     filter.draft = filterState.draft;
   }
 
+  if(state.orderStatuses.selectedId) {
+    filter.status_id = state.orderStatuses.selectedId;
+  }
+
   return filter;
 }
 

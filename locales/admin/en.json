@@ -298,5 +298,13 @@
   "attributes": "Attributes",
   "attributeName": "Attribute name",
   "attributeValue": "Attribute value",
-  "addAttribute": "Add new attribute"
+  "addAttribute": "Add new attribute",
+  "newOrderReceived": "New order received",
+  "orderEmailCopyTo": "Send Order Email Copy To",
+  "allOrderStatuses": "All Statuses",
+  "orderStatusName": "Status name",
+  "orderStatusDeleteAsk": "Will delete status {name}.",
+  "orderStatuses": "Order statuses",
+  "editOrderStatus": "Edit status",
+  "noOrderStatus": "No status"
 }

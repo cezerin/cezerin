@@ -15,6 +15,7 @@ import CustomerDetails from 'routes/customers/edit'
 import CustomerGroups from 'routes/customers/groups'
 import Orders from 'routes/orders'
 import OrderDetails from 'routes/orders/edit'
+import OrderStatuses from 'routes/orders/statuses'
 import Settings from 'routes/settings'
 
 import {blue700, cyan700, pinkA200, grey100, grey300, grey400, white, darkBlack, fullBlack} from 'material-ui/styles/colors';
@@ -63,6 +64,7 @@ export default class App extends React.Component {
                   <Route path="/admin/products" exact component={Products}/>
                   <Route path="/admin/products/categories" exact component={ProductCategories}/>
                   <Route path="/admin/orders" exact component={Orders}/>
+                  <Route path="/admin/orders/statuses" exact component={OrderStatuses}/>
                   <Route path="/admin/order/:orderId" exact component={OrderDetails}/>
                   <Route path="/admin/customers" exact component={Customers}/>
                   <Route path="/admin/customers/groups" exact component={CustomerGroups}/>
