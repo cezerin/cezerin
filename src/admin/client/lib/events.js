@@ -6,7 +6,7 @@ const ORDER_RECEIVED = 'order-received';
 const ORDER_CHANGED = 'order-changed';
 
 const messageReceived = (message, store) => {
-  switch(event.type){
+  switch(message.type){
     case THEME_INSTALLED:
       store.dispatch(installReceive());
       break;
