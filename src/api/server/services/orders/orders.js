@@ -16,6 +16,7 @@ const PaymentMethodsLightService = require('./paymentMethodsLight');
 const ShippingMethodsLightService = require('./shippingMethodsLight');
 const EmailTemplatesService = require('../settings/emailTemplates');
 const ProductStockService = require('../products/stock');
+const SettingsService = require('../settings/settings');
 
 class OrdersService {
   constructor() {}
@@ -564,14 +565,21 @@ class OrdersService {
             draft: false
           })
         }),
-        EmailTemplatesService.getEmailTemplate('order_confirmation')
-      ]).then(([ order, emailTemplate ]) => {
+        EmailTemplatesService.getEmailTemplate('order_confirmation'),
+        SettingsService.getSettings()
+      ]).then(([ order, emailTemplate, dashboardSettings ]) => {
         const handlebarsTemplate = handlebars.compile(emailTemplate.body);
         const html = handlebarsTemplate(order);
-        const message = {
+        const copyTo = dashboardSettings.order_confirmation_copy_to;
+
+        let message = {
           to: order.email,
           subject: emailTemplate.subject,
           html: html
+        }
+
+        if(copyTo && copyTo.includes('@')){
+          message.bcc = copyTo;
         }
 
         dashboardEvents.sendMessage({

@@ -264,6 +264,19 @@ class GeneralSettings extends React.Component {
                 <Field component={TextField} fullWidth={true} name="domain" placeholder="https://domain.com"/>
               </div>
             </div>
+
+            <Divider style={{
+              marginTop: 10,
+              marginBottom: 10
+            }}/>
+
+            <div className="row between-xs middle-xs">
+              <div className="col-xs-7">{messages.orderEmailCopyTo}</div>
+              <div className="col-xs-5">
+                <Field component={TextField} fullWidth={true} name="order_confirmation_copy_to"/>
+              </div>
+            </div>
+
           </div>
           <div className="buttons-box">
             <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>

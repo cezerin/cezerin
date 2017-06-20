@@ -30,7 +30,8 @@ class SettingsService {
       'default_product_sorting': 'stock_status,price,position',
       'weight_unit': 'kg',
       'length_unit': 'cm',
-      'hide_billing_address': false
+      'hide_billing_address': false,
+      'order_confirmation_copy_to': ''
     }
   }
 
@@ -138,6 +139,10 @@ class SettingsService {
 
     if (data.hide_billing_address !== undefined) {
       settings.hide_billing_address = parse.getBooleanIfValid(data.hide_billing_address, false);
+    }
+
+    if (data.order_confirmation_copy_to !== undefined) {
+      settings.order_confirmation_copy_to = parse.getString(data.order_confirmation_copy_to);
     }
 
     return settings;
