@@ -64,6 +64,8 @@ class SummaryForm extends React.Component {
     const shippingItems = this.state.shippingMethods.map((item, index) => <MenuItem key={index} value={item.id} primaryText={item.name}/>)
     const paymentItems = this.state.paymentMethods.map((item, index) => <MenuItem key={index} value={item.id} primaryText={item.name}/>)
 
+    statusItems.push(<MenuItem key="none" value={null} primaryText={messages.noOrderStatus}/>)
+
     return (
         <form onSubmit={handleSubmit} style={{
           display: 'initial',
