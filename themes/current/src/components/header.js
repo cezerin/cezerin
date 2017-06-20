@@ -76,12 +76,12 @@ export default class Header extends React.Component {
           <div className="nav-right is-flex-mobile">
             <NavLink className="nav-item" to="/search">
               <span className="icon">
-                <img src="/assets/images/search.svg" alt={text.search} title={text.search}/>
+                <img src="/assets/images/search.svg" alt={text.search} title={text.search} style={{ width: 24 }}/>
               </span>
             </NavLink>
             <span className="nav-item" onClick={this.cartToggle} style={{ cursor: 'pointer' }}>
               <span className="icon">
-                <img src="/assets/images/shopping-bag.svg" alt={text.cart} title={text.cart}/>
+                <img src="/assets/images/shopping-bag.svg" alt={text.cart} title={text.cart} style={{ width: 24 }}/>
               </span>
               <CartIndicator cart={cart} />
             </span>
