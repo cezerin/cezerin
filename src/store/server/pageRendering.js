@@ -57,9 +57,17 @@ const renderPage = (req, res, store) => {
   const state = store.getState();
   const head = getHead();
   const html = indexHtml
+    .replace('{placeholder_head_start}', '')
+    .replace('{placeholder_head_end}', '')
+    .replace('{placeholder_body_start}', '')
+    .replace('{placeholder_body_end}', '')
     .replace('{language}', serverSettings.language)
-    .replace('{title}', head.title).replace('{meta}', head.meta).replace('{link}', head.link)
-    .replace('{script}', head.script).replace('{state}', JSON.stringify(state)).replace('{app}', appHtml);
+    .replace('{title}', head.title)
+    .replace('{meta}', head.meta)
+    .replace('{link}', head.link)
+    .replace('{script}', head.script)
+    .replace('{state}', JSON.stringify(state))
+    .replace('{app}', appHtml);
 
   const isHttps = req.protocol === 'https';
   const full_url = `${req.protocol}://${req.hostname}${req.url}`;
