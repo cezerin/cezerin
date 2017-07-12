@@ -6,8 +6,11 @@ var parse = require('../lib/parse');
 class SitemapService {
   constructor() {}
 
-  getPaths() {
-    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(), this.getSlugArrayFromProducts(), this.getSlugArrayFromPages()]).then(([reserved, productCategories, products, pages]) => {
+  getPaths(onlyEnabled) {
+    const slug = null;
+    onlyEnabled = parse.getBooleanIfValid(onlyEnabled, false);
+
+    return Promise.all([this.getSlugArrayFromReserved(), this.getSlugArrayFromProductCategories(slug, onlyEnabled), this.getSlugArrayFromProducts(slug, onlyEnabled), this.getSlugArrayFromPages(slug, onlyEnabled)]).then(([reserved, productCategories, products, pages]) => {
       let paths = [...reserved, ...productCategories, ...products, ...pages];
       return paths;
     });
@@ -67,7 +70,7 @@ class SitemapService {
     }
 
     if(onlyEnabled === true) {
-      categoriesFilter.enabled = productFilter.enabled = true;
+      productFilter.enabled = true;
     }
 
     return Promise.all([

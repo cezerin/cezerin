@@ -6,7 +6,7 @@ const SITEMAP_EXCLUDE_PATH = ['/', '/checkout', '/checkout-success', '/account',
 
 const sitemapRendering = (req, res) => {
   Promise.all([
-    api.sitemap.list(),
+    api.sitemap.list({ enabled: true }),
     api.settings.retrieve()
   ]).then(([sitemapResponse, settingsResponse]) => {
     const urls = sitemapResponse.json.filter(item => item.type !== 'reserved' && item.type !== 'search' && !SITEMAP_EXCLUDE_PATH.includes(item.path)).map(item => item.path)

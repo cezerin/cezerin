@@ -23,7 +23,7 @@ class SitemapController {
         }
       }).catch(next);
     } else {
-      SitemapService.getPaths().then((data) => {
+      SitemapService.getPaths(req.query.enabled).then((data) => {
         res.send(data)
       }).catch(next);
     }
