@@ -3,7 +3,7 @@ let ajaxRouter = express.Router();
 import serverSettings from './settings'
 import api from 'cezerin-client';
 
-const DEFAULT_CACHE_CONTROL = 'public, max-age=600';
+const DEFAULT_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCT_DETAILS_CACHE_CONTROL = 'public, max-age=60';
 
