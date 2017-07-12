@@ -37,6 +37,8 @@ class SwitchContainers extends React.Component {
 
   render() {
     const { history, location, currentPage } = this.props;
+    const locationPathname = location && location.pathname ? location.pathname : '/';
+
     switch(currentPage.type){
       case PRODUCT:
         return (
@@ -50,11 +52,11 @@ class SwitchContainers extends React.Component {
       case SEARCH:
         return <SearchContainer />;
       case PAGE:
-        if(location.pathname === '/'){
+        if(locationPathname === '/'){
           return <IndexContainer />;
-        } else if(location.pathname === '/checkout'){
+        } else if(locationPathname === '/checkout'){
           return <CheckoutContainer />;
-        } if(location.pathname === '/checkout-success'){
+        } if(locationPathname === '/checkout-success'){
           return <CheckoutSuccessContainer />;
         } else {
           return <PageContainer />;

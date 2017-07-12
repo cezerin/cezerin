@@ -3,8 +3,10 @@ import {getJSONLD} from './lib/jsonld'
 import {addCartItem, deleteCartItem, updateCartItemQuantiry, fetchMoreProducts, setSort} from './actions'
 
 const setQuery = (history, query) => {
-  const newLocation = history.location.pathname + "?" + queryString.stringify(query);
-  history.push(newLocation);
+  if(history && history.location){
+    const newLocation = history.location.pathname + "?" + queryString.stringify(query);
+    history.push(newLocation);
+  }
 }
 
 export const mapStateToProps = (state, ownProps) => {

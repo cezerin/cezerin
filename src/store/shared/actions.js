@@ -285,20 +285,40 @@ export const updateCart = cart => (dispatch, getState) => {
 }
 
 export const setCurrentPage = location => (dispatch, getState) => {
-  const { pathname, search, hash } = location;
-  const {app} = getState();
+  let locationPathname = '/404';
+  let locationSearch = '';
+  let locationHash = '';
 
-  if(app.location.pathname === pathname && app.location.search === search) {
+  if(location){
+    locationPathname = location.pathname;
+    locationSearch = location.search;
+    locationHash = location.hash;
+  }
+
+  const {app} = getState();
+  let statePathname = '/404';
+  let stateSearch = '';
+  let stateHash = '';
+
+  if(app.location){
+    statePathname = app.location.pathname;
+    stateSearch = app.location.search;
+    stateHash = app.location.hash;
+  }
+
+  const currentPageAlreadyInState = statePathname === locationPathname && stateSearch === locationSearch;
+
+  if(currentPageAlreadyInState) {
     // same page
   } else {
     dispatch(setCurrentLocation({
       hasHistory: true,
-      pathname: location.pathname,
-      search: location.search,
-      hash: location.hash
+      pathname: locationPathname,
+      search: locationSearch,
+      hash: locationHash
     }));
 
-    const category = app.categories.find(c => c.path === pathname);
+    const category = app.categories.find(c => c.path === locationPathname);
     if(category){
       const newCurrentPage = {
         type: 'product-category',
@@ -308,12 +328,12 @@ export const setCurrentPage = location => (dispatch, getState) => {
       dispatch(receiveSitemap(newCurrentPage))
       dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
     } else {
-      api.ajax.sitemap.retrieve({ path: pathname })
+      api.ajax.sitemap.retrieve({ path: locationPathname })
       .then(sitemapResponse => {
         if(sitemapResponse.status === 404){
           dispatch(receiveSitemap({
             type: 404,
-            path: pathname,
+            path: locationPathname,
             resource: null
           }))
         } else {
