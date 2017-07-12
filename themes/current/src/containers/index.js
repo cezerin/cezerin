@@ -4,9 +4,11 @@ import config from '../lib/config'
 
 import MetaTags from '../components/metaTags'
 import CategoryGallery from '../components/categoryGallery'
+import CustomProductList from '../components/customProductList'
 
 const IndexContainer = (props) => {
-  const {pageDetails, categories} = props.state;
+  const {pageDetails, categories, settings} = props.state;
+  const {addCartItem} = props;
 
   return (
     <div>
@@ -30,7 +32,15 @@ const IndexContainer = (props) => {
 
       <section className="section">
         <div className="container">
+          <div className="title is-3">Categories</div>
           <CategoryGallery categories={categories} />
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          <div className="title is-3">New Arrivals</div>
+          <CustomProductList settings={settings} addCartItem={addCartItem} />
         </div>
       </section>
 

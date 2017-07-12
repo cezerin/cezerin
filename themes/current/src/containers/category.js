@@ -86,6 +86,8 @@ const CategoryContainer = (props) => {
                 settings={settings}
                 loadMoreProducts={loadMoreProducts}
                 hasMore={productsHasMore}
+                columnCountOnMobile={2}
+                columnCountOnDesktop={3}
               />
             </div>
           </div>

@@ -36,9 +36,15 @@ const ItemImage = ({ images, alt }) => {
   }
 }
 
-const ListItem = ({product, addCartItem, settings}) => {
+const ListItem = ({product, addCartItem, settings, columnCountOnMobile, columnCountOnDesktop}) => {
+  columnCountOnMobile = columnCountOnMobile || 2;
+  columnCountOnDesktop = columnCountOnDesktop || 3;
+  const columnCount = 12;
+  const columnSizeOnMobile = columnCount / columnCountOnMobile;
+  const columnSizeOnDesktop = columnCount / columnCountOnDesktop;
+
   return (
-    <div className="column is-6-mobile is-4-tablet">
+    <div className={`column is-${columnSizeOnMobile}-mobile is-${columnSizeOnDesktop}-tablet`}>
       <div className="card">
         <div className="card-image">
           <figure className="image">
@@ -70,9 +76,9 @@ const LoadMore = ({ loadMoreProducts, hasMore }) => {
   )
 }
 
-const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore}) => {
+const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop}) => {
   const items = products ? products.map((product, index) => {
-    return <ListItem key={index} product={product} addCartItem={addCartItem} settings={settings}/>
+    return <ListItem key={index} product={product} addCartItem={addCartItem} settings={settings} columnCountOnMobile={columnCountOnMobile} columnCountOnDesktop={columnCountOnDesktop}/>
   }) : null;
 
   return (
