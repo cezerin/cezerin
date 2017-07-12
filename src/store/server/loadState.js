@@ -145,12 +145,13 @@ const getState = (currentPage, settings, allData, location, productFilter) => {
   return state;
 }
 
-const getFilter = (currentPage, urlQuery) => {
+const getFilter = (currentPage, urlQuery, settings) => {
   let productFilter = {};
 
   if(currentPage.type === PRODUCT_CATEGORY){
     productFilter = getProductFilterForCategory(urlQuery);
     productFilter.categoryId = currentPage.resource;
+    productFilter.sort = settings.default_product_sorting;
   } else if(currentPage.type === SEARCH){
     productFilter = getProductFilterForSearch(urlQuery);
   }
@@ -168,19 +169,15 @@ export const loadState = (req) => {
     search: urlQuery,
     hash: ''
   }
-  let currentPage = null;
-  let settings = null;
-  let productFilter = null;
 
-  return getCurrentPage(req.path)
-    .then(page => {
-      currentPage = page;
-      productFilter = getFilter(currentPage, urlQuery);
-      return api.settings.retrieve()
-    })
-    .then(settingsResponse => {
-      settings = settingsResponse.json;
-      return getAllData(currentPage, productFilter, cookie);
-    })
+  return Promise.all([
+    getCurrentPage(req.path),
+    api.settings.retrieve().then(({status, json}) => json)
+  ])
+  .then(([currentPage, settings]) => {
+    const productFilter = getFilter(currentPage, urlQuery, settings);
+
+    return getAllData(currentPage, productFilter, cookie)
     .then(allData => getState(currentPage, settings, allData, location, productFilter));
+  })
 }
