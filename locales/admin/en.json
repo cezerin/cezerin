@@ -308,5 +308,11 @@
   "editOrderStatus": "Edit status",
   "noOrderStatus": "No status",
   "apps": "Apps",
-  "webstoreLoginTitle": "Log in to Web Store"
+  "webstoreLoginTitle": "Log in to Web Store",
+  "account": "Account",
+  "developerProfile": "Developer profile",
+  "shopUrl": "Shop URL",
+  "adminUrl": "Dashboard URL",
+  "isDeveloper": "I am developer",
+  "website": "Website"
 }
