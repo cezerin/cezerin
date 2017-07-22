@@ -13,6 +13,7 @@ import OrderStatusHead from 'modules/orderStatuses/head/index'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
 import PageHead from 'modules/settings/pages/edit/head'
+import WebStoreHead from 'modules/webstore/head'
 import DrawerMenu from './drawer'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -221,6 +222,24 @@ export default class AppBarTop extends React.Component {
     else if(pathname.startsWith('/admin/settings/tokens/')){
       title = messages.settings_editToken;
       leftButton = <Link to="/admin/settings/tokens"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+    }
+    else if(pathname === '/admin/webstore'){
+      title = messages.apps;
+      rightElements = <WebStoreHead />
+    }
+    else if(pathname === '/admin/webstore/login'){
+      title = messages.loginTitle;
+      rightElements = <WebStoreHead />
+    }
+    else if(pathname === '/admin/webstore/account'){
+      title = messages.account;
+      leftButton = <Link to="/admin/webstore"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      rightElements = <WebStoreHead />
+    }
+    else if(pathname === '/admin/webstore/account/developer'){
+      title = messages.developerProfile;
+      leftButton = <Link to="/admin/webstore"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      rightElements = <WebStoreHead />
     }
 
     return (
