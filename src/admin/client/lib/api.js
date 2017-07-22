@@ -6,4 +6,9 @@ if(token) {
   api.init(settings.apiBaseUrl, token);
 }
 
+let webstoreToken = localStorage.getItem('webstore_token');
+if(webstoreToken) {
+  api.webstore.init(webstoreToken);
+}
+
 export default api;

@@ -1,8 +1,5 @@
-import settings from './settings'
-import api from './api'
-
-const LOGIN_PATH = '/admin/login';
-const HOME_PATH = '/admin/';
+const LOGIN_PATH = '/admin/webstore/login';
+const HOME_PATH = '/admin/webstore';
 
 const getParameterByName = (name, url) => {
     if (!url) url = window.location.href;
@@ -24,7 +21,7 @@ export const validateCurrentToken = () => {
 
 export const checkTokenFromUrl = () => {
   if (location.pathname === LOGIN_PATH) {
-    const token = getParameterByName('token');
+    const token = getParameterByName('webstoretoken');
     if (token && token !== '') {
       const tokenData = parseJWT(token);
 
@@ -34,10 +31,10 @@ export const checkTokenFromUrl = () => {
           saveToken({token, email: tokenData.email, expiration_date});
           location.replace(HOME_PATH);
         } else {
-          alert('Token is expired')
+          alert('WebStore token is expired')
         }
       } else {
-        alert('Token is not valid');
+        alert('WebStore token is not valid');
       }
     } else {
       if (isCurrentTokenValid()) {
@@ -58,22 +55,12 @@ const parseJWT = (jwt) => {
 }
 
 const saveToken = (data) => {
-  localStorage.setItem('dashboard_token', data.token);
-  localStorage.setItem('dashboard_email', data.email);
-  localStorage.setItem('dashboard_exp', data.expiration_date);
+  localStorage.setItem('webstore_token', data.token);
+  localStorage.setItem('webstore_email', data.email);
+  localStorage.setItem('webstore_exp', data.expiration_date);
 }
 
 const isCurrentTokenValid = () => {
-  const expiration_date = localStorage.getItem('dashboard_exp');
-  return localStorage.getItem('dashboard_token') && expiration_date && expiration_date > Date.now();
-}
-
-export const removeToken = () => {
-  localStorage.removeItem('dashboard_token');
-  localStorage.removeItem('dashboard_email');
-  localStorage.removeItem('dashboard_exp');
-  localStorage.removeItem('webstore_token');
-  localStorage.removeItem('webstore_email');
-  localStorage.removeItem('webstore_exp');
-  location.replace(LOGIN_PATH);
+  const expiration_date = localStorage.getItem('webstore_exp');
+  return localStorage.getItem('webstore_token') && expiration_date && expiration_date > Date.now();
 }
