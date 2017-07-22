@@ -12,7 +12,7 @@ export default class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: localStorage.getItem('dashboard_email') || '',
     	isFetching: false,
     	isAuthorized: false,
     	emailIsSent: false,
@@ -34,9 +34,6 @@ export default class LoginForm extends React.Component {
       error: null
     });
 
-    setTimeout(() => {
-
-
     api.authorize(settings.apiBaseUrl, this.state.email)
     .then(authorizeResponse => {
       this.setState({
@@ -54,8 +51,6 @@ export default class LoginForm extends React.Component {
         error: error
       });
     });
-
-    }, 5000)
   }
 
   componentWillMount() {
