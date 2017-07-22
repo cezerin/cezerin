@@ -58,19 +58,19 @@ const parseJWT = (jwt) => {
 }
 
 const saveToken = (data) => {
-  localStorage.setItem('token', data.token);
-  localStorage.setItem('email', data.email);
-  localStorage.setItem('expiration_date', data.expiration_date);
+  localStorage.setItem('dashboard_token', data.token);
+  localStorage.setItem('dashboard_email', data.email);
+  localStorage.setItem('dashboard_exp', data.expiration_date);
 }
 
 const isCurrentTokenValid = () => {
-  const expiration_date = localStorage.getItem('expiration_date');
-  return localStorage.getItem('token') && expiration_date && expiration_date > Date.now();
+  const expiration_date = localStorage.getItem('dashboard_exp');
+  return localStorage.getItem('dashboard_token') && expiration_date && expiration_date > Date.now();
 }
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('email');
-  localStorage.removeItem('expiration_date');
+  localStorage.removeItem('dashboard_token');
+  localStorage.removeItem('dashboard_email');
+  localStorage.removeItem('dashboard_exp');
   location.replace(LOGIN_PATH);
 }
