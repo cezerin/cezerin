@@ -19,7 +19,7 @@ const messageReceived = (message, store) => {
 }
 
 export const listenEvents = (store) => {
-  const eventsUrl = '/api/dashboard/events?token=' + localStorage.getItem('token');
+  const eventsUrl = '/api/dashboard/events?token=' + localStorage.getItem('dashboard_token');
   const serverEvents = new EventSource(eventsUrl);
 
   serverEvents.onmessage = (e) => {
