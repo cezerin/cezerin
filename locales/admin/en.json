@@ -306,5 +306,7 @@
   "orderStatusDeleteAsk": "Will delete status {name}.",
   "orderStatuses": "Order statuses",
   "editOrderStatus": "Edit status",
-  "noOrderStatus": "No status"
+  "noOrderStatus": "No status",
+  "apps": "Apps",
+  "webstoreLoginTitle": "Log in to Web Store"
 }
