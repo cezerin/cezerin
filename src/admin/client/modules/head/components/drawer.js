@@ -45,6 +45,10 @@ const menuItems = [
     url: '/admin/settings',
     icon: 'settings'
   }, {
+    title: messages.apps,
+    url: '/admin/webstore',
+    icon: 'apps'
+  }, {
     title: messages.drawer_logout,
     url: '/admin/logout',
     icon: 'exit_to_app'
