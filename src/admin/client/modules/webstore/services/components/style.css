@@ -1,0 +1,12 @@
+.servicesCover {
+  width: 320px;
+  height: 160px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 2px 2px 0 0;
+}
+
+.more {
+  padding: 40px 0;
+  text-align: center;
+}
