@@ -4,18 +4,53 @@ import messages from 'lib/text'
 import style from './style.css'
 import {Card, CardMedia, CardTitle} from 'material-ui/Card';
 
+const styles = {
+  card: {
+    width: 280,
+    marginBottom: 15,
+    marginRight: 15
+  },
+  textContainer: {
+    paddingBottom: 0
+  },
+  title: {
+    color: '#212121',
+    fontSize: '15px',
+    lineHeight: '18px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  },
+  subtitle: {
+    color: '#616161',
+    fontSize: '13px',
+    lineHeight: '16px',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    marginTop: 5
+  },
+  link: {
+    textDecoration: 'none'
+  }
+}
+
 const ServicesListItem = ({ service }) => {
   return (
-    <Card style={{ width: 320, marginBottom: 15, marginRight: 15 }}>
-      <CardMedia
-        className={style.servicesCover}
-        style={{ backgroundImage: `url(${service.cover_url})` }}>
-      </CardMedia>
-      <CardTitle
-        title={service.name}
-        titleStyle={{ fontSize: '16px', lineHeight: '22px' }}
-      />
-    </Card>
+    <Link to={`/admin/webstore/service/${service.id}`} style={styles.link}>
+      <Card style={styles.card} containerStyle={styles.textContainer} className={style.card}>
+        <CardMedia
+          className={style.servicesCover}
+          style={{ backgroundImage: `url(${service.cover_url})` }}>
+        </CardMedia>
+        <CardTitle
+          title={service.name}
+          subtitle={service.developer.name}
+          titleStyle={styles.title}
+          subtitleStyle={styles.subtitle}
+        />
+      </Card>
+    </Link>
   )
 }
 

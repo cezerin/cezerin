@@ -21,10 +21,8 @@ export default class ServicesList extends React.Component {
         ));
 
         return (
-          <div>
-            <div className="row row--no-gutter scroll col-full-height" style={{ padding: 20, alignContent: 'flex-start' }}>
-              {items}
-            </div>
+          <div className="row row--no-gutter scroll col-full-height" style={{ padding: 20, alignContent: 'flex-start' }}>
+            {items}
           </div>
         )
       } else {
