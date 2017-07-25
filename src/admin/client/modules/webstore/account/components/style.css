@@ -18,3 +18,9 @@
 .error {
   color: rgb(244, 67, 54);
 }
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

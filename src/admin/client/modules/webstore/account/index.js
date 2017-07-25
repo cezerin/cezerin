@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import { fetchAccount, updateAccount } from '../actions'
-import Form from './components/form'
+import { fetchAccount, updateAccount, updateDeveloperAccount } from '../actions'
+import Details from './components/details'
 
 const mapStateToProps = (state) => {
   return {
-    initialValues: state.webstore.account
+    account: state.webstore.account
   }
 }
 
@@ -13,10 +13,13 @@ const mapDispatchToProps = (dispatch) => {
     fetchData: () => {
       dispatch(fetchAccount())
     },
-    onSubmit: (values) => {
+    onAccountSubmit: (values) => {
       dispatch(updateAccount(values));
+    },
+    onDeveloperSubmit: (values) => {
+      dispatch(updateDeveloperAccount(values));
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default connect(mapStateToProps, mapDispatchToProps)(Details);

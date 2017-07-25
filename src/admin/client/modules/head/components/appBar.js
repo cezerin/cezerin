@@ -234,12 +234,10 @@ export default class AppBarTop extends React.Component {
     else if(pathname === '/admin/webstore/account'){
       title = messages.account;
       leftButton = <Link to="/admin/webstore"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
-      rightElements = <WebStoreHead />
     }
-    else if(pathname === '/admin/webstore/account/developer'){
-      title = messages.developerProfile;
+    else if(pathname.startsWith('/admin/webstore/service/')){
+      title = messages.apps;
       leftButton = <Link to="/admin/webstore"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
-      rightElements = <WebStoreHead />
     }
 
     return (
