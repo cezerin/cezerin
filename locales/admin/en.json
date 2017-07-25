@@ -314,5 +314,8 @@
   "shopUrl": "Shop URL",
   "adminUrl": "Dashboard URL",
   "isDeveloper": "I am developer",
-  "website": "Website"
+  "website": "Website",
+  "actions": "Actions",
+  "enable": "Enable",
+  "disable": "Disable"
 }
