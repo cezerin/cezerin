@@ -12,6 +12,11 @@ const receiveServices = services => ({
   services
 })
 
+const receiveService = service => ({
+  type: t.SERVICE_RECEIVE,
+  service
+})
+
 export const fetchAccount = () => (dispatch, getState) => {
   return api.webstore.account.retrieve()
   .then(({status, json}) => {
@@ -37,5 +42,12 @@ export const fetchServices = () => (dispatch, getState) => {
   return api.webstore.services.list()
   .then(({status, json}) => {
     dispatch(receiveServices(json))
+  })
+}
+
+export const fetchService = (serviceId) => (dispatch, getState) => {
+  return api.webstore.services.retrieve(serviceId)
+  .then(({status, json}) => {
+    dispatch(receiveService(json))
   })
 }
