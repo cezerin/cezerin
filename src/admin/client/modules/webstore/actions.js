@@ -17,6 +17,14 @@ const receiveService = service => ({
   service
 })
 
+const requestEnableDisableService = () => ({
+  type: t.SERVICE_ENABLE_REQUEST
+})
+
+const receiveEnableDisableService = () => ({
+  type: t.SERVICE_ENABLE_RECEIVE
+})
+
 export const fetchAccount = () => (dispatch, getState) => {
   return api.webstore.account.retrieve()
   .then(({status, json}) => {
@@ -49,5 +57,23 @@ export const fetchService = (serviceId) => (dispatch, getState) => {
   return api.webstore.services.retrieve(serviceId)
   .then(({status, json}) => {
     dispatch(receiveService(json))
+  })
+}
+
+export const enableService = (serviceId) => (dispatch, getState) => {
+  dispatch(requestEnableDisableService())
+  return api.webstore.services.enable(serviceId)
+  .then(({status, json}) => {
+    dispatch(receiveEnableDisableService());
+    dispatch(fetchService(serviceId));
+  })
+}
+
+export const disableService = (serviceId) => (dispatch, getState) => {
+  dispatch(requestEnableDisableService())
+  return api.webstore.services.disable(serviceId)
+  .then(({status, json}) => {
+    dispatch(receiveEnableDisableService());
+    dispatch(fetchService(serviceId));
   })
 }

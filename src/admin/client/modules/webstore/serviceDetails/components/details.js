@@ -12,10 +12,10 @@ export default class ServiceDetails extends React.Component {
   }
 
   render() {
-    let { service } = this.props;
+    let { service, loadingEnableDisable, enableService, disableService } = this.props;
     return (
       <div className={style.detailsContainer + " scroll col-full-height"}>
-        <ServiceDescription service={service} />
+        <ServiceDescription service={service} loadingEnableDisable={loadingEnableDisable} enableService={enableService} disableService={disableService} />
       </div>
     )
   }

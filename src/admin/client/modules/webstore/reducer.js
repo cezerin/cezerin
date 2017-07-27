@@ -3,7 +3,8 @@ import * as t from './actionTypes'
 const initialState = {
   account: {},
   services: [],
-  service: null
+  service: null,
+  loadingEnableDisableService: false
 };
 
 export default(state = initialState, action) => {
@@ -14,6 +15,10 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {services: action.services})
     case t.SERVICE_RECEIVE:
       return Object.assign({}, state, {service: action.service})
+    case t.SERVICE_ENABLE_REQUEST:
+      return Object.assign({}, state, {loadingEnableDisableService: true})
+    case t.SERVICE_ENABLE_RECEIVE:
+      return Object.assign({}, state, {loadingEnableDisableService: false})
     default:
       return state
   }

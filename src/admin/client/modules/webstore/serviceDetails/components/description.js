@@ -9,7 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 
-const ServiceDescription = ({ service }) => {
+const ServiceDescription = ({ service, loadingEnableDisable, enableService, disableService }) => {
   if(service){
     return (
       <Paper className="paper-box" zDepth={1} style={{ maxWidth: 720 }}>
@@ -21,11 +21,11 @@ const ServiceDescription = ({ service }) => {
             <div className="col-xs-8">
               <h1 className={style.title}>{service.name}</h1>
               <div className={style.developer}>{service.developer.name}</div>
-              {!service.installed &&
-                <RaisedButton label={messages.enable} primary={true}/>
+              {!service.enabled &&
+                <RaisedButton label={messages.enable} primary={true} disabled={loadingEnableDisable} onTouchTap={enableService} />
               }
-              {service.installed &&
-                <RaisedButton label={messages.disable} secondary={true}/>
+              {service.enabled &&
+                <RaisedButton label={messages.disable} disabled={loadingEnableDisable} onTouchTap={disableService} />
               }
             </div>
           </div>
