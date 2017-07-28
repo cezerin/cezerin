@@ -64,7 +64,7 @@ export default class Themes extends React.Component {
               </div>
             </div>
 
-            <Divider style={{ marginTop: 30, marginBottom: 30 }} />
+            <Divider style={{ marginTop: 30, marginBottom: 30, marginLeft: -30, marginRight: -30 }} />
 
             <div className="row between-xs middle-xs">
               <div className="col-xs-6">{messages.settings_themeInstallDesciption}</div>
@@ -74,8 +74,6 @@ export default class Themes extends React.Component {
                 </RaisedButton>
               </div>
             </div>
-
-            <Divider style={{ marginTop: 30, marginBottom: 30 }} />
 
           </div>
       </Paper>
