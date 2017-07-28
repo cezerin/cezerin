@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import messages from 'lib/text'
 import style from './style.css'
 import {Card, CardMedia, CardTitle} from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
 
 const styles = {
   card: {
@@ -45,7 +46,14 @@ const ServicesListItem = ({ service }) => {
         </CardMedia>
         <CardTitle
           title={service.name}
-          subtitle={service.developer.name}
+          subtitle={
+            <div>
+              {service.developer.name}
+              {service.enabled &&
+                <FontIcon style={{ color: '#FF9900', float: 'right' }} className="material-icons">check_circle</FontIcon>
+              }
+            </div>
+          }
           titleStyle={styles.title}
           subtitleStyle={styles.subtitle}
         />

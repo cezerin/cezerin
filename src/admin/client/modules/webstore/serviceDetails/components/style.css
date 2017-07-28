@@ -33,3 +33,34 @@
   flex-direction: column;
   align-items: center;
 }
+
+.logsBox {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.logsItem {
+  padding: 12px 30px;
+  font-size: 14px;
+}
+
+.logsItem:nth-child(odd) {
+  background: rgba(0,0,0,0.03);
+}
+
+.logsItem:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.logDate {
+  color: #777;
+  font-size: 11px;
+}
+
+.logMessage {
+
+}
+
+.actionsList hr:last-child {
+  display:none
+}
