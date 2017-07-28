@@ -1,7 +1,7 @@
 import * as t from './actionTypes'
 
 const initialState = {
-  account: {},
+  account: null,
   services: [],
   service: null,
   serviceSettings: null,

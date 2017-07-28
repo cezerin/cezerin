@@ -17,13 +17,17 @@ export default class WebStoreAccountDetails extends React.Component {
     const { account, onAccountSubmit, onDeveloperSubmit } = this.props;
     const developerData = account ? account.developer : null;
 
-    return (
-      <div className={style.detailsContainer + " scroll col-full-height"}>
-        <Account initialValues={account} onSubmit={onAccountSubmit} />
-        {account && account.is_developer === true &&
-          <Developer initialValues={developerData} onSubmit={onDeveloperSubmit} />
-        }
-      </div>
-    )
+    if(account){
+      return (
+        <div className={style.detailsContainer + " scroll col-full-height"}>
+          <Account initialValues={account} onSubmit={onAccountSubmit} />
+          {account && account.is_developer === true &&
+            <Developer initialValues={developerData} onSubmit={onDeveloperSubmit} />
+          }
+        </div>
+      )
+    } else {
+      return null;
+    }
   }
 }
