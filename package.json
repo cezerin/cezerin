@@ -85,7 +85,7 @@
     "react-router-dom": "^4.1.2",
     "react-sortable-hoc": "^0.6.6",
     "react-tap-event-plugin": "^2.0.1",
-    "react-tinymce": "^0.5.1",
+    "react-tinymce": "^0.6.0",
     "redux": "^3.7.2",
     "redux-form": "^7.0.3",
     "redux-form-material-ui": "^4.2.0",
