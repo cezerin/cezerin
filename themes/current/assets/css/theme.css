@@ -269,7 +269,7 @@ hr.separator {
 
 .small-image-placeholder {
   background: #f7f7f7;
-  height: 160px;
+  height: 200px;
 }
 
 .large-image-placeholder {
@@ -335,4 +335,13 @@ footer hr {
 
 .attribute label input {
   margin-right: 6px;
+}
+
+.image-gallery-slide img {
+  width: auto;
+}
+
+.image a img {
+  max-height: 200px;
+  width: auto;
 }

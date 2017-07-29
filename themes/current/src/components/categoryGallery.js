@@ -4,18 +4,28 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 
-const GalleryItem = ({ category }) => {
+const GalleryItemImage = ({ category }) => {
   const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, config.categoryThumbnailWidth) : '';
 
+  if(imageUrl && imageUrl !== ''){
+    return (
+      <div className="card-image">
+        <figure className="image">
+          <img src={imageUrl} alt={category.name} />
+        </figure>
+      </div>
+    )
+  } else {
+    return null;
+  }
+}
+
+const GalleryItem = ({ category }) => {
   return (
     <div className="column is-6-tablet is-12-mobile">
       <NavLink to={category.path}>
         <div className="card">
-          <div className="card-image">
-            <figure className="image">
-              <img src={imageUrl} alt={category.name} />
-            </figure>
-          </div>
+          <GalleryItemImage category={category} />
           <div className="card-content">
             <div className="content">
               <h3 className="title is-6">{category.name}</h3>

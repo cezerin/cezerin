@@ -47,8 +47,14 @@ export default() => {
 
               <div className="column is-3">
                 <div className="title is-5">Store</div>
-                <p>7000 Melrose Av<br />Los Angeles, California</p>
-                <p>302.012.333.010<br />info@store.com</p>
+                <p>
+                  7000 Melrose Av<br />
+                  Los Angeles, California
+                </p>
+                <p>
+                  302.012.333.010<br />
+                  <a href="mailto:info@store.com">info@store.com</a>
+                </p>
               </div>
 
             </div>
