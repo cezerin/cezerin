@@ -28,14 +28,12 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "clean:admin": "rm -f ./public/admin-assets/js/app-*.js; rm -f ./public/admin-assets/js/vendor-*.js; rm -f ./public/admin-assets/css/app-*.css",
-    "clean:store": "rm -f ./public/assets/js/app-*.js; rm -f ./public/assets/js/theme-*.js",
     "compile:dev": "babel src -d dist --watch",
     "compile": "babel src -d dist --quiet",
-    "webpack:admin:dev": "npm run clean:admin && webpack -d --config webpack.config.admin.js --watch --progress --colors",
-    "webpack:store:dev": "npm run clean:store && webpack -d --config webpack.config.store.js --watch --progress --colors",
-    "webpack:admin:prod": "npm run clean:admin && NODE_ENV=production webpack -p --config webpack.config.admin.js",
-    "webpack:store:prod": "npm run clean:store && NODE_ENV=production webpack -p --config webpack.config.store.js",
+    "webpack:admin:dev": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
+    "webpack:store:dev": "webpack -d --config webpack.config.store.js --watch --progress --colors",
+    "webpack:admin:prod": "NODE_ENV=production webpack -p --config webpack.config.admin.js",
+    "webpack:store:prod": "NODE_ENV=production webpack -p --config webpack.config.store.js",
     "theme:install": "./scripts/theme-install.sh",
     "theme:export": "./scripts/theme-export.sh",
     "theme:copy": "cd ./themes/current && npm run build && cd ../../ && ./scripts/theme-copy-assets.sh",
