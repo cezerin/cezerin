@@ -56,7 +56,7 @@ class ProductImagesService {
           let filename = imageData.filename;
           let filepath = path.resolve(settings.productsUploadPath + '/' + productId + '/' + filename);
           fs.removeSync(filepath);
-          return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageId } } })
+          return mongo.db.collection('products').updateOne({ _id: productObjectID }, { $pull: { images: { id: imageObjectID } } })
         } else {
           return true;
         }
