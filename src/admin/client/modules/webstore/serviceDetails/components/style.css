@@ -26,6 +26,17 @@
   margin-top: 30px;
   font-size: 14px;
   line-height: 24px;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.description a {
+  color: #008eb4;
+}
+
+.description ul,
+.description ol {
+  margin: 0;
 }
 
 .detailsContainer {
@@ -61,6 +72,11 @@
 
 }
 
-.actionsList hr:last-child {
-  display:none
+.action {
+  padding: 30px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.action:last-child {
+  border-bottom: none
 }

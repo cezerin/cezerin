@@ -37,7 +37,7 @@ class ActionComponent extends React.Component {
   render() {
     const { action, serviceId } = this.props;
     return (
-      <div>
+      <div className={style.action}>
         <div className="row middle-xs">
           <div className="col-xs-7" style={{ fontSize: '14px' }}>
             {action.description}
@@ -46,12 +46,6 @@ class ActionComponent extends React.Component {
             <RaisedButton label={action.name} primary={true} disabled={this.state.loading} onTouchTap={this.handleActionCall} />
           </div>
         </div>
-        <Divider style={{
-          marginTop: 30,
-          marginBottom: 30,
-          marginLeft: -30,
-          marginRight: -30
-        }}/>
       </div>
     )
   }
@@ -66,7 +60,7 @@ const ServiceActions = ({ actions, serviceId, fetchServiceLogs }) => {
     <div style={{ maxWidth: 720, width: '100%' }}>
       <div className="gray-title" style={{ margin: '15px 0 15px 20px' }}>{messages.serviceActions}</div>
       <Paper className="paper-box" zDepth={1}>
-        <div className={style.innerBox + ' ' + style.actionsList}>
+        <div>
           {buttons}
         </div>
       </Paper>

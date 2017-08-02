@@ -30,7 +30,10 @@ const ServiceDescription = ({ service, loadingEnableDisable, enableService, disa
                 }
               </div>
             </div>
-            <div className={style.description}>{service.description}</div>
+            <div
+              className={style.description}
+              dangerouslySetInnerHTML={{ __html: service.description }}>
+            </div>
           </div>
         </Paper>
       </div>

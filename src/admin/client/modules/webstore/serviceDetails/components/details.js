@@ -21,6 +21,13 @@ export default class ServiceDetails extends React.Component {
       actions = service.actions;
     }
 
+    if(service && service.enabled){
+      // refresh logs every 5 sec
+      setInterval(() => {
+        fetchServiceLogs();
+      }, 5000)
+    }
+
     return (
       <div className={style.detailsContainer + " scroll col-full-height"}>
         <ServiceDescription service={service} loadingEnableDisable={loadingEnableDisable} enableService={enableService} disableService={disableService} />
