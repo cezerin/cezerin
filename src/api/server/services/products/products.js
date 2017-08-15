@@ -450,9 +450,18 @@ class ProductsService {
      }
 
      if(sku && sku.length > 0) {
-       queries.push({
-         sku: sku
-       });
+       if(sku.includes(',')){
+         // multiple values
+         const skus = sku.split(',');
+         queries.push({
+           sku: { $in: skus }
+         });
+       } else {
+         // single value
+         queries.push({
+           sku: sku
+         });
+       }        
      }
 
      if(useAttributes){
