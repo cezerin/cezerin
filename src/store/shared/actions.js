@@ -350,6 +350,9 @@ const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
   const {app} = getState();
   let productFilter = null;
 
+  // clear product data
+  dispatch(receiveProduct(null));
+
   switch(currentPage.type){
     case PRODUCT_CATEGORY:
       productFilter = getProductFilterForCategory(app.location.search);
