@@ -16,16 +16,6 @@ import SearchContainer from './containers/search'
 import {setCurrentPage} from './actions'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 
-class ScrollToTopOnMount extends React.Component {
-  componentDidMount(prevProps) {
-    window.scrollTo(0, 0)
-  }
-
-  render() {
-    return null
-  }
-}
-
 class SwitchContainers extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +23,11 @@ class SwitchContainers extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.props.setCurrentPage(nextProps.location);
+
+    const locationChanged = nextProps.location !== this.props.location;
+    if(locationChanged){
+      window.scrollTo(0, 0);
+    }
   }
 
   render() {
@@ -41,12 +36,7 @@ class SwitchContainers extends React.Component {
 
     switch(currentPage.type){
       case PRODUCT:
-        return (
-          <div>
-            <ScrollToTopOnMount />
-            <ProductContainer />
-          </div>
-        );
+        return <ProductContainer />;
       case PRODUCT_CATEGORY:
         return <CategoryContainer />;
       case SEARCH:
