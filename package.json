@@ -28,7 +28,7 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "compile:dev": "babel src -d dist --watch",
+    "compile:dev": "babel src -d dist --watch & babel themes/current/src -d themes/current/dist --watch",
     "compile": "babel src -d dist --quiet",
     "webpack:admin:dev": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
     "webpack:store:dev": "webpack -d --config webpack.config.store.js --watch --progress --colors",
