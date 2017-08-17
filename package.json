@@ -86,7 +86,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "react-tinymce": "^0.6.0",
     "redux": "^3.7.2",
-    "redux-form": "^7.0.3",
+    "redux-form": "^6.8.0",
     "redux-form-material-ui": "^4.2.0",
     "redux-thunk": "^2.2.0",
     "response-time": "^2.3.2",
