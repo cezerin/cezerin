@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="{language}">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,11 +10,16 @@
   {placeholder_head_start}
   {link}
   <link rel="manifest" href="/assets/manifest.json">
-  <link rel="icon" type="image/svg" sizes="any" href="/assets/images/shopping-bag.svg"/>
+  <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
+  </script>
   {script}
   {placeholder_head_end}
 </head>
-
 <body>
   {placeholder_body_start}
 
@@ -26,5 +30,4 @@
 
   {placeholder_body_end}
 </body>
-
 </html>
