@@ -2,9 +2,9 @@
   "apps": [{
     "name": "cezerin",
     "script": "./dist/index.js",
-    "watch": ["./public/assets/index.html", "./config/server.js"],
-    "instances": "max",
-    "exec_mode": "cluster",
+    "watch": ["./config/server.js", "./public/assets/index.html", "./public/admin/index.html", "./dist/", "./themes/current/dist/"],
+    "instances": "1",
+    "exec_mode": "fork",
     "env": {
       "NODE_ENV": "production"
     },
