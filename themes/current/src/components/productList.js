@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import Waypoint from 'react-waypoint'
 import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
@@ -65,9 +64,7 @@ const ListItem = ({product, addCartItem, settings, columnCountOnMobile, columnCo
 }
 
 const LoadMore = ({ loadMoreProducts, hasMore }) => {
-  return config.infiniteScrolling ? (
-    <Waypoint onEnter={loadMoreProducts}/>
-  ) : (
+  return (
     <div className="load-more">
       {hasMore &&
         <button onClick={loadMoreProducts} className="button is-fullwidth is-dark">{text.loadMore}</button>

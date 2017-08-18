@@ -10,6 +10,5 @@
   "sortNewest": "-date_created",
   "sortPriceLow": "price",
   "sortPriceHigh": "-price",
-  "infiniteScrolling": false,
   "maxCartItemQty": 100
 }
