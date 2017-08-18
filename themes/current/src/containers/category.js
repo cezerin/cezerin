@@ -31,6 +31,21 @@ const getFilterPriceSummary = (productFilter, settings) => {
   return priceSummary;
 }
 
+const CategoryHero = ({ categoryDetails }) => (
+  <section className="hero is-light">
+    <div className="hero-body">
+      <div className="container">
+        <h1 className="category-title">
+          {categoryDetails.name}
+        </h1>
+        <h2 className="category-description is-hidden-mobile">
+          {categoryDetails.description}
+        </h2>
+      </div>
+    </div>
+  </section>
+)
+
 const CategoryContainer = (props) => {
   const {products, categoryDetails, settings, productFilter, productsHasMore} = props.state;
   const {setSort, addCartItem, loadMoreProducts, getJSONLD} = props;
@@ -42,6 +57,10 @@ const CategoryContainer = (props) => {
   const title = `${pageTitle}${filterAttributesSummary}${filterPriceSummary}`;
 
   const jsonld = getJSONLD(props.state);
+
+  const showFilter = config.show_product_filter;
+  const columnCountOnMobile = 2;
+  const columnCountOnDesktop = showFilter === true ? 3 : 4;
 
   return (
     <div>
@@ -56,23 +75,18 @@ const CategoryContainer = (props) => {
         jsonld={jsonld}
       />
 
-      <section className="hero is-light">
-        <div className="hero-body">
-          <div className="container">
-            <h1 className="title">
-              {categoryDetails.name}
-            </h1>
-            <h2 className="subtitle">
-              {categoryDetails.description}
-            </h2>
-          </div>
-        </div>
-      </section>
+      <CategoryHero categoryDetails={categoryDetails} />
 
-      <section className="section">
+      <section className="section section-category">
         <div className="container">
           <div className="columns">
-            <ProductFilter {...props} />
+
+            {showFilter === true &&
+              <div className="column is-one-quarter left-sidebar">
+                <ProductFilter {...props} />
+              </div>
+            }
+
             <div className="column">
               <div className="columns is-hidden-mobile">
                 <div className="column"></div>
@@ -86,10 +100,12 @@ const CategoryContainer = (props) => {
                 settings={settings}
                 loadMoreProducts={loadMoreProducts}
                 hasMore={productsHasMore}
-                columnCountOnMobile={2}
-                columnCountOnDesktop={3}
+                columnCountOnMobile={columnCountOnMobile}
+                columnCountOnDesktop={columnCountOnDesktop}
               />
             </div>
+
+
           </div>
         </div>
       </section>

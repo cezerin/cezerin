@@ -3,64 +3,107 @@ import { NavLink } from 'react-router-dom'
 import text from '../lib/text'
 import config from '../lib/config'
 
-export default() => {
-  return (
-    <section className="section">
-      <footer>
-        <div className="container">
-          <div className="content">
+class FooterMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isActive: false
+    }
+  }
 
-            <hr />
+  isActiveToggle = () => this.setState({
+    isActive: !this.state.isActive
+  })
 
-            <div className="columns">
+  render() {
+    const { title, items } = this.props;
+    const ulItems = items.map((item, index) => (
+      <li key={index}>
+        <NavLink to={item.path}>{item.name}</NavLink>
+      </li>
+    ));
 
-              <div className="column is-3">
-                <div className="image footer-logo">
-                  <img src="/assets/images/logo.png" alt="Store logo" />
+    return (
+      <div className="column is-3">
+        <div className={'footer-title mobile-padding' + (this.state.isActive ? ' footer-menu-open' : '')} onClick={this.isActiveToggle}>{title}<span></span></div>
+        <ul className="footer-menu">
+          {ulItems}
+        </ul>
+      </div>
+    )
+  }
+}
+
+const SocialIcons = ({ icons }) => {
+  if(icons.length > 0){
+    const items = icons.map((icon, index) => (
+      <a key={index} href={icon.url} target="_blank" rel="noopener" title={icon.type} className={icon.type}></a>
+    ));
+    return (
+      <p className="social-icons">
+        {items}
+      </p>
+    )
+  } else {
+    return null;
+  }
+}
+
+const Contacts = ({ contacts }) => {
+  if(contacts.length > 0){
+    const items = contacts.map((contact, index) => {
+      if(contact && contact.indexOf('@') > 0){
+        return (
+            <li key={index}><a href={'mailto:' + contact}>{contact}</a></li>
+        )
+      } else {
+        return (
+          <li key={index}>{contact}</li>
+        )
+      }
+    });
+    return (
+      <ul className="footer-contacts">
+        {items}
+      </ul>
+    )
+  } else {
+    return null;
+  }
+}
+
+export default class Footer extends React.PureComponent {
+  render() {
+    const { settings } = this.props;
+    return (
+      <section className="section section-footer">
+        <hr />
+        <footer>
+          <div className="container">
+            <div className="content">
+              <div className="columns is-gapless">
+                <div className="column is-5">
+                  <div className="mobile-padding">
+                    <div className="footer-logo">
+                      <img src={settings.logo} alt="logo"/>
+                    </div>
+                    <p>
+                      <small>
+                        {config.footer_about}
+                      </small>
+                    </p>
+                    <Contacts contacts={config.footer_contacts} />
+                    <SocialIcons icons={config.footer_social} />
+                  </div>
                 </div>
-                <p>Brand text text text text text text text text text text text text text text text text text</p>
+                <div className="column is-1 is-hidden-mobile"></div>
+                <FooterMenu title={config.footer_menu_1_title} items={config.footer_menu_1_items} />
+                <FooterMenu title={config.footer_menu_2_title} items={config.footer_menu_2_items} />
               </div>
-
-              <div className="column is-3">
-                <div className="title is-5">About</div>
-                <div>
-                  <ul className="footer-menu">
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="column is-3">
-                <div className="title is-5">Support</div>
-                <div>
-                  <ul className="footer-menu">
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                    <li><NavLink to="/privacy">Privacy Policy</NavLink></li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="column is-3">
-                <div className="title is-5">Store</div>
-                <p>
-                  7000 Melrose Av<br />
-                  Los Angeles, California
-                </p>
-                <p>
-                  302.012.333.010<br />
-                  <a href="mailto:info@store.com">info@store.com</a>
-                </p>
-              </div>
-
             </div>
           </div>
-        </div>
-      </footer>
-    </section>
-  )
+        </footer>
+      </section>
+    )
+  }
 }

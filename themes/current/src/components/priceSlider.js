@@ -37,7 +37,7 @@ export default class PriceSlider extends React.Component {
 
     return (
       <div className="price-filter">
-        <b>{text.price}</b>
+        <div className="attribute-title">{text.price}</div>
         <Range
           min={minPrice}
           max={maxPrice}

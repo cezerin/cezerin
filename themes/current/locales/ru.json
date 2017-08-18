@@ -14,7 +14,6 @@
   "grandTotal": "К оплате",
   "orderSummary": "Ваш заказ",
   "checkoutSuccessTitle": "Спасибо за ваш заказ!",
-  "checkoutSuccessText": "<p>Your order number is {order_number}.<p><p>We'll email your order details and tracking information.</p>",
   "outOfStock": "Нет в наличии",
   "inStock": "В наличии",
   "discontinued": "Снято с производства",
@@ -32,5 +31,12 @@
   "searchPlaceholder": "Поиск",
   "resultsFor": "результаты по запросу",
   "selectOption": "Выберите",
-  "optionsRequired": "Выберите опции товарва"
+  "optionsRequired": "Выберите опции товарва",
+  "shippingAddress": "Адрес доставки",
+  "billingAddress": "Платежный адрес",
+  "shippingMethod": "Способ доставки",
+  "paymentMethod": "Способ оплаты",
+  "orderNumber": "Номер заказа",
+  "productName": "Название товара",
+  "close": "Закрыть"
 }

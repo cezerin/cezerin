@@ -4,6 +4,7 @@ import ImageGallery from 'react-image-gallery'
 import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
+import Disqus from './disqus'
 
 const ProductOption = ({ option, onChange }) => {
   const values = option.values
@@ -50,11 +51,19 @@ const RelatedProducts = ({ ids }) => {
 
 const ProductAttributes = ({ attributes }) => {
   const items = attributes.map((attribute, index) =>
-    <div key={index} className="product-attribute">{attribute.name}: {attribute.value}</div>
+    <div className="columns is-gapless is-mobile product-attribute" key={index}>
+      <div className="column is-5 attribute-name">
+        {attribute.name}:
+      </div>
+      <div className="column is-7 attribute-value">
+        {attribute.value}
+      </div>
+    </div>
   )
 
   return (
     <div className="product-attributes">
+      <div className="title is-5">Свойства</div>
       {items}
     </div>
   )
@@ -63,20 +72,20 @@ const ProductAttributes = ({ attributes }) => {
 const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
   if(product.variable && variant) {
     return (
-      <div className="subtitle is-5">
+      <div className="product-price">
         {helper.formatCurrency(variant.price, settings)}
       </div>
     )
   } else if(product.on_sale) {
     return (
-      <div className="title is-5">
-        <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
+      <div className="product-price">
         <span className="product-new-price">{helper.formatCurrency(product.price, settings)}</span>
+        <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
       </div>
     )
   } else {
     return (
-      <div className="subtitle is-5">
+      <div className="product-price">
         {helper.formatCurrency(product.price, settings)}
       </div>
     )
@@ -85,17 +94,17 @@ const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
 
 const AddToCartButton = ({ product, variant, addCartItem, isAllOptionsSelected }) => {
   if(product.variable && variant && variant.stock_quantity > 0) {
-    return <button className="button is-dark is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
+    return <button className="button is-success is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
   } else if(product.variable && !isAllOptionsSelected) {
-    return <button className="button is-dark is-fullwidth" disabled>{text.optionsRequired}</button>
+    return <button className="button is-success is-fullwidth" disabled>{text.optionsRequired}</button>
   } else if(product.variable) {
-    return <button className="button is-dark is-fullwidth" disabled>{text.outOfStock}</button>
+    return <button className="button is-success is-fullwidth" disabled>{text.outOfStock}</button>
   } else if(product.stock_status === 'available') {
-    return <button className="button is-dark is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
+    return <button className="button is-success is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
   } else if(product.stock_status === 'out_of_stock') {
-    return <button className="button is-dark is-fullwidth" disabled>{text.outOfStock}</button>
+    return <button className="button is-success is-fullwidth" disabled>{text.outOfStock}</button>
   } else if(product.stock_status === 'discontinued') {
-    return <button className="button is-dark is-fullwidth" disabled>{text.discontinued}</button>
+    return <button className="button is-success is-fullwidth" disabled>{text.discontinued}</button>
   } else {
     return null;
   }
@@ -124,12 +133,14 @@ const ProductGallery = ({ images }) => {
       <ImageGallery
         items={imagesArray}
         showThumbnails={showThumbnails}
-        slideInterval={2000}
         lazyLoad={true}
+        slideInterval={2000}
         showNav={false}
+        showBullets={showThumbnails}
         showPlayButton={false}
         showFullscreenButton={false}
-        thumbnailPosition="bottom"
+        slideOnThumbnailHover={true}
+        thumbnailPosition="left"
       />
     )
 
@@ -212,44 +223,74 @@ export default class ProductDetails extends React.Component {
 
     if(product){
       return (
-        <section className="section" style={{ paddingTop: '1rem' }}>
-          <div className="container">
-            <div className="columns">
-              <div className="column is-6">
-                <ProductGallery images={product.images} />
-              </div>
-              <div className="column is-5 is-offset-1">
-                <div className="content">
+        <div>
+          <section className="section section-product">
+            <div className="container">
+              <div className="columns">
+                <div className="column is-7">
+                  <ProductGallery images={product.images} />
+                </div>
+                <div className="column is-5">
+                  <div className="content">
+                    <h1 className="title is-4 product-name">{product.name}</h1>
+                    <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
 
-                  <h1 className="title is-4">{product.name}</h1>
+                    {product.options && product.options.length > 0 &&
+                      <ProductOptions options={product.options} onChange={this.onOptionChange} />
+                    }
 
-                  <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
-
-                  {product.options && product.options.length > 0 &&
-                    <ProductOptions options={product.options} onChange={this.onOptionChange} />
-                  }
-
-                  <div className="columns">
-                    <div className="column is-6">
+                    <div className="button-addtocart">
                       <AddToCartButton product={product} variant={selectedVariant} addCartItem={this.addToCart} isAllOptionsSelected={isAllOptionsSelected} />
                     </div>
+
                   </div>
-
-                  {product.attributes && product.attributes.length > 0 &&
-                    <ProductAttributes attributes={product.attributes} />
-                  }
-
                 </div>
               </div>
             </div>
-            <div className="content">
-              <ProductDescription description={product.description} />
+          </section>
+
+
+          <section className="section section-product-description">
+            <div className="container">
+              <div className="content">
+                <div className="columns">
+                  <div className="column is-7">
+                    <ProductDescription description={product.description} />
+                  </div>
+                  <div className="column is-5">
+                    {product.attributes && product.attributes.length > 0 &&
+                      <ProductAttributes attributes={product.attributes} />
+                    }
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          {product.related_product_ids && product.related_product_ids.length > 0 &&
-            <RelatedProducts ids={product.related_product_ids} />
+          </section>
+
+          {/* {product.related_product_ids && product.related_product_ids.length > 0 &&
+            <section className="section section-product-related">
+              <RelatedProducts ids={product.related_product_ids} />
+            </section>
+          } */}
+
+          {config.disqus_shortname !== '' &&
+            <section className="section">
+              <div className="container">
+                <div className="columns">
+                  <div className="column is-7">
+                    <Disqus
+                      shortname={config.disqus_shortname}
+                      identifier={product.id}
+                      title={product.name}
+                      url={product.url}
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
           }
-        </section>
+
+        </div>
       )
     } else {
       return null;

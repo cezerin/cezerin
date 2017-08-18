@@ -16,24 +16,30 @@ export default class ProductFilter extends React.Component {
     }
   }
 
-  sidebarToggle = () => this.setState({
-    sidebarIsActive: !this.state.sidebarIsActive
-  });
+  sidebarToggle = () => {
+    this.setState({
+      sidebarIsActive: !this.state.sidebarIsActive
+    });
+    document.body.classList.toggle('noscroll');
+  }
 
-  sidebarClose = () => this.setState({sidebarIsActive: false});
+  sidebarClose = () => {
+    this.setState({sidebarIsActive: false});
+    document.body.classList.remove('noscroll');
+  }
 
   render() {
     const { sidebarIsActive } = this.state;
     const { categoryDetails, categories, settings, productFilter, productsMinPrice, productsMaxPrice, productsAttributes} = this.props.state;
 
     return (
-      <div className="column is-one-quarter">
+      <div>
         <div className="is-hidden-tablet">
           <button className="button is-fullwidth" onClick={this.sidebarToggle}>{text.filterProducts}</button>
         </div>
 
         <div className={sidebarIsActive ? 'modal is-active' : 'is-hidden-mobile'} style={{ zIndex: 101 }}>
-          <div className={sidebarIsActive ? 'modal-background' : ''} onClick={this.sidebarClose}></div>
+          <div className={sidebarIsActive ? 'dark-overflow' : ''} onClick={this.sidebarClose}></div>
           <div className={sidebarIsActive ? 'modal-content' : ''}>
             <div className={sidebarIsActive ? 'box sidebar' : ''}>
 
@@ -41,10 +47,10 @@ export default class ProductFilter extends React.Component {
                 <Sort defaultSort={settings.default_product_sorting} currentSort={productFilter.sort} setSort={this.props.setSort} />
               </div>
 
-              <CategoryTree
-                categories={categories}
-                activeCategory={categoryDetails}
-                onClick={this.sidebarClose}
+              <AttributeFilter
+                attributes={productsAttributes}
+                setFilterAttribute={this.props.setFilterAttribute}
+                unsetFilterAttribute={this.props.unsetFilterAttribute}
               />
 
               <PriceSlider
@@ -56,11 +62,7 @@ export default class ProductFilter extends React.Component {
                 settings={settings}
               />
 
-              <AttributeFilter
-                attributes={productsAttributes}
-                setFilterAttribute={this.props.setFilterAttribute}
-                unsetFilterAttribute={this.props.unsetFilterAttribute}
-              />
+              <button className="button is-fullwidth is-dark is-hidden-tablet" onClick={this.sidebarClose}>{text.close}</button>
 
             </div>
           </div>

@@ -6,17 +6,15 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 
 const SharedContainer = (props) => {
-  const {currentPage} = props.state;
+  const {currentPage, settings} = props.state;
   let hideFooter = currentPage.path === '/checkout-success' || currentPage.path === '/checkout';
 
   return (
     <div>
       <Header {...props} />
-      <div style={{ paddingTop: '3.25rem' }}>
-        {props.children}
-      </div>
+      {props.children}
       {!hideFooter &&
-        <Footer />
+        <Footer settings={settings} />
       }
     </div>
   )

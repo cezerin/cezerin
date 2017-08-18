@@ -1,0 +1,91 @@
+.caption {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.caption-title {
+  color: #fff;
+  font-size: 3rem;
+  line-height: 0.96;
+  font-weight: 500;
+}
+
+.caption-description {
+  color: #fff;
+  font-size: 1.5rem;
+  line-height: 0.96;
+  font-weight: 400;
+  margin-top: 0.75rem;
+}
+
+.caption-button {
+  margin-top: 2.5rem;
+}
+
+.caption-button a {
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  padding: 0.5rem 2.5rem;
+  border: 1px solid #fff;
+}
+
+.caption-button a:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+.image-gallery-left-nav, .image-gallery-right-nav {
+  width: 3rem;
+  background-size: 3rem;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.image-gallery-left-nav {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%226rem%22%20height%3D%226rem%22%20viewBox%3D%220%200%201000%201000%22%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M723.1%2C990l43.3-43.3L320.2%2C500L766.3%2C53.3L723.1%2C10L233.7%2C500L723.1%2C990z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.image-gallery-right-nav {
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%226rem%22%20height%3D%226rem%22%20viewBox%3D%220%200%201000%201000%22%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M276.9%2C10l-43.3%2C43.3L679.8%2C500L233.7%2C946.7l43.3%2C43.3l489.4-490L276.9%2C10z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+.image-gallery-bullets .image-gallery-bullet {
+  box-shadow: none;
+}
+
+/*
+Mobile
+*/
+@media screen and (max-width: 769px) {
+  .image-gallery-left-nav, .image-gallery-right-nav {
+    display: none;
+  }
+
+  .caption {
+    top: 15%;
+  }
+
+  .caption-title {
+    font-size: 1.2rem;
+  }
+
+  .caption-description {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .caption-button {
+    margin-top: 1.5rem;
+  }
+
+  .caption-button a {
+    font-size: 0.75rem;
+    padding: 0.25rem 2rem;
+  }
+}

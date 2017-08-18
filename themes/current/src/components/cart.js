@@ -19,7 +19,7 @@ const CartItem = ({item, deleteCartItem, settings}) => {
         {item.variant_name.length > 0 &&
           <div className="cart-option-name">{item.variant_name}</div>
         }
-        <div>{text.qty}: {item.quantity}</div>
+        <div className="cart-quantity">{text.qty}: {item.quantity}</div>
       </div>
       <div className="column is-4 has-text-right">
         <div className="mini-cart-item-price">{helper.formatCurrency(item.price_total, settings)}</div>
@@ -29,30 +29,30 @@ const CartItem = ({item, deleteCartItem, settings}) => {
   )
 }
 
-const Cart = ({cart, deleteCartItem, active, settings, cartToggle}) => {
-  const rootClass = active ? "mini-cart active" : "mini-cart";
+export default class Cart extends React.PureComponent {
+  render() {
+    const {cart, deleteCartItem, settings, cartToggle} = this.props;
 
-  if (cart && cart.items && cart.items.length > 0) {
-    let items = cart.items.map(item =>
-      <CartItem key={item.id} item={item} deleteCartItem={deleteCartItem} settings={settings} />
-    );
+    if (cart && cart.items && cart.items.length > 0) {
+      let items = cart.items.map(item =>
+        <CartItem key={item.id} item={item} deleteCartItem={deleteCartItem} settings={settings} />
+      );
 
-    return (
-      <div className={rootClass}>
-        {items}
-        <hr className="separator" />
-        <div className="columns is-mobile is-gapless">
-          <div className="column is-7"><b>{text.subtotal}</b></div>
-          <div className="column is-5 has-text-right">
-            <b>{helper.formatCurrency(cart.subtotal, settings)}</b>
+      return (
+        <div className="mini-cart">
+          {items}
+          <hr className="separator" />
+          <div className="columns is-mobile is-gapless">
+            <div className="column is-7"><b>{text.subtotal}</b></div>
+            <div className="column is-5 has-text-right">
+              <b>{helper.formatCurrency(cart.subtotal, settings)}</b>
+            </div>
           </div>
+          <NavLink className="button is-primary is-fullwidth has-text-centered" style={{ textTransform: 'uppercase' }} to="/checkout" onClick={cartToggle}>{text.proceedToCheckout}</NavLink>
         </div>
-        <NavLink className="button is-primary is-fullwidth has-text-centered" style={{ textTransform: 'uppercase' }} to="/checkout" onClick={cartToggle}>{text.proceedToCheckout}</NavLink>
-      </div>
-    )
-  } else {
-    return <div className={rootClass}><p>{text.cartEmpty}</p></div>
+      )
+    } else {
+      return <div className="mini-cart"><p>{text.cartEmpty}</p></div>
+    }
   }
 }
-
-export default Cart

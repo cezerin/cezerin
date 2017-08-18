@@ -10,6 +10,11 @@
   {placeholder_head_start}
   {link}
   <link rel="manifest" href="/assets/manifest.json">
+  <link href='https://googleads.g.doubleclick.net' rel='preconnect'>
+  <link href='https://stats.g.doubleclick.net' rel='preconnect'>
+  <link href='https://www.google-analytics.com' rel='preconnect'>
+  <link href='https://www.googleadservices.com' rel='preconnect'>
+  <link href='https://www.googletagmanager.com' rel='preconnect'>
   <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
@@ -24,6 +29,21 @@
   {placeholder_body_start}
 
   <div id="app">{app}</div>
+
+  <script>
+    function resizeElements() {
+      var allHeaders = document.getElementsByTagName('header');
+      var header = allHeaders && allHeaders.length > 0 ? allHeaders[0] : null;
+
+      if (header) {
+        document.getElementsByTagName("body")[0].style.marginTop = header.clientHeight + "px";
+      }
+    }
+    resizeElements();
+    window.addEventListener('resize', resizeElements);
+    window.addEventListener('load', resizeElements);
+  </script>
+
   <script charset="UTF-8">
     window.__REDUX_STATE__ = {state}
   </script>

@@ -1,5 +1,51 @@
 {
   "language": "en",
+  "header_menu": [],
+  "footer_about": "Store - just to show you what it can. Some text go here. Some text go here. Some text go here. Some text go here. Some text go here. Some text go here. Some text go here.",
+  "footer_contacts": [
+    "104 N Stagecoach Rd",
+    "Dover Foxcroft, ME, 04426",
+    "(207) 564-8482",
+    "sales@shop.com"
+  ],
+  "footer_social": [
+    { "type": "facebook", "url": "https://www.facebook.com/"},
+    { "type": "twitter", "url": "https://twitter.com/"}
+  ],
+  "footer_menu_1_title": "Company",
+  "footer_menu_1_items": [
+    { "name": "About", "path": "/about"},
+    { "name": "Blog", "path": "/blog"},
+    { "name": "Terms of Service", "path": "/tos"},
+    { "name": "Privacy Policy", "path": "/privacy-policy"}
+  ],
+  "footer_menu_2_title": "Customer service",
+  "footer_menu_2_items": [
+    { "name": "Shipping & returns", "path": "/about"},
+    { "name": "Conditions of Use", "path": "/about"},
+    { "name": "Sitemap", "path": "/about"}
+  ],
+  "home_slider": [
+    {
+      "image": "/assets/images/gallery/slide1.jpg",
+      "title": "Slide 1 title",
+      "description": "Some small text under slide 1 title",
+      "path": "/",
+      "button": "Shop now"
+    },
+    {
+      "image": "/assets/images/gallery/slide2.jpg",
+      "title": "Slide 2 title",
+      "description": "Some small text under slide 2 title",
+      "path": "/",
+      "button": "Shop now"
+    }
+  ],
+  "home_products_sku": "",
+  "home_products_limit": 8,
+  "home_products_sort": "-date_updated",
+  "home_products_title": "BEST SELLERS",
+  "show_product_filter": true,
   "cartThumbnailWidth": 100,
   "listThumbnailWidth": 340,
   "previewThumbnailWidth": 100,
@@ -10,5 +56,6 @@
   "sortNewest": "-date_created",
   "sortPriceLow": "price",
   "sortPriceHigh": "-price",
-  "maxCartItemQty": 100
+  "maxCartItemQty": 100,
+  "disqus_shortname": "cezerin"
 }

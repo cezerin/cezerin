@@ -22,7 +22,7 @@ const GalleryItemImage = ({ category }) => {
 
 const GalleryItem = ({ category }) => {
   return (
-    <div className="column is-6-tablet is-12-mobile">
+    <div className="column is-4-tablet is-12-mobile">
       <NavLink to={category.path}>
         <div className="card">
           <GalleryItemImage category={category} />

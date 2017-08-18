@@ -21,7 +21,7 @@ const CategoryContainer = (props) => {
         title={title}
       />
 
-      <section className="hero is-dark">
+      <section className="hero is-light">
         <div className="hero-body">
           <div className="container">
             <h1 className="title is-4">{searchDescription}</h1>
@@ -32,30 +32,15 @@ const CategoryContainer = (props) => {
 
       <section className="section">
         <div className="container">
-          <div className="columns">
-            <div className="column is-one-quarter">
-              <Sort defaultSort={settings.default_product_sorting} currentSort={productFilter.sort} setSort={setSort} />
-              <PriceSlider
-                minPrice={productsMinPrice}
-                maxPrice={productsMaxPrice}
-                minValue={productFilter.priceFrom}
-                maxValue={productFilter.priceTo}
-                setPriceFromAndTo={setPriceFromAndTo}
-                settings={settings}
-              />
-            </div>
-            <div className="column">
-              <ProductList
-                products={products}
-                addCartItem={addCartItem}
-                settings={settings}
-                loadMoreProducts={loadMoreProducts}
-                hasMore={productsHasMore}
-                columnCountOnMobile={2}
-                columnCountOnDesktop={3}
-              />
-            </div>
-          </div>
+          <ProductList
+            products={products}
+            addCartItem={addCartItem}
+            settings={settings}
+            loadMoreProducts={loadMoreProducts}
+            hasMore={productsHasMore}
+            columnCountOnMobile={2}
+            columnCountOnDesktop={4}
+          />
         </div>
       </section>
 

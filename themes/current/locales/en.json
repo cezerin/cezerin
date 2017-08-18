@@ -14,7 +14,6 @@
   "grandTotal": "Grand total",
   "orderSummary": "Order Summary",
   "checkoutSuccessTitle": "Thanks for your order!",
-  "checkoutSuccessText": "<p>Your order number is {order_number}.<p><p>We'll email your order details and tracking information.</p>",
   "outOfStock": "Out of stock",
   "inStock": "In Stock",
   "discontinued": "Discontinued",
@@ -32,5 +31,12 @@
   "searchPlaceholder": "Search",
   "resultsFor": "results for",
   "selectOption": "Select",
-  "optionsRequired": "You need to choose options"
+  "optionsRequired": "You need to choose options",
+  "shippingAddress": "Shipping Address",
+  "billingAddress": "Billing Address",
+  "shippingMethod": "Shipping method",
+  "paymentMethod": "Payment method",
+  "orderNumber": "Order number",
+  "productName": "Product",
+  "close": "Close"
 }

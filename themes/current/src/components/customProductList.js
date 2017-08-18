@@ -20,14 +20,15 @@ export default class CustomProductList extends React.Component {
 
   loadProducts = () => {
     const filter = {
+      sku: config.home_products_sku,
       on_sale: null,
       search: null,
       category_id: null,
       price_from: null,
       price_to: null,
-      sort: '-date_created',
+      sort: config.home_products_sort,
       fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes',
-      limit: 8,
+      limit: config.home_products_limit,
       offset: 0
     };
 
