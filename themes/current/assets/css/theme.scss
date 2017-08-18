@@ -1,3 +1,10 @@
+@import "~bulma/sass/utilities/initial-variables";
+$link: #000;
+
+@import "~bulma";
+@import "~rc-slider/assets/index.css";
+@import "~react-image-gallery/styles/scss/image-gallery-no-icon.scss";
+
 .checkout-form {
   margin: 0;
   padding: 0;
