@@ -103,7 +103,6 @@ Then open <http://localhost:3000> to see your app.
 |`theme:build:prod`|Refresh theme after modification.|
 |`build:dev`|Compile and assemble bundles **and watch**.|
 |`build`|Compile and assemble bundles.|
-|`start:dev`|Start node server **and watch**.|
 |`start`|Start node server.|
 
 

@@ -41,7 +41,6 @@
     "theme:build:prod": "npm run theme:copy --silent && npm run webpack:store:prod",
     "build:dev": "npm run compile:dev & npm run webpack:store:dev & npm run webpack:admin:dev",
     "build": "npm run compile && npm run theme:build:prod && npm run webpack:admin:prod",
-    "start:dev": "nodemon --watch dist --watch public/assets dist/index.js",
     "start": "NODE_ENV=production node dist/index.js",
     "restart": "pm2 reload cezerin"
   },
@@ -97,9 +96,6 @@
     "ua-parser-js": "^0.7.14",
     "webpack": "^3.5.5",
     "winston": "^2.3.1"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
   },
   "engines": {
     "node": "^8.0.0",
