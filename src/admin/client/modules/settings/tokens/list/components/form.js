@@ -51,7 +51,7 @@ export default class TokensList extends React.Component {
                 {listItems}
               </List>
             </div>
-            <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={this.gotoAddPage}>
+            <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onClick={this.gotoAddPage}>
               <FontIcon className="material-icons">add</FontIcon>
             </FloatingActionButton>
         </Paper>

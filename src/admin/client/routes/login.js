@@ -97,7 +97,7 @@ export default class LoginForm extends React.Component {
               label={messages.loginButton}
               primary={true}
               disabled={isFetching || emailIsSent}
-              onTouchTap={this.handleSubmit}
+              onClick={this.handleSubmit}
             />
             {response}
           </Paper>

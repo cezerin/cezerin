@@ -60,28 +60,28 @@ export default class Buttons extends React.Component {
     const actionsMoveTo = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.closeMoveTo}
+        onClick={this.closeMoveTo}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_moveHere}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.saveMoveTo}
+        onClick={this.saveMoveTo}
       />,
     ];
 
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.closeDelete}
+        onClick={this.closeDelete}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.deleteProduct}
+        onClick={this.deleteProduct}
       />,
     ];
 
@@ -90,10 +90,10 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
-            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveTo} onTouchTap={this.showMoveTo}>
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveTo} onClick={this.showMoveTo}>
               <FontIcon color="#fff" className="material-icons">folder</FontIcon>
             </IconButton>
             <Dialog

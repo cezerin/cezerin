@@ -60,7 +60,7 @@ export default class Themes extends React.Component {
             <div className="row between-xs middle-xs">
               <div className="col-xs-6">{messages.settings_themeExportDesciption}</div>
               <div className="col-xs-4" style={{ textAlign: 'right' }}>
-                <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess || installInProcess} onTouchTap={this.onExportClick.bind(this)} primary={true}/>
+                <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess || installInProcess} onClick={this.onExportClick.bind(this)} primary={true}/>
               </div>
             </div>
 

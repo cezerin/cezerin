@@ -38,20 +38,20 @@ export default class Buttons extends React.Component {
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.closeDelete}
+        onClick={this.closeDelete}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.deleteStatus}
+        onClick={this.deleteStatus}
       />,
     ];
 
     return (
       <span>
-        <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="bottom-left" onTouchTap={this.showDelete}>
+        <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="bottom-left" onClick={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
 

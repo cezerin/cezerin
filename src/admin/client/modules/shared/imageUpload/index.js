@@ -122,11 +122,11 @@ export default class ImageUpload extends React.Component {
           <LinearProgress mode="determinate" value={percentComplete} />
         }
         <div className={style.footer}>
-          <IconButton touch={true} tooltip={messages.actions_upload} onTouchTap={() => { this.dropzone.open() }} tooltipPosition="top-right">
+          <IconButton touch={true} tooltip={messages.actions_upload} onClick={() => { this.dropzone.open() }} tooltipPosition="top-right">
             <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">file_upload</FontIcon>
           </IconButton>
           {hasPreview &&
-            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.onDelete} tooltipPosition="top-right">
+            <IconButton touch={true} tooltip={messages.actions_delete} onClick={this.onDelete} tooltipPosition="top-right">
               <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">delete</FontIcon>
             </IconButton>
           }

@@ -51,7 +51,7 @@ export default class Groups extends React.Component {
       innerDivStyle={styles.innerItem}
       primaryText={item.name}
       leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
-      onTouchTap={() => { this.props.onSelect(item.id) }}
+      onClick={() => { this.props.onSelect(item.id) }}
            />);
 
     return (
@@ -63,7 +63,7 @@ export default class Groups extends React.Component {
               style={'root' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">clear</FontIcon>}
-              onTouchTap={() => { onSelect('root') }}
+              onClick={() => { onSelect('root') }}
             />
           }
 
@@ -73,7 +73,7 @@ export default class Groups extends React.Component {
               style={'all' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
-              onTouchTap={() => { onSelect('all') }}
+              onClick={() => { onSelect('all') }}
             />
           }
 
@@ -81,7 +81,7 @@ export default class Groups extends React.Component {
 
         </List>
         {showAdd &&
-          <FloatingActionButton secondary={false} style={styles.fab} onTouchTap={onCreate}>
+          <FloatingActionButton secondary={false} style={styles.fab} onClick={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
         }

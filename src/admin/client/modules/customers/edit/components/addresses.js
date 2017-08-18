@@ -102,10 +102,10 @@ class CustomerAddress extends React.Component {
             </div>
             <div className="col-xs-2">
               <IconMenu iconButtonElement={iconButtonElement}>
-                <MenuItem onTouchTap={this.showEditForm}>{messages.edit}</MenuItem>
-                <MenuItem onTouchTap={this.showDelete}>{messages.actions_delete}</MenuItem>
-                <MenuItem onTouchTap={this.handleSetDefaultBillingAddress} disabled={address.default_billing === true}>{messages.setDefaultBillingAddress}</MenuItem>
-                <MenuItem onTouchTap={this.handleSetDefaultShippingAddress} disabled={address.default_shipping === true}>{messages.setDefaultShippingAddress}</MenuItem>
+                <MenuItem onClick={this.showEditForm}>{messages.edit}</MenuItem>
+                <MenuItem onClick={this.showDelete}>{messages.actions_delete}</MenuItem>
+                <MenuItem onClick={this.handleSetDefaultBillingAddress} disabled={address.default_billing === true}>{messages.setDefaultBillingAddress}</MenuItem>
+                <MenuItem onClick={this.handleSetDefaultShippingAddress} disabled={address.default_shipping === true}>{messages.setDefaultShippingAddress}</MenuItem>
               </IconMenu>
             </div>
           </div>

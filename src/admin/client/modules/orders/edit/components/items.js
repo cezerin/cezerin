@@ -147,13 +147,13 @@ export class OrderItem extends React.Component {
     const editFormActions = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.hideEditForm}
+        onClick={this.hideEditForm}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.save}
         primary={true}
-        onTouchTap={this.submitEditForm}
+        onClick={this.submitEditForm}
       />,
     ];
 
@@ -209,8 +209,8 @@ export class OrderItem extends React.Component {
           <div className="col-xs-1" style={{ textAlign: 'center' }}>
             {allowEdit &&
               <IconMenu iconButtonElement={iconButtonElement}>
-                <MenuItem onTouchTap={this.showEditForm}>{messages.edit}</MenuItem>
-                <MenuItem onTouchTap={this.deleteItem}>{messages.actions_delete}</MenuItem>
+                <MenuItem onClick={this.showEditForm}>{messages.edit}</MenuItem>
+                <MenuItem onClick={this.deleteItem}>{messages.actions_delete}</MenuItem>
               </IconMenu>
             }
           </div>

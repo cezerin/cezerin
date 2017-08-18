@@ -38,14 +38,14 @@ export default class ConfirmationDialog extends React.Component {
     const actions = [
       <FlatButton
         label={cancelLabel}
-        onTouchTap={this.handleCancel}
+        onClick={this.handleCancel}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={submitLabel}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.handleSubmit}
+        onClick={this.handleSubmit}
       />
     ];
 

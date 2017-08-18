@@ -132,7 +132,7 @@ export default class OrderCustomer extends React.Component {
           <ShippingAddress address={order.shipping_address} settings={settings} />
 
           {allowEdit &&
-            <RaisedButton label="Edit" style={{ marginRight:15 }} onTouchTap={this.showShippingEdit} />
+            <RaisedButton label="Edit" style={{ marginRight:15 }} onClick={this.showShippingEdit} />
           }
           <a href={mapUrl} target="_blank"><FlatButton label="View map" /></a>
 

@@ -41,11 +41,11 @@ export default class ProductsList extends React.Component {
                  labelPosition="before"
                  primary={false}
                  icon={<FontIcon className="material-icons">refresh</FontIcon>}
-                 onTouchTap={loadMore}
+                 onClick={loadMore}
                />
              </div>
           </List>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onTouchTap={onCreate}>
+          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onClick={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
         </div>

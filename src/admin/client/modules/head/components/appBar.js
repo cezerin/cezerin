@@ -38,7 +38,7 @@ export default class AppBarTop extends React.Component {
     }
 
     let title = 'Dashboard';
-    let leftButton = <IconButton onTouchTap={this.handleToggle}><FontIcon className="material-icons">menu</FontIcon></IconButton>;
+    let leftButton = <IconButton onClick={this.handleToggle}><FontIcon className="material-icons">menu</FontIcon></IconButton>;
     let rightElements = null;
     {/* <IconButton><FontIcon color="#fff" className="material-icons">notifications</FontIcon></IconButton> */}
 

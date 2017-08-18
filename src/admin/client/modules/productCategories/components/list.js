@@ -44,7 +44,7 @@ export default class Categories extends React.Component {
       primaryText={item.name}
       nestedItems={this.getChildren(selectedId, allItems, item.id, opened)}
       leftIcon={<FontIcon className="material-icons">{item.enabled ? 'folder' : 'visibility_off'}</FontIcon>}
-      onTouchTap={() => { this.props.onSelect(item.id) }}
+      onClick={() => { this.props.onSelect(item.id) }}
      />
   }
 
@@ -82,7 +82,7 @@ export default class Categories extends React.Component {
               style={'root' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">home</FontIcon>}
-              onTouchTap={() => { onSelect('root') }}
+              onClick={() => { onSelect('root') }}
             />
           }
 
@@ -92,7 +92,7 @@ export default class Categories extends React.Component {
               style={'all' === selectedId ? styles.selectedItem : styles.item}
               innerDivStyle={styles.innerItem}
               leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
-              onTouchTap={() => { onSelect('all') }}
+              onClick={() => { onSelect('all') }}
             />
           }
 
@@ -100,7 +100,7 @@ export default class Categories extends React.Component {
 
         </List>
         {showAdd &&
-          <FloatingActionButton secondary={false} style={styles.fab} onTouchTap={onCreate}>
+          <FloatingActionButton secondary={false} style={styles.fab} onClick={onCreate}>
             <FontIcon className="material-icons">add</FontIcon>
           </FloatingActionButton>
         }

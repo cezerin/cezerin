@@ -40,7 +40,7 @@ class OptionValueEdit extends React.Component {
           <input type="text" className={style.textInput} value={value} onChange={this.onChange} onBlur={this.onBlur} />
         </div>
         <div className={style.gridColButton}>
-          <IconButton title={messages.actions_delete} onTouchTap={this.onDelete} tabIndex={-1}>
+          <IconButton title={messages.actions_delete} onClick={this.onDelete} tabIndex={-1}>
             <FontIcon color="#a1a1a1" className="material-icons">delete</FontIcon>
           </IconButton>
         </div>
@@ -84,7 +84,7 @@ class OptionValueAdd extends React.Component {
           <input type="text" className={style.textInput} value={value} placeholder={messages.newOptionValue} onChange={this.onChange} onKeyPress={this.handleKeyPress} />
         </div>
         <div className={style.gridColButton}>
-          <IconButton title={messages.add} onTouchTap={this.onCreate} tabIndex={-1}>
+          <IconButton title={messages.add} onClick={this.onCreate} tabIndex={-1}>
             <FontIcon color="#a1a1a1" className="material-icons">add_circle</FontIcon>
           </IconButton>
         </div>

@@ -137,10 +137,10 @@ export default class OrderSummary extends React.Component {
 
           <div style={{ marginTop:20 }}>
             {allowEdit &&
-              <RaisedButton label="Edit" style={{ marginRight:15 }} onTouchTap={this.showSummaryEdit} />
+              <RaisedButton label="Edit" style={{ marginRight:15 }} onClick={this.showSummaryEdit} />
             }
             {isDraft &&
-              <RaisedButton label={messages.placeOrder} primary={true} onTouchTap={onCheckout} disabled={processingCheckout} />
+              <RaisedButton label={messages.placeOrder} primary={true} onClick={onCheckout} disabled={processingCheckout} />
             }
           </div>
 

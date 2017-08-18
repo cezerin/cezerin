@@ -60,28 +60,28 @@ export default class Buttons extends React.Component {
     const actionsSetGroup = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.closeSetGroup}
+        onClick={this.closeSetGroup}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.save}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.saveSetGroup}
+        onClick={this.saveSetGroup}
       />,
     ];
 
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.closeDelete}
+        onClick={this.closeDelete}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.deleteCustomers}
+        onClick={this.deleteCustomers}
       />
     ];
 
@@ -90,10 +90,10 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltip={messages.actions_delete} onClick={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
-            <IconButton touch={true} tooltip={messages.customers_setGroup} onTouchTap={this.showSetGroup}>
+            <IconButton touch={true} tooltip={messages.customers_setGroup} onClick={this.showSetGroup}>
               <FontIcon color="#fff" className="material-icons">folder</FontIcon>
             </IconButton>
             <Dialog

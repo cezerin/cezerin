@@ -88,7 +88,7 @@ class EditTokenForm extends React.Component {
           </div>
           <div className="buttons-box">
             {!isAdd &&
-              <RaisedButton label={messages.settings_revokeAccess} secondary={true} style={{ float: 'left'}} onTouchTap={this.handleRevoke} />
+              <RaisedButton label={messages.settings_revokeAccess} secondary={true} style={{ float: 'left'}} onClick={this.handleRevoke} />
             }
             <RaisedButton type="submit" label={isAdd ? messages.settings_generateToken : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>

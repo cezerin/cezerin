@@ -72,7 +72,7 @@ export default class CustomerSummary extends React.Component {
           </div>
 
           <div style={{ marginTop:20 }}>
-            <RaisedButton label="Edit" style={{ marginRight:15 }} onTouchTap={this.showSummaryEdit} />
+            <RaisedButton label="Edit" style={{ marginRight:15 }} onClick={this.showSummaryEdit} />
           </div>
 
           <Dialog

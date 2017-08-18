@@ -68,7 +68,7 @@ const VariantRow = ({ variant, options, onSkuChange, onPriceChange, onStockChang
       <div className={style.gridCol}><VariantInput type="number" placeholder="0" variantId={variant.id} value={variant.weight} onChange={onWeightChange} /></div>
       {cols}
       <div className={style.gridCol}>
-        <IconButton title={messages.actions_delete} onTouchTap={() => { onDeleteVariant(variant.id) }} tabIndex={-1}>
+        <IconButton title={messages.actions_delete} onClick={() => { onDeleteVariant(variant.id) }} tabIndex={-1}>
           <FontIcon color="#a1a1a1" className="material-icons">delete</FontIcon>
         </IconButton>
       </div>

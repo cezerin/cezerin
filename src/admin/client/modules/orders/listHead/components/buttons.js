@@ -40,14 +40,14 @@ export default class Buttons extends React.Component {
     const actionsDelete = [
       <FlatButton
         label={messages.cancel}
-        onTouchTap={this.closeDelete}
+        onClick={this.closeDelete}
         style={{ marginRight: 10 }}
       />,
       <FlatButton
         label={messages.actions_delete}
         primary={true}
         keyboardFocused={true}
-        onTouchTap={this.deleteOrders}
+        onClick={this.deleteOrders}
       />,
     ];
 
@@ -56,7 +56,7 @@ export default class Buttons extends React.Component {
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
           <span>
-            <IconButton touch={true} tooltip={messages.actions_delete} onTouchTap={this.showDelete}>
+            <IconButton touch={true} tooltip={messages.actions_delete} onClick={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
             <Dialog

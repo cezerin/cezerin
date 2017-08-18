@@ -94,15 +94,15 @@ export default class Buttons extends React.Component {
       } else if(order.cancelled){
         //
       } else{
-        menuItems.push(<MenuItem key="addItem" primaryText={messages.addOrderItem} onTouchTap={this.showAddItem} />);
+        menuItems.push(<MenuItem key="addItem" primaryText={messages.addOrderItem} onClick={this.showAddItem} />);
         menuItems.push(<Divider key="dev1" />);
         if(order.hold){
-          menuItems.push(<MenuItem key="resume" primaryText={messages.resumeOrder} onTouchTap={this.resumeOrder} />);
+          menuItems.push(<MenuItem key="resume" primaryText={messages.resumeOrder} onClick={this.resumeOrder} />);
         } else {
-          menuItems.push(<MenuItem key="hold" primaryText={messages.holdOrder} onTouchTap={this.holdOrder} />);
+          menuItems.push(<MenuItem key="hold" primaryText={messages.holdOrder} onClick={this.holdOrder} />);
         }
-        menuItems.push(<MenuItem key="close" primaryText={messages.closeOrder} onTouchTap={this.showClose} />);
-        menuItems.push(<MenuItem key="cancel" primaryText={messages.cancelOrder} onTouchTap={this.showCancel} />);
+        menuItems.push(<MenuItem key="close" primaryText={messages.closeOrder} onClick={this.showClose} />);
+        menuItems.push(<MenuItem key="cancel" primaryText={messages.cancelOrder} onClick={this.showCancel} />);
       }
 
       return (
@@ -157,7 +157,7 @@ export default class Buttons extends React.Component {
            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
           >
             {menuItems}
-            <MenuItem primaryText={messages.deleteOrder} onTouchTap={this.showDelete} />
+            <MenuItem primaryText={messages.deleteOrder} onClick={this.showDelete} />
           </IconMenu>
         </span>
       )

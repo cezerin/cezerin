@@ -12,7 +12,7 @@ const GalleryItem = ({ url, alt, id, onDelete }) => (
       <img src={url} title={alt} />
     </div>
     <div className={style.footer}>
-      <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="top-right" onTouchTap={() => { onDelete(id) }}>
+      <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="top-right" onClick={() => { onDelete(id) }}>
         <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">delete</FontIcon>
       </IconButton>
     </div>
