@@ -1,4 +1,4 @@
-import api from 'cezerin-client'
+import api from './api'
 import queryString from 'query-string'
 import {getParsedProductFilter, getProductFilterForCategory, getProductFilterForSearch} from '../shared/actions'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from '../shared/pageTypes'
@@ -23,7 +23,7 @@ const getCurrentPage = path => {
 const getProducts = (currentPage, productFilter) => {
   if (currentPage.type === PRODUCT_CATEGORY || currentPage.type === SEARCH) {
     const filter = getParsedProductFilter(productFilter);
-    return api.ajax.products.list(filter).then(({status, json}) => json);
+    return api.products.list(filter).then(({status, json}) => json);
   } else {
     return null;
   }
@@ -31,7 +31,7 @@ const getProducts = (currentPage, productFilter) => {
 
 const getProduct = currentPage => {
   if (currentPage.type === PRODUCT) {
-    return api.ajax.products.retrieve(currentPage.resource).then(({status, json}) => json);
+    return api.products.retrieve(currentPage.resource).then(({status, json}) => json);
   } else {
     return {};
   }
@@ -39,7 +39,7 @@ const getProduct = currentPage => {
 
 const getPage = currentPage => {
   if (currentPage.type === PAGE) {
-    return api.ajax.pages.retrieve(currentPage.resource).then(({status, json}) => json);
+    return api.pages.retrieve(currentPage.resource).then(({status, json}) => json);
   } else {
     return {};
   }

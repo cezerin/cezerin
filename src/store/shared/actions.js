@@ -1,9 +1,7 @@
 import * as t from './actionTypes'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
-import clientSettings from '../client/settings'
 import queryString from 'query-string'
-import api from 'cezerin-client'
-api.initAjax(clientSettings.ajaxBaseUrl);
+import api from '../client/api'
 
 const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes';
 
