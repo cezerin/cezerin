@@ -2,6 +2,7 @@ import React from 'react'
 import {Field, reduxForm} from 'redux-form'
 import text from '../../text'
 import { formatCurrency } from '../../lib/helper'
+import PaymentForm from './paymentForm'
 
 const validateRequired = value => value
   ? undefined
@@ -143,6 +144,9 @@ class Form extends React.Component {
     const hideBillingAddress = settings.hide_billing_address === true;
 
     if (initialValues && initialValues.items.length > 0) {
+      const { payment_method_gateway, grand_total } = initialValues;
+      const showPaymentForm = payment_method_gateway && payment_method_gateway !== '';
+
       return (
         <form onSubmit={handleSubmit}>
           <div className="checkout-form">
@@ -242,11 +246,20 @@ class Form extends React.Component {
               </div>
             }
 
-            <div className="checkout-button-wrap">
-              <button type="button" onClick={handleSubmit(data => {
+            {showPaymentForm &&
+              <PaymentForm gateway={payment_method_gateway} amount={grand_total} shopSettings={settings} onPayment={handleSubmit(data => {
                 finishCheckout(data)
-              })} disabled={submitting || processingCheckout} className={buttonClassName}>{text.orderSubmit}</button>
-            </div>
+              })} />
+            }
+
+            {!showPaymentForm &&
+              <div className="checkout-button-wrap">
+                <button type="button" onClick={handleSubmit(data => {
+                  finishCheckout(data)
+                })} disabled={submitting || processingCheckout} className={buttonClassName}>{text.orderSubmit}</button>
+              </div>
+            }
+
           </div>
         </form>
       )
