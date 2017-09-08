@@ -218,7 +218,13 @@ ajaxRouter.get('/payment_methods', (req, res, next) => {
     order_id: req.signedCookies.order_id
   };
   api.paymentMethods.list(filter).then(({status, json}) => {
-    res.status(status).send(json);
+    const methods = json.map(item => {
+      delete item.gateway_settings;
+      delete item.conditions;
+      return item;
+    });
+
+    res.status(status).send(methods);
   })
 })
 
