@@ -481,6 +481,9 @@ class OrdersService {
       order.payment_method = orderPaymentMethod
         ? orderPaymentMethod.name
         : '';
+      order.payment_method_gateway = orderPaymentMethod
+        ? orderPaymentMethod.gateway
+        : '';
 
       let sum_items_weight = 0;
       let sum_items_price_total = 0;
