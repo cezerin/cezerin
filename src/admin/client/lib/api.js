@@ -1,14 +1,16 @@
-import api from 'cezerin-client'
+import CezerinClient from 'cezerin-client'
 import settings from 'lib/settings'
 
-let token = localStorage.getItem('dashboard_token');
-if(token) {
-  api.init(settings.apiBaseUrl, token);
-}
-
+let api = null;
+let dashboardToken = localStorage.getItem('dashboard_token');
 let webstoreToken = localStorage.getItem('webstore_token');
-if(webstoreToken) {
-  api.webstore.init(webstoreToken);
+
+if(dashboardToken) {
+  api = new CezerinClient({
+    apiBaseUrl: settings.apiBaseUrl || '/api/v1',
+    apiToken: dashboardToken,
+    webstoreToken: webstoreToken
+  });
 }
 
 export default api;

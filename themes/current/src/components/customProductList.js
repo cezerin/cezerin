@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
-import api from 'cezerin-client'
+import api from '../lib/api'
 import ProductList from './productList'
 
 export default class CustomProductList extends React.Component {
