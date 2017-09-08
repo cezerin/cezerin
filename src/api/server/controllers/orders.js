@@ -6,6 +6,9 @@ var OrderAddressService = require('../services/orders/orderAddress');
 var OrderItemsService = require('../services/orders/orderItems');
 var OrdertTansactionsService = require('../services/orders/orderTransactions');
 var OrdertDiscountsService = require('../services/orders/orderDiscounts');
+var PaymentMethodsService = require('../services/orders/paymentMethods');
+var SettingsService = require('../services/settings/settings');
+var PaymentGateways = require('../paymentGateways');
 
 class OrdersController {
   constructor(router) {
@@ -39,6 +42,8 @@ class OrdersController {
     this.router.post('/v1/orders/:id/discounts', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.addDiscount.bind(this));
     this.router.put('/v1/orders/:id/discounts/:discount_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.updateDiscount.bind(this));
     this.router.delete('/v1/orders/:id/discounts/:discount_id', security.checkUserScope.bind(this, security.scope.WRITE_ORDERS), this.deleteDiscount.bind(this));
+
+    this.router.get('/v1/orders/:id/payment_form_settings', security.checkUserScope.bind(this, security.scope.READ_ORDERS), this.getPaymentFormSettings.bind(this));
   }
 
   getOrders(req, res, next) {
@@ -208,6 +213,36 @@ class OrdersController {
     OrdertDiscountsService.deleteDiscount(order_id, discount_id).then(data => {
       res.send(data)
     }).catch(next);
+  }
+
+  getPaymentFormSettings(req, res, next) {
+    const orderId = req.params.id;
+
+    Promise.all([
+      OrdersService.getSingleOrder(orderId),
+      SettingsService.getSettings()
+    ]).then(([order, settings]) => {
+      if(order && order.payment_method_id){
+        PaymentMethodsService.getSingleMethod(order.payment_method_id).then(paymentMethod => {
+
+          const options = {
+            gateway: paymentMethod.gateway,
+            gatewaySettings: paymentMethod.gateway_settings,
+            order: order,
+            amount: order.grand_total,
+            currency: settings.currency_code
+          };
+
+          PaymentGateways.getPaymentFormSettings(options).then(formSettings => {
+            res.send(formSettings);
+          }).catch(next);
+
+        }).catch(next);
+      } else {
+        res.send({});
+      }
+    }).catch(next);
+
   }
 }
 
