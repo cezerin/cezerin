@@ -11,5 +11,4 @@ themes/current/package-lock.json
 dist/*
 logs/*.log
 npm-debug.log*
-package-lock.json
 *.zip
