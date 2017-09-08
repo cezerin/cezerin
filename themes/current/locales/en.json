@@ -38,5 +38,6 @@
   "paymentMethod": "Payment method",
   "orderNumber": "Order number",
   "productName": "Product",
-  "close": "Close"
+  "close": "Close",
+  "attributes": "Product details"
 }

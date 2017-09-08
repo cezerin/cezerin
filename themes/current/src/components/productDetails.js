@@ -63,7 +63,7 @@ const ProductAttributes = ({ attributes }) => {
 
   return (
     <div className="product-attributes">
-      <div className="title is-5">Свойства</div>
+      <div className="title is-5">{text.attributes}</div>
       {items}
     </div>
   )
