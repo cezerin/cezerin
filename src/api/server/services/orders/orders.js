@@ -444,6 +444,9 @@ class OrdersService {
       if (data.date_placed !== undefined) {
         order.date_placed = parse.getDateIfValid(data.date_placed);
       }
+      if (data.date_paid !== undefined) {
+        order.date_paid = parse.getDateIfValid(data.date_paid);
+      }
 
       if (order.shipping_method_id && !order.shipping_price) {
         ShippingMethodsLightService.getMethodPrice(order.shipping_method_id).then(shippingPrice => {
