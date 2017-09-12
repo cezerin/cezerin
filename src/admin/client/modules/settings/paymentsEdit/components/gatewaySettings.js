@@ -52,6 +52,8 @@ const PayPalButton = props => {
         <MenuItem value="silver" primaryText="silver" />
         <MenuItem value="black" primaryText="black" />
       </Field>
+
+      <Field component={TextField} name="gateway_settings.notify_url" floatingLabelText="Notify URL" hintText="https://<domain>/api/v1/notifications/paypal" fullWidth={true} />
     </div>
   )
 }

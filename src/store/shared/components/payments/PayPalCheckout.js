@@ -52,9 +52,8 @@ export default class PayPalButton extends React.Component {
                 payment: {
                     intent: 'sale',
                     transactions: [{
-                      reference_id: formSettings.order_id,
-                      purchase_order: formSettings.order_id,
-                      notify_url: '',
+                      custom: formSettings.order_id,
+                      notify_url: formSettings.notify_url,
                       amount: {
                         total: formSettings.amount,
                         currency: formSettings.currency
