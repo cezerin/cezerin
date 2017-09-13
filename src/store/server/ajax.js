@@ -219,7 +219,6 @@ ajaxRouter.get('/payment_methods', (req, res, next) => {
   };
   api.paymentMethods.list(filter).then(({status, json}) => {
     const methods = json.map(item => {
-      delete item.gateway_settings;
       delete item.conditions;
       return item;
     });
