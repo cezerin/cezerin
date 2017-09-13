@@ -166,7 +166,6 @@ class PaymentMethodsService {
     method.enabled = parse.getBooleanIfValid(data.enabled, true);
     method.conditions = this.getPaymentMethodConditions(data.conditions);
     method.gateway = parse.getString(data.gateway);
-    method.gateway_settings = data.gateway_settings;
 
     return method;
   }
@@ -200,10 +199,6 @@ class PaymentMethodsService {
 
     if (data.gateway !== undefined) {
       method.gateway = parse.getString(data.gateway);
-    }
-
-    if (data.gateway_settings !== undefined) {
-      method.gateway_settings = data.gateway_settings;
     }
 
     return method;

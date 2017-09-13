@@ -6,7 +6,6 @@ var OrderAddressService = require('../services/orders/orderAddress');
 var OrderItemsService = require('../services/orders/orderItems');
 var OrdertTansactionsService = require('../services/orders/orderTransactions');
 var OrdertDiscountsService = require('../services/orders/orderDiscounts');
-var PaymentMethodsService = require('../services/orders/paymentMethods');
 var SettingsService = require('../services/settings/settings');
 var PaymentGateways = require('../paymentGateways');
 
@@ -217,32 +216,9 @@ class OrdersController {
 
   getPaymentFormSettings(req, res, next) {
     const orderId = req.params.id;
-
-    Promise.all([
-      OrdersService.getSingleOrder(orderId),
-      SettingsService.getSettings()
-    ]).then(([order, settings]) => {
-      if(order && order.payment_method_id){
-        PaymentMethodsService.getSingleMethod(order.payment_method_id).then(paymentMethod => {
-
-          const options = {
-            gateway: paymentMethod.gateway,
-            gatewaySettings: paymentMethod.gateway_settings,
-            order: order,
-            amount: order.grand_total,
-            currency: settings.currency_code
-          };
-
-          PaymentGateways.getPaymentFormSettings(options).then(formSettings => {
-            res.send(formSettings);
-          }).catch(next);
-
-        }).catch(next);
-      } else {
-        res.send({});
-      }
+    PaymentGateways.getPaymentFormSettings(orderId).then(data => {
+      res.send(data);
     }).catch(next);
-
   }
 }
 

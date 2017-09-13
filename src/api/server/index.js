@@ -18,10 +18,12 @@ const OrdersController = require('./controllers/orders');
 const OrderStatusesController = require('./controllers/orderStatuses');
 const ShippingMethodsController = require('./controllers/shippingMethods');
 const PaymentMethodsController = require('./controllers/paymentMethods');
+const PaymentGatewaysController = require('./controllers/paymentGateways');
 const DataController = require('./controllers/data');
 const SettingsController = require('./controllers/settings');
 const PagesController = require('./controllers/pages');
 const SecurityTokensController = require('./controllers/tokens');
+const NotificationsController = require('./controllers/notifications');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -46,7 +48,11 @@ const checkTokenInBlacklistCallback = (req, payload, done) => {
   }
 };
 
-apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: ['/api/v1/authorize', '/api/dashboard/events']}));
+apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: [
+  '/api/dashboard/events',
+  '/api/v1/authorize',
+  /\/api\/v1\/notifications/i
+]}));
 
 var products = new ProductsController(apiRouter);
 var productCategories = new ProductCategoriesController(apiRouter);
@@ -58,10 +64,12 @@ var orders = new OrdersController(apiRouter);
 var orderStatuses = new OrderStatusesController(apiRouter);
 var shippingMethods = new ShippingMethodsController(apiRouter);
 var paymentMethods = new PaymentMethodsController(apiRouter);
+var paymentGatewaysController = new PaymentGatewaysController(apiRouter);
 var data = new DataController(apiRouter);
 var settings = new SettingsController(apiRouter);
 var pages = new PagesController(apiRouter);
 var security = new SecurityTokensController(apiRouter);
+var notifications = new NotificationsController(apiRouter);
 
 apiRouter.get('/dashboard/events', function(req, res, next) {
   dashboardEvents.subscribe(req, res);
