@@ -8,14 +8,7 @@ import style from './style.css'
 import Checkbox from 'material-ui/Checkbox';
 import MenuItem from 'material-ui/MenuItem';
 
-export const AVAILABLE_PAYMENT_GATEWAYS = [
-  {
-    'key': 'paypal-checkout',
-    'name': 'PayPal Express Checkout'
-  }
-];
-
-export const GatewaySettings = ({ gateway }) => {
+const GatewaySettings = ({ gateway }) => {
   switch(gateway){
     case 'paypal-checkout':
       return <PayPalButton />;
@@ -24,36 +17,38 @@ export const GatewaySettings = ({ gateway }) => {
   }
 }
 
+export default GatewaySettings;
+
 const PayPalButton = props => {
   return (
     <div>
-      <Field component={SelectField} name="gateway_settings.env" floatingLabelText="Environment" fullWidth={true} autoWidth={true}>
+      <Field component={SelectField} name="env" floatingLabelText="Environment" fullWidth={true} autoWidth={true}>
         <MenuItem value="production" primaryText="production" />
         <MenuItem value="sandbox" primaryText="sandbox" />
       </Field>
 
-      <Field component={TextField} name="gateway_settings.client" floatingLabelText="Client ID" fullWidth={true} />
+      <Field component={TextField} name="client" floatingLabelText="Client ID" fullWidth={true} />
 
-      <Field component={SelectField} name="gateway_settings.size" floatingLabelText="Button size" fullWidth={true} autoWidth={true}>
+      <Field component={SelectField} name="size" floatingLabelText="Button size" fullWidth={true} autoWidth={true}>
         <MenuItem value="small" primaryText="small" />
         <MenuItem value="medium" primaryText="medium" />
         <MenuItem value="large" primaryText="large" />
         <MenuItem value="responsive" primaryText="responsive" />
       </Field>
 
-      <Field component={SelectField} name="gateway_settings.shape" floatingLabelText="Button shape" fullWidth={true} autoWidth={true}>
+      <Field component={SelectField} name="shape" floatingLabelText="Button shape" fullWidth={true} autoWidth={true}>
         <MenuItem value="pill" primaryText="pill" />
         <MenuItem value="rect" primaryText="rect" />
       </Field>
 
-      <Field component={SelectField} name="gateway_settings.color" floatingLabelText="Button color" fullWidth={true} autoWidth={true}>
+      <Field component={SelectField} name="color" floatingLabelText="Button color" fullWidth={true} autoWidth={true}>
         <MenuItem value="gold" primaryText="gold" />
         <MenuItem value="blue" primaryText="blue" />
         <MenuItem value="silver" primaryText="silver" />
         <MenuItem value="black" primaryText="black" />
       </Field>
 
-      <Field component={TextField} name="gateway_settings.notify_url" floatingLabelText="Notify URL" hintText="https://<domain>/api/v1/notifications/paypal" fullWidth={true} />
+      <Field component={TextField} name="notify_url" floatingLabelText="Notify URL" hintText="https://<domain>/api/v1/notifications/paypal" fullWidth={true} />
     </div>
   )
 }

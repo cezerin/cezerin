@@ -87,6 +87,13 @@ function receivePaymentMethods(paymentMethods) {
   }
 }
 
+function receivePaymentGateway(paymentGatewayEdit) {
+  return {
+    type: t.PAYMENT_GATEWAY_RECEIVE,
+    paymentGatewayEdit
+  }
+}
+
 export function receiveShippingMethod(shippingMethodEdit) {
   return {
     type: t.SHIPPING_METHOD_RECEIVE,
@@ -392,6 +399,26 @@ export function deleteToken(tokenId) {
   return (dispatch, getState) => {
     return api.tokens.delete(tokenId).then(({status, json}) => {
       dispatch(fetchTokens())
+    }).catch(error => {});
+  }
+}
+
+export function fetchPaymentGateway(gatewayName) {
+  return (dispatch, getState) => {
+    if(gatewayName && gatewayName.length > 0){
+      return api.paymentGateways.retrieve(gatewayName).then(({status, json}) => {
+        dispatch(receivePaymentGateway(json))
+      }).catch(error => {});
+    } else {
+      dispatch(receivePaymentGateway(null))
+    }
+  }
+}
+
+export function updatePaymentGateway(gatewayName, data) {
+  return (dispatch, getState) => {
+    return api.paymentGateways.update(gatewayName, data).then(({status, json}) => {
+      dispatch(receivePaymentGateway(json))
     }).catch(error => {});
   }
 }

@@ -3,7 +3,8 @@ import {Field, reduxForm} from 'redux-form'
 import {TextField, SelectField} from 'redux-form-material-ui'
 
 import { CustomToggle } from 'modules/shared/form'
-import { GatewaySettings, AVAILABLE_PAYMENT_GATEWAYS } from './gatewaySettings.js'
+import PaymentGateway from 'modules/settings/paymentGateway'
+import { AVAILABLE_PAYMENT_GATEWAYS } from 'modules/settings/paymentGateway/availablePaymentGateways'
 import SelectShippingMethodsField from './selectShipping.js'
 import messages from 'lib/text'
 import style from './style.css'
@@ -32,7 +33,7 @@ class EditPaymentMethodForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      gateway: props.initialValues ? props.initialValues.gateway : null
+      gateway: null
     };
   }
 
@@ -81,7 +82,7 @@ class EditPaymentMethodForm extends React.Component {
                     {paymentGateways}
                   </Field>
                 </div>
-                <GatewaySettings gateway={this.state.gateway} />
+                <PaymentGateway gateway={this.state.gateway} />
               </div>
             </div>
 

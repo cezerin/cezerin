@@ -4,8 +4,11 @@ import Form from './components/form'
 
 const mapStateToProps = (state, ownProps) => {
   const {methodId} = ownProps.match.params;
+  const gateway = state.settings.paymentMethodEdit ? state.settings.paymentMethodEdit.gateway : null;
+
   return {
     methodId: methodId,
+    gateway: gateway,
     settings: state.settings.settings,
     initialValues: state.settings.paymentMethodEdit,
     shippingMethods: state.settings.shippingMethods
