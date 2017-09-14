@@ -183,7 +183,8 @@ export const checkout = (cart, history) => (dispatch, getState) => {
       email: cart.email,
       mobile: cart.mobile,
       payment_method_id: cart.payment_method_id,
-      shipping_method_id: cart.shipping_method_id
+      shipping_method_id: cart.shipping_method_id,
+      comments: cart.comments
       // coupon: cart.coupon
     }))
     .then(() => api.ajax.cart.checkout())
@@ -272,7 +273,11 @@ export const updateCart = cart => (dispatch, getState) => {
     api.ajax.cart.updateShippingAddress(cart.shipping_address),
     api.ajax.cart.updateBillingAddress(cart.billing_address),
     api.ajax.cart.update({
-      email: cart.email, mobile: cart.mobile, payment_method_id: cart.payment_method_id, shipping_method_id: cart.shipping_method_id
+      email: cart.email,
+      mobile: cart.mobile,
+      payment_method_id: cart.payment_method_id,
+      shipping_method_id: cart.shipping_method_id,
+      comments: cart.comments
       // coupon: cart.coupon
     })
   ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
