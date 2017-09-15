@@ -26,10 +26,7 @@ const CheckoutContainer = (props) => {
               <OrderSummary {...props} />
             </div>
             <div className="column is-6">
-              <div className="checkout-box">
-                <h1 className="title is-4">{text.checkoutPageTitle}</h1>
-                {checkoutForm}
-              </div>
+              {checkoutForm}
             </div>
           </div>
         </div>

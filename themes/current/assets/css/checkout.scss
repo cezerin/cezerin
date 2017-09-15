@@ -8,7 +8,8 @@
 }
 
 .checkout-button {
-  min-width: 60%;
+  padding-left: 3rem;
+  padding-right: 3rem;
   text-transform: uppercase;
 }
 
@@ -18,7 +19,7 @@
 
 .checkout-button-wrap {
   text-align: center;
-  margin: 30px 0;
+  margin-top: 30px;
 }
 
 .checkout-field {
@@ -50,15 +51,43 @@
 }
 
 .checkout-field .error {
-  font-size: 9pt;
   color: #e96161;
-  margin-top: 6px;
+  padding-left: 10px;
+  font-weight: 500;
+}
+
+.checkout-field-preview {
+  display: flex;
+  margin-bottom: 0.1rem;
+  font-size: 0.8rem;
+}
+.checkout-field-preview .name {
+  width: 50%;
+  color: #747679;
+  text-align: right;
+  padding-right: 10px;
+}
+.checkout-field-preview .value {
+  width: 50%;
+  color: #000;
+}
+
+.checkout-form h1 {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  margin-top: 0;
+}
+
+.checkout-form h1 span {
+  color: #747679;
+  margin-right: 0.5rem;
 }
 
 .checkout-form h2 {
-  font-size: 18px;
-  margin-bottom: 8px;
-  margin-top: 30px;
+  font-size: 16px;
+  margin-bottom: 4px;
+  margin-top: 16px;
 }
 
 .shipping-methods, .payment-methods {
@@ -116,9 +145,13 @@
 
 }
 
-.checkout-box {
+.checkout-box, .checkout-step {
   padding: 30px;
   background-color: #fff;
+}
+
+.checkout-step {
+  margin-bottom: 30px;
 }
 
 .billing-as-shipping {

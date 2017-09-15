@@ -53,6 +53,7 @@
   "categoryThumbnailWidth": 800,
   "checkoutInputClass": "checkout-field",
   "checkoutButtonClass": "checkout-button button is-primary",
+  "checkoutEditButtonClass": "checkout-button button",
   "sortNewest": "-date_created",
   "sortPriceLow": "price",
   "sortPriceHigh": "-price",
