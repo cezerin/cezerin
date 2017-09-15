@@ -11,5 +11,6 @@ export default() => {
   return <ConnectedCheckoutContainer checkoutForm={<CheckoutForm
     inputClassName={config.checkoutInputClass}
     buttonClassName={config.checkoutButtonClass}
+    editButtonClassName={config.checkoutEditButtonClass}
   />} />
 }

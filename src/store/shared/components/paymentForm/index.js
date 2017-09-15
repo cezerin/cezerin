@@ -1,6 +1,6 @@
 import React from 'react'
 import api from '../../../client/api'
-import PayPalCheckout from '../payments/PayPalCheckout'
+import PayPalCheckout from './PayPalCheckout'
 
 export default class PaymentForm extends React.Component {
   constructor(props) {
