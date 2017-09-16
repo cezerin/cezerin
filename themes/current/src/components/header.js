@@ -45,6 +45,7 @@ class HeadMenuItem extends React.Component {
       <li
         onMouseEnter={this.onMouseEnterHandler}
         onMouseLeave={this.onMouseLeaveHandler}
+        onMouseUp={this.onMouseLeaveHandler}
         className={(level === 2 ? 'column is-3' : '')+(this.state.isActive ? ' is-active' : '') + (hasItems ? ' has-items' : '')}>
         <div className="cat-parent">
           <NavLink activeClassName="is-active" className={hasItems ? 'has-items' : ''} to={category.path} onClick={onClick}>
