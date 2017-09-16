@@ -133,7 +133,7 @@ const ProductGallery = ({ images }) => {
       <ImageGallery
         items={imagesArray}
         showThumbnails={showThumbnails}
-        lazyLoad={true}
+        lazyLoad={false}
         slideInterval={2000}
         showNav={false}
         showBullets={showThumbnails}
