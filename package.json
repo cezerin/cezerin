@@ -94,7 +94,7 @@
     "slug": "^0.9.1",
     "theme": "file:themes/current",
     "ua-parser-js": "^0.7.14",
-    "webpack": "^3.5.6",
+    "webpack": "^3.6.0",
     "winston": "^2.3.1"
   },
   "engines": {
