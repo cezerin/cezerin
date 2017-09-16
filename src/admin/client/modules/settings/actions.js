@@ -146,7 +146,7 @@ export function receiveNewToken(newToken) {
 export function fetchSettings() {
   return (dispatch, getState) => {
     // API can be not init on app start
-    if(api.settings) {
+    if(api) {
       return api.settings.retrieve().then(({status, json}) => {
         dispatch(receiveSettings(json))
       }).catch(error => {});
