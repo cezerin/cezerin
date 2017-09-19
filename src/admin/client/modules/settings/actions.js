@@ -422,3 +422,13 @@ export function updatePaymentGateway(gatewayName, data) {
     }).catch(error => {});
   }
 }
+
+export function uploadLogo(form) {
+  return (dispatch, getState) => {
+    return api.settings.uploadLogo(form)
+    .then(() => {
+      dispatch(fetchSettings());
+    })
+    .catch(error => {});
+  }
+}

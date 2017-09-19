@@ -12,6 +12,7 @@ const initialState = {
 
   isUpdating: false,
   loadingItems: false,
+  uploadingImages: false,
 
   errorFetchEdit: null,
   errorLoadingItems: null,
@@ -113,6 +114,14 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         isUpdating: false,
         editProduct: action.item
+      })
+    case t.PRODUCT_IMAGES_UPLOAD_START:
+      return Object.assign({}, state, {
+        uploadingImages: true
+      })
+    case t.PRODUCT_IMAGES_UPLOAD_END:
+      return Object.assign({}, state, {
+        uploadingImages: false
       })
     case t.PRODUCT_SET_CATEGORY_SUCCESS:
     case t.PRODUCT_DELETE_SUCCESS:

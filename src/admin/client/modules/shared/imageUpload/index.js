@@ -6,7 +6,6 @@ import Paper from 'material-ui/Paper';
 import Snackbar from 'material-ui/Snackbar';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
-import LinearProgress from 'material-ui/LinearProgress';
 
 import style from './style.css'
 
@@ -14,11 +13,8 @@ export default class ImageUpload extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      imagePreview: this.props.imageUrl,
-      percentComplete: 100,
-      uploadIsComplete: false
+      imagePreview: this.props.imageUrl
     };
-    this.onDrop = this.onDrop.bind(this);
   }
 
   onDelete = () => {
@@ -28,65 +24,22 @@ export default class ImageUpload extends React.Component {
     this.props.onDelete();
   }
 
-  uploadSuccess = () => {
-    this.setState({
-      uploadIsComplete: true,
-      percentComplete: 100
-    });
-    this.props.onUpload();
-  };
-
-  closeSnackbar = () => {
-    this.setState({
-      uploadIsComplete: false,
-    });
-  };
-
   componentWillReceiveProps(nextProps) {
     this.setState({
       imagePreview: nextProps.imageUrl,
-      percentComplete: 100
     });
   }
 
-  onDrop(files) {
-    let file = files[0];
-    this.setState({
-      imagePreview: file.preview,
-      percentComplete: 0
-    });
-
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', this.props.postUrl);
-    xhr.setRequestHeader('Authorization', `Bearer ${this.props.apiToken}`);
-    xhr.onload = () => {
-      if (xhr.status !== 200) {
-          alert(`Request failed. Code: ${xhr.status}. Message: ${xhr.responseText}`);
-      }
-    }
-
-    xhr.upload.addEventListener("error", () => { alert('An error occurred while uploading'); });
-    xhr.upload.addEventListener("load", () => { this.uploadSuccess(); });
-    xhr.upload.addEventListener("progress", (oEvent) => {
-      if (oEvent.lengthComputable) {
-        var percent = oEvent.loaded / oEvent.total * 100;
-        this.setState({
-          percentComplete: percent
-        });
-      } else {
-        this.setState({
-          percentComplete: 100
-        });
-      }
-    });
-
-    var data = new FormData();
-    data.append('file', file);
-    xhr.send(data);
+  onDrop = files => {
+    let form = new FormData();
+    form.append('file', files[0]);
+    this.props.onUpload(form);
   }
 
   render() {
-    const { percentComplete, imagePreview, uploadIsComplete } = this.state;
+    const { imagePreview } = this.state;
+    const { uploading } = this.props;
+
     const hasPreview = imagePreview !== null && imagePreview !== '';
     const previewIsFileUrl = hasPreview ? imagePreview.startsWith('http') : null;
 
@@ -104,23 +57,21 @@ export default class ImageUpload extends React.Component {
 
     return (
       <Paper zDepth={1} rounded={false} style={{width:200}}>
-            <Dropzone
-              onDrop={this.onDrop}
-              multiple={false}
-              disableClick={hasPreview}
-              accept="image/*"
-              ref={(node) => { this.dropzone = node; }}
-              style={{}}
-              className={style.dropzone}
-              activeClassName={style.dropzoneActive}
-              rejectClassName={style.dropzoneReject}>
-              <div className={style.preview}>
-                {htmlPreview}
-              </div>
-            </Dropzone>
-        {percentComplete < 100 &&
-          <LinearProgress mode="determinate" value={percentComplete} />
-        }
+        <Dropzone
+          onDrop={this.onDrop}
+          multiple={false}
+          disableClick={hasPreview}
+          accept="image/*"
+          ref={(node) => { this.dropzone = node; }}
+          style={{}}
+          className={style.dropzone}
+          activeClassName={style.dropzoneActive}
+          rejectClassName={style.dropzoneReject}>
+          <div className={style.preview}>
+            {htmlPreview}
+          </div>
+        </Dropzone>
+
         <div className={style.footer}>
           <IconButton touch={true} tooltip={messages.actions_upload} onClick={() => { this.dropzone.open() }} tooltipPosition="top-right">
             <FontIcon color="rgba(0,0,0,0.5)" className="material-icons">file_upload</FontIcon>
@@ -132,10 +83,8 @@ export default class ImageUpload extends React.Component {
           }
         </div>
         <Snackbar
-          open={uploadIsComplete}
-          message={messages.messages_uploadComplete}
-          autoHideDuration={3000}
-          onRequestClose={this.closeSnackbar}
+          open={uploading}
+          message={messages.messages_uploading}
         />
       </Paper>
     )

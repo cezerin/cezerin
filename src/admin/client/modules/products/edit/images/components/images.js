@@ -12,11 +12,11 @@ export default class ProductImages extends React.Component {
   }
 
   render() {
-    let {productId, images, onImageDelete, onImageSort, fetchData} = this.props;
+    let {productId, images, onImageDelete, onImageSort, onImageUpload, uploadingImages} = this.props;
     return (
       <Paper className="paper-box" zDepth={1}>
         <div style={{ padding: '10px 10px 30px 10px' }}>
-          <Gallery productId={productId} images={images} onImageDelete={onImageDelete} onImageSort={onImageSort} onUpload={fetchData} />
+          <Gallery productId={productId} images={images} onImageDelete={onImageDelete} onImageSort={onImageSort} onImageUpload={onImageUpload} uploading={uploadingImages} />
         </div>
       </Paper>
     )

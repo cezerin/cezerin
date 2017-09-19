@@ -4,7 +4,6 @@ import settings from 'lib/settings'
 import style from './style.css'
 import GalleryItem from './item'
 import MultiUploader from './uploader'
-import api from 'lib/api'
 
 const SortableItem = SortableElement(({ image, onDelete }) =>
 	<li className={style.item}><GalleryItem url={image.url} alt={image.alt} id={image.id} onDelete={onDelete} /></li>
@@ -18,13 +17,10 @@ const SortableList = SortableContainer(({items, onDelete}) =>
 		</ul>
 )
 
-const Gallery = ({ productId, images, onImageDelete, onImageSort, onUpload }) => {
-  const postUrl = `${settings.apiBaseUrl}/products/${productId}/images`;
-  const apiToken = api.token;
-
+const Gallery = ({ productId, images, onImageDelete, onImageSort, onImageUpload, uploading }) => {
   if(images && images.length > 0) {
     return (
-        <MultiUploader onUpload={() => onUpload(productId)} postUrl={postUrl} apiToken={apiToken}>
+        <MultiUploader onUpload={onImageUpload} uploading={uploading}>
           <div className={style.gallery}>
             <SortableList
               axis="x"
@@ -41,7 +37,7 @@ const Gallery = ({ productId, images, onImageDelete, onImageSort, onUpload }) =>
         </MultiUploader>
     )
   } else {
-    return <MultiUploader onUpload={() => onUpload(productId)} postUrl={postUrl} apiToken={apiToken} />
+    return <MultiUploader onUpload={onImageUpload} uploading={uploading} />
   }
 }
 

@@ -5,6 +5,7 @@ const initialState = {
   isFetched: false,
   isFetching: false,
   isSaving: false,
+  uploadingImage: false,
   errorFetch: null,
   errorUpdate: null,
   selectedId: 'all'
@@ -46,6 +47,14 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
         isSaving: false,
         errorUpdate: action.error
+      })
+    case t.CATEGORY_IMAGE_UPLOAD_START:
+      return Object.assign({}, state, {
+        uploadingImage: true
+      })
+    case t.CATEGORY_IMAGE_UPLOAD_END:
+      return Object.assign({}, state, {
+        uploadingImage: false
       })
     case t.CATEGORY_CREATE_SUCCESS:
     case t.CATEGORY_DELETE_SUCCESS:

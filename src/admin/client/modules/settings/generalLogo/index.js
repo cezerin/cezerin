@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { fetchSettings, deleteLogo } from '../actions'
+import { fetchSettings, deleteLogo, uploadLogo } from '../actions'
 import Form from './components/form'
 
 const mapStateToProps = (state) => {
@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => {
     onImageDelete: () => {
       dispatch(deleteLogo());
     },
-    onImageUpload: () => {
-      dispatch(fetchSettings());
+    onImageUpload: (form) => {
+      dispatch(uploadLogo(form));
     }
   }
 }
