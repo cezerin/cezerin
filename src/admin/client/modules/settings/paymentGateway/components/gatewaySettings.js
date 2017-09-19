@@ -12,6 +12,8 @@ const GatewaySettings = ({ gateway }) => {
   switch(gateway){
     case 'paypal-checkout':
       return <PayPalButton />;
+    case 'liqpay':
+      return <LiqPay />;
     default:
       return null;
   }
@@ -48,7 +50,25 @@ const PayPalButton = props => {
         <MenuItem value="black" primaryText="black" />
       </Field>
 
-      <Field component={TextField} name="notify_url" floatingLabelText="Notify URL" hintText="https://<domain>/api/v1/notifications/paypal" fullWidth={true} />
+      <Field component={TextField} name="notify_url" floatingLabelText="Notify URL" hintText="https://<domain>/api/v1/notifications/paypal-checkout" fullWidth={true} />
+    </div>
+  )
+}
+
+const LiqPay = props => {
+  return (
+    <div>
+      <Field component={TextField} name="public_key" floatingLabelText="Public Key" fullWidth={true} />
+
+      <Field component={TextField} name="private_key" floatingLabelText="Private Key" fullWidth={true} />
+
+      <Field component={SelectField} name="language" floatingLabelText="Language" fullWidth={true} autoWidth={true}>
+        <MenuItem value="ru" primaryText="Russian" />
+        <MenuItem value="uk" primaryText="Ukrainian" />
+        <MenuItem value="en" primaryText="English" />
+      </Field>
+
+      <Field component={TextField} name="server_url" floatingLabelText="Server URL" hintText="https://<domain>/api/v1/notifications/liqpay" fullWidth={true} />
     </div>
   )
 }
