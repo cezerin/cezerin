@@ -38,5 +38,6 @@
   "paymentMethod": "Способ оплаты",
   "orderNumber": "Номер заказа",
   "productName": "Название товара",
-  "close": "Закрыть"
+  "close": "Закрыть",
+  "attributes": "Свойства"
 }
