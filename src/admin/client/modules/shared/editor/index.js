@@ -1,5 +1,5 @@
 import React from 'react'
-import TinyMCE from 'react-tinymce';
+import TinyMCE from '../tinymce';
 import settings from 'lib/settings'
 
 const config = {
@@ -18,7 +18,6 @@ export default class Editor extends React.Component {
     this.state = {
       value: props.input.value
     }
-    this.onChange = this.onChange.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -30,7 +29,7 @@ export default class Editor extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return this.state.value !== nextProps.input.value;
+    return this.state.value !== nextState.value;
   }
 
   onChange = (e) => {

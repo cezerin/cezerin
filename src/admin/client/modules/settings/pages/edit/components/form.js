@@ -55,36 +55,44 @@ class EditPageForm extends React.Component {
     this.props.onLoad();
   }
 
+  componentWillUnmount() {
+    this.props.eraseData();
+  }
+
   render() {
     let {handleSubmit, pristine, submitting, initialValues, pageId} = this.props;
     const isAdd = pageId === null || pageId === undefined;
 
-    return (
+    if(initialValues){
+      return (
         <form onSubmit={handleSubmit} style={{
           display: 'initial',
           width: '100%'
         }}>
-        <Paper className="paper-box" zDepth={1}>
-          <div className={style.innerBox}>
-            <div className="blue-title">{messages.content}</div>
-            <div style={{marginBottom:50}}>
-              <Field name="content" component={Editor}/>
+          <Paper className="paper-box" zDepth={1}>
+            <div className={style.innerBox}>
+              <div className="blue-title">{messages.content}</div>
+              <div style={{marginBottom:50}}>
+                <Field name="content" component={Editor}/>
+              </div>
+              <div className="blue-title">{messages.seo}</div>
+              <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true} disabled={initialValues.is_system}/>
+              <p className="field-hint">{messages.help_slug}</p>
+              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
+              <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+              <div style={{maxWidth: 256}}>
+                <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} disabled={initialValues.is_system}/>
+              </div>
             </div>
-            <div className="blue-title">{messages.seo}</div>
-            <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true} disabled={initialValues.is_system}/>
-            <p className="field-hint">{messages.help_slug}</p>
-            <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
-            <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
-            <div style={{maxWidth: 256}}>
-              <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} disabled={initialValues.is_system}/>
+            <div className="buttons-box">
+              <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
             </div>
-          </div>
-          <div className="buttons-box">
-            <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
-          </div>
-        </Paper>
+          </Paper>
         </form>
-    )
+      )
+    } else {
+      return null;
+    }
   }
 }
 

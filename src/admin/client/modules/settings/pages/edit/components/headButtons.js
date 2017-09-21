@@ -47,9 +47,7 @@ export default class Buttons extends React.Component {
       />,
     ];
 
-    if(page.is_system) {
-      return null;
-    } else {
+    if(page && !page.is_system){
       return (
         <span>
           <IconButton touch={true} tooltip={messages.actions_delete} onClick={this.showDelete}>
@@ -67,6 +65,8 @@ export default class Buttons extends React.Component {
           </Dialog>
         </span>
       )
+    } else {
+      return null;
     }
   }
 }

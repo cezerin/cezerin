@@ -27,6 +27,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(createPage(page));
         ownProps.history.push('/admin/settings/pages');
       }
+    },
+    eraseData: () => {
+      dispatch(receivePage(null));
     }
   }
 }

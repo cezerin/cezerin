@@ -18,7 +18,6 @@ module.exports = () => {
         'react-redux',
         'redux-thunk',
         'react-router',
-        'react-tinymce',
         'react-dropzone',
         'redux-form',
         'redux-form-material-ui',

@@ -27,7 +27,7 @@ const initialState = {
   paymentMethodEdit: {},
   paymentGatewayEdit: {},
   pages: [],
-  pageEdit: {},
+  pageEdit: null,
   tokens: [],
   tokenEdit: {},
   newToken: null
