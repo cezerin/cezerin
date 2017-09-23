@@ -1,6 +1,6 @@
 import React from 'react'
 import messages from 'lib/text'
-import api from 'lib/api';
+import CezerinClient from 'cezerin-client';
 import * as auth from 'lib/webstoreAuth'
 
 import RaisedButton from 'material-ui/RaisedButton'
@@ -31,7 +31,7 @@ export default class LoginForm extends React.Component {
       error: null
     });
 
-    api.webstore.authorize(this.state.email, location.origin + '/admin')
+    CezerinClient.authorizeInWebStore(this.state.email, location.origin + '/admin')
     .then(({status, json}) => {
       this.setState({
         isFetching: false,
