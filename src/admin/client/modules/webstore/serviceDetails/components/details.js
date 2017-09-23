@@ -34,6 +34,7 @@ export default class ServiceDetails extends React.Component {
   render() {
     let { serviceId, service, serviceSettings, serviceLogs, loadingEnableDisable, enableService, disableService, updateSettings, fetchServiceLogs } = this.props;
     let actions = null;
+    const serviceError = serviceSettings && serviceSettings.error === true;
     if(service && service.actions && Array.isArray(service.actions) && service.actions.length > 0){
       actions = service.actions;
     }
@@ -41,10 +42,15 @@ export default class ServiceDetails extends React.Component {
     return (
       <div className={style.detailsContainer + " scroll col-full-height"}>
         <ServiceDescription service={service} loadingEnableDisable={loadingEnableDisable} enableService={enableService} disableService={disableService} />
-        {service && service.enabled && serviceSettings &&
+        {serviceError &&
+          <div style={{ color: '#FC3246', fontSize: '24px', margin: '30px' }}>
+            Service error
+          </div>
+        }
+        {service && service.enabled && serviceSettings && !serviceError &&
           <ServiceSettings initialValues={serviceSettings} onSubmit={updateSettings} />
         }
-        {service && service.enabled &&
+        {service && service.enabled && !serviceError &&
           <ServiceActions actions={actions} serviceId={serviceId} fetchServiceLogs={fetchServiceLogs} />
         }
         {service && service.enabled && serviceLogs && serviceLogs.length > 0 &&
