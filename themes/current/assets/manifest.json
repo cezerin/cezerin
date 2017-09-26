@@ -6,8 +6,24 @@
   "background_color": "#F9F9F9",
   "theme_color": "#f5f5f5",
   "icons": [{
-    "src": "/assets/images/icons/icon.png",
-    "sizes": "128x128 256x256 512x512",
+    "src": "/assets/images/icons/icon-16.png",
+    "sizes": "16x16",
+    "type": "image/png"
+  },{
+    "src": "/assets/images/icons/icon-32.png",
+    "sizes": "32x32",
+    "type": "image/png"
+  },{
+    "src": "/assets/images/icons/icon-128.png",
+    "sizes": "128x128",
+    "type": "image/png"
+  },{
+    "src": "/assets/images/icons/icon-256.png",
+    "sizes": "256x256",
+    "type": "image/png"
+  },{
+    "src": "/assets/images/icons/icon-512.png",
+    "sizes": "512x512",
     "type": "image/png"
   }]
 }

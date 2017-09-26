@@ -5,15 +5,21 @@ import config from '../lib/config'
 
 export default class CartIndicator extends React.PureComponent {
   render() {
-    const { cart } = this.props;
+    const { cart, onClick } = this.props;
     if (cart && cart.items && cart.items.length > 0) {
       let itemsCount = 0;
       for(let item of cart.items) {
         itemsCount += item.quantity;
       }
-      return <span className="tag icon is-danger cart-count">{itemsCount}</span>
+      return <span className="cart-button" onClick={onClick}>
+        <img src="/assets/images/shopping-bag.svg" className="icon" alt={text.cart} title={text.cart} style={{ width: 24 }}/>
+        <span className="tag icon is-danger cart-count">{itemsCount}</span>
+      </span>
     } else {
-      return null;
+      // cart is empty
+      return <span className="cart-button" onClick={onClick}>
+        <img src="/assets/images/shopping-bag.svg" className="icon" alt={text.cart} title={text.cart} style={{ width: 24 }}/>
+      </span>
     }
   }
 }

@@ -12,7 +12,7 @@ const CategoryContainer = (props) => {
   const {products, settings, productFilter, productsHasMore, productsMinPrice, productsMaxPrice, productsTotalCount} = props.state;
   const {setSearch, setSort, setPriceFromAndTo, addCartItem, loadMoreProducts} = props;
   const searchNotEmpty = productFilter.search && productFilter.search !== '';
-  const searchDescription = searchNotEmpty ? `${productsTotalCount || 0} ${text.resultsFor} "${productFilter.search}"` : text.search;
+  const searchDescription = searchNotEmpty ? `${text.resultsFor} "${productFilter.search}"` : text.search;
   const title = searchNotEmpty ? `${productFilter.search} - ${text.search}` : text.search;
 
   return (
@@ -25,7 +25,6 @@ const CategoryContainer = (props) => {
         <div className="hero-body">
           <div className="container">
             <h1 className="title is-4">{searchDescription}</h1>
-            <SearchBox value={productFilter.search} onSearch={setSearch} />
           </div>
         </div>
       </section>

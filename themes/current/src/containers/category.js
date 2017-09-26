@@ -6,6 +6,7 @@ import MetaTags from '../components/metaTags'
 import ProductList from '../components/productList'
 import ProductFilter from '../components/productFilter'
 import Sort from '../components/sort'
+import CategoryBreadcrumbs from '../components/categoryBreadcrumbs'
 import * as helper from '../lib/helper'
 
 const getFilterAttributesSummary = (productFilter) => {
@@ -31,10 +32,13 @@ const getFilterPriceSummary = (productFilter, settings) => {
   return priceSummary;
 }
 
-const CategoryHero = ({ categoryDetails }) => (
+const CategoryHero = ({ categoryDetails, categories }) => (
   <section className="hero is-light">
     <div className="hero-body">
       <div className="container">
+        {config.show_category_breadcrumbs &&
+          <CategoryBreadcrumbs currentCategory={categoryDetails} categories={categories} />
+        }
         <h1 className="category-title">
           {categoryDetails.name}
         </h1>
@@ -47,7 +51,7 @@ const CategoryHero = ({ categoryDetails }) => (
 )
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings, productFilter, productsHasMore} = props.state;
+  const {products, categoryDetails, settings, productFilter, productsHasMore, categories} = props.state;
   const {setSort, addCartItem, loadMoreProducts, getJSONLD} = props;
 
   const filterAttributesSummary = getFilterAttributesSummary(productFilter);
@@ -75,7 +79,7 @@ const CategoryContainer = (props) => {
         jsonld={jsonld}
       />
 
-      <CategoryHero categoryDetails={categoryDetails} />
+      <CategoryHero categoryDetails={categoryDetails} categories={categories} />
 
       <section className="section section-category">
         <div className="container">

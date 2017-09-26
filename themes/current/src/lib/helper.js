@@ -1,3 +1,6 @@
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+
 export const formatNumber = (number, settings) => {
   const x = 3;
   const floatNumber = parseFloat(number || 0) || 0;
@@ -42,4 +45,56 @@ export const getParentIds = (categories, categoryId) => {
   } while(parentExists)
 
   return parentIds;
+}
+
+export const getProductBreadcrumbs = (product, categories) => {
+  if(product && product.category_id){
+    let ids = [product.category_id];
+    let parentIds = getParentIds(categories, product.category_id);
+    ids.push(...parentIds);
+
+    let index = 0;
+    const breadcrumbs = ids.reverse().map(categoryId => {
+      const category = categories.find(item => item.id === categoryId);
+      if(category){
+        index++;
+        return (
+          <li key={index}>
+            <NavLink to={category.path}>
+              {category.name}
+            </NavLink>
+          </li>
+        )
+      }
+    })
+
+    return breadcrumbs;
+  } else {
+    return null;
+  }
+}
+
+export const getCategoryBreadcrumbs = (currentCategoryId, categories) => {
+  if(currentCategoryId){
+    let ids = getParentIds(categories, currentCategoryId);
+
+    let index = 0;
+    const breadcrumbs = ids.reverse().map(categoryId => {
+      const category = categories.find(item => item.id === categoryId);
+      if(category){
+        index++;
+        return (
+          <li key={index}>
+            <NavLink to={category.path}>
+              {category.name}
+            </NavLink>
+          </li>
+        )
+      }
+    })
+
+    return breadcrumbs;
+  } else {
+    return null;
+  }
 }

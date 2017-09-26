@@ -5,6 +5,8 @@ import text from '../lib/text'
 import config from '../lib/config'
 import * as helper from '../lib/helper'
 import Disqus from './disqus'
+import ProductBreadcrumbs from './productBreadcrumbs'
+import DiscountCountdown from './discountCountdown'
 
 const ProductOption = ({ option, onChange }) => {
   const values = option.values
@@ -71,11 +73,20 @@ const ProductAttributes = ({ attributes }) => {
 
 const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
   if(product.variable && variant) {
-    return (
-      <div className="product-price">
-        {helper.formatCurrency(variant.price, settings)}
-      </div>
-    )
+    if(product.on_sale){
+      return (
+        <div className="product-price">
+          <span className="product-new-price">{helper.formatCurrency(variant.price, settings)}</span>
+          <del className="product-old-price">{helper.formatCurrency(product.regular_price, settings)}</del>
+        </div>
+      )
+    } else {
+      return (
+        <div className="product-price">
+          {helper.formatCurrency(variant.price, settings)}
+        </div>
+      )
+    }
   } else if(product.on_sale) {
     return (
       <div className="product-price">
@@ -140,7 +151,7 @@ const ProductGallery = ({ images }) => {
         showPlayButton={false}
         showFullscreenButton={false}
         slideOnThumbnailHover={true}
-        thumbnailPosition="left"
+        thumbnailPosition={config.product_thumbnail_position}
       />
     )
 
@@ -218,7 +229,7 @@ export default class ProductDetails extends React.Component {
   }
 
   render() {
-    const {product, settings} = this.props;
+    const {product, settings, categories} = this.props;
     const {selectedVariant, isAllOptionsSelected} = this.state;
 
     if(product){
@@ -228,12 +239,19 @@ export default class ProductDetails extends React.Component {
             <div className="container">
               <div className="columns">
                 <div className="column is-7">
+                  {config.show_product_breadcrumbs &&
+                    <ProductBreadcrumbs product={product} categories={categories} />
+                  }
                   <ProductGallery images={product.images} />
                 </div>
                 <div className="column is-5">
                   <div className="content">
                     <h1 className="title is-4 product-name">{product.name}</h1>
                     <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
+
+                    {config.show_discount_countdown && product.on_sale === true &&
+                      <DiscountCountdown product={product} />
+                    }
 
                     {product.options && product.options.length > 0 &&
                       <ProductOptions options={product.options} onChange={this.onOptionChange} />

@@ -49,6 +49,25 @@
   max-width: 280px;
 }
 
+.discount-countdown {
+  max-width: 300px;
+  margin: 2rem 0;
+}
+.discount-title {}
+.discount-numbers {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.discount-numbers .column.is-2 {
+  background-color: #f1f1f1;
+  border-radius: 6px;
+}
+.discount-labels {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #7a7a7a;
+}
+
 /*
 Mobile
 */
@@ -67,5 +86,9 @@ Mobile
 
   .button-addtocart {
     max-width: 100%;
+  }
+
+  .product-breadcrumb {
+    display: none;
   }
 }

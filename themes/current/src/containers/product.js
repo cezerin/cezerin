@@ -6,7 +6,7 @@ import MetaTags from '../components/metaTags'
 import ProductDetails from '../components/productDetails'
 
 const ProductContainer = (props) => {
-  const {productDetails, settings} = props.state;
+  const {productDetails, settings, categories} = props.state;
   const {addCartItem, getJSONLD} = props;
 
   if (productDetails) {
@@ -28,7 +28,7 @@ const ProductContainer = (props) => {
           jsonld={jsonld}
         />
 
-        <ProductDetails settings={settings} product={productDetails} addCartItem={addCartItem}/>
+        <ProductDetails settings={settings} product={productDetails} addCartItem={addCartItem} categories={categories}/>
       </div>
     )
   } else {
