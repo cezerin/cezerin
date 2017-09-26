@@ -19,6 +19,11 @@ $ig-blue: #636363 !default;
   width: 100%;
 }
 
+body {
+  margin-top: 3.25rem;
+  transition: margin 200ms ease-in-out;
+}
+
 body.noscroll {
   position:fixed;
   overflow:hidden;
@@ -64,6 +69,15 @@ hr.separator {
 .shipping-phone {}
 .shipping-company { display:none; }
 .shipping-comments {}
+
+/*
+MOBILE
+*/
+@media screen and (max-width: 769px) {
+  body.search-active {
+    margin-top: 6.25rem;
+  }
+}
 
 @import "homeSlider.scss";
 @import "checkout.scss";

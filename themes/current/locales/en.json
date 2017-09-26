@@ -29,7 +29,7 @@
   "text404": "The page you requested does not exist. Click here to continue shopping.",
   "search": "Search",
   "searchPlaceholder": "Search",
-  "resultsFor": "results for",
+  "resultsFor": "Results for",
   "selectOption": "Select",
   "optionsRequired": "You need to choose options",
   "shippingAddress": "Shipping Address",
@@ -39,5 +39,11 @@
   "orderNumber": "Order number",
   "productName": "Product",
   "close": "Close",
-  "attributes": "Product details"
+  "attributes": "Product details",
+  "home": "Home",
+  "saleEnds": "Offer ends",
+  "days": "days",
+  "hours": "hrs",
+  "minutes": "mins",
+  "seconds": "secs"
 }

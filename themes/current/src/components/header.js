@@ -5,89 +5,15 @@ import config from '../lib/config'
 
 import Cart from './cart'
 import CartIndicator from './cartIndicator'
-
-class HeadMenuItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isActive: false
-    }
-  }
-
-  onMouseEnterHandler = () => {
-    if(!this.props.isMobile && this.props.level === 1){
-      this.setState({
-        isActive: true
-      })
-    }
-  }
-
-  onMouseLeaveHandler = () => {
-    if(!this.props.isMobile && this.props.level === 1){
-      this.setState({
-        isActive: false
-      })
-    }
-  }
-
-  isActiveToggle = () => this.setState({
-    isActive: !this.state.isActive
-  })
-
-  render() {
-    const { categories, category, onClick, level, isMobile } = this.props;
-    const items = categories.filter(item => item.parent_id === category.id).map((subcategory, index) => (
-      <HeadMenuItem key={index} category={subcategory} onClick={onClick} categories={categories} level={level + 1} isMobile={isMobile} />
-    ));
-    const hasItems = items.length > 0;
-
-    return (
-      <li
-        onMouseEnter={this.onMouseEnterHandler}
-        onMouseLeave={this.onMouseLeaveHandler}
-        onMouseUp={this.onMouseLeaveHandler}
-        className={(level === 2 ? 'column is-3' : '')+(this.state.isActive ? ' is-active' : '') + (hasItems ? ' has-items' : '')}>
-        <div className="cat-parent">
-          <NavLink activeClassName="is-active" className={hasItems ? 'has-items' : ''} to={category.path} onClick={onClick}>
-            {category.name}
-          </NavLink>
-          {hasItems && isMobile &&
-            <span onClick={this.isActiveToggle}></span>
-          }
-        </div>
-        {hasItems &&
-          <ul className={(level === 1 ? 'columns is-gapless is-multiline' : '') + ' nav-level-' + level}>
-            {items}
-          </ul>
-        }
-      </li>
-    )
-  }
-}
-
-class HeadMenuItems extends React.PureComponent {
-  render() {
-    const { categories, onClick, isMobile } = this.props;
-    const addItemsToMenu = config.header_menu.map(item => ({ name: item.name, path: item.path, id: item.id || '', parent_id: item.parent_id || null }))
-    const menuItems = [...categories, ...addItemsToMenu];
-
-    const items = menuItems.filter(category => category.parent_id === null).map((category, index) => (
-      <HeadMenuItem key={index} category={category} onClick={onClick} categories={categories} level={1} isMobile={isMobile} />
-    ));
-
-    return (
-      <ul className="nav-level-0">
-        {items}
-      </ul>
-    )
-  }
-}
+import SearchBox from './searchBox'
+import HeadMenu from './headMenu'
 
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       mobileMenuIsActive: false,
+      mobileSearchIsActive: false,
       cartIsActive: false
     }
   }
@@ -98,6 +24,13 @@ export default class Header extends React.Component {
       cartIsActive: false
     });
     document.body.classList.toggle('noscroll');
+  }
+
+  searchToggle = () => {
+    this.setState({
+      mobileSearchIsActive: !this.state.mobileSearchIsActive
+    });
+    document.body.classList.toggle('search-active');
   }
 
   menuClose = () => {
@@ -121,17 +54,27 @@ export default class Header extends React.Component {
     document.body.classList.remove('noscroll');
   }
 
+  handleSearch = search => {
+    if(this.props.state.currentPage.path === '/search'){
+      this.props.setSearch(search);
+    } else {
+      if(search && search !== ''){
+        this.props.setLocation('/search?search=' + search);
+      }
+    }
+  }
+
   render() {
-    const {categories, cart, settings, currentPage, location} = this.props.state;
+    const {categories, cart, settings, currentPage, location, productFilter} = this.props.state;
     const classToggle = this.state.mobileMenuIsActive ? 'nav-toggle is-active' : 'nav-toggle';
     const showBackButton = currentPage.type === 'product' && location.hasHistory;
 
     return (
       <div>
-        <header>
+        <header className={this.state.mobileSearchIsActive ? 'search-active' : ''}>
           <div className="container">
 
-            <div className="columns is-gapless is-mobile" style={{ alignItems: 'center', marginTop: 0 }}>
+            <div className="columns is-gapless is-mobile" style={{ alignItems: 'center', marginTop: 0, marginBottom: 0 }}>
 
               <div className="column is-4">
                 {!showBackButton &&
@@ -153,15 +96,14 @@ export default class Header extends React.Component {
                   <img src={settings.logo} alt="logo" />
                 </NavLink>
               </div>
-              <div className="column is-4 has-text-right" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <div className="column is-4 has-text-right" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
 
-                <NavLink className="icon icon-search" to="/search">
+                <span className="icon icon-search is-hidden-tablet" onClick={this.searchToggle}>
                   <img src="/assets/images/search.svg" alt={text.search} title={text.search} style={{ width: 24 }}/>
-                </NavLink>
+                </span>
+                <SearchBox value={productFilter.search} onSearch={this.handleSearch} className={this.state.mobileSearchIsActive ? 'search-active' : ''} />
 
-                <img src="/assets/images/shopping-bag.svg" className="icon icon-cart" onClick={this.cartToggle} alt={text.cart} title={text.cart} style={{ width: 24 }}/>
-                <CartIndicator cart={cart} />
-
+                <CartIndicator cart={cart} onClick={this.cartToggle} />
                 <div className={this.state.cartIsActive ? 'mini-cart-open' : ''}>
                   <Cart cart={cart} deleteCartItem={this.props.deleteCartItem} settings={settings} cartToggle={this.cartToggle} />
                 </div>
@@ -170,7 +112,7 @@ export default class Header extends React.Component {
             </div>
 
             <div className="primary-nav is-hidden-mobile">
-              <HeadMenuItems
+              <HeadMenu
                 categories={categories}
                 location={location}
                 isMobile={false}
@@ -180,9 +122,9 @@ export default class Header extends React.Component {
           </div>
         </header>
 
-        <div className={'is-hidden-tablet' + (this.state.mobileMenuIsActive || this.state.cartIsActive ? ' dark-overflow' : '')} onClick={this.closeAll}></div>
+        <div className={(this.state.mobileMenuIsActive || this.state.cartIsActive ? 'dark-overflow' : '')} onClick={this.closeAll}></div>
         <div className={'mobile-nav is-hidden-tablet' + (this.state.mobileMenuIsActive ? ' mobile-nav-open' : '')}>
-          <HeadMenuItems
+          <HeadMenu
             isMobile={true}
             categories={categories}
             location={location}

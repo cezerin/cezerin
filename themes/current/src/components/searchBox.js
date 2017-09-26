@@ -9,23 +9,34 @@ export default class SearchBox extends React.Component {
     this.state = {
       value: props.value
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({value: event.target.value});
   }
 
-  handleKeyPress(e) {
+  handleKeyPress = (e) => {
     if (e.keyCode === 13 || e.which === 13) {
-      this.props.onSearch(this.state.value)
+      this.handleSearch();
     }
   }
 
+  handleSearch = () => {
+    this.props.onSearch(this.state.value);
+  }
+
+  handleClear = () => {
+    this.setState({value: ''});
+    this.props.onSearch('');
+  }
+
   render() {
-    return (
-      <input className="input" type="text" placeholder={text.searchPlaceholder} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
-    )
+    return <div className={'search-box ' + this.props.className}>
+      <input className="search-input" type="text" placeholder={text.searchPlaceholder} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
+      <img className="search-icon-search" src="/assets/images/search.svg" alt={text.search} title={text.search} onClick={this.handleSearch}/>
+      {this.state.value && this.state.value !== '' &&
+        <img className="search-icon-clear" src="/assets/images/close.svg" onClick={this.handleClear} />
+      }
+    </div>
   }
 }

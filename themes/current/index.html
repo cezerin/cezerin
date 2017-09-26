@@ -9,6 +9,11 @@
   {meta}
   {placeholder_head_start}
   {link}
+  <link rel="icon" type="image/png" href="/assets/images/icons/icon-16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/assets/images/icons/icon-32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/images/icons/icon-128.png" sizes="128x128">
+  <link rel="icon" type="image/png" href="/assets/images/icons/icon-256.png" sizes="256x256">
+  <link rel="icon" type="image/png" href="/assets/images/icons/icon-512.png" sizes="512x512">
   <link rel="manifest" href="/assets/manifest.json">
   <link href='https://googleads.g.doubleclick.net' rel='preconnect'>
   <link href='https://stats.g.doubleclick.net' rel='preconnect'>
@@ -32,11 +37,13 @@
 
   <script>
     function resizeElements() {
-      var allHeaders = document.getElementsByTagName('header');
-      var header = allHeaders && allHeaders.length > 0 ? allHeaders[0] : null;
+      if(window.innerWidth >= 769){
+        var allHeaders = document.getElementsByTagName('header');
+        var header = allHeaders && allHeaders.length > 0 ? allHeaders[0] : null;
 
-      if (header) {
-        document.getElementsByTagName("body")[0].style.marginTop = header.clientHeight + "px";
+        if (header) {
+          document.getElementsByTagName("body")[0].style.marginTop = header.clientHeight + "px";
+        }
       }
     }
     resizeElements();

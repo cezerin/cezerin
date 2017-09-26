@@ -58,5 +58,9 @@
   "sortPriceLow": "price",
   "sortPriceHigh": "-price",
   "maxCartItemQty": 100,
+  "show_product_breadcrumbs": true,
+  "show_category_breadcrumbs": true,
+  "show_discount_countdown": true,
+  "product_thumbnail_position": "left",
   "disqus_shortname": "cezerin"
 }
