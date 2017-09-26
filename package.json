@@ -1,6 +1,6 @@
 {
   "name": "cezerin",
-  "version": "0.23.0",
+  "version": "0.23.1",
   "description": "Cezerin allow you to create online store with full-stack JavaScript. https://cezerin.com",
   "keywords": [
     "cezerin",
@@ -36,7 +36,7 @@
     "webpack:store:prod": "NODE_ENV=production webpack -p --config webpack.config.store.js",
     "theme:install": "./scripts/theme-install.sh",
     "theme:export": "./scripts/theme-export.sh",
-    "theme:copy": "cd ./themes/current && npm run build && cd ../../ && ./scripts/theme-copy-assets.sh",
+    "theme:copy": "cd ./themes/current && npm run build && npm i && cd ../../ && ./scripts/theme-copy-assets.sh",
     "theme:build:dev": "npm run theme:copy && npm run webpack:store:dev",
     "theme:build:prod": "npm run theme:copy --silent && npm run webpack:store:prod",
     "build:dev": "npm run compile:dev & npm run webpack:store:dev & npm run webpack:admin:dev",

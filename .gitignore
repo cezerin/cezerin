@@ -7,7 +7,6 @@ public/assets/*
 public/static/*
 !public/static/*.md
 themes/current/dist/*
-themes/current/package-lock.json
 dist/*
 logs/*.log
 npm-debug.log*
