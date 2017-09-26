@@ -40,7 +40,8 @@ export const getProductFilterForCategory = (locationSearch) => {
   return {
     priceFrom: parseInt(queryFilter.price_from || 0),
     priceTo: parseInt(queryFilter.price_to || 0),
-    attributes: attributes
+    attributes: attributes,
+    search: null
   }
 }
 
