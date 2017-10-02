@@ -23,9 +23,6 @@ rm -rf themes/current/
 
 # 4. unzip to current theme
 unzip -q "public/$fileName" -d "themes/current"
-cd themes/current
-npm install
-cd ../../
 
 # 5. show success message
 echo -e '\e[1;92m'Theme $fileName successfully installed'\e[0m'
