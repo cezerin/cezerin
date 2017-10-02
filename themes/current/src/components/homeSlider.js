@@ -1,8 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import ImageGallery from 'react-image-gallery'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 
 const renderItem = item => (

@@ -6,7 +6,8 @@ import Form from './form'
 const mapStateToProps = (state, ownProps) => {
   return {
     cart: state.app.cart,
-    settings: state.app.settings
+    settings: state.app.settings,
+    themeSettings: state.app.themeSettings
   }
 }
 

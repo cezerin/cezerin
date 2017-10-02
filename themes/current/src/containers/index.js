@@ -1,6 +1,5 @@
 import React from 'react'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 
 import MetaTags from '../components/metaTags'
 import CategoryGallery from '../components/categoryGallery'
@@ -21,7 +20,7 @@ const IndexContainer = (props) => {
         ogDescription={pageDetails.meta_description}
       />
 
-      <HomeSlider images={config.home_slider} />
+      <HomeSlider images={themeSettings.home_slider} />
 
       {pageDetails.content && pageDetails.content.length > 10 &&
         <section className="section">
@@ -37,7 +36,7 @@ const IndexContainer = (props) => {
 
       <section className="section">
         <div className="container">
-          <div className="title is-4 has-text-centered">{config.home_products_title}</div>
+          <div className="title is-4 has-text-centered">{themeSettings.home_products_title}</div>
           <CustomProductList settings={settings} addCartItem={addCartItem} />
         </div>
       </section>

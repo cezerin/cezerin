@@ -1,11 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 
 const CartItem = ({item, deleteCartItem, settings}) => {
-  const thumbnail = helper.getThumbnailUrl(item.image_url, config.cartThumbnailWidth);
+  const thumbnail = helper.getThumbnailUrl(item.image_url, themeSettings.cartThumbnailWidth);
 
   return (
     <div className="columns is-mobile">

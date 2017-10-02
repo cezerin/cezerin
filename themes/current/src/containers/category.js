@@ -1,6 +1,5 @@
 import React from 'react'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 
 import MetaTags from '../components/metaTags'
 import ProductList from '../components/productList'
@@ -36,7 +35,7 @@ const CategoryHero = ({ categoryDetails, categories }) => (
   <section className="hero is-light">
     <div className="hero-body">
       <div className="container">
-        {config.show_category_breadcrumbs &&
+        {themeSettings.show_category_breadcrumbs &&
           <CategoryBreadcrumbs currentCategory={categoryDetails} categories={categories} />
         }
         <h1 className="category-title">
@@ -62,7 +61,7 @@ const CategoryContainer = (props) => {
 
   const jsonld = getJSONLD(props.state);
 
-  const showFilter = config.show_product_filter;
+  const showFilter = themeSettings.show_product_filter;
   const columnCountOnMobile = 2;
   const columnCountOnDesktop = showFilter === true ? 3 : 4;
 

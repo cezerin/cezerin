@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 
 class FooterMenu extends React.Component {
   constructor(props) {
@@ -89,16 +88,16 @@ export default class Footer extends React.PureComponent {
                     </div>
                     <p>
                       <small>
-                        {config.footer_about}
+                        {themeSettings.footer_about}
                       </small>
                     </p>
-                    <Contacts contacts={config.footer_contacts} />
-                    <SocialIcons icons={config.footer_social} />
+                    <Contacts contacts={themeSettings.footer_contacts} />
+                    <SocialIcons icons={themeSettings.footer_social} />
                   </div>
                 </div>
                 <div className="column is-1 is-hidden-mobile"></div>
-                <FooterMenu title={config.footer_menu_1_title} items={config.footer_menu_1_items} />
-                <FooterMenu title={config.footer_menu_2_title} items={config.footer_menu_2_items} />
+                <FooterMenu title={themeSettings.footer_menu_1_title} items={themeSettings.footer_menu_1_items} />
+                <FooterMenu title={themeSettings.footer_menu_2_title} items={themeSettings.footer_menu_2_items} />
               </div>
             </div>
           </div>

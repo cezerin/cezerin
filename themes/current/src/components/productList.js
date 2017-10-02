@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 
 const ItemPrice = ({ product, settings }) => {
@@ -23,7 +22,7 @@ const ItemPrice = ({ product, settings }) => {
 
 const ItemImage = ({ images, alt }) => {
   if(images && images.length > 0) {
-    const imageUrl = helper.getThumbnailUrl(images[0].url, config.listThumbnailWidth);
+    const imageUrl = helper.getThumbnailUrl(images[0].url, themeSettings.listThumbnailWidth);
 
     return (
       <img src={imageUrl} alt={alt} />

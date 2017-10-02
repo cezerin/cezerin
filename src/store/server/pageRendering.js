@@ -8,9 +8,11 @@ import {createStore, applyMiddleware} from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import {Provider} from 'react-redux'
 import Helmet from 'react-helmet'
+import { updateThemeSettings } from 'theme'
 import reducers from '../shared/reducers'
 import { loadState } from './loadState'
 import { indexHtml } from './readIndexHtml'
+import * as themeLocales from './themeLocales'
 import App from '../shared/app'
 
 const getHead = () => {
@@ -40,7 +42,7 @@ const renderError = (req, res, status, err) => {
   res.status(status).send(err);
 }
 
-const renderPage = (req, res, store) => {
+const renderPage = (req, res, store, themeText) => {
    const context = {}
    const appHtml = renderToString(
      <Provider store={store}>
@@ -65,7 +67,8 @@ const renderPage = (req, res, store) => {
     .replace('{meta}', head.meta)
     .replace('{link}', head.link)
     .replace('{script}', head.script)
-    .replace('{state}', JSON.stringify(state))
+    .replace('{app_text}', JSON.stringify(themeText))
+    .replace('{app_state}', JSON.stringify(state))
     .replace('{app}', appHtml);
 
   const isHttps = req.protocol === 'https';
@@ -86,10 +89,15 @@ const renderPage = (req, res, store) => {
 }
 
 const pageRendering = (req, res) => {
-  loadState(req)
-  .then(state => {
-    const store = createStore(reducers, state, applyMiddleware(thunkMiddleware));
-    renderPage(req, res, store);
+  loadState(req).then(state => {
+    themeLocales.getText(serverSettings.language).then(themeText => {
+      updateThemeSettings({
+        settings: state.app.themeSettings,
+        text: themeText
+      });
+      const store = createStore(reducers, state, applyMiddleware(thunkMiddleware));
+      renderPage(req, res, store, themeText);
+    })
   })
   .catch(err => {
     renderError(req, res, 500, err)

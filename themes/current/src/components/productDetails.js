@@ -1,8 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import ImageGallery from 'react-image-gallery'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 import Disqus from './disqus'
 import ProductBreadcrumbs from './productBreadcrumbs'
@@ -131,8 +130,8 @@ const ProductGallery = ({ images }) => {
   if (images && images.length > 0) {
     const imagesArray = images.map(image => (
       {
-        original: helper.getThumbnailUrl(image.url, config.bigThumbnailWidth),
-        thumbnail: helper.getThumbnailUrl(image.url, config.previewThumbnailWidth),
+        original: helper.getThumbnailUrl(image.url, themeSettings.bigThumbnailWidth),
+        thumbnail: helper.getThumbnailUrl(image.url, themeSettings.previewThumbnailWidth),
         originalAlt: image.alt,
         thumbnailAlt: image.alt
       }
@@ -151,7 +150,7 @@ const ProductGallery = ({ images }) => {
         showPlayButton={false}
         showFullscreenButton={false}
         slideOnThumbnailHover={true}
-        thumbnailPosition={config.product_thumbnail_position}
+        thumbnailPosition={themeSettings.product_thumbnail_position}
       />
     )
 
@@ -239,7 +238,7 @@ export default class ProductDetails extends React.Component {
             <div className="container">
               <div className="columns">
                 <div className="column is-7">
-                  {config.show_product_breadcrumbs &&
+                  {themeSettings.show_product_breadcrumbs &&
                     <ProductBreadcrumbs product={product} categories={categories} />
                   }
                   <ProductGallery images={product.images} />
@@ -249,7 +248,7 @@ export default class ProductDetails extends React.Component {
                     <h1 className="title is-4 product-name">{product.name}</h1>
                     <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
 
-                    {config.show_discount_countdown && product.on_sale === true &&
+                    {themeSettings.show_discount_countdown && product.on_sale === true &&
                       <DiscountCountdown product={product} />
                     }
 
@@ -291,13 +290,13 @@ export default class ProductDetails extends React.Component {
             </section>
           } */}
 
-          {config.disqus_shortname !== '' &&
+          {themeSettings.disqus_shortname !== '' &&
             <section className="section">
               <div className="container">
                 <div className="columns">
                   <div className="column is-7">
                     <Disqus
-                      shortname={config.disqus_shortname}
+                      shortname={themeSettings.disqus_shortname}
                       identifier={product.id}
                       title={product.name}
                       url={product.url}

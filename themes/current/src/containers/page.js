@@ -1,6 +1,5 @@
 import React from 'react'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 
 import MetaTags from '../components/metaTags'
 

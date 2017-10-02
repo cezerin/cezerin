@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 
 class HeadMenuItem extends React.Component {
   constructor(props) {
@@ -65,7 +64,7 @@ class HeadMenuItem extends React.Component {
 export default class HeadMenu extends React.PureComponent {
   render() {
     const { categories, onClick, isMobile } = this.props;
-    const addItemsToMenu = config.header_menu.map(item => ({ name: item.name, path: item.path, id: item.id || '', parent_id: item.parent_id || null }))
+    const addItemsToMenu = themeSettings.header_menu.map(item => ({ name: item.name, path: item.path, id: item.id || '', parent_id: item.parent_id || null }))
     const menuItems = [...categories, ...addItemsToMenu];
 
     const items = menuItems.filter(category => category.parent_id === null).map((category, index) => (

@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 import api from '../lib/api'
 import ProductList from './productList'
@@ -20,15 +19,15 @@ export default class CustomProductList extends React.Component {
 
   loadProducts = () => {
     const filter = {
-      sku: config.home_products_sku,
+      sku: themeSettings.home_products_sku,
       on_sale: null,
       search: null,
       category_id: null,
       price_from: null,
       price_to: null,
-      sort: config.home_products_sort,
+      sort: themeSettings.home_products_sort,
       fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes',
-      limit: config.home_products_limit,
+      limit: themeSettings.home_products_limit,
       offset: 0
     };
 

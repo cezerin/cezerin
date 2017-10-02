@@ -42,13 +42,12 @@ export default class Form extends React.Component {
 
   render() {
     const { step } = this.state;
+    const { cart, settings, themeSettings } = this.props;
     const {
-      cart,
-      settings,
-      inputClassName = 'checkout-field',
-      buttonClassName = 'checkout-button',
-      editButtonClassName = 'checkout-button-edit'
-    } = this.props;
+      checkoutInputClass = 'checkout-field',
+      checkoutButtonClass = 'checkout-button',
+      checkoutEditButtonClass = 'checkout-button-edit'
+    } = themeSettings;
 
     if (cart && cart.items.length > 0) {
       const { payment_method_gateway } = cart;
@@ -61,9 +60,9 @@ export default class Form extends React.Component {
             onSave={this.handleContactsSave}
             onEdit={this.handleContactsEdit}
             title={text.customerDetails}
-            inputClassName={inputClassName}
-            buttonClassName={buttonClassName}
-            editButtonClassName={editButtonClassName}
+            inputClassName={checkoutInputClass}
+            buttonClassName={checkoutButtonClass}
+            editButtonClassName={checkoutEditButtonClass}
           />
 
           <CheckoutStepShipping
@@ -71,17 +70,17 @@ export default class Form extends React.Component {
             onSave={this.handleShippingSave}
             onEdit={this.handleShippingEdit}
             title={text.shipping}
-            inputClassName={inputClassName}
-            buttonClassName={buttonClassName}
-            editButtonClassName={editButtonClassName}
+            inputClassName={checkoutInputClass}
+            buttonClassName={checkoutButtonClass}
+            editButtonClassName={checkoutEditButtonClass}
           />
 
           {showPaymentForm &&
             <CheckoutStepPayment
               show={step === 3}
               title={text.payment}
-              inputClassName={inputClassName}
-              buttonClassName={buttonClassName}
+              inputClassName={checkoutInputClass}
+              buttonClassName={checkoutButtonClass}
             />
           }
         </div>

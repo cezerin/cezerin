@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom'
 import reducers from '../shared/reducers'
 import App from '../shared/app'
 
-const initialState = window.__REDUX_STATE__;
+const initialState = window.__APP_STATE__;
 const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(

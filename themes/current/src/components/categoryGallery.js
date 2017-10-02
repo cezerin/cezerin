@@ -1,11 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import text from '../lib/text'
-import config from '../lib/config'
+import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 
 const GalleryItemImage = ({ category }) => {
-  const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, config.categoryThumbnailWidth) : '';
+  const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, themeSettings.categoryThumbnailWidth) : '';
 
   if(imageUrl && imageUrl !== ''){
     return (
