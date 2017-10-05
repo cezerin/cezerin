@@ -1,0 +1,8 @@
+[
+  {
+    "section": "Category",
+    "key": "show_product_filter",
+    "type": "boolean",
+    "label": "Show Product Filter"
+  }
+]
