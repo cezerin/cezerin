@@ -9,7 +9,7 @@ const dashboardEvents = require('../../lib/events');
 class ThemesService {
   constructor() {}
 
-  exportCurrentTheme(req, res) {
+  exportTheme(req, res) {
     const randomFileName = Math.floor(Math.random() * 10000);
     exec(`npm --silent run theme:export -- ${randomFileName}.zip`, (error, stdout, stderr) => {
       if (error) {

@@ -11,7 +11,7 @@ const SecurityTokensService = require('./services/security/tokens');
 const ProductCategoriesController = require('./controllers/productCategories');
 const ProductsController = require('./controllers/products');
 const SitemapController = require('./controllers/sitemap');
-const ThemesController = require('./controllers/themes');
+const ThemeController = require('./controllers/theme');
 const CustomersController = require('./controllers/customers');
 const CustomerGroupsController = require('./controllers/customerGroups');
 const OrdersController = require('./controllers/orders');
@@ -57,7 +57,7 @@ apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenIn
 var products = new ProductsController(apiRouter);
 var productCategories = new ProductCategoriesController(apiRouter);
 var sitemap = new SitemapController(apiRouter);
-var themes = new ThemesController(apiRouter);
+var theme = new ThemeController(apiRouter);
 var customers = new CustomersController(apiRouter);
 var customerGroups = new CustomerGroupsController(apiRouter);
 var orders = new OrdersController(apiRouter);
