@@ -4,25 +4,25 @@ import messages from 'lib/text'
 
 export function exportRequest() {
   return {
-    type: t.THEMES_EXPORT_REQUEST
+    type: t.THEME_EXPORT_REQUEST
   }
 }
 
 export function exportReceive() {
   return {
-    type: t.THEMES_EXPORT_RECEIVE
+    type: t.THEME_EXPORT_RECEIVE
   }
 }
 
 export function installRequest() {
   return {
-    type: t.THEMES_INSTALL_REQUEST
+    type: t.THEME_INSTALL_REQUEST
   }
 }
 
 export function installReceive() {
   return {
-    type: t.THEMES_INSTALL_RECEIVE
+    type: t.THEME_INSTALL_RECEIVE
   }
 }
 

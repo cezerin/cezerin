@@ -53,7 +53,7 @@
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.2",
-    "cezerin-client": "^0.20.5",
+    "cezerin-client": "^0.24.0",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.28.7",
     "express": "^4.15.5",

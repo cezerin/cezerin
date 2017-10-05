@@ -24,14 +24,14 @@ const styles = {
   }
 };
 
-export default class Themes extends React.Component {
+export default class Theme extends React.Component {
   constructor(props) {
     super(props)
   }
 
   onExportClick() {
     this.props.exportRequest();
-    api.themes.exportCurrent().then(({satus, json}) => {
+    api.theme.export().then(({satus, json}) => {
       this.props.exportReceive();
       if(json.file) {
         window.location = json.file;
@@ -47,7 +47,7 @@ export default class Themes extends React.Component {
     var formData = new FormData();
     formData.append('file', file);
 
-    api.themes.importAndInstall(formData);
+    api.theme.install(formData);
   }
 
   render() {
