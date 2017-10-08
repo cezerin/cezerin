@@ -20,8 +20,13 @@ class ThemeSettingsService {
         if(err){
           reject(err)
         } else {
-          const jsonData = JSON.parse(data);
-          resolve(jsonData);
+          let jsonData = {};
+          try {
+            jsonData = data.length > 0 ? JSON.parse(data) : {};
+            resolve(jsonData);
+          } catch (e) {
+            reject("Failed to parse JSON");
+          }
         }
       });
     });
