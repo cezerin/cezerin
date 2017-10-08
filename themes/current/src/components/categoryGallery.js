@@ -4,7 +4,7 @@ import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 
 const GalleryItemImage = ({ category }) => {
-  const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, themeSettings.categoryThumbnailWidth) : '';
+  const imageUrl = category.image && category.image.length > 0 ? helper.getThumbnailUrl(category.image, themeSettings.category_list_thumbnail_width) : '';
 
   if(imageUrl && imageUrl !== ''){
     return (

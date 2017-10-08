@@ -30,8 +30,10 @@ export default class SearchBox extends React.Component {
   }
 
   render() {
+    const placeholderText = themeSettings.search_placeholder && themeSettings.search_placeholder.length > 0 ? themeSettings.search_placeholder : text.searchPlaceholder;
+    
     return <div className={'search-box ' + this.props.className}>
-      <input className="search-input" type="text" placeholder={text.searchPlaceholder} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
+      <input className="search-input" type="text" placeholder={placeholderText} value={this.state.value} onChange={this.handleChange} onKeyPress={this.handleKeyPress}/>
       <img className="search-icon-search" src="/assets/images/search.svg" alt={text.search} title={text.search} onClick={this.handleSearch}/>
       {this.state.value && this.state.value !== '' &&
         <img className="search-icon-clear" src="/assets/images/close.svg" onClick={this.handleClear} />

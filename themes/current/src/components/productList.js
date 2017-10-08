@@ -4,6 +4,14 @@ import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 
 const ItemPrice = ({ product, settings }) => {
+  let priceStyle = {};
+  if(themeSettings.list_price_size && themeSettings.list_price_size > 0){
+    priceStyle.fontSize = themeSettings.list_price_size + 'px';
+  }
+  if(themeSettings.list_price_color && themeSettings.list_price_color.length > 0){
+    priceStyle.color = themeSettings.list_price_color;
+  }
+
   if(product.on_sale) {
     return (
       <div className="product-price">
@@ -13,7 +21,7 @@ const ItemPrice = ({ product, settings }) => {
     )
   } else {
     return (
-      <div className="product-price">
+      <div className="product-price" style={priceStyle}>
         {helper.formatCurrency(product.price, settings)}
       </div>
     )
@@ -40,11 +48,12 @@ const ListItem = ({product, addCartItem, settings, columnCountOnMobile, columnCo
   const columnCount = 12;
   const columnSizeOnMobile = columnCount / columnCountOnMobile;
   const columnSizeOnDesktop = columnCount / columnCountOnDesktop;
+  const maxHeight = themeSettings.list_image_max_height && themeSettings.list_image_max_height > 0 ? themeSettings.list_image_max_height : 280;
 
   return (
     <div className={`column is-${columnSizeOnMobile}-mobile is-${columnSizeOnDesktop}-tablet`}>
       <NavLink to={product.path}>
-        <figure className="image">
+        <figure className="image" style={{ maxHeight: maxHeight }}>
           <ItemImage images={product.images} alt={product.name} />
         </figure>
         <div className="content product-caption">
@@ -57,10 +66,20 @@ const ListItem = ({product, addCartItem, settings, columnCountOnMobile, columnCo
 }
 
 const LoadMore = ({ loadMoreProducts, hasMore }) => {
+  let buttonStyle = {};
+  if(themeSettings.button_loadmore_bg && themeSettings.button_loadmore_bg.length > 0){
+    buttonStyle.backgroundColor = themeSettings.button_loadmore_bg;
+  }
+  if(themeSettings.button_loadmore_color && themeSettings.button_loadmore_color.length > 0){
+    buttonStyle.color = themeSettings.button_loadmore_color;
+  }
+
+  let loadMoreText = themeSettings.button_loadmore_text && themeSettings.button_loadmore_text.length > 0 ? themeSettings.button_loadmore_text : text.loadMore;
+
   return (
     <div className="load-more">
       {hasMore &&
-        <button onClick={loadMoreProducts} className="button is-fullwidth is-dark">{text.loadMore}</button>
+        <button onClick={loadMoreProducts} className="button is-fullwidth is-dark" style={buttonStyle}>{loadMoreText}</button>
       }
     </div>
   )

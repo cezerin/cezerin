@@ -16,11 +16,15 @@ class FooterMenu extends React.Component {
 
   render() {
     const { title, items } = this.props;
-    const ulItems = items.map((item, index) => (
-      <li key={index}>
-        <NavLink to={item.path}>{item.name}</NavLink>
-      </li>
-    ));
+    let ulItems = null;
+
+    if(items && items.length > 0){
+      ulItems = items.map((item, index) => (
+        <li key={index}>
+          <NavLink to={item.url || ''}>{item.text}</NavLink>
+        </li>
+      ));
+    }
 
     return (
       <div className="column is-3">
@@ -34,9 +38,9 @@ class FooterMenu extends React.Component {
 }
 
 const SocialIcons = ({ icons }) => {
-  if(icons.length > 0){
+  if(icons && icons.length > 0){
     const items = icons.map((icon, index) => (
-      <a key={index} href={icon.url} target="_blank" rel="noopener" title={icon.type} className={icon.type}></a>
+      <a key={index} href={icon.url || ''} target="_blank" rel="noopener" title={icon.type} className={icon.type}></a>
     ));
     return (
       <p className="social-icons">
@@ -49,8 +53,9 @@ const SocialIcons = ({ icons }) => {
 }
 
 const Contacts = ({ contacts }) => {
-  if(contacts.length > 0){
-    const items = contacts.map((contact, index) => {
+  if(contacts && contacts.length > 0){
+    const items = contacts.map((item, index) => {
+      const contact = item ? item.text : null;
       if(contact && contact.indexOf('@') > 0){
         return (
             <li key={index}><a href={'mailto:' + contact}>{contact}</a></li>
@@ -74,6 +79,8 @@ const Contacts = ({ contacts }) => {
 export default class Footer extends React.PureComponent {
   render() {
     const { settings } = this.props;
+    const footerLogoUrl = themeSettings.footer_logo_url && themeSettings.footer_logo_url.length > 0 ? themeSettings.footer_logo_url : settings.logo;
+
     return (
       <section className="section section-footer">
         <hr />
@@ -84,7 +91,7 @@ export default class Footer extends React.PureComponent {
                 <div className="column is-5">
                   <div className="mobile-padding">
                     <div className="footer-logo">
-                      <img src={settings.logo} alt="logo"/>
+                      <img src={footerLogoUrl} alt="logo"/>
                     </div>
                     <p>
                       <small>

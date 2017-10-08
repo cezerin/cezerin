@@ -27,7 +27,7 @@ export default class CustomProductList extends React.Component {
       price_to: null,
       sort: themeSettings.home_products_sort,
       fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes',
-      limit: themeSettings.home_products_limit,
+      limit: themeSettings.home_products_limit || 8,
       offset: 0
     };
 

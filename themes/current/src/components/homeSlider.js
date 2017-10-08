@@ -21,7 +21,7 @@ const HomeSlider = ({ images }) => {
       original: item.image,
       title: item.title,
       description: item.description,
-      path: item.path,
+      path: item.path || '',
       button: item.button,
     }))
 

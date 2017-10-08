@@ -6,7 +6,7 @@ import Footer from '../components/footer'
 
 const SharedContainer = (props) => {
   const {currentPage, settings} = props.state;
-  let hideFooter = currentPage.path === '/checkout-success' || currentPage.path === '/checkout';
+  let hideFooter = (currentPage.path === '/checkout-success' || currentPage.path === '/checkout') && themeSettings.hide_footer_on_checkout === true;
 
   return (
     <div>

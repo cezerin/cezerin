@@ -73,7 +73,7 @@ export default class Header extends React.Component {
         <header className={this.state.mobileSearchIsActive ? 'search-active' : ''}>
           <div className="container">
 
-            <div className="columns is-gapless is-mobile" style={{ alignItems: 'center', marginTop: 0, marginBottom: 0 }}>
+            <div className="columns is-gapless is-mobile" style={{ alignItems: 'center', marginTop: 0, marginBottom: '10px' }}>
 
               <div className="column is-4">
                 {!showBackButton &&

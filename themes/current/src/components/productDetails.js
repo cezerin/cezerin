@@ -71,6 +71,14 @@ const ProductAttributes = ({ attributes }) => {
 }
 
 const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
+  let priceStyle = {};
+  if(themeSettings.details_price_size && themeSettings.details_price_size > 0){
+    priceStyle.fontSize = themeSettings.details_price_size + 'px';
+  }
+  if(themeSettings.details_price_color && themeSettings.details_price_color.length > 0){
+    priceStyle.color = themeSettings.details_price_color;
+  }
+
   if(product.variable && variant) {
     if(product.on_sale){
       return (
@@ -81,7 +89,7 @@ const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
       )
     } else {
       return (
-        <div className="product-price">
+        <div className="product-price" style={priceStyle}>
           {helper.formatCurrency(variant.price, settings)}
         </div>
       )
@@ -95,7 +103,7 @@ const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
     )
   } else {
     return (
-      <div className="product-price">
+      <div className="product-price" style={priceStyle}>
         {helper.formatCurrency(product.price, settings)}
       </div>
     )
@@ -103,18 +111,28 @@ const ProductPrice = ({ product, variant, isAllOptionsSelected, settings }) => {
 }
 
 const AddToCartButton = ({ product, variant, addCartItem, isAllOptionsSelected }) => {
+  let buttonStyle = {};
+  if(themeSettings.button_addtocart_bg && themeSettings.button_addtocart_bg.length > 0){
+    buttonStyle.backgroundColor = themeSettings.button_addtocart_bg;
+  }
+  if(themeSettings.button_addtocart_color && themeSettings.button_addtocart_color.length > 0){
+    buttonStyle.color = themeSettings.button_addtocart_color;
+  }
+
+  let addToCartText = themeSettings.button_addtocart_text && themeSettings.button_addtocart_text.length > 0 ? themeSettings.button_addtocart_text : text.addToCart;
+
   if(product.variable && variant && variant.stock_quantity > 0) {
-    return <button className="button is-success is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
+    return <button className="button is-success is-fullwidth" style={buttonStyle} onClick={addCartItem}>{addToCartText}</button>
   } else if(product.variable && !isAllOptionsSelected) {
-    return <button className="button is-success is-fullwidth" disabled>{text.optionsRequired}</button>
+    return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.optionsRequired}</button>
   } else if(product.variable) {
-    return <button className="button is-success is-fullwidth" disabled>{text.outOfStock}</button>
+    return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.outOfStock}</button>
   } else if(product.stock_status === 'available') {
-    return <button className="button is-success is-fullwidth" onClick={addCartItem}>{text.addToCart}</button>
+    return <button className="button is-success is-fullwidth" style={buttonStyle} onClick={addCartItem}>{addToCartText}</button>
   } else if(product.stock_status === 'out_of_stock') {
-    return <button className="button is-success is-fullwidth" disabled>{text.outOfStock}</button>
+    return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.outOfStock}</button>
   } else if(product.stock_status === 'discontinued') {
-    return <button className="button is-success is-fullwidth" disabled>{text.discontinued}</button>
+    return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.discontinued}</button>
   } else {
     return null;
   }
@@ -290,7 +308,7 @@ export default class ProductDetails extends React.Component {
             </section>
           } */}
 
-          {themeSettings.disqus_shortname !== '' &&
+          {themeSettings.disqus_shortname && themeSettings.disqus_shortname !== '' &&
             <section className="section">
               <div className="container">
                 <div className="columns">
