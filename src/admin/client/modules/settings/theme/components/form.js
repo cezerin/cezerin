@@ -3,6 +3,7 @@ import React from 'react'
 import messages from 'lib/text'
 import style from './style.css'
 import api from 'lib/api'
+import ThemeSettings from 'modules/settings/themeSettings'
 
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -54,29 +55,33 @@ export default class Theme extends React.Component {
     const {exportInProcess, installInProcess} = this.props;
 
     return (
-      <Paper className="paper-box" zDepth={1}>
-          <div className={style.innerBox}>
+      <div>
+        <Paper className="paper-box" zDepth={1}>
+            <div className={style.innerBox}>
 
-            <div className="row between-xs middle-xs">
-              <div className="col-xs-6">{messages.settings_themeExportDesciption}</div>
-              <div className="col-xs-4" style={{ textAlign: 'right' }}>
-                <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess || installInProcess} onClick={this.onExportClick.bind(this)} primary={true}/>
+              <div className="row between-xs middle-xs">
+                <div className="col-xs-6">{messages.settings_themeExportDesciption}</div>
+                <div className="col-xs-4" style={{ textAlign: 'right' }}>
+                  <RaisedButton label={exportInProcess ? messages.settings_themeExporting : messages.settings_themeExport} disabled={exportInProcess || installInProcess} onClick={this.onExportClick.bind(this)} primary={true}/>
+                </div>
               </div>
-            </div>
 
-            <Divider style={{ marginTop: 30, marginBottom: 30, marginLeft: -30, marginRight: -30 }} />
+              <Divider style={{ marginTop: 30, marginBottom: 30, marginLeft: -30, marginRight: -30 }} />
 
-            <div className="row between-xs middle-xs">
-              <div className="col-xs-6">{messages.settings_themeInstallDesciption}</div>
-              <div className="col-xs-4" style={{ textAlign: 'right' }}>
-                <RaisedButton label={installInProcess ? messages.settings_themeInstalling : messages.settings_themeInstall} disabled={installInProcess} labelPosition="before" containerElement="label" primary={true}>
-                  <input type="file" onChange={this.onImportFileChoose.bind(this)} disabled={installInProcess} style={styles.exampleImageInput}/>
-                </RaisedButton>
+              <div className="row between-xs middle-xs">
+                <div className="col-xs-6">{messages.settings_themeInstallDesciption}</div>
+                <div className="col-xs-4" style={{ textAlign: 'right' }}>
+                  <RaisedButton label={installInProcess ? messages.settings_themeInstalling : messages.settings_themeInstall} disabled={installInProcess} labelPosition="before" containerElement="label" primary={true}>
+                    <input type="file" onChange={this.onImportFileChoose.bind(this)} disabled={installInProcess} style={styles.exampleImageInput}/>
+                  </RaisedButton>
+                </div>
               </div>
-            </div>
 
-          </div>
-      </Paper>
+            </div>
+        </Paper>
+
+        <ThemeSettings />
+      </div>
     )
   }
 }

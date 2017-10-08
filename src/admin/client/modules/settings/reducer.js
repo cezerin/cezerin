@@ -30,7 +30,9 @@ const initialState = {
   pageEdit: null,
   tokens: [],
   tokenEdit: {},
-  newToken: null
+  newToken: null,
+  themeSettings: null,
+  themeSettingsSchema: null
 };
 
 export default(state = initialState, action) => {
@@ -77,6 +79,10 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {tokenEdit: action.tokenEdit, newToken: null})
     case t.NEW_TOKEN_RECEIVE:
       return Object.assign({}, state, {newToken: action.newToken})
+    case t.THEME_SETTINGS_RECEIVE:
+      return Object.assign({}, state, {themeSettings: action.settings})
+    case t.THEME_SETTINGS_SCHEMA_RECEIVE:
+      return Object.assign({}, state, {themeSettingsSchema: action.schema})
     default:
       return state
   }

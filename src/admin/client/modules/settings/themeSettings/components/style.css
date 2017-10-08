@@ -1,0 +1,38 @@
+.button {
+  margin-left: 12px;
+}
+
+.innerBox {
+  padding: 30px;
+}
+
+.arrayInnerBox {
+  padding: 0 30px 20px 30px;
+}
+
+.arrayTitle{
+  margin: 40px 0 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.arrayItemHead {
+  padding: 4px;
+}
+
+.colorInput {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.colorInput label {
+  margin-right: 20px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 40px -30px 0px -30px;
+  padding: 15px 30px;
+  background-color: #f1f1f1;
+}

@@ -143,6 +143,20 @@ export function receiveNewToken(newToken) {
   }
 }
 
+export function receiveThemeSettings(settings) {
+  return {
+    type: t.THEME_SETTINGS_RECEIVE,
+    settings
+  }
+}
+
+export function receiveThemeSettingsSchema(schema) {
+  return {
+    type: t.THEME_SETTINGS_SCHEMA_RECEIVE,
+    schema
+  }
+}
+
 export function fetchSettings() {
   return (dispatch, getState) => {
     // API can be not init on app start
@@ -430,5 +444,27 @@ export function uploadLogo(form) {
       dispatch(fetchSettings());
     })
     .catch(error => {});
+  }
+}
+
+export function fetchThemeSettings() {
+  return (dispatch, getState) => {
+    return Promise.all([
+      api.theme.settings.retrieve(),
+      api.theme.settings.retrieveSchema()
+    ])
+    .then(([ settingsResponse, schemaResponse ]) => {
+      dispatch(receiveThemeSettings(settingsResponse.json))
+      dispatch(receiveThemeSettingsSchema(schemaResponse.json))
+    })
+    .catch(error => {});
+  }
+}
+
+export function updateThemeSettings(settings) {
+  return (dispatch, getState) => {
+    return api.theme.settings.update(settings).then(() => {
+      dispatch(fetchThemeSettings())
+    }).catch(error => {});
   }
 }
