@@ -46,72 +46,9 @@ const getPage = currentPage => {
 }
 
 const getThemeSettings = () => {
-  const themeSettings = {
-    "header_menu": [],
-    "footer_about": "Store - just to show you what it can. Some text go here. Some text go here. Some text go here. Some text go here. Some text go here. Some text go here. Some text go here.",
-    "footer_contacts": [
-      "104 N Stagecoach Rd",
-      "Dover Foxcroft, ME, 04426",
-      "(207) 564-8482",
-      "big-sales@shop.com"
-    ],
-    "footer_social": [
-      { "type": "facebook", "url": "https://www.facebook.com/"},
-      { "type": "twitter", "url": "https://twitter.com/"}
-    ],
-    "footer_menu_1_title": "Company",
-    "footer_menu_1_items": [
-      { "name": "About", "path": "/about"},
-      { "name": "Blog", "path": "/blog"},
-      { "name": "Terms of Service", "path": "/tos"},
-      { "name": "Privacy Policy", "path": "/privacy-policy"}
-    ],
-    "footer_menu_2_title": "Customer service",
-    "footer_menu_2_items": [
-      { "name": "Shipping & returns", "path": "/about"},
-      { "name": "Conditions of Use", "path": "/about"},
-      { "name": "Sitemap", "path": "/about"}
-    ],
-    "home_slider": [
-      {
-        "image": "/assets/images/gallery/slide1.jpg",
-        "title": "Slide 1 title",
-        "description": "Some small text under slide 1 title",
-        "path": "/",
-        "button": "Shop now"
-      },
-      {
-        "image": "/assets/images/gallery/slide2.jpg",
-        "title": "Slide 2 title",
-        "description": "Some small text under slide 2 title",
-        "path": "/",
-        "button": "Shop now"
-      }
-    ],
-    "home_products_sku": "",
-    "home_products_limit": 4,
-    "home_products_sort": "-date_updated",
-    "home_products_title": "BEST SELLERS",
-    "show_product_filter": true,
-    "cartThumbnailWidth": 100,
-    "listThumbnailWidth": 340,
-    "previewThumbnailWidth": 100,
-    "bigThumbnailWidth": 800,
-    "categoryThumbnailWidth": 800,
-    "checkoutInputClass": "checkout-field",
-    "checkoutButtonClass": "checkout-button button is-primary",
-    "checkoutEditButtonClass": "checkout-button button",
-    "sortNewest": "-date_created",
-    "sortPriceLow": "price",
-    "sortPriceHigh": "-price",
-    "maxCartItemQty": 100,
-    "show_product_breadcrumbs": true,
-    "show_category_breadcrumbs": true,
-    "show_discount_countdown": true,
-    "product_thumbnail_position": "left",
-    "disqus_shortname": "cezerin"
-  }
-  return Promise.resolve(themeSettings);
+  return api.theme.settings.retrieve()
+  .then(({status, json}) => json)
+  .catch(err => ({}));
 }
 
 const getAllData = (currentPage, productFilter, cookie) => {
