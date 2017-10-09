@@ -3,10 +3,11 @@ public/admin-assets/css/app-*
 public/admin-assets/js/app-*
 public/admin-assets/js/vendor-*
 public/admin/index.html
-public/assets/*
 public/static/*
 !public/static/*.md
 theme/dist/*
+theme/assets/js/bundle-*
+theme/assets/css/bundle-*
 dist/*
 logs/*.log
 npm-debug.log*
