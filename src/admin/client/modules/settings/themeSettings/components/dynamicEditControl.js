@@ -7,6 +7,7 @@ import messages from 'lib/text'
 import * as helper from 'lib/helper'
 import style from './style.css'
 import ArrayEditor from './arrayEditor'
+import ImageEditor from './imageEditor'
 
 import MenuItem from 'material-ui/MenuItem';
 
@@ -32,8 +33,9 @@ const DynamicEditControl = ({ type, fieldName, label, options, properties }) => 
     return <Field component={CustomToggle} name={fieldName} label={label} style={{paddingTop:16, paddingBottom:16}}/>
   } else if(type === 'array' && hasProperties){
     return <FieldArray name={fieldName} component={ArrayEditor} label={label} properties={properties}/>
+  } else if(type === 'image') {
+    return <Field name={fieldName} component={ImageEditor} label={label}/>
   } else {
-    // image|html
     return null;
   }
 }
