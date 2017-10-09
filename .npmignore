@@ -6,6 +6,9 @@ public/admin/index.html
 public/assets/*
 public/static/*
 theme/dist/*
+theme/assets/js/bundle-*
+theme/assets/css/bundle-*
+theme/assets/index.html
 dist/*
 config/*
 npm-debug.log*

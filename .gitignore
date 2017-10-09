@@ -8,6 +8,7 @@ public/static/*
 theme/dist/*
 theme/assets/js/bundle-*
 theme/assets/css/bundle-*
+theme/assets/index.html
 dist/*
 logs/*.log
 npm-debug.log*
