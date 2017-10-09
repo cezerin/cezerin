@@ -1,22 +1,28 @@
 .caption {
   position: absolute;
-  top: 40%;
+  top: 0;
   left: 0;
   right: 0;
   text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  white-space: normal;
 }
 
 .caption-title {
-  color: #fff;
+  width: 80%;
   font-size: 3rem;
-  line-height: 0.96;
+  line-height: 1.2;
   font-weight: 500;
 }
 
 .caption-description {
-  color: #fff;
+  width: 80%;
   font-size: 1.5rem;
-  line-height: 0.96;
+  line-height: 1.5;
   font-weight: 400;
   margin-top: 0.75rem;
 }
@@ -67,16 +73,12 @@ Mobile
     display: none;
   }
 
-  .caption {
-    top: 15%;
-  }
-
   .caption-title {
     font-size: 1.2rem;
   }
 
   .caption-description {
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     margin-top: 0.5rem;
   }
 

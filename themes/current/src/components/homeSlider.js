@@ -6,19 +6,20 @@ import * as helper from '../lib/helper'
 
 const renderItem = item => (
   <div className="image-gallery-image">
-    <img src={item.original} alt={item.title} />
-    <div className="caption">
-      <div className="caption-title">{item.title}</div>
-      <div className="caption-description">{item.description}</div>
-      <div className="caption-button"><NavLink to={item.path}>{item.button}</NavLink></div>
-    </div>
+    <NavLink to={item.path || ''}>
+      <img src={item.original} alt={item.title} />
+      <div className="caption" style={{ color: themeSettings.home_slider_color || '#fff' }}>
+        <div className="caption-title">{item.title}</div>
+        <div className="caption-description">{item.description}</div>
+      </div>
+    </NavLink>
   </div>
 )
 
 const HomeSlider = ({ images }) => {
   if (images && images.length > 0) {
     const items = images.map(item => ({
-      original: item.image,
+      original: '/assets/images/' + item.image,
       title: item.title,
       description: item.description,
       path: item.path || '',

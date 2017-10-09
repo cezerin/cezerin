@@ -79,7 +79,7 @@ const Contacts = ({ contacts }) => {
 export default class Footer extends React.PureComponent {
   render() {
     const { settings } = this.props;
-    const footerLogoUrl = themeSettings.footer_logo_url && themeSettings.footer_logo_url.length > 0 ? themeSettings.footer_logo_url : settings.logo;
+    const footerLogoUrl = themeSettings.footer_logo_url && themeSettings.footer_logo_url.length > 0 ? '/assets/images/' + themeSettings.footer_logo_url : settings.logo;
 
     return (
       <section className="section section-footer">

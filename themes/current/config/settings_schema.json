@@ -1,8 +1,8 @@
 [{
   "section": "Footer",
   "key": "footer_logo_url",
-  "type": "string",
-  "label": "Footer logo (image url)"
+  "type": "image",
+  "label": "Logo"
 }, {
   "section": "Product List",
   "key": "list_image_max_height",
@@ -276,25 +276,26 @@
   "label": "Slider",
   "properties": [{
     "key": "image",
-    "type": "string",
-    "label": "image"
+    "type": "image",
+    "label": "Image"
   }, {
     "key": "title",
     "type": "string",
-    "label": "title"
+    "label": "Title"
   }, {
     "key": "description",
     "type": "string",
-    "label": "description"
+    "label": "Description"
   }, {
     "key": "path",
     "type": "string",
-    "label": "path"
-  }, {
-    "key": "button",
-    "type": "string",
-    "label": "button"
+    "label": "Page path"
   }]
+}, {
+  "section": "Home",
+  "key": "home_slider_color",
+  "type": "color",
+  "label": "Slider text color"
 }, {
   "section": "Footer",
   "key": "footer_contacts",
