@@ -5,7 +5,7 @@ public/admin-assets/js/vendor-*
 public/admin/index.html
 public/assets/*
 public/static/*
-themes/current/dist/*
+theme/dist/*
 dist/*
 config/*
 npm-debug.log*

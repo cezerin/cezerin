@@ -15,8 +15,8 @@ if [ -f "public/$fileName" ]; then
 fi
 
 # 3. zip current theme
-cd themes/current
-zip -rq9 ../../public/$fileName . -x node_modules\* dist\*
+cd theme
+zip -rq9 ../public/$fileName . -x node_modules\* dist\* assets/index.html assets/js/bundle-\* assets/css/bundle-\*
 
 # 4. show success message
 echo success

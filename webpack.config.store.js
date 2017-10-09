@@ -14,8 +14,8 @@ module.exports = () => {
 
     output: {
       publicPath: '/',
-      path: path.resolve(__dirname, 'public'),
-      filename: 'assets/js/app-[chunkhash].js'
+      path: path.resolve(__dirname, 'theme'),
+      filename: 'assets/js/bundle-app-[chunkhash].js'
     },
 
     module: {
@@ -56,14 +56,14 @@ module.exports = () => {
     },
 
     plugins: [
-      new ExtractTextPlugin("assets/css/theme-[chunkhash].css"),
+      new ExtractTextPlugin("assets/css/bundle-theme-[chunkhash].css"),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'theme',
         minChunks: Infinity,
-        filename: 'assets/js/theme-[chunkhash].js'
+        filename: 'assets/js/bundle-theme-[chunkhash].js'
       }),
       new HtmlWebpackPlugin({
-        template: 'themes/current/index.html',
+        template: 'theme/index.html',
         inject: 'body',
         filename: 'assets/index.html'
       }),

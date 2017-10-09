@@ -6,7 +6,7 @@ public/admin/index.html
 public/assets/*
 public/static/*
 !public/static/*.md
-themes/current/dist/*
+theme/dist/*
 dist/*
 logs/*.log
 npm-debug.log*

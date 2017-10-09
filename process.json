@@ -2,7 +2,7 @@
   "apps": [{
     "name": "cezerin",
     "script": "./dist/index.js",
-    "watch": ["./config/server.js", "./public/assets/index.html", "./public/admin/index.html", "./dist/", "./themes/current/dist/"],
+    "watch": ["./config/server.js", "./public/admin/index.html", "./dist/", "./theme/dist/", "./theme/assets/index.html"],
     "instances": "1",
     "exec_mode": "fork",
     "env": {

@@ -15,14 +15,12 @@ if [ ! -f "public/$fileName" ]; then
     exit 1
 fi
 
-# 2. create dir if not exists
-mkdir -p themes/current
-
 # 3. delete current theme
-rm -rf themes/current/
+rm -rf theme
+mkdir theme
 
 # 4. unzip to current theme
-unzip -q "public/$fileName" -d "themes/current"
+unzip -q "public/$fileName" -d "theme"
 
 # 5. show success message
 echo -e '\e[1;92m'Theme $fileName successfully installed'\e[0m'

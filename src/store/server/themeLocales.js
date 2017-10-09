@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-const THEME_LOCALES_PATH = 'public/assets/locales/';
+const THEME_LOCALES_PATH = 'theme/locales/';
 let text = null;
 
 export const getText = (locale) => {

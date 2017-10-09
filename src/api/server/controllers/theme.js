@@ -24,7 +24,7 @@ class ThemeController {
   }
 
   exportTheme(req, res, next) {
-    ThemeService.exporTheme(req, res);
+    ThemeService.exportTheme(req, res);
   }
 
   installTheme(req, res, next) {

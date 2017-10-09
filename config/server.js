@@ -37,7 +37,7 @@ module.exports = {
   categoriesUploadPath: 'public/static/categories',
   productsUploadPath: 'public/static/products',
   filesUploadPath: 'public/static/files',
-  themeAssetsUploadPath: 'public/assets/images',
+  themeAssetsUploadPath: 'theme/assets/images',
 
   // url to uploads
   categoriesUploadUrl: '/static/categories',

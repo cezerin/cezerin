@@ -28,7 +28,7 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "compile:dev": "babel src -d dist --watch & babel themes/current/src -d themes/current/dist --watch",
+    "compile:dev": "babel src -d dist --watch & babel theme/src -d theme/dist --watch",
     "compile": "babel src -d dist --quiet",
     "webpack:admin:dev": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
     "webpack:store:dev": "webpack -d --config webpack.config.store.js --watch --progress --colors",
@@ -36,11 +36,11 @@
     "webpack:store:prod": "NODE_ENV=production webpack -p --config webpack.config.store.js",
     "theme:install": "./scripts/theme-install.sh",
     "theme:export": "./scripts/theme-export.sh",
-    "theme:copy": "cd ./themes/current && npm run build && npm i && cd ../../ && ./scripts/theme-copy-assets.sh",
+    "theme:copy": "cd ./theme && npm run build --quiet && npm i && cd ../",
     "theme:build:dev": "npm run theme:copy && npm run webpack:store:dev",
     "theme:build:prod": "npm run theme:copy --silent && npm run webpack:store:prod",
     "build:dev": "npm run compile:dev & npm run webpack:store:dev & npm run webpack:admin:dev",
-    "build": "npm run compile && npm run theme:build:prod && npm run webpack:admin:prod",
+    "build": "NODE_ENV=production npm run compile && npm run theme:build:prod && npm run webpack:admin:prod",
     "start": "NODE_ENV=production node dist/index.js",
     "restart": "pm2 reload cezerin"
   },
@@ -92,7 +92,7 @@
     "script-ext-html-webpack-plugin": "^1.8.5",
     "sitemap": "^1.13.0",
     "slug": "^0.9.1",
-    "theme": "file:themes/current",
+    "theme": "file:./theme",
     "ua-parser-js": "^0.7.14",
     "webpack": "^3.6.0",
     "winston": "^2.4.0"
