@@ -37,11 +37,13 @@ module.exports = {
   categoriesUploadPath: 'public/static/categories',
   productsUploadPath: 'public/static/products',
   filesUploadPath: 'public/static/files',
+  themeAssetsUploadPath: 'public/assets/images',
 
   // url to uploads
   categoriesUploadUrl: '/static/categories',
   productsUploadUrl: '/static/products',
   filesUploadUrl: '/static/files',
+  themeAssetsUploadUrl: '/assets/images',
 
   // store UI language
   language: 'en',
