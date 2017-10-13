@@ -24,6 +24,12 @@ export default class LoginForm extends React.Component {
     });
   };
 
+  handleKeyPress = (e) => {
+    if (e.keyCode === 13 || e.which === 13) {
+      this.handleSubmit();
+    }
+  }
+
   handleSubmit = () => {
     this.setState({
       isFetching: true,
@@ -73,6 +79,7 @@ export default class LoginForm extends React.Component {
                 type='email'
                 value={email}
                 onChange={this.handleChange}
+                onKeyPress={this.handleKeyPress}
                 label={messages.email}
                 fullWidth={true}
                 hintStyle={{width: '100%'}}
