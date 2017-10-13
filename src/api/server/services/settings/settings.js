@@ -94,7 +94,7 @@ class SettingsService {
     }
 
     if (data.decimal_number !== undefined) {
-      settings.decimal_number = parse.getNumberIfPositive(data.decimal_number) || 2;
+      settings.decimal_number = parse.getNumberIfPositive(data.decimal_number) || 0;
     }
 
     if (data.timezone !== undefined) {
