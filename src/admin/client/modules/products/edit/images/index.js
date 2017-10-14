@@ -5,8 +5,10 @@ import ProductImages from './components/images'
 
 const mapStateToProps = (state, ownProps) => {
   const { productId } = ownProps.match.params;
+  const oldImages = state.products.editProduct ? state.products.editProduct.images : [];
+
   return {
-    images: state.products.editProductImages,
+    images: state.products.editProductImages || oldImages,
     uploadingImages: state.products.uploadingImages,
     productId: productId
   }
@@ -21,8 +23,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(updateImages(productId, images));
     },
     fetchData: () => {
-      const { productId } = ownProps.match.params;
-      dispatch(fetchImages(productId));
+      // const { productId } = ownProps.match.params;
+      // dispatch(fetchImages(productId));
     },
     onImageUpload: (form) => {
       const { productId } = ownProps.match.params;

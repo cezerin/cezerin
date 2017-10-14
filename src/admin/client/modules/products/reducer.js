@@ -1,9 +1,9 @@
 import * as t from './actionTypes'
 
 const initialState = {
-  editProductImages: [],
-  editProductOptions: [],
-  editProductVariants: [],
+  editProductImages: null,
+  editProductOptions: null,
+  editProductVariants: null,
   editProduct: null,
   items: [],
   selected: [],

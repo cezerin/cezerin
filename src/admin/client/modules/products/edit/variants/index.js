@@ -1,24 +1,22 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { fetchOptions, fetchVariants, createVariant, updateVariant, setVariantOption, deleteVariant, createOption } from '../../actions'
+import { createVariant, updateVariant, setVariantOption, deleteVariant, createOption } from '../../actions'
 import ProductVariantsGrid from './components/grid'
 
 const mapStateToProps = (state, ownProps) => {
   const { productId } = ownProps.match.params;
+  const oldOptions = state.products.editProduct ? state.products.editProduct.options : [];
+  const oldVariants = state.products.editProduct ? state.products.editProduct.variants : [];
+
   return {
-    options: state.products.editProductOptions,
-    variants: state.products.editProductVariants,
+    options: state.products.editProductOptions || oldOptions,
+    variants: state.products.editProductVariants || oldVariants,
     productId: productId
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    fetchData: () => {
-      const { productId } = ownProps.match.params;
-      dispatch(fetchOptions(productId));
-      dispatch(fetchVariants(productId));
-    },
     onSkuChange: (variantId, value) => {
       const { productId } = ownProps.match.params;
       dispatch(updateVariant(productId, variantId, { sku: value }));

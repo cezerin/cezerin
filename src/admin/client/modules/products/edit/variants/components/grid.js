@@ -76,43 +76,9 @@ const VariantRow = ({ variant, options, onSkuChange, onPriceChange, onStockChang
   )
 }
 
-export default class ProductVariantsGrid extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSkuChange = this.onSkuChange.bind(this);
-    this.onPriceChange = this.onPriceChange.bind(this);
-    this.onStockChange = this.onStockChange.bind(this);
-    this.onWeightChange = this.onWeightChange.bind(this);
-    this.onOptionChange = this.onOptionChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.fetchData();
-  }
-
-  onSkuChange(variantId, value) {
-    this.props.onSkuChange(variantId, value);
-  }
-
-  onPriceChange(variantId, value) {
-    this.props.onPriceChange(variantId, value);
-  }
-
-  onStockChange(variantId, value) {
-    this.props.onStockChange(variantId, value);
-  }
-
-  onWeightChange(variantId, value) {
-    this.props.onWeightChange(variantId, value);
-  }
-
-  onOptionChange(variantId, optionId, valueId) {
-    this.props.onOptionChange(variantId, optionId, valueId);
-  }
-
-  render() {
-    const {settings, options, variants, createVariant, deleteVariant, createOption, productId} = this.props;
-
+const ProductVariantsGrid = ({
+  settings, options, variants, createVariant, deleteVariant, createOption, productId,
+  onSkuChange, onPriceChange, onStockChange, onWeightChange, onOptionChange }) => {
     const headRowCols = options.map((option, index) => (
       <div key={index} className={style.gridCol}><Link title={messages.editProductOption} to={`/admin/product/${productId}/option/${option.id}`}>{option.name}</Link></div>
     ));
@@ -122,11 +88,11 @@ export default class ProductVariantsGrid extends React.Component {
         key={index}
         variant={variant}
         options={options}
-        onSkuChange={this.onSkuChange}
-        onPriceChange={this.onPriceChange}
-        onStockChange={this.onStockChange}
-        onWeightChange={this.onWeightChange}
-        onOptionChange={this.onOptionChange}
+        onSkuChange={onSkuChange}
+        onPriceChange={onPriceChange}
+        onStockChange={onStockChange}
+        onWeightChange={onWeightChange}
+        onOptionChange={onOptionChange}
         onDeleteVariant={deleteVariant}
       />
     ))
@@ -145,10 +111,11 @@ export default class ProductVariantsGrid extends React.Component {
           {variantRows}
         </div>
         <div className={style.innerBox}>
-          <RaisedButton label={messages.addVariant} primary={true} onClick={createVariant} style={{ marginRight: 20 }} />
+          <RaisedButton label={messages.addVariant} onClick={createVariant} style={{ marginRight: 20 }} />
           <RaisedButton label={messages.addOption} onClick={createOption} />
         </div>
       </Paper>
     )
-  }
 }
+
+export default ProductVariantsGrid

@@ -39,6 +39,7 @@ class ProductOptionForm extends React.Component {
     let {
       handleSubmit,
       pristine,
+      reset,
       submitting,
       initialValues,
       deleteOption,
@@ -49,22 +50,27 @@ class ProductOptionForm extends React.Component {
 
       return (
         <div>
-          <form onSubmit={handleSubmit} style={{ display: 'initial' }}>
+          <form onSubmit={handleSubmit}>
             <Paper className="paper-box" zDepth={1}>
               <div className={style.innerBox}>
                 <Field name="name" component={TextField} floatingLabelText={messages.optionName} fullWidth={true}/>
-                <Field name="position" component={TextField} type="number" floatingLabelText={messages.position} fullWidth={true}/>
-                <div className={style.shortControl}>
-                  <Field component={SelectField} autoWidth={true} fullWidth={true} name="control" floatingLabelText={messages.optionControl}>
-                    <MenuItem value="select" primaryText={messages.optionControlSelect}/>
-                  </Field>
+                <div className="row">
+                  <div className="col-xs-6">
+                    <Field name="position" component={TextField} type="number" floatingLabelText={messages.position} fullWidth={true}/>
+                  </div>
+                  <div className="col-xs-6">
+                    <Field component={SelectField} autoWidth={true} fullWidth={true} name="control" floatingLabelText={messages.optionControl}>
+                      <MenuItem value="select" primaryText={messages.optionControlSelect}/>
+                    </Field>
+                  </div>
                 </div>
                 <div className={style.shortControl}>
                   <Field name="required" component={CustomToggle} label={messages.settings_fieldRequired}/>
                 </div>
               </div>
               <div className="buttons-box">
-                <RaisedButton label={messages.actions_delete} style={{ float: 'left'}} onClick={deleteOption} />
+                <RaisedButton label={messages.actions_delete} secondary={true} onClick={deleteOption} />
+                <FlatButton label={messages.cancel} style={{ marginLeft: 12 }} onClick={reset} disabled={pristine || submitting} />
                 <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
               </div>
             </Paper>

@@ -6,6 +6,10 @@ html, body {
   box-sizing: border-box;
 }
 
+form {
+  display: initial;
+}
+
 #app, #container {
   height: 100%;
 }
@@ -53,10 +57,23 @@ h1 {
 }
 
 .buttons-box {
-  text-align: right;
-  padding: 30px;
   background-color: rgba(0, 0, 0, 0.05);
-  border-top: 1px solid #e0e0e0;
+  /*border-top: 1px solid #e0e0e0;*/
+  height: 80px;
+  transition: height 0.2s ease-out;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  padding-right: 30px;
+}
+
+.buttons-box-pristine {
+  height: 0px;
+}
+.buttons-box-show {
+  height: 80px;
 }
 
 .blue-title {

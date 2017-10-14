@@ -5,7 +5,11 @@ import ProductOptionForm from './components/option'
 
 const mapStateToProps = (state, ownProps) => {
   const { productId, optionId } = ownProps.match.params;
-  const option = state.products.editProductOptions.find(option => option.id === optionId);
+
+  const oldOptions = state.products.editProduct ? state.products.editProduct.options : [];
+  const options = state.products.editProductOptions || oldOptions;
+  const option = options.find(option => option.id === optionId);
+
   return {
     initialValues: option,
     optionValues: (option && option.values && option.values.length > 0) ? option.values : []
@@ -21,7 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     deleteOption: () => {
       const { productId, optionId } = ownProps.match.params;
       dispatch(deleteOption(productId, optionId));
-      ownProps.history.push(`/admin/product/${productId}/variants`);
+      ownProps.history.push(`/admin/product/${productId}`);
     },
     onSubmit: (values) => {
       const { productId, optionId } = ownProps.match.params;

@@ -13,3 +13,26 @@
 .error {
   color: rgb(244, 67, 54);
 }
+
+.head {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #a1a1a1;
+  padding: 18px 0 18px 30px !important;
+}
+
+.input {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 15px;
+  height: 60px;
+  text-indent: 30px;
+}
+
+.input:hover,
+.input:focus {
+  background-color: rgba(0, 0, 0, 0.05);
+}

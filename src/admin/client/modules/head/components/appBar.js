@@ -88,7 +88,7 @@ export default class AppBarTop extends React.Component {
     else if(pathname.startsWith('/admin/product/') && pathname.includes('/option/')){
       const productId = pathname.split('/')[3];
       title = messages.editProductOption;
-      leftButton = <Link to={`/admin/product/${productId}/variants`}><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to={`/admin/product/${productId}`}><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(pathname.startsWith('/admin/product/')){
       title = messages.products_titleEdit;

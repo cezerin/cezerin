@@ -65,8 +65,10 @@ class OptionValueAdd extends React.Component {
   }
 
   onCreate = () => {
-    this.props.onCreate(this.state.value);
-    this.setState({ value: '' });
+    if(this.state.value !== ''){
+      this.props.onCreate(this.state.value);
+      this.setState({ value: '' });
+    }
   }
 
   handleKeyPress(e) {
@@ -94,9 +96,7 @@ class OptionValueAdd extends React.Component {
 }
 
 const OptionValues = ({ optionValues, createOptionValue, updateOptionValue, deleteOptionValue }) => {
-  const valueRows = optionValues
-    .sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
-    .map((value, index) => (
+  const valueRows = optionValues.map((value, index) => (
     <OptionValueEdit key={index} value={value} onChange={updateOptionValue} onDelete={deleteOptionValue} />
   ));
 
