@@ -1,5 +1,4 @@
 import { connect } from 'react-redux'
-import { reset } from 'redux-form';
 import { updateCategory, deselectCategory, fetchCategories, deleteImage, uploadImage } from '../actions'
 import ProductCategoryEditForm from './components/form'
 
@@ -27,10 +26,6 @@ const mapDispatchToProps = (dispatch) => {
         values.slug = values.name;
       }
       dispatch(updateCategory(values));
-    },
-    onCancel: () => {
-      dispatch(deselectCategory());
-      dispatch(reset('FormProductCategory'));
     }
   }
 }

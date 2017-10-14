@@ -44,7 +44,7 @@ export default class ImageUpload extends React.Component {
     const previewIsFileUrl = hasPreview ? imagePreview.startsWith('http') : null;
 
     let htmlPreview =
-      <div style={{paddingTop: 20, paddingBottom: 20, textAlign: 'center' }}>
+      <div className={style.noImage}>
         <FontIcon style={{fontSize: 90, color: '#cccccc'}} className="material-icons">photo_camera</FontIcon>
         <div className={style.dropText}>{messages.help_dropHere}</div>
       </div>

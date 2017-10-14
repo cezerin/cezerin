@@ -17,7 +17,7 @@
 }
 .dropText {
   color: #a1a1a1;
-  font-size: 16px;
+  font-size: 14px;
 }
 .dropzoneActive {
   background-color: rgba(18,179,117, 0.4);
@@ -28,4 +28,13 @@
 .dropzoneReject .preview img,
 .dropzoneActive .preview img {
   opacity: 0.3
+}
+
+.noImage {
+  display: flex;
+  height: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }

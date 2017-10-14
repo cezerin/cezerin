@@ -47,59 +47,57 @@ const asyncValidate = (values) => {
   })
 }
 
-class ProductCategoryEditForm extends React.Component {
-  render() {
-    let {
-      uploadingImage,
-      handleSubmit,
-      pristine,
-      submitting,
-      onCancel,
-      onImageUpload,
-      onImageDelete,
-      isSaving,
-      initialValues } = this.props;
+const ProductCategoryEditForm = ({
+  uploadingImage,
+  handleSubmit,
+  pristine,
+  reset,
+  submitting,
+  onImageUpload,
+  onImageDelete,
+  isSaving,
+  initialValues
+}) => {
 
-    let imageUrl = null;
-    let categoryId = null;
+  let imageUrl = null;
+  let categoryId = null;
 
-    if(initialValues){
-      categoryId = initialValues.id
-      imageUrl = initialValues.image;
-    }
+  if(initialValues){
+    categoryId = initialValues.id
+    imageUrl = initialValues.image;
+  }
 
-    if(categoryId) {
-      return (
-        <Paper className="paper-box" zDepth={1}>
-          <form onSubmit={handleSubmit}>
-            <div className={style.innerBox}>
-              <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/>
-              <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={1}/>
-              <div className={style.shortBox}>
-                <Field name="enabled" component={CustomToggle} label={messages.enabled} className={style.toggle}/>
-                <ImageUpload
-                  uploading={uploadingImage}
-                  imageUrl={imageUrl}
-                  onDelete={onImageDelete}
-                  onUpload={onImageUpload}
-                 />
-              </div>
-              <div className="blue-title">{messages.seo}</div>
-              <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
-              <p className="field-hint">{messages.help_slug}</p>
-              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/>
-              <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+  if(categoryId) {
+    return (
+      <Paper className="paper-box" zDepth={1}>
+        <form onSubmit={handleSubmit}>
+          <div className={style.innerBox}>
+            <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/>
+            <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={1}/>
+            <div className={style.shortBox}>
+              <Field name="enabled" component={CustomToggle} label={messages.enabled} className={style.toggle}/>
+              <ImageUpload
+                uploading={uploadingImage}
+                imageUrl={imageUrl}
+                onDelete={onImageDelete}
+                onUpload={onImageUpload}
+               />
             </div>
-            <div className="buttons-box">
-              <FlatButton label={messages.cancel} className={style.button} onClick={onCancel} />
-              <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
-            </div>
-          </form>
-        </Paper>
-      )
-    } else {
-      return <div></div>
-    }
+            <div className="blue-title">{messages.seo}</div>
+            <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
+            <p className="field-hint">{messages.help_slug}</p>
+            <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/>
+            <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+          </div>
+          <div className={"buttons-box " + (pristine ? "buttons-box-pristine" : "buttons-box-show")}>
+            <FlatButton label={messages.cancel} className={style.button} onClick={reset} disabled={pristine || submitting} />
+            <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting || isSaving}/>
+          </div>
+        </form>
+      </Paper>
+    )
+  } else {
+    return null;
   }
 }
 
