@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import { ListItem } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import messages from 'lib/text'
@@ -77,43 +76,38 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
 
   return (
     <div className="products-item">
-      <ListItem style={{ cursor: 'normal' }}
-        innerDivStyle={{paddingTop: '0px', paddingBottom: '0px'}}
-        primaryText={
+      <div className={"row row--no-gutter middle-xs " + style.innerItem}>
+        <div className="col-xs-6 col--no-gutter">
           <div className="row row--no-gutter middle-xs">
-            <div className="col-xs-6 col--no-gutter">
-              <div className="row row--no-gutter middle-xs">
-                <div className="col-xs-1 col--no-gutter">
-                  <input type="checkbox" onChange={onSelect} checked={selected} value={product.id} />
-                </div>
-                <div className="col-xs-3">
-                  <div className={'row middle-xs center-xs ' + style.imageBox}>
-                      <div className="col-xs-12">
-                          <div className="box">
-                            <ItemImage images={product.images} />
-                          </div>
+            <div className="col-xs-1 col--no-gutter">
+              <input type="checkbox" onChange={onSelect} checked={selected} value={product.id} />
+            </div>
+            <div className="col-xs-3">
+              <div className={'row middle-xs center-xs ' + style.imageBox}>
+                  <div className="col-xs-12">
+                      <div className="box">
+                        <ItemImage images={product.images} />
                       </div>
                   </div>
-                </div>
-                <div className="col-xs-8">
-                  <Link to={'/admin/product/'+product.id} className={productClass}>
-                    {productName}<br /><small>{product.category_name}</small>
-                  </Link>
-                </div>
               </div>
             </div>
-            <div className={"col-xs-2 " + style.sku}>
-              {product.sku}
-            </div>
-            <div className={"col-xs-2 " + style.stock}>
-              <ItemStock status={product.stock_status} quantity={product.stock_quantity} />
-            </div>
-            <div className={"col-xs-2 " + style.price}>
-              <ItemPrice product={product} settings={settings} />
+            <div className="col-xs-8">
+              <Link to={'/admin/product/'+product.id} className={productClass}>
+                {productName}<br /><small>{product.category_name}</small>
+              </Link>
             </div>
           </div>
-        }
-      />
+        </div>
+        <div className={"col-xs-2 " + style.sku}>
+          {product.sku}
+        </div>
+        <div className={"col-xs-2 " + style.stock}>
+          <ItemStock status={product.stock_status} quantity={product.stock_quantity} />
+        </div>
+        <div className={"col-xs-2 " + style.price}>
+          <ItemPrice product={product} settings={settings} />
+        </div>
+      </div>
       <Divider />
     </div>
   )

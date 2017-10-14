@@ -70,3 +70,7 @@
   padding: 40px 0;
   text-align: center;
 }
+
+.innerItem {
+  padding: 0 16px;
+}
