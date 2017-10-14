@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onLoad: () => {
-      dispatch(fetchProducts(true));
+      dispatch(fetchProducts());
     },
     onSelect: (event) => {
       const productId = event.target.value;
