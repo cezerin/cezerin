@@ -173,10 +173,10 @@ function imagesUploadEnd() {
 const getFilter = (state, offset = 0) => {
   let filter = {
     limit: 50,
-    fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,date_updated,url',
+    fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,url',
     search: state.products.filter.search,
     offset: offset,
-    sort: '-date_updated'
+    sort: 'name'
   }
 
   if(state.productCategories.selectedId !== null && state.productCategories.selectedId !== 'all') {
@@ -230,7 +230,8 @@ export function fetchMoreProducts() {
     if (!state.products.loadingItems) {
       dispatch(requestMoreProducts());
 
-      let filter = getFilter(state, state.products.items.length);
+      const offset = state.products.items.length;
+      let filter = getFilter(state, offset);
 
       return api.products.list(filter)
         .then(({status, json}) => {
