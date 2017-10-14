@@ -17,6 +17,12 @@ export default class Header extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(this.props.state.cart !== nextProps.state.cart){
+      this.showCart();
+    }
+  }
+
   menuToggle = () => {
     this.setState({
       mobileMenuIsActive: !this.state.mobileMenuIsActive,
@@ -53,6 +59,14 @@ export default class Header extends React.Component {
     document.body.classList.remove('noscroll');
   }
 
+  showCart = () => {
+    this.setState({
+      cartIsActive: true,
+      mobileMenuIsActive: false
+    });
+    document.body.classList.add('noscroll');
+  }
+
   handleSearch = search => {
     if(this.props.state.currentPage.path === '/search'){
       this.props.setSearch(search);
@@ -61,6 +75,11 @@ export default class Header extends React.Component {
         this.props.setLocation('/search?search=' + search);
       }
     }
+  }
+
+  handleGoBack = () => {
+    this.closeAll();
+    this.props.goBack();
   }
 
   render() {
@@ -84,14 +103,14 @@ export default class Header extends React.Component {
                   </span>
                 }
                 {showBackButton &&
-                  <span className="nav-toggle nav-item is-hidden-tablet" onClick={this.props.goBack} style={{ justifyContent: 'center' }}>
+                  <span className="nav-toggle nav-item is-hidden-tablet" onClick={this.handleGoBack} style={{ justifyContent: 'center' }}>
                     <img className="icon" src="/assets/images/arrow_back.svg" style={{ width: 18 }} />
                   </span>
                 }
               </div>
 
               <div className="column is-4 has-text-centered">
-                <NavLink className="logo-image" to="/">
+                <NavLink className="logo-image" to="/" onClick={this.closeAll}>
                   <img src={settings.logo} alt="logo" />
                 </NavLink>
               </div>
