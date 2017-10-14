@@ -24,11 +24,6 @@ body {
   transition: margin 200ms ease-in-out;
 }
 
-body.noscroll {
-  position:fixed;
-  overflow:hidden;
-}
-
 hr.separator {
   margin: 1rem 0;
 }
@@ -76,6 +71,11 @@ MOBILE
 @media screen and (max-width: 769px) {
   body.search-active {
     margin-top: 6.25rem;
+  }
+
+  body.noscroll {
+    position:fixed;
+    overflow:hidden;
   }
 }
 

@@ -39,9 +39,7 @@ export default class Cart extends React.PureComponent {
 
       return (
         <div className="mini-cart">
-          <div className="mini-cart-items">
-            {items}
-          </div>
+          {items}
           <hr className="separator" />
           <div className="columns is-mobile is-gapless">
             <div className="column is-7"><b>{text.subtotal}</b></div>

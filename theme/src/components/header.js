@@ -18,7 +18,7 @@ export default class Header extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(this.props.state.cart !== nextProps.state.cart){
+    if(this.props.state.cart !== nextProps.state.cart && this.props.state.currentPage.path !== '/checkout'){
       this.showCart();
     }
   }
@@ -56,7 +56,7 @@ export default class Header extends React.Component {
       cartIsActive: !this.state.cartIsActive,
       mobileMenuIsActive: false
     });
-    document.body.classList.remove('noscroll');
+    document.body.classList.toggle('noscroll');
   }
 
   showCart = () => {
