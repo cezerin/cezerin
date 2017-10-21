@@ -15,9 +15,8 @@ if [ ! -f "public/$fileName" ]; then
     exit 1
 fi
 
-# 3. delete current theme
-rm -rf theme
-mkdir theme
+# 3. remove all the contents of theme folder
+rm -rf theme/*
 
 # 4. unzip to current theme
 unzip -q "public/$fileName" -d "theme"
