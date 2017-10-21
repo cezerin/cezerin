@@ -3,8 +3,8 @@ public/admin-assets/css/app-*
 public/admin-assets/js/app-*
 public/admin-assets/js/vendor-*
 public/admin/index.html
-public/static/*
-!public/static/*.md
+public/content/*
+!public/content/*.md
 theme/dist/*
 theme/assets/js/bundle-*
 theme/assets/css/bundle-*

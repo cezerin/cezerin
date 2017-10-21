@@ -33,7 +33,7 @@ class SitemapService {
     paths.push({path: '/api', type: 'reserved'});
     paths.push({path: '/ajax', type: 'reserved'});
     paths.push({path: '/assets', type: 'reserved'});
-    paths.push({path: '/static', type: 'reserved'});
+    paths.push({path: '/images', type: 'reserved'});
     paths.push({path: '/admin', type: 'reserved'});
     paths.push({path: '/signin', type: 'reserved'});
     paths.push({path: '/signout', type: 'reserved'});

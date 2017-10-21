@@ -24,7 +24,17 @@ const getAvailableSlug = (path, resource) => {
   })
 }
 
+const getCorrectFileName = (filename) => {
+  if(filename){
+    // replace unsafe characters
+    return filename.replace(/[\s*/:;&?@$()<>#%\{\}|\\\^\~\[\]]/g, '-');
+  } else {
+    return filename;
+  }
+}
+
 module.exports = {
   cleanSlug: cleanSlug,
-  getAvailableSlug: getAvailableSlug
+  getAvailableSlug: getAvailableSlug,
+  getCorrectFileName: getCorrectFileName
 }

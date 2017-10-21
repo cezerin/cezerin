@@ -262,6 +262,7 @@ class ProductCategoriesService {
         // Emitted whenever a field / value pair has been received.
         let dir = path.resolve(settings.categoriesUploadPath + '/' + categoryId);
         fs.emptyDirSync(dir);
+        file.name = utils.getCorrectFileName(file.name);
         file.path = dir + '/' + file.name;
       })
       .on('file', function(field, file) {

@@ -6,6 +6,7 @@ const fs = require('fs');
 const url = require('url');
 var formidable = require('formidable');
 const settings = require('../../lib/settings');
+const utils = require('../../lib/utils');
 var mongo = require('../../lib/mongo');
 var parse = require('../../lib/parse');
 
@@ -186,6 +187,7 @@ class SettingsService {
     form
       .on('fileBegin', (name, file) => {
         // Emitted whenever a field / value pair has been received.
+        file.name = utils.getCorrectFileName(file.name);
         file.path = uploadDir + '/' + file.name;
       })
       .on('file', function(field, file) {

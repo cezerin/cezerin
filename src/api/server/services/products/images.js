@@ -83,6 +83,7 @@ class ProductImagesService {
     form
       .on('fileBegin', (name, file) => {
         // Emitted whenever a field / value pair has been received.
+        file.name = utils.getCorrectFileName(file.name);
         file.path = uploadDir + '/' + file.name;
       })
       .on('file', function(field, file) {

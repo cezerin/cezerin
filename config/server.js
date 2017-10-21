@@ -34,15 +34,15 @@ module.exports = {
   cookieSecretKey: '-',
 
   // path to uploads
-  categoriesUploadPath: 'public/static/categories',
-  productsUploadPath: 'public/static/products',
-  filesUploadPath: 'public/static/files',
+  categoriesUploadPath: 'public/content/images/categories',
+  productsUploadPath: 'public/content/images/products',
+  filesUploadPath: 'public/content',
   themeAssetsUploadPath: 'theme/assets/images',
 
   // url to uploads
-  categoriesUploadUrl: '/static/categories',
-  productsUploadUrl: '/static/products',
-  filesUploadUrl: '/static/files',
+  categoriesUploadUrl: '/images/categories',
+  productsUploadUrl: '/images/products',
+  filesUploadUrl: '',
   themeAssetsUploadUrl: '/assets/images',
 
   // store UI language

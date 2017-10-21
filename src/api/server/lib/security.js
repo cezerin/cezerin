@@ -33,7 +33,9 @@ const scope = {
   READ_PAYMENT_METHODS: 'read:payment_methods',
   WRITE_PAYMENT_METHODS: 'write:payment_methods',
   READ_SETTINGS: 'read:settings',
-  WRITE_SETTINGS: 'write:settings'
+  WRITE_SETTINGS: 'write:settings',
+  READ_FILES: 'read:files',
+  WRITE_FILES: 'write:files'
 }
 
 const checkUserScope = (requiredScope, req, res, next) => {

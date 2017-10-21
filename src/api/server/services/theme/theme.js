@@ -45,6 +45,8 @@ class ThemesService {
   }
 
   saveThemeFile(req, res, callback) {
+    const uploadDir = path.resolve(settings.filesUploadPath);
+
     let form = new formidable.IncomingForm(),
       file_name = null,
       file_size = 0;
@@ -54,8 +56,7 @@ class ThemesService {
     form.on('fileBegin', (name, file) => {
       // Emitted whenever a field / value pair has been received.
       if (file.name.endsWith('.zip')) {
-        let dir = path.resolve('public');
-        file.path = dir + '/' + file.name;
+        file.path = uploadDir + '/' + file.name;
       }
       // else - will save to /tmp
     }).on('file', function(field, file) {

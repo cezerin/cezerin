@@ -11,7 +11,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const winston = require('winston');
 
-const STATIC_ROOT_DIRECTORY = 'public';
+const STATIC_ROOT_DIRECTORY = 'public/content';
 const ADMIN_INDEX_PATH = path.join(__dirname, '../public/admin/index.html');
 
 winston.configure({
