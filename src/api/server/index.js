@@ -24,6 +24,7 @@ const SettingsController = require('./controllers/settings');
 const PagesController = require('./controllers/pages');
 const SecurityTokensController = require('./controllers/tokens');
 const NotificationsController = require('./controllers/notifications');
+const RedirectsController = require('./controllers/redirects');
 
 apiRouter.all('/*', function(req, res, next) {
   // CORS headers
@@ -70,6 +71,7 @@ var settings = new SettingsController(apiRouter);
 var pages = new PagesController(apiRouter);
 var security = new SecurityTokensController(apiRouter);
 var notifications = new NotificationsController(apiRouter);
+var redirects = new RedirectsController(apiRouter);
 
 apiRouter.get('/dashboard/events', function(req, res, next) {
   dashboardEvents.subscribe(req, res);
