@@ -52,25 +52,29 @@ const asyncValidate = (values) => {
 }
 
 const ProductGeneralForm = ({ handleSubmit, pristine, reset, submitting, initialValues }) => {
-  return (
-    <form onSubmit={handleSubmit}>
-      <Paper className="paper-box" zDepth={1}>
-          <div className={style.innerBox}>
-            <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/>
-            <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
-            <p className="field-hint">{messages.help_slug}</p>
-            <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/>
-            <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
-            <div className="field-hint" style={{ marginTop: 40 }}>{messages.description}</div>
-            <Field name="description" component={Editor} />
-          </div>
-          <div className={"buttons-box " + (pristine ? "buttons-box-pristine" : "buttons-box-show")}>
-            <FlatButton label={messages.cancel} className={style.button} onClick={reset} disabled={pristine || submitting} />
-            <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
-          </div>
-      </Paper>
-    </form>
-  )
+  if(initialValues) {
+    return (
+      <form onSubmit={handleSubmit}>
+        <Paper className="paper-box" zDepth={1}>
+            <div className={style.innerBox}>
+              <Field name="name" component={TextField} floatingLabelText={messages.products_name+' *'} fullWidth={true}/>
+              <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true}/>
+              <p className="field-hint">{messages.help_slug}</p>
+              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/>
+              <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+              <div className="field-hint" style={{ marginTop: 40 }}>{messages.description}</div>
+              <Field name="description" component={Editor} />
+            </div>
+            <div className={"buttons-box " + (pristine ? "buttons-box-pristine" : "buttons-box-show")}>
+              <FlatButton label={messages.cancel} className={style.button} onClick={reset} disabled={pristine || submitting} />
+              <RaisedButton type="submit" label={messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
+            </div>
+        </Paper>
+      </form>
+    )
+  } else {
+    return null;
+  }
 }
 
 export default reduxForm({
