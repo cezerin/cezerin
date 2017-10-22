@@ -198,7 +198,7 @@ export default class AppBarTop extends React.Component {
     }
     else if(pathname === '/admin/settings/general/logo'){
       title = messages.logo;
-      leftButton = <Link to="/admin/settings/general"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/settings"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
     else if(pathname === '/admin/settings/pages'){
       title = messages.settings_pages;
