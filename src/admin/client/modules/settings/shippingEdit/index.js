@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if(methodId) {
         dispatch(fetchShippingMethod(methodId))
       } else {
-        dispatch(receiveShippingMethod({ enabled: false }));
+        dispatch(receiveShippingMethod({ enabled: true }));
       }
     },
     onSubmit: (method) => {

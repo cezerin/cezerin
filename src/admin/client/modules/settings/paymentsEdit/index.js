@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if(methodId) {
         dispatch(fetchPaymentMethod(methodId));
       } else {
-        dispatch(receivePaymentMethod({ enabled: false }));
+        dispatch(receivePaymentMethod({ enabled: true }));
       }
       dispatch(fetchShippingMethods());
     },
