@@ -1,67 +1,19 @@
 # Cezerin
 
-Cezerin is an open-source e-commerce platform built with JavaScript only. Cezerin makes it easy to create SEO-friendly single-page online store.
-
-[Demo store](https://store.cezerin.com)
-
-[Demo dashboard (read only)](https://store.cezerin.com/admin/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1YmxpY0BjZXplcmluLmNvbSIsInNjb3BlcyI6WyJyZWFkOnNldHRpbmdzIiwicmVhZDpwYXltZW50X21ldGhvZHMiLCJyZWFkOnNoaXBwaW5nX21ldGhvZHMiLCJyZWFkOnNpdGVtYXAiLCJyZWFkOnRoZW1lcyIsInJlYWQ6b3JkZXJfc3RhdHVzZXMiLCJyZWFkOnBhZ2VzIiwicmVhZDpjdXN0b21lcl9ncm91cHMiLCJyZWFkOmN1c3RvbWVycyIsInJlYWQ6b3JkZXJzIiwicmVhZDpwcm9kdWN0X2NhdGVnb3JpZXMiLCJyZWFkOnByb2R1Y3RzIiwiZGFzaGJvYXJkIl0sImp0aSI6IjU5MzkyZjRkMWMwYTQzMDEyMDE2YmEyNSIsImlhdCI6MTQ5NjkxOTg4NSwiZXhwIjoxNTEyNDcxODg1fQ._x3vJ9NoBL1zdNwFvTRFvAQv3HbwCeW53yt14hRm99U)
-
-![Cezerin dashboard](https://cezerin.com/assets/images/cezerin-dashboard.png)
+React and Node.js based e-commerce platform. SPA and PWA. SEO-friendly. Build with Node.js, React, Redux, Express, Babel, WebPack and MongoDB.
 
 
-## Build with
+## Dashboard
+Client-side dashboard. Build with React. [Demo dashboard (read only)](https://store.cezerin.com/admin/login?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1YmxpY0BjZXplcmluLmNvbSIsInNjb3BlcyI6WyJyZWFkOnNldHRpbmdzIiwicmVhZDpwYXltZW50X21ldGhvZHMiLCJyZWFkOnNoaXBwaW5nX21ldGhvZHMiLCJyZWFkOnNpdGVtYXAiLCJyZWFkOnRoZW1lcyIsInJlYWQ6b3JkZXJfc3RhdHVzZXMiLCJyZWFkOnBhZ2VzIiwicmVhZDpjdXN0b21lcl9ncm91cHMiLCJyZWFkOmN1c3RvbWVycyIsInJlYWQ6b3JkZXJzIiwicmVhZDpwcm9kdWN0X2NhdGVnb3JpZXMiLCJyZWFkOnByb2R1Y3RzIiwiZGFzaGJvYXJkIl0sImp0aSI6IjU5MzkyZjRkMWMwYTQzMDEyMDE2YmEyNSIsImlhdCI6MTQ5NjkxOTg4NSwiZXhwIjoxNTEyNDcxODg1fQ._x3vJ9NoBL1zdNwFvTRFvAQv3HbwCeW53yt14hRm99U)
 
-* NodeJS
-* React
-* Redux
-* Express
-* Babel ES6
-* WebPack
-* MongoDB
+![Cezerin Dashboard](https://cezerin.com/assets/images/cezerin-dashboard-products.png)
 
 
-## Roadmap
+## Store
+SPA and PWA with React server-side rendering. [Demo store](https://store.cezerin.com)
 
-* ~~**Products**~~
-* ~~**Template**~~
-* ~~**Customers**~~
-* ~~**Orders**~~
-* ~~**Settings**~~
-* ~~**Custom pages**~~
-* ~~**Security**~~
-* ~~**Performance**~~
-* ~~**Refactoring**~~
-* ~~**Default theme**~~
-* ~~**Unfinished features**~~
-* ~~**Product options**~~
-* ~~**Order details/edit/add**~~
-* ~~**Customer details/edit/add**~~
-* ~~**Google Analytics for Single Page Application**~~
-* ~~**Product Faceted Search**~~
-* ~~**Order Statuses**~~
-* ~~**Order notifications**~~
-* ~~**Apps**~~
-* ~~**PWA Theme**~~
-* ~~**PWA Dashboard**~~
-* Documentation
-* WebHooks
-* Store: Themes
-* Theme Placeholder API
-* Order Timeline
-* Tests (REST API, React, server)
-* Theme settings in dashboard (menus, galleries, etc)
-* Customer account
-* Social login
-* Dashboard analytics & metrics
-* Dashboard Real-Time analytics
-* API to manage URL redirects
-* Shipping rate real time
-* Product discount
-* Related Products
-* Product tags
-* Order discounts
-* Geolocation
-* Central update
+![Cezerin Store](https://cezerin.com/assets/images/cezerin-store-item.png)
+
 
 
 ## Installation
@@ -73,6 +25,8 @@ Cezerin is an open-source e-commerce platform built with JavaScript only. Cezeri
 
 
 ### Installation
+
+Run Cezerin with [Docker image](https://github.com/cezerin/docker-cezerin) or GitHub:
 
 ```shell
 git clone https://github.com/cezerin/cezerin.git cezerin
@@ -112,13 +66,17 @@ Then open <http://localhost:3000> to see your app.
 ```
 .
 ├── config                   # Project and build configurations
+├── dist                     # Distribution folder
 ├── locales                  # Text files
 ├── logs                     # Log files
 ├── public                   # Static public assets and uploads
+│   ├── admin                # Dashboard index.html
+│   ├── admin-assets         # Dashboard assets
+│   └── content              # Store root folder
+|
 ├── scripts                  # Shell scripts for theme install/export
-├── dist                     # Distribution folder
 ├── src                      # Application source code
-│   ├── admin                # Admin application
+│   ├── admin                # Dashboard application
 │   │   └── client           # Client side code
 │   ├── api                  # REST API
 │   │   └── server           # Server side code
@@ -127,7 +85,7 @@ Then open <http://localhost:3000> to see your app.
 │   |   ├── server             # Server side code
 │   |   └── shared             # Universal code
 │   └── index.js             # Server application start point
-├── themes                   # Themes
+├── theme                    # Theme as a local package
 └── process.json             # pm2 process file
 ```
 
