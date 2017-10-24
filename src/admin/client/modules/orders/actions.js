@@ -277,31 +277,35 @@ export function deleteCurrentOrder() {
 }
 
 const fetchOrderAdditionalData = (order) => {
-  order.customer = null;
-  const productIds = order && order.items && order.items.length > 0 ? order.items.map(item => item.product_id) : [];
+  const hasCustomer = order.customer_id && order.customer_id.length > 0;
+  const hasShippingMethod = order.shipping_method_id && order.shipping_method_id.length > 0;
+  const productIds = order && order.items && order.items.length > 0
+    ? order.items.filter(item => item.product_id).map(item => item.product_id)
+    : [];
   const productFilter = { ids: productIds, fields: 'images,enabled,stock_quantity,variants,options' };
-
-  return api.products.list(productFilter)
-  .then(productsResponse => {
-    const products = productsResponse.json.data;
-    const newItems = order.items.map(item => {
-      item.product = products.find(p => p.id === item.product_id);
-      return item;
-    })
-    order.items = newItems;
-    return order;
-  })
-  .then(order => {
-    if(order.customer_id && order.customer_id.length > 0){
-      return api.customers.retrieve(order.customer_id).then(customerResponse => {
-        order.customer = customerResponse.json;
-        return order;
+  
+  return Promise.all([
+    productIds.length > 0 ? api.products.list(productFilter) : null,
+    hasCustomer ? api.customers.retrieve(order.customer_id) : null,
+    hasShippingMethod ? api.shippingMethods.retrieve(order.shipping_method_id): null
+  ]).then(([
+    productsResponse,
+    customerResponse,
+    methodResponse
+  ]) => {
+    if(productsResponse){
+      const products = productsResponse.json.data;
+      const newItems = order.items.map(item => {
+        item.product = products.find(p => p.id === item.product_id);
+        return item;
       })
-    } else {
-      return order;
+      order.items = newItems;
     }
-  })
-  .catch(error => error);
+    order.customer = customerResponse ? customerResponse.json : null;
+    order.shipping_method_details = methodResponse ? methodResponse.json : null;
+
+    return order;
+  }).catch(err => err);
 }
 
 export function fetchOrder(orderId) {

@@ -18,7 +18,32 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if(methodId) {
         dispatch(fetchShippingMethod(methodId))
       } else {
-        dispatch(receiveShippingMethod({ enabled: true }));
+        dispatch(receiveShippingMethod({
+          enabled: true,
+          fields: [
+            {
+              key: 'full_name',
+              label: '',
+              required: true
+            }, {
+              key: 'address1',
+              label: '',
+              required: true
+            }, {
+              key: 'address2',
+              label: '',
+              required: false
+            }, {
+              key: 'postal_code',
+              label: '',
+              required: false
+            }, {
+              key: 'phone',
+              label: '',
+              required: false
+            }
+        ]
+        }));
       }
     },
     onSubmit: (method) => {

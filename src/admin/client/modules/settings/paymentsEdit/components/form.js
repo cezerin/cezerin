@@ -65,10 +65,7 @@ class EditPaymentMethodForm extends React.Component {
     }
 
     return (
-        <form onSubmit={handleSubmit} style={{
-          display: 'initial',
-          width: '100%'
-        }}>
+      <form onSubmit={handleSubmit}>
         <Paper className="paper-box" zDepth={1}>
           <div className={style.innerBox}>
 
@@ -130,7 +127,7 @@ class EditPaymentMethodForm extends React.Component {
             <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
           </div>
         </Paper>
-        </form>
+      </form>
     )
   }
 }

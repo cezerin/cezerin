@@ -1,3 +1,5 @@
+import messages from './text'
+
 export const formatNumber = (number, settings) => {
   const x = 3;
   const floatNumber = parseFloat(number || 0) || 0;
@@ -25,5 +27,30 @@ export const getThumbnailUrl = (originalUrl, width) => {
     return thumbnailUrl;
   } else {
     return '';
+  }
+}
+
+export const getOrderFieldLabelByKey = (key) => {
+  switch (key) {
+    case 'full_name':
+      return messages.fullName;
+    case 'address1':
+      return messages.address1;
+    case 'address2':
+      return messages.address2;
+    case 'postal_code':
+      return messages.postal_code;
+    case 'phone':
+      return messages.phone;
+    case 'company':
+      return messages.company;
+    case 'mobile':
+      return messages.mobile;
+    case 'city':
+      return messages.city;
+    case 'comments':
+      return messages.customerComment;
+    default:
+      return '';
   }
 }
