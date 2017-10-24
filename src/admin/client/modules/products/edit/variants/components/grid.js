@@ -79,11 +79,14 @@ const VariantRow = ({ variant, options, onSkuChange, onPriceChange, onStockChang
 const ProductVariantsGrid = ({
   settings, options, variants, createVariant, deleteVariant, createOption, productId,
   onSkuChange, onPriceChange, onStockChange, onWeightChange, onOptionChange }) => {
-    const headRowCols = options.map((option, index) => (
-      <div key={index} className={style.gridCol}><Link title={messages.editProductOption} to={`/admin/product/${productId}/option/${option.id}`}>{option.name}</Link></div>
-    ));
+    const hasOptions = options && options.length > 0;
+    const hasVariants = variants && variants.length > 0;
 
-    const variantRows = variants.map((variant, index) => (
+    const headRowCols = hasOptions ? options.map((option, index) => (
+      <div key={index} className={style.gridCol}><Link title={messages.editProductOption} to={`/admin/product/${productId}/option/${option.id}`}>{option.name}</Link></div>
+    )) : null;
+
+    const variantRows = hasVariants ? variants.map((variant, index) => (
       <VariantRow
         key={index}
         variant={variant}
@@ -95,7 +98,7 @@ const ProductVariantsGrid = ({
         onOptionChange={onOptionChange}
         onDeleteVariant={deleteVariant}
       />
-    ))
+    )) : null;
 
     return (
       <Paper className="paper-box" zDepth={1}>
@@ -111,7 +114,7 @@ const ProductVariantsGrid = ({
           {variantRows}
         </div>
         <div className={style.innerBox}>
-          <RaisedButton label={messages.addVariant} onClick={createVariant} style={{ marginRight: 20 }} />
+          <RaisedButton label={messages.addVariant} onClick={createVariant} style={{ marginRight: 20 }} disabled={!hasOptions} />
           <RaisedButton label={messages.addOption} onClick={createOption} />
         </div>
       </Paper>

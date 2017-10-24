@@ -5,8 +5,8 @@ import ProductVariantsGrid from './components/grid'
 
 const mapStateToProps = (state, ownProps) => {
   const { productId } = ownProps.match.params;
-  const oldOptions = state.products.editProduct ? state.products.editProduct.options : [];
-  const oldVariants = state.products.editProduct ? state.products.editProduct.variants : [];
+  const oldOptions = state.products.editProduct ? state.products.editProduct.options : null;
+  const oldVariants = state.products.editProduct ? state.products.editProduct.variants : null;
 
   return {
     options: state.products.editProductOptions || oldOptions,

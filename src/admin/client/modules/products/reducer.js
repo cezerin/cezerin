@@ -39,7 +39,10 @@ export default (state = initialState, action) => {
     case t.PRODUCT_DETAIL_ERASE:
       return Object.assign({}, state, {
         isUpdating: false,
-        editProduct: null
+        editProduct: null,
+        editProductImages: null,
+        editProductOptions: null,
+        editProductVariants: null
       })
     case t.PRODUCT_DETAIL_FAILURE:
       return Object.assign({}, state, {
