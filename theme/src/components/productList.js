@@ -65,7 +65,7 @@ const ListItem = ({product, addCartItem, settings, columnCountOnMobile, columnCo
   )
 }
 
-const LoadMore = ({ loadMoreProducts, hasMore }) => {
+const LoadMore = ({ loadMoreProducts, hasMore, loading }) => {
   let buttonStyle = {};
   if(themeSettings.button_loadmore_bg && themeSettings.button_loadmore_bg.length > 0){
     buttonStyle.backgroundColor = themeSettings.button_loadmore_bg;
@@ -79,13 +79,13 @@ const LoadMore = ({ loadMoreProducts, hasMore }) => {
   return (
     <div className="load-more">
       {hasMore &&
-        <button onClick={loadMoreProducts} className="button is-fullwidth is-dark" style={buttonStyle}>{loadMoreText}</button>
+        <button onClick={loadMoreProducts} className="button is-fullwidth is-dark" style={buttonStyle} disabled={loading}>{loadMoreText}</button>
       }
     </div>
   )
 }
 
-const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop}) => {
+const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop, loadingProducts, loadingMoreProducts}) => {
   const items = products ? products.map((product, index) => {
     return (
       <ListItem
@@ -101,10 +101,10 @@ const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore
 
   return (
     <div>
-      <div className="columns is-multiline is-mobile products">
+      <div className={'columns is-multiline is-mobile products' + (loadingProducts ? ' loading': '')}>
         {items}
       </div>
-      <LoadMore loadMoreProducts={loadMoreProducts} hasMore={hasMore} />
+      <LoadMore loadMoreProducts={loadMoreProducts} hasMore={hasMore} loading={loadingMoreProducts} />
     </div>
   )
 }

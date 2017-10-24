@@ -50,7 +50,7 @@ const CategoryHero = ({ categoryDetails, categories }) => (
 )
 
 const CategoryContainer = (props) => {
-  const {products, categoryDetails, settings, productFilter, productsHasMore, categories} = props.state;
+  const {products, categoryDetails, settings, productFilter, productsHasMore, categories, loadingProducts, loadingMoreProducts} = props.state;
   const {setSort, addCartItem, loadMoreProducts, getJSONLD} = props;
 
   const filterAttributesSummary = getFilterAttributesSummary(productFilter);
@@ -103,6 +103,8 @@ const CategoryContainer = (props) => {
                 settings={settings}
                 loadMoreProducts={loadMoreProducts}
                 hasMore={productsHasMore}
+                loadingProducts={loadingProducts}
+                loadingMoreProducts={loadingMoreProducts}
                 columnCountOnMobile={columnCountOnMobile}
                 columnCountOnDesktop={columnCountOnDesktop}
               />
