@@ -89,6 +89,14 @@ class SummaryForm extends React.Component {
             </Field>
 
             <div>
+              <Field component={TextField} fullWidth={true} name="comments" floatingLabelText={messages.customerComment}/>
+            </div>
+
+            <div>
+              <Field component={TextField} fullWidth={true} name="note" floatingLabelText={messages.note}/>
+            </div>
+
+            <div>
               <Field component={TextField} fullWidth={true} name="email" floatingLabelText={messages.email}/>
             </div>
 

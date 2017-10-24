@@ -194,7 +194,7 @@ export class OrderItem extends React.Component {
             }
           </div>
           <div className={style.itemName + " col-xs-4"}>
-            <Link to={`/admin/product/${item.product_id}/inventory`}>{item.name}</Link>
+            <Link to={`/admin/product/${item.product_id}`}>{item.name}</Link>
             <div>{item.variant_name}</div>
             <div>{messages.products_sku}: {item.sku}</div>
           </div>
@@ -208,7 +208,11 @@ export class OrderItem extends React.Component {
           </div>
           <div className="col-xs-1" style={{ textAlign: 'center' }}>
             {allowEdit &&
-              <IconMenu iconButtonElement={iconButtonElement}>
+              <IconMenu
+                iconButtonElement={iconButtonElement}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+              >
                 <MenuItem onClick={this.showEditForm}>{messages.edit}</MenuItem>
                 <MenuItem onClick={this.deleteItem}>{messages.actions_delete}</MenuItem>
               </IconMenu>

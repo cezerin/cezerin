@@ -26,10 +26,9 @@ export default class OrderDetails extends React.Component {
   render() {
     const {order, settings, onItemDelete, onItemUpdate, onShippingAddressUpdate, onOrderSummaryUpdate, onCheckout, processingCheckout} = this.props;
     if (!order)
-      return <br/>
+      return null;
 
     return (
-
       <div className="row row--no-gutter col-full-height">
         <div className="col-xs-4 col--no-gutter scroll col-full-height">
           <OrderSummary order={order} settings={settings} onOrderSummaryUpdate={onOrderSummaryUpdate} onCheckout={onCheckout} processingCheckout={processingCheckout}/>

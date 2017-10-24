@@ -8,14 +8,7 @@ import style from './style.css'
 import SummaryForm from './summaryForm.js'
 
 import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import SelectField from 'material-ui/SelectField';
 import Dialog from 'material-ui/Dialog';
 
 const getOrderStates = (order) => {
@@ -89,8 +82,6 @@ export default class OrderSummary extends React.Component {
     return (
       <Paper className="paper-box" zDepth={1}>
         <div className={style.innerBox}>
-          <div className="blue-title" style={{ paddingBottom:16, paddingTop:0 }}>{messages.order} #{order.number}</div>
-
           <div className={style.states}>
             {states}
           </div>
@@ -135,6 +126,11 @@ export default class OrderSummary extends React.Component {
             <div className="col-xs-7">{order.comments}</div>
           </div>
 
+          <div className={style.summaryRow + " row"}>
+            <div className="col-xs-5"><span>{messages.note}</span></div>
+            <div className="col-xs-7">{order.note}</div>
+          </div>
+
           <div style={{ marginTop:20 }}>
             {allowEdit &&
               <RaisedButton label="Edit" style={{ marginRight:15 }} onClick={this.showSummaryEdit} />
@@ -149,6 +145,7 @@ export default class OrderSummary extends React.Component {
             modal={false}
             open={this.state.openSummaryEdit}
             onRequestClose={this.hideSummaryEdit}
+            autoScrollBodyContent={true}
             contentStyle={{ width: 600 }}
           >
             <SummaryForm initialValues={order} onCancel={this.hideSummaryEdit} onSubmit={this.saveSummaryEdit} />
