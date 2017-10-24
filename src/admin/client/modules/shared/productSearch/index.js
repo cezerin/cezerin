@@ -90,12 +90,13 @@ export default class ConfirmationDialog extends React.Component {
   }
 
   handleRowSelection = (selectedRows) => {
-    const selectedIndex = selectedRows[0];
-    const selectedProductId = this.state.products && this.state.products.length >= selectedIndex ? this.state.products[selectedIndex].id : null;
-
-    this.setState({
-      selectedId: selectedProductId
-    });
+    if(selectedRows && selectedRows.length > 0){
+      const selectedIndex = selectedRows[0];
+      const selectedProductId = this.state.products && this.state.products.length >= selectedIndex ? this.state.products[selectedIndex].id : null;
+      this.setState({
+        selectedId: selectedProductId
+      });
+    }
   };
 
   handleSearch = (event, value) => {
