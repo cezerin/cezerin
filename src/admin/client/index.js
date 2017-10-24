@@ -1,3 +1,6 @@
+import '../../../public/admin-assets/css/flexboxgrid.min.css'
+import '../../../public/admin-assets/css/style.css'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {createStore, applyMiddleware} from 'redux'

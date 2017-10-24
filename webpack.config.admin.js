@@ -52,6 +52,21 @@ module.exports = () => {
           use: ['json-loader']
         }, {
           test: /\.css$/,
+          include: [ path.resolve(__dirname, "public") ],
+          use: ExtractTextPlugin.extract({
+              use: [
+                  {
+                      loader: "css-loader",
+                      options: {
+                          modules: false,
+                          importLoaders: true
+                      }
+                  }
+              ]
+          })
+        }, {
+          test: /\.css$/,
+          exclude: /node_modules|public/,
           use: ExtractTextPlugin.extract({
               use: [
                   {
