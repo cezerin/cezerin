@@ -247,7 +247,7 @@ class CheckoutStepContacts extends React.Component {
 
             <h2>{text.shippingMethods} {loadingShippingMethods && <small>{text.loading}</small>}</h2>
             <div className="shipping-methods">
-              {shippingMethods.map(method => <label key={method.id} className="shipping-method">
+              {shippingMethods.map((method, index) => <label key={index} className={'shipping-method' + (method.id === initialValues.shipping_method_id ? ' active': '')}>
                 <Field
                   name="shipping_method_id"
                   component="input"
@@ -265,7 +265,7 @@ class CheckoutStepContacts extends React.Component {
 
             <h2>{text.paymentMethods} {loadingPaymentMethods && <small>{text.loading}</small>}</h2>
             <div className="payment-methods">
-              {paymentMethods.map(method => <label key={method.id} className="payment-method">
+              {paymentMethods.map((method, index) => <label key={index} className={'payment-method' + (method.id === initialValues.payment_method_id ? ' active': '')}>
                 <Field
                   name="payment_method_id"
                   validate={[validateRequired]}
