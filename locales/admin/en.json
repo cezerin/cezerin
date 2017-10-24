@@ -321,5 +321,6 @@
   "serviceActions": "Actions",
   "serviceLogs": "Logs",
   "paymentGateway": "Payment Gateway",
-  "themeSettings": "Theme Settings"
+  "themeSettings": "Theme Settings",
+  "fieldKey": "Key"
 }
