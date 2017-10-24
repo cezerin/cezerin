@@ -38,18 +38,24 @@ export default class SelectTokenScopes extends React.Component {
   }
 
   render() {
-    const items = this.props.scopes.map(scope =>
-      <ListItem key={scope}
-        leftCheckbox={<Checkbox checked={this.isCheckboxChecked(scope)} disabled={this.props.disabled} onCheck={(e, isChecked) => {
-          this.onCheckboxChecked(scope)
-        }} />}
-        primaryText={scope}
-      />
+    const items = this.props.scopes.map((scope, index) =>
+      <div className="col-xs-12 col-sm-6" key={index}>
+        {scope && scope !== '' &&
+          <ListItem
+            leftCheckbox={<Checkbox checked={this.isCheckboxChecked(scope)} disabled={this.props.disabled} onCheck={(e, isChecked) => {
+              this.onCheckboxChecked(scope)
+            }} />}
+            primaryText={scope}
+          />
+        }
+      </div>
     )
 
     return (
       <List>
-        {items}
+        <div className="row">
+          {items}
+        </div>
       </List>
     )
   }

@@ -108,9 +108,13 @@ class SecurityTokensService {
   }
 
   checkTokenEmailUnique(email) {
-    return mongo.db.collection('tokens').count({email: email, is_revoked: false}).then(count => count === 0
-      ? email
-      : Promise.reject('Token email must be unique'));
+    if(email && email.length > 0){
+      return mongo.db.collection('tokens').count({email: email, is_revoked: false}).then(count => count === 0
+        ? email
+        : Promise.reject('Token email must be unique'));
+    } else {
+      return Promise.resolve(email);
+    }
   }
 
   getValidDocumentForInsert(data) {
@@ -122,7 +126,9 @@ class SecurityTokensService {
       }
 
       token.name = parse.getString(data.name);
-      token.email = email.toLowerCase();
+      if(email && email.length > 0){
+        token.email = email.toLowerCase();
+      }
       token.scopes = parse.getArrayIfValid(data.scopes);
       token.expiration = parse.getNumberIfPositive(data.expiration);
 
@@ -165,9 +171,12 @@ class SecurityTokensService {
       const jwtOptions = {};
 
       let payload = {
-        email: token.email.toLowerCase(),
         scopes: token.scopes,
         jti: token.id
+      }
+
+      if (token.email && token.email.length > 0) {
+        payload.email = token.email.toLowerCase()
       }
 
       if (token.expiration) {

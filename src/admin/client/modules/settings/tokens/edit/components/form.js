@@ -31,12 +31,15 @@ const Scopes = [
   'read:theme',
   'write:theme',
   'read:sitemap',
+  '',
   'read:shipping_methods',
   'write:shipping_methods',
   'read:payment_methods',
   'write:payment_methods',
   'read:settings',
-  'write:settings'];
+  'write:settings',
+  'read:files',
+  'write:files'];
 
 const validate = values => {
   const errors = {}
@@ -74,10 +77,7 @@ class EditTokenForm extends React.Component {
 
     return (
       <div>
-        <form onSubmit={handleSubmit} style={{
-          display: 'initial',
-          width: '100%'
-        }}>
+        <form onSubmit={handleSubmit}>
         <Paper className="paper-box" zDepth={1}>
           <div className={style.innerBox}>
             <Field name="name" component={TextField} floatingLabelText={messages.settings_tokenName} fullWidth={true}/>
