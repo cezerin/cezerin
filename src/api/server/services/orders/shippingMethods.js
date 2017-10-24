@@ -191,6 +191,18 @@ class ShippingMethodsService {
       };
   }
 
+  getFields(fields) {
+    if(fields && Array.isArray(fields) && fields.length > 0){
+      return fields.map(field => ({
+        key: parse.getString(field.key),
+        label: parse.getString(field.label),
+        required: parse.getBooleanIfValid(field.required, false)
+      }));
+    } else {
+      return [];
+    }
+  }
+
   getValidDocumentForInsert(data) {
     let method = {
       // 'logo': '',
@@ -204,6 +216,7 @@ class ShippingMethodsService {
     method.enabled = parse.getBooleanIfValid(data.enabled, true);
     method.price = parse.getNumberIfPositive(data.price) || 0;
     method.conditions = this.getShippingMethodConditions(data.conditions);
+    method.fields = this.getFields(data.fields);
 
     return method;
   }
@@ -237,6 +250,10 @@ class ShippingMethodsService {
 
     if (data.conditions !== undefined) {
       method.conditions = this.getShippingMethodConditions(data.conditions);
+    }
+
+    if (data.fields !== undefined) {
+      method.fields = this.getFields(data.fields);
     }
 
     return method;

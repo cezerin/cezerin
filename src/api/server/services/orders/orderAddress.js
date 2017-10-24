@@ -35,59 +35,21 @@ class OrderAddressService {
   }
 
   getValidDocumentForUpdate(id, data, addressTypeName) {
-    if (Object.keys(data).length === 0) {
+    const keys = Object.keys(data);
+    if (keys.length === 0) {
       return new Error('Required fields are missing');
     }
 
     let address = {}
 
-    if (data.address1 !== undefined) {
-      address[`${addressTypeName}.address1`] = parse.getString(data.address1);
-    }
-
-    if (data.address2 !== undefined) {
-      address[`${addressTypeName}.address2`] = parse.getString(data.address2);
-    }
-
-    if (data.city !== undefined) {
-      address[`${addressTypeName}.city`] = parse.getString(data.city);
-    }
-
-    if (data.country !== undefined) {
-      address[`${addressTypeName}.country`] = parse.getString(data.country).toUpperCase();
-    }
-
-    if (data.state !== undefined) {
-      address[`${addressTypeName}.state`] = parse.getString(data.state);
-    }
-
-    if (data.phone !== undefined) {
-      address[`${addressTypeName}.phone`] = parse.getString(data.phone);
-    }
-
-    if (data.postal_code !== undefined) {
-      address[`${addressTypeName}.postal_code`] = parse.getString(data.postal_code);
-    }
-
-    if (data.full_name !== undefined) {
-      address[`${addressTypeName}.full_name`] = parse.getString(data.full_name);
-    }
-
-    if (data.company !== undefined) {
-      address[`${addressTypeName}.company`] = parse.getString(data.company);
-    }
-
-    if (data.tax_number !== undefined) {
-      address[`${addressTypeName}.tax_number`] = parse.getString(data.tax_number);
-    }
-
-    if (data.coordinates !== undefined) {
-      address[`${addressTypeName}.coordinates`] = data.coordinates;
-    }
-
-    if (data.details !== undefined) {
-      address[`${addressTypeName}.details`] = data.details;
-    }
+    keys.forEach(key => {
+      const value = data[key];
+      if(key === 'coordinates' || key === 'details'){
+        address[`${addressTypeName}.${key}`] = value;
+      } else {
+        address[`${addressTypeName}.${key}`] = parse.getString(value);
+      }
+    })
 
     return address;
   }

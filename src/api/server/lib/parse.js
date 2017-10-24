@@ -102,8 +102,23 @@ const getOrderAddress = (address) => {
     coordinates.longitude = address.coordinates.longitude;
   }
 
-  return address
-    ? {
+  const emptyAddress = {
+    'address1': '',
+    'address2': '',
+    'city': '',
+    'country': '',
+    'state': '',
+    'phone': '',
+    'postal_code': '',
+    'full_name': '',
+    'company': '',
+    'tax_number': '',
+    'coordinates': coordinates,
+    'details': null
+  };
+
+  return address ? Object.assign({},
+    {
       'address1': getString(address.address1),
       'address2': getString(address.address2),
       'city': getString(address.city),
@@ -116,21 +131,9 @@ const getOrderAddress = (address) => {
       'tax_number': getString(address.tax_number),
       'coordinates': coordinates,
       'details': address.details
-    }
-    : {
-      'address1': '',
-      'address2': '',
-      'city': '',
-      'country': '',
-      'state': '',
-      'phone': '',
-      'postal_code': '',
-      'full_name': '',
-      'company': '',
-      'tax_number': '',
-      'coordinates': coordinates,
-      'details': null
-    };
+    },
+    address
+  ) : emptyAddress;
 }
 
 module.exports = {
