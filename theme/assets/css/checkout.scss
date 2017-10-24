@@ -114,9 +114,10 @@
 
 .shipping-method input[type="radio"], .payment-method input[type="radio"] {
   margin-right: 16px;
+  min-width: 20px;
 }
 
-.shipping-method:hover, .payment-method:hover {
+.shipping-method.active, .payment-method.active, .shipping-method:hover, .payment-method:hover {
   background-color: #f9f9f9;
 }
 
@@ -190,6 +191,15 @@
 
 .checkout-success-row span {
   color: #999;
+}
+
+.checkout-success-details .shipping-field {
+  font-size: 90%;
+  margin-top: 4px;
+}
+
+.checkout-success-details .shipping-field label {
+  color: #747679;
 }
 
 /*

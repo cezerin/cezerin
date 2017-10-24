@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
+import { text } from './settings'
 
 export const formatNumber = (number, settings) => {
   const x = 3;
@@ -97,4 +98,49 @@ export const getCategoryBreadcrumbs = (currentCategoryId, categories) => {
   } else {
     return null;
   }
+}
+
+export const getShippingMethodFromOrder = (order, shippingMethods) => {
+  if (order && order.shipping_method_id && shippingMethods && shippingMethods.length > 0) {
+    return shippingMethods.find(method => method.id === order.shipping_method_id);
+  } else {
+    return null;
+  }
+}
+
+export const getFieldLabelByKey = (key) => {
+  switch (key) {
+    case 'full_name':
+      return text.fullName;
+    case 'address1':
+      return text.address1;
+    case 'address2':
+      return text.address2;
+    case 'postal_code':
+      return text.postal_code;
+    case 'phone':
+      return text.phone;
+    case 'company':
+      return text.company;
+    case 'mobile':
+      return text.mobile;
+    case 'city':
+      return text.city;
+    case 'comments':
+      return text.comments;
+    default:
+      return '';
+  }
+}
+
+export const getShippingFieldLabel = ({label, key}) => {
+  return label && label.length > 0
+    ? label
+    : getFieldLabelByKey(key);
+}
+
+export const getCheckoutFieldLabel = ({label, name}) => {
+  return label && label.length > 0
+    ? label
+    : getFieldLabelByKey(name);
 }

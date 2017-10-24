@@ -1,11 +1,13 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
+import * as helper from '../lib/helper'
 
 import MetaTags from '../components/metaTags'
 import CheckoutSuccess from '../components/checkoutSuccess'
 
 const CheckoutSuccessContainer = (props) => {
-  const {pageDetails, order, cart, settings} = props.state;
+  const {pageDetails, order, settings, shippingMethods, checkoutFields} = props.state;
+  const shippingMethod = helper.getShippingMethodFromOrder(order, shippingMethods);
 
   return (
     <div>
@@ -22,7 +24,13 @@ const CheckoutSuccessContainer = (props) => {
           <div className="columns content">
             <div className="column is-8 is-offset-2">
               <div className="checkout-box">
-                <CheckoutSuccess order={order} settings={settings} pageDetails={pageDetails} />
+                <CheckoutSuccess
+                  order={order} 
+                  settings={settings}
+                  pageDetails={pageDetails}
+                  shippingMethod={shippingMethod}
+                  checkoutFields={checkoutFields}
+                />
               </div>
             </div>
           </div>
