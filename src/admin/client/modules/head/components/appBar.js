@@ -30,7 +30,7 @@ export default class AppBarTop extends React.Component {
   handleClose = () => this.setState({open: false});
 
   render() {
-    const { location, productCategoryName, productsSelectedCount, customersSelectedCount, customerGroupName, ordersSelectedCount, orderStatusName } = this.props;
+    const { location, productCategoryName, productsSelectedCount, customersSelectedCount, customerGroupName, ordersSelectedCount, orderStatusName, orderNumber } = this.props;
     const pathname = location.pathname;
 
     if(pathname === '/admin/login' || pathname === '/admin/logout'){
@@ -77,7 +77,7 @@ export default class AppBarTop extends React.Component {
       }
     }
     else if(pathname.startsWith('/admin/order/')){
-      title = messages.order;
+      title = orderNumber ? `${messages.order} #${orderNumber}` : messages.order;
       leftButton = <Link to="/admin/orders"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <OrderHead />;
     }
