@@ -40,6 +40,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         status_id: order.status_id,
         shipping_method_id:  order.shipping_method_id,
         payment_method_id: order.payment_method_id,
+        comments: order.comments,
+        note: order.note,
         email: order.email,
         mobile: order.mobile
       }));
