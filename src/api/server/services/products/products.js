@@ -21,7 +21,7 @@ class ProductsService {
       ]).then(([ categories, generalSettings ]) => {
         const domain = generalSettings.domain || '';
         const fieldsArray = this.getFieldsArray(params.fields);
-        const limit = parse.getNumberIfPositive(params.limit) || 1000000;
+        const limit = parse.getNumberIfPositive(params.limit) || 1000;
         const offset = parse.getNumberIfPositive(params.offset) || 0;
         const projectQuery = this.getProjectQuery(fieldsArray);
         const sortQuery = this.getSortQuery(params); // todo: validate every sort field
@@ -461,7 +461,7 @@ class ProductsService {
          queries.push({
            sku: sku
          });
-       }        
+       }
      }
 
      if(useAttributes){

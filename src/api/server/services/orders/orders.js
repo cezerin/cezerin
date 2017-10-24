@@ -140,7 +140,7 @@ class OrdersService {
 
   getOrders(params) {
     let filter = this.getFilter(params);
-    const limit = parse.getNumberIfPositive(params.limit) || 1000000;
+    const limit = parse.getNumberIfPositive(params.limit) || 1000;
     const offset = parse.getNumberIfPositive(params.offset) || 0;
 
     return Promise.all([
