@@ -92,7 +92,7 @@ Then open <http://localhost:3000> to see your app.
 
 ## Documentation
 
-[Documentation](https://github.com/cezerin/cezerin/wiki)
+[Documentation](https://github.com/cezerin/cezerin/tree/master/docs)
 
 [API Documentation](https://apidocs.cezerin.com)
 
