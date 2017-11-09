@@ -322,5 +322,9 @@
   "serviceLogs": "Logs",
   "paymentGateway": "Payment Gateway",
   "themeSettings": "Theme Settings",
-  "fieldKey": "Key"
+  "fieldKey": "Key",
+  "additionalInfo": "Additional Info",
+  "relatedProducts": "Related Products",
+  "tags": "Tags",
+  "newTag": "New tag name..."
 }
