@@ -555,7 +555,7 @@ class ProductsService {
     product.sku = parse.getString(data.sku);
     product.code = parse.getString(data.code);
     product.tax_class = parse.getString(data.tax_class);
-    product.related_product_ids = parse.getArrayIfValid(data.related_product_ids) || [];
+    product.related_product_ids = this.getArrayOfObjectID(data.related_product_ids);
     product.prices = parse.getArrayIfValid(data.prices) || [];
     product.cost_price = parse.getNumberIfPositive(data.cost_price) || 0;
     product.regular_price = parse.getNumberIfPositive(data.regular_price) || 0;
@@ -650,19 +650,7 @@ class ProductsService {
     }
 
     if(data.related_product_ids !== undefined) {
-      const relatedProductIds = parse.getArrayIfValid(data.related_product_ids) || [];
-      const relatedProductObjectIds = [];
-
-      if(relatedProductIds && relatedProductIds.length > 0){
-        for(const stringId of relatedProductIds){
-          const relatedObjectId = parse.getObjectIDIfValid(stringId);
-          if(relatedObjectId){
-            relatedProductObjectIds.push(relatedObjectId);
-          }
-        }
-      }
-
-      product.related_product_ids = relatedProductObjectIds;
+      product.related_product_ids = this.getArrayOfObjectID(data.related_product_ids);
     }
 
     if(data.prices !== undefined) {
@@ -730,6 +718,14 @@ class ProductsService {
     }
 
     return this.setAvailableSlug(product, id).then(product => this.setAvailableSku(product, id));
+  }
+
+  getArrayOfObjectID(array) {
+    if(array && Array.isArray(array)){
+      return array.map(item => parse.getObjectIDIfValid(item))
+    } else {
+      return [];
+    }
   }
 
   getValidAttributesArray(attributes) {
