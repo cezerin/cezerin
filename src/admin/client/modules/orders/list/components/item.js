@@ -49,7 +49,7 @@ const OrdersListItem = ({ order, onSelect, selected, settings }) => {
   let shippingTo = order.shipping_address ? order.shipping_address.full_name : '';
 
   return (
-    <div className="orders-item">
+    <div className={'orders-item' + (checked === true ? ' selected' : '')}>
       <ListItem style={{ cursor: 'normal' }}
         primaryText={
           <div className="row middle-xs">

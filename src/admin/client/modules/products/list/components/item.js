@@ -75,7 +75,7 @@ const ProductItem = ({ product, onSelect, selected, settings }) => {
   const productName = product.name && product.name.length > 0 ? product.name : `<${messages.draft}>`;
 
   return (
-    <div className="products-item">
+    <div className={'products-item' + (selected === true ? ' selected' : '')}>
       <div className={"row row--no-gutter middle-xs " + style.innerItem}>
         <div className="col-xs-6 col--no-gutter">
           <div className="row row--no-gutter middle-xs">

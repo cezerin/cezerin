@@ -13,7 +13,7 @@ const CustomersListItem = ({ customer, onSelect, selected, settings }) => {
   let totalSpentFormatted = helper.formatCurrency(customer.total_spent, settings);
 
   return (
-    <div className="customers-item">
+    <div className={'customers-item' + (checked === true ? ' selected' : '')}>
       <ListItem style={{ cursor: 'normal' }}
         primaryText={
           <div className="row middle-xs">
