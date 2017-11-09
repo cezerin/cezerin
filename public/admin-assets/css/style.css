@@ -102,6 +102,10 @@ h1 {
   border-left: 1px solid rgb(224, 224, 224);
 }
 
+.products-item.selected, .orders-item.selected, .customers-item.selected {
+  background-color: rgba(0,0,0,0.01);
+}
+
 .block404 {
   text-align: center;
   margin-top: 40px;
@@ -153,4 +157,47 @@ h1 {
 
 .loginInput {
   margin: 30px 0 30px 0;
+}
+
+.react-tagsinput {
+  overflow: hidden;
+  margin: 10px 0 20px 0;
+}
+
+.react-tagsinput--focused {
+}
+
+.react-tagsinput-tag {
+  background-color: rgb(224, 224, 224);
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding: 8px 16px;
+  cursor: default;
+  border-radius: 16px;
+}
+
+.react-tagsinput-remove {
+  cursor: pointer;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+.react-tagsinput-tag a::before {
+  content: " ×";
+}
+
+.react-tagsinput-input {
+  background: transparent;
+  border: 0;
+  color: #777;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 6px;
+  margin-top: 1px;
+  outline: none;
+  padding: 0;
+  width: 120px;
 }
