@@ -3,7 +3,7 @@ import {Field, reduxForm} from 'redux-form'
 import text from '../../text'
 import { formatCurrency } from '../../lib/helper'
 
-const validateRequired = value => value && value.length > 1 ? undefined : text.required;
+const validateRequired = value => value && value.length > 0 ? undefined : text.required;
 
 const validateEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
   ? text.emailInvalid
