@@ -320,4 +320,9 @@
     "type": "string",
     "label": "Link url"
   }]
+}, {
+  "section": "Product Details",
+  "key": "related_products_title",
+  "type": "string",
+  "label": "Related Products Title"
 }]

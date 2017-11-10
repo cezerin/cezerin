@@ -37,7 +37,13 @@ const IndexContainer = (props) => {
       <section className="section">
         <div className="container">
           <div className="title is-4 has-text-centered">{themeSettings.home_products_title}</div>
-          <CustomProductList settings={settings} addCartItem={addCartItem} />
+          <CustomProductList
+            sku={themeSettings.home_products_sku}
+            sort={themeSettings.home_products_sort}
+            limit={themeSettings.home_products_limit}
+            settings={settings}
+            addCartItem={addCartItem}
+          />
         </div>
       </section>
 

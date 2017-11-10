@@ -6,6 +6,7 @@ import * as helper from '../lib/helper'
 import Disqus from './disqus'
 import ProductBreadcrumbs from './productBreadcrumbs'
 import DiscountCountdown from './discountCountdown'
+import CustomProductList from './customProductList'
 
 const ProductOption = ({ option, onChange }) => {
   const values = option.values
@@ -41,13 +42,30 @@ const ProductOptions = ({ options, onChange }) => {
   )
 }
 
-const RelatedProducts = ({ ids }) => {
-  return (
-    <div className="container">
-      <div className="title is-4">{text.relatedProducts}</div>
-      <div>Not implemented</div>
-    </div>
-  );
+const RelatedProducts = ({ ids, settings, addCartItem }) => {
+  if(ids && ids.length > 0) {
+    let title = themeSettings.related_products_title && themeSettings.related_products_title.length > 0
+      ? themeSettings.related_products_title
+      : text.relatedProducts;
+
+    return (
+      <section className="section section-product-related">
+        <div className="container">
+          <div className="title is-4 has-text-centered">{title}</div>
+          <CustomProductList
+            ids={ids}
+            sort={null}
+            limit={8}
+            isCentered={true}
+            settings={settings}
+            addCartItem={addCartItem}
+          />
+        </div>
+      </section>
+    )
+  } else {
+    return null;
+  }
 }
 
 const ProductAttributes = ({ attributes }) => {
@@ -142,6 +160,18 @@ const ProductDescription = ({ description }) => {
   return (
     <div dangerouslySetInnerHTML={{__html: description}}/>
   )
+}
+
+const ProductTags = ({ tags }) => {
+  if(tags && tags.length > 0){
+    return <div className="tags">
+      {tags.map((tag, index) => (
+        <span key={index} className="tag">{tag}</span>
+      ))}
+    </div>
+  } else {
+    return null;
+  }
 }
 
 const ProductGallery = ({ images }) => {
@@ -263,6 +293,7 @@ export default class ProductDetails extends React.Component {
                 </div>
                 <div className="column is-5">
                   <div className="content">
+                    <ProductTags tags={product.tags} />
                     <h1 className="title is-4 product-name">{product.name}</h1>
                     <ProductPrice product={product} variant={selectedVariant} isAllOptionsSelected={isAllOptionsSelected} settings={settings} />
 
@@ -302,25 +333,17 @@ export default class ProductDetails extends React.Component {
             </div>
           </section>
 
-          {/* {product.related_product_ids && product.related_product_ids.length > 0 &&
-            <section className="section section-product-related">
-              <RelatedProducts ids={product.related_product_ids} />
-            </section>
-          } */}
+          <RelatedProducts ids={product.related_product_ids} settings={settings} addCartItem={this.addToCart} />
 
           {themeSettings.disqus_shortname && themeSettings.disqus_shortname !== '' &&
             <section className="section">
               <div className="container">
-                <div className="columns">
-                  <div className="column is-7">
-                    <Disqus
-                      shortname={themeSettings.disqus_shortname}
-                      identifier={product.id}
-                      title={product.name}
-                      url={product.url}
-                    />
-                  </div>
-                </div>
+                <Disqus
+                  shortname={themeSettings.disqus_shortname}
+                  identifier={product.id}
+                  title={product.name}
+                  url={product.url}
+                />
               </div>
             </section>
           }

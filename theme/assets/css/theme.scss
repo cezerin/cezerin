@@ -4,6 +4,10 @@ $green: #00b366;
 $primary: $green;
 $link: #000;
 
+$tag-background-color: #ffdd57;
+$tag-color: rgba(0, 0, 0, 0.7);
+$tag-radius: 3px;
+
 @import "~bulma";
 @import "~rc-slider/assets/index.css";
 $ig-blue: #636363 !default;

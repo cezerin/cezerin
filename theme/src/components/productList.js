@@ -28,6 +28,18 @@ const ItemPrice = ({ product, settings }) => {
   }
 }
 
+const ItemTags = ({ tags }) => {
+  if(tags && tags.length > 0){
+    return <div className="tags">
+      {tags.map((tag, index) => (
+        <span key={index} className="tag">{tag}</span>
+      ))}
+    </div>
+  } else {
+    return null;
+  }
+}
+
 const ItemImage = ({ images, alt }) => {
   if(images && images.length > 0) {
     const imageUrl = helper.getThumbnailUrl(images[0].url, themeSettings.listThumbnailWidth);
@@ -54,6 +66,7 @@ const ListItem = ({product, addCartItem, settings, columnCountOnMobile, columnCo
     <div className={`column is-${columnSizeOnMobile}-mobile is-${columnSizeOnDesktop}-tablet`}>
       <NavLink to={product.path}>
         <figure className="image" style={{ maxHeight: maxHeight }}>
+          <ItemTags tags={product.tags} />
           <ItemImage images={product.images} alt={product.name} />
         </figure>
         <div className="content product-caption">
@@ -85,7 +98,7 @@ const LoadMore = ({ loadMoreProducts, hasMore, loading }) => {
   )
 }
 
-const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop, loadingProducts, loadingMoreProducts}) => {
+const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop, loadingProducts, loadingMoreProducts, isCentered}) => {
   const items = products ? products.map((product, index) => {
     return (
       <ListItem
@@ -101,7 +114,7 @@ const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore
 
   return (
     <div>
-      <div className={'columns is-multiline is-mobile products' + (loadingProducts ? ' loading': '')}>
+      <div className={'columns is-multiline is-mobile products' + (loadingProducts ? ' loading': '') + (isCentered ? ' is-centered' : '')}>
         {items}
       </div>
       <LoadMore loadMoreProducts={loadMoreProducts} hasMore={hasMore} loading={loadingMoreProducts} />

@@ -1,6 +1,5 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
 import api from '../lib/api'
 import ProductList from './productList'
@@ -14,20 +13,23 @@ export default class CustomProductList extends React.Component {
   }
 
   componentDidMount() {
-    this.loadProducts();
+    this.fetchProducts();
   }
 
-  loadProducts = () => {
+  fetchProducts = () => {
+    const { ids, sku, sort, limit, category_id } = this.props;
+
     const filter = {
-      sku: themeSettings.home_products_sku,
+      ids: ids,
+      sku: sku,
       on_sale: null,
       search: null,
-      category_id: null,
+      category_id: category_id,
       price_from: null,
       price_to: null,
-      sort: themeSettings.home_products_sort,
-      fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes',
-      limit: themeSettings.home_products_limit || 8,
+      sort: sort,
+      fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags',
+      limit: limit || 4,
       offset: 0
     };
 
@@ -39,7 +41,7 @@ export default class CustomProductList extends React.Component {
   }
 
   render() {
-    const { settings, addCartItem } = this.props;
+    const { settings, addCartItem, isCentered } = this.props;
 
     return (
       <div>
@@ -51,6 +53,7 @@ export default class CustomProductList extends React.Component {
           hasMore={false}
           columnCountOnMobile={2}
           columnCountOnDesktop={4}
+          isCentered={isCentered}
         />
       </div>
     )
