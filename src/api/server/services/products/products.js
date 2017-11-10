@@ -20,7 +20,7 @@ class ProductsService {
         SettingsService.getSettings()
       ]).then(([ categories, generalSettings ]) => {
         const domain = generalSettings.domain || '';
-        const fieldsArray = this.getFieldsArray(params.fields);
+        const fieldsArray = this.getArrayFromCSV(params.fields);
         const limit = parse.getNumberIfPositive(params.limit) || 1000;
         const offset = parse.getNumberIfPositive(params.offset) || 0;
         const projectQuery = this.getProjectQuery(fieldsArray);
@@ -50,7 +50,12 @@ class ProductsService {
             this.getAttributesIfNeeded(params, categories, matchTextQuery, projectQuery)
           ]).then(([ itemsResult, countResult, minMaxPriceResult, allAttributesResult, attributesResult ]) => {
 
-            const items = itemsResult.map(item => this.changeProperties(categories, item, domain));
+            const ids = this.getArrayFromCSV(parse.getString(params.ids));
+            const sku = this.getArrayFromCSV(parse.getString(params.sku));
+
+            let items = itemsResult.map(item => this.changeProperties(categories, item, domain));
+            items = this.sortItemsByArrayOfIdsIfNeed(items, ids, sortQuery);
+            items = this.sortItemsByArrayOfSkuIfNeed(items, sku, sortQuery);
 
             let total_count = 0;
             let min_price = 0;
@@ -83,6 +88,18 @@ class ProductsService {
 
           })
       });
+  }
+
+  sortItemsByArrayOfIdsIfNeed(items, arrayOfIds, sortQuery) {
+    return arrayOfIds && arrayOfIds.length > 0 && sortQuery === null
+      ? arrayOfIds.map(id => items.find(item => item.id === id))
+      : items;
+  }
+
+  sortItemsByArrayOfSkuIfNeed(items, arrayOfSku, sortQuery) {
+    return arrayOfSku && arrayOfSku.length > 0 && sortQuery === null
+      ? arrayOfSku.map(sku => items.find(item => item.sku === sku))
+      : items;
   }
 
   getOrganizedAttributes(allAttributesResult, filteredAttributesResult, params) {
@@ -328,7 +345,7 @@ class ProductsService {
     return project;
   }
 
-  getFieldsArray(fields) {
+  getArrayFromCSV(fields) {
     return (fields && fields.length > 0) ? fields.split(',') : [];
   }
 
