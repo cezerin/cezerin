@@ -10,7 +10,7 @@ import App from '../shared/app'
 const initialState = window.__APP_STATE__;
 const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <BrowserRouter>
       <App/>
