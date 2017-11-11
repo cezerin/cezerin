@@ -40,14 +40,14 @@ const staticOptions = {
 }
 
 app.set('trust proxy', 1) // trust first proxy
+app.use(helmet())
 app.use(express.static(STATIC_ROOT_DIRECTORY, staticOptions))
-app.get('/*.ico', (req, res) => {
-  res.status(404).end();
-});
 app.get('/assets/*', (req, res) => {
   res.status(404).end();
 });
-app.use(helmet())
+app.get(/^.+\.(jpg|jpeg|gif|png|bmp|ico|webp|svg|css|js|zip|rar|flv|swf|xls)$/, (req, res) => {
+  res.status(404).end();
+});
 app.use(responseTime())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
