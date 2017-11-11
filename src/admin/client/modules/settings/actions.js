@@ -363,7 +363,7 @@ export function createPage(page) {
 export function updatePage(page) {
   return (dispatch, getState) => {
     return api.pages.update(page.id, page).then(({status, json}) => {
-      dispatch(fetchPages())
+      dispatch(receivePage(json))
     }).catch(error => {});
   }
 }
