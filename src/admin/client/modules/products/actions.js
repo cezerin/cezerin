@@ -368,8 +368,14 @@ export function fetchVariants(productId) {
 
 export function createVariant(productId) {
   return (dispatch, getState) => {
-    // todo: get price, stock_quantity and weight from product details
-    const variant = { price: 0, stock_quantity: 0, weight: 0 };
+    const state = getState();
+    const { regular_price, stock_quantity, weight } = state.products.editProduct;
+    const variant = {
+      price: regular_price,
+      stock_quantity: stock_quantity,
+      weight: weight
+    };
+
     return api.products.variants.create(productId, variant).then(({status, json}) => {
       dispatch(receiveVariants(json))
     })
