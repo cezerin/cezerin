@@ -73,9 +73,9 @@ module.exports = () => {
     ]
   };
 
-  if (env === 'production') {
-    config.plugins.push(new webpack.BannerPlugin({banner: `Created: ${new Date().toUTCString()}`, raw: false, entryOnly: false}));
+  config.plugins.push(new webpack.BannerPlugin({banner: `Created: ${new Date().toUTCString()}`, raw: false, entryOnly: false}));
 
+  if (env === 'production') {
     config.stats = {
       colors: false,
       hash: false,
@@ -87,8 +87,8 @@ module.exports = () => {
       reasons: false,
       children: false,
       source: false,
-      errors: false,
-      errorDetails: false,
+      errors: true,
+      errorDetails: true,
       warnings: false,
       publicPath: false
     }
