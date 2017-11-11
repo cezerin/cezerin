@@ -93,45 +93,44 @@ class PagesService {
     if (Object.keys(data).length === 0) {
       return Promise.reject('Required fields are missing');
     } else {
+      return this.getSinglePage(id).then(prevPageData => {
+        let page = {
+          'date_updated': new Date()
+        };
 
-    }
-    return this.getSinglePage(id).then(prevPageData => {
-      let page = {
-        'date_updated': new Date()
-      };
-
-      if (data.content !== undefined) {
-        page.content = parse.getString(data.content);
-      }
-
-      if (data.meta_description !== undefined) {
-        page.meta_description = parse.getString(data.meta_description);
-      }
-
-      if (data.meta_title !== undefined) {
-        page.meta_title = parse.getString(data.meta_title);
-      }
-
-      if (data.enabled !== undefined && !prevPageData.is_system) {
-        page.enabled = parse.getBooleanIfValid(data.enabled, true);
-      }
-
-      if (data.slug !== undefined  && !prevPageData.is_system) {
-        let slug = data.slug;
-        if(!slug || slug.length === 0) {
-          slug = data.meta_title;
+        if (data.content !== undefined) {
+          page.content = parse.getString(data.content);
         }
 
-        return utils.getAvailableSlug(slug, id)
-        .then(newSlug => {
-          page.slug = newSlug;
-          return page;
-        })
+        if (data.meta_description !== undefined) {
+          page.meta_description = parse.getString(data.meta_description);
+        }
 
-      } else {
-        return page;
-      }
-    })
+        if (data.meta_title !== undefined) {
+          page.meta_title = parse.getString(data.meta_title);
+        }
+
+        if (data.enabled !== undefined && !prevPageData.is_system) {
+          page.enabled = parse.getBooleanIfValid(data.enabled, true);
+        }
+
+        if (data.slug !== undefined  && !prevPageData.is_system) {
+          let slug = data.slug;
+          if(!slug || slug.length === 0) {
+            slug = data.meta_title;
+          }
+
+          return utils.getAvailableSlug(slug, id, false)
+          .then(newSlug => {
+            page.slug = newSlug;
+            return page;
+          })
+
+        } else {
+          return page;
+        }
+      })
+    }
   }
 
   changeProperties(item, domain) {

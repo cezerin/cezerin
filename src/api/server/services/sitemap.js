@@ -24,7 +24,10 @@ class SitemapService {
   }
 
   getPathsWithSlash(slug, onlyEnabled) {
-    return this.getSlugArrayFromProducts(slug, onlyEnabled);
+    return Promise.all([this.getSlugArrayFromProducts(slug, onlyEnabled), this.getSlugArrayFromPages(slug, onlyEnabled)]).then(([products, pages]) => {
+      let paths = [...products, ...pages];
+      return paths;
+    });
   }
 
   getSlugArrayFromReserved() {

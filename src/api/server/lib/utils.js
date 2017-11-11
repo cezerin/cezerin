@@ -11,10 +11,13 @@ const cleanSlug = (text) => {
   return slug(text || '', slugConfig);
 }
 
-const getAvailableSlug = (path, resource) => {
+const getAvailableSlug = (path, resource, enableCleanPath = true) => {
   return SitemapService.getPaths()
   .then(paths => {
-    path = cleanSlug(path);
+    if(enableCleanPath){
+      path = cleanSlug(path);
+    }
+
     let pathExists = paths.find(e => e.path === '/' + path && e.resource != resource);
     while(pathExists) {
       path += '-2';
