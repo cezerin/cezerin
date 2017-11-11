@@ -54,7 +54,16 @@ const getThemeSettings = () => {
 const getAllData = (currentPage, productFilter, cookie) => {
   return Promise.all([
     api.checkoutFields.list().then(({status, json}) => json),
-    api.productCategories.list({enabled: true}).then(({status, json}) => json),
+    api.productCategories.list({enabled: true}).then(({status, json}) => {
+      // delete unused propetries
+      return json.map(category => {
+        delete category.date_created;
+        delete category.date_updated;
+        delete category.enabled;
+        delete category.slug;
+        return category;
+      });
+    }),
     api.ajax.cart.retrieve(cookie).then(({status, json}) => json),
     getProducts(currentPage, productFilter),
     getProduct(currentPage),
