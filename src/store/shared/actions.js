@@ -3,7 +3,7 @@ import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 import queryString from 'query-string'
 import api from '../client/api'
 
-const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags';
+const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position';
 
 export const fetchProduct = product_id => (dispatch, getState) => {
   dispatch(requestProduct())
