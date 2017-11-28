@@ -36,18 +36,13 @@ hr.separator {
   padding: 1.5rem;
 }
 
-.nav-toggle span {
+.navbar-burger {
+  margin-left: 0;
+}
+
+.navbar-burger span {
   height: 2px;
   width: 18px;
-  margin-left: -9px;
-}
-
-.nav-toggle span:nth-child(1) {
-    margin-top: -7px;
-}
-
-.nav-toggle span:nth-child(3) {
-    margin-top: 5px;
 }
 
 .box {
