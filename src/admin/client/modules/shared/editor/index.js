@@ -41,6 +41,7 @@ export default class Editor extends React.Component {
   render() {
     return (
       <TinyMCE
+        entityId={this.props.entityId}
         content={this.state.value}
         config={{
           language: settings.language,
