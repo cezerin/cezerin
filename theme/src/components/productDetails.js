@@ -7,6 +7,7 @@ import Disqus from './disqus'
 import ProductBreadcrumbs from './productBreadcrumbs'
 import DiscountCountdown from './discountCountdown'
 import CustomProductList from './customProductList'
+import Lightbox from 'react-image-lightbox'
 
 const ProductOption = ({ option, onChange }) => {
   const values = option.values
@@ -174,36 +175,78 @@ const ProductTags = ({ tags }) => {
   }
 }
 
-const ProductGallery = ({ images }) => {
-  if (images && images.length > 0) {
-    const imagesArray = images.map(image => (
-      {
-        original: helper.getThumbnailUrl(image.url, themeSettings.bigThumbnailWidth),
-        thumbnail: helper.getThumbnailUrl(image.url, themeSettings.previewThumbnailWidth),
-        originalAlt: image.alt,
-        thumbnailAlt: image.alt
-      }
-    ))
+class ProductGallery extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      lightboxIsOpen: false,
+      lightboxPhotoIndex: 0
+    }
+  }
 
-    const showThumbnails = images.length > 1;
+  openLightbox = () => {
+    this.setState({ lightboxIsOpen: true });
+  }
 
-    return (
-      <ImageGallery
-        items={imagesArray}
-        showThumbnails={showThumbnails}
-        lazyLoad={false}
-        slideInterval={2000}
-        showNav={false}
-        showBullets={showThumbnails}
-        showPlayButton={false}
-        showFullscreenButton={false}
-        slideOnThumbnailHover={true}
-        thumbnailPosition={themeSettings.product_thumbnail_position}
-      />
-    )
+  closeLightbox = () => {
+    this.setState({ lightboxIsOpen: false });
+  }
 
-  } else {
-    return <div className="large-image-placeholder"></div>;
+  render() {
+    const { images } = this.props;
+    const { lightboxIsOpen, lightboxPhotoIndex } = this.state;
+
+    if (images && images.length > 0) {
+      const imagesArray = images.map(image => (
+        {
+          original: helper.getThumbnailUrl(image.url, themeSettings.bigThumbnailWidth),
+          thumbnail: helper.getThumbnailUrl(image.url, themeSettings.previewThumbnailWidth),
+          originalAlt: image.alt,
+          thumbnailAlt: image.alt
+        }
+      ))
+
+      const originalImages = images.map(image => image.url);
+      const showThumbnails = images.length > 1;
+
+      return (
+        <div>
+          <ImageGallery
+            items={imagesArray}
+            showThumbnails={showThumbnails}
+            onClick={this.openLightbox}
+            lazyLoad={false}
+            slideInterval={2000}
+            showNav={false}
+            showBullets={showThumbnails}
+            showPlayButton={false}
+            showFullscreenButton={false}
+            slideOnThumbnailHover={true}
+            thumbnailPosition={themeSettings.product_thumbnail_position}
+          />
+
+          {lightboxIsOpen &&
+              <Lightbox
+                  reactModalStyle={{ overlay: { zIndex: 1099 } }}
+                  mainSrc={originalImages[lightboxPhotoIndex]}
+                  nextSrc={originalImages[(lightboxPhotoIndex + 1) % originalImages.length]}
+                  prevSrc={originalImages[(lightboxPhotoIndex + originalImages.length - 1) % originalImages.length]}
+
+                  onCloseRequest={this.closeLightbox}
+                  onMovePrevRequest={() => this.setState({
+                      lightboxPhotoIndex: (lightboxPhotoIndex + originalImages.length - 1) % originalImages.length,
+                  })}
+                  onMoveNextRequest={() => this.setState({
+                      lightboxPhotoIndex: (lightboxPhotoIndex + 1) % originalImages.length,
+                  })}
+              />
+          }
+
+        </div>
+      )
+    } else {
+      return <div className="large-image-placeholder"></div>;
+    }
   }
 }
 
