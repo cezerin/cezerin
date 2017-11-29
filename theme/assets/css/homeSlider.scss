@@ -70,7 +70,8 @@ Mobile
 */
 @media screen and (max-width: 769px) {
   .image-gallery-left-nav, .image-gallery-right-nav {
-    display: none;
+    padding: 30px 15px;
+    background-size: 2rem;
   }
 
   .caption-title {

@@ -215,9 +215,9 @@ class ProductGallery extends React.Component {
             items={imagesArray}
             showThumbnails={showThumbnails}
             onClick={this.openLightbox}
-            lazyLoad={false}
+            lazyLoad={true}
             slideInterval={2000}
-            showNav={false}
+            showNav={themeSettings.product_gallery_shownav || true}
             showBullets={showThumbnails}
             showPlayButton={false}
             showFullscreenButton={false}
