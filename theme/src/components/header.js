@@ -92,7 +92,7 @@ export default class Header extends React.Component {
         <header className={this.state.mobileSearchIsActive ? 'search-active' : ''}>
           <div className="container">
 
-            <div className="columns is-gapless is-mobile" style={{ alignItems: 'center', marginTop: 0, marginBottom: '10px' }}>
+            <div className="columns is-gapless is-mobile header-container">
 
               <div className="column is-4">
                 {!showBackButton &&
@@ -114,10 +114,10 @@ export default class Header extends React.Component {
                   <img src={settings.logo} alt="logo" />
                 </NavLink>
               </div>
-              <div className="column is-4 has-text-right" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+              <div className="column is-4 has-text-right header-block-right">
 
                 <span className="icon icon-search is-hidden-tablet" onClick={this.searchToggle}>
-                  <img src="/assets/images/search.svg" alt={text.search} title={text.search} style={{ width: 24 }}/>
+                  <img src="/assets/images/search.svg" alt={text.search} title={text.search} style={{ minWidth: 24 }}/>
                 </span>
                 <SearchBox value={productFilter.search} onSearch={this.handleSearch} className={this.state.mobileSearchIsActive ? 'search-active' : ''} />
 

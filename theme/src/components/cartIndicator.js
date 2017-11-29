@@ -11,13 +11,13 @@ export default class CartIndicator extends React.PureComponent {
         itemsCount += item.quantity;
       }
       return <span className="cart-button" onClick={onClick}>
-        <img src="/assets/images/shopping-bag.svg" className="icon" alt={text.cart} title={text.cart} style={{ width: 24 }}/>
+        <img src="/assets/images/shopping-bag.svg" className="icon" alt={text.cart} title={text.cart} style={{ minWidth: 24 }}/>
         <span className="tag icon is-danger cart-count">{itemsCount}</span>
       </span>
     } else {
       // cart is empty
       return <span className="cart-button" onClick={onClick}>
-        <img src="/assets/images/shopping-bag.svg" className="icon" alt={text.cart} title={text.cart} style={{ width: 24 }}/>
+        <img src="/assets/images/shopping-bag.svg" className="icon" alt={text.cart} title={text.cart} style={{ minWidth: 24 }}/>
       </span>
     }
   }

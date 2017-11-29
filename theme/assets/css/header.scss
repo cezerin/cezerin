@@ -35,6 +35,16 @@ header {
   font-weight: 600;
 }
 
+.header-container {
+  margin: 0 0 10px 0 !important;
+}
+
+.header-block-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
 @media screen and (max-width: 769px) {
   header {
     position: fixed;
@@ -59,6 +69,12 @@ header {
 
   .cart-button {
     margin: 0 0.5rem 0 1rem;
+  }
+
+  .header-container {
+    align-items: center;
+    margin: 0;
+    height: 3.25rem;
   }
 }
 
