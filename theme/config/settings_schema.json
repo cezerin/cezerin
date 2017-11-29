@@ -325,4 +325,14 @@
   "key": "related_products_title",
   "type": "string",
   "label": "Related Products Title"
+}, {
+  "section": "Product Details",
+  "key": "product_gallery_shownav",
+  "type": "boolean",
+  "label": "Show Navigation Arrows in Gallery"
+}, {
+  "section": "Home",
+  "key": "home_gallery_shownav",
+  "type": "boolean",
+  "label": "Show Navigation Arrows in Gallery"
 }]
