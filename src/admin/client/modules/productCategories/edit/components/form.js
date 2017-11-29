@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
+import Editor from 'modules/shared/editor'
 
 import { CustomToggle } from 'modules/shared/form'
 import ImageUpload from 'modules/shared/imageUpload'
@@ -73,7 +74,8 @@ const ProductCategoryEditForm = ({
         <form onSubmit={handleSubmit}>
           <div className={style.innerBox}>
             <Field name="name" component={TextField} floatingLabelText={messages.productCategories_name+' *'} fullWidth={true}/>
-            <Field name="description" component={TextField} floatingLabelText={messages.description} fullWidth={true} multiLine={true} rows={1}/>
+            <div className="field-hint" style={{ marginTop: 40 }}>{messages.description}</div>
+            <Field name="description" entityId={categoryId} component={Editor} />
             <div className={style.shortBox}>
               <Field name="enabled" component={CustomToggle} label={messages.enabled} className={style.toggle}/>
               <ImageUpload

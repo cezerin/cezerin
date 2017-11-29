@@ -200,11 +200,7 @@ class GeneralSettings extends React.Component {
             <div className="row between-xs middle-xs">
               <div className="col-xs-12 col-sm-6">{messages.settings_defaultProductSorting}</div>
               <div className="col-xs-12 col-sm-6">
-                <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_product_sorting">
-                  <MenuItem value="stock_status,price" primaryText={messages.settings_sortByPriceAsc}/>
-                  <MenuItem value="stock_status,-price" primaryText={messages.settings_sortByPriceDesc}/>
-                  <MenuItem value="stock_status,price,position" primaryText={messages.settings_sortByDefault}/>
-                </Field>
+                <Field component={TextField} fullWidth={true} name="default_product_sorting" placeholder="-position,stock_status,price"/>
               </div>
             </div>
 

@@ -41,8 +41,8 @@ const CategoryHero = ({ categoryDetails, categories }) => (
         <h1 className="category-title">
           {categoryDetails.name}
         </h1>
-        <h2
-          className="category-description is-hidden-mobile"
+        <div
+          className="category-description is-hidden-mobile content"
           dangerouslySetInnerHTML={{ __html: categoryDetails.description }}
         />
       </div>
