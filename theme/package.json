@@ -16,8 +16,9 @@
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "bulma": "^0.6.1",
-    "rc-slider": "^8.4.0",
-    "react-image-gallery": "^0.8.5",
-    "react-image-lightbox": "^4.3.0"
+    "rc-slider": "^8.4.1",
+    "react-image-gallery": "^0.8.6",
+    "react-image-lightbox": "^4.3.0",
+    "react-lazyload": "^2.3.0"
   }
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
+import LazyLoad from 'react-lazyload'
 
 const ItemPrice = ({ product, settings }) => {
   let priceStyle = {};
@@ -45,7 +46,9 @@ const ItemImage = ({ images, alt }) => {
     const imageUrl = helper.getThumbnailUrl(images[0].url, themeSettings.listThumbnailWidth);
 
     return (
-      <img src={imageUrl} alt={alt} />
+      <LazyLoad height={200}>
+        <img src={imageUrl} alt={alt} />
+      </LazyLoad>
     )
   } else {
     return (
