@@ -1,5 +1,6 @@
 import settings from './settings'
 import api from './api'
+import messages from './text'
 
 const LOGIN_PATH = '/admin/login';
 const HOME_PATH = '/admin/';
@@ -34,10 +35,10 @@ export const checkTokenFromUrl = () => {
           saveToken({token, email: tokenData.email, expiration_date});
           location.replace(HOME_PATH);
         } else {
-          alert('Token is expired')
+          alert(messages.tokenExpired);
         }
       } else {
-        alert('Token is not valid');
+        alert(messages.tokenInvalid);
       }
     } else {
       if (isCurrentTokenValid()) {
