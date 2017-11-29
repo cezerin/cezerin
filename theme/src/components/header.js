@@ -121,7 +121,7 @@ export default class Header extends React.Component {
                 </span>
                 <SearchBox value={productFilter.search} onSearch={this.handleSearch} className={this.state.mobileSearchIsActive ? 'search-active' : ''} />
 
-                <CartIndicator cart={cart} onClick={this.cartToggle} />
+                <CartIndicator cart={cart} onClick={this.cartToggle} cartIsActive={this.state.cartIsActive} />
                 <div className={this.state.cartIsActive ? 'mini-cart-open' : ''}>
                   <Cart cart={cart} deleteCartItem={this.props.deleteCartItem} settings={settings} cartToggle={this.cartToggle} />
                 </div>
