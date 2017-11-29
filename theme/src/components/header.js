@@ -84,7 +84,7 @@ export default class Header extends React.Component {
 
   render() {
     const {categories, cart, settings, currentPage, location, productFilter} = this.props.state;
-    const classToggle = this.state.mobileMenuIsActive ? 'nav-toggle is-active' : 'nav-toggle';
+    const classToggle = this.state.mobileMenuIsActive ? 'navbar-burger is-hidden-tablet is-active' : 'navbar-burger is-hidden-tablet';
     const showBackButton = currentPage.type === 'product' && location.hasHistory;
 
     return (
@@ -103,7 +103,7 @@ export default class Header extends React.Component {
                   </span>
                 }
                 {showBackButton &&
-                  <span className="nav-toggle nav-item is-hidden-tablet" onClick={this.handleGoBack} style={{ justifyContent: 'center' }}>
+                  <span className="navbar-item is-hidden-tablet is-flex-mobile" onClick={this.handleGoBack}>
                     <img className="icon" src="/assets/images/arrow_back.svg" style={{ width: 18 }} />
                   </span>
                 }

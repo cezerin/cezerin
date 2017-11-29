@@ -52,7 +52,7 @@ export default class TinyMCE extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     return (
-      !isEqual(this.props.config, nextProps.config)
+      !isEqual(this.props.config, nextProps.config) || !isEqual(this.props.entityId, nextProps.entityId)
     );
   }
 
