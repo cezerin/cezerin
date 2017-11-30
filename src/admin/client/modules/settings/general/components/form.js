@@ -210,6 +210,30 @@ class GeneralSettings extends React.Component {
             }}/>
 
             <div className="row between-xs middle-xs">
+              <div className="col-xs-12 col-sm-6">{messages.productFields}</div>
+              <div className="col-xs-12 col-sm-6">
+                <Field component={TextField} fullWidth={true} name="product_fields" placeholder="id,path,name,price, ..."/>
+              </div>
+            </div>
+
+            <Divider style={{
+              marginTop: 10,
+              marginBottom: 10
+            }}/>
+
+            <div className="row between-xs middle-xs">
+              <div className="col-xs-12 col-sm-6">{messages.productsLimit}</div>
+              <div className="col-xs-12 col-sm-6">
+                <Field component={TextField} fullWidth={true} name="products_limit" type="number" placeholder="30"/>
+              </div>
+            </div>
+
+            <Divider style={{
+              marginTop: 10,
+              marginBottom: 10
+            }}/>
+
+            <div className="row between-xs middle-xs">
               <div className="col-xs-12 col-sm-6">{messages.settings_defaultShippingCountry}</div>
               <div className="col-xs-12 col-sm-6">
                 <Field component={SelectField} autoWidth={true} fullWidth={true} name="default_shipping_country">

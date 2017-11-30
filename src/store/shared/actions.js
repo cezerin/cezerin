@@ -1,9 +1,8 @@
 import * as t from './actionTypes'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 import queryString from 'query-string'
+import { animateScroll } from 'react-scroll'
 import api from '../client/api'
-
-const PRODUCTS_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position';
 
 export const fetchProduct = product_id => (dispatch, getState) => {
   dispatch(requestProduct())
@@ -66,8 +65,8 @@ export const getParsedProductFilter = (productFilter) => {
       price_from: productFilter.priceFrom,
       price_to: productFilter.priceTo,
       sort: productFilter['sort'],
-      fields: PRODUCTS_FIELDS,
-      limit: 30,
+      fields: productFilter['fields'],
+      limit: productFilter['limit'],
       offset: 0
     },
     productFilter.attributes
@@ -92,6 +91,7 @@ export const fetchMoreProducts = () => (dispatch, getState) => {
 
     return api.ajax.products.list(filter).then(({status, json}) => {
       dispatch(receiveMoreProducts(json))
+      animateScroll.scrollMore(200);
     }).catch(error => {});
   }
 }

@@ -29,6 +29,8 @@ class SettingsService {
       'default_shipping_state': '',
       'default_shipping_city': '',
       'default_product_sorting': 'stock_status,price,position',
+      'product_fields': 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position',
+      'products_limit': 30,
       'weight_unit': 'kg',
       'length_unit': 'cm',
       'hide_billing_address': false,
@@ -124,6 +126,14 @@ class SettingsService {
 
     if (data.default_product_sorting !== undefined) {
       settings.default_product_sorting = parse.getString(data.default_product_sorting);
+    }
+
+    if (data.product_fields !== undefined) {
+      settings.product_fields = parse.getString(data.product_fields);
+    }
+
+    if (data.products_limit !== undefined) {
+      settings.products_limit = parse.getNumberIfPositive(data.products_limit);
     }
 
     if (data.weight_unit !== undefined) {

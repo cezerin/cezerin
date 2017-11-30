@@ -3,6 +3,8 @@ import queryString from 'query-string'
 import {getParsedProductFilter, getProductFilterForCategory, getProductFilterForSearch} from '../shared/actions'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from '../shared/pageTypes'
 
+const PRODUCT_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position';
+
 const getCurrentPage = path => {
   return api.sitemap.retrieve({ path: path, enabled: true })
     .then(sitemapResponse => {
@@ -153,7 +155,9 @@ const getState = (currentPage, settings, allData, location, productFilter) => {
         priceFrom: productFilter.priceFrom || 0,
         priceTo: productFilter.priceTo || 0,
         attributes: productFilter.attributes,
-        sort: settings.default_product_sorting
+        sort: settings.default_product_sorting,
+        fields: settings.product_fields && settings.product_fields !== '' ? settings.product_fields : PRODUCT_FIELDS,
+        limit: settings.products_limit && settings.products_limit !== 0 ? settings.products_limit : 30
       },
       cart: cart,
       order: null,
@@ -171,10 +175,13 @@ const getFilter = (currentPage, urlQuery, settings) => {
   if(currentPage.type === PRODUCT_CATEGORY){
     productFilter = getProductFilterForCategory(urlQuery);
     productFilter.categoryId = currentPage.resource;
-    productFilter.sort = settings.default_product_sorting;
   } else if(currentPage.type === SEARCH){
     productFilter = getProductFilterForSearch(urlQuery);
   }
+
+  productFilter['sort'] = settings.default_product_sorting;
+  productFilter.fields = settings.product_fields && settings.product_fields !== '' ? settings.product_fields : PRODUCT_FIELDS;
+  productFilter.limit = settings.products_limit && settings.products_limit !== 0 ? settings.products_limit : 30;
 
   return productFilter;
 }
