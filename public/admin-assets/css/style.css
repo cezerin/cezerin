@@ -97,6 +97,21 @@ h1 {
 
 .mce-edit-focus {}
 
+.mce-panel {
+  border: none !important;
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.mce-btn {
+  border-radius: 2px;
+}
+
+div.mce-btn:hover, div.mce-btn:focus {
+  background-color: rgba(0,0,0,0.1);
+  border: 1px solid #f0f0f0;
+}
+
 .products-item, .orders-item, .customers-item {
   background-color: #fff;
   border-left: 1px solid rgb(224, 224, 224);
