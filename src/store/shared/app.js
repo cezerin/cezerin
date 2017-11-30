@@ -2,6 +2,7 @@ import React from 'react'
 import { Route } from 'react-router'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { animateScroll } from 'react-scroll'
 
 import IndexContainer from './containers/index'
 import SharedContainer from './containers/shared'
@@ -26,7 +27,11 @@ class SwitchContainers extends React.Component {
 
     const locationChanged = nextProps.location !== this.props.location;
     if(locationChanged){
-      window.scrollTo(0, 0);
+      animateScroll.scrollToTop({
+        duration: 500,
+        delay: 100,
+        smooth: true
+      });
     }
   }
 
