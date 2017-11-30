@@ -1,3 +1,5 @@
+import messages from './text'
+
 const LOGIN_PATH = '/admin/webstore/login';
 const HOME_PATH = '/admin/webstore';
 
@@ -31,10 +33,10 @@ export const checkTokenFromUrl = () => {
           saveToken({token, email: tokenData.email, expiration_date});
           location.replace(HOME_PATH);
         } else {
-          alert('WebStore token is expired')
+          alert(messages.tokenExpired);
         }
       } else {
-        alert('WebStore token is not valid');
+        alert(messages.tokenInvalid);
       }
     } else {
       if (isCurrentTokenValid()) {

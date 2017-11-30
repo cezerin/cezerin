@@ -35,7 +35,7 @@ const HomeSlider = ({ images }) => {
               lazyLoad={true}
               showThumbnails={false}
               slideInterval={2000}
-              showNav={true}
+              showNav={themeSettings.home_gallery_shownav || true}
               showBullets={images.length > 1}
               showPlayButton={false}
               showFullscreenButton={false}

@@ -13,6 +13,24 @@ $tag-radius: 3px;
 $ig-blue: #636363 !default;
 @import "~react-image-gallery/styles/scss/image-gallery-no-icon.scss";
 
+.image-gallery-bullets .image-gallery-bullets-container {
+  background-color: rgba(0,0,0,0.2);
+  padding: 4px 0;
+  border-radius: 20px;
+  display: flex;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.image-gallery-right-nav,
+.image-gallery-left-nav {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.image-gallery-thumbnails-wrapper.left {
+  min-height: 340px;
+}
+
 .dark-overflow {
   background: rgba(0,0,0,0.4);
   position: fixed;
