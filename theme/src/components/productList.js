@@ -47,7 +47,7 @@ const ItemImage = ({ images, alt }) => {
 
     return (
       <LazyLoad height={200}>
-        <img src={imageUrl} alt={alt} />
+        <img src={imageUrl} alt={alt} title={alt} />
       </LazyLoad>
     )
   } else {
@@ -101,7 +101,11 @@ const LoadMore = ({ loadMoreProducts, hasMore, loading }) => {
   )
 }
 
-const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop, loadingProducts, loadingMoreProducts, isCentered}) => {
+const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore, columnCountOnMobile, columnCountOnDesktop, loadingProducts, loadingMoreProducts, isCentered, className}) => {
+  if(!className || className === ''){
+    className = 'columns is-multiline is-mobile products';
+  }
+
   const items = products ? products.map((product, index) => {
     return (
       <ListItem
@@ -117,7 +121,7 @@ const ProductList = ({products, addCartItem, settings, loadMoreProducts, hasMore
 
   return (
     <div>
-      <div className={'columns is-multiline is-mobile products' + (loadingProducts ? ' loading': '') + (isCentered ? ' is-centered' : '')}>
+      <div className={className + (loadingProducts ? ' loading': '') + (isCentered ? ' is-centered' : '')}>
         {items}
       </div>
       <LoadMore loadMoreProducts={loadMoreProducts} hasMore={hasMore} loading={loadingMoreProducts} />

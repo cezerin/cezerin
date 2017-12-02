@@ -13,12 +13,14 @@ export default class CustomProductList extends React.Component {
   }
 
   componentDidMount() {
-    this.fetchProducts();
+    this.fetchProducts(this.props);
   }
 
-  fetchProducts = () => {
-    const { ids, sku, sort, limit, category_id } = this.props;
+  componentWillReceiveProps(nextProps) {
+    this.fetchProducts(nextProps);
+  }
 
+  fetchProducts = ({ ids, sku, sort, limit, category_id }) => {
     const filter = {
       ids: ids,
       sku: sku,
@@ -41,21 +43,20 @@ export default class CustomProductList extends React.Component {
   }
 
   render() {
-    const { settings, addCartItem, isCentered } = this.props;
+    const { settings, addCartItem, isCentered, columnCountOnMobile, columnCountOnDesktop, className } = this.props;
 
     return (
-      <div>
         <ProductList
           products={this.state.products}
           addCartItem={addCartItem}
           settings={settings}
           loadMoreProducts={null}
           hasMore={false}
-          columnCountOnMobile={2}
-          columnCountOnDesktop={4}
+          columnCountOnMobile={columnCountOnMobile || 2}
+          columnCountOnDesktop={columnCountOnDesktop || 4}
           isCentered={isCentered}
+          className={className}
         />
-      </div>
     )
   }
 }

@@ -10,6 +10,94 @@ import CustomProductList from './customProductList'
 import Lightbox from 'react-image-lightbox'
 const Fragment = React.Fragment;
 
+class ViewedProductList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      viewedProducts: []
+    }
+  }
+
+  getArrayFromLocalStorage = () => {
+    let values = [];
+    let viewedProducts = localStorage.getItem("viewedProducts");
+
+    try{
+      if(viewedProducts && viewedProducts.length > 0){
+        let viewedProductsParsed = JSON.parse(viewedProducts);
+        if(Array.isArray(viewedProductsParsed)){
+          values = viewedProductsParsed;
+        }
+      }
+    } catch(e){};
+
+    return values;
+  }
+
+  addProductIdToLocalStorage = productId => {
+    if(productId && productId.length > 0){
+      let viewedProducts = this.getArrayFromLocalStorage();
+
+      if(viewedProducts.includes(productId)){
+        const index = viewedProducts.indexOf(productId);
+        viewedProducts.splice(index, 1);
+        viewedProducts.push(productId);
+      } else {
+        viewedProducts.push(productId);
+      }
+
+      localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
+      this.setState({ viewedProducts: viewedProducts });
+    }
+  }
+
+  componentDidMount() {
+    const viewedProducts = this.getArrayFromLocalStorage();
+    this.setState({ viewedProducts: viewedProducts });
+
+    if(this.props.product && this.props.product.id){
+      this.addProductIdToLocalStorage(this.props.product.id)
+    }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.viewedProducts !== nextState.viewedProducts;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if(this.props.product !== nextProps.product && nextProps.product && nextProps.product.id){
+      this.addProductIdToLocalStorage(nextProps.product.id)
+    }
+  }
+
+  render() {
+    const { limit, settings, addCartItem } = this.props;
+    const { viewedProducts } = this.state;
+
+    if(viewedProducts && viewedProducts.length > 0){
+      const ids = viewedProducts.reverse().slice(0, limit);
+      return (
+        <section className="section section-product-related">
+          <div className="container">
+            <div className="title is-4 has-text-centered">{text.recentlyViewed}</div>
+            <CustomProductList
+              ids={ids}
+              settings={settings}
+              addCartItem={addCartItem}
+              limit={limit}
+              isCentered={true}
+              columnCountOnMobile={2}
+              columnCountOnDesktop={4}
+            />
+          </div>
+        </section>
+      )
+    } else {
+      return null;
+    }
+  }
+}
+
 const ProductOption = ({ option, onChange }) => {
   const values = option.values
     .sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
@@ -438,7 +526,18 @@ export default class ProductDetails extends React.Component {
             </div>
           </section>
 
-          <RelatedProducts ids={product.related_product_ids} settings={settings} addCartItem={this.addToCart} />
+          <RelatedProducts
+            ids={product.related_product_ids}
+            settings={settings}
+            addCartItem={this.addToCart}
+          />
+
+          <ViewedProductList
+            product={product}
+            limit={4}
+            settings={settings}
+            addCartItem={this.addToCart}
+          />
 
           {themeSettings.disqus_shortname && themeSettings.disqus_shortname !== '' &&
             <section className="section">
