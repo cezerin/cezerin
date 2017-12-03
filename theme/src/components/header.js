@@ -7,6 +7,28 @@ import CartIndicator from './cartIndicator'
 import SearchBox from './searchBox'
 import HeadMenu from './headMenu'
 
+const Fragment = React.Fragment;
+
+const Logo = ({ src, onClick, alt }) => (
+  <NavLink className="logo-image" to="/" onClick={onClick}>
+    <img src={src} alt={alt} />
+  </NavLink>
+)
+
+const BurgerButton = ({ onClick, className }) => (
+  <span className={className} onClick={onClick}>
+    <span/>
+    <span/>
+    <span/>
+  </span>
+)
+
+const BackButton = ({ onClick }) => (
+  <span className="navbar-item is-hidden-tablet is-flex-mobile" onClick={onClick}>
+    <img className="icon" src="/assets/images/arrow_back.svg" style={{ width: 18 }} />
+  </span>
+)
+
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -88,7 +110,7 @@ export default class Header extends React.Component {
     const showBackButton = currentPage.type === 'product' && location.hasHistory;
 
     return (
-      <div>
+      <Fragment>
         <header className={this.state.mobileSearchIsActive ? 'search-active' : ''}>
           <div className="container">
 
@@ -96,23 +118,15 @@ export default class Header extends React.Component {
 
               <div className="column is-4">
                 {!showBackButton &&
-                  <span className={classToggle} onClick={this.menuToggle}>
-                    <span/>
-                    <span/>
-                    <span/>
-                  </span>
+                  <BurgerButton onClick={this.menuToggle} className={classToggle} />
                 }
                 {showBackButton &&
-                  <span className="navbar-item is-hidden-tablet is-flex-mobile" onClick={this.handleGoBack}>
-                    <img className="icon" src="/assets/images/arrow_back.svg" style={{ width: 18 }} />
-                  </span>
+                  <BackButton onClick={this.handleGoBack} />
                 }
               </div>
 
               <div className="column is-4 has-text-centered">
-                <NavLink className="logo-image" to="/" onClick={this.closeAll}>
-                  <img src={settings.logo} alt="logo" />
-                </NavLink>
+                <Logo src={settings.logo} onClick={this.closeAll} alt="logo" />
               </div>
               <div className="column is-4 has-text-right header-block-right">
 
@@ -149,7 +163,7 @@ export default class Header extends React.Component {
             onClick={this.menuClose}
           />
         </div>
-    </div>
+    </Fragment>
     )
   }
 }

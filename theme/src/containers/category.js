@@ -1,12 +1,12 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
 import ProductList from '../components/productList'
 import ProductFilter from '../components/productFilter'
 import Sort from '../components/sort'
 import CategoryBreadcrumbs from '../components/categoryBreadcrumbs'
 import * as helper from '../lib/helper'
+const Fragment = React.Fragment;
 
 const getFilterAttributesSummary = (productFilter) => {
   let attributesSummary = '';
@@ -63,11 +63,9 @@ const CategoryContainer = (props) => {
   const jsonld = getJSONLD(props.state);
 
   const showFilter = themeSettings.show_product_filter;
-  const columnCountOnMobile = 2;
-  const columnCountOnDesktop = showFilter === true ? 3 : 4;
 
   return (
-    <div>
+    <Fragment>
       <MetaTags
         title={title}
         description={categoryDetails.meta_description}
@@ -106,8 +104,6 @@ const CategoryContainer = (props) => {
                 hasMore={productsHasMore}
                 loadingProducts={loadingProducts}
                 loadingMoreProducts={loadingMoreProducts}
-                columnCountOnMobile={columnCountOnMobile}
-                columnCountOnDesktop={columnCountOnDesktop}
               />
             </div>
 
@@ -116,7 +112,7 @@ const CategoryContainer = (props) => {
         </div>
       </section>
 
-    </div>
+    </Fragment>
   )
 }
 

@@ -1,15 +1,15 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
 import OrderSummary from '../components/orderSummary'
+const Fragment = React.Fragment;
 
 const CheckoutContainer = (props) => {
   const {pageDetails} = props.state;
   const {checkoutForm} = props;
 
   return (
-    <div>
+    <Fragment>
       <MetaTags
         title={pageDetails.meta_title}
         description={pageDetails.meta_description}
@@ -30,7 +30,7 @@ const CheckoutContainer = (props) => {
           </div>
         </div>
       </section>
-    </div>
+    </Fragment>
   )
 }
 

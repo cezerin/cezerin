@@ -1,16 +1,16 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
 import * as helper from '../lib/helper'
-
 import MetaTags from '../components/metaTags'
 import CheckoutSuccess from '../components/checkoutSuccess'
+const Fragment = React.Fragment;
 
 const CheckoutSuccessContainer = (props) => {
   const {pageDetails, order, settings, shippingMethods, checkoutFields} = props.state;
   const shippingMethod = helper.getShippingMethodFromOrder(order, shippingMethods);
 
   return (
-    <div>
+    <Fragment>
       <MetaTags
         title={pageDetails.meta_title}
         description={pageDetails.meta_description}
@@ -25,7 +25,7 @@ const CheckoutSuccessContainer = (props) => {
             <div className="column is-8 is-offset-2">
               <div className="checkout-box">
                 <CheckoutSuccess
-                  order={order} 
+                  order={order}
                   settings={settings}
                   pageDetails={pageDetails}
                   shippingMethod={shippingMethod}
@@ -37,7 +37,7 @@ const CheckoutSuccessContainer = (props) => {
         </div>
       </section>
 
-    </div>
+    </Fragment>
   )
 }
 

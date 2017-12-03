@@ -1,10 +1,10 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
+const Fragment = React.Fragment;
 
 const NotFoundContainer = (props) => (
-  <div>
+  <Fragment>
     <MetaTags
       title={text.title404}
     />
@@ -16,7 +16,7 @@ const NotFoundContainer = (props) => (
         </div>
       </div>
     </section>
-  </div>
+  </Fragment>
 )
 
 export default NotFoundContainer
