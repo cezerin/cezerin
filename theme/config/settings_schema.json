@@ -335,4 +335,14 @@
   "key": "home_gallery_shownav",
   "type": "boolean",
   "label": "Show Navigation Arrows in Gallery"
+}, {
+  "section": "Product Details",
+  "key": "show_viewed_products",
+  "type": "boolean",
+  "label": "Show recently viewed products"
+}, {
+  "section": "Product Details",
+  "key": "limit_viewed_products",
+  "type": "number",
+  "label": "Count of recently viewed products"
 }]

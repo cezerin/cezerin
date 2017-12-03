@@ -1,13 +1,13 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
+const Fragment = React.Fragment;
 
 const PageContainer = (props) => {
   const {pageDetails} = props.state;
 
   return (
-    <div>
+    <Fragment>
       <MetaTags
         title={pageDetails.meta_title}
         description={pageDetails.meta_description}
@@ -27,7 +27,7 @@ const PageContainer = (props) => {
         </div>
       </section>
 
-    </div>
+    </Fragment>
   )
 }
 

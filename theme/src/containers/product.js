@@ -1,8 +1,8 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
 import ProductDetails from '../components/productDetails'
+const Fragment = React.Fragment;
 
 const ProductContainer = (props) => {
   const {productDetails, settings, categories} = props.state;
@@ -15,7 +15,7 @@ const ProductContainer = (props) => {
     const jsonld = getJSONLD(props.state);
 
     return (
-      <div>
+      <Fragment>
         <MetaTags
           title={title}
           description={productDetails.meta_description}
@@ -27,8 +27,13 @@ const ProductContainer = (props) => {
           jsonld={jsonld}
         />
 
-        <ProductDetails settings={settings} product={productDetails} addCartItem={addCartItem} categories={categories}/>
-      </div>
+        <ProductDetails
+          settings={settings}
+          product={productDetails}
+          addCartItem={addCartItem}
+          categories={categories}
+        />
+      </Fragment>
     )
   } else {
     return null

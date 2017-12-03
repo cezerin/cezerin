@@ -1,11 +1,11 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
 import ProductList from '../components/productList'
 import Sort from '../components/sort'
 import SearchBox from '../components/searchBox'
 import PriceSlider from '../components/priceSlider'
+const Fragment = React.Fragment;
 
 const CategoryContainer = (props) => {
   const {products, settings, productFilter, productsHasMore, productsMinPrice, productsMaxPrice, productsTotalCount} = props.state;
@@ -15,7 +15,7 @@ const CategoryContainer = (props) => {
   const title = searchNotEmpty ? `${productFilter.search} - ${text.search}` : text.search;
 
   return (
-    <div>
+    <Fragment>
       <MetaTags
         title={title}
       />
@@ -36,13 +36,11 @@ const CategoryContainer = (props) => {
             settings={settings}
             loadMoreProducts={loadMoreProducts}
             hasMore={productsHasMore}
-            columnCountOnMobile={2}
-            columnCountOnDesktop={4}
           />
         </div>
       </section>
 
-    </div>
+    </Fragment>
   )
 }
 

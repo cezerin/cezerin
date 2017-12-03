@@ -1,17 +1,17 @@
 import React from 'react'
 import { themeSettings, text } from '../lib/settings'
-
 import MetaTags from '../components/metaTags'
 import CategoryGallery from '../components/categoryGallery'
-import CustomProductList from '../components/customProductList'
+import CustomProducts from '../components/products/custom'
 import HomeSlider from '../components/homeSlider'
+const Fragment = React.Fragment;
 
 const IndexContainer = (props) => {
   const {pageDetails, categories, settings} = props.state;
   const {addCartItem} = props;
 
   return (
-    <div>
+    <Fragment>
       <MetaTags
         title={pageDetails.meta_title}
         description={pageDetails.meta_description}
@@ -37,7 +37,7 @@ const IndexContainer = (props) => {
       <section className="section">
         <div className="container">
           <div className="title is-4 has-text-centered">{themeSettings.home_products_title}</div>
-          <CustomProductList
+          <CustomProducts
             sku={themeSettings.home_products_sku}
             sort={themeSettings.home_products_sort}
             limit={themeSettings.home_products_limit}
@@ -47,7 +47,7 @@ const IndexContainer = (props) => {
         </div>
       </section>
 
-    </div>
+    </Fragment>
   )
 }
 

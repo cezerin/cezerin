@@ -1,10 +1,10 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import * as helper from '../lib/helper'
-import api from '../lib/api'
-import ProductList from './productList'
+import * as helper from '../../lib/helper'
+import api from '../../lib/api'
+import ProductList from '../productList'
 
-export default class CustomProductList extends React.Component {
+export default class CustomProducts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +43,7 @@ export default class CustomProductList extends React.Component {
   }
 
   render() {
-    const { settings, addCartItem, isCentered, columnCountOnMobile, columnCountOnDesktop, className } = this.props;
+    const { settings, addCartItem, isCentered, className, columnCountOnMobile, columnCountOnTablet, columnCountOnDesktop, columnCountOnWidescreen, columnCountOnFullhd } = this.props;
 
     return (
         <ProductList
@@ -52,8 +52,11 @@ export default class CustomProductList extends React.Component {
           settings={settings}
           loadMoreProducts={null}
           hasMore={false}
-          columnCountOnMobile={columnCountOnMobile || 2}
-          columnCountOnDesktop={columnCountOnDesktop || 4}
+          columnCountOnMobile={columnCountOnMobile}
+          columnCountOnTablet={columnCountOnTablet}
+          columnCountOnDesktop={columnCountOnDesktop}
+          columnCountOnWidescreen={columnCountOnWidescreen}
+          columnCountOnFullhd={columnCountOnFullhd}
           isCentered={isCentered}
           className={className}
         />
