@@ -3,11 +3,13 @@ import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from './pageTypes'
 import queryString from 'query-string'
 import { animateScroll } from 'react-scroll'
 import api from '../client/api'
+import * as analytics from './analytics'
 
 export const fetchProduct = product_id => (dispatch, getState) => {
   dispatch(requestProduct())
   return api.ajax.products.retrieve(product_id).then(({status, json}) => {
     dispatch(receiveProduct(json))
+    analytics.productView({ product: json })
   }).catch(error => {});
 }
 
@@ -126,6 +128,10 @@ export const addCartItem = item => (dispatch, getState) => {
   dispatch(requestAddCartItem())
   return api.ajax.cart.addItem(item).then(({status, json}) => {
     dispatch(receiveCart(json))
+    analytics.addCartItem({
+      item: item,
+      cart: json
+    });
   }).catch(error => {});
 }
 
@@ -143,9 +149,14 @@ const requestUpdateCartItemQuantiry = () => ({type: t.CART_ITEM_UPDATE_REQUEST})
 
 export const deleteCartItem = item_id => (dispatch, getState) => {
   dispatch(requestDeleteCartItem())
+  const {app} = getState();
   return api.ajax.cart.deleteItem(item_id).then(({status, json}) => {
     dispatch(receiveCart(json))
     dispatch(fetchShippingMethods())
+    analytics.deleteCartItem({
+      itemId: item_id,
+      cart: app.cart
+    });
   }).catch(error => {});
 }
 
@@ -193,6 +204,7 @@ export const checkout = (cart, history) => (dispatch, getState) => {
       .then(orderResponse => {
         dispatch(receiveCheckout(orderResponse.json))
         history.push('/checkout-success');
+        analytics.checkoutSuccess({ order: orderResponse.json });
       })
       .catch(error => {});
   } else {
@@ -201,6 +213,7 @@ export const checkout = (cart, history) => (dispatch, getState) => {
       .then(orderResponse => {
         dispatch(receiveCheckout(orderResponse.json))
         history.push('/checkout-success');
+        analytics.checkoutSuccess({ order: orderResponse.json });
       })
       .catch(error => {});
   }
@@ -277,6 +290,22 @@ export const updateCartPaymentMethod = method_id => (dispatch, getState) => {
   api.ajax.cart.update({payment_method_id: method_id}).then(({status, json}) => {
     dispatch(receiveCart(json))
   }).catch(error => {});
+}
+
+export const analyticsSetShippingMethod = method_id => (dispatch, getState) => {
+  const {app} = getState();
+  analytics.setShippingMethod({
+    methodId: method_id,
+    allMethods: app.shippingMethods
+  })
+}
+
+export const analyticsSetPaymentMethod = method_id => (dispatch, getState) => {
+  const {app} = getState();
+  analytics.setPaymentMethod({
+    methodId: method_id,
+    allMethods: app.paymentMethods
+  })
 }
 
 export const updateCart = cart => (dispatch, getState) => {
@@ -369,6 +398,11 @@ const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
   // clear product data
   dispatch(receiveProduct(null));
 
+  analytics.pageView({
+    path: currentPage.path,
+    title: '-'
+  });
+
   switch(currentPage.type){
     case PRODUCT_CATEGORY:
       productFilter = getProductFilterForCategory(app.location.search);
@@ -380,12 +414,16 @@ const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
       productFilter = getProductFilterForSearch(app.location.search);
       dispatch(setProductsFilter(productFilter));
       dispatch(fetchProducts());
+      analytics.search({ searchText: productFilter.search });
       break;
     case PRODUCT:
       dispatch(fetchProduct(currentPage.resource))
       break;
     case PAGE:
       dispatch(fetchPage(currentPage.resource))
+      if(currentPage.path === '/checkout'){
+        analytics.checkoutView({ order: app.cart })
+      }
       break;
   }
 }

@@ -11,7 +11,9 @@ import {
   updateCartShippingState,
   updateCartShippingCity,
   updateCartShippingMethod,
-  updateCartPaymentMethod
+  updateCartPaymentMethod,
+  analyticsSetShippingMethod,
+  analyticsSetPaymentMethod
 } from '../../actions'
 import Form from './form'
 
@@ -31,6 +33,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSubmit: (values) => {
       dispatch(updateCart(values));
+      dispatch(analyticsSetShippingMethod(values.shipping_method_id));
+      dispatch(analyticsSetPaymentMethod(values.payment_method_id));
     },
     saveForm: (values) => {
       dispatch(submit('CheckoutStepContacts'));
