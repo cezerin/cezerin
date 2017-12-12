@@ -36,20 +36,20 @@ const styles = {
   }
 }
 
-const ServicesListItem = ({ service }) => {
+const Item = ({ path, coverUrl, title, developer, enabled }) => {
   return (
-    <Link to={`/admin/webstore/service/${service.id}`} style={styles.link}>
+    <Link to={path} style={styles.link}>
       <Card style={styles.card} containerStyle={styles.textContainer} className={style.card}>
         <CardMedia
           className={style.servicesCover}
-          style={{ backgroundImage: `url(${service.cover_url})` }}>
+          style={{ backgroundImage: `url(${coverUrl})` }}>
         </CardMedia>
         <CardTitle
-          title={service.name}
+          title={title}
           subtitle={
             <div>
-              {service.developer.name}
-              {service.enabled &&
+              {developer}
+              {enabled &&
                 <FontIcon style={{ color: '#FF9900', float: 'right' }} className="material-icons">check_circle</FontIcon>
               }
             </div>
@@ -62,4 +62,4 @@ const ServicesListItem = ({ service }) => {
   )
 }
 
-export default ServicesListItem;
+export default Item;

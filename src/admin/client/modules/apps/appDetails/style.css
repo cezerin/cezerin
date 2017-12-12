@@ -1,0 +1,82 @@
+.innerBox {
+  padding: 30px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 35px;
+  margin: 0 0 10px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.developer {
+  color: #616161;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+}
+
+.cover {
+  width: 100%;
+}
+
+.description {
+  margin-top: 30px;
+  font-size: 14px;
+  line-height: 24px;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+.description a {
+  color: #008eb4;
+}
+
+.description ul,
+.description ol {
+  margin: 0;
+}
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logsBox {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.logsItem {
+  padding: 12px 30px;
+  font-size: 14px;
+}
+
+.logsItem:nth-child(odd) {
+  background: rgba(0,0,0,0.03);
+}
+
+.logsItem:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+.logDate {
+  color: #777;
+  font-size: 11px;
+}
+
+.logMessage {
+
+}
+
+.action {
+  padding: 30px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.action:last-child {
+  border-bottom: none
+}

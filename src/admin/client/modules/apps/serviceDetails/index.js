@@ -7,10 +7,10 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     serviceId: serviceId,
-    service: state.webstore.service,
-    serviceSettings: state.webstore.serviceSettings,
-    serviceLogs: state.webstore.serviceLogs,
-    loadingEnableDisable: state.webstore.loadingEnableDisableService
+    service: state.apps.service,
+    serviceSettings: state.apps.serviceSettings,
+    serviceLogs: state.apps.serviceLogs,
+    loadingEnableDisable: state.apps.loadingEnableDisableService
   }
 }
 

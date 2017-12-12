@@ -330,5 +330,6 @@
   "tokenExpired": "Маркер доступа не действителен",
   "tokenInvalid": "Просроченный маркер доступа",
   "productFields": "Поля товара",
-  "productsLimit": "Количество товара за один запрос"
+  "productsLimit": "Количество товара за один запрос",
+  "loadFromWebstore": "To load Apps from WebStore, please sign in."
 }

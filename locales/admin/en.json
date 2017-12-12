@@ -330,5 +330,6 @@
   "tokenExpired": "Token is expired",
   "tokenInvalid": "Token is not valid",
   "productFields": "Product fields",
-  "productsLimit": "Limit product items per request"
+  "productsLimit": "Limit product items per request",
+  "loadFromWebstore": "To load Apps from WebStore, please sign in."
 }

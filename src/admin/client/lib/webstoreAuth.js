@@ -1,7 +1,7 @@
 import messages from './text'
 
-const LOGIN_PATH = '/admin/webstore/login';
-const HOME_PATH = '/admin/webstore';
+const LOGIN_PATH = '/admin/apps/login';
+const HOME_PATH = '/admin/apps';
 
 const getParameterByName = (name, url) => {
     if (!url) url = window.location.href;
@@ -62,7 +62,7 @@ const saveToken = (data) => {
   localStorage.setItem('webstore_exp', data.expiration_date);
 }
 
-const isCurrentTokenValid = () => {
+export const isCurrentTokenValid = () => {
   const expiration_date = localStorage.getItem('webstore_exp');
   return localStorage.getItem('webstore_token') && expiration_date && expiration_date > Date.now();
 }

@@ -17,7 +17,7 @@ import Orders from 'routes/orders'
 import OrderDetails from 'routes/orders/edit'
 import OrderStatuses from 'routes/orders/statuses'
 import Settings from 'routes/settings'
-import WebStore from 'routes/webstore'
+import Apps from 'routes/apps'
 
 import {blue700, cyan700, pinkA200, grey100, grey300, grey400, white, darkBlack, fullBlack} from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -70,7 +70,7 @@ export default class App extends React.Component {
                   <Route path="/admin/customer/:customerId" exact component={CustomerDetails}/>
                   <Route path="/admin/product/:productId" component={ProductDetails}/>
                   <Route path="/admin/settings" component={Settings}/>
-                  <Route path="/admin/webstore" component={WebStore}/>
+                  <Route path="/admin/apps" component={Apps}/>
                   <Route component={NotFound}/>
                 </Switch>
               </div>

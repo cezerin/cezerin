@@ -18,7 +18,7 @@ const WebStoreMenu = () => {
      targetOrigin={{horizontal: 'right', vertical: 'top'}}
      anchorOrigin={{horizontal: 'right', vertical: 'top'}}
     >
-      <MenuItem containerElement={<Link to="/admin/webstore/account" />} primaryText={messages.account} />
+      <MenuItem containerElement={<Link to="/admin/apps/account" />} primaryText={messages.account} />
     </IconMenu>
   )
 }

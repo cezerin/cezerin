@@ -13,7 +13,7 @@ import OrderStatusHead from 'modules/orderStatuses/head/index'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
 import PageHead from 'modules/settings/pages/edit/head'
-import WebStoreHead from 'modules/webstore/head'
+import AppsHead from 'modules/apps/head'
 import DrawerMenu from './drawer'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -223,21 +223,22 @@ export default class AppBarTop extends React.Component {
       title = messages.settings_editToken;
       leftButton = <Link to="/admin/settings/tokens"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname === '/admin/webstore'){
+    else if(pathname === '/admin/apps'){
       title = messages.apps;
-      rightElements = <WebStoreHead />
+      rightElements = <AppsHead />
     }
-    else if(pathname === '/admin/webstore/login'){
+    else if(pathname === '/admin/apps/login'){
       title = messages.loginTitle;
-      rightElements = <WebStoreHead />
+      rightElements = <AppsHead />
+      leftButton = <Link to="/admin/apps"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname === '/admin/webstore/account'){
+    else if(pathname === '/admin/apps/account'){
       title = messages.account;
-      leftButton = <Link to="/admin/webstore"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/apps"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname.startsWith('/admin/webstore/service/')){
+    else if(pathname.startsWith('/admin/apps/service/') || pathname.startsWith('/admin/apps/app/')){
       title = messages.apps;
-      leftButton = <Link to="/admin/webstore"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/apps"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
 
     return (
