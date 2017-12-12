@@ -554,13 +554,41 @@ class OrdersService {
     });
   }
 
+  getEmailSubject(emailTemplate, order) {
+    const subjectTemplate = handlebars.compile(emailTemplate.subject);
+    return subjectTemplate(order);
+  }
+
+  getEmailBody(emailTemplate, order) {
+    const bodyTemplate = handlebars.compile(emailTemplate.body);
+    return bodyTemplate(order);
+  }
+
+  sendEmail(toEmail, copyTo, subject, body) {
+    return Promise.all([
+      this.sendOrderNotification({
+        to: toEmail,
+        subject: subject,
+        html: body
+      }),
+      this.sendOrderNotification({
+        to: copyTo,
+        subject: subject,
+        html: body
+      }),
+    ])
+    .then(([ firstEnvelope, secondEnvelope ]) => {
+      return true;
+    });
+  }
+
   checkoutOrder(orderId) {
     /*
     + get order info
     + return order info
     + send emails
     + order confirmation template
-    - update stock
+    + update stock
     - fire Webhooks
     */
     return Promise.all([
@@ -574,23 +602,9 @@ class OrdersService {
         EmailTemplatesService.getEmailTemplate('order_confirmation'),
         SettingsService.getSettings()
       ]).then(([ order, emailTemplate, dashboardSettings ]) => {
-        const bodyTemplate = handlebars.compile(emailTemplate.body);
-        const bodyFromTemplate = bodyTemplate(order);
-
-        const subjectTemplate = handlebars.compile(emailTemplate.subject);
-        const subjectFromTemplate = subjectTemplate(order);
-
+        const subject = this.getEmailSubject(emailTemplate, order);
+        const body = this.getEmailBody(emailTemplate, order);
         const copyTo = dashboardSettings.order_confirmation_copy_to;
-
-        let message = {
-          to: order.email,
-          subject: subjectFromTemplate,
-          html: bodyFromTemplate
-        }
-
-        if(copyTo && copyTo.includes('@')){
-          message.bcc = copyTo;
-        }
 
         dashboardEvents.sendMessage({
           'type': dashboardEvents.ORDER_RECEIVED,
@@ -599,9 +613,13 @@ class OrdersService {
           'total': order.grand_total
         })
 
-        return this.sendOrderNotification(message)
-        .then(() => ProductStockService.handleOrderCheckout(orderId))
-        .then(() => order);
+        return Promise.all([
+          this.sendEmail(order.email, copyTo, subject, body),
+          ProductStockService.handleOrderCheckout(orderId)
+        ])
+        .then(([ sendResult, stockResult ]) => {
+          return order;
+        });
       });
   }
 
