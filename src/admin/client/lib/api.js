@@ -5,7 +5,9 @@ let api = null;
 let dashboardToken = localStorage.getItem('dashboard_token');
 let webstoreToken = localStorage.getItem('webstore_token');
 
-if(dashboardToken) {
+const DEVELOPER_MODE = settings.developerMode === true;
+
+if(dashboardToken || DEVELOPER_MODE === true) {
   api = new CezerinClient({
     apiBaseUrl: settings.apiBaseUrl || '/api/v1',
     apiToken: dashboardToken,

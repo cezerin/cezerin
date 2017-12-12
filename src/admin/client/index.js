@@ -9,9 +9,15 @@ import thunkMiddleware from 'redux-thunk'
 
 import {fetchSettings} from 'modules/settings/actions'
 import settings from 'lib/settings'
+import * as auth from 'lib/auth'
 import {listenEvents} from 'lib/events'
 import reducers from './rootReducer'
 import App from './app'
+
+const DEVELOPER_MODE = settings.developerMode === true;
+if(DEVELOPER_MODE === false){
+  auth.validateCurrentToken();
+}
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware));
 store.dispatch(fetchSettings());
