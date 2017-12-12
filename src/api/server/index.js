@@ -4,6 +4,7 @@ var express = require('express');
 var apiRouter = express.Router();
 
 var settings = require('./lib/settings');
+var security = require('./lib/security');
 var mongo = require('./lib/mongo');
 var dashboardEvents = require('./lib/events');
 
@@ -51,11 +52,13 @@ const checkTokenInBlacklistCallback = (req, payload, done) => {
   }
 };
 
-apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: [
-  '/api/dashboard/events',
-  '/api/v1/authorize',
-  /\/api\/v1\/notifications/i
-]}));
+if(security.DEVELOPER_MODE === false){
+  apiRouter.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: [
+    '/api/dashboard/events',
+    '/api/v1/authorize',
+    /\/api\/v1\/notifications/i
+  ]}));
+}
 
 var products = new ProductsController(apiRouter);
 var productCategories = new ProductCategoriesController(apiRouter);
