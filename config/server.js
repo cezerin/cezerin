@@ -49,5 +49,7 @@ module.exports = {
   language: 'en',
 
   // used by API
-  orderStartNumber: 1000
+  orderStartNumber: 1000,
+
+  developerMode: true
 }
