@@ -12,7 +12,6 @@ import { updateThemeSettings } from 'theme'
 import reducers from '../shared/reducers'
 import { loadState } from './loadState'
 import { indexHtml } from './readIndexHtml'
-import * as themeLocales from './themeLocales'
 import App from '../shared/app'
 
 const getHead = () => {
@@ -42,7 +41,7 @@ const renderError = (req, res, status, err) => {
   res.status(status).send(err);
 }
 
-const renderPage = (req, res, store, themeText) => {
+const renderPage = (req, res, store, themeText, placeholders) => {
    const context = {}
    const appHtml = renderToString(
      <Provider store={store}>
@@ -57,11 +56,24 @@ const renderPage = (req, res, store, themeText) => {
 
   const state = store.getState();
   const head = getHead();
+
+  let placeholder_head_start = '';
+  let placeholder_head_end = '';
+  let placeholder_body_start = '';
+  let placeholder_body_end = '';
+
+  if(placeholders && placeholders.length > 0){
+    placeholder_head_start = placeholders.filter(p => p.place === 'head_start').map(p => p.value).join('\n');
+    placeholder_head_end = placeholders.filter(p => p.place === 'head_end').map(p => p.value).join('\n');
+    placeholder_body_start = placeholders.filter(p => p.place === 'body_start').map(p => p.value).join('\n');
+    placeholder_body_end = placeholders.filter(p => p.place === 'body_end').map(p => p.value).join('\n');
+  }
+
   const html = indexHtml
-    .replace('{placeholder_head_start}', '')
-    .replace('{placeholder_head_end}', '')
-    .replace('{placeholder_body_start}', '')
-    .replace('{placeholder_body_end}', '')
+    .replace('{placeholder_head_start}', placeholder_head_start)
+    .replace('{placeholder_head_end}', placeholder_head_end)
+    .replace('{placeholder_body_start}', placeholder_body_start)
+    .replace('{placeholder_body_end}', placeholder_body_end)
     .replace('{language}', serverSettings.language)
     .replace('{title}', head.title)
     .replace('{meta}', head.meta)
@@ -89,15 +101,14 @@ const renderPage = (req, res, store, themeText) => {
 }
 
 const pageRendering = (req, res) => {
-  loadState(req).then(state => {
-    themeLocales.getText(serverSettings.language).then(themeText => {
-      updateThemeSettings({
-        settings: state.app.themeSettings,
-        text: themeText
-      });
-      const store = createStore(reducers, state, applyMiddleware(thunkMiddleware));
-      renderPage(req, res, store, themeText);
-    })
+  loadState(req, serverSettings.language)
+  .then(({ state, themeText, placeholders }) => {
+    updateThemeSettings({
+      settings: state.app.themeSettings,
+      text: themeText
+    });
+    const store = createStore(reducers, state, applyMiddleware(thunkMiddleware));
+    renderPage(req, res, store, themeText, placeholders);
   })
   .catch(err => {
     renderError(req, res, 500, err)
