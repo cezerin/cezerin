@@ -21,7 +21,7 @@
   "postal_code": "邮政编码",
   "phone": "座机",
   "company": "公司",
-  "comments": "备注",
+  "comments": "评论",
   "required": "此字段需要填写",
   "emailInvalid": "请输入一个有效的电子邮件地址。",
   "sameAsShipping": "同送货地址",
