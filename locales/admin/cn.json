@@ -62,7 +62,7 @@
   "products_sku": "SKU",
   "products_stock": "库存",
   "products_price": "价格",
-  "products_outOfStock": "售罄",
+  "products_outOfStock": "缺货",
   "products_backorder": "延期交货",
   "products_preorder": "预购",
   "products_inStock": "现货",
