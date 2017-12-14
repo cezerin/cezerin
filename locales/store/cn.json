@@ -19,7 +19,7 @@
   "address1": "地址栏 1",
   "address2": "地址栏 2",
   "postal_code": "邮政编码",
-  "phone": "座机",
+  "phone": "电话",
   "company": "公司",
   "comments": "评论",
   "required": "此字段需要填写",
