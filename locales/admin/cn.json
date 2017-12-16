@@ -46,7 +46,7 @@
   "messages_deleteConfirmation": "你确定要删除这个商品？",
   "messages_deleteForever": "彻底删除？",
   "help_dropHere": "将文件放在这里上传",
-  "help_slug": "‘别名’是优化后的网址链接名。 它通常都是小写字母，只包含字母，数字和连字符。",
+  "help_slug": "‘别名’是针对搜索引擎优化后的超级链接后缀名。 它通常都是小写字母，只包含字母，数字和连字符。",
   "errors_required": "这个字段需要填写。",
   "errors_email": "请输入一个有效的电子邮件地址。",
   "errors_url": "请输入有效的网址",
