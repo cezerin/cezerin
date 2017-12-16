@@ -287,7 +287,7 @@
   "deleteOrderConfirmation": "彻底删除订单？你不能撤消这个操作。",
   "closeOrderConfirmation": "关闭订单？你不能撤消这个操作。",
   "cancelOrderConfirmation": "取消订单？所有产品将被重新存入您的商店，您不能撤消此操作。",
-  "placeOrder": "下订单",
+  "placeOrder": "下单",
   "viewOnWebsite": "在网站上查看",
   "hideBillingAddress": "不要求帐单地址",
   "note": "注",
