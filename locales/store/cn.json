@@ -8,7 +8,7 @@
   "paymentMethod": "付款方式",
   "shippingAddress": "送货地址",
   "billingAddress": "账单地址",
-  "orderSubmit": "下订单",
+  "orderSubmit": "下单",
   "emptyCheckout": "你的购物车是空的",
   "email": "电子邮件",
   "mobile": "手机",
