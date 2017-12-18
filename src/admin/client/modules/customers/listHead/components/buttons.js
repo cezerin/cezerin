@@ -122,17 +122,6 @@ export default class Buttons extends React.Component {
             </Dialog>
           </span>
         }
-        <IconMenu
-         iconButtonElement={
-           <IconButton touch={true}>
-             <FontIcon color="#fff" className="material-icons">more_vert</FontIcon>
-           </IconButton>
-         }
-         targetOrigin={{horizontal: 'right', vertical: 'top'}}
-         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-        >
-          <MenuItem containerElement={<Link to="/admin/customers/groups" />} primaryText={messages.customerGroups_titleEditMany} />
-        </IconMenu>
       </span>
     )
   }

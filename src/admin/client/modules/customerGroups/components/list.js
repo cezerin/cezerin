@@ -1,6 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import messages from 'lib/text'
-
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 
@@ -40,6 +40,7 @@ export default class Groups extends React.Component {
     	items,
     	showAll,
       showRoot,
+      showManage
     } = this.props;
 
     var rows = items.map(item => <ListItem
@@ -76,6 +77,16 @@ export default class Groups extends React.Component {
 
           {rows}
 
+          {showManage &&
+            <Link to="/admin/customers/groups" style={{ textDecoration: 'none' }}>
+              <ListItem
+                primaryText={messages.customerGroups_titleEditMany}
+                style={styles.item}
+                innerDivStyle={styles.innerItem}
+                leftIcon={<FontIcon className="material-icons">settings</FontIcon>}
+              />
+            </Link>
+          }
         </List>
       </div>
     )

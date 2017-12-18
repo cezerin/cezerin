@@ -124,17 +124,6 @@ export default class Buttons extends React.Component {
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.addProduct} onClick={onCreate}>
           <FontIcon color="#fff" className="material-icons">add</FontIcon>
         </IconButton>
-        <IconMenu
-         iconButtonElement={
-           <IconButton touch={true}>
-             <FontIcon color="#fff" className="material-icons">more_vert</FontIcon>
-           </IconButton>
-         }
-         targetOrigin={{horizontal: 'right', vertical: 'top'}}
-         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-        >
-          <MenuItem containerElement={<Link to="/admin/products/categories" />} primaryText={messages.productCategories_titleEditMany} />
-        </IconMenu>
       </span>
     )
   }
