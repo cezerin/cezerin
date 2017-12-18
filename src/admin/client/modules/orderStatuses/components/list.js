@@ -3,7 +3,6 @@ import messages from 'lib/text'
 
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 var styles = {
   item: {
@@ -39,9 +38,7 @@ export default class StatusesList extends React.Component {
     	onSelect,
     	selectedId,
     	items,
-      onCreate,
-    	showAll,
-      showAdd
+    	showAll
     } = this.props;
 
     var rows = items.map(item => <ListItem
@@ -69,11 +66,6 @@ export default class StatusesList extends React.Component {
           {rows}
 
         </List>
-        {showAdd &&
-          <FloatingActionButton secondary={false} style={styles.fab} onClick={onCreate}>
-            <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton>
-        }
       </div>
     )
   }

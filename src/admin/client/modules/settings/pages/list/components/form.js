@@ -5,7 +5,6 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 const PageItem = ({page}) => {
   return (
@@ -35,10 +34,6 @@ export default class PagesList extends React.Component {
     this.props.onLoad();
   }
 
-  gotoAddPage = () => {
-    this.props.history.push('/admin/settings/pages/add');
-  }
-
   render() {
     const {pages} = this.props;
     let listItems = pages.map((page, index) => <PageItem key={index} page={page} />)
@@ -50,9 +45,6 @@ export default class PagesList extends React.Component {
               {listItems}
             </List>
           </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onClick={this.gotoAddPage}>
-            <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton>
       </Paper>
     )
   }

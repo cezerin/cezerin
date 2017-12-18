@@ -9,7 +9,7 @@ export default ({ value, setSearch }) => {
       onChange={setSearch}
       hintText={messages.products_search}
       underlineShow={false}
-      style={{ float: 'left' }}
+      style={{ float: 'left', marginRight: 10 }}
       hintStyle={{ color: 'rgba(255,255,255,0.4)', textIndent: '16px' }}
       inputStyle={{ color:'#fff', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: '4px', textIndent: '16px' }}
     />

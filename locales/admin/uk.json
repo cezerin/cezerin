@@ -331,5 +331,7 @@
   "tokenInvalid": "Просроченный маркер доступа",
   "productFields": "Поля товара",
   "productsLimit": "Количество товара за один запрос",
-  "loadFromWebstore": "To load Apps from WebStore, please sign in."
+  "loadFromWebstore": "To load Apps from WebStore, please sign in.",
+  "addProduct": "Add new product",
+  "addOrderStatus": "Add new status"
 }

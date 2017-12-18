@@ -55,7 +55,7 @@ export default class Buttons extends React.Component {
   }
 
   render() {
-    const { search, setSearch, selectedCount, onDelete } = this.props;
+    const { search, setSearch, selectedCount, onDelete, onCreate } = this.props;
 
     const actionsMoveTo = [
       <FlatButton
@@ -121,6 +121,9 @@ export default class Buttons extends React.Component {
             </Dialog>
           </span>
         }
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.addProduct} onClick={onCreate}>
+          <FontIcon color="#fff" className="material-icons">add</FontIcon>
+        </IconButton>
         <IconMenu
          iconButtonElement={
            <IconButton touch={true}>

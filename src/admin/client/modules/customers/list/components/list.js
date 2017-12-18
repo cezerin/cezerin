@@ -5,7 +5,6 @@ import Head from './head'
 import CustomersListItem from './item'
 import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 import messages from 'lib/text'
 import style from './style.css'
 
@@ -19,7 +18,7 @@ export default class CustomersList extends React.Component {
     }
 
     render(){
-      const { items, selected, loadingItems, hasMore, onSelect, onSelectAll, loadMore, onCreate, settings } = this.props;
+      const { items, selected, loadingItems, hasMore, onSelect, onSelectAll, loadMore, settings } = this.props;
       const rows = items.map((item, index) => (
         <CustomersListItem key={index} customer={item} selected={selected} onSelect={onSelect} settings={settings} />
       ));
@@ -41,9 +40,6 @@ export default class CustomersList extends React.Component {
                />
              </div>
           </List>
-          {/* <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onClick={onCreate}>
-            <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton> */}
         </div>
       )
     }
