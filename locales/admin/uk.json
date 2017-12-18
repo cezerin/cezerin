@@ -333,5 +333,6 @@
   "productsLimit": "Количество товара за один запрос",
   "loadFromWebstore": "To load Apps from WebStore, please sign in.",
   "addProduct": "Add new product",
-  "addOrderStatus": "Add new status"
+  "addOrderStatus": "Add new status",
+  "dashboard": "Dashboard"
 }
