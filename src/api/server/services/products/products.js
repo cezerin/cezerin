@@ -392,7 +392,8 @@ class ProductsService {
       price_from,
       price_to,
       sku,
-      ids
+      ids,
+      tags
     } = params;
 
      // parse values
@@ -403,6 +404,7 @@ class ProductsService {
      price_from = parse.getNumberIfPositive(price_from);
      price_to = parse.getNumberIfPositive(price_to);
      ids = parse.getString(ids);
+     tags = parse.getString(tags);
 
      let queries = [];
      const currentDate = new Date();
@@ -479,6 +481,12 @@ class ProductsService {
            sku: sku
          });
        }
+     }
+
+     if (tags && tags.length > 0) {
+       queries.push({
+         tags: tags
+       });
      }
 
      if(useAttributes){
