@@ -79,28 +79,24 @@ class EditPageForm extends React.Component {
 
     if(initialValues){
       return (
-        <form onSubmit={handleSubmit} style={{
-          display: 'initial',
-          width: '100%'
-        }}>
+        <form onSubmit={handleSubmit}>
           <Paper className="paper-box" zDepth={1}>
             <div className={style.innerBox}>
-              <div className="blue-title">{messages.content}</div>
+              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
+              <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true} disabled={initialValues.is_system}/>
+              <p className="field-hint">{messages.help_slug}</p>
+              <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
+              <div className="field-hint" style={{ marginTop: 40 }}>{messages.content}</div>
               <div style={{marginBottom:50}}>
                 <Field name="content" component={Editor}/>
               </div>
               {messages.tags}
               <Field name="tags" component={TagsField} placeholder={messages.newTag} />
-              <div className="blue-title">{messages.seo}</div>
-              <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true} disabled={initialValues.is_system}/>
-              <p className="field-hint">{messages.help_slug}</p>
-              <Field name="meta_title" component={TextField} floatingLabelText={messages.pageTitle} fullWidth={true}/><br/>
-              <Field name="meta_description" component={TextField} floatingLabelText={messages.metaDescription} fullWidth={true}/>
               <div style={{maxWidth: 256}}>
                 <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} disabled={initialValues.is_system}/>
               </div>
             </div>
-            <div className="buttons-box">
+            <div className={"buttons-box " + (pristine && !isAdd ? "buttons-box-pristine" : "buttons-box-show")}>
               <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>
             </div>
           </Paper>
