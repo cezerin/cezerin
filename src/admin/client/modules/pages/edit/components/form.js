@@ -116,5 +116,6 @@ export default reduxForm({
   form: 'EditPageForm',
   validate,
   asyncValidate,
+  asyncBlurFields: [ 'slug' ],
   enableReinitialize: true
 })(EditPageForm)
