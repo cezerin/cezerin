@@ -95,6 +95,10 @@ h1 {
   border-bottom: 1px solid rgb(224, 224, 224);
 }
 
+.mce-content-body img {
+  max-width: 100%;
+}
+
 .mce-edit-focus {}
 
 .mce-panel {
