@@ -4,6 +4,7 @@ import {TextField} from 'redux-form-material-ui'
 
 import { CustomToggle } from 'modules/shared/form'
 import Editor from 'modules/shared/editor'
+import TagsInput from 'react-tagsinput'
 import messages from 'lib/text'
 import style from './style.css'
 import api from 'lib/api'
@@ -11,6 +12,19 @@ import api from 'lib/api'
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
+
+const TagsField = ({ input, placeholder }) => {
+  const tagsArray = input.value && Array.isArray(input.value) ? input.value : [];
+  return (
+    <TagsInput
+      value={tagsArray}
+      inputProps={{ placeholder: placeholder }}
+      onChange={(tags) => {
+        input.onChange(tags)
+      }}
+    />
+  )
+}
 
 const validate = values => {
   const errors = {}
@@ -75,6 +89,8 @@ class EditPageForm extends React.Component {
               <div style={{marginBottom:50}}>
                 <Field name="content" component={Editor}/>
               </div>
+              {messages.tags}
+              <Field name="tags" component={TagsField} placeholder={messages.newTag} />
               <div className="blue-title">{messages.seo}</div>
               <Field name="slug" component={TextField} floatingLabelText={messages.slug} fullWidth={true} disabled={initialValues.is_system}/>
               <p className="field-hint">{messages.help_slug}</p>
@@ -96,4 +112,9 @@ class EditPageForm extends React.Component {
   }
 }
 
-export default reduxForm({form: 'EditPageForm', validate, asyncValidate, enableReinitialize: true})(EditPageForm)
+export default reduxForm({
+  form: 'EditPageForm',
+  validate,
+  asyncValidate,
+  enableReinitialize: true
+})(EditPageForm)
