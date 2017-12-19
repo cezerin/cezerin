@@ -27,7 +27,7 @@ class PagesService {
   getPages(params = {}) {
     const filter = this.getFilter(params);
     return SettingsService.getSettings().then(generalSettings =>
-      mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
+      mongo.db.collection('pages').find(filter).sort({ is_system:-1, date_created:1 }).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
     )
   }
 
