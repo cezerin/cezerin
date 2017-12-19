@@ -6,7 +6,7 @@ import IconButton from 'material-ui/IconButton'
 
 const Buttons = () => (
   <span>
-    <Link to="/admin/settings/pages/add">
+    <Link to="/admin/pages/add">
       <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.settings_addPage}>
         <FontIcon color="#fff" className="material-icons">add</FontIcon>
       </IconButton>

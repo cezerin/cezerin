@@ -10,7 +10,7 @@ const PageItem = ({page}) => {
   return (
     <div>
       <Divider />
-      <Link to={`/admin/settings/pages/${page.id}`} style={{ textDecoration: 'none' }}>
+      <Link to={`/admin/pages/${page.id}`} style={{ textDecoration: 'none' }}>
         <ListItem
           rightIcon={<FontIcon className="material-icons">keyboard_arrow_right</FontIcon>}
           leftIcon={page.is_system ? <FontIcon className="material-icons">lock_outline</FontIcon> : null}

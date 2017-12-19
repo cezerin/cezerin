@@ -27,6 +27,10 @@ const menuItems = [
     title: messages.drawer_customers,
     url: '/admin/customers',
     icon: 'person'
+  }, {
+    title: messages.settings_pages,
+    url: '/admin/pages',
+    icon: 'description'
   },
   // {
   //   title: messages.drawer_discounts,

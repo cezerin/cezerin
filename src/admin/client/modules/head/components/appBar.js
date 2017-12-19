@@ -14,8 +14,8 @@ import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
 import PaymentMethodListHead from 'modules/settings/payments/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
 import ShippingMethodListHead from 'modules/settings/shipping/head'
-import PageHead from 'modules/settings/pages/edit/head'
-import PageListHead from 'modules/settings/pages/list/head'
+import PageHead from 'modules/pages/edit/head'
+import PageListHead from 'modules/pages/list/head'
 import TokenListHead from 'modules/settings/tokens/list/head'
 import AppsHead from 'modules/apps/head'
 import DrawerMenu from './drawer'
@@ -197,17 +197,17 @@ export default class AppBarTop extends React.Component {
       title = messages.logo;
       leftButton = <Link to="/admin/settings"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname === '/admin/settings/pages'){
+    else if(pathname === '/admin/pages'){
       title = messages.settings_pages;
       rightElements = <PageListHead />
     }
-    else if(pathname === '/admin/settings/pages/add'){
+    else if(pathname === '/admin/pages/add'){
       title = messages.settings_addPage;
-      leftButton = <Link to="/admin/settings/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname.startsWith('/admin/settings/pages/')){
+    else if(pathname.startsWith('/admin/pages/')){
       title = messages.settings_editPage;
-      leftButton = <Link to="/admin/settings/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <PageHead />
     }
     else if(pathname === '/admin/settings/tokens'){
