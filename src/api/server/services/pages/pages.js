@@ -14,8 +14,12 @@ class PagesService {
   getFilter(params = {}) {
     let filter = {};
     const id = parse.getObjectIDIfValid(params.id);
+    const tags = parse.getString(params.tags);
     if (id) {
       filter._id = new ObjectID(id);
+    }
+    if (tags && tags.length > 0) {
+      filter.tags = tags;
     }
     return filter;
   }
@@ -77,6 +81,7 @@ class PagesService {
     page.meta_description = parse.getString(data.meta_description);
     page.meta_title = parse.getString(data.meta_title);
     page.enabled = parse.getBooleanIfValid(data.enabled, true);
+    page.tags = parse.getArrayIfValid(data.tags) || [];
 
     let slug = (!data.slug || data.slug.length === 0) ? data.meta_title : data.slug;
     if(!slug || slug.length === 0) {
@@ -112,6 +117,10 @@ class PagesService {
 
         if (data.enabled !== undefined && !prevPageData.is_system) {
           page.enabled = parse.getBooleanIfValid(data.enabled, true);
+        }
+
+        if(data.tags !== undefined) {
+          page.tags = parse.getArrayIfValid(data.tags) || [];
         }
 
         if (data.slug !== undefined  && !prevPageData.is_system) {
