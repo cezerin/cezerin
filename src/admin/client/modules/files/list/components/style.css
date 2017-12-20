@@ -1,0 +1,47 @@
+.item {
+  font-size: 14px;
+  padding: 4px 10px;
+  border-bottom: 1px solid rgb(224, 224, 224);
+}
+
+.item:last-of-type {
+  border-bottom: none;
+}
+
+.item:hover{
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.name a {
+  color: rgb(0,142,180);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+.name a:hover {
+  text-decoration: underline;
+}
+
+.date, .size {
+  color: rgba(0, 0, 0, 0.54);
+  text-align: right;
+}
+
+.more {
+  text-align: right;
+}
+
+.head {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 16px 16px 0 26px;
+  text-align: right;
+}
+
+.head div:first-of-type {
+  text-align: left;
+}

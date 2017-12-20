@@ -1,0 +1,31 @@
+.dropzone {
+  margin: 20px;
+  opacity: 1;
+  transition: opacity .2s ease-in-out;
+}
+.uploading {
+  opacity: 0;
+}
+.dropzoneEmpty {
+  color: #a1a1a1;
+  font-size: 16px;
+  border: 2px dashed rgba(0,0,0,0.1);
+  padding: 80px 0;
+  text-align: center;
+}
+.dropzoneActive {
+  background-color: rgba(18,179,117, 0.4);
+}
+.dropzoneReject {
+  background-color: rgba(244,67,54,0.8);
+}
+.dropzoneReject .list,
+.dropzoneActive .list {
+  opacity: 0.3
+}
+.dropzoneActive .button {
+  opacity: 0;
+}
+.button {
+  margin-left: 10px !important;
+}

@@ -31,17 +31,11 @@ const menuItems = [
     title: messages.settings_pages,
     url: '/admin/pages',
     icon: 'description'
-  },
-  // {
-  //   title: messages.drawer_discounts,
-  //   url: '/admin/discounts',
-  //   icon: 'content_cut'
-  // },{
-  //   title: messages.drawer_reports,
-  //   url: '/admin/reports',
-  //   icon: 'timeline'
-  // },
-  {
+  }, {
+    title: messages.files,
+    url: '/admin/files',
+    icon: 'folder'
+  }, {
     title: '-',
     url: 'settings'
   }, {

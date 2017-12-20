@@ -20,6 +20,20 @@ export const formatCurrency = (number = 0, settings) => {
   return settings.currency_format.replace(amountPattern, formatNumber(number, settings));
 }
 
+export const formatFileSize = (bytes = 0) => {
+  const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+  if (bytes === 0) {
+    return 'n/a'
+  } else {
+    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10);
+    if (i === 0) {
+      return `${bytes} ${sizes[i]}`;
+    } else {
+      return `${(bytes / (1024 ** i)).toFixed(1)} ${sizes[i]}`;
+    }
+  }
+}
+
 export const getThumbnailUrl = (originalUrl, width) => {
   if(originalUrl && originalUrl.length > 0) {
     const pos = originalUrl.lastIndexOf('/');

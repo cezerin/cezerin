@@ -334,5 +334,9 @@
   "loadFromWebstore": "To load Apps from WebStore, please sign in.",
   "addProduct": "Add new product",
   "addOrderStatus": "Add new status",
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "files": "Files",
+  "fileName": "Name",
+  "fileModified": "Modified",
+  "fileSize": "Size"
 }
