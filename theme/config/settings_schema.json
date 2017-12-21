@@ -345,4 +345,9 @@
   "key": "limit_viewed_products",
   "type": "number",
   "label": "Count of recently viewed products"
+}, {
+  "section": "Pages",
+  "key": "page_list_tag",
+  "type": "string",
+  "label": "Tag to create page list (blog, news, articles or docs)"
 }]
