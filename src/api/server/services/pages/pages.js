@@ -8,6 +8,8 @@ var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 const SettingsService = require('../settings/settings');
 
+const DEFAULT_SORT = { is_system:-1, date_created:1 };
+
 class PagesService {
   constructor() {}
 
@@ -24,10 +26,22 @@ class PagesService {
     return filter;
   }
 
+  getSortQuery({ sort }) {
+    if(sort && sort.length > 0) {
+      const fields = sort.split(',');
+      return Object.assign(...fields.map(field => (
+        {[field.startsWith('-') ? field.slice(1) : field]: field.startsWith('-') ? -1 : 1}
+      )))
+    } else {
+      return DEFAULT_SORT;
+    }
+  }
+
   getPages(params = {}) {
     const filter = this.getFilter(params);
+    const sortQuery = this.getSortQuery(params);
     return SettingsService.getSettings().then(generalSettings =>
-      mongo.db.collection('pages').find(filter).sort({ is_system:-1, date_created:1 }).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
+      mongo.db.collection('pages').find(filter).sort(sortQuery).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
     )
   }
 
