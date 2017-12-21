@@ -87,7 +87,7 @@ class PagesService {
     if(!slug || slug.length === 0) {
       return Promise.resolve(page);
     } else {
-      return utils.getAvailableSlug(slug).then(newSlug => {
+      return utils.getAvailableSlug(slug, null, false).then(newSlug => {
         page.slug = newSlug;
         return page;
       });
