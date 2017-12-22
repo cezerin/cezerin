@@ -53,7 +53,7 @@ class ProductsService {
             const ids = this.getArrayFromCSV(parse.getString(params.ids));
             const sku = this.getArrayFromCSV(parse.getString(params.sku));
 
-            let items = itemsResult.map(item => this.changeProperties(categories, item, domain));
+            let items = itemsResult.map(item => this.changeProperties(categories, item, domain)).filter(item => item !== null);
             items = this.sortItemsByArrayOfIdsIfNeed(items, ids, sortQuery);
             items = this.sortItemsByArrayOfSkuIfNeed(items, sku, sortQuery);
 
@@ -91,13 +91,13 @@ class ProductsService {
   }
 
   sortItemsByArrayOfIdsIfNeed(items, arrayOfIds, sortQuery) {
-    return arrayOfIds && arrayOfIds.length > 0 && sortQuery === null
+    return arrayOfIds && arrayOfIds.length > 0 && sortQuery === null && items && items.length > 0
       ? arrayOfIds.map(id => items.find(item => item.id === id))
       : items;
   }
 
   sortItemsByArrayOfSkuIfNeed(items, arrayOfSku, sortQuery) {
-    return arrayOfSku && arrayOfSku.length > 0 && sortQuery === null
+    return arrayOfSku && arrayOfSku.length > 0 && sortQuery === null && items && items.length > 0
       ? arrayOfSku.map(sku => items.find(item => item.sku === sku))
       : items;
   }
