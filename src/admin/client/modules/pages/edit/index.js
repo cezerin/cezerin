@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
-import { fetchPage, updatePage, createPage, receivePage } from '../../actions'
+import { fetchPage, updatePage, createPage, receivePage } from '../actions'
 import Form from './components/form'
 
 const mapStateToProps = (state, ownProps) => {
   const {pageId} = ownProps.match.params;
   return {
     pageId: pageId,
-    initialValues: state.settings.pageEdit
+    initialValues: state.pages.pageEdit
   }
 }
 
@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(updatePage(page));
       } else {
         dispatch(createPage(page));
-        ownProps.history.push('/admin/settings/pages');
+        ownProps.history.push('/admin/pages');
       }
     },
     eraseData: () => {

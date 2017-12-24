@@ -1,16 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { fetchOrders, setFilter, deleteOrders } from '../actions'
+import { withRouter } from 'react-router'
+import { fetchOrders, setFilter, deleteOrders, createOrder } from '../actions'
 import Buttons from './components/buttons'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     search: state.orders.filter.search,
     selectedCount: state.orders.selected.length
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     setSearch: (value) => {
       dispatch(setFilter({ search: value }));
@@ -18,8 +19,11 @@ const mapDispatchToProps = (dispatch) => {
     },
     onDelete: () => {
       dispatch(deleteOrders());
+    },
+    onCreate: () => {
+      dispatch(createOrder(ownProps.history))
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Buttons);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Buttons));

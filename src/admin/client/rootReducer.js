@@ -7,8 +7,10 @@ import customerGroups from 'modules/customerGroups/reducer';
 import customers from 'modules/customers/reducer';
 import orders from 'modules/orders/reducer';
 import orderStatuses from 'modules/orderStatuses/reducer';
+import pages from 'modules/pages/reducer';
 import settings from 'modules/settings/reducer';
 import apps from 'modules/apps/reducer';
+import files from 'modules/files/reducer';
 
 export default combineReducers({
   form: formReducer,
@@ -19,5 +21,7 @@ export default combineReducers({
   customers,
   orders,
   orderStatuses,
-  apps
+  pages,
+  apps,
+  files
 });

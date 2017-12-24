@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { reset } from 'redux-form';
-import { deleteCategory, moveUpCategory, moveDownCategory, replaceCategory } from '../actions'
+import { deleteCategory, moveUpCategory, moveDownCategory, replaceCategory, createCategory } from '../actions'
 import Buttons from './components/buttons'
 
 const mapStateToProps = (state) => {
@@ -25,8 +26,11 @@ const mapDispatchToProps = (dispatch) => {
     onMoveTo: (id) => {
       dispatch(replaceCategory(id));
       dispatch(reset('FormProductCategory'));
+    },
+    onCreate: () => {
+      dispatch(createCategory());
     }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Buttons);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Buttons));

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { fetchOrders, selectOrder, deselectOrder, selectAllOrder, deselectAllOrder, fetchMoreOrders, createOrder } from '../actions'
+import { fetchOrders, selectOrder, deselectOrder, selectAllOrder, deselectAllOrder, fetchMoreOrders } from '../actions'
 import List from './components/list'
 
 const mapStateToProps = (state, ownProps) => {
@@ -34,9 +34,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     loadMore: () => {
       dispatch(fetchMoreOrders());
-    },
-    onCreate: () => {
-      dispatch(createOrder(ownProps.history))
     }
   }
 }

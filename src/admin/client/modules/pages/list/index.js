@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import { fetchPages } from '../../actions'
+import { fetchPages } from '../actions'
 import Form from './components/form'
 
 const mapStateToProps = (state) => {
   return {
-    pages: state.settings.pages
+    pages: state.pages.pages
   }
 }
 

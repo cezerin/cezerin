@@ -50,10 +50,16 @@ export default class Buttons extends React.Component {
     if(page && !page.is_system){
       return (
         <span>
-          <IconButton touch={true} tooltip={messages.actions_delete} onClick={this.showDelete}>
+          <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.showDelete}>
             <FontIcon color="#fff" className="material-icons">delete</FontIcon>
           </IconButton>
-
+          {page.enabled &&
+            <a href={page.url} target="_blank">
+              <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.viewOnWebsite}>
+                <FontIcon color="#fff" className="material-icons">open_in_new</FontIcon>
+              </IconButton>
+            </a>
+          }
           <Dialog
             title={messages.messages_deleteConfirmation}
             actions={actionsDelete}

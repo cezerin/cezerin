@@ -19,7 +19,7 @@ import Tags from './tags'
 const Fragment = React.Fragment;
 
 const Description = ({ description }) => (
-  <div dangerouslySetInnerHTML={{__html: description}}/>
+  <div className="product-content" dangerouslySetInnerHTML={{__html: description}}/>
 )
 
 export default class ProductDetails extends React.Component {

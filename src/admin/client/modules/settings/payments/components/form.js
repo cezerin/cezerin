@@ -1,11 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 const MethodItem = ({method}) => {
   return (
@@ -34,10 +32,6 @@ export default class EmailSettings extends React.Component {
     this.props.onLoad();
   }
 
-  gotoAddPage = () => {
-    this.props.history.push('/admin/settings/payments/add');
-  }
-
   render() {
     const {paymentMethods} = this.props;
     let methods = paymentMethods.map((method, index) => <MethodItem key={index} method={method} />)
@@ -49,9 +43,6 @@ export default class EmailSettings extends React.Component {
               {methods}
             </List>
           </div>
-          <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onClick={this.gotoAddPage}>
-            <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton>
       </Paper>
     )
   }

@@ -11,9 +11,14 @@ import OrdersHead from 'modules/orders/listHead/index'
 import OrderHead from 'modules/orders/editHead/index'
 import OrderStatusHead from 'modules/orderStatuses/head/index'
 import PaymentMethodHead from 'modules/settings/paymentsEdit/head'
+import PaymentMethodListHead from 'modules/settings/payments/head'
 import ShippingMethodHead from 'modules/settings/shippingEdit/head'
-import PageHead from 'modules/settings/pages/edit/head'
+import ShippingMethodListHead from 'modules/settings/shipping/head'
+import PageHead from 'modules/pages/edit/head'
+import PageListHead from 'modules/pages/list/head'
+import TokenListHead from 'modules/settings/tokens/list/head'
 import AppsHead from 'modules/apps/head'
+import FileListHead from 'modules/files/list/head'
 import DrawerMenu from './drawer'
 
 import FontIcon from 'material-ui/FontIcon';
@@ -37,7 +42,7 @@ export default class AppBarTop extends React.Component {
       return null;
     }
 
-    let title = 'Dashboard';
+    let title = messages.dashboard;
     let leftButton = <IconButton onClick={this.handleToggle}><FontIcon className="material-icons">menu</FontIcon></IconButton>;
     let rightElements = null;
     {/* <IconButton><FontIcon color="#fff" className="material-icons">notifications</FontIcon></IconButton> */}
@@ -69,12 +74,9 @@ export default class AppBarTop extends React.Component {
       rightElements = <OrdersHead />
     }
     else if(pathname === '/admin/orders/statuses'){
-      title = messages.orderStatuses;
+      title = orderStatusName ? messages.editOrderStatus : messages.orderStatuses;
       leftButton = <Link to="/admin/orders"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
-      if(orderStatusName){
-        title = messages.editOrderStatus;
-        rightElements = <OrderStatusHead />
-      }
+      rightElements = <OrderStatusHead />
     }
     else if(pathname.startsWith('/admin/order/')){
       title = orderNumber ? `${messages.order} #${orderNumber}` : messages.order;
@@ -96,12 +98,9 @@ export default class AppBarTop extends React.Component {
       rightElements = <ProductHead />;
     }
     else if(pathname === '/admin/products/categories'){
-      title = messages.productCategories_title;
+      title = productCategoryName ? messages.productCategories_titleEdit : messages.productCategories_title;
       leftButton = <Link to="/admin/products"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
-      if(productCategoryName){
-        title = messages.productCategories_titleEdit;;
-        rightElements = <ProductCategoryHead />
-      }
+      rightElements = <ProductCategoryHead />
     }
     else if(pathname === '/admin/customers'){
       title = messages.customers_title;
@@ -117,12 +116,9 @@ export default class AppBarTop extends React.Component {
       rightElements = <CustomersHead />
     }
     else if(pathname === '/admin/customers/groups'){
-      title = messages.customerGroups_title;
+      title = customerGroupName ? messages.customerGroups_titleEdit : messages.customerGroups_title;
       leftButton = <Link to="/admin/customers"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
-      if(customerGroupName){
-        title = messages.customerGroups_titleEdit;;
-        rightElements = <CustomerGroupHead />
-      }
+      rightElements = <CustomerGroupHead />
     }
     else if(pathname === '/admin/settings/email'){
       title = messages.settings_emailSettings;
@@ -171,9 +167,11 @@ export default class AppBarTop extends React.Component {
     }
     else if(pathname === '/admin/settings/shipping'){
       title = messages.settings_shippingMethods;
+      rightElements = <ShippingMethodListHead />
     }
     else if(pathname === '/admin/settings/payments'){
       title = messages.settings_paymentsMethods;
+      rightElements = <PaymentMethodListHead />
     }
     else if(pathname === '/admin/settings/shipping/add'){
       title = messages.settings_addShippingMethod;
@@ -200,20 +198,26 @@ export default class AppBarTop extends React.Component {
       title = messages.logo;
       leftButton = <Link to="/admin/settings"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname === '/admin/settings/pages'){
+    else if(pathname === '/admin/pages'){
       title = messages.settings_pages;
+      rightElements = <PageListHead />
     }
-    else if(pathname === '/admin/settings/pages/add'){
+    else if(pathname === '/admin/pages/add'){
       title = messages.settings_addPage;
-      leftButton = <Link to="/admin/settings/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
     }
-    else if(pathname.startsWith('/admin/settings/pages/')){
+    else if(pathname.startsWith('/admin/pages/')){
       title = messages.settings_editPage;
-      leftButton = <Link to="/admin/settings/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      leftButton = <Link to="/admin/pages"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
       rightElements = <PageHead />
+    }
+    else if(pathname === '/admin/files'){
+      title = messages.files;
+      rightElements = <FileListHead />
     }
     else if(pathname === '/admin/settings/tokens'){
       title = messages.settings_tokens;
+      rightElements = <TokenListHead />
     }
     else if(pathname === '/admin/settings/tokens/add'){
       title = messages.settings_addToken;

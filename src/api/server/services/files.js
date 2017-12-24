@@ -8,10 +8,46 @@ var formidable = require('formidable');
 const utils = require('../lib/utils');
 const settings = require('../lib/settings');
 
+const CONTENT_PATH = path.resolve(settings.filesUploadPath);
+
 class FilesService {
+  getFileData(fileName) {
+    const filePath = CONTENT_PATH + '/' + fileName;
+    const stats = fs.statSync(filePath);
+    if(stats.isFile()){
+      return {
+        file: fileName,
+        size: stats.size,
+        modified: stats.mtime
+      }
+    } else {
+      return null;
+    }
+  }
+
+  getFilesData(files) {
+    return files
+    .map(fileName => this.getFileData(fileName))
+    .filter(fileData => fileData !== null)
+    .sort((a,b) => (a.modified - b.modified));
+  }
+
+  getFiles() {
+    return new Promise((resolve, reject) => {
+      fs.readdir(CONTENT_PATH, (err, files) => {
+        if(err){
+          reject(err);
+        } else {
+          const filesData = this.getFilesData(files);
+          resolve(filesData);
+        }
+      })
+    });
+  }
+
   deleteFile(fileName) {
     return new Promise((resolve, reject) => {
-      const filePath = path.resolve(settings.filesUploadPath + '/' + fileName);
+      const filePath = CONTENT_PATH + '/' + fileName;
       if(fs.existsSync(filePath)){
         fs.unlink(filePath, (err) => {
           resolve();
@@ -23,7 +59,7 @@ class FilesService {
   }
 
   uploadFile(req, res, next) {
-    const uploadDir = path.resolve(settings.filesUploadPath);
+    const uploadDir = CONTENT_PATH;
 
     let form = new formidable.IncomingForm(),
         file_name = null,

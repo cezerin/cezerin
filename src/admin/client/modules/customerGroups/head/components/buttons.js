@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+const Fragment = React.Fragment;
 
 export default class Buttons extends React.Component {
   constructor(props) {
@@ -32,7 +33,7 @@ export default class Buttons extends React.Component {
   };
 
   render() {
-    const { selected, onDelete } = this.props;
+    const { selected, onDelete, onCreate } = this.props;
     const groupName = selected ? selected.name : '';
 
     const actionsDelete = [
@@ -51,19 +52,25 @@ export default class Buttons extends React.Component {
 
     return (
       <span>
-        <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="bottom-left" onClick={this.showDelete}>
-          <FontIcon color="#fff" className="material-icons">delete</FontIcon>
+        {selected &&
+          <Fragment>
+            <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="bottom-left" onClick={this.showDelete}>
+              <FontIcon color="#fff" className="material-icons">delete</FontIcon>
+            </IconButton>
+            <Dialog
+              title={messages.messages_deleteConfirmation}
+              actions={actionsDelete}
+              modal={false}
+              open={this.state.openDelete}
+              onRequestClose={this.closeDelete}
+            >
+              {messages.customerGroups_aboutDelete.replace('{name}', groupName)}
+            </Dialog>
+          </Fragment>
+        }
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.customerGroups_titleAdd} onClick={onCreate}>
+          <FontIcon color="#fff" className="material-icons">add</FontIcon>
         </IconButton>
-
-        <Dialog
-          title={messages.messages_deleteConfirmation}
-          actions={actionsDelete}
-          modal={false}
-          open={this.state.openDelete}
-          onRequestClose={this.closeDelete}
-        >
-          {messages.customerGroups_aboutDelete.replace('{name}', groupName)}
-        </Dialog>
       </span>
     )
   }

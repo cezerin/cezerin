@@ -20,20 +20,27 @@ export default class CustomProducts extends React.Component {
     this.fetchProducts(nextProps);
   }
 
-  fetchProducts = ({ ids, sku, sort, limit, category_id }) => {
-    const filter = {
+  fetchProducts = ({ ids, sku, sort, limit, category_id, tags, attributes, price_from, price_to, on_sale }) => {
+    let filter = {
       ids: ids,
       sku: sku,
-      on_sale: null,
+      tags: tags,
+      on_sale: on_sale,
       search: null,
       category_id: category_id,
-      price_from: null,
-      price_to: null,
+      price_from: price_from,
+      price_to: price_to,
       sort: sort,
       fields: 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags',
       limit: limit || 4,
       offset: 0
     };
+
+    if(attributes && Array.isArray(attributes) && attributes.length > 0){
+      attributes.forEach((attr) => {
+        filter[`attributes.${attr.name}`] = attr.value;
+      })
+    }
 
     api.ajax.products.list(filter).then(({status, json}) => {
       this.setState({

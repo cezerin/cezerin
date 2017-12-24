@@ -180,7 +180,11 @@ const getFilter = (currentPage, urlQuery, settings) => {
     productFilter = getProductFilterForSearch(urlQuery);
   }
 
-  productFilter['sort'] = settings.default_product_sorting;
+  const sortingNotSet = productFilter['sort'] === undefined || productFilter['sort'] === null;
+  if(sortingNotSet){
+    productFilter['sort'] = settings.default_product_sorting;
+  }
+
   productFilter.fields = settings.product_fields && settings.product_fields !== '' ? settings.product_fields : PRODUCT_FIELDS;
   productFilter.limit = settings.products_limit && settings.products_limit !== 0 ? settings.products_limit : 30;
 

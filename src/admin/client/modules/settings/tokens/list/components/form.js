@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import messages from 'lib/text'
-
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import FontIcon from 'material-ui/FontIcon';
 import {List, ListItem} from 'material-ui/List';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 
 const TokenItem = ({token}) => {
   return (
@@ -34,10 +32,6 @@ export default class TokensList extends React.Component {
     this.props.onLoad();
   }
 
-  gotoAddPage = () => {
-    this.props.history.push('/admin/settings/tokens/add');
-  }
-
   render() {
     const {tokens} = this.props;
     let listItems = tokens.map((token, index) => <TokenItem key={index} token={token} />)
@@ -51,9 +45,6 @@ export default class TokensList extends React.Component {
                 {listItems}
               </List>
             </div>
-            <FloatingActionButton secondary={false} style={{position: 'fixed', right: '25px', bottom: '15px', zIndex: 1}} onClick={this.gotoAddPage}>
-              <FontIcon className="material-icons">add</FontIcon>
-            </FloatingActionButton>
         </Paper>
       </div>
     )

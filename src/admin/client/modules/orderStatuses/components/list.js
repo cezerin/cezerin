@@ -1,29 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import messages from 'lib/text'
-
 import { List, ListItem } from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
 
-var styles = {
-  item: {
-    fontSize: 14,
-    lineHeight: '14px'
-  },
+const styles = {
   selectedItem: {
-    fontSize: 14,
-    lineHeight: '14px',
     backgroundColor: 'rgba(0, 0, 0, 0.1)'
   },
   innerItem: {
     paddingLeft: 55
-  },
-  fab: {
-    position: 'fixed',
-    left: '18%',
-    bottom: '15px'
   }
 }
+
+const FolderIcon = <FontIcon className="material-icons">folder</FontIcon>;
 
 export default class StatusesList extends React.Component {
   constructor(props){
@@ -39,42 +29,48 @@ export default class StatusesList extends React.Component {
     	onSelect,
     	selectedId,
     	items,
-      onCreate,
     	showAll,
-      showAdd
+      showManage
     } = this.props;
 
-    var rows = items.map(item => <ListItem
-      key={item.id}
-      style={item.id === selectedId ? styles.selectedItem : styles.item}
-      innerDivStyle={styles.innerItem}
-      primaryText={item.name}
-      leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
-      onClick={() => { this.props.onSelect(item.id) }}
-           />);
+    const rows = items.map(item => (
+      <ListItem
+        key={item.id}
+        className="treeItem"
+        style={item.id === selectedId ? styles.selectedItem : null}
+        innerDivStyle={styles.innerItem}
+        primaryText={item.name}
+        leftIcon={FolderIcon}
+        onClick={() => { this.props.onSelect(item.id) }}
+       />
+    ));
 
     return (
-      <div>
-        <List>
-          {showAll &&
-            <ListItem
-              primaryText={messages.allOrderStatuses}
-              style={'all' === selectedId ? styles.selectedItem : styles.item}
-              innerDivStyle={styles.innerItem}
-              leftIcon={<FontIcon className="material-icons">folder</FontIcon>}
-              onClick={() => { onSelect('all') }}
-            />
-          }
-
-          {rows}
-
-        </List>
-        {showAdd &&
-          <FloatingActionButton secondary={false} style={styles.fab} onClick={onCreate}>
-            <FontIcon className="material-icons">add</FontIcon>
-          </FloatingActionButton>
+      <List>
+        {showAll &&
+          <ListItem
+            className="treeItem"
+            primaryText={messages.allOrderStatuses}
+            style={'all' === selectedId ? styles.selectedItem : null}
+            innerDivStyle={styles.innerItem}
+            leftIcon={FolderIcon}
+            onClick={() => { onSelect('all') }}
+          />
         }
-      </div>
+
+        {rows}
+
+        {showManage &&
+          <Link to="/admin/orders/statuses" style={{ textDecoration: 'none' }}>
+            <ListItem
+              className="treeItem"
+              primaryText={messages.manageOrderStatuses}
+              innerDivStyle={styles.innerItem}
+              leftIcon={<FontIcon className="material-icons">settings</FontIcon>}
+            />
+          </Link>
+        }
+      </List>
     )
   }
 }

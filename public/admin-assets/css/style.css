@@ -95,6 +95,10 @@ h1 {
   border-bottom: 1px solid rgb(224, 224, 224);
 }
 
+.mce-content-body img {
+  max-width: 100%;
+}
+
 .mce-edit-focus {}
 
 .mce-panel {
@@ -215,4 +219,9 @@ div.mce-btn:hover, div.mce-btn:focus {
   outline: none;
   padding: 0;
   width: 120px;
+}
+
+.treeItem {
+  font-size: 14px !important;
+  line-height: 14px !important;
 }

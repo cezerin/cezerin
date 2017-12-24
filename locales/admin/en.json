@@ -248,7 +248,7 @@
   "addVariant": "Add new variant",
   "addOption": "Add new option",
   "logo": "Logo",
-  "chooseImage": "Choose images",
+  "chooseImage": "Choose files",
   "position": "Position",
   "optionName": "Option name",
   "optionControl": "Option control",
@@ -331,5 +331,12 @@
   "tokenInvalid": "Token is not valid",
   "productFields": "Product fields",
   "productsLimit": "Limit product items per request",
-  "loadFromWebstore": "To load Apps from WebStore, please sign in."
+  "loadFromWebstore": "To load Apps from WebStore, please sign in.",
+  "addProduct": "Add new product",
+  "addOrderStatus": "Add new status",
+  "dashboard": "Dashboard",
+  "files": "Files",
+  "fileName": "Name",
+  "fileModified": "Modified",
+  "fileSize": "Size"
 }

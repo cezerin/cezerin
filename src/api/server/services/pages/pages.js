@@ -8,22 +8,40 @@ var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 const SettingsService = require('../settings/settings');
 
+const DEFAULT_SORT = { is_system:-1, date_created:1 };
+
 class PagesService {
   constructor() {}
 
   getFilter(params = {}) {
     let filter = {};
     const id = parse.getObjectIDIfValid(params.id);
+    const tags = parse.getString(params.tags);
     if (id) {
       filter._id = new ObjectID(id);
+    }
+    if (tags && tags.length > 0) {
+      filter.tags = tags;
     }
     return filter;
   }
 
+  getSortQuery({ sort }) {
+    if(sort && sort.length > 0) {
+      const fields = sort.split(',');
+      return Object.assign(...fields.map(field => (
+        {[field.startsWith('-') ? field.slice(1) : field]: field.startsWith('-') ? -1 : 1}
+      )))
+    } else {
+      return DEFAULT_SORT;
+    }
+  }
+
   getPages(params = {}) {
     const filter = this.getFilter(params);
+    const sortQuery = this.getSortQuery(params);
     return SettingsService.getSettings().then(generalSettings =>
-      mongo.db.collection('pages').find(filter).sort({ is_system:-1, slug:1 }).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
+      mongo.db.collection('pages').find(filter).sort(sortQuery).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
     )
   }
 
@@ -77,12 +95,13 @@ class PagesService {
     page.meta_description = parse.getString(data.meta_description);
     page.meta_title = parse.getString(data.meta_title);
     page.enabled = parse.getBooleanIfValid(data.enabled, true);
+    page.tags = parse.getArrayIfValid(data.tags) || [];
 
     let slug = (!data.slug || data.slug.length === 0) ? data.meta_title : data.slug;
     if(!slug || slug.length === 0) {
       return Promise.resolve(page);
     } else {
-      return utils.getAvailableSlug(slug).then(newSlug => {
+      return utils.getAvailableSlug(slug, null, false).then(newSlug => {
         page.slug = newSlug;
         return page;
       });
@@ -112,6 +131,10 @@ class PagesService {
 
         if (data.enabled !== undefined && !prevPageData.is_system) {
           page.enabled = parse.getBooleanIfValid(data.enabled, true);
+        }
+
+        if(data.tags !== undefined) {
+          page.tags = parse.getArrayIfValid(data.tags) || [];
         }
 
         if (data.slug !== undefined  && !prevPageData.is_system) {
