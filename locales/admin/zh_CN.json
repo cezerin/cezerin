@@ -193,7 +193,7 @@
   "settings_tokenHelp": "个人访问令牌的功能就像用于API认证的组合名称和密码一样",
   "settings_copyYourNewToken": "确保现在已复制你的新的个人访问令牌，你将不能再看到它！",
   "settings_tokenRevokeTitle": "你确定要删除这个令牌？",
-  "settings_tokenRevokeDescription": "使用此令牌的任何应用程序或用户将不再能够访问API或仪表板，您无法撤销此操作",
+  "settings_tokenRevokeDescription": "使用此令牌的任何应用程序或用户将不再能够访问API或仪表盘，您无法撤销此操作",
   "drawer_title": "菜单",
   "drawer_home": "主页",
   "drawer_products": "产品",
@@ -312,7 +312,7 @@
   "account": "账户",
   "developerProfile": "开发者简介",
   "shopUrl": "商店网址",
-  "adminUrl": "仪表板网址",
+  "adminUrl": "仪表盘 Url",
   "isDeveloper": "我是开发者",
   "website": "网站",
   "actions": "操作",
@@ -331,5 +331,12 @@
   "tokenInvalid": "令牌无效",
   "productFields": "产品领域",
   "productsLimit": "限制每个请求的产品项目",
-  "loadFromWebstore": "要从网络商店加载应用程序，请登录。"
+  "loadFromWebstore": "要从网络商店加载应用程序，请登录。",
+  "addProduct": "添加新产品",
+  "addOrderStatus": "添加新状态",
+  "dashboard": "仪表盘",
+  "files": "文件",
+  "fileName": "名称",
+  "fileModified": "更改",
+  "fileSize": "大小"
 }
