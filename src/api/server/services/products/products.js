@@ -53,9 +53,10 @@ class ProductsService {
             const ids = this.getArrayFromCSV(parse.getString(params.ids));
             const sku = this.getArrayFromCSV(parse.getString(params.sku));
 
-            let items = itemsResult.map(item => this.changeProperties(categories, item, domain)).filter(item => item !== null);
+            let items = itemsResult.map(item => this.changeProperties(categories, item, domain));
             items = this.sortItemsByArrayOfIdsIfNeed(items, ids, sortQuery);
             items = this.sortItemsByArrayOfSkuIfNeed(items, sku, sortQuery);
+            items = items.filter(item => !!item);
 
             let total_count = 0;
             let min_price = 0;
