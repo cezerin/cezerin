@@ -33,7 +33,7 @@ git clone https://github.com/cezerin/cezerin.git cezerin
 cd cezerin
 npm install
 npm run build
-node start
+npm start
 ```
 
 Then open <http://localhost:3000> to see your app.
