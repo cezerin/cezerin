@@ -17,7 +17,7 @@ const AddToCartButton = ({ product, variant, addCartItem, isAllOptionsSelected }
     return <button className="button is-success is-fullwidth" style={buttonStyle} onClick={addCartItem}>{addToCartText}</button>
   } else if(product.variable && !isAllOptionsSelected) {
     return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.optionsRequired}</button>
-  } else if(product.variable) {
+  } else if(product.variable && !product.stock_backorder) {
     return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.outOfStock}</button>
   } else if(product.stock_status === 'available') {
     return <button className="button is-success is-fullwidth" style={buttonStyle} onClick={addCartItem}>{addToCartText}</button>

@@ -17,26 +17,62 @@ class OrderItemsService {
       return Promise.reject('Invalid identifier');
     }
     let orderObjectID = new ObjectID(order_id);
-    const newItem = this.getValidDocumentForInsert(data);
+    let newItem = this.getValidDocumentForInsert(data);
 
     return this.getOrderItemIfExists(order_id, newItem.product_id, newItem.variant_id).then(existItem => {
       if (existItem) {
-        return this.updateItem(order_id, existItem.id, {
-          quantity: existItem.quantity + newItem.quantity
-        });
-      } else {
-        return mongo.db.collection('orders').updateOne({
-          _id: orderObjectID
-        }, {
-          $push: {
-            items: newItem
+        const quantityNeeded = existItem.quantity + newItem.quantity;
+        return this.getAvailableProductQuantity(newItem.product_id, newItem.variant_id, quantityNeeded).then(availableQuantity => {
+          if(availableQuantity > 0) {
+            return this.updateItem(order_id, existItem.id, {
+              quantity: availableQuantity
+            });
+          } else {
+            return OrdersService.getSingleOrder(order_id);
           }
         })
-        .then(() => this.calculateAndUpdateItem(order_id, newItem.id))
-        .then(() => ProductStockService.handleAddOrderItem(order_id, newItem.id))
-        .then(() => OrdersService.getSingleOrder(order_id));
+      } else {
+        return this.getAvailableProductQuantity(newItem.product_id, newItem.variant_id, newItem.quantity).then(availableQuantity => {
+          if(availableQuantity > 0) {
+            newItem.quantity = availableQuantity;
+            return mongo.db.collection('orders').updateOne({
+              _id: orderObjectID
+            }, {
+              $push: {
+                items: newItem
+              }
+            })
+            .then(() => this.calculateAndUpdateItem(order_id, newItem.id))
+            .then(() => ProductStockService.handleAddOrderItem(order_id, newItem.id))
+            .then(() => OrdersService.getSingleOrder(order_id));
+          } else {
+            return OrdersService.getSingleOrder(order_id);
+          }
+        })
       }
     })
+  }
+
+  getAvailableProductQuantity(product_id, variant_id, quantityNeeded) {
+    return ProductsService.getSingleProduct(product_id.toString())
+    .then(product => {
+      if(!product) {
+        return 0;
+      } else if(product.discontinued){
+        return 0;
+      } else if(product.stock_backorder) {
+        return quantityNeeded;
+      } else if (product.variable && variant_id) {
+        const variant = this.getVariantFromProduct(product, variant_id);
+        if(variant){
+          return variant.stock_quantity >= quantityNeeded ? quantityNeeded : variant.stock_quantity;
+        } else {
+          return 0;
+        }
+      } else {
+        return product.stock_quantity >= quantityNeeded ? quantityNeeded : product.stock_quantity;
+      }
+    });
   }
 
   getOrderItemIfExists(order_id, product_id, variant_id) {

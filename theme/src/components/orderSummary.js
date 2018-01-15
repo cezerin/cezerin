@@ -6,7 +6,9 @@ import * as helper from '../lib/helper'
 const SummaryItem = ({settings, item, deleteCartItem, updateCartItemQuantiry}) => {
   const thumbnail = helper.getThumbnailUrl(item.image_url, themeSettings.cartThumbnailWidth);
   const qtyOptions = [];
-  const maxQty = item.stock_quantity >= themeSettings.maxCartItemQty ? themeSettings.maxCartItemQty : item.stock_quantity;
+  const maxQty = item.stock_backorder ?
+    themeSettings.maxCartItemQty :
+    (item.stock_quantity >= themeSettings.maxCartItemQty ? themeSettings.maxCartItemQty : item.stock_quantity);
 
   for(let i = 0; i <= maxQty; i++){
     const optionText = i === 0 ? text.remove : i;
