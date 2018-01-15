@@ -25,7 +25,8 @@ const getCurrentPage = path => {
 
 const getProducts = (currentPage, productFilter) => {
   if (currentPage.type === PRODUCT_CATEGORY || currentPage.type === SEARCH) {
-    const filter = getParsedProductFilter(productFilter);
+    let filter = getParsedProductFilter(productFilter);
+    filter.enabled = true;
     return api.products.list(filter).then(({status, json}) => json);
   } else {
     return null;
