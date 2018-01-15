@@ -95,7 +95,7 @@ class ProductStockService {
   }
 
   isVariant(variantId) {
-    return variantId && variantId.length > 0;
+    return variantId && variantId !== '';
   }
 
   getOrder(orderId) {
