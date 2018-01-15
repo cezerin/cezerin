@@ -28,7 +28,7 @@ export const fetchProducts = () => (dispatch, getState) => {
   }).catch(error => {});
 }
 
-export const getProductFilterForCategory = (locationSearch) => {
+export const getProductFilterForCategory = (locationSearch, sortBy) => {
   const queryFilter = queryString.parse(locationSearch);
 
   let attributes = {};
@@ -42,7 +42,8 @@ export const getProductFilterForCategory = (locationSearch) => {
     priceFrom: parseInt(queryFilter.price_from || 0),
     priceTo: parseInt(queryFilter.price_to || 0),
     attributes: attributes,
-    search: null
+    search: null,
+    sort: sortBy
   }
 }
 
@@ -406,7 +407,7 @@ const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
 
   switch(currentPage.type){
     case PRODUCT_CATEGORY:
-      productFilter = getProductFilterForCategory(app.location.search);
+      productFilter = getProductFilterForCategory(app.location.search, app.settings.default_product_sorting);
       dispatch(setCategory(currentPage.resource));
       dispatch(setProductsFilter(productFilter));
       dispatch(fetchProducts());

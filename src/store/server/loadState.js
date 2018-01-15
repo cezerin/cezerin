@@ -175,15 +175,10 @@ const getFilter = (currentPage, urlQuery, settings) => {
   let productFilter = {};
 
   if(currentPage.type === PRODUCT_CATEGORY){
-    productFilter = getProductFilterForCategory(urlQuery);
+    productFilter = getProductFilterForCategory(urlQuery, settings.default_product_sorting);
     productFilter.categoryId = currentPage.resource;
   } else if(currentPage.type === SEARCH){
     productFilter = getProductFilterForSearch(urlQuery);
-  }
-
-  const sortingNotSet = productFilter['sort'] === undefined || productFilter['sort'] === null;
-  if(sortingNotSet){
-    productFilter['sort'] = settings.default_product_sorting;
   }
 
   productFilter.fields = settings.product_fields && settings.product_fields !== '' ? settings.product_fields : PRODUCT_FIELDS;
