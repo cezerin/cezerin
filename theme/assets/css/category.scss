@@ -141,6 +141,11 @@
   max-width: 100%;
 }
 
+.products .out_of_stock .image img,
+.products .discontinued .image img {
+  opacity: 0.5;
+}
+
 .products .column a {
   display: flex;
   flex-direction: column;
@@ -169,6 +174,12 @@
 
 .products .product-new-price {
   color: #e72b1e;
+}
+
+.products .out_of_stock .product-price,
+.products .discontinued .product-price {
+  font-size: 0.75rem;
+  color: #777;
 }
 
 .products .tags {
