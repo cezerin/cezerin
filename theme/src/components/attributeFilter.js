@@ -10,6 +10,12 @@ class AttributeValue extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.checked !== this.props.checked) {
+      this.setState({ checked: nextProps.checked });
+    }
+  }
+
   onChange = (event) => {
     const {attributeName, valueName, setFilterAttribute, unsetFilterAttribute} = this.props;
     const checked = event.target.checked;
