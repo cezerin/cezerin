@@ -2,9 +2,6 @@ import React from 'react'
 import { themeSettings, text } from '../lib/settings'
 import MetaTags from '../components/metaTags'
 import ProductList from '../components/productList'
-import Sort from '../components/sort'
-import SearchBox from '../components/searchBox'
-import PriceSlider from '../components/priceSlider'
 const Fragment = React.Fragment;
 
 const CategoryContainer = (props) => {

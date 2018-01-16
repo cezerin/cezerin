@@ -2,7 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import * as helper from '../../lib/helper'
 import { themeSettings, text } from '../../lib/settings'
-import Disqus from '../disqus'
+import Disqus from '../comments/disqus'
 import ViewedProducts from '../products/viewed'
 
 import Breadcrumbs from './breadcrumbs'

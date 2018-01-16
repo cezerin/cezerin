@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
-import { themeSettings, text } from '../lib/settings'
+import { themeSettings, text } from '../../lib/settings'
 
 const CartCount = ({ cart }) => {
   if (cart && cart.items && cart.items.length > 0) {
