@@ -1,0 +1,45 @@
+const express = require('express');
+const apiRouter = express.Router();
+
+const SecurityTokensService = require('./services/security/tokens');
+const ProductCategoriesController = require('./controllers/productCategories');
+const ProductsController = require('./controllers/products');
+const SitemapController = require('./controllers/sitemap');
+const ThemeController = require('./controllers/theme');
+const CustomersController = require('./controllers/customers');
+const CustomerGroupsController = require('./controllers/customerGroups');
+const OrdersController = require('./controllers/orders');
+const OrderStatusesController = require('./controllers/orderStatuses');
+const ShippingMethodsController = require('./controllers/shippingMethods');
+const PaymentMethodsController = require('./controllers/paymentMethods');
+const PaymentGatewaysController = require('./controllers/paymentGateways');
+const DataController = require('./controllers/data');
+const SettingsController = require('./controllers/settings');
+const PagesController = require('./controllers/pages');
+const SecurityTokensController = require('./controllers/tokens');
+const NotificationsController = require('./controllers/notifications');
+const RedirectsController = require('./controllers/redirects');
+const FilesController = require('./controllers/files');
+const AppsController = require('./controllers/apps');
+
+const products = new ProductsController(apiRouter);
+const productCategories = new ProductCategoriesController(apiRouter);
+const sitemap = new SitemapController(apiRouter);
+const theme = new ThemeController(apiRouter);
+const customers = new CustomersController(apiRouter);
+const customerGroups = new CustomerGroupsController(apiRouter);
+const orders = new OrdersController(apiRouter);
+const orderStatuses = new OrderStatusesController(apiRouter);
+const shippingMethods = new ShippingMethodsController(apiRouter);
+const paymentMethods = new PaymentMethodsController(apiRouter);
+const paymentGatewaysController = new PaymentGatewaysController(apiRouter);
+const data = new DataController(apiRouter);
+const settings = new SettingsController(apiRouter);
+const pages = new PagesController(apiRouter);
+const security = new SecurityTokensController(apiRouter);
+const notifications = new NotificationsController(apiRouter);
+const redirects = new RedirectsController(apiRouter);
+const files = new FilesController(apiRouter);
+const apps = new AppsController(apiRouter);
+
+module.exports = apiRouter;

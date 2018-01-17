@@ -8,8 +8,8 @@ const cache = require('lru-cache')({
 });
 const THEME_SETTINGS_CACHE_KEY = 'themesettings';
 
-const SETTINGS_FILE = 'theme/config/settings.json';
-const SETTINGS_SCHEMA_FILE = 'theme/config/settings_schema.json';
+const SETTINGS_FILE = path.resolve('theme/config/settings.json');
+const SETTINGS_SCHEMA_FILE = path.resolve('theme/config/settings_schema.json');
 
 class ThemeSettingsService {
   constructor() {}
@@ -56,7 +56,7 @@ class ThemeSettingsService {
     if (settingsFromCache) {
       return Promise.resolve(settingsFromCache);
     } else {
-      const file = path.resolve(SETTINGS_FILE);
+      const file = SETTINGS_FILE;
       return this.readFile(file).then(settings => {
         cache.set(THEME_SETTINGS_CACHE_KEY, settings);
         return settings;
@@ -66,7 +66,7 @@ class ThemeSettingsService {
 
   updateSettings(settings) {
     cache.set(THEME_SETTINGS_CACHE_KEY, settings);
-    const file = path.resolve(SETTINGS_FILE);
+    const file = SETTINGS_FILE;
     return this.writeFile(file, settings);
   }
 }
