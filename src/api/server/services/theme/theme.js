@@ -14,8 +14,10 @@ class ThemesService {
     const randomFileName = Math.floor(Math.random() * 10000);
     exec(`npm --silent run theme:export -- ${randomFileName}.zip`, (error, stdout, stderr) => {
       if (error) {
+        winston.error('Exporting theme failed');
         res.status(500).send(this.getErrorMessage(error));
       } else {
+        winston.info(`Theme successfully exported to ${randomFileName}.zip`);
         if (stdout.includes('success')) {
           res.send({'file': `/${randomFileName}.zip`});
         } else {
@@ -31,7 +33,7 @@ class ThemesService {
         res.status(500).send(this.getErrorMessage(err));
       } else {
         // run async NPM script
-        winston.error('Installing theme...');
+        winston.info('Installing theme...');
         exec(`npm run theme:install ${fileName}`, (error, stdout, stderr) => {
           if (error) {
             winston.error('Installing theme failed');
