@@ -20,7 +20,7 @@ export const Description = {
   </ol>`
 };
 
-const CHAT_CODE = `<div class="fb-customerchat" page_id="PAGE_ID" minimized="IS_MINIMIZED"</div>`;
+const CHAT_CODE = `<div class="fb-customerchat" page_id="PAGE_ID" minimized="IS_MINIMIZED"></div>`;
 
 export class App extends React.Component {
   constructor(props) {
