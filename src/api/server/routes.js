@@ -1,3 +1,5 @@
+'use strict';
+
 const express = require('express');
 const apiRouter = express.Router();
 
@@ -22,24 +24,24 @@ const RedirectsController = require('./controllers/redirects');
 const FilesController = require('./controllers/files');
 const AppsController = require('./controllers/apps');
 
-const products = new ProductsController(apiRouter);
-const productCategories = new ProductCategoriesController(apiRouter);
-const sitemap = new SitemapController(apiRouter);
-const theme = new ThemeController(apiRouter);
-const customers = new CustomersController(apiRouter);
-const customerGroups = new CustomerGroupsController(apiRouter);
-const orders = new OrdersController(apiRouter);
-const orderStatuses = new OrderStatusesController(apiRouter);
-const shippingMethods = new ShippingMethodsController(apiRouter);
-const paymentMethods = new PaymentMethodsController(apiRouter);
-const paymentGatewaysController = new PaymentGatewaysController(apiRouter);
-const data = new DataController(apiRouter);
-const settings = new SettingsController(apiRouter);
-const pages = new PagesController(apiRouter);
-const security = new SecurityTokensController(apiRouter);
-const notifications = new NotificationsController(apiRouter);
-const redirects = new RedirectsController(apiRouter);
-const files = new FilesController(apiRouter);
-const apps = new AppsController(apiRouter);
+new ProductsController(apiRouter);
+new ProductCategoriesController(apiRouter);
+new SitemapController(apiRouter);
+new ThemeController(apiRouter);
+new CustomersController(apiRouter);
+new CustomerGroupsController(apiRouter);
+new OrdersController(apiRouter);
+new OrderStatusesController(apiRouter);
+new ShippingMethodsController(apiRouter);
+new PaymentMethodsController(apiRouter);
+new PaymentGatewaysController(apiRouter);
+new DataController(apiRouter);
+new SettingsController(apiRouter);
+new PagesController(apiRouter);
+new SecurityTokensController(apiRouter);
+new NotificationsController(apiRouter);
+new RedirectsController(apiRouter);
+new FilesController(apiRouter);
+new AppsController(apiRouter);
 
 module.exports = apiRouter;
