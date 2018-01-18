@@ -20,11 +20,11 @@ const CheckoutContainer = (props) => {
 
       <section className="section section-checkout">
         <div className="container">
-          <div className="columns">
-            <div className="column is-4 is-offset-1">
+          <div className="columns columns-checkout">
+            <div className="column is-5-widescreen is-offset-1-widescreen is-6-desktop">
               <OrderSummary {...props} />
             </div>
-            <div className="column is-6">
+            <div className="column is-6-widescreen is-6-desktop">
               {checkoutForm}
             </div>
           </div>
