@@ -86,7 +86,7 @@ module.exports = () => {
     plugins: [
       new webpack.DefinePlugin({ APPLICATION_CONFIG: JSON.stringify(applicationConfig) }),
       new webpack.DefinePlugin({ APPLICATION_TEXT: JSON.stringify(applicationText) }),
-      new ExtractTextPlugin("admin-assets/css/app-[chunkhash].css"),
+      new ExtractTextPlugin("admin-assets/css/app-[contenthash].css"),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: Infinity,
