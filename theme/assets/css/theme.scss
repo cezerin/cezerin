@@ -19,6 +19,7 @@ $ig-blue: #636363 !default;
   border-radius: 20px;
   display: flex;
   width: fit-content;
+  width: -moz-fit-content;
   margin: 0 auto;
 }
 
@@ -44,6 +45,10 @@ $ig-blue: #636363 !default;
 body {
   margin-top: 3.25rem;
   transition: margin 200ms ease-in-out;
+}
+
+a, input, button {
+  outline: none;
 }
 
 hr.separator {
