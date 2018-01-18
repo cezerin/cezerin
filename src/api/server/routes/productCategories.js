@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var CategoriesService = require('../services/products/productCategories');
 
-class ProductCategoriesController {
+class ProductCategoriesRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -69,4 +69,4 @@ class ProductCategoriesController {
   }
 }
 
-module.exports = ProductCategoriesController;
+module.exports = ProductCategoriesRoute;

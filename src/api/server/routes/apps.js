@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 const AppSettingsService = require('../services/apps/settings');
 
-class AppsController {
+class AppsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -31,4 +31,4 @@ class AppsController {
   }
 }
 
-module.exports = AppsController;
+module.exports = AppsRoute;

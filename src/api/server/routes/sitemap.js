@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var SitemapService = require('../services/sitemap');
 
-class SitemapController {
+class SitemapRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -30,4 +30,4 @@ class SitemapController {
   }
 }
 
-module.exports = SitemapController;
+module.exports = SitemapRoute;

@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 const FilesService = require('../services/files');
 
-class FilesController {
+class FilesRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -34,4 +34,4 @@ class FilesController {
   }
 }
 
-module.exports = FilesController;
+module.exports = FilesRoute;

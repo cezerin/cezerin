@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var CustomerGroupsService = require('../services/customers/customerGroups');
 
-class CustomerGroupsController {
+class CustomerGroupsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -58,4 +58,4 @@ class CustomerGroupsController {
   }
 }
 
-module.exports = CustomerGroupsController;
+module.exports = CustomerGroupsRoute;

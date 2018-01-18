@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var SecurityTokensService = require('../services/security/tokens');
 
-class SecurityTokensController {
+class SecurityTokensRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -70,4 +70,4 @@ class SecurityTokensController {
   }
 }
 
-module.exports = SecurityTokensController;
+module.exports = SecurityTokensRoute;

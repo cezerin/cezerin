@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var PaymentMethodsService = require('../services/orders/paymentMethods');
 
-class PaymentMethodsController {
+class PaymentMethodsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -58,4 +58,4 @@ class PaymentMethodsController {
   }
 }
 
-module.exports = PaymentMethodsController;
+module.exports = PaymentMethodsRoute;

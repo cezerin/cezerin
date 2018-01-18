@@ -7,7 +7,7 @@ var ProductOptionValuesService = require('../services/products/optionValues');
 var ProductVariantsService = require('../services/products/variants');
 var ProductImagesService = require('../services/products/images');
 
-class ProductsController {
+class ProductsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -224,4 +224,4 @@ class ProductsController {
   }
 }
 
-module.exports = ProductsController;
+module.exports = ProductsRoute;

@@ -2,7 +2,7 @@
 
 const PaymentGateways = require('../paymentGateways');
 
-class NotificationsController {
+class NotificationsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -17,4 +17,4 @@ class NotificationsController {
   }
 }
 
-module.exports = NotificationsController;
+module.exports = NotificationsRoute;

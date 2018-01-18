@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var RedirectsService = require('../services/redirects');
 
-class RedirectsController {
+class RedirectsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -58,4 +58,4 @@ class RedirectsController {
   }
 }
 
-module.exports = RedirectsController;
+module.exports = RedirectsRoute;

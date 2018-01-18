@@ -6,7 +6,7 @@ var ThemeSettingsService = require('../services/theme/settings');
 var ThemeAssetsService = require('../services/theme/assets');
 var ThemePlaceholdersService = require('../services/theme/placeholders');
 
-class ThemeController {
+class ThemeRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -107,4 +107,4 @@ class ThemeController {
   }
 }
 
-module.exports = ThemeController;
+module.exports = ThemeRoute;

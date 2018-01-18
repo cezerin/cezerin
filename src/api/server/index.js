@@ -10,8 +10,8 @@ const settings = require('./lib/settings');
 const security = require('./lib/security');
 const mongo = require('./lib/mongo');
 const dashboardEvents = require('./lib/events');
-const routes = require('./routes');
-const ajaxRouter = require('./ajax');
+const ajaxRouter = require('./ajaxRouter');
+const apiRouter = require('./apiRouter');
 
 winston.configure({
   transports: [
@@ -75,7 +75,7 @@ app.get('/dashboard/events', (req, res, next) => {
   dashboardEvents.subscribe(req, res);
 });
 app.use('/ajax', ajaxRouter);
-app.use('/api', routes);
+app.use('/api', apiRouter);
 app.use(logErrors);
 
 const server = app.listen(settings.apiListenPort, () => {

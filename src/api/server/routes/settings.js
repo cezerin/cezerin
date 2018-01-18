@@ -6,7 +6,7 @@ var EmailSettingsService = require('../services/settings/email');
 var EmailTemplatesService = require('../services/settings/emailTemplates');
 var CheckoutFieldsService = require('../services/settings/checkoutFields');
 
-class SettingsController {
+class SettingsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -107,4 +107,4 @@ class SettingsController {
   }
 }
 
-module.exports = SettingsController;
+module.exports = SettingsRoute;

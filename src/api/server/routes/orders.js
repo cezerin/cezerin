@@ -9,7 +9,7 @@ var OrdertDiscountsService = require('../services/orders/orderDiscounts');
 var SettingsService = require('../services/settings/settings');
 var PaymentGateways = require('../paymentGateways');
 
-class OrdersController {
+class OrdersRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -222,4 +222,4 @@ class OrdersController {
   }
 }
 
-module.exports = OrdersController;
+module.exports = OrdersRoute;

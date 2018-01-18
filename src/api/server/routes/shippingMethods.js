@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var ShippingMethodsService = require('../services/orders/shippingMethods');
 
-class ShippingMethodsController {
+class ShippingMethodsRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -58,4 +58,4 @@ class ShippingMethodsController {
   }
 }
 
-module.exports = ShippingMethodsController;
+module.exports = ShippingMethodsRoute;

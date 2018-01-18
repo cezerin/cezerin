@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var OrderStatusesService = require('../services/orders/orderStatuses');
 
-class OrderStatusesController {
+class OrderStatusesRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -58,4 +58,4 @@ class OrderStatusesController {
   }
 }
 
-module.exports = OrderStatusesController;
+module.exports = OrderStatusesRoute;

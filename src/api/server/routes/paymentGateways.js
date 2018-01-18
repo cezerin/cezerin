@@ -3,7 +3,7 @@
 const security = require('../lib/security');
 var PaymentGatewaysService = require('../services/settings/paymentGateways');
 
-class PaymentGatewaysController {
+class PaymentGatewaysRoute {
   constructor(router) {
     this.router = router;
     this.registerRoutes();
@@ -27,4 +27,4 @@ class PaymentGatewaysController {
   }
 }
 
-module.exports = PaymentGatewaysController;
+module.exports = PaymentGatewaysRoute;
