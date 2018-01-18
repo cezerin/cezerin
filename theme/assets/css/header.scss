@@ -245,7 +245,7 @@ body.search-active .mobile-nav {
 
 .search-box {
   background-color: #f5f5f5;
-  transition: height 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
   padding-left: 30px;
   padding-right: 30px;
   position: relative;
@@ -253,6 +253,11 @@ body.search-active .mobile-nav {
   align-items: center;
   border-radius: 4px;
   width: 100%;
+  box-shadow: none;
+}
+
+.search-box.has-focus {
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
 }
 
 .search-icon-search, .search-icon-clear {

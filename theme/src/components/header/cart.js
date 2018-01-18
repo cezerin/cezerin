@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
-import { themeSettings, text } from '../lib/settings'
-import * as helper from '../lib/helper'
+import { themeSettings, text } from '../../lib/settings'
+import * as helper from '../../lib/helper'
 
 const CartItem = ({item, deleteCartItem, settings}) => {
   const thumbnail = helper.getThumbnailUrl(item.image_url, themeSettings.cartThumbnailWidth);

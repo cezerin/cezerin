@@ -1,13 +1,22 @@
-import express from 'express'
-let ajaxRouter = express.Router();
-import serverSettings from './settings'
-import api from './api'
+const express = require('express');
+const ajaxRouter = express.Router();
+const jwt = require('jsonwebtoken');
+const CezerinClient = require('cezerin-client');
+const serverSettings = require('./lib/settings');
+
+const TOKEN_PAYLOAD = {email: 'store', scopes: ['admin']};
+const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
+
+const api = new CezerinClient({
+  apiBaseUrl: serverSettings.apiBaseUrl,
+  apiToken: STORE_ACCESS_TOKEN
+});
 
 const DEFAULT_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCTS_CACHE_CONTROL = 'public, max-age=60';
 const PRODUCT_DETAILS_CACHE_CONTROL = 'public, max-age=60';
 
-const getCartCookieOptions = (isHttps) => ({
+const getCartCookieOptions = isHttps => ({
   maxAge: 24 * 60 * 60 * 1000, // 24 hours
   httpOnly: true,
   signed: true,
@@ -28,6 +37,8 @@ const fillCartItemWithProductData = (products, cartItem) => {
   if(product) {
     cartItem.image_url = product.images.length > 0 ? product.images[0].url : null;
     cartItem.path = product.path;
+    cartItem.stock_backorder = product.stock_backorder;
+    cartItem.stock_preorder = product.stock_preorder;
     if(cartItem.variant_id && cartItem.variant_id.length > 0) {
       const variant = getVariantFromProduct(product, cartItem.variant_id);
       cartItem.stock_quantity = variant ? variant.stock_quantity : 0;
@@ -42,7 +53,7 @@ const fillCartItems = (cartResponse) => {
   let cart = cartResponse.json;
   if(cart && cart.items && cart.items.length > 0) {
     const productIds = cart.items.map(item => item.product_id);
-    return api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants,path' }).then(({status, json}) => {
+    return api.products.list({ ids: productIds, fields: 'images,enabled,stock_quantity,variants,path,stock_backorder,stock_preorder' }).then(({status, json}) => {
       const newCartItem = cart.items.map(cartItem => fillCartItemWithProductData(json.data, cartItem))
       cartResponse.json.items = newCartItem;
       return cartResponse;
@@ -53,7 +64,7 @@ const fillCartItems = (cartResponse) => {
 }
 
 ajaxRouter.get('/products', (req, res, next) => {
-  const filter = req.query;
+  let filter = req.query;
   filter.enabled = true;
   api.products.list(filter).then(({status, json}) => {
     res.status(status).header('Cache-Control', PRODUCTS_CACHE_CONTROL).send(json);
@@ -70,6 +81,7 @@ ajaxRouter.get('/cart', (req, res, next) => {
   const order_id = req.signedCookies.order_id;
   if (order_id) {
     api.orders.retrieve(order_id).then(cartResponse => fillCartItems(cartResponse)).then(({status, json}) => {
+      json.browser = undefined;
       res.status(status).send(json);
     })
   } else {
@@ -211,7 +223,7 @@ ajaxRouter.get('/pages/:id', (req, res, next) => {
 })
 
 ajaxRouter.get('/sitemap', (req, res, next) => {
-  const filter = req.query;
+  let filter = req.query;
   filter.enabled = true;
   api.sitemap.retrieve(req.query).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
@@ -253,15 +265,5 @@ ajaxRouter.get('/payment_form_settings', (req, res, next) => {
     res.end();
   }
 })
-
-ajaxRouter.all('*', (req, res, next) => {
-  res.status(405).send({'error': 'Method Not Allowed'});
-})
-
-ajaxRouter.use(function(err, req, res, next) {
-  if (err) {
-    res.status(500).send({'error': err});
-  }
-});
 
 module.exports = ajaxRouter;

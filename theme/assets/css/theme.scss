@@ -8,6 +8,9 @@ $tag-background-color: #ffdd57;
 $tag-color: rgba(0, 0, 0, 0.7);
 $tag-radius: 3px;
 
+$breadcrumb-item-color: #7a7a7a;
+$breadcrumb-item-separator-color: #7a7a7a;
+
 @import "~bulma";
 @import "~rc-slider/assets/index.css";
 $ig-blue: #636363 !default;
@@ -19,6 +22,7 @@ $ig-blue: #636363 !default;
   border-radius: 20px;
   display: flex;
   width: fit-content;
+  width: -moz-fit-content;
   margin: 0 auto;
 }
 
@@ -44,6 +48,10 @@ $ig-blue: #636363 !default;
 body {
   margin-top: 3.25rem;
   transition: margin 200ms ease-in-out;
+}
+
+a, input, button {
+  outline: none;
 }
 
 hr.separator {
@@ -104,3 +112,4 @@ MOBILE
 @import "category.scss";
 @import "product.scss";
 @import "page.scss";
+@import "custom.scss";

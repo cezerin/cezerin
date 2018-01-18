@@ -205,11 +205,11 @@ class ProductsService {
     }
   }
 
-  getSortQuery({ sort }) {
-    if(sort === "search") {
+  getSortQuery({ sort, search }) {
+    const isSearchUsed = search && search.length > 0 && search !== 'null' && search !== 'undefined';
+    if(sort === "search" && isSearchUsed) {
       return { score: { $meta: "textScore" } }
-    }
-    else if(sort && sort.length > 0) {
+    } else if(sort && sort.length > 0) {
       const fields = sort.split(',');
       return Object.assign(...fields.map(field => (
       	{[field.startsWith('-') ? field.slice(1) : field]: field.startsWith('-') ? -1 : 1}

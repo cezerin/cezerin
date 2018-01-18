@@ -22,14 +22,14 @@
       "url": "https://github.com/restmount"
     }
   ],
-  "main": "dist/index.js",
+  "main": "src/api/server/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
-    "compile:dev": "babel src -d dist --watch & babel theme/src -d theme/dist --watch",
-    "compile": "babel src -d dist --quiet",
+    "compile:dev": "babel src/admin -d dist/admin --watch & babel src/store -d dist/store --watch & babel theme/src -d theme/dist --watch",
+    "compile": "babel src/admin -d dist/admin --quiet && babel src/store -d dist/store --quiet",
     "webpack:admin:dev": "webpack -d --config webpack.config.admin.js --watch --progress --colors",
     "webpack:store:dev": "webpack -d --config webpack.config.store.js --watch --progress --colors",
     "webpack:admin:prod": "NODE_ENV=production webpack -p --config webpack.config.admin.js",
@@ -41,8 +41,9 @@
     "theme:build:prod": "npm run theme:copy --silent && npm run webpack:store:prod",
     "build:dev": "npm run compile:dev & npm run webpack:store:dev & npm run webpack:admin:dev",
     "build": "NODE_ENV=production npm run compile && npm run theme:build:prod && npm run webpack:admin:prod",
-    "start": "NODE_ENV=production node dist/index.js",
-    "restart": "pm2 reload cezerin"
+    "start-api": "node src/api/server/index.js",
+    "start-store": "node dist/store/server/index.js",
+    "start": "NODE_ENV=production npm run start-api & npm run start-store"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",

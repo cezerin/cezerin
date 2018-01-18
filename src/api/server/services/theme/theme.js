@@ -35,7 +35,6 @@ class ThemesService {
             dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': false})
           } else {
             dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': true})
-            exec('npm run restart', (error, stdout, stderr) => {});
           }
         });
         // close request and don't wait result from NPM script

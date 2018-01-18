@@ -13,7 +13,19 @@ const ItemPrice = ({ product, settings }) => {
     priceStyle.color = themeSettings.list_price_color;
   }
 
-  if(product.on_sale) {
+  if(product.stock_status === 'discontinued') {
+    return (
+      <div className="product-price">
+        {text.discontinued}
+      </div>
+    )
+  } else if(product.stock_status === 'out_of_stock') {
+    return (
+      <div className="product-price">
+        {text.outOfStock}
+      </div>
+    )
+  } else if(product.on_sale) {
     return (
       <div className="product-price">
         <span className="product-new-price">

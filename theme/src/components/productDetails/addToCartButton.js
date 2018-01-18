@@ -13,18 +13,18 @@ const AddToCartButton = ({ product, variant, addCartItem, isAllOptionsSelected }
 
   let addToCartText = themeSettings.button_addtocart_text && themeSettings.button_addtocart_text.length > 0 ? themeSettings.button_addtocart_text : text.addToCart;
 
-  if(product.variable && variant && variant.stock_quantity > 0) {
+  if(product.stock_status === 'discontinued') {
+    return <button className="button is-dark is-fullwidth" style={buttonStyle} disabled>{text.discontinued}</button>
+  } else if(product.variable && variant && variant.stock_quantity > 0) {
     return <button className="button is-success is-fullwidth" style={buttonStyle} onClick={addCartItem}>{addToCartText}</button>
   } else if(product.variable && !isAllOptionsSelected) {
     return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.optionsRequired}</button>
-  } else if(product.variable) {
+  } else if(product.variable && !product.stock_backorder) {
     return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.outOfStock}</button>
   } else if(product.stock_status === 'available') {
     return <button className="button is-success is-fullwidth" style={buttonStyle} onClick={addCartItem}>{addToCartText}</button>
   } else if(product.stock_status === 'out_of_stock') {
     return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.outOfStock}</button>
-  } else if(product.stock_status === 'discontinued') {
-    return <button className="button is-success is-fullwidth" style={buttonStyle} disabled>{text.discontinued}</button>
   } else {
     return null;
   }

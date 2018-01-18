@@ -25,7 +25,8 @@ const getCurrentPage = path => {
 
 const getProducts = (currentPage, productFilter) => {
   if (currentPage.type === PRODUCT_CATEGORY || currentPage.type === SEARCH) {
-    const filter = getParsedProductFilter(productFilter);
+    let filter = getParsedProductFilter(productFilter);
+    filter.enabled = true;
     return api.products.list(filter).then(({status, json}) => json);
   } else {
     return null;
@@ -174,15 +175,10 @@ const getFilter = (currentPage, urlQuery, settings) => {
   let productFilter = {};
 
   if(currentPage.type === PRODUCT_CATEGORY){
-    productFilter = getProductFilterForCategory(urlQuery);
+    productFilter = getProductFilterForCategory(urlQuery, settings.default_product_sorting);
     productFilter.categoryId = currentPage.resource;
   } else if(currentPage.type === SEARCH){
     productFilter = getProductFilterForSearch(urlQuery);
-  }
-
-  const sortingNotSet = productFilter['sort'] === undefined || productFilter['sort'] === null;
-  if(sortingNotSet){
-    productFilter['sort'] = settings.default_product_sorting;
   }
 
   productFilter.fields = settings.product_fields && settings.product_fields !== '' ? settings.product_fields : PRODUCT_FIELDS;

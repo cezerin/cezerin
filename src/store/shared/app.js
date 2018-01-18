@@ -25,13 +25,18 @@ class SwitchContainers extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.props.setCurrentPage(nextProps.location);
 
-    const locationChanged = nextProps.location !== this.props.location;
-    if(locationChanged){
-      animateScroll.scrollToTop({
-        duration: 500,
-        delay: 100,
-        smooth: true
-      });
+    if(nextProps.location && this.props.location){
+      const pathnameChanged = nextProps.location.pathname !== this.props.location.pathname;
+      const queryChanged = nextProps.location.search !== this.props.location.search;
+      const isSearchPage = nextProps.location.pathname === '/search';
+
+      if(pathnameChanged || (queryChanged && isSearchPage)){
+        animateScroll.scrollToTop({
+          duration: 500,
+          delay: 100,
+          smooth: true
+        });
+      }
     }
   }
 

@@ -24,7 +24,7 @@ const Item = ({product, addCartItem, settings, columnCountOnMobile, columnCountO
   const placeholderHeight = themeSettings.list_image_max_height && themeSettings.list_image_max_height > 0 ? themeSettings.list_image_max_height : 200;
 
   return (
-    <div className={`column is-${columnSizeOnMobile}-mobile is-${columnSizeOnTablet}-tablet is-${columnSizeOnDesktop}-desktop is-${columnSizeOnWidescreen}-widescreen is-${columnSizeOnFullhd}-fullhd`}>
+    <div className={`column is-${columnSizeOnMobile}-mobile is-${columnSizeOnTablet}-tablet is-${columnSizeOnDesktop}-desktop is-${columnSizeOnWidescreen}-widescreen is-${columnSizeOnFullhd}-fullhd ${product.stock_status}`}>
       <NavLink to={product.path}>
         <figure className="image" style={{ height: imageHeight }}>
           <ItemTags tags={product.tags} />

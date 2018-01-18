@@ -1,8 +1,21 @@
 {
   "apps": [{
-    "name": "cezerin",
-    "script": "./dist/index.js",
-    "watch": ["./config/server.js", "./public/admin/index.html", "./dist/", "./theme/dist/", "./theme/assets/index.html"],
+    "name": "api",
+    "script": "./src/api/server/index.js",
+    "watch": ["./config/server.js", "./src/api/server/"],
+    "instances": "1",
+    "exec_mode": "fork",
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "watch_options": {
+      "persistent": true,
+      "ignoreInitial": false
+    }
+  }, {
+    "name": "store",
+    "script": "./dist/store/server/index.js",
+    "watch": ["./config/server.js", "./public/admin/index.html", "./dist/store/", "./theme/dist/", "./theme/assets/index.html"],
     "instances": "1",
     "exec_mode": "fork",
     "env": {
