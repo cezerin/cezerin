@@ -8,6 +8,9 @@ $tag-background-color: #ffdd57;
 $tag-color: rgba(0, 0, 0, 0.7);
 $tag-radius: 3px;
 
+$breadcrumb-item-color: #7a7a7a;
+$breadcrumb-item-separator-color: #7a7a7a;
+
 @import "~bulma";
 @import "~rc-slider/assets/index.css";
 $ig-blue: #636363 !default;
@@ -109,3 +112,4 @@ MOBILE
 @import "category.scss";
 @import "product.scss";
 @import "page.scss";
+@import "custom.scss";
