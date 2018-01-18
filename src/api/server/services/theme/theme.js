@@ -3,6 +3,7 @@
 const exec = require('child_process').exec;
 const path = require('path');
 const formidable = require('formidable');
+const winston = require('winston');
 const settings = require('../../lib/settings');
 const dashboardEvents = require('../../lib/events');
 
@@ -30,10 +31,13 @@ class ThemesService {
         res.status(500).send(this.getErrorMessage(err));
       } else {
         // run async NPM script
-        exec(`npm run theme:install ${fileName} && npm run theme:build:prod`, (error, stdout, stderr) => {
+        winston.error('Installing theme...');
+        exec(`npm run theme:install ${fileName}`, (error, stdout, stderr) => {
           if (error) {
+            winston.error('Installing theme failed');
             dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': false})
           } else {
+            winston.info('Theme successfully installed');
             dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': true})
           }
         });
