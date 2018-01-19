@@ -56,7 +56,7 @@ module.exports = () => {
     },
 
     plugins: [
-      new ExtractTextPlugin("assets/css/bundle-theme-[chunkhash].css"),
+      new ExtractTextPlugin("assets/css/bundle-theme-[contenthash].css"),
       new webpack.optimize.CommonsChunkPlugin({
         name: 'theme',
         minChunks: Infinity,

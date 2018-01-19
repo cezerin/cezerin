@@ -21,5 +21,8 @@ rm -rf theme/*
 # 4. unzip to current theme
 unzip -q "public/content/$fileName" -d "theme"
 
-# 5. show success message
+# 5. build theme
+npm run theme:build:prod
+
+# 6. show success message
 echo -e '\e[1;92m'Theme $fileName successfully installed'\e[0m'

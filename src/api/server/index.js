@@ -12,6 +12,7 @@ const mongo = require('./lib/mongo');
 const dashboardEvents = require('./lib/events');
 const ajaxRouter = require('./ajaxRouter');
 const apiRouter = require('./apiRouter');
+const SecurityTokensService = require('./services/security/tokens');
 
 winston.configure({
   transports: [
