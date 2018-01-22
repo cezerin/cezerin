@@ -31,10 +31,19 @@ npm start
 ### 4. Add default data
 
 1. open mongo shell
-2. setting up your domain
+2. setting up default settings
 ```js
 db.settings.insert({
-  domain: 'http://localhost:3000'
+  domain: 'http://localhost:3000',
+  currency_code: 'USD',
+  currency_symbol: '$',
+  currency_format: '${amount}',
+  thousand_separator: ',',
+  decimal_separator: '.',
+  decimal_number: 2,
+  date_format: 'MMMM D, YYYY',
+  time_format: 'h:mm a',
+  default_product_sorting: 'stock_status,price,position'
 });
 ```
 3. add common pages
