@@ -1,87 +1,43 @@
 ## Getting Started
 
-* [Start a container](#1-start-a-container)
+* [Installation](#1-installation)
 * [Configuration](#2-configuration)
-* [Add default data](#3-add-default-data)
+* [Run Application](#3-run-application)
+* [Add default data](#4-add-default-data)
 
-All you need to get started is an [installation](https://docs.docker.com/installation/#installation) of Docker.
-
-### 1. Start a container
-
-[Source code of Docker image](https://github.com/cezerin/docker-cezerin)
+### 1. Installation
 
 ```shell
-docker run \
-      --name cezerin \
-      -v /var/www/cezerin/db:/data/db \
-      -p 3000:80 \
-      cezerin/cezerin:latest
+git clone https://github.com/cezerin/cezerin.git cezerin
+cd cezerin
+npm install
+npm run build
 ```
 
 ### 2. Configuration
 
-Open config file in docker container
+1. open config/server.js
+2. connecting to your MongoDB
+```js
+mongodbServerUrl: 'mongodb://127.0.0.1:27017/shop'
+```
+
+### 3. Run Application
 
 ```shell
-docker exec -it cezerin bash
-cd config
-nano server.js
+npm start
 ```
 
-Setting up a mail server. Cezerin is passwordless so we use the mail server to send login links.
+### 4. Add default data
 
-```js
-smtpServer: {
-    host: 'smtp.mailgun.org',
-    port: 465,
-    secure: true,
-    user: 'your smtp login',
-    pass: 'your smtp password',
-    fromName: 'Cezerin Store',
-    fromAddress: 'mail@domain.com'
-  }
-```
-
-Generate random secret key to sign JWT and cookies.
-
-```js
-jwtSecretKey: 'nySHI5DcpaIwqjEXJ1hO6E',
-cookieSecretKey: '7efISpncZtDFgqamFY0Ozd',
-```
-
-
-### 3. Add default data
-
-Open mongo Shell in docker container
-
-```shell
-docker exec -it cezerin bash
-mongo shop
-```
-
-Add user mail@domain.com with admin permissions for 72 hours.
-
-```js
-db.tokens.insert({
-  is_revoked: false,
-  date_created: new Date(),
-  expiration: 72,
-  name: 'Owner',
-  email: 'mail@domain.com',
-  scopes: ['admin']  
-});
-```
-
-Setting up your domain. Used in login URL.
-
+1. open mongo shell
+2. setting up your domain
 ```js
 db.settings.insert({
   domain: 'http://localhost:3000'
 });
 ```
-
-Add common pages.
-
+3. add common pages
 ```js
 db.pages.insertMany([
   {slug: '', meta_title: 'Home', enabled: true, is_system: true},
@@ -90,7 +46,8 @@ db.pages.insertMany([
 ]);
 ```
 
-
 Open http://localhost:3000 to see your store.
 
 Dashboard - http://localhost:3000/admin
+
+API - http://localhost:3001
