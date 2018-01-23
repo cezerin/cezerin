@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const fsExtra = require('fs-extra');
 const fs = require('fs');
 const url = require('url');
 var formidable = require('formidable');

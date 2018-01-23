@@ -9,7 +9,7 @@ var utils = require('../../lib/utils');
 var parse = require('../../lib/parse');
 var ObjectID = require('mongodb').ObjectID;
 var formidable = require('formidable');
-var fs = require('fs-extra');
+var fse = require('fs-extra');
 
 class ProductCategoriesService {
   constructor() {}
@@ -111,7 +111,7 @@ class ProductCategoriesService {
       if(idsToDelete) {
         for(let categoryId of idsToDelete) {
           let deleteDir = path.resolve(settings.categoriesUploadPath + '/' + categoryId);
-          fs.remove(deleteDir, err => {});
+          fse.remove(deleteDir, err => {});
         }
         return Promise.resolve(true);
       } else {
@@ -247,7 +247,7 @@ class ProductCategoriesService {
 
   deleteCategoryImage(id) {
     let dir = path.resolve(settings.categoriesUploadPath + '/' + id);
-    fs.emptyDirSync(dir);
+    fse.emptyDirSync(dir);
     this.updateCategory(id, { 'image': '' });
   }
 
@@ -261,7 +261,7 @@ class ProductCategoriesService {
       .on('fileBegin', (name, file) => {
         // Emitted whenever a field / value pair has been received.
         let dir = path.resolve(settings.categoriesUploadPath + '/' + categoryId);
-        fs.emptyDirSync(dir);
+        fse.emptyDirSync(dir);
         file.name = utils.getCorrectFileName(file.name);
         file.path = dir + '/' + file.name;
       })

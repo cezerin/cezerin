@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const fsExtra = require('fs-extra');
+const fse = require('fs-extra');
 const fs = require('fs');
 const url = require('url');
 var formidable = require('formidable');
@@ -186,7 +186,7 @@ class SettingsService {
 
   uploadLogo(req, res, next) {
     let uploadDir = path.resolve(settings.filesUploadPath);
-    fsExtra.ensureDirSync(uploadDir);
+    fse.ensureDirSync(uploadDir);
 
     let form = new formidable.IncomingForm(),
         file_name = null,

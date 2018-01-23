@@ -9,7 +9,7 @@ var parse = require('../../lib/parse');
 var CategoriesService = require('./productCategories');
 const SettingsService = require('../settings/settings');
 var ObjectID = require('mongodb').ObjectID;
-var fs = require('fs-extra');
+var fse = require('fs-extra');
 
 class ProductsService {
   constructor() {}
@@ -549,7 +549,7 @@ class ProductsService {
       if(deleteResponse.deletedCount > 0) {
         // 2. delete directory with images
         let deleteDir = path.resolve(settings.productsUploadPath + '/' + productId);
-        fs.remove(deleteDir, err => {});
+        fse.remove(deleteDir, err => {});
       }
       return deleteResponse.deletedCount > 0;
     });
