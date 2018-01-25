@@ -8,12 +8,11 @@ const CONNECT_OPTIONS = {
   reconnectInterval: 1000
 }
 
-// Initialize connection once
-mongo.connect(mongodbConnection, CONNECT_OPTIONS, (err, database) => {
+mongo.connect(mongodbConnection, CONNECT_OPTIONS, (err, client) => {
   if(err){
     winston.error('Failed connecting to MongoDB', err.message);
   } else {
-    module.exports.db = database;
+    module.exports.db = client.db('shop');
     winston.info('Successfully connected to MongoDB')
   }
 });
