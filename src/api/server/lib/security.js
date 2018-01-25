@@ -81,10 +81,15 @@ const applyMiddleware = app => {
   }
 }
 
+const getAccessControlAllowOrigin = () => {
+  return settings.storeBaseUrl || '*';
+}
+
 module.exports = {
   checkUserScope: checkUserScope,
   scope: scope,
   verifyToken: verifyToken,
   applyMiddleware: applyMiddleware,
+  getAccessControlAllowOrigin: getAccessControlAllowOrigin,
   DEVELOPER_MODE: DEVELOPER_MODE
 }

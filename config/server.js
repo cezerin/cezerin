@@ -6,6 +6,9 @@ module.exports = {
   // used by Store (server and client side)
   ajaxBaseUrl: `http://localhost:3001/ajax`,
 
+  // Access-Control-Allow-Origin
+  storeBaseUrl: `http://localhost:3000`,
+
   // used by API
   adminLoginUrl: '/admin/login',
 
