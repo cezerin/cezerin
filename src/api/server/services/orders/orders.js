@@ -7,7 +7,7 @@ const mongo = require('../../lib/mongo');
 const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
 const dashboardEvents = require('../../lib/events');
-const emailSender = require('../../lib/email');
+const mailer = require('../../lib/mailer');
 const ObjectID = require('mongodb').ObjectID;
 const ProductsService = require('../products/products');
 const CustomersService = require('../customers/customers');
@@ -544,16 +544,6 @@ class OrdersService {
     return order;
   }
 
-  sendOrderNotification(message) {
-    return emailSender.send(message).then(info => {
-      winston.info('Email order confirmation', info);
-      return info;
-    }).catch(err => {
-      winston.error('Email order confirmation', err);
-      return err;
-    });
-  }
-
   getEmailSubject(emailTemplate, order) {
     const subjectTemplate = handlebars.compile(emailTemplate.subject);
     return subjectTemplate(order);
@@ -564,63 +554,57 @@ class OrdersService {
     return bodyTemplate(order);
   }
 
-  sendEmail(toEmail, copyTo, subject, body) {
-    return Promise.all([
-      this.sendOrderNotification({
+  async sendAllMails(toEmail, copyTo, subject, body) {
+    await Promise.all([
+      mailer.send({
         to: toEmail,
         subject: subject,
         html: body
       }),
-      this.sendOrderNotification({
+      mailer.send({
         to: copyTo,
         subject: subject,
         html: body
       }),
-    ])
-    .then(([ firstEnvelope, secondEnvelope ]) => {
-      return true;
-    });
+    ]);
   }
 
-  checkoutOrder(orderId) {
+  async checkoutOrder(orderId) {
     /*
-    + get order info
-    + return order info
-    + send emails
-    + order confirmation template
-    + update stock
+    TODO:
+    - check order exists
+    - check order not placed
     - fire Webhooks
     */
-    return Promise.all([
-        this.getOrCreateCustomer(orderId).then(customer_id => {
-          return this.updateOrder(orderId, {
-            customer_id: customer_id,
-            date_placed: new Date(),
-            draft: false
-          })
-        }),
-        EmailTemplatesService.getEmailTemplate('order_confirmation'),
-        SettingsService.getSettings()
-      ]).then(([ order, emailTemplate, dashboardSettings ]) => {
-        const subject = this.getEmailSubject(emailTemplate, order);
-        const body = this.getEmailBody(emailTemplate, order);
-        const copyTo = dashboardSettings.order_confirmation_copy_to;
-
-        dashboardEvents.sendMessage({
-          'type': dashboardEvents.ORDER_RECEIVED,
-          'id': orderId,
-          'number': order.number,
-          'total': order.grand_total
+    const [order, emailTemplate, dashboardSettings] = await Promise.all([
+      this.getOrCreateCustomer(orderId).then(customer_id => {
+        return this.updateOrder(orderId, {
+          customer_id: customer_id,
+          date_placed: new Date(),
+          draft: false
         })
+      }),
+      EmailTemplatesService.getEmailTemplate('order_confirmation'),
+      SettingsService.getSettings()
+    ]);
 
-        return Promise.all([
-          this.sendEmail(order.email, copyTo, subject, body),
-          ProductStockService.handleOrderCheckout(orderId)
-        ])
-        .then(([ sendResult, stockResult ]) => {
-          return order;
-        });
-      });
+    const subject = this.getEmailSubject(emailTemplate, order);
+    const body = this.getEmailBody(emailTemplate, order);
+    const copyTo = dashboardSettings.order_confirmation_copy_to;
+
+    dashboardEvents.sendMessage({
+      'type': dashboardEvents.ORDER_RECEIVED,
+      'id': orderId,
+      'number': order.number,
+      'total': order.grand_total
+    })
+
+    await Promise.all([
+      this.sendAllMails(order.email, copyTo, subject, body),
+      ProductStockService.handleOrderCheckout(orderId)
+    ]);
+
+    return order;
   }
 
   cancelOrder(orderId) {

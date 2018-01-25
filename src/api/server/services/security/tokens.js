@@ -4,7 +4,7 @@ const url = require('url');
 const mongo = require('../../lib/mongo');
 const parse = require('../../lib/parse');
 const settings = require('../../lib/settings');
-const emailSender = require('../../lib/email');
+const mailer = require('../../lib/mailer');
 const SettingsService = require('../settings/settings');
 const ObjectID = require('mongodb').ObjectID;
 const jwt = require('jsonwebtoken');
@@ -209,10 +209,7 @@ class SecurityTokensService {
     )
   }
 
-  sendDashboardSigninUrl(req) {
-    const email = req.body.email;
-    const userAgent = uaParser(req.get('user-agent'));
-    const cloudFlareCountry = req.get('cf-ipcountry') || '';
+  getIP(req) {
     let ip = req.get('x-forwarded-for') || req.ip;
 
     if(ip && ip.includes(', ')) {
@@ -223,14 +220,22 @@ class SecurityTokensService {
       ip = ip.replace('::ffff:', '');
     }
 
-    const dateEmail = moment(new Date()).format('dddd, MMMM DD, YYYY h:mm A');
+    return ip;
+  }
 
-    return this.getDashboardSigninUrl(email).then(linkUrl => {
-      if(linkUrl) {
-        const message = {
-          to: email,
-          subject: `New sign-in from ${userAgent.os.name}`,
-          html: `Your email address was just used to request a Sign In email to Cezerin Dashboard.<br /><br />
+  async sendDashboardSigninUrl(req) {
+    const email = req.body.email;
+    const userAgent = uaParser(req.get('user-agent'));
+    const cloudFlareCountry = req.get('cf-ipcountry') || '';
+    const ip = this.getIP(req);
+    const dateEmail = moment(new Date()).format('dddd, MMMM DD, YYYY h:mm A');
+    const linkUrl = await this.getDashboardSigninUrl(email);
+
+    if(linkUrl) {
+      const message = {
+        to: email,
+        subject: `New sign-in from ${userAgent.os.name}`,
+        html: `Your email address was just used to request a Sign In email to Cezerin Dashboard.<br /><br />
 <b>If this was you</b>, <a href='${linkUrl}'>click here to Sign In</a><br />
 <b>If this was not you</b>, you can safely ignore this email.<br /><br />
 <b>Request from</b>:<br />
@@ -240,12 +245,12 @@ ${ip}<br />
 ${cloudFlareCountry}<br /><br />
 Best,<br />
 Cezerin Robot`
-        };
-        return emailSender.send(message).then(info => {return { sent: true, error: null }}).catch(err => {return { sent: false, error: err }});
-      } else {
-        return { sent: false, error: 'Access Denied' };
-      }
-    });
+      };
+      const emailSent = await mailer.send(message);
+      return { sent: emailSent, error: null };
+    } else {
+      return { sent: false, error: 'Access Denied' };
+    }
   }
 }
 
