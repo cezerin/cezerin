@@ -5,35 +5,13 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const responseTime = require('response-time');
 const winston = require('winston');
+const logger = require('./lib/logger');
 const settings = require('./lib/settings');
 const security = require('./lib/security');
 const mongo = require('./lib/mongo');
 const dashboardEvents = require('./lib/events');
 const ajaxRouter = require('./ajaxRouter');
 const apiRouter = require('./apiRouter');
-
-winston.configure({
-  transports: [
-    new (winston.transports.Console)({
-      colorize: true
-    }),
-    new (winston.transports.File)({
-      filename: 'logs/server.log',
-      handleExceptions: true
-    })
-  ]
-});
-
-const logErrors = (err, req, res, next) => {
-  if(err && err.name === 'UnauthorizedError') {
-    res.status(401).send({'error': true, 'message': err.message.toString()});
-  } else if(err) {
-    winston.error('API error', err);
-    res.status(500).send({'error': true, 'message': err.toString()});
-  } else {
-    next();
-  }
-};
 
 security.applyMiddleware(app);
 app.set('trust proxy', 1);
@@ -55,7 +33,7 @@ app.get('/dashboard/events', (req, res, next) => {
 });
 app.use('/ajax', ajaxRouter);
 app.use('/api', apiRouter);
-app.use(logErrors);
+app.use(logger.sendResponse);
 
 const server = app.listen(settings.apiListenPort, () => {
   const serverAddress = server.address();
