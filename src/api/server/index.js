@@ -5,14 +5,12 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const responseTime = require('response-time');
 const winston = require('winston');
-const expressJwt = require('express-jwt');
 const settings = require('./lib/settings');
 const security = require('./lib/security');
 const mongo = require('./lib/mongo');
 const dashboardEvents = require('./lib/events');
 const ajaxRouter = require('./ajaxRouter');
 const apiRouter = require('./apiRouter');
-const SecurityTokensService = require('./services/security/tokens');
 
 winston.configure({
   transports: [
@@ -37,27 +35,7 @@ const logErrors = (err, req, res, next) => {
   }
 };
 
-const SET_TOKEN_AS_REVOKEN_ON_EXCEPTION = true;
-const checkTokenInBlacklistCallback = async (req, payload, done) => {
-  try {
-    const jti = payload.jti;
-    const blacklist = await SecurityTokensService.getTokensBlacklist();
-    const tokenIsRevoked = blacklist.includes(jti);
-    return done(null, tokenIsRevoked);
-  } catch (e) {
-    done(e, SET_TOKEN_AS_REVOKEN_ON_EXCEPTION);
-  }
-};
-
-if(security.DEVELOPER_MODE === false){
-  app.use(expressJwt({secret: settings.jwtSecretKey, isRevoked: checkTokenInBlacklistCallback}).unless({path: [
-    '/api/dashboard/events',
-    '/api/v1/authorize',
-    /\/api\/v1\/notifications/i,
-    /\/ajax\//i
-  ]}));
-}
-
+security.applyMiddleware(app);
 app.set('trust proxy', 1);
 app.use(helmet());
 app.all('*', (req, res, next) => {

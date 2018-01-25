@@ -1,15 +1,17 @@
 const settings = require('./settings');
 const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+const SecurityTokensService = require('../services/security/tokens');
 
 const DEVELOPER_MODE = settings.developerMode === true;
+const SET_TOKEN_AS_REVOKEN_ON_EXCEPTION = true;
 
-const verifyToken = (jwtToken, secretKey) => {
-  return new Promise((resolve, reject) => {
-    jwt.verify(jwtToken, secretKey, (err, decoded) => {
-      resolve(err);
-    });
-  })
-}
+const PATHS_WITH_OPEN_ACCESS = [
+  '/api/dashboard/events',
+  '/api/v1/authorize',
+  /\/api\/v1\/notifications/i,
+  /\/ajax\//i
+];
 
 const scope = {
   ADMIN: 'admin',
@@ -51,9 +53,38 @@ const checkUserScope = (requiredScope, req, res, next) => {
   }
 }
 
+const verifyToken = (jwtToken, secretKey) => {
+  return new Promise((resolve, reject) => {
+    jwt.verify(jwtToken, secretKey, (err, decoded) => {
+      resolve(err);
+    });
+  })
+}
+
+const checkTokenInBlacklistCallback = async (req, payload, done) => {
+  try {
+    const jti = payload.jti;
+    const blacklist = await SecurityTokensService.getTokensBlacklist();
+    const tokenIsRevoked = blacklist.includes(jti);
+    return done(null, tokenIsRevoked);
+  } catch (e) {
+    done(e, SET_TOKEN_AS_REVOKEN_ON_EXCEPTION);
+  }
+}
+
+const applyMiddleware = app => {
+  if(DEVELOPER_MODE === false){
+    app.use(expressJwt({
+      secret: settings.jwtSecretKey,
+      isRevoked: checkTokenInBlacklistCallback})
+    .unless({path: PATHS_WITH_OPEN_ACCESS}));
+  }
+}
+
 module.exports = {
   checkUserScope: checkUserScope,
   scope: scope,
   verifyToken: verifyToken,
+  applyMiddleware: applyMiddleware,
   DEVELOPER_MODE: DEVELOPER_MODE
 }
