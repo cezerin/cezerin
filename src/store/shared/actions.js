@@ -5,14 +5,6 @@ import { animateScroll } from 'react-scroll'
 import api from '../client/api'
 import * as analytics from './analytics'
 
-export const fetchProduct = product_id => (dispatch, getState) => {
-  dispatch(requestProduct())
-  return api.ajax.products.retrieve(product_id).then(({status, json}) => {
-    dispatch(receiveProduct(json))
-    analytics.productView({ product: json })
-  }).catch(error => {});
-}
-
 const requestProduct = () => ({type: t.PRODUCT_REQUEST})
 
 const receiveProduct = product => ({type: t.PRODUCT_RECEIVE, product})
@@ -103,13 +95,6 @@ export const fetchMoreProducts = () => (dispatch, getState) => {
 const requestMoreProducts = () => ({type: t.MORE_PRODUCTS_REQUEST})
 
 const receiveMoreProducts = products => ({type: t.MORE_PRODUCTS_RECEIVE, products})
-
-export const fetchPage = pageId => (dispatch, getState) => {
-  dispatch(requestPage());
-  return api.ajax.pages.retrieve(pageId).then(({status, json}) => {
-    dispatch(receivePage(json))
-  }).catch(error => {});
-}
 
 const requestPage = () => ({type: t.PAGE_REQUEST})
 
@@ -372,9 +357,10 @@ export const setCurrentPage = location => (dispatch, getState) => {
         path: category.path,
         resource: category.id
       };
-      dispatch(receiveSitemap(newCurrentPage))
+      dispatch(receiveSitemap(newCurrentPage)) // remove .data
       dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
     } else {
+
       api.ajax.sitemap.retrieve({ path: locationPathname })
       .then(sitemapResponse => {
         if(sitemapResponse.status === 404){
@@ -419,10 +405,13 @@ const fetchDataOnCurrentPageChange = currentPage => (dispatch, getState) => {
       analytics.search({ searchText: productFilter.search });
       break;
     case PRODUCT:
-      dispatch(fetchProduct(currentPage.resource))
+      const productData = currentPage.data;
+      dispatch(receiveProduct(productData))
+      analytics.productView({ product: productData })
       break;
     case PAGE:
-      dispatch(fetchPage(currentPage.resource))
+      const pageData = currentPage.data;
+      dispatch(receivePage(pageData))
       if(currentPage.path === '/checkout'){
         analytics.checkoutView({ order: app.cart })
       }

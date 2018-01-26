@@ -222,12 +222,28 @@ ajaxRouter.get('/pages/:id', (req, res, next) => {
   })
 })
 
-ajaxRouter.get('/sitemap', (req, res, next) => {
+ajaxRouter.get('/sitemap', async (req, res, next) => {
+  let result = null;
   let filter = req.query;
   filter.enabled = true;
-  api.sitemap.retrieve(req.query).then(({status, json}) => {
-    res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);
-  })
+
+  const sitemapResponse = await api.sitemap.retrieve(req.query);
+  if(sitemapResponse.status !== 404 || sitemapResponse.json) {
+    result = sitemapResponse.json;
+
+    if(result.type === 'product') {
+      const productResponse = await api.products.retrieve(result.resource);
+      result.data = productResponse.json;
+    } else if(result.type === 'page') {
+      const pageResponse = await api.pages.retrieve(result.resource);
+      result.data = pageResponse.json;
+    }
+  }
+
+  res
+    .status(sitemapResponse.status)
+    .header('Cache-Control', DEFAULT_CACHE_CONTROL)
+    .send(result);
 })
 
 ajaxRouter.get('/payment_methods', (req, res, next) => {
