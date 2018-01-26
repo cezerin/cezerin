@@ -16,7 +16,8 @@ export const fetchProducts = () => (dispatch, getState) => {
   let filter = getParsedProductFilter(app.productFilter);
 
   return api.ajax.products.list(filter).then(({status, json}) => {
-    dispatch(receiveProducts(json))
+    dispatch(receiveProducts(null));
+    dispatch(receiveProducts(json));
   }).catch(error => {});
 }
 

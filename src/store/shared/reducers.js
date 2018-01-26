@@ -13,15 +13,21 @@ const appReducer = (state = initialState, action) => {
       return Object.assign({}, state, {loadingProducts: true})
 
     case t.PRODUCTS_RECEIVE:
-      return Object.assign({}, state, {
-        loadingProducts: false,
-        products: action.products.data,
-        productsTotalCount: action.products.total_count,
-        productsHasMore: action.products.has_more,
-        productsAttributes: action.products.attributes,
-        productsMinPrice: action.products.price.min || 0,
-        productsMaxPrice: action.products.price.max || 0
-      })
+      if(action.products){
+        return Object.assign({}, state, {
+          loadingProducts: false,
+          products: action.products.data,
+          productsTotalCount: action.products.total_count,
+          productsHasMore: action.products.has_more,
+          productsAttributes: action.products.attributes,
+          productsMinPrice: action.products.price.min || 0,
+          productsMaxPrice: action.products.price.max || 0
+        })
+      } else {
+        return Object.assign({}, state, {
+          products: []
+        })
+      }
 
     case t.MORE_PRODUCTS_REQUEST:
       return Object.assign({}, state, {loadingMoreProducts: true})
