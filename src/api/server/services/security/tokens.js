@@ -1,6 +1,7 @@
 'use strict';
 
 const url = require('url');
+const handlebars = require('handlebars');
 const mongo = require('../../lib/mongo');
 const parse = require('../../lib/parse');
 const settings = require('../../lib/settings');
@@ -220,31 +221,54 @@ class SecurityTokensService {
       ip = ip.replace('::ffff:', '');
     }
 
+    if(ip === '::1'){
+      ip = 'localhost';
+    }
+
     return ip;
+  }
+
+  getTextFromHandlebars(text, context) {
+    const template = handlebars.compile(text, { noEscape: true });
+    return template(context);
+  }
+
+  getSigninMailSubject() {
+    return 'New sign-in from {{from}}';
+  }
+
+  getSigninMailBody() {
+    return `<div style="color: #202020; line-height: 1.5;">
+      Your email address {{email}} was just used to request<br />a sign in email to {{domain}} dashboard.
+      <div style="padding: 60px 0px;"><a href="{{link}}" style="background-color: #3f51b5; color: #ffffff; padding: 12px 26px; font-size: 18px; border-radius: 28px; text-decoration: none;">Click here to sign in</a></div>
+      <b>Request from</b>
+      <div style="color: #727272; padding: 0 0 20px 0;">{{requestFrom}}</div>
+      If this was not you, you can safely ignore this email.<br /><br />
+      Best,<br />
+      Cezerin Robot`;
   }
 
   async sendDashboardSigninUrl(req) {
     const email = req.body.email;
     const userAgent = uaParser(req.get('user-agent'));
-    const cloudFlareCountry = req.get('cf-ipcountry') || '';
+    const country = req.get('cf-ipcountry') || '';
     const ip = this.getIP(req);
-    const dateEmail = moment(new Date()).format('dddd, MMMM DD, YYYY h:mm A');
-    const linkUrl = await this.getDashboardSigninUrl(email);
+    const date = moment(new Date()).format('dddd, MMMM DD, YYYY h:mm A');
+    const link = await this.getDashboardSigninUrl(email);
 
-    if(linkUrl) {
+    if(link) {
+      const linkObj = url.parse(link);
+      const domain = `${linkObj.protocol}//${linkObj.host}`;
+      const device = userAgent.device.vendor ? userAgent.device.vendor + ' ' + userAgent.device.model + ', ' : '';
+      const requestFrom = `${device}${userAgent.os.name}, ${userAgent.browser.name}<br />
+      ${date}<br />
+      IP: ${ip}<br />
+      ${country}`;
+
       const message = {
         to: email,
-        subject: `New sign-in from ${userAgent.os.name}`,
-        html: `Your email address was just used to request a Sign In email to Cezerin Dashboard.<br /><br />
-<b>If this was you</b>, <a href='${linkUrl}'>click here to Sign In</a><br />
-<b>If this was not you</b>, you can safely ignore this email.<br /><br />
-<b>Request from</b>:<br />
-${userAgent.os.name}<br />
-${dateEmail}<br />
-${ip}<br />
-${cloudFlareCountry}<br /><br />
-Best,<br />
-Cezerin Robot`
+        subject: this.getTextFromHandlebars(this.getSigninMailSubject(), { from: userAgent.os.name }),
+        html: this.getTextFromHandlebars(this.getSigninMailBody(), { link, email, domain, requestFrom })
       };
       const emailSent = await mailer.send(message);
       return { sent: emailSent, error: null };
