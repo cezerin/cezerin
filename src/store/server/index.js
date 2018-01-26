@@ -66,5 +66,5 @@ app.use(logErrors);
 
 const server = app.listen(settings.storeListenPort, () => {
   const serverAddress = server.address();
-  winston.info(`Store running at http://${serverAddress.address}:${serverAddress.port}`);
+  winston.info(`Store running at http://localhost:${serverAddress.port}`);
 });
