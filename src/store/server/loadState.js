@@ -5,6 +5,7 @@ import * as themeLocales from './themeLocales'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from '../shared/pageTypes'
 
 const PRODUCT_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position';
+const CATEGORIES_FIELDS = 'image,name,description,meta_description,meta_title,sort,parent_id,position,slug,id';
 
 const getCurrentPage = path => {
   return api.sitemap.retrieve({ path: path, enabled: true })
@@ -58,16 +59,7 @@ const getThemeSettings = () => {
 const getAllData = (currentPage, productFilter, cookie) => {
   return Promise.all([
     api.checkoutFields.list().then(({status, json}) => json),
-    api.productCategories.list({enabled: true}).then(({status, json}) => {
-      // delete unused propetries
-      return json.map(category => {
-        delete category.date_created;
-        delete category.date_updated;
-        delete category.enabled;
-        delete category.slug;
-        return category;
-      });
-    }),
+    api.productCategories.list({enabled: true, fields: CATEGORIES_FIELDS}).then(({status, json}) => json),
     api.ajax.cart.retrieve(cookie).then(({status, json}) => json),
     getProducts(currentPage, productFilter),
     getProduct(currentPage),
