@@ -2,93 +2,87 @@
 
 const path = require('path');
 const { URL } = require('url');
+const fse = require('fs-extra');
+const ObjectID = require('mongodb').ObjectID;
 const settings = require('../../lib/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var CategoriesService = require('./productCategories');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
+const CategoriesService = require('./productCategories');
 const SettingsService = require('../settings/settings');
-var ObjectID = require('mongodb').ObjectID;
-var fse = require('fs-extra');
 
 class ProductsService {
   constructor() {}
 
-  getProducts(params = {}) {
-    return Promise.all([
-        CategoriesService.getCategories(),
-        SettingsService.getSettings()
-      ]).then(([ categories, generalSettings ]) => {
-        const domain = generalSettings.domain || '';
-        const fieldsArray = this.getArrayFromCSV(params.fields);
-        const limit = parse.getNumberIfPositive(params.limit) || 1000;
-        const offset = parse.getNumberIfPositive(params.offset) || 0;
-        const projectQuery = this.getProjectQuery(fieldsArray);
-        const sortQuery = this.getSortQuery(params); // todo: validate every sort field
-        const matchQuery = this.getMatchQuery(params, categories);
-        const matchTextQuery = this.getMatchTextQuery(params);
-        const itemsAggregation = [];
+  async getProducts(params = {}) {
+    const categories = await CategoriesService.getCategories({ fields: 'parent_id,slug,name' });
+    const fieldsArray = this.getArrayFromCSV(params.fields);
+    const limit = parse.getNumberIfPositive(params.limit) || 1000;
+    const offset = parse.getNumberIfPositive(params.offset) || 0;
+    const projectQuery = this.getProjectQuery(fieldsArray);
+    const sortQuery = this.getSortQuery(params); // todo: validate every sort field
+    const matchQuery = this.getMatchQuery(params, categories);
+    const matchTextQuery = this.getMatchTextQuery(params);
+    const itemsAggregation = [];
 
-        // $match with $text is only allowed as the first pipeline stage"
-        if(matchTextQuery) {
-          itemsAggregation.push({ $match: matchTextQuery });
-        }
-        itemsAggregation.push({ $project: projectQuery });
-        itemsAggregation.push({ $match: matchQuery });
-        if(sortQuery){
-          itemsAggregation.push({ $sort: sortQuery });
-        }
-        itemsAggregation.push({ $skip : offset });
-        itemsAggregation.push({ $limit : limit });
+    // $match with $text is only allowed as the first pipeline stage"
+    if(matchTextQuery) {
+      itemsAggregation.push({ $match: matchTextQuery });
+    }
+    itemsAggregation.push({ $project: projectQuery });
+    itemsAggregation.push({ $match: matchQuery });
+    if(sortQuery){
+      itemsAggregation.push({ $sort: sortQuery });
+    }
+    itemsAggregation.push({ $skip : offset });
+    itemsAggregation.push({ $limit : limit });
 
+    const [itemsResult, countResult, minMaxPriceResult, allAttributesResult, attributesResult, generalSettings] = await Promise.all([
+      mongo.db.collection('products').aggregate(itemsAggregation).toArray(),
+      this.getCountIfNeeded(params, matchQuery, matchTextQuery, projectQuery),
+      this.getMinMaxPriceIfNeeded(params, categories, matchTextQuery, projectQuery),
+      this.getAllAttributesIfNeeded(params, categories, matchTextQuery, projectQuery),
+      this.getAttributesIfNeeded(params, categories, matchTextQuery, projectQuery),
+      SettingsService.getSettings()
+    ]);
 
-        return Promise.all([
-            mongo.db.collection('products').aggregate(itemsAggregation).toArray(),
-            this.getCountIfNeeded(params, matchQuery, matchTextQuery, projectQuery),
-            this.getMinMaxPriceIfNeeded(params, categories, matchTextQuery, projectQuery),
-            this.getAllAttributesIfNeeded(params, categories, matchTextQuery, projectQuery),
-            this.getAttributesIfNeeded(params, categories, matchTextQuery, projectQuery)
-          ]).then(([ itemsResult, countResult, minMaxPriceResult, allAttributesResult, attributesResult ]) => {
+    const domain = generalSettings.domain || '';
+    const ids = this.getArrayFromCSV(parse.getString(params.ids));
+    const sku = this.getArrayFromCSV(parse.getString(params.sku));
 
-            const ids = this.getArrayFromCSV(parse.getString(params.ids));
-            const sku = this.getArrayFromCSV(parse.getString(params.sku));
+    let items = itemsResult.map(item => this.changeProperties(categories, item, domain));
+    items = this.sortItemsByArrayOfIdsIfNeed(items, ids, sortQuery);
+    items = this.sortItemsByArrayOfSkuIfNeed(items, sku, sortQuery);
+    items = items.filter(item => !!item);
 
-            let items = itemsResult.map(item => this.changeProperties(categories, item, domain));
-            items = this.sortItemsByArrayOfIdsIfNeed(items, ids, sortQuery);
-            items = this.sortItemsByArrayOfSkuIfNeed(items, sku, sortQuery);
-            items = items.filter(item => !!item);
+    let total_count = 0;
+    let min_price = 0;
+    let max_price = 0;
 
-            let total_count = 0;
-            let min_price = 0;
-            let max_price = 0;
+    if(countResult && countResult.length === 1) {
+      total_count = countResult[0].count;
+    }
 
-            if(countResult && countResult.length === 1) {
-              total_count = countResult[0].count;
-            }
+    if(minMaxPriceResult && minMaxPriceResult.length === 1) {
+      min_price = minMaxPriceResult[0].min_price || 0;
+      max_price = minMaxPriceResult[0].max_price || 0;
+    }
 
-            if(minMaxPriceResult && minMaxPriceResult.length === 1) {
-              min_price = minMaxPriceResult[0].min_price || 0;
-              max_price = minMaxPriceResult[0].max_price || 0;
-            }
+    let attributes = [];
+    if(allAttributesResult) {
+      attributes = this.getOrganizedAttributes(allAttributesResult, attributesResult, params);
+    }
 
-            let attributes = [];
-            if(allAttributesResult) {
-              attributes = this.getOrganizedAttributes(allAttributesResult, attributesResult, params);
-            }
-
-            return {
-              price: {
-                min: min_price,
-                max: max_price
-              },
-              attributes: attributes,
-              total_count: total_count,
-              has_more: (offset + items.length) < total_count,
-              data: items
-            }
-
-          })
-      });
+    return {
+      price: {
+        min: min_price,
+        max: max_price
+      },
+      attributes: attributes,
+      total_count: total_count,
+      has_more: (offset + items.length) < total_count,
+      data: items
+    }
   }
 
   sortItemsByArrayOfIdsIfNeed(items, arrayOfIds, sortQuery) {
@@ -411,7 +405,7 @@ class ProductsService {
      const currentDate = new Date();
 
      if(category_id !== null) {
-       var categoryChildren = [];
+       let categoryChildren = [];
        CategoriesService.findAllChildren(categories, category_id, categoryChildren);
        queries.push({
          category_id: { $in: categoryChildren }
