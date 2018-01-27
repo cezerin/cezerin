@@ -24,6 +24,24 @@ const getCartCookieOptions = isHttps => ({
   sameSite: 'strict'
 })
 
+const getIP = req => {
+  let ip = req.get('x-forwarded-for') || req.ip;
+
+  if(ip && ip.includes(', ')) {
+    ip = ip.split(', ')[0];
+  }
+
+  if(ip && ip.includes('::ffff:')) {
+    ip = ip.replace('::ffff:', '');
+  }
+
+  return ip;
+}
+
+const getUserAgent = req => {
+  return req.get('user-agent');
+}
+
 const getVariantFromProduct = (product, variantId) => {
   if(product.variants && product.variants.length > 0) {
     return product.variants.find(variant => variant.id.toString() === variantId.toString());
@@ -100,24 +118,13 @@ ajaxRouter.post('/cart/items', (req, res, next) => {
       res.status(status).send(json);
     })
   } else {
-
-    let ip = req.get('x-forwarded-for') || req.ip;
-
-    if(ip && ip.includes(', ')) {
-      ip = ip.split(', ')[0];
-    }
-
-    if(ip && ip.includes('::ffff:')) {
-      ip = ip.replace('::ffff:', '');
-    }
-
     let orderDraft = {
       draft: true,
       referrer_url: req.signedCookies.referrer_url,
       landing_url: req.signedCookies.landing_url,
       browser: {
-        ip: ip,
-        user_agent: req.get('user-agent')
+        ip: getIP(req),
+        user_agent: getUserAgent(req)
       },
       shipping_address: {}
     };
