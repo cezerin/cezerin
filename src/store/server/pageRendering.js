@@ -1,7 +1,6 @@
 import winston from 'winston'
 import serverSettings from './settings'
 import React from 'react'
-
 import { StaticRouter } from 'react-router'
 import {renderToString} from 'react-dom/server'
 import {createStore, applyMiddleware} from 'redux'
@@ -36,44 +35,52 @@ const getReferrerCookieOptions = (isHttps) => ({
   sameSite: 'strict'
 })
 
-const renderError = (req, res, status, err) => {
+const renderError = (req, res, err) => {
   winston.error('Page error', req.url, err);
-  res.status(status).send(err);
+  res.status(500).send(err);
+}
+
+const getAppHtml = (store, location, context = {}) => {
+  const html = renderToString(
+    <Provider store={store}>
+      <StaticRouter location={location} context={context}>
+        <App/>
+      </StaticRouter>
+    </Provider>
+  )
+
+  return html;
+}
+
+const getPlaceholder = (placeholders) => {
+  let placeholder = {
+    head_start: '',
+    head_end: '',
+    body_start: '',
+    body_end: ''
+  };
+
+  if(placeholders && placeholders.length > 0){
+    placeholder.head_start = placeholders.filter(p => p.place === 'head_start').map(p => p.value).join('\n');
+    placeholder.head_end = placeholders.filter(p => p.place === 'head_end').map(p => p.value).join('\n');
+    placeholder.body_start = placeholders.filter(p => p.place === 'body_start').map(p => p.value).join('\n');
+    placeholder.body_end = placeholders.filter(p => p.place === 'body_end').map(p => p.value).join('\n');
+  }
+
+  return placeholder;
 }
 
 const renderPage = (req, res, store, themeText, placeholders) => {
-   const context = {}
-   const appHtml = renderToString(
-     <Provider store={store}>
-       <StaticRouter
-         location={req.url}
-         context={context}
-       >
-         <App/>
-       </StaticRouter>
-     </Provider>
-   )
-
+  const appHtml = getAppHtml(store, req.url);
   const state = store.getState();
   const head = getHead();
-
-  let placeholder_head_start = '';
-  let placeholder_head_end = '';
-  let placeholder_body_start = '';
-  let placeholder_body_end = '';
-
-  if(placeholders && placeholders.length > 0){
-    placeholder_head_start = placeholders.filter(p => p.place === 'head_start').map(p => p.value).join('\n');
-    placeholder_head_end = placeholders.filter(p => p.place === 'head_end').map(p => p.value).join('\n');
-    placeholder_body_start = placeholders.filter(p => p.place === 'body_start').map(p => p.value).join('\n');
-    placeholder_body_end = placeholders.filter(p => p.place === 'body_end').map(p => p.value).join('\n');
-  }
+  const placeholder = getPlaceholder(placeholders);
 
   const html = indexHtml
-    .replace('{placeholder_head_start}', placeholder_head_start)
-    .replace('{placeholder_head_end}', placeholder_head_end)
-    .replace('{placeholder_body_start}', placeholder_body_start)
-    .replace('{placeholder_body_end}', placeholder_body_end)
+    .replace('{placeholder_head_start}', placeholder.head_start)
+    .replace('{placeholder_head_end}', placeholder.head_end)
+    .replace('{placeholder_body_start}', placeholder.body_start)
+    .replace('{placeholder_body_end}', placeholder.body_end)
     .replace('{language}', serverSettings.language)
     .replace('{title}', head.title)
     .replace('{meta}', head.meta)
@@ -111,7 +118,7 @@ const pageRendering = (req, res) => {
     renderPage(req, res, store, themeText, placeholders);
   })
   .catch(err => {
-    renderError(req, res, 500, err)
+    renderError(req, res, err)
   });
 }
 
