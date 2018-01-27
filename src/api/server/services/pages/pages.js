@@ -2,10 +2,10 @@
 
 const url = require('url');
 const settings = require('../../lib/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var ObjectID = require('mongodb').ObjectID;
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
+const ObjectID = require('mongodb').ObjectID;
 const SettingsService = require('../settings/settings');
 
 const DEFAULT_SORT = { is_system:-1, date_created:1 };

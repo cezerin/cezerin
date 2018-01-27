@@ -1,6 +1,6 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
+const mongo = require('../../lib/mongo');
 
 class PaymentMethodsLightService {
   constructor() {}

@@ -179,12 +179,12 @@ class OrdersService {
             return customers.data[0].id;
           } else {
             // if customer not exists - create new customer and set new customer_id
-            var addresses = [];
+            let addresses = [];
             if (order.shipping_address) {
               addresses.push(order.shipping_address);
             }
 
-            var customerrFullName = order.shipping_address && order.shipping_address.full_name
+            let customerrFullName = order.shipping_address && order.shipping_address.full_name
               ? order.shipping_address.full_name
               : '';
 

@@ -1,11 +1,11 @@
 'use strict';
 
 const security = require('../lib/security');
-var ProductsService = require('../services/products/products');
-var ProductOptionsService = require('../services/products/options');
-var ProductOptionValuesService = require('../services/products/optionValues');
-var ProductVariantsService = require('../services/products/variants');
-var ProductImagesService = require('../services/products/images');
+const ProductsService = require('../services/products/products');
+const ProductOptionsService = require('../services/products/options');
+const ProductOptionValuesService = require('../services/products/optionValues');
+const ProductVariantsService = require('../services/products/variants');
+const ProductImagesService = require('../services/products/images');
 
 class ProductsRoute {
   constructor(router) {

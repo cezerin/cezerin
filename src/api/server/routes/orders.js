@@ -1,13 +1,13 @@
 'use strict';
 
 const security = require('../lib/security');
-var OrdersService = require('../services/orders/orders');
-var OrderAddressService = require('../services/orders/orderAddress');
-var OrderItemsService = require('../services/orders/orderItems');
-var OrdertTansactionsService = require('../services/orders/orderTransactions');
-var OrdertDiscountsService = require('../services/orders/orderDiscounts');
-var SettingsService = require('../services/settings/settings');
-var PaymentGateways = require('../paymentGateways');
+const OrdersService = require('../services/orders/orders');
+const OrderAddressService = require('../services/orders/orderAddress');
+const OrderItemsService = require('../services/orders/orderItems');
+const OrdertTansactionsService = require('../services/orders/orderTransactions');
+const OrdertDiscountsService = require('../services/orders/orderDiscounts');
+const SettingsService = require('../services/settings/settings');
+const PaymentGateways = require('../paymentGateways');
 
 class OrdersRoute {
   constructor(router) {

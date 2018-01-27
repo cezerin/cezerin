@@ -1,12 +1,12 @@
 'use strict';
 
 const settings = require('../../lib/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var ObjectID = require('mongodb').ObjectID;
-var OrdersService = require('./orders');
-var ProductsService = require('../products/products');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
+const ObjectID = require('mongodb').ObjectID;
+const OrdersService = require('./orders');
+const ProductsService = require('../products/products');
 const ProductStockService = require('../products/stock');
 
 class OrderItemsService {

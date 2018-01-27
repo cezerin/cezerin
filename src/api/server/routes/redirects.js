@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var RedirectsService = require('../services/redirects');
+const RedirectsService = require('../services/redirects');
 
 class RedirectsRoute {
   constructor(router) {

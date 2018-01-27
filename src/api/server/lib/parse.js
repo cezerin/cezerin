@@ -1,4 +1,4 @@
-var ObjectID = require('mongodb').ObjectID;
+const ObjectID = require('mongodb').ObjectID;
 
 const getString = (value) => {
   return value
@@ -7,7 +7,7 @@ const getString = (value) => {
 }
 
 const getDateIfValid = (value) => {
-  var date = Date.parse(value);
+  const date = Date.parse(value);
   return isNaN(date)
     ? null
     : new Date(date);

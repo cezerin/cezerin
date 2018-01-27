@@ -1,8 +1,8 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
-var parse = require('../../lib/parse');
-var ObjectID = require('mongodb').ObjectID;
+const mongo = require('../../lib/mongo');
+const parse = require('../../lib/parse');
+const ObjectID = require('mongodb').ObjectID;
 
 class ProductOptionValuesService {
   constructor() {}

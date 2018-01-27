@@ -1,7 +1,7 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
-var ObjectID = require('mongodb').ObjectID;
+const mongo = require('../../lib/mongo');
+const ObjectID = require('mongodb').ObjectID;
 
 class ShippingMethodsLightService {
   constructor() {}

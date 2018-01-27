@@ -3,13 +3,13 @@
 const path = require('path');
 const url = require('url');
 const settings = require('../../lib/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
 const SettingsService = require('../settings/settings');
-var ObjectID = require('mongodb').ObjectID;
-var formidable = require('formidable');
-var fse = require('fs-extra');
+const ObjectID = require('mongodb').ObjectID;
+const formidable = require('formidable');
+const fse = require('fs-extra');
 
 class ProductImagesService {
   constructor() {}
@@ -89,7 +89,7 @@ class ProductImagesService {
       .on('file', function(field, file) {
         // every time a file has been uploaded successfully,
         if(file.name) {
-          var imageData = {
+          let imageData = {
             "id": new ObjectID(),
             "alt": "",
             "position": 99,

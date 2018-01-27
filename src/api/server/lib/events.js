@@ -29,7 +29,7 @@ const subscribe = (req, res) => {
 
 const sendMessage = (data) => {
   const json = JSON.stringify(data);
-  for(var i = 0; i < subscribers.length; i++) {
+  for(let i = 0; i < subscribers.length; i++) {
     try{
       subscribers[i].write(`data: ${json}\n\n`);
     } catch(e){

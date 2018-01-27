@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var SecurityTokensService = require('../services/security/tokens');
+const SecurityTokensService = require('../services/security/tokens');
 
 class SecurityTokensRoute {
   constructor(router) {

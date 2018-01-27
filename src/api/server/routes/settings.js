@@ -1,10 +1,10 @@
 'use strict';
 
 const security = require('../lib/security');
-var SettingsService = require('../services/settings/settings');
-var EmailSettingsService = require('../services/settings/email');
-var EmailTemplatesService = require('../services/settings/emailTemplates');
-var CheckoutFieldsService = require('../services/settings/checkoutFields');
+const SettingsService = require('../services/settings/settings');
+const EmailSettingsService = require('../services/settings/email');
+const EmailTemplatesService = require('../services/settings/emailTemplates');
+const CheckoutFieldsService = require('../services/settings/checkoutFields');
 
 class SettingsRoute {
   constructor(router) {

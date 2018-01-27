@@ -4,11 +4,11 @@ const path = require('path');
 const fse = require('fs-extra');
 const fs = require('fs');
 const url = require('url');
-var formidable = require('formidable');
+const formidable = require('formidable');
 const settings = require('../../lib/settings');
 const utils = require('../../lib/utils');
-var mongo = require('../../lib/mongo');
-var parse = require('../../lib/parse');
+const mongo = require('../../lib/mongo');
+const parse = require('../../lib/parse');
 
 class SettingsService {
   constructor() {

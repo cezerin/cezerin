@@ -3,7 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const url = require('url');
-var formidable = require('formidable');
+const formidable = require('formidable');
 const utils = require('../lib/utils');
 const settings = require('../lib/settings');
 

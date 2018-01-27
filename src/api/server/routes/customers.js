@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var CustomersService = require('../services/customers/customers');
+const CustomersService = require('../services/customers/customers');
 
 class CustomersRoute {
   constructor(router) {

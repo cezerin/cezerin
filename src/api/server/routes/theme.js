@@ -1,10 +1,10 @@
 'use strict';
 
 const security = require('../lib/security');
-var ThemeService = require('../services/theme/theme');
-var ThemeSettingsService = require('../services/theme/settings');
-var ThemeAssetsService = require('../services/theme/assets');
-var ThemePlaceholdersService = require('../services/theme/placeholders');
+const ThemeService = require('../services/theme/theme');
+const ThemeSettingsService = require('../services/theme/settings');
+const ThemeAssetsService = require('../services/theme/assets');
+const ThemePlaceholdersService = require('../services/theme/placeholders');
 
 class ThemeRoute {
   constructor(router) {

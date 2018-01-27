@@ -1,7 +1,7 @@
 'use strict';
 
 const security = require('../lib/security');
-var SitemapService = require('../services/sitemap');
+const SitemapService = require('../services/sitemap');
 
 class SitemapRoute {
   constructor(router) {

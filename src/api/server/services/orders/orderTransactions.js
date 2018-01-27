@@ -1,10 +1,10 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var ObjectID = require('mongodb').ObjectID;
-var OrdersService = require('./orders');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
+const ObjectID = require('mongodb').ObjectID;
+const OrdersService = require('./orders');
 
 class OrdertTansactionsService {
   constructor() {}

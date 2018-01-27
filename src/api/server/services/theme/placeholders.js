@@ -1,7 +1,7 @@
 'use strict';
 
-var mongo = require('../../lib/mongo');
-var parse = require('../../lib/parse');
+const mongo = require('../../lib/mongo');
+const parse = require('../../lib/parse');
 
 class ThemePlaceholdersService {
   constructor() {}
