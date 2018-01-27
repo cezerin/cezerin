@@ -2,14 +2,14 @@
 
 const path = require('path');
 const url = require('url');
+const formidable = require('formidable');
+const fse = require('fs-extra');
+const ObjectID = require('mongodb').ObjectID;
 const settings = require('../../lib/settings');
 const SettingsService = require('../settings/settings');
-var mongo = require('../../lib/mongo');
-var utils = require('../../lib/utils');
-var parse = require('../../lib/parse');
-var ObjectID = require('mongodb').ObjectID;
-var formidable = require('formidable');
-var fse = require('fs-extra');
+const mongo = require('../../lib/mongo');
+const utils = require('../../lib/utils');
+const parse = require('../../lib/parse');
 
 class ProductCategoriesService {
   constructor() {}
@@ -22,17 +22,19 @@ class ProductCategoriesService {
     }
     const id = parse.getObjectIDIfValid(params.id);
     if (id) {
-      filter._id = new ObjectID(id);
+      filter._id = id;
     }
     return filter;
   }
 
-  getCategories(params = {}) {
+  async getCategories(params = {}) {
     const filter = this.getFilter(params);
-    return SettingsService.getSettings().then(generalSettings =>
-      mongo.db.collection('productCategories').find(filter).sort({position: 1}).toArray()
-      .then(items => items.map(c => this.changeProperties(c, generalSettings.domain)))
-    );
+    const projection = utils.getProjectionFromFields(params.fields);
+    const generalSettings = await SettingsService.getSettings();
+    const domain = generalSettings.domain;
+    const items = await mongo.db.collection('productCategories').find(filter, { projection: projection }).sort({position: 1}).toArray();
+    const result = items.map(category => this.changeProperties(category, domain));
+    return result;
   }
 
   getSingleCategory(id) {
@@ -92,7 +94,7 @@ class ProductCategoriesService {
     return this.getCategories()
     .then(items => {
       // 2. find category and children
-      var idsToDelete = [];
+      let idsToDelete = [];
       this.findAllChildren(items, id, idsToDelete);
       return idsToDelete;
     })
@@ -228,14 +230,16 @@ class ProductCategoriesService {
   changeProperties(item, domain) {
     if(item) {
       item.id = item._id.toString();
-      delete item._id;
+      item._id = undefined;
 
       if(item.parent_id) {
         item.parent_id = item.parent_id.toString();
       }
 
-      item.url = url.resolve(domain, item.slug || '');
-      item.path = url.resolve('/', item.slug || '');
+      if(item.slug) {
+        item.url = url.resolve(domain, item.slug || '');
+        item.path = url.resolve('/', item.slug || '');
+      }
 
       if(item.image) {
         item.image = url.resolve(domain, settings.categoriesUploadUrl + '/' + item.id + '/' + item.image);
