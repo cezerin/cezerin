@@ -36,8 +36,14 @@ const getCorrectFileName = (filename) => {
   }
 }
 
+const getProjectionFromFields = fields => {
+  const fieldsArray = (fields && fields.length > 0) ? fields.split(',') : [];
+  return Object.assign({}, ...fieldsArray.map(key => ({[key]: 1}) ));
+}
+
 module.exports = {
   cleanSlug: cleanSlug,
   getAvailableSlug: getAvailableSlug,
-  getCorrectFileName: getCorrectFileName
+  getCorrectFileName: getCorrectFileName,
+  getProjectionFromFields: getProjectionFromFields
 }
