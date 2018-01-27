@@ -6,31 +6,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const winston = require('winston');
 const settings = require('../../../config/server');
+const logger = require('./logger').default;
 const robotsRendering = require('./robotsRendering').default;
 const sitemapRendering = require('./sitemapRendering').default;
 const redirects = require('./redirects').default;
 const pageRendering = require('./pageRendering').default;
-
-winston.configure({
-  transports: [
-    new (winston.transports.Console)({
-      colorize: true
-    }),
-    new (winston.transports.File)({
-      filename: 'logs/server.log',
-      handleExceptions: false
-    })
-  ]
-});
-
-const logErrors = (err, req, res, next) => {
-  if(err) {
-    winston.error('Store error', err);
-    res.status(500).send(err);
-  } else {
-    next();
-  }
-}
 
 const ADMIN_INDEX_PATH = path.resolve('public/admin/index.html');
 const STATIC_OPTIONS = {
@@ -62,7 +42,6 @@ app.get('*', redirects);
 app.use(responseTime());
 app.use(cookieParser(settings.cookieSecretKey));
 app.get('*', pageRendering);
-app.use(logErrors);
 
 const server = app.listen(settings.storeListenPort, () => {
   const serverAddress = server.address();
