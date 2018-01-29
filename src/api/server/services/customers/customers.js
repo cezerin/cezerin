@@ -230,7 +230,7 @@ class CustomersService {
       delete customer._id;
 
       const customerGroup = customer.group_id
-        ? customerGroups.find(group => group.id === customer.group_id)
+        ? customerGroups.find(group => group.id === customer.group_id.toString())
         : null;
 
       customer.group_name = customerGroup && customerGroup.name
