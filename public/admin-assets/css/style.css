@@ -92,27 +92,37 @@ h1 {
 }
 
 .mce-content-body {
-  border-bottom: 1px solid rgb(224, 224, 224);
+  border-bottom: 1px solid rgb(224, 224, 224) !important;
 }
 
 .mce-content-body img {
   max-width: 100%;
 }
 
-.mce-edit-focus {}
-
-.mce-panel {
-  border: none !important;
+#mceu_22 {
   box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.2);
+  border: none;
+}
+
+#mceu_23{
+  background-color: #f0f0f0;
   border-radius: 3px;
 }
 
-.mce-btn {
+.mce-toolbar .mce-btn {
+  background-color: #f0f0f0 !important;
   border-radius: 2px;
 }
 
-div.mce-btn:hover, div.mce-btn:focus {
-  background-color: rgba(0,0,0,0.1);
+.mce-toolbar .mce-btn.mce-active {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+.mce-toolbar .mce-btn.mce-active i {
+  color: #000 !important;
+}
+
+.mce-toolbar .mce-btn:hover, .mce-toolbar div.mce-btn:focus {
+  background-color: rgba(0,0,0,0.1) !important;
   border: 1px solid #f0f0f0;
 }
 

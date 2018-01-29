@@ -4,7 +4,6 @@ import settings from 'lib/settings'
 
 const config = {
     inline: true,
-    themes: 'inlite',
     plugins: [
       'autolink lists link image charmap preview anchor', 'searchreplace visualblocks code fullscreen', 'media table paste code textcolor directionality'
     ],
