@@ -1,0 +1,13 @@
+.title {
+  padding: 30px 30px 0px 30px;
+  font-size: 26px;
+  color: rgba(0,0,0,0.87);
+  font-weight: 300;
+}
+
+.subTitle {
+  padding: 5px 30px 0px 30px;
+  font-size: 16px;
+  color: rgba(0,0,0,0.54);
+  font-weight: 400;
+}

@@ -338,5 +338,8 @@
   "files": "Files",
   "fileName": "Name",
   "fileModified": "Modified",
-  "fileSize": "Size"
+  "fileSize": "Size",
+  "salesReport": "Sales",
+  "closedAndPaidOrders": "Closed and paid orders",
+  "newOrders": "New orders"
 }
