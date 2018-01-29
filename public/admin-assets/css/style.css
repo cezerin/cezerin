@@ -180,7 +180,7 @@ div.mce-btn:hover, div.mce-btn:focus {
 
 .react-tagsinput {
   overflow: hidden;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 0 0;
 }
 
 .react-tagsinput--focused {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Field, FieldArray, reduxForm } from 'redux-form'
+import { TextField } from 'redux-form-material-ui'
 
 import api from 'lib/api'
 import * as helper from 'lib/helper'
@@ -190,6 +191,9 @@ const ProductAdditionalForm = ({ handleSubmit, pristine, reset, submitting, init
         <div className={style.innerBox}>
           {messages.tags}
           <Field name="tags" component={TagsField} placeholder={messages.newTag} />
+          <div style={{ marginBottom: 20 }}>
+            <Field name="position" component={TextField} floatingLabelText={messages.position} fullWidth={false} type="number"/>
+          </div>
           {messages.relatedProducts}
           <FieldArray name="related_product_ids" component={ProductsArray} settings={settings} />
         </div>

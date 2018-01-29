@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(updateProduct({
         id: values.id,
         tags: values.tags,
+        position: values.position,
         related_product_ids: values.related_product_ids
       }));
     }
