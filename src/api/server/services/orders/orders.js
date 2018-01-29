@@ -37,8 +37,8 @@ class OrdersService {
     const hold = parse.getBooleanIfValid(params.hold);
     const grand_total_min = parse.getNumberIfPositive(params.grand_total_min);
     const grand_total_max = parse.getNumberIfPositive(params.grand_total_max);
-    const date_created_min = parse.getDateIfValid(params.date_created_min);
-    const date_created_max = parse.getDateIfValid(params.date_created_max);
+    const date_placed_min = parse.getDateIfValid(params.date_placed_min);
+    const date_placed_max = parse.getDateIfValid(params.date_placed_max);
     const date_closed_min = parse.getDateIfValid(params.date_closed_min);
     const date_closed_max = parse.getDateIfValid(params.date_closed_max);
 
@@ -100,23 +100,23 @@ class OrdersService {
       }
     }
 
-    if (date_created_min || date_created_max) {
+    if (date_placed_min || date_placed_max) {
       filter.date_placed = {};
-      if (date_created_min) {
-        filter.date_placed['$gte'] = date_created_min.toISOString();
+      if (date_placed_min) {
+        filter.date_placed['$gte'] = date_placed_min;
       }
-      if (date_created_max) {
-        filter.date_placed['$lte'] = date_created_max.toISOString();
+      if (date_placed_max) {
+        filter.date_placed['$lte'] = date_placed_max;
       }
     }
 
     if (date_closed_min || date_closed_max) {
       filter.date_closed = {};
       if (date_closed_min) {
-        filter.date_closed['$gte'] = date_closed_min.toISOString();
+        filter.date_closed['$gte'] = date_closed_min;
       }
       if (date_closed_max) {
-        filter.date_closed['$lte'] = date_closed_max.toISOString();
+        filter.date_closed['$lte'] = date_closed_max;
       }
     }
 
