@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import messages from 'lib/text'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+const Fragment = React.Fragment;
 
 export default class Buttons extends React.Component {
   constructor(props) {
@@ -15,7 +15,7 @@ export default class Buttons extends React.Component {
     };
   }
 
-  showDelete = () => {
+  openDelete = () => {
     this.setState({openDelete: true});
   };
 
@@ -23,31 +23,18 @@ export default class Buttons extends React.Component {
     this.setState({openDelete: false});
   };
 
-  deleteProduct = () => {
-    this.setState({openDelete: false});
+  handleDelete = () => {
+    this.closeDelete()
     this.props.onDelete();
   };
 
   render() {
     const {product} = this.props;
-
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteProduct}
-      />,
-    ];
+    const productName = product && product.name && product.name.length > 0 ? product.name : 'Draft';
 
     return (
-      <span>
-        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.deleteProduct} onClick={this.showDelete}>
+      <Fragment>
+        <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.deleteProduct} onClick={this.openDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
         {product && product.enabled &&
@@ -57,16 +44,15 @@ export default class Buttons extends React.Component {
             </IconButton>
           </a>
         }
-        <Dialog
-          title={messages.messages_deleteForever}
-          actions={actionsDelete}
-          modal={false}
+        <DeleteConfirmation
           open={this.state.openDelete}
-          onRequestClose={this.closeDelete}
-          >
-          {messages.products_aboutDelete.replace('{count}', '1')}
-        </Dialog>
-      </span>
+          isSingle={true}
+          itemsCount={1}
+          itemName={productName}
+          onCancel={this.closeDelete}
+          onDelete={this.handleDelete}
+        />
+      </Fragment>
     )
   }
 }

@@ -1,12 +1,11 @@
 import React from 'react'
-
+import { Link } from 'react-router-dom'
 import messages from 'lib/text'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
-import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
+const Fragment = React.Fragment;
 
 export default class Buttons extends React.Component {
   constructor(props) {
@@ -16,7 +15,7 @@ export default class Buttons extends React.Component {
     };
   }
 
-  showDelete = () => {
+  openDelete = () => {
     this.setState({openDelete: true});
   };
 
@@ -24,33 +23,19 @@ export default class Buttons extends React.Component {
     this.setState({openDelete: false});
   };
 
-  deleteGroup = () => {
+  deletePage = () => {
     this.setState({openDelete: false});
     this.props.onDelete(this.props.page.id);
   };
 
   render() {
-    const { page, onDelete } = this.props;
-    const pageName = page ? page.meta_title : '';
-
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteGroup}
-      />,
-    ];
+    const { page } = this.props;
+    const pageName = page && page.meta_title && page.meta_title.length > 0 ? page.meta_title : 'Draft';
 
     if(page && !page.is_system){
       return (
-        <span>
-          <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.showDelete}>
+        <Fragment>
+          <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.openDelete}>
             <FontIcon color="#fff" className="material-icons">delete</FontIcon>
           </IconButton>
           {page.enabled &&
@@ -60,16 +45,15 @@ export default class Buttons extends React.Component {
               </IconButton>
             </a>
           }
-          <Dialog
-            title={messages.messages_deleteConfirmation}
-            actions={actionsDelete}
-            modal={false}
+          <DeleteConfirmation
             open={this.state.openDelete}
-            onRequestClose={this.closeDelete}
-          >
-            {messages.settings_aboutDeletePage.replace('{name}', pageName)}
-          </Dialog>
-        </span>
+            isSingle={true}
+            itemsCount={1}
+            itemName={pageName}
+            onCancel={this.closeDelete}
+            onDelete={this.deletePage}
+          />
+        </Fragment>
       )
     } else {
       return null;

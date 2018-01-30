@@ -171,6 +171,18 @@ export function deleteCustomers() {
   }
 }
 
+export function deleteCurrentCustomer() {
+  return (dispatch, getState) => {
+    const state = getState();
+    let customer = state.customers.editCustomer;
+
+    if(customer && customer.id) {
+      return api.customers.delete(customer.id)
+      .catch(err => { console.log(err) });
+    }
+  }
+}
+
 export function setGroup(group_id) {
   return (dispatch, getState) => {
     const state = getState();

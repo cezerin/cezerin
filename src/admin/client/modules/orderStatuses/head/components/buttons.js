@@ -1,7 +1,6 @@
 import React from 'react'
-
 import messages from 'lib/text'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -34,21 +33,7 @@ export default class Buttons extends React.Component {
 
   render() {
     const { selected, onDelete, onCreate } = this.props;
-    const statusName = selected ? selected.name : '';
-
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteStatus}
-      />,
-    ];
+    const statusName = selected && selected.name && selected.name.length > 0 ? selected.name : 'Draft';
 
     return (
       <span>
@@ -57,15 +42,14 @@ export default class Buttons extends React.Component {
             <IconButton touch={true} tooltip={messages.actions_delete} tooltipPosition="bottom-left" onClick={this.showDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
-            <Dialog
-              title={messages.messages_deleteConfirmation}
-              actions={actionsDelete}
-              modal={false}
+            <DeleteConfirmation
               open={this.state.openDelete}
-              onRequestClose={this.closeDelete}
-            >
-              {messages.orderStatusDeleteAsk.replace('{name}', statusName)}
-            </Dialog>
+              isSingle={true}
+              itemsCount={1}
+              itemName={statusName}
+              onCancel={this.closeDelete}
+              onDelete={this.deleteStatus}
+            />
           </Fragment>
         }
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.addOrderStatus} onClick={onCreate}>

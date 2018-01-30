@@ -2,7 +2,7 @@ import React from 'react'
 import messages from 'lib/text'
 import ConfirmationDialog from 'modules/shared/confirmation'
 import ProductSearchDialog from 'modules/shared/productSearch'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -17,7 +17,7 @@ export default class Buttons extends React.Component {
     this.state = {
       showClose: false,
       showCancel: false,
-      showDelete: false,
+      openDelete: false,
       showAddItem: false
     };
   }
@@ -48,16 +48,16 @@ export default class Buttons extends React.Component {
     this.props.setCancelled(this.props.order.id);
   };
 
-  showDelete = () => {
-    this.setState({showDelete: true});
+  openDelete = () => {
+    this.setState({openDelete: true});
   };
 
-  hideDelete = () => {
-    this.setState({showDelete: false});
+  closeDelete = () => {
+    this.setState({openDelete: false});
   };
 
   deleteOrder = () => {
-    this.hideDelete();
+    this.closeDelete();
     this.props.onDelete();
   };
 
@@ -86,7 +86,7 @@ export default class Buttons extends React.Component {
     const { settings, order, onDelete } = this.props;
 
     if(order){
-      const confirmationDialogTitle = `${messages.order} #${order.number}`;
+      const orderName = `${messages.order} #${order.number}`;
 
       let menuItems = [];
       if(order.closed){
@@ -119,7 +119,7 @@ export default class Buttons extends React.Component {
 
           <ConfirmationDialog
             open={this.state.showClose}
-            title={confirmationDialogTitle}
+            title={orderName}
             description={messages.closeOrderConfirmation}
             onSubmit={this.setClosed}
             onCancel={this.hideClose}
@@ -129,7 +129,7 @@ export default class Buttons extends React.Component {
 
           <ConfirmationDialog
             open={this.state.showCancel}
-            title={confirmationDialogTitle}
+            title={orderName}
             description={messages.cancelOrderConfirmation}
             onSubmit={this.setCancelled}
             onCancel={this.hideCancel}
@@ -137,14 +137,13 @@ export default class Buttons extends React.Component {
             cancelLabel={messages.cancel}
           />
 
-          <ConfirmationDialog
-            open={this.state.showDelete}
-            title={confirmationDialogTitle}
-            description={messages.deleteOrderConfirmation}
-            onSubmit={this.deleteOrder}
-            onCancel={this.hideDelete}
-            submitLabel={messages.deleteOrder}
-            cancelLabel={messages.cancel}
+          <DeleteConfirmation
+            open={this.state.openDelete}
+            isSingle={true}
+            itemsCount={1}
+            itemName={orderName}
+            onCancel={this.closeDelete}
+            onDelete={this.deleteOrder}
           />
 
           <IconMenu
@@ -157,7 +156,7 @@ export default class Buttons extends React.Component {
            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
           >
             {menuItems}
-            <MenuItem primaryText={messages.deleteOrder} onClick={this.showDelete} />
+            <MenuItem primaryText={messages.deleteOrder} onClick={this.openDelete} />
           </IconMenu>
         </span>
       )

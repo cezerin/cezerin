@@ -1,8 +1,7 @@
 import React from 'react'
-
 import messages from 'lib/text'
 import CategorySelect from 'modules/productCategories/select'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -54,7 +53,7 @@ export default class Buttons extends React.Component {
 
   render() {
     const { selected, onMoveUp, onMoveDown, onDelete, onCreate } = this.props;
-    const categoryName = selected ? selected.name : '';
+    const categoryName = selected && selected.name && selected.name.length > 0 ? selected.name : 'Draft';
 
     const actionsMoveTo = [
       <FlatButton
@@ -67,20 +66,6 @@ export default class Buttons extends React.Component {
         primary={true}
         keyboardFocused={true}
         onClick={this.saveMoveTo}
-      />,
-    ];
-
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteCategory}
       />,
     ];
 
@@ -115,16 +100,14 @@ export default class Buttons extends React.Component {
                 showAll={false}
               />
             </Dialog>
-
-            <Dialog
-              title={messages.messages_deleteConfirmation}
-              actions={actionsDelete}
-              modal={false}
+            <DeleteConfirmation
               open={this.state.openDelete}
-              onRequestClose={this.closeDelete}
-            >
-              {messages.productCategories_aboutDelete.replace('{name}', categoryName)}
-            </Dialog>
+              isSingle={true}
+              itemsCount={1}
+              itemName={categoryName}
+              onCancel={this.closeDelete}
+              onDelete={this.deleteCategory}
+            />
           </Fragment>
         }
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.productCategories_titleAdd} onClick={onCreate}>

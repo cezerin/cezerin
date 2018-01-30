@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import messages from 'lib/text'
 import GroupSelect from 'modules/customerGroups/select'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -71,20 +70,6 @@ export default class Buttons extends React.Component {
       />,
     ];
 
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteCustomers}
-      />
-    ];
-
     return (
       <span>
         <Search value={search} setSearch={setSearch} />
@@ -96,15 +81,13 @@ export default class Buttons extends React.Component {
             <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.customers_setGroup} onClick={this.showSetGroup}>
               <FontIcon color="#fff" className="material-icons">folder</FontIcon>
             </IconButton>
-            <Dialog
-              title={messages.messages_deleteForever}
-              actions={actionsDelete}
-              modal={false}
+            <DeleteConfirmation
               open={this.state.openDelete}
-              onRequestClose={this.closeDelete}
-              >
-              {messages.customers_aboutDelete.replace('{count}', selectedCount)}
-            </Dialog>
+              isSingle={false}
+              itemsCount={selectedCount}
+              onCancel={this.closeDelete}
+              onDelete={this.deleteCustomers}
+            />
             <Dialog
               title={messages.customers_setGroup}
               actions={actionsSetGroup}

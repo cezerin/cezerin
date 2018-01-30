@@ -1,7 +1,6 @@
 import React from 'react'
-
 import messages from 'lib/text'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import Dialog from 'material-ui/Dialog';
@@ -31,37 +30,21 @@ export default class Buttons extends React.Component {
 
   render() {
     const { shippingMethod, onDelete } = this.props;
-    const methodName = shippingMethod ? shippingMethod.name : '';
-
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteGroup}
-      />,
-    ];
+    const methodName = shippingMethod && shippingMethod.name && shippingMethod.name.length > 0 ? shippingMethod.name : 'Draft';
 
     return (
       <span>
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.showDelete}>
           <FontIcon color="#fff" className="material-icons">delete</FontIcon>
         </IconButton>
-
-        <Dialog
-          title={messages.messages_deleteConfirmation}
-          actions={actionsDelete}
-          modal={false}
+        <DeleteConfirmation
           open={this.state.openDelete}
-          onRequestClose={this.closeDelete}
-        >
-          {messages.settings_aboutDeleteShippingMethod.replace('{name}', methodName)}
-        </Dialog>
+          isSingle={true}
+          itemsCount={1}
+          itemName={methodName}
+          onCancel={this.closeDelete}
+          onDelete={this.deleteGroup}
+        />
       </span>
     )
   }

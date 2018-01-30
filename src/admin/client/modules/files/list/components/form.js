@@ -3,7 +3,7 @@ import React from 'react'
 import moment from 'moment';
 import messages from 'lib/text'
 import * as helper from 'lib/helper'
-import ConfirmationDialog from 'modules/shared/confirmation'
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import style from './style.css'
 import FileUploader from './fileUploader'
 
@@ -59,21 +59,13 @@ class FileItem extends React.Component {
           <IconMenu iconButtonElement={iconButtonElement}>
             <MenuItem onClick={this.showDelete}>{messages.actions_delete}</MenuItem>
           </IconMenu>
-          <ConfirmationDialog
+          <DeleteConfirmation
             open={this.state.openDelete}
-            title={messages.actions_delete}
-            description={
-              <div>
-                {messages.messages_deleteConfirmation}
-                <p style={{ color: '#000' }}>
-                  {fileName}
-                </p>
-              </div>
-            }
-            onSubmit={this.handleDelete}
+            isSingle={true}
+            itemsCount={1}
+            itemName={fileName}
             onCancel={this.hideDelete}
-            submitLabel={messages.actions_delete}
-            cancelLabel={messages.cancel}
+            onDelete={this.handleDelete}
           />
         </div>
       </div>

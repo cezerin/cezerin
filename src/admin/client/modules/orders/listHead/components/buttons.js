@@ -1,8 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import messages from 'lib/text'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
@@ -12,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Search from './search';
+const Fragment = React.Fragment;
 
 export default class Buttons extends React.Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class Buttons extends React.Component {
     };
   }
 
-  showDelete = () => {
+  openDelete = () => {
     this.setState({openDelete: true});
   };
 
@@ -37,43 +37,27 @@ export default class Buttons extends React.Component {
   render() {
     const { search, setSearch, selectedCount, onDelete, onCreate } = this.props;
 
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteOrders}
-      />,
-    ];
-
     return (
-      <span>
+      <Fragment>
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
-          <span>
-            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.showDelete}>
+          <Fragment>
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.openDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
-            <Dialog
-              title={messages.messages_deleteForever}
-              actions={actionsDelete}
-              modal={false}
+            <DeleteConfirmation
               open={this.state.openDelete}
-              onRequestClose={this.closeDelete}
-              >
-              {messages.orders_aboutDelete.replace('{count}', selectedCount)}
-            </Dialog>
-          </span>
+              isSingle={false}
+              itemsCount={selectedCount}
+              onCancel={this.closeDelete}
+              onDelete={this.deleteOrders}
+            />
+          </Fragment>
         }
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.orders_titleAdd} onClick={onCreate}>
           <FontIcon color="#fff" className="material-icons">add</FontIcon>
         </IconButton>
-      </span>
+      </Fragment>
     )
   }
 }

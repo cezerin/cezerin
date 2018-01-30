@@ -1,18 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
 import messages from 'lib/text'
 import CategorySelect from 'modules/productCategories/select'
-
+import DeleteConfirmation from 'modules/shared/deleteConfirmation'
 import FontIcon from 'material-ui/FontIcon';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
-import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 import Search from './search';
+const Fragment = React.Fragment;
 
 export default class Buttons extends React.Component {
   constructor(props) {
@@ -28,12 +25,8 @@ export default class Buttons extends React.Component {
     this.setState({openMoveTo: true});
   };
 
-  showDelete = () => {
+  openDelete = () => {
     this.setState({openDelete: true});
-  };
-
-  closeMoveTo = () => {
-    this.setState({openMoveTo: false});
   };
 
   closeDelete = () => {
@@ -43,6 +36,10 @@ export default class Buttons extends React.Component {
   deleteProduct = () => {
     this.setState({openDelete: false});
     this.props.onDelete();
+  }
+
+  closeMoveTo = () => {
+    this.setState({openMoveTo: false});
   };
 
   saveMoveTo = () => {
@@ -71,40 +68,24 @@ export default class Buttons extends React.Component {
       />,
     ];
 
-    const actionsDelete = [
-      <FlatButton
-        label={messages.cancel}
-        onClick={this.closeDelete}
-        style={{ marginRight: 10 }}
-      />,
-      <FlatButton
-        label={messages.actions_delete}
-        primary={true}
-        keyboardFocused={true}
-        onClick={this.deleteProduct}
-      />,
-    ];
-
     return (
-      <span>
+      <Fragment>
         <Search value={search} setSearch={setSearch} />
         {selectedCount > 0 &&
-          <span>
-            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.showDelete}>
+          <Fragment>
+            <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_delete} onClick={this.openDelete}>
               <FontIcon color="#fff" className="material-icons">delete</FontIcon>
             </IconButton>
             <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.actions_moveTo} onClick={this.showMoveTo}>
               <FontIcon color="#fff" className="material-icons">folder</FontIcon>
             </IconButton>
-            <Dialog
-              title={messages.messages_deleteForever}
-              actions={actionsDelete}
-              modal={false}
+            <DeleteConfirmation
               open={this.state.openDelete}
-              onRequestClose={this.closeDelete}
-              >
-              {messages.products_aboutDelete.replace('{count}', selectedCount)}
-            </Dialog>
+              isSingle={false}
+              itemsCount={selectedCount}
+              onCancel={this.closeDelete}
+              onDelete={this.deleteProduct}
+            />
             <Dialog
               title={messages.actions_moveTo}
               actions={actionsMoveTo}
@@ -119,12 +100,12 @@ export default class Buttons extends React.Component {
                 opened={true}
               />
             </Dialog>
-          </span>
+          </Fragment>
         }
         <IconButton touch={true} tooltipPosition="bottom-left" tooltip={messages.addProduct} onClick={onCreate}>
           <FontIcon color="#fff" className="material-icons">add</FontIcon>
         </IconButton>
-      </span>
+      </Fragment>
     )
   }
 }
