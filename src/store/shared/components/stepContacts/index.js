@@ -39,14 +39,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     saveForm: (values) => {
       dispatch(submit('CheckoutStepContacts'));
     },
-    saveShippingCountry: (value) => {
-      dispatch(updateCartShippingCountry(value));
+    saveShippingCountry: (countryName) => {
+      if(countryName && countryName.length > 0) {
+        dispatch(updateCartShippingCountry(countryName));
+      }
     },
-    saveShippingState: (value) => {
-      dispatch(updateCartShippingState(value));
+    saveShippingState: (stateName) => {
+      if(stateName && stateName.length > 0) {
+        dispatch(updateCartShippingState(stateName));
+      }
     },
-    saveShippingCity: (value) => {
-      dispatch(updateCartShippingCity(value));
+    saveShippingCity: (cityName) => {
+      if(cityName && cityName.length > 0) {
+        dispatch(updateCartShippingCity(cityName));
+      }
     },
     saveShippingMethod: (value) => {
       dispatch(updateCartShippingMethod(value));
