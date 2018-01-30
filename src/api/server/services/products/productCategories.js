@@ -48,16 +48,12 @@ class ProductCategoriesService {
     })
   }
 
-  addCategory(data) {
-    return mongo.db.collection('productCategories').find().sort({position:-1}).limit(1).nextObject()
-    .then(item => {
-      const newPosition = (item && item.position > 0) ? item.position + 1 : 1;
-
-      return this.getValidDocumentForInsert(data, newPosition).then(dataToInsert =>
-        mongo.db.collection('productCategories')
-          .insertMany([dataToInsert])
-          .then(res => this.getSingleCategory(res.ops[0]._id.toString())));
-    });
+  async addCategory(data) {
+    const lastCategory = await mongo.db.collection('productCategories').findOne({}, { sort: {position: -1} });
+    const newPosition = (lastCategory && lastCategory.position > 0) ? lastCategory.position + 1 : 1;
+    const dataToInsert = await this.getValidDocumentForInsert(data, newPosition);
+    const insertResult = await mongo.db.collection('productCategories').insertMany([dataToInsert]);
+    return this.getSingleCategory(insertResult.ops[0]._id.toString());
   }
 
   updateCategory(id, data) {
