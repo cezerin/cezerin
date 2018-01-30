@@ -37,12 +37,15 @@ class PagesService {
     }
   }
 
-  getPages(params = {}) {
+  async getPages(params = {}) {
     const filter = this.getFilter(params);
     const sortQuery = this.getSortQuery(params);
-    return SettingsService.getSettings().then(generalSettings =>
-      mongo.db.collection('pages').find(filter).sort(sortQuery).toArray().then(items => items.map(item => this.changeProperties(item, generalSettings.domain)))
-    )
+    const projection = utils.getProjectionFromFields(params.fields);
+    const generalSettings = await SettingsService.getSettings();
+    const domain = generalSettings.domain;
+    const items = await mongo.db.collection('pages').find(filter, { projection: projection }).sort(sortQuery).toArray();
+    const result = items.map(page => this.changeProperties(page, domain))
+    return result;
   }
 
   getSinglePage(id) {
@@ -159,10 +162,12 @@ class PagesService {
   changeProperties(item, domain) {
     if (item) {
       item.id = item._id.toString();
-      delete item._id;
+      item._id = undefined;
 
-      item.url = url.resolve(domain, item.slug || '');
-      item.path = url.resolve('/', item.slug || '');
+      if(item.slug) {
+        item.url = url.resolve(domain, item.slug || '');
+        item.path = url.resolve('/', item.slug || '');
+      }
     }
 
     return item;
