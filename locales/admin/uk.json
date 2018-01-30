@@ -338,5 +338,12 @@
   "files": "Файлы",
   "fileName": "Название файла",
   "fileModified": "Изменен",
-  "fileSize": "Размер"
+  "fileSize": "Размер",
+  "salesReport": "Sales",
+  "closedAndPaidOrders": "Closed and paid orders",
+  "newOrders": "New orders",
+  "singleDeleteTitle": "Are you sure you want to delete \"{name}\"?",
+  "singleDeleteDescription": "This item will be deleted immediately. You can't undo this action.",
+  "multipleDeleteTitle": "Are you sure you want to delete the {count} selected items?",
+  "multipleDeleteDescription": "{count} items will be deleted immediately. You can't undo this action."
 }
