@@ -6,6 +6,7 @@ import { defaults } from 'react-chartjs-2'
 defaults.global.responsive = true;
 defaults.global.maintainAspectRatio = false;
 defaults.global.title.display = false;
+defaults.global.legend.position = 'bottom';
 defaults.global.legend.labels.boxWidth = 20;
 defaults.global.tooltips.mode = 'index';
 defaults.global.tooltips.intersect = false;
