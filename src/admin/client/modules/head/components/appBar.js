@@ -5,6 +5,7 @@ import messages from 'lib/text'
 import ProductCategoryHead from 'modules/productCategories/head/index'
 import CustomerGroupHead from 'modules/customerGroups/head/index'
 import CustomersHead from 'modules/customers/listHead/index'
+import CustomerHead from 'modules/customers/editHead/index'
 import ProductsHead from 'modules/products/listHead/index'
 import ProductHead from 'modules/products/editHead/index'
 import OrdersHead from 'modules/orders/listHead/index'
@@ -86,6 +87,7 @@ export default class AppBarTop extends React.Component {
     else if(pathname.startsWith('/admin/customer/')){
       title = messages.customer;
       leftButton = <Link to="/admin/customers"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      rightElements = <CustomerHead />;
     }
     else if(pathname.startsWith('/admin/product/') && pathname.includes('/option/')){
       const productId = pathname.split('/')[3];
