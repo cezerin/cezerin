@@ -6,7 +6,7 @@ React and Node.js based e-commerce platform. Single-Page Application. Progressiv
 ## Dashboard
 Client-side dashboard use JSON Web Token (JWT) to access REST API.
 
-![Cezerin Dashboard](https://cezerin.com/assets/images/cezerin-dashboard-products.png)
+![Cezerin Dashboard](https://cezerin.com/assets/images/cezerin-dashboard-products.png?)
 
 
 ## Store
