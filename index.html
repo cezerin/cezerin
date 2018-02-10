@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cezerin - ReactJS eCommerce platform</title>
+    <meta name="description" content="Cezerin is open-source ecommerce platform. Allows creating a Progressive Web Apps built with React and Node.js. API-first CMS.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="theme-color" content="#363636">
+    <meta name="google-site-verification" content="In2SuDoepozKnB56bCmU8okWX1A_J7iticqCOcjwcXA" />
+    <link rel="manifest" href="/assets/manifest.json">
+    <link rel="shortcut icon" href="/assets/images/shortcut.png">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-86471496-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-86471496-1');
+    </script>
+    <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+    </script>
+    <link rel="stylesheet" type="text/css" href="/assets/css/bulma-0.6.2.css" media="screen">
+    <style>
+      .wall {
+        height: 600px;
+        display: flex;
+        align-items: center;
+        background-image: url(assets/images/ocean.jpg);
+      }
+
+      .wall h1, .wall h2 {
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 1px 1px 1px rgba(0,0,0,0.4);
+      }
+
+      .wall h1 {
+        font-size: 3rem;
+        font-weight: 300;
+        line-height: 1.125;
+      }
+
+      .wall h2 {
+        font-size: 1.25rem;
+        font-weight: 300;
+        line-height: 1.25;
+        margin-top: 0.5rem;
+      }
+
+      .navbar {
+        position: absolute;
+        top: 0px;
+        width: 100%;
+        background: transparent;
+        z-index: 2;
+      }
+
+      a.logo {
+        color: #fff;
+        font-weight: 600;
+      }
+
+      a.logo:hover {
+        background: transparent;
+        color: rgba(255,255,255,0.5);
+      }
+
+      .navbar-burger span {
+        color: #fff;
+        height: 2px;
+        width: 18px;
+      }
+
+      .nav-toggle:hover {
+        background: transparent;
+      }
+
+      .screenshot img {
+        max-width: 100%;
+      }
+
+      .centered {
+        align-items: center;
+      }
+
+      .reverse {
+        flex-direction: row-reverse;
+      }
+
+      @media screen and (max-width: 1023px) {
+        .wall {
+          height: 300px;
+          padding: 0 1.5rem;
+        }
+
+        .wall h1 {
+          font-size: 2rem;
+        }
+      }
+
+      @media screen and (min-width: 1600px) {
+      }
+    </style>
+</head>
+
+<body>
+
+    <header class="wall">
+      <div class="container">
+          <h1>Ecommerce Progressive Web Apps</h1>
+          <h2>React and Node.js based e-commerce platform. Single-page application. Open-Source.</h2>
+      </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="content">
+
+              <div class="columns centered reverse">
+                <div class="column">
+                  <h2 class="title">We Are Building A Better Future</h2>
+                  <p>We use latest technologies to build web apps with efficient use of the network. Web app loads once on startup and fetches a smaller amount of data when you request a new page.</p>
+                  <h2 class="title">Progressive Web Apps</h2>
+                  <p>Building a high-quality Progressive Web App has incredible benefits, making it easy to delight your users, grow engagement and increase conversions.</p>
+                  <p>
+                      <a href="https://store.cezerin.com">Demo store</a>
+                  </p>
+                </div>
+                  <div class="column">
+                    <div class="screenshot">
+                      <img src="assets/images/cezerin-mobile-order-summary.png" alt="Cezerin Mobile Order Summary" title="Cezerin Mobile Order Summary" />
+                    </div>
+
+                  </div>
+              </div>
+
+                <h2 class="title">Features</h2>
+                <div class="columns">
+                    <div class="column">
+                        <ul>
+                            <li>Products (options, variants, attributes)</li>
+                            <li>Product categories</li>
+                            <li>Inventory and stock management</li>
+                            <li>Customers</li>
+                            <li>Customer groups</li>
+                            <li>Orders</li>
+                            <li>Order custom statuses</li>
+                            <li>Pages</li>
+                            <li>File manager</li>
+                            <li>Shipping and payment methods</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                      <ul>
+                      <li>Custom shipping fields</li>
+                      <li>Payment Gateways</li>
+                      <li>Checkout options</li>
+                      <li>Access Tokens</li>
+                      <li>Export theme to zip archive</li>
+                      <li>Install theme from zip archive</li>
+                      <li>Theme Settings</li>
+                      <li>Apps Store</li>
+                      <li>Server-side rendering (SEO friendly)</li>
+                      <li>Passwordless</li>
+                    </ul>
+                    </div>
+                </div>
+
+
+                <h2 class="title">Dashboard</h2>
+                <div class="screenshot has-text-centered">
+                  <img src="assets/images/cezerin-dashboard-products.png" alt="Cezerin Dashboard" title="Cezerin Dashboard" />
+                </div>
+
+
+
+                <h2 class="title">Roadmap</h2>
+                <p>The future roadmap of Cezerin includes a number of focus areas, some of which are detailed below (in no particular order)</p>
+                <div class="columns">
+                    <div class="column">
+                        <ul>
+                            <li>Documentation</li>
+                            <li>Automated tests</li>
+                            <li>Central update</li>
+                            <li>Themes Store</li>
+                            <li>WebHooks</li>
+                            <li>Realtime API</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <ul>
+                            <li>Shipping Integrations</li>
+                            <li>Customer Account</li>
+                            <li>Push Notifications</li>
+                            <li>Braintree Payments</li>
+                            <li>Stripe Payments</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+                <h2 class="title">Join Us</h2>
+
+                <a class="button" href="https://github.com/cezerin/cezerin">
+                  <svg style="fill: #333" aria-hidden="true" class="octicon octicon-mark-github" height="24" version="1.1" viewBox="0 0 16 16" width="24"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"></path></svg>
+                  <span style="padding-left: 10px;">GitHub</span>
+                </a>
+
+                <a class="button" href="https://twitter.com/cezerin">
+                  <img src="assets/images/twitter.svg" alt="twitter" width="38" />
+                  <span style="padding-left: 2px;">Twitter</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="section">
+        <div class="container">
+            <div class="content">
+              <div style="border-top: 1px solid #eee;"></div>
+              <div style="padding: 40px 0 10px 0; color: #777">&copy; This software is provided free of charge and without restriction under the <a href="https://github.com/cezerin/cezerin/blob/master/LICENSE">MIT License</a>.</div>
+            </div>
+        </div>
+    </footer>
+
+  </body>
+</html>
