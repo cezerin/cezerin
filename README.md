@@ -14,6 +14,7 @@ Single-Page Application with React server-side rendering. [Demo store](https://s
 
 [![Cezerin Store](https://cezerin.com/assets/images/cezerin-mobile-product.png)](https://store.cezerin.com)
 
+[![Cezerin Store](https://cezerin.com/assets/images/cezerin-mobile-order-summary.png)](https://store.cezerin.com)
 
 ## Installation
 
