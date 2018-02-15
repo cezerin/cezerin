@@ -6,13 +6,11 @@
 * [Application Structure](./structure.md)
 * [Initialize MongoDB](./initialize-mongodb.md)
 * Theme customization
+* [API](./api)
 * [API Client](https://github.com/cezerin/client)
 * Localization
 * Payment Gateway
 * Web Service
-
-### REST API
-* [Apps](./apps.md)
 
 ### Questions
 
