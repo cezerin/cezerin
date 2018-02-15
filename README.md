@@ -93,8 +93,6 @@ Then open <http://localhost:3000> to see your app.
 
 [Documentation](https://github.com/cezerin/cezerin/tree/master/docs)
 
-[API Documentation](https://apidocs.cezerin.com)
-
 
 ## Contributing
 
