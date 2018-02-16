@@ -1,7 +1,15 @@
 # Cezerin - Ecommerce Progressive Web Apps
 
-React and Node.js based e-commerce platform. Single-Page Application. Progressive Web App. SEO-friendly. Built with Node.js v8.9, React v16, Redux, Express, Babel, WebPack v3 and MongoDB.
+Cezerin is React and Node.js based eCommerce platform. Allows creating a Progressive Web Apps.
 
+Built with:
+* Node.js v8.9
+* React v16
+* Redux
+* Express
+* Babel
+* WebPack
+* MongoDB
 
 ## Dashboard
 Client-side dashboard use JSON Web Token (JWT) to access REST API.
