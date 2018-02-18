@@ -18,6 +18,8 @@ import ShippingMethodListHead from 'modules/settings/shipping/head'
 import PageHead from 'modules/pages/edit/head'
 import PageListHead from 'modules/pages/list/head'
 import TokenListHead from 'modules/settings/tokens/list/head'
+import WebhooksListHead from 'modules/settings/webhooks/list/head'
+import WebhooksEditHead from 'modules/settings/webhooks/edit/head'
 import AppsHead from 'modules/apps/head'
 import FileListHead from 'modules/files/list/head'
 import DrawerMenu from './drawer'
@@ -228,6 +230,19 @@ export default class AppBarTop extends React.Component {
     else if(pathname.startsWith('/admin/settings/tokens/')){
       title = messages.settings_editToken;
       leftButton = <Link to="/admin/settings/tokens"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+    }
+    else if(pathname === '/admin/settings/webhooks'){
+      title = messages.webhooks;
+      rightElements = <WebhooksListHead />
+    }
+    else if(pathname === '/admin/settings/webhooks/add'){
+      title = messages.webhookAdd;
+      leftButton = <Link to="/admin/settings/webhooks"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+    }
+    else if(pathname.startsWith('/admin/settings/webhooks/')){
+      title = messages.webhookEdit;
+      leftButton = <Link to="/admin/settings/webhooks"><IconButton><FontIcon color="#fff" className="material-icons">arrow_back</FontIcon></IconButton></Link>
+      rightElements = <WebhooksEditHead />
     }
     else if(pathname === '/admin/apps'){
       title = messages.apps;

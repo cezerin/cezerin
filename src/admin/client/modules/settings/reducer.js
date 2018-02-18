@@ -29,6 +29,8 @@ const initialState = {
   tokens: [],
   tokenEdit: {},
   newToken: null,
+  webhooks: [],
+  webhookEdit: {},
   themeSettings: null,
   themeSettingsSchema: null
 };
@@ -77,6 +79,10 @@ export default(state = initialState, action) => {
       return Object.assign({}, state, {themeSettings: action.settings})
     case t.THEME_SETTINGS_SCHEMA_RECEIVE:
       return Object.assign({}, state, {themeSettingsSchema: action.schema})
+    case t.WEBHOOKS_RECEIVE:
+      return Object.assign({}, state, {webhooks: action.webhooks})
+    case t.WEBHOOK_RECEIVE:
+      return Object.assign({}, state, {webhookEdit: action.webhookEdit})
     default:
       return state
   }

@@ -1,0 +1,11 @@
+.button {
+  margin-left: 12px;
+}
+
+.innerBox {
+  padding: 30px;
+}
+
+.error {
+  color: rgb(244, 67, 54);
+}

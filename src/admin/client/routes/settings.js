@@ -19,6 +19,8 @@ import Smtp from 'modules/settings/smtp'
 import EmailTemplate from 'modules/settings/emailTemplates'
 import Checkout from 'modules/settings/checkout'
 import CheckoutFields from 'modules/settings/checkoutFields'
+import Webhooks from 'modules/settings/webhooks/list'
+import WebhooksEdit from 'modules/settings/webhooks/edit'
 
 const styles = {
   link: {
@@ -40,6 +42,7 @@ const SettingsMenu = () => (
     <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/theme"><ListItem primaryText={messages.settings_theme} leftIcon={<FontIcon className="material-icons">palette</FontIcon>}/></NavLink>
     <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/checkout"><ListItem primaryText={messages.settings_checkout} leftIcon={<FontIcon className="material-icons">shopping_cart</FontIcon>}/></NavLink>
     <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/email"><ListItem primaryText={messages.settings_emails} leftIcon={<FontIcon className="material-icons">email</FontIcon>}/></NavLink>
+    <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/webhooks"><ListItem primaryText={messages.webhooks} leftIcon={<FontIcon className="material-icons">http</FontIcon>}/></NavLink>
     <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/tokens"><ListItem primaryText={messages.settings_tokens} leftIcon={<FontIcon className="material-icons">vpn_key</FontIcon>}/></NavLink>
     {/* <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/taxes"><ListItem primaryText={messages.settings_taxes} leftIcon={<FontIcon className="material-icons">attach_money</FontIcon>}/></NavLink>
     <NavLink style={styles.link} activeStyle={styles.linkActive} to="/admin/settings/security"><ListItem primaryText={messages.settings_security} leftIcon={<FontIcon className="material-icons">security</FontIcon>}/></NavLink> */}
@@ -71,6 +74,9 @@ const Settings = ({ match }) => {
           <Route path="/admin/settings/email/templates/:templateName" component={EmailTemplate}/>
           <Route path="/admin/settings/checkout" exact component={Checkout}/>
           <Route path="/admin/settings/checkout/fields/:fieldName" component={CheckoutFields}/>
+          <Route path="/admin/settings/webhooks" exact component={Webhooks}/>
+          <Route path="/admin/settings/webhooks/add" exact component={WebhooksEdit}/>
+          <Route path="/admin/settings/webhooks/:webhookId" component={WebhooksEdit}/>
         </Switch>
       </div>
     </div>
