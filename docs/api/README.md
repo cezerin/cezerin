@@ -18,6 +18,7 @@
 * Site Map
 * Theme
 * Redirects
+* [Webhooks](./webhooks.md)
 
 ## Overview
 
