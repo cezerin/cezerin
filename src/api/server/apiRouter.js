@@ -21,6 +21,7 @@ const NotificationsRoute = require('./routes/notifications');
 const RedirectsRoute = require('./routes/redirects');
 const FilesRoute = require('./routes/files');
 const AppsRoute = require('./routes/apps');
+const WebhooksRoute = require('./routes/webhooks');
 
 new ProductsRoute(apiRouter);
 new ProductCategoriesRoute(apiRouter);
@@ -40,5 +41,6 @@ new NotificationsRoute(apiRouter);
 new RedirectsRoute(apiRouter);
 new FilesRoute(apiRouter);
 new AppsRoute(apiRouter);
+new WebhooksRoute(apiRouter);
 
 module.exports = apiRouter;
