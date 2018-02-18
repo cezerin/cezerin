@@ -1,6 +1,8 @@
 import React from 'react';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
+import {List, ListItem} from 'material-ui/List';
 
 export const CustomToggle = ({ input, label, className = '', disabled = false, style }) => {
   return (
@@ -35,3 +37,66 @@ export const NumberField = ({ input, label, className = '', disabled = false, st
 export const ColorField = ({ input, meta: { touched, error } }) => (
   <input {...input} type="color"/>
 )
+
+export class MultiSelect extends React.Component {
+  constructor(props) {
+    super(props)
+    const values = Array.isArray(props.input.value) ? props.input.value : [];
+    this.state = {
+      selectedItems: values
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const values = Array.isArray(nextProps.input.value) ? nextProps.input.value : [];
+    if (values !== this.state.selectedItems) {
+      this.setState({
+        selectedItems: values
+      });
+    }
+  }
+
+  onCheckboxChecked = (item) => {
+    const {selectedItems} = this.state;
+    let newSelectedItems = [];
+    if(selectedItems.includes(item)) {
+      newSelectedItems = selectedItems.filter(i => i !== item);
+    } else {
+      newSelectedItems = [...selectedItems, item];
+    }
+    newSelectedItems.sort();
+    this.setState({ selectedItems: newSelectedItems});
+    this.props.input.onChange(newSelectedItems);
+  }
+
+  isCheckboxChecked = (item) => {
+    return this.state.selectedItems.includes(item);
+  }
+
+  render() {
+    const {items, disabled} = this.props;
+    const elements = items.map((item, index) =>
+      <div className="col-xs-12 col-sm-6" key={index}>
+        {item && item !== '' &&
+          <ListItem leftCheckbox={
+            <Checkbox
+              checked={this.isCheckboxChecked(item)}
+              disabled={disabled}
+              onCheck={(e, isChecked) => { this.onCheckboxChecked(item) }}
+            />
+            }
+            primaryText={item}
+          />
+        }
+      </div>
+    )
+
+    return (
+      <List>
+        <div className="row">
+          {elements}
+        </div>
+      </List>
+    )
+  }
+}
