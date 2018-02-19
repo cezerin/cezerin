@@ -150,7 +150,7 @@ function receiveWebhooks(webhooks) {
   }
 }
 
-function receiveWebhook(webhookEdit) {
+export function receiveWebhook(webhookEdit) {
   return {
     type: t.WEBHOOK_RECEIVE,
     webhookEdit

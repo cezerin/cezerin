@@ -10,11 +10,16 @@ import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const Scopes = [
+const WEBHOOK_EVENTS = [
   'order.created',
   'order.updated',
-  'order.paid',
-  'order.cancelled'
+  'order.deleted',
+  'transaction.created',
+  'transaction.updated',
+  'transaction.deleted',
+  'customer.created',
+  'customer.updated',
+  'customer.deleted'
 ];
 
 const validate = values => {
@@ -55,7 +60,7 @@ class EditWebhookForm extends React.Component {
               <Field component={CustomToggle} name="enabled" label={messages.enabled} style={{paddingTop:16, paddingBottom:16}} />
             </div>
             <div className="blue-title">{messages.webhookEvents}</div>
-            <Field name="events" component={MultiSelect} items={Scopes} />
+            <Field name="events" component={MultiSelect} items={WEBHOOK_EVENTS} columns={3} />
           </div>
           <div className={"buttons-box " + (pristine && !isAdd ? "buttons-box-pristine" : "buttons-box-show")}>
             <RaisedButton type="submit" label={isAdd ? messages.add : messages.save} primary={true} className={style.button} disabled={pristine || submitting}/>

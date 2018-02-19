@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       if(webhookId) {
         dispatch(fetchWebhook(webhookId))
       } else {
-        dispatch(receiveWebhook());
+        dispatch(receiveWebhook({ enabled: true }));
       }
     },
     onSubmit: (webhook) => {
@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(updateWebhook(webhook));
       } else {
         dispatch(createWebhook(webhook));
+        ownProps.history.push('/admin/settings/webhooks');
       }
     }
   }

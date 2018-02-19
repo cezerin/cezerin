@@ -74,9 +74,11 @@ export class MultiSelect extends React.Component {
   }
 
   render() {
-    const {items, disabled} = this.props;
+    const {items, disabled, columns = 2} = this.props;
+    const columnsClass = 12/columns;
+
     const elements = items.map((item, index) =>
-      <div className="col-xs-12 col-sm-6" key={index}>
+      <div className={`col-xs-12 col-sm-${columnsClass}`} key={index}>
         {item && item !== '' &&
           <ListItem leftCheckbox={
             <Checkbox
