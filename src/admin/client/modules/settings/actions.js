@@ -143,6 +143,20 @@ export function receiveThemeSettingsSchema(schema) {
   }
 }
 
+function receiveWebhooks(webhooks) {
+  return {
+    type: t.WEBHOOKS_RECEIVE,
+    webhooks
+  }
+}
+
+export function receiveWebhook(webhookEdit) {
+  return {
+    type: t.WEBHOOK_RECEIVE,
+    webhookEdit
+  }
+}
+
 export function fetchSettings() {
   return (dispatch, getState) => {
     // API can be not init on app start
@@ -411,6 +425,46 @@ export function updateThemeSettings(settings) {
   return (dispatch, getState) => {
     return api.theme.settings.update(settings).then(() => {
       dispatch(fetchThemeSettings())
+    }).catch(error => {});
+  }
+}
+
+export function fetchWebhooks() {
+  return (dispatch, getState) => {
+    return api.webhooks.list().then(({status, json}) => {
+      dispatch(receiveWebhooks(json))
+    }).catch(error => {});
+  }
+}
+
+export function fetchWebhook(id) {
+  return (dispatch, getState) => {
+    return api.webhooks.retrieve(id).then(({status, json}) => {
+      dispatch(receiveWebhook(json))
+    }).catch(error => {});
+  }
+}
+
+export function createWebhook(webhook) {
+  return (dispatch, getState) => {
+    return api.webhooks.create(webhook).then(({status, json}) => {
+      dispatch(fetchWebhooks())
+    }).catch(error => {});
+  }
+}
+
+export function updateWebhook(webhook) {
+  return (dispatch, getState) => {
+    return api.webhooks.update(webhook.id, webhook).then(({status, json}) => {
+      dispatch(fetchWebhooks())
+    }).catch(error => {});
+  }
+}
+
+export function deleteWebhook(webhookId) {
+  return (dispatch, getState) => {
+    return api.webhooks.delete(webhookId).then(({status, json}) => {
+      dispatch(fetchWebhooks())
     }).catch(error => {});
   }
 }

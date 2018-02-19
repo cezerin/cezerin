@@ -6,6 +6,7 @@ const settings = require('../../lib/settings');
 const mongo = require('../../lib/mongo');
 const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
+const webhooks = require('../../lib/webhooks');
 const dashboardEvents = require('../../lib/events');
 const mailer = require('../../lib/mailer');
 const ObjectID = require('mongodb').ObjectID;
@@ -199,32 +200,38 @@ class OrdersService {
     })
   }
 
-  addOrder(data) {
-    return this.getValidDocumentForInsert(data).then(order => mongo.db.collection('orders').insertMany([order])).then(res => this.getSingleOrder(res.ops[0]._id.toString()))
+  async addOrder(data) {
+    const order = await this.getValidDocumentForInsert(data);
+    const insertResponse = await mongo.db.collection('orders').insertMany([order]);
+    const newOrderId = insertResponse.ops[0]._id.toString();
+    const newOrder = await this.getSingleOrder(newOrderId);
+    return newOrder;
   }
 
-  updateOrder(id, data) {
+  async updateOrder(id, data) {
     if (!ObjectID.isValid(id)) {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(id);
-    return this.getValidDocumentForUpdate(id, data)
-      .then(orderData => mongo.db.collection('orders').updateOne({_id: orderObjectID}, {$set: orderData}))
-      .then(res => this.getSingleOrder(id))
-      .then(order => {
-        this.updateCustomerStatistics(order.customer_id);
-        return order;
-      });
+    const orderData = await this.getValidDocumentForUpdate(id, data);
+    const updateResponse = await mongo.db.collection('orders').updateOne({_id: orderObjectID}, {$set: orderData});
+    const updatedOrder = await this.getSingleOrder(id);
+    if(updatedOrder.draft === false){
+      await webhooks.trigger({ event: webhooks.events.ORDER_UPDATED, payload: updatedOrder });
+    }
+    await this.updateCustomerStatistics(updatedOrder.customer_id);
+    return updatedOrder;
   }
 
-  deleteOrder(orderId) {
+  async deleteOrder(orderId) {
     if (!ObjectID.isValid(orderId)) {
       return Promise.reject('Invalid identifier');
     }
     const orderObjectID = new ObjectID(orderId);
-    return mongo.db.collection('orders').deleteOne({'_id': orderObjectID}).then(deleteResponse => {
-      return deleteResponse.deletedCount > 0;
-    });
+    const order = await this.getSingleOrder(orderId);
+    await webhooks.trigger({ event: webhooks.events.ORDER_DELETED, payload: order });
+    const deleteResponse = await mongo.db.collection('orders').deleteOne({_id: orderObjectID});
+    return deleteResponse.deletedCount > 0;
   }
 
   parseDiscountItem(discount) {
@@ -600,6 +607,7 @@ class OrdersService {
     })
 
     await Promise.all([
+      webhooks.trigger({ event: webhooks.events.ORDER_CREATED, payload: order }),
       this.sendAllMails(order.email, copyTo, subject, body),
       ProductStockService.handleOrderCheckout(orderId)
     ]);

@@ -5,7 +5,7 @@ import {TextField} from 'redux-form-material-ui'
 import messages from 'lib/text'
 import style from './style.css'
 import ConfirmationDialog from 'modules/shared/confirmation'
-import SelectTokenScopes from './selectScopes'
+import { MultiSelect } from 'modules/shared/form'
 
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
@@ -84,7 +84,7 @@ class EditTokenForm extends React.Component {
             <Field name="email" component={TextField} floatingLabelText={messages.email} fullWidth={true} disabled={!isAdd} type="email"/>
             <Field name="expiration" component={TextField} floatingLabelText={messages.settings_tokenExp} fullWidth={true} type="number"/>
             <div className="blue-title">{messages.settings_selectScopes}</div>
-            <Field name="scopes" component={SelectTokenScopes} scopes={Scopes} disabled={!isAdd}/>
+            <Field name="scopes" component={MultiSelect} items={Scopes} disabled={!isAdd}/>
           </div>
           <div className="buttons-box">
             {!isAdd &&
