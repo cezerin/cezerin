@@ -3,6 +3,7 @@
 const mongo = require('../../lib/mongo');
 const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
+const webhooks = require('../../lib/webhooks');
 const ObjectID = require('mongodb').ObjectID;
 const CustomerGroupsService = require('./customerGroups');
 
@@ -73,44 +74,54 @@ class CustomersService {
     return this.getCustomers({id: id}).then(items => items.data.length > 0 ? items.data[0] : {})
   }
 
-  addCustomer(data) {
+  async addCustomer(data) {
     const customer = this.getValidDocumentForInsert(data);
-    return Promise.resolve(customer).then(customer => {
-      // is email unique
-      if (customer.email && customer.email.length > 0) {
-        return mongo.db.collection('customers').count({email: customer.email}).then(count => count === 0
-          ? customer
-          : Promise.reject('Customer email must be unique'));
-      } else {
-        return customer;
+
+    // is email unique
+    if (customer.email && customer.email.length > 0) {
+      const customerCount = await mongo.db.collection('customers').count({email: customer.email});
+      if(customerCount > 0){
+        return Promise.reject('Customer email must be unique')
       }
-    }).then(customer => mongo.db.collection('customers').insertMany([customer])).then(res => this.getSingleCustomer(res.ops[0]._id.toString()))
+    }
+
+    const insertResponse = await mongo.db.collection('customers').insertMany([customer]);
+    const newCustomerId = insertResponse.ops[0]._id.toString();
+    const newCustomer = await this.getSingleCustomer(newCustomerId);
+    await webhooks.trigger({ event: webhooks.events.CUSTOMER_CREATED, payload: newCustomer });
+    return newCustomer;
   }
 
-  updateCustomer(id, data) {
+  async updateCustomer(id, data) {
     if (!ObjectID.isValid(id)) {
       return Promise.reject('Invalid identifier');
     }
     const customerObjectID = new ObjectID(id);
     const customer = this.getValidDocumentForUpdate(id, data);
 
-    return Promise.resolve(customer).then(customer => {
-      // is SKU unique
-      if (customer.sku && customer.sku.length > 0) {
-        return mongo.db.collection('customers').count({
-          _id: {
-            $ne: customerObjectID
-          },
-          email: customer.email
-        }).then(count => count === 0
-          ? customer
-          : Promise.reject('Customer email must be unique'));
-      } else {
-        return customer;
+    // is email unique
+    if (customer.email && customer.email.length > 0) {
+      const customerCount = await mongo.db.collection('customers').count({
+        _id: {
+          $ne: customerObjectID
+        },
+        email: customer.email
+      });
+
+      if(customerCount > 0){
+        return Promise.reject('Customer email must be unique')
       }
-    }).then(customer => mongo.db.collection('customers').updateOne({
+    }
+
+    await mongo.db.collection('customers').updateOne({
       _id: customerObjectID
-    }, {$set: customer})).then(res => this.getSingleCustomer(id))
+    }, {
+      $set: customer
+    });
+
+    const updatedCustomer = await this.getSingleCustomer(id);
+    await webhooks.trigger({ event: webhooks.events.CUSTOMER_UPDATED, payload: updatedCustomer });
+    return updatedCustomer;
   }
 
   updateCustomerStatistics(customerId, totalSpent, ordersCount) {
@@ -126,14 +137,15 @@ class CustomersService {
     return mongo.db.collection('customers').updateOne({_id: customerObjectID}, {$set: customerData});
   }
 
-  deleteCustomer(customerId) {
+  async deleteCustomer(customerId) {
     if (!ObjectID.isValid(customerId)) {
       return Promise.reject('Invalid identifier');
     }
     const customerObjectID = new ObjectID(customerId);
-    return mongo.db.collection('customers').deleteOne({'_id': customerObjectID}).then(deleteResponse => {
-      return deleteResponse.deletedCount > 0;
-    });
+    const customer = await this.getSingleCustomer(customerId);
+    const deleteResponse = await mongo.db.collection('customers').deleteOne({'_id': customerObjectID});
+    await webhooks.trigger({ event: webhooks.events.CUSTOMER_DELETED, payload: customer });
+    return deleteResponse.deletedCount > 0;
   }
 
   getValidDocumentForInsert(data) {
