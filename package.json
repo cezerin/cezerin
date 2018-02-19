@@ -73,6 +73,7 @@
     "material-ui": "^0.20.0",
     "moment": "^2.20.1",
     "mongodb": "^3.0.2",
+    "node-fetch": "^2.0.0",
     "node-sass": "^4.7.2",
     "nodemailer": "^4.4.2",
     "nodemailer-smtp-transport": "^2.7.4",
