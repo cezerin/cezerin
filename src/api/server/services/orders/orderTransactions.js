@@ -3,29 +3,34 @@
 const mongo = require('../../lib/mongo');
 const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
+const webhooks = require('../../lib/webhooks');
 const ObjectID = require('mongodb').ObjectID;
 const OrdersService = require('./orders');
 
 class OrdertTansactionsService {
   constructor() {}
 
-  addTransaction(order_id, data) {
+  async addTransaction(order_id, data) {
     if (!ObjectID.isValid(order_id)) {
       return Promise.reject('Invalid identifier');
     }
     let orderObjectID = new ObjectID(order_id);
     const transaction = this.getValidDocumentForInsert(data);
 
-    return mongo.db.collection('orders').updateOne({
+    await mongo.db.collection('orders').updateOne({
       _id: orderObjectID
     }, {
       $push: {
         transactions: transaction
       }
     });
+
+    const order = await OrdersService.getSingleOrder(order_id);
+    await webhooks.trigger({ event: webhooks.events.TRANSACTION_CREATED, payload: order });
+    return order;
   }
 
-  updateTransaction(order_id, transaction_id, data) {
+  async updateTransaction(order_id, transaction_id, data) {
     if (!ObjectID.isValid(order_id) || !ObjectID.isValid(transaction_id)) {
       return Promise.reject('Invalid identifier');
     }
@@ -33,20 +38,26 @@ class OrdertTansactionsService {
     let transactionObjectID = new ObjectID(transaction_id);
     const transaction = this.getValidDocumentForUpdate(data);
 
-    return mongo.db.collection('orders').updateOne({
+    await mongo.db.collection('orders').updateOne({
       _id: orderObjectID,
       'transactions.id': transactionObjectID
-    }, {$set: transaction}).then(res => OrdersService.getSingleOrder(order_id));
+    }, {
+      $set: transaction
+    });
+
+    const order = await OrdersService.getSingleOrder(order_id);
+    await webhooks.trigger({ event: webhooks.events.TRANSACTION_UPDATED, payload: order });
+    return order;
   }
 
-  deleteTransaction(order_id, transaction_id) {
+  async deleteTransaction(order_id, transaction_id) {
     if (!ObjectID.isValid(order_id) || !ObjectID.isValid(transaction_id)) {
       return Promise.reject('Invalid identifier');
     }
     let orderObjectID = new ObjectID(order_id);
     let transactionObjectID = new ObjectID(transaction_id);
 
-    return mongo.db.collection('orders').updateOne({
+    await mongo.db.collection('orders').updateOne({
       _id: orderObjectID
     }, {
       $pull: {
@@ -54,7 +65,11 @@ class OrdertTansactionsService {
           id: transactionObjectID
         }
       }
-    }).then(res => OrdersService.getSingleOrder(order_id));
+    });
+
+    const order = await OrdersService.getSingleOrder(order_id);
+    await webhooks.trigger({ event: webhooks.events.TRANSACTION_DELETED, payload: order });
+    return order;
   }
 
   getValidDocumentForInsert(data) {
