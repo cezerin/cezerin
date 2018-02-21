@@ -19,7 +19,7 @@ const connect = () => {
     getWebSocketUrlFromCurrentLocation();
 
   const token = localStorage.getItem('dashboard_token');
-  const ws = new WebSocket(`${wsUrl}/dashboard?token=${token}`);
+  const ws = new WebSocket(`${wsUrl}/ws/dashboard?token=${token}`);
 
   ws.onmessage = onMessage;
   ws.onopen = onOpen;

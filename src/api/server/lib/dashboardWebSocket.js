@@ -6,7 +6,7 @@ let wss = null;
 
 const listen = (server) => {
   wss = new WebSocket.Server({
-    path: '/dashboard', //Accept only connections matching this path
+    path: '/ws/dashboard', //Accept only connections matching this path
     maxPayload: 1024, //The maximum allowed message size
     backlog: 100, //The maximum length of the queue of pending connections.
     verifyClient: verifyClient, //An hook to reject connections
