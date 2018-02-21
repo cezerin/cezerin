@@ -3,7 +3,7 @@ import settings from 'lib/settings'
 import {installReceive} from 'modules/settings/actions'
 import {fetchOrders} from 'modules/orders/actions'
 
-const AUTO_RECONNECT_INTERVAL = 5000; //5 seconds
+const AUTO_RECONNECT_INTERVAL = 1000; //1 seconds
 const ORDER_CREATED = 'order.created';
 const THEME_INSTALLED = 'theme.installed';
 let store = null;
@@ -39,13 +39,19 @@ const onMessage = (event) => {
   } catch (err) {}
 };
 
-const onOpen = () => {};
+const onOpen = () => {
+  if(settings.developerMode === true) {
+    console.log('Connection established.');
+  }
+};
 
 const onError = () => {};
 
 const onClose = (event) => {
   if(event.code !== 1000){
-    console.log(`WebSocket connection closed with code: ${event.code}.`);
+    if(settings.developerMode === true) {
+      console.log(`WebSocket connection closed with code: ${event.code}.`);
+    }
     // try to reconnect
     setTimeout(() => { connect(); }, AUTO_RECONNECT_INTERVAL);
   }
