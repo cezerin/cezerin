@@ -12,83 +12,93 @@ const ProductStockService = require('../products/stock');
 class OrderItemsService {
   constructor() {}
 
-  addItem(order_id, data) {
+  async addItem(order_id, data) {
     if (!ObjectID.isValid(order_id)) {
       return Promise.reject('Invalid identifier');
     }
-    let orderObjectID = new ObjectID(order_id);
+
     let newItem = this.getValidDocumentForInsert(data);
+    const orderItem = await this.getOrderItemIfExists(order_id, newItem.product_id, newItem.variant_id);
 
-    return this.getOrderItemIfExists(order_id, newItem.product_id, newItem.variant_id).then(existItem => {
-      if (existItem) {
-        const quantityNeeded = existItem.quantity + newItem.quantity;
-        return this.getAvailableProductQuantity(newItem.product_id, newItem.variant_id, quantityNeeded).then(availableQuantity => {
-          if(availableQuantity > 0) {
-            return this.updateItem(order_id, existItem.id, {
-              quantity: availableQuantity
-            });
-          } else {
-            return OrdersService.getSingleOrder(order_id);
-          }
-        })
-      } else {
-        return this.getAvailableProductQuantity(newItem.product_id, newItem.variant_id, newItem.quantity).then(availableQuantity => {
-          if(availableQuantity > 0) {
-            newItem.quantity = availableQuantity;
-            return mongo.db.collection('orders').updateOne({
-              _id: orderObjectID
-            }, {
-              $push: {
-                items: newItem
-              }
-            })
-            .then(() => this.calculateAndUpdateItem(order_id, newItem.id))
-            .then(() => ProductStockService.handleAddOrderItem(order_id, newItem.id))
-            .then(() => OrdersService.getSingleOrder(order_id));
-          } else {
-            return OrdersService.getSingleOrder(order_id);
-          }
-        })
-      }
-    })
+    if (orderItem) {
+      await this.updateItemQuantityIfAvailable(order_id, orderItem, newItem);
+    } else {
+      await this.addNewItem(order_id, newItem);
+    }
+
+    return OrdersService.getSingleOrder(order_id);
   }
 
-  getAvailableProductQuantity(product_id, variant_id, quantityNeeded) {
-    return ProductsService.getSingleProduct(product_id.toString())
-    .then(product => {
-      if(!product) {
-        return 0;
-      } else if(product.discontinued){
-        return 0;
-      } else if(product.stock_backorder) {
-        return quantityNeeded;
-      } else if (product.variable && variant_id) {
-        const variant = this.getVariantFromProduct(product, variant_id);
-        if(variant){
-          return variant.stock_quantity >= quantityNeeded ? quantityNeeded : variant.stock_quantity;
-        } else {
-          return 0;
+  async updateItemQuantityIfAvailable(order_id, orderItem, newItem) {
+    const quantityNeeded = orderItem.quantity + newItem.quantity;
+    const availableQuantity = await this.getAvailableProductQuantity(newItem.product_id, newItem.variant_id, quantityNeeded);
+
+    if(availableQuantity > 0) {
+      await this.updateItem(order_id, orderItem.id, {
+        quantity: availableQuantity
+      });
+    }
+  }
+
+  async addNewItem(order_id, newItem) {
+    const orderObjectID = new ObjectID(order_id);
+    const availableQuantity = await this.getAvailableProductQuantity(newItem.product_id, newItem.variant_id, newItem.quantity);
+
+    if(availableQuantity > 0) {
+      newItem.quantity = availableQuantity;
+      await mongo.db.collection('orders').updateOne({
+        _id: orderObjectID
+      }, {
+        $push: {
+          items: newItem
         }
-      } else {
-        return product.stock_quantity >= quantityNeeded ? quantityNeeded : product.stock_quantity;
-      }
-    });
+      });
+
+      await this.calculateAndUpdateItem(order_id, newItem.id);
+      await ProductStockService.handleAddOrderItem(order_id, newItem.id);
+    }
   }
 
-  getOrderItemIfExists(order_id, product_id, variant_id) {
+  async getAvailableProductQuantity(product_id, variant_id, quantityNeeded) {
+    const product = await ProductsService.getSingleProduct(product_id.toString());
+
+    if(!product) {
+      return 0;
+    } else if(product.discontinued){
+      return 0;
+    } else if(product.stock_backorder) {
+      return quantityNeeded;
+    } else if (product.variable && variant_id) {
+      const variant = this.getVariantFromProduct(product, variant_id);
+      if(variant){
+        return variant.stock_quantity >= quantityNeeded ? quantityNeeded : variant.stock_quantity;
+      } else {
+        return 0;
+      }
+    } else {
+      return product.stock_quantity >= quantityNeeded ? quantityNeeded : product.stock_quantity;
+    }
+  }
+
+  async getOrderItemIfExists(order_id, product_id, variant_id) {
     let orderObjectID = new ObjectID(order_id);
-    return mongo.db.collection('orders').findOne({
+    const order = await mongo.db.collection('orders').findOne({
       _id: orderObjectID
-    }, {items: 1}).then(order => {
-      if(order && order.items && order.items.length > 0) {
-        return order.items.find(item => item.product_id.toString() === product_id.toString() && (item.variant_id || '').toString() === (variant_id || '').toString());
-      } else {
-        return null;
-      }
+    }, {
+      items: 1
     });
+
+    if(order && order.items && order.items.length > 0) {
+      return order.items.find(item =>
+        item.product_id.toString() === product_id.toString() &&
+        (item.variant_id || '').toString() === (variant_id || '').toString()
+      );
+    } else {
+      return null;
+    }
   }
 
-  updateItem(order_id, item_id, data) {
+  async updateItem(order_id, item_id, data) {
     if (!ObjectID.isValid(order_id) || !ObjectID.isValid(item_id)) {
       return Promise.reject('Invalid identifier');
     }
@@ -101,14 +111,17 @@ class OrderItemsService {
       return this.deleteItem(order_id, item_id);
     } else {
       // update
-      return ProductStockService.handleDeleteOrderItem(order_id, item_id)
-      .then(() => mongo.db.collection('orders').updateOne({
+      await ProductStockService.handleDeleteOrderItem(order_id, item_id);
+      await mongo.db.collection('orders').updateOne({
           _id: orderObjectID,
           'items.id': itemObjectID
-        }, {$set: item}))
-      .then(() => this.calculateAndUpdateItem(order_id, item_id))
-      .then(() => ProductStockService.handleAddOrderItem(order_id, item_id))
-      .then(() => OrdersService.getSingleOrder(order_id));
+        }, {
+          $set: item
+        });
+
+      await this.calculateAndUpdateItem(order_id, item_id);
+      await ProductStockService.handleAddOrderItem(order_id, item_id);
+      return OrdersService.getSingleOrder(order_id);
     }
   }
 
@@ -162,91 +175,89 @@ class OrderItemsService {
     return null;
   }
 
-  calculateAndUpdateItem(order_id, item_id) {
+  async calculateAndUpdateItem(order_id, item_id) {
     // TODO: tax_total, discount_total
 
     let orderObjectID = new ObjectID(order_id);
     let itemObjectID = new ObjectID(item_id);
 
-    return OrdersService.getSingleOrder(order_id).then(order => {
-      if (order.items.length > 0) {
-        let item = order.items.find(i => i.id.toString() === item_id.toString());
-        if (item) {
-          return ProductsService.getSingleProduct(item.product_id.toString()).then(product => {
-            let newItemData = null;
-            if(item.variant_id) {
-              const variant = this.getVariantFromProduct(product, item.variant_id);
-              const variantName = this.getVariantNameFromProduct(product, item.variant_id);
+    const order = await OrdersService.getSingleOrder(order_id);
 
-              if(!variant) {
-                // variant not exists
-                return null;
-              }
+    if (order.items.length > 0) {
+      let item = order.items.find(i => i.id.toString() === item_id.toString());
+      if (item) {
+        const product = await ProductsService.getSingleProduct(item.product_id.toString());
+        const newItemData = getNewItemData(item, product);
 
-              newItemData = {
-                'items.$.sku': variant.sku,
-                'items.$.name': product.name,
-                'items.$.variant_name': variantName,
-                'items.$.price': variant.price,
-                'items.$.tax_class': product.tax_class,
-                'items.$.tax_total': 0,
-                'items.$.weight': variant.weight || 0,
-                'items.$.discount_total': 0,
-                'items.$.price_total': variant.price * item.quantity
-              }
-            } else {
-              newItemData = {
-                'items.$.sku': product.sku,
-                'items.$.name': product.name,
-                'items.$.variant_name': '',
-                'items.$.price': product.price,
-                'items.$.tax_class': product.tax_class,
-                'items.$.tax_total': 0,
-                'items.$.weight': product.weight || 0,
-                'items.$.discount_total': 0,
-                'items.$.price_total': product.price * item.quantity
-              }
-            }
+        await mongo.db.collection('orders').updateOne({
+          _id: orderObjectID,
+          'items.id': itemObjectID
+        }, {
+          $set: newItemData
+        });
+      }
+    }
+  }
 
-            return mongo.db.collection('orders').updateOne({
-              _id: orderObjectID,
-              'items.id': itemObjectID
-            }, {$set: newItemData});
-          })
-        } else {
-          // item not exists
-          return null;
+  getNewItemData(item, product) {
+    if(item.variant_id) {
+      const variant = this.getVariantFromProduct(product, item.variant_id);
+      const variantName = this.getVariantNameFromProduct(product, item.variant_id);
+
+      if(variant) {
+        return {
+          'items.$.sku': variant.sku,
+          'items.$.name': product.name,
+          'items.$.variant_name': variantName,
+          'items.$.price': variant.price,
+          'items.$.tax_class': product.tax_class,
+          'items.$.tax_total': 0,
+          'items.$.weight': variant.weight || 0,
+          'items.$.discount_total': 0,
+          'items.$.price_total': variant.price * item.quantity
         }
       } else {
-        // order.items is empty
+        // variant not exists
         return null;
       }
-    })
-  }
-
-  calculateAndUpdateAllItems(order_id) {
-    return OrdersService.getSingleOrder(order_id).then(order => {
-      if (order && order.items && order.items.length > 0) {
-        let promises = order.items.map(item => this.calculateAndUpdateItem(order_id, item.id));
-        return Promise.all(promises).then(values => {
-          return OrdersService.getSingleOrder(order_id)
-        });
-      } else {
-        // order.items is empty
-        return null;
+    } else {
+      return {
+        'items.$.sku': product.sku,
+        'items.$.name': product.name,
+        'items.$.variant_name': '',
+        'items.$.price': product.price,
+        'items.$.tax_class': product.tax_class,
+        'items.$.tax_total': 0,
+        'items.$.weight': product.weight || 0,
+        'items.$.discount_total': 0,
+        'items.$.price_total': product.price * item.quantity
       }
-    })
+    }
   }
 
-  deleteItem(order_id, item_id) {
+  async calculateAndUpdateAllItems(order_id) {
+    const order = await OrdersService.getSingleOrder(order_id);
+
+    if (order && order.items) {
+      for(const item of order.items){
+        await this.calculateAndUpdateItem(order_id, item.id);
+      }
+      return OrdersService.getSingleOrder(order_id);
+    } else {
+      // order.items is empty
+      return null;
+    }
+  }
+
+  async deleteItem(order_id, item_id) {
     if (!ObjectID.isValid(order_id) || !ObjectID.isValid(item_id)) {
       return Promise.reject('Invalid identifier');
     }
     let orderObjectID = new ObjectID(order_id);
     let itemObjectID = new ObjectID(item_id);
 
-    return ProductStockService.handleDeleteOrderItem(order_id, item_id)
-    .then(() => mongo.db.collection('orders').updateOne({
+    await ProductStockService.handleDeleteOrderItem(order_id, item_id);
+    await mongo.db.collection('orders').updateOne({
       _id: orderObjectID
     }, {
       $pull: {
@@ -254,8 +265,9 @@ class OrderItemsService {
           id: itemObjectID
         }
       }
-    }))
-    .then(() => OrdersService.getSingleOrder(order_id));
+    });
+
+    return OrdersService.getSingleOrder(order_id);
   }
 
   getValidDocumentForInsert(data) {
