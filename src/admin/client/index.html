@@ -155,6 +155,12 @@
     }
     window.addEventListener('resize', resizeElements);
     window.addEventListener('load', resizeElements);
+
+    if("Notification" in window){
+      if(Notification.permission !== "denied") {
+        Notification.requestPermission();
+      }
+    }
   </script>
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&subset=cyrillic" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
