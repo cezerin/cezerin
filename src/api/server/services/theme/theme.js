@@ -5,7 +5,7 @@ const path = require('path');
 const formidable = require('formidable');
 const winston = require('winston');
 const settings = require('../../lib/settings');
-const dashboardEvents = require('../../lib/events');
+const dashboardWebSocket = require('../../lib/dashboardWebSocket');
 
 class ThemesService {
   constructor() {}
@@ -35,12 +35,15 @@ class ThemesService {
         // run async NPM script
         winston.info('Installing theme...');
         exec(`npm run theme:install ${fileName}`, (error, stdout, stderr) => {
+          dashboardWebSocket.send({
+            event: dashboardWebSocket.events.THEME_INSTALLED,
+            payload: fileName
+          });
+
           if (error) {
             winston.error('Installing theme failed');
-            dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': false})
           } else {
             winston.info('Theme successfully installed');
-            dashboardEvents.sendMessage({'type': dashboardEvents.THEME_INSTALLED, 'success': true})
           }
         });
         // close request and don't wait result from NPM script
