@@ -24,6 +24,8 @@ store.dispatch(fetchSettings());
 
 if (window.WebSocket) {
   connectToWebSocket(store);
+} else {
+  console.log('WebSocket is not supported by your browser.');
 }
 
 ReactDOM.render(
