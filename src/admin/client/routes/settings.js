@@ -52,10 +52,10 @@ const SettingsMenu = () => (
 const Settings = ({ match }) => {
   return (
     <div className="row row--no-gutter col-full-height">
-      <div className="col-xs-3 col--no-gutter scroll col-full-height">
+      <div className="col-xs-12 col-sm-4 col-md-3 col--no-gutter scroll col-full-height">
         <SettingsMenu/>
       </div>
-      <div className="col-xs-9 col--no-gutter scroll col-full-height">
+      <div className="col-xs-12 col-sm-8 col-md-9 col--no-gutter scroll col-full-height">
         <Switch>
           <Route path="/admin/settings" exact component={General}/>
           <Route path="/admin/settings/general/logo" component={GeneralLogo}/>

@@ -47,6 +47,16 @@ h1 {
   padding-right: 0;
 }
 
+.appBar {
+  padding-left: 28px !important;
+  padding-right: 28px !important;
+}
+
+.searchField {
+  float: left;
+  margin-right: 10px;
+}
+
 .right-border {
   border-right: 1px solid #ccc;
 }
@@ -234,4 +244,25 @@ h1 {
 .treeItem {
   font-size: 14px !important;
   line-height: 14px !important;
+}
+
+
+/*
+MOBILE
+*/
+@media screen and (max-width: 769px) {
+  .scroll {
+    overflow: inherit;
+  }
+
+  .appBar {
+    padding-left: 18px !important;
+    padding-right: 18px !important;
+  }
+
+  .searchField {
+    font-size: 14px !important;
+    width: 140px !important;
+    margin-right: 0px;
+  }
 }
