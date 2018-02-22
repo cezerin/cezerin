@@ -186,7 +186,7 @@ class OrderItemsService {
     if (order.items.length > 0) {
       let item = order.items.find(i => i.id.toString() === item_id.toString());
       if (item) {
-        const itemData = await getCalculatedData(item);
+        const itemData = await this.getCalculatedData(item);
         await mongo.db.collection('orders').updateOne({
           _id: orderObjectID,
           'items.id': itemObjectID
@@ -197,30 +197,46 @@ class OrderItemsService {
     }
   }
 
-  getCalculatedData(item) {
+  async getCalculatedData(item) {
     const product = await ProductsService.getSingleProduct(item.product_id.toString());
 
-    if(item.variant_id) {
+    if(item.custom_price && item.custom_price > 0) {
+      // product with custom price - can set on client side
+      return {
+        'items.$.sku': product.sku,
+        'items.$.name': product.name,
+        'items.$.variant_name': item.custom_note || '',
+        'items.$.price': item.custom_price,
+        'items.$.tax_class': product.tax_class,
+        'items.$.tax_total': 0,
+        'items.$.weight': product.weight || 0,
+        'items.$.discount_total': 0,
+        'items.$.price_total': item.custom_price * item.quantity
+      }
+    } else if(item.variant_id) {
+      // product with variant
       const variant = this.getVariantFromProduct(product, item.variant_id);
       const variantName = this.getVariantNameFromProduct(product, item.variant_id);
+      const variantPrice = variant.price && variant.price > 0 ? variant.price: product.price;
 
       if(variant) {
         return {
           'items.$.sku': variant.sku,
           'items.$.name': product.name,
           'items.$.variant_name': variantName,
-          'items.$.price': variant.price,
+          'items.$.price': variantPrice,
           'items.$.tax_class': product.tax_class,
           'items.$.tax_total': 0,
           'items.$.weight': variant.weight || 0,
           'items.$.discount_total': 0,
-          'items.$.price_total': variant.price * item.quantity
+          'items.$.price_total': variantPrice * item.quantity
         }
       } else {
         // variant not exists
         return null;
       }
     } else {
+      // normal product
       return {
         'items.$.sku': product.sku,
         'items.$.name': product.name,
@@ -271,12 +287,22 @@ class OrderItemsService {
   }
 
   getValidDocumentForInsert(data) {
-    return {
+    let item = {
       'id': new ObjectID(),
       'product_id': parse.getObjectIDIfValid(data.product_id),
       'variant_id': parse.getObjectIDIfValid(data.variant_id),
       'quantity': parse.getNumberIfPositive(data.quantity) || 1
+    };
+
+    if (data.custom_price) {
+      item.custom_price = parse.getNumberIfPositive(data.custom_price);
     }
+
+    if (data.custom_note) {
+      item.custom_note = parse.getString(data.custom_note);
+    }
+
+    return item;
   }
 
   getValidDocumentForUpdate(data) {
