@@ -186,20 +186,20 @@ class OrderItemsService {
     if (order.items.length > 0) {
       let item = order.items.find(i => i.id.toString() === item_id.toString());
       if (item) {
-        const product = await ProductsService.getSingleProduct(item.product_id.toString());
-        const newItemData = getNewItemData(item, product);
-
+        const itemData = await getCalculatedData(item);
         await mongo.db.collection('orders').updateOne({
           _id: orderObjectID,
           'items.id': itemObjectID
         }, {
-          $set: newItemData
+          $set: itemData
         });
       }
     }
   }
 
-  getNewItemData(item, product) {
+  getCalculatedData(item) {
+    const product = await ProductsService.getSingleProduct(item.product_id.toString());
+
     if(item.variant_id) {
       const variant = this.getVariantFromProduct(product, item.variant_id);
       const variantName = this.getVariantNameFromProduct(product, item.variant_id);
