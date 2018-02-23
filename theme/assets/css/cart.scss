@@ -12,6 +12,8 @@
   padding: 20px;
   text-align: left;
   font-size: 90%;
+  overflow: auto;
+  max-height: 590px;
 }
 
 .mini-cart-open .mini-cart {
@@ -59,5 +61,6 @@ Mobile
     bottom: 0;
     overflow-y: scroll;
     font-size: 82%;
+    max-height: none;
   }
 }

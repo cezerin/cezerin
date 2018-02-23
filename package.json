@@ -101,7 +101,8 @@
     "theme": "file:theme",
     "ua-parser-js": "^0.7.17",
     "webpack": "^3.11.0",
-    "winston": "^2.4.0"
+    "winston": "^2.4.0",
+    "ws": "^4.0.0"
   },
   "engines": {
     "node": "^8.0.0",

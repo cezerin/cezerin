@@ -9,7 +9,7 @@ const logger = require('./lib/logger');
 const settings = require('./lib/settings');
 const security = require('./lib/security');
 const mongo = require('./lib/mongo');
-const dashboardEvents = require('./lib/events');
+const dashboardWebSocket = require('./lib/dashboardWebSocket');
 const ajaxRouter = require('./ajaxRouter');
 const apiRouter = require('./apiRouter');
 
@@ -28,9 +28,6 @@ app.use(responseTime());
 app.use(cookieParser(settings.cookieSecretKey));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.get('/dashboard/events', (req, res, next) => {
-  dashboardEvents.subscribe(req, res);
-});
 app.use('/ajax', ajaxRouter);
 app.use('/api', apiRouter);
 app.use(logger.sendResponse);
@@ -39,3 +36,5 @@ const server = app.listen(settings.apiListenPort, () => {
   const serverAddress = server.address();
   winston.info(`API running at http://localhost:${serverAddress.port}`);
 });
+
+dashboardWebSocket.listen(server);

@@ -46,7 +46,7 @@ export default class CustomProducts extends React.Component {
       this.setState({
         products: json.data
       })
-    });
+    }).catch(() => {});
   }
 
   render() {

@@ -7,7 +7,6 @@ const DEVELOPER_MODE = settings.developerMode === true;
 const SET_TOKEN_AS_REVOKEN_ON_EXCEPTION = true;
 
 const PATHS_WITH_OPEN_ACCESS = [
-  '/api/dashboard/events',
   '/api/v1/authorize',
   /\/api\/v1\/notifications/i,
   /\/ajax\//i
@@ -53,10 +52,15 @@ const checkUserScope = (requiredScope, req, res, next) => {
   }
 }
 
-const verifyToken = (jwtToken, secretKey) => {
+const verifyToken = token  => {
   return new Promise((resolve, reject) => {
-    jwt.verify(jwtToken, secretKey, (err, decoded) => {
-      resolve(err);
+    jwt.verify(token, settings.jwtSecretKey, (err, decoded) => {
+      if(err){
+        reject(err);
+      } else {
+        // check on blacklist
+        resolve(decoded);
+      }
     });
   })
 }

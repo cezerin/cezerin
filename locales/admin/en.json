@@ -351,5 +351,6 @@
   "webhookEdit": "Edit webhook",
   "webhookAdd": "Add webhook",
   "webhookEvents": "Events",
-  "webhookSecret": "Secret"
+  "webhookSecret": "Secret",
+  "themeInstalled": "installation completed"
 }

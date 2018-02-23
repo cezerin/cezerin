@@ -24,26 +24,27 @@ const Price = ({ product, variant, isAllOptionsSelected, settings }) => {
     priceStyle.color = themeSettings.details_price_color;
   }
 
-  if(product.variable && variant) {
-    if(product.on_sale){
-      return (
-        <NewAndOldPrices settings={settings} newPrice={variant.price} oldPrice={product.regular_price} />
-      )
-    } else {
-      return (
-        <div className="product-price" style={priceStyle}>
-          <FormattedCurrency settings={settings} number={variant.price} />
-        </div>
-      )
-    }
-  } else if(product.on_sale) {
+  let price = 0;
+  let oldPrice = 0;
+
+  if(product.variable && variant && variant.price > 0) {
+    price = variant.price;
+  } else {
+    price = product.price;
+  }
+
+  if(product.on_sale) {
+    oldPrice = product.regular_price;
+  }
+
+  if(oldPrice > 0) {
     return (
-      <NewAndOldPrices settings={settings} newPrice={product.price} oldPrice={product.regular_price} />
+      <NewAndOldPrices settings={settings} newPrice={price} oldPrice={oldPrice} />
     )
   } else {
     return (
       <div className="product-price" style={priceStyle}>
-        <FormattedCurrency settings={settings} number={product.price} />
+        <FormattedCurrency settings={settings} number={price} />
       </div>
     )
   }

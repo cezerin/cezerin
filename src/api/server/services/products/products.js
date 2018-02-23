@@ -15,7 +15,7 @@ class ProductsService {
   constructor() {}
 
   async getProducts(params = {}) {
-    const categories = await CategoriesService.getCategories({ fields: 'parent_id,slug,name' });
+    const categories = await CategoriesService.getCategories({ fields: 'parent_id' });
     const fieldsArray = this.getArrayFromCSV(params.fields);
     const limit = parse.getNumberIfPositive(params.limit) || 1000;
     const offset = parse.getNumberIfPositive(params.offset) || 0;
@@ -36,6 +36,25 @@ class ProductsService {
     }
     itemsAggregation.push({ $skip : offset });
     itemsAggregation.push({ $limit : limit });
+    itemsAggregation.push({ $lookup: {
+      from: 'productCategories',
+      localField: 'category_id',
+      foreignField: '_id',
+      as: 'categories'
+    }});
+    itemsAggregation.push({ $project: {
+      "categories.description": 0,
+      "categories.meta_description": 0,
+      "categories._id": 0,
+      "categories.date_created": 0,
+      "categories.date_updated": 0,
+      "categories.image": 0,
+      "categories.meta_title": 0,
+      "categories.enabled": 0,
+      "categories.sort": 0,
+      "categories.parent_id": 0,
+      "categories.position": 0
+    }});
 
     const [itemsResult, countResult, minMaxPriceResult, allAttributesResult, attributesResult, generalSettings] = await Promise.all([
       mongo.db.collection('products').aggregate(itemsAggregation).toArray(),
@@ -50,7 +69,7 @@ class ProductsService {
     const ids = this.getArrayFromCSV(parse.getString(params.ids));
     const sku = this.getArrayFromCSV(parse.getString(params.sku));
 
-    let items = itemsResult.map(item => this.changeProperties(categories, item, domain));
+    let items = itemsResult.map(item => this.changeProperties(item, domain));
     items = this.sortItemsByArrayOfIdsIfNeed(items, ids, sortQuery);
     items = this.sortItemsByArrayOfSkuIfNeed(items, sku, sortQuery);
     items = items.filter(item => !!item);
@@ -761,27 +780,36 @@ class ProductsService {
     }
   }
 
-  changeProperties(categories, item, domain) {
+  getSortedImagesWithUrls(item, domain) {
+    if(item.images && item.images.length > 0) {
+      return item.images.map(image => {
+        image.url = this.getImageUrl(domain, item.id, image.filename || '');
+        return image;
+      }).sort((a,b) => (a.position - b.position ));
+    } else {
+      return item.images;
+    }
+  }
+
+  getImageUrl(domain, productId, imageFileName) {
+    const imageUrl = new URL(settings.productsUploadUrl + '/' + productId + '/' + imageFileName, domain);
+    return imageUrl.toString();
+  }
+
+  changeProperties(item, domain) {
     if(item) {
 
       if(item.id) {
         item.id = item.id.toString();
       }
 
-      if(item.images && item.images.length > 0) {
-        for(let i = 0; i < item.images.length; i++) {
-          const imageFileName = item.images[i].filename || '';
-          const imageUrl = new URL(settings.productsUploadUrl + '/' + item.id + '/' + imageFileName, domain);
-          item.images[i].url = imageUrl.toString();
-        }
-        item.images = item.images.sort((a,b) => (a.position - b.position ));
-      }
+      item.images = this.getSortedImagesWithUrls(item, domain);
 
       if(item.category_id) {
         item.category_id = item.category_id.toString();
 
-        if(categories && categories.length > 0) {
-          const category = categories.find(i => i.id === item.category_id);
+        if(item.categories && item.categories.length > 0) {
+          const category = item.categories[0];
           if(category) {
             if(item.category_name === "") {
               item.category_name = category.name;
@@ -802,6 +830,7 @@ class ProductsService {
           }
         }
       }
+      item.categories = undefined;
     }
 
     return item;

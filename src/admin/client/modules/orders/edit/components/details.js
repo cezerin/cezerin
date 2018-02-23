@@ -30,11 +30,11 @@ export default class OrderDetails extends React.Component {
 
     return (
       <div className="row row--no-gutter col-full-height">
-        <div className="col-xs-4 col--no-gutter scroll col-full-height">
+        <div className="col-xs-12 col-sm-5 col-md-4 col--no-gutter scroll col-full-height">
           <OrderSummary order={order} settings={settings} onOrderSummaryUpdate={onOrderSummaryUpdate} onCheckout={onCheckout} processingCheckout={processingCheckout}/>
           <OrderCustomer order={order} settings={settings} onShippingAddressUpdate={onShippingAddressUpdate}/>
         </div>
-        <div className="col-xs-8 col--no-gutter scroll col-full-height">
+        <div className="col-xs-12 col-sm-7 col-md-8 col--no-gutter scroll col-full-height">
           <Paper className="paper-box" zDepth={1}>
             <OrderItems order={order} settings={settings} onItemDelete={onItemDelete} onItemUpdate={onItemUpdate}/>
             <div className={style.innerBox}>

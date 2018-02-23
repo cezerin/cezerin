@@ -265,7 +265,7 @@ export default class AppBarTop extends React.Component {
     return (
       <div>
         <AppBar
-          style={{ paddingLeft: 28, paddingRight: 28 }}
+          className="appBar"
           titleStyle={{ fontSize: 18 }}
           title={title}
           iconElementLeft={leftButton}

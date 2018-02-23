@@ -6,67 +6,61 @@ const ProductsService = require('./products');
 const ProductVariantsService = require('./variants');
 
 class ProductStockService {
-  handleOrderCheckout(orderId) {
-    return this.getOrder(orderId).then(order => {
-      if(order && order.items.length > 0) {
-        let promises = order.items.map(item => this.decrementStockQuantity(item.product_id, item.variant_id, item.quantity));
-        return Promise.all(promises);
+  async handleOrderCheckout(orderId) {
+    const order = await this.getOrder(orderId);
+    if(order && order.items.length > 0) {
+      for(const item of order.items){
+        await this.decrementStockQuantity(item.product_id, item.variant_id, item.quantity)
       }
-    })
+    }
   }
 
-  handleCancelOrder(orderId) {
-    return this.getOrder(orderId).then(order => {
-      if(order && order.items.length > 0) {
-        let promises = order.items.map(item => this.incrementStockQuantity(item.product_id, item.variant_id, item.quantity));
-        return Promise.all(promises);
+  async handleCancelOrder(orderId) {
+    const order = await this.getOrder(orderId);
+    if(order && order.items.length > 0) {
+      for(const item of order.items){
+        await this.incrementStockQuantity(item.product_id, item.variant_id, item.quantity)
       }
-    })
+    }
   }
 
-  handleAddOrderItem(orderId, itemId) {
-    return this.getOrderItem(orderId, itemId).then(item => {
-      if(item) {
-        return this.decrementStockQuantity(item.product_id, item.variant_id, item.quantity);
-      } else {
-        return null;
+  async handleAddOrderItem(orderId, itemId) {
+    const item = await this.getOrderItem(orderId, itemId);
+    if(item) {
+      await this.decrementStockQuantity(item.product_id, item.variant_id, item.quantity);
+    }
+  }
+
+  async handleDeleteOrderItem(orderId, itemId) {
+    const item = await this.getOrderItem(orderId, itemId);
+    if(item) {
+      await this.incrementStockQuantity(item.product_id, item.variant_id, item.quantity);
+    }
+  }
+
+  async incrementStockQuantity(productId, variantId, quantity) {
+    await this.changeStockQuantity(productId, variantId, quantity)
+  }
+
+  async decrementStockQuantity(productId, variantId, quantity) {
+    await this.changeStockQuantity(productId, variantId, quantity * -1);
+  }
+
+  async changeStockQuantity(productId, variantId, quantity) {
+    const product = await ProductsService.getSingleProduct(productId);
+    if(product && this.isStockTrackingEnabled(product)) {
+      // change product stock quantity
+      const productQuantity = product.stock_quantity || 0;
+      const newProductQuantity = productQuantity + quantity;
+      await ProductsService.updateProduct(productId, {stock_quantity: newProductQuantity});
+
+      if(this.isVariant(variantId)) {
+        // change variant stock quantity
+        const variantQuantity = this.getVariantQuantityFromProduct(product, variantId);
+        const newVariantQuantity = variantQuantity + quantity;
+        await ProductVariantsService.updateVariant(productId, variantId, {stock_quantity: newVariantQuantity});
       }
-    })
-  }
-
-  handleDeleteOrderItem(orderId, itemId) {
-    return this.getOrderItem(orderId, itemId).then(item => {
-      if(item) {
-        return this.incrementStockQuantity(item.product_id, item.variant_id, item.quantity);
-      } else {
-        return null;
-      }
-    })
-  }
-
-  incrementStockQuantity(productId, variantId, quantity) {
-    return this.changeStockQuantity(productId, variantId, quantity)
-  }
-
-  decrementStockQuantity(productId, variantId, quantity) {
-    return this.changeStockQuantity(productId, variantId, quantity * -1);
-  }
-
-  changeStockQuantity(productId, variantId, quantity) {
-    return ProductsService.getSingleProduct(productId).then(product => {
-      if(this.isStockTrackingEnabled(product)) {
-        let currentQuantity = 0;
-        if(this.isVariant(variantId)) {
-          currentQuantity = this.getVariantQuantityFromProduct(product, variantId);
-        } else {
-          currentQuantity = product.stock_quantity || 0;
-        }
-        const newQuantity = currentQuantity + quantity;
-        return this.updateProductStockQuantity(productId, variantId, newQuantity);
-      } else {
-        return;
-      }
-    })
+    }
   }
 
   getVariantQuantityFromProduct(product, variantId) {
@@ -81,15 +75,6 @@ class ProductStockService {
     return 0;
   }
 
-  updateProductStockQuantity(productId, variantId, quantity) {
-    const data = {stock_quantity: quantity};
-    if(this.isVariant(variantId)) {
-      return ProductVariantsService.updateVariant(productId, variantId, data)
-    } else {
-      return ProductsService.updateProduct(productId, data)
-    }
-  }
-
   isStockTrackingEnabled(product) {
     return product.stock_tracking === true;
   }
@@ -98,25 +83,23 @@ class ProductStockService {
     return variantId && variantId !== '';
   }
 
-  getOrder(orderId) {
+  async getOrder(orderId) {
     const filter = {
       _id: new ObjectID(orderId),
       draft: false
     }
 
-    return mongo.db.collection('orders').find(filter).toArray().then(orders => {
-      return orders && orders.length > 0 ? orders[0] : null;
-    })
+    const order = await mongo.db.collection('orders').findOne(filter);
+    return order;
   }
 
-  getOrderItem(orderId, itemId) {
-    return this.getOrder(orderId).then(order => {
-      if(order && order.items.length > 0) {
-        return order.items.find(item => item.id.toString() === itemId.toString());
-      } else {
-        return null;
-      }
-    })
+  async getOrderItem(orderId, itemId) {
+    const order = await this.getOrder(orderId);
+    if(order && order.items.length > 0) {
+      return order.items.find(item => item.id.toString() === itemId.toString());
+    } else {
+      return null;
+    }
   }
 }
 

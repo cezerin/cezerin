@@ -7,7 +7,7 @@ const mongo = require('../../lib/mongo');
 const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
 const webhooks = require('../../lib/webhooks');
-const dashboardEvents = require('../../lib/events');
+const dashboardWebSocket = require('../../lib/dashboardWebSocket');
 const mailer = require('../../lib/mailer');
 const ObjectID = require('mongodb').ObjectID;
 const ProductsService = require('../products/products');
@@ -599,12 +599,10 @@ class OrdersService {
     const body = this.getEmailBody(emailTemplate, order);
     const copyTo = dashboardSettings.order_confirmation_copy_to;
 
-    dashboardEvents.sendMessage({
-      'type': dashboardEvents.ORDER_RECEIVED,
-      'id': orderId,
-      'number': order.number,
-      'total': order.grand_total
-    })
+    dashboardWebSocket.send({
+      event: dashboardWebSocket.events.ORDER_CREATED,
+      payload: order
+    });
 
     await Promise.all([
       webhooks.trigger({ event: webhooks.events.ORDER_CREATED, payload: order }),
