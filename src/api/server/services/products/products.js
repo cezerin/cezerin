@@ -761,6 +761,22 @@ class ProductsService {
     }
   }
 
+  getSortedImagesWithUrls(item, domain) {
+    if(item.images && item.images.length > 0) {
+      return item.images.map(image => {
+        image.url = this.getImageUrl(domain, item.id, image.filename || '');
+        return image;
+      }).sort((a,b) => (a.position - b.position ));
+    } else {
+      return item.images;
+    }
+  }
+
+  getImageUrl(domain, productId, imageFileName) {
+    const imageUrl = new URL(settings.productsUploadUrl + '/' + productId + '/' + imageFileName, domain);
+    return imageUrl.toString();
+  }
+
   changeProperties(categories, item, domain) {
     if(item) {
 
@@ -768,14 +784,7 @@ class ProductsService {
         item.id = item.id.toString();
       }
 
-      if(item.images && item.images.length > 0) {
-        for(let i = 0; i < item.images.length; i++) {
-          const imageFileName = item.images[i].filename || '';
-          const imageUrl = new URL(settings.productsUploadUrl + '/' + item.id + '/' + imageFileName, domain);
-          item.images[i].url = imageUrl.toString();
-        }
-        item.images = item.images.sort((a,b) => (a.position - b.position ));
-      }
+      item.images = this.getSortedImagesWithUrls(item, domain);
 
       if(item.category_id) {
         item.category_id = item.category_id.toString();
