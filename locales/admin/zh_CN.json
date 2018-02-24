@@ -340,7 +340,7 @@
   "fileModified": "更改",
   "fileSize": "大小",
   "salesReport": "销售",
-  "closedAndPaidOrders": "Closed and paid orders",
+  "closedAndPaidOrders": "关闭和付款的订单",
   "newOrders": "新订单",
   "singleDeleteTitle": "你确定你要删除\"{name}\"？",
   "singleDeleteDescription": "这个项目将被立即删除，你无法撤消此操作。",
