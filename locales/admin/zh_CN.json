@@ -342,7 +342,7 @@
   "salesReport": "销售",
   "closedAndPaidOrders": "关闭和付款的订单",
   "newOrders": "新订单",
-  "singleDeleteTitle": "你确定你要删除\"{name}\"？",
+  "singleDeleteTitle": "你确定要删除\"{name}\"？",
   "singleDeleteDescription": "这个项目将被立即删除，你无法撤消此操作。",
   "multipleDeleteTitle": "你确定要删除所选的{count}项吗？",
   "multipleDeleteDescription": "{count}项目将被立即删除，你无法撤消此操作。",
