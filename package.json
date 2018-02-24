@@ -20,6 +20,9 @@
     {
       "name": "Restmount <jsonmount@gmail.com>",
       "url": "https://github.com/restmount"
+    }, {
+      "name": "Sergey Onufrienko <sergey@onufrienko.com>",
+      "url": "https://github.com/sonufrienko"
     }
   ],
   "main": "src/api/server/index.js",
