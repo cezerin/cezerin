@@ -352,5 +352,7 @@
   "webhookAdd": "Add webhook",
   "webhookEvents": "Events",
   "webhookSecret": "Secret",
-  "themeInstalled": "installation completed"
+  "themeInstalled": "installation completed",
+  "category": "Category",
+  "additionalCategories": "Additional Categories"
 }

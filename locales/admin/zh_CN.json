@@ -352,5 +352,7 @@
   "webhookAdd": "添加webhook",
   "webhookEvents": "事件",
   "webhookSecret": "密匙",
-  "themeInstalled": "安装完成"
+  "themeInstalled": "安装完成",
+  "category": "Category",
+  "additionalCategories": "Additional Categories"
 }

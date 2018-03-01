@@ -352,5 +352,7 @@
   "webhookAdd": "Новый Webhook",
   "webhookEvents": "События",
   "webhookSecret": "Секретный ключ",
-  "themeInstalled": "установка завершена"
+  "themeInstalled": "установка завершена",
+  "category": "Категория",
+  "additionalCategories": "Дополнительные категории"
 }

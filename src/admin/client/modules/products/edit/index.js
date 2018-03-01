@@ -52,6 +52,7 @@ class ProductEditContainer extends React.Component {
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { fetchProduct, cancelProductEdit } from '../actions'
+import { fetchCategoriesIfNeeded } from 'modules/productCategories/actions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -64,6 +65,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchData: () => {
       const { productId } = ownProps.match.params;
       dispatch(fetchProduct(productId));
+      dispatch(fetchCategoriesIfNeeded());
     },
     eraseData: () => {
       dispatch(cancelProductEdit());
