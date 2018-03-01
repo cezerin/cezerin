@@ -19,6 +19,14 @@ const getArrayIfValid = (value) => {
     : null;
 }
 
+const getArrayOfObjectID = (value) => {
+  if(Array.isArray(value) && value.length > 0) {
+    return value.map(id => getObjectIDIfValid(id)).filter(id => !!id);
+  } else {
+    return [];
+  }
+}
+
 const getNumberIfValid = (value) => {
   const n = parseFloat(value);
   return n
@@ -141,6 +149,7 @@ module.exports = {
   getObjectIDIfValid: getObjectIDIfValid,
   getDateIfValid: getDateIfValid,
   getArrayIfValid: getArrayIfValid,
+  getArrayOfObjectID: getArrayOfObjectID,
   getNumberIfValid: getNumberIfValid,
   getNumberIfPositive: getNumberIfPositive,
   getBooleanIfValid: getBooleanIfValid,
