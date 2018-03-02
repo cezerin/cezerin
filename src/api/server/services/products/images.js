@@ -67,14 +67,16 @@ class ProductImagesService {
     .then(() => true);
   }
 
-  addImage(req, res) {
-    let productId = req.params.productId;
+  async addImage(req, res) {
+    const productId = req.params.productId;
     if(!ObjectID.isValid(productId)) {
-      return Promise.reject('Invalid identifier');
+      res.status(500).send(this.getErrorMessage('Invalid identifier'));
+      return;
     }
-    let productObjectID = new ObjectID(productId);
+
     let uploadedFiles = [];
-    let uploadDir = path.resolve(settings.productsUploadPath + '/' + productId);
+    const productObjectID = new ObjectID(productId);
+    const uploadDir = path.resolve(settings.productsUploadPath + '/' + productId);
     fse.ensureDirSync(uploadDir);
 
     let form = new formidable.IncomingForm();
@@ -86,20 +88,23 @@ class ProductImagesService {
         file.name = utils.getCorrectFileName(file.name);
         file.path = uploadDir + '/' + file.name;
       })
-      .on('file', function(field, file) {
+      .on('file', async (field, file) => {
         // every time a file has been uploaded successfully,
         if(file.name) {
-          let imageData = {
+          const imageData = {
             "id": new ObjectID(),
             "alt": "",
             "position": 99,
             "filename": file.name
           };
 
-          mongo.db.collection('products')
-            .updateOne({ _id: productObjectID }, { $push: { images: imageData } })
-            .then();
-          uploadedFiles.push({ 'file': file.name, 'size': file.size });
+          uploadedFiles.push(imageData);
+
+          await mongo.db.collection('products').updateOne({
+            _id: productObjectID
+          }, {
+            $push: { images: imageData }
+          });
         }
       })
       .on('error', (err) => {
