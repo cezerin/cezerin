@@ -12,6 +12,8 @@
 
 .footer {
   background-color: rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
 }
 
 .dropzone {}

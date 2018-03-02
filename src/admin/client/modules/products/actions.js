@@ -478,6 +478,15 @@ export function deleteImage(productId, imageId) {
   }
 }
 
+export function updateImage(productId, image) {
+  return (dispatch, getState) => {
+    return api.products.images.update(productId, image.id, image).then(() => {
+      dispatch(fetchImages(productId))
+    })
+    .catch(error => {});
+  }
+}
+
 export function updateImages(productId, images) {
   return (dispatch, getState) => {
     let promises = images.map(image => api.products.images.update(productId, image.id, image));
