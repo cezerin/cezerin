@@ -28,7 +28,7 @@ const Item = ({product, addCartItem, settings, columnCountOnMobile, columnCountO
       <NavLink to={product.path}>
         <figure className="image" style={{ height: imageHeight }}>
           <ItemTags tags={product.tags} />
-          <ItemImage images={product.images} alt={product.name} title={product.name} height={placeholderHeight} />
+          <ItemImage images={product.images} productName={product.name} height={placeholderHeight} />
         </figure>
         <div className="content product-caption">
           <div className="product-name">{product.name}</div>
