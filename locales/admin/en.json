@@ -354,5 +354,6 @@
   "webhookSecret": "Secret",
   "themeInstalled": "installation completed",
   "category": "Category",
-  "additionalCategories": "Additional Categories"
+  "additionalCategories": "Additional Categories",
+  "alt": "Alternative text"
 }

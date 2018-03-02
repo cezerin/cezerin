@@ -354,5 +354,6 @@
   "webhookSecret": "密匙",
   "themeInstalled": "安装完成",
   "category": "Category",
-  "additionalCategories": "Additional Categories"
+  "additionalCategories": "Additional Categories",
+  "alt": "Alternative text"
 }

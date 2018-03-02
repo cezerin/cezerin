@@ -354,5 +354,6 @@
   "webhookSecret": "Секретный ключ",
   "themeInstalled": "установка завершена",
   "category": "Категория",
-  "additionalCategories": "Дополнительные категории"
+  "additionalCategories": "Дополнительные категории",
+  "alt": "Атрибут alt"
 }
