@@ -176,7 +176,7 @@ const getFilter = (state, offset = 0) => {
 
   let filter = {
     limit: 50,
-    fields: 'id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,url',
+    fields: 'id,name,category_id,category_ids,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,url',
     search: searchTerm,
     offset: offset,
     sort: sortOrder
@@ -472,6 +472,15 @@ export function deleteVariant(productId, variantId) {
 export function deleteImage(productId, imageId) {
   return (dispatch, getState) => {
     return api.products.images.delete(productId, imageId).then(({status, json}) => {
+      dispatch(fetchImages(productId))
+    })
+    .catch(error => {});
+  }
+}
+
+export function updateImage(productId, image) {
+  return (dispatch, getState) => {
+    return api.products.images.update(productId, image.id, image).then(() => {
       dispatch(fetchImages(productId))
     })
     .catch(error => {});

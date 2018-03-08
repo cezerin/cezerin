@@ -6,7 +6,8 @@ import ProductAdditionalForm from './components/form'
 const mapStateToProps = (state, ownProps) => {
   return {
     initialValues: state.products.editProduct,
-    settings: state.settings.settings
+    settings: state.settings.settings,
+    categories: state.productCategories.items
   }
 }
 
@@ -17,7 +18,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         id: values.id,
         tags: values.tags,
         position: values.position,
-        related_product_ids: values.related_product_ids
+        related_product_ids: values.related_product_ids,
+        category_id: values.category_id,
+        category_ids: values.category_ids
       }));
     }
   }

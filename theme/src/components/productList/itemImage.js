@@ -3,13 +3,15 @@ import { themeSettings, text } from '../../lib/settings'
 import * as helper from '../../lib/helper'
 import LazyLoad from 'react-lazyload'
 
-const ItemImage = ({ images, alt, title, height }) => {
+const ItemImage = ({ images, productName, height }) => {
   if(images && images.length > 0) {
-    const imageUrl = helper.getThumbnailUrl(images[0].url, themeSettings.listThumbnailWidth);
+    const image = images[0];
+    const imageUrl = helper.getThumbnailUrl(image.url, themeSettings.listThumbnailWidth);
+    const alt = image.alt && image.alt.length > 0 ? image.alt : productName;
 
     return (
       <LazyLoad height={height}>
-        <img src={imageUrl} alt={alt} title={title} />
+        <img src={imageUrl} alt={alt} title={alt} />
       </LazyLoad>
     )
   } else {

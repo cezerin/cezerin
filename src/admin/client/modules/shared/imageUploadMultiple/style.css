@@ -12,6 +12,8 @@
 
 .footer {
   background-color: rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
 }
 
 .dropzone {}
@@ -34,7 +36,6 @@
   opacity: 0.3
 }
 .gallery {
-  overflow: auto;
 }
 
 .list {
@@ -43,6 +44,7 @@
   display: flex;
   flex-wrap: nowrap;
   list-style: none;
+  overflow: auto;
 }
 
 .item {

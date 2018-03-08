@@ -1,0 +1,353 @@
+[{
+  "section": "Футер",
+  "key": "footer_logo_url",
+  "type": "image",
+  "label": "Логотип"
+}, {
+  "section": "Список товаров",
+  "key": "list_image_max_height",
+  "type": "number",
+  "label": "Максимальная высота изображения"
+}, {
+  "section": "Описание товара",
+  "key": "button_addtocart_bg",
+  "type": "color",
+  "label": "Кнопка В корзину. Цвет фона."
+}, {
+  "section": "Описание товара",
+  "key": "button_addtocart_color",
+  "type": "color",
+  "label": "Кнопка В корзину. Цвет текста."
+}, {
+  "section": "Описание товара",
+  "key": "button_addtocart_text",
+  "type": "string",
+  "label": "Кнопка В корзину. Текст."
+}, {
+  "section": "Список товаров",
+  "key": "button_loadmore_bg",
+  "type": "color",
+  "label": "Кнопка Показать еще товары. Цвет фона."
+}, {
+  "section": "Список товаров",
+  "key": "button_loadmore_color",
+  "type": "color",
+  "label": "Кнопка Показать еще товары. Цвет текста."
+}, {
+  "section": "Список товаров",
+  "key": "button_loadmore_text",
+  "type": "string",
+  "label": "Кнопка Показать еще товары. Текст."
+}, {
+  "section": "Список товаров",
+  "key": "list_price_color",
+  "type": "color",
+  "label": "Цена. Цвет."
+}, {
+  "section": "Список товаров",
+  "key": "list_price_size",
+  "type": "number",
+  "label": "Цена. Размер шрифта (px)"
+}, {
+  "section": "Описание товара",
+  "key": "details_price_color",
+  "type": "color",
+  "label": "Цена. Цвет."
+}, {
+  "section": "Описание товара",
+  "key": "details_price_size",
+  "type": "number",
+  "label": "Цена. Размер шрифта (px)"
+}, {
+  "section": "Шапка",
+  "key": "search_placeholder",
+  "type": "string",
+  "label": "Текст в поиске"
+}, {
+  "section": "Список товаров",
+  "key": "show_product_filter",
+  "type": "boolean",
+  "label": "Показывать фильтр"
+}, {
+  "section": "Описание товара",
+  "key": "show_product_breadcrumbs",
+  "type": "boolean",
+  "label": "Показывать хлебные крошки"
+}, {
+  "section": "Список товаров",
+  "key": "show_category_breadcrumbs",
+  "type": "boolean",
+  "label": "Показывать хлебные крошки"
+}, {
+  "section": "Описание товара",
+  "key": "show_discount_countdown",
+  "type": "boolean",
+  "label": "Показывать счетчик акции"
+}, {
+  "section": "Главная",
+  "key": "home_products_title",
+  "type": "string",
+  "label": "Избранные товары. Заголовок."
+}, {
+  "section": "Главная",
+  "key": "home_products_sort",
+  "type": "string",
+  "label": "Избранные товары. Сортировка."
+}, {
+  "section": "Главная",
+  "key": "home_products_sku",
+  "type": "string",
+  "label": "Избранные товары. Артикулы товаров. (через запятую)"
+}, {
+  "section": "Главная",
+  "key": "home_products_limit",
+  "type": "number",
+  "label": "Избранные товары. Количество."
+}, {
+  "section": "Корзина и оформление заказа",
+  "key": "hide_footer_on_checkout",
+  "type": "boolean",
+  "label": "Скрывать футер при оформлении заказа"
+}, {
+  "section": "Корзина и оформление заказа",
+  "key": "checkoutInputClass",
+  "type": "string",
+  "label": "Класс текстового поля"
+}, {
+  "section": "Корзина и оформление заказа",
+  "key": "checkoutButtonClass",
+  "type": "string",
+  "label": "Класс кнопки"
+}, {
+  "section": "Корзина и оформление заказа",
+  "key": "checkoutEditButtonClass",
+  "type": "string",
+  "label": "Класс кнопки Изменить"
+}, {
+  "section": "Список товаров",
+  "key": "sortNewest",
+  "type": "string",
+  "label": "Сортировка. Новинки (поля сортировки)"
+}, {
+  "section": "Список товаров",
+  "key": "sortPriceLow",
+  "type": "string",
+  "label": "Сортировка. От дешевых к дорогим (поля сортировки)"
+}, {
+  "section": "Список товаров",
+  "key": "sortPriceHigh",
+  "type": "string",
+  "label": "Сортировка. От дорогих к дешевым (поля сортировки)"
+}, {
+  "section": "Описание товара",
+  "key": "product_thumbnail_position",
+  "type": "string",
+  "label": "Расположение эскизов",
+  "options": [{
+      "label": "Вверх",
+      "value": "top"
+    },
+    {
+      "label": "Право",
+      "value": "right"
+    },
+    {
+      "label": "Низ",
+      "value": "bottom"
+    },
+    {
+      "label": "Лево",
+      "value": "left"
+    }
+  ]
+}, {
+  "section": "Описание товара",
+  "key": "disqus_shortname",
+  "type": "string",
+  "label": "Комментаии DISQUS shortname"
+}, {
+  "section": "Футер",
+  "key": "footer_about",
+  "type": "string",
+  "label": "Короткий текст"
+}, {
+  "section": "Футер",
+  "key": "footer_menu_1_title",
+  "type": "string",
+  "label": "Меню 1 заголовок"
+}, {
+  "section": "Футер",
+  "key": "footer_menu_2_title",
+  "type": "string",
+  "label": "Меню 2 заголовок"
+}, {
+  "section": "Корзина и оформление заказа",
+  "key": "maxCartItemQty",
+  "type": "number",
+  "label": "Максимальное количество одного товара"
+}, {
+  "section": "Корзина и оформление заказа",
+  "key": "cartThumbnailWidth",
+  "type": "number",
+  "label": "Ширина изображения (px)"
+}, {
+  "section": "Список товаров",
+  "key": "listThumbnailWidth",
+  "type": "number",
+  "label": "Ширина изображения (px)"
+}, {
+  "section": "Описание товара",
+  "key": "previewThumbnailWidth",
+  "type": "number",
+  "label": "Ширина эскиза (px)"
+}, {
+  "section": "Описание товара",
+  "key": "bigThumbnailWidth",
+  "type": "number",
+  "label": "Ширина изображения (px)"
+}, {
+  "section": "Главная",
+  "key": "category_list_thumbnail_width",
+  "type": "number",
+  "label": "Категории. Ширина изображения (px) (еще не готово)"
+}, {
+  "section": "Футер",
+  "key": "footer_menu_1_items",
+  "type": "array",
+  "label": "Меню 1 (ссылки)",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Текст ссылки"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "URL"
+  }]
+}, {
+  "section": "Футер",
+  "key": "footer_menu_2_items",
+  "type": "array",
+  "label": "Меню 2 (ссылки)",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Текст ссылки"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "URL"
+  }]
+}, {
+  "section": "Футер",
+  "key": "footer_social",
+  "type": "array",
+  "label": "Социальные сети",
+  "properties": [{
+    "key": "type",
+    "type": "string",
+    "label": "Type",
+    "options": [{
+        "label": "Facebook",
+        "value": "facebook"
+      },
+      {
+        "label": "Twitter",
+        "value": "twitter"
+      },
+      {
+        "label": "Instagram",
+        "value": "instagram"
+      },
+      {
+        "label": "VK",
+        "value": "vk"
+      }
+    ]
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "Url"
+  }]
+}, {
+  "section": "Главная",
+  "key": "home_slider",
+  "type": "array",
+  "label": "Слайдер",
+  "properties": [{
+    "key": "image",
+    "type": "image",
+    "label": "Фото"
+  }, {
+    "key": "title",
+    "type": "string",
+    "label": "Заголовок"
+  }, {
+    "key": "description",
+    "type": "string",
+    "label": "Описание"
+  }, {
+    "key": "path",
+    "type": "string",
+    "label": "URL"
+  }]
+}, {
+  "section": "Главная",
+  "key": "home_slider_color",
+  "type": "color",
+  "label": "Слайдер. Цвет текста."
+}, {
+  "section": "Футер",
+  "key": "footer_contacts",
+  "type": "array",
+  "label": "Контакты",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Текст"
+  }]
+}, {
+  "section": "Шапка",
+  "key": "header_menu",
+  "type": "array",
+  "label": "Меню",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Текст ссылки"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "URL"
+  }]
+}, {
+  "section": "Описание товара",
+  "key": "related_products_title",
+  "type": "string",
+  "label": "Заголовок похожие товары"
+}, {
+  "section": "Описание товара",
+  "key": "product_gallery_shownav",
+  "type": "boolean",
+  "label": "Показать стрелки для перелистывания в галерее"
+}, {
+  "section": "Главная",
+  "key": "home_gallery_shownav",
+  "type": "boolean",
+  "label": "Показать стрелки для перелистывания в галерее"
+}, {
+  "section": "Описание товара",
+  "key": "show_viewed_products",
+  "type": "boolean",
+  "label": "Показать просмотренные товары"
+}, {
+  "section": "Описание товара",
+  "key": "limit_viewed_products",
+  "type": "number",
+  "label": "Количество просмотренных товаров"
+}, {
+  "section": "Страницы",
+  "key": "page_list_tag",
+  "type": "string",
+  "label": "Тег для создания списка страниц (blog, news, articles или docs)"
+}]

@@ -240,6 +240,7 @@ class ProductsService {
 
     let project =
     {
+      category_ids: 1,
       related_product_ids: 1,
       enabled: 1,
       discontinued: 1,
@@ -427,7 +428,13 @@ class ProductsService {
        let categoryChildren = [];
        CategoriesService.findAllChildren(categories, category_id, categoryChildren);
        queries.push({
-         category_id: { $in: categoryChildren }
+         '$or': [
+           {
+             category_id: { $in: categoryChildren }
+           }, {
+             category_ids: category_id
+           }
+         ]
        });
      }
 
@@ -611,6 +618,7 @@ class ProductsService {
     product.stock_preorder = parse.getBooleanIfValid(data.stock_preorder, false);
     product.stock_backorder = parse.getBooleanIfValid(data.stock_backorder, false);
     product.category_id = parse.getObjectIDIfValid(data.category_id);
+    product.category_ids = parse.getArrayOfObjectID(data.category_ids);
 
     if(data.dimensions) {
       product.dimensions = data.dimensions;
@@ -754,6 +762,10 @@ class ProductsService {
 
     if(data.category_id !== undefined) {
       product.category_id = parse.getObjectIDIfValid(data.category_id);
+    }
+
+    if(data.category_ids !== undefined) {
+      product.category_ids = parse.getArrayOfObjectID(data.category_ids);
     }
 
     return this.setAvailableSlug(product, id).then(product => this.setAvailableSku(product, id));

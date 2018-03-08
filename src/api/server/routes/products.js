@@ -93,8 +93,8 @@ class ProductsRoute {
     }).catch(next);
   }
 
-  addImage(req, res, next) {
-    ProductImagesService.addImage(req, res, next);
+  async addImage(req, res, next) {
+    await ProductImagesService.addImage(req, res, next);
   }
 
   updateImage(req, res, next) {

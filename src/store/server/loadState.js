@@ -4,7 +4,7 @@ import {getParsedProductFilter, getProductFilterForCategory, getProductFilterFor
 import * as themeLocales from './themeLocales'
 import {PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH} from '../shared/pageTypes'
 
-const PRODUCT_FIELDS = 'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position';
+const PRODUCT_FIELDS = 'path,id,name,category_id,category_ids,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags,position';
 const CATEGORIES_FIELDS = 'image,name,description,meta_description,meta_title,sort,parent_id,position,slug,id';
 
 const getCurrentPage = path => {

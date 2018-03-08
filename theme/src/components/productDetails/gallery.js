@@ -24,6 +24,10 @@ export default class Gallery extends React.Component {
     this.setState({ lightboxIsOpen: false });
   }
 
+  setPhotoIndex = (index) => {
+    this.setState({ lightboxPhotoIndex: index });
+  }
+
   render() {
     const { images } = this.props;
     const { lightboxIsOpen, lightboxPhotoIndex } = this.state;
@@ -55,6 +59,7 @@ export default class Gallery extends React.Component {
             showFullscreenButton={false}
             slideOnThumbnailHover={true}
             thumbnailPosition={themeSettings.product_thumbnail_position}
+            onSlide={this.setPhotoIndex}
           />
           {lightboxIsOpen &&
             <Lightbox

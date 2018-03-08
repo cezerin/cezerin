@@ -8,8 +8,10 @@ import * as helper from 'lib/helper'
 import messages from 'lib/text'
 import style from './style.css'
 
-import ProductSearchDialog from 'modules/shared/productSearch'
 import TagsInput from 'react-tagsinput'
+import ProductSearchDialog from 'modules/shared/productSearch'
+import ProductCategorySelect from './productCategorySelect'
+import ProductCategoryMultiSelect from './productCategoryMultiSelect'
 
 import Paper from 'material-ui/Paper';
 import FontIcon from 'material-ui/FontIcon';
@@ -18,6 +20,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+const Fragment = React.Fragment;
 
 const TagsField = ({ input, placeholder }) => {
   const tagsArray = input.value && Array.isArray(input.value) ? input.value : [];
@@ -184,16 +187,56 @@ class ProductsArray extends React.Component {
   }
 }
 
-const ProductAdditionalForm = ({ handleSubmit, pristine, reset, submitting, initialValues, settings }) => {
+const ProductAdditionalForm = ({ handleSubmit, pristine, reset, submitting, initialValues, settings, categories }) => {
   return (
     <form onSubmit={handleSubmit}>
       <Paper className="paper-box" zDepth={1}>
         <div className={style.innerBox}>
-          {messages.tags}
-          <Field name="tags" component={TagsField} placeholder={messages.newTag} />
-          <div style={{ marginBottom: 20 }}>
-            <Field name="position" component={TextField} floatingLabelText={messages.position} fullWidth={false} type="number"/>
+
+          <div className="row middle-xs" style={{ padding: '0 0 15px 0', borderBottom: '1px solid #e0e0e0', marginBottom: 20 }}>
+            <div className="col-xs-12 col-sm-4">
+              {messages.category}
+            </div>
+            <div className="col-xs-12 col-sm-8">
+              <Field name="category_id" component={ProductCategorySelect} categories={categories} />
+            </div>
           </div>
+
+
+
+          <div className="row middle-xs" style={{ padding: '0 0 15px 0', borderBottom: '1px solid #e0e0e0', marginBottom: 25 }}>
+            <div className="col-xs-12 col-sm-4">
+              {messages.additionalCategories}
+            </div>
+            <div className="col-xs-12 col-sm-8">
+              <FieldArray name="category_ids" component={ProductCategoryMultiSelect} categories={categories} />
+            </div>
+          </div>
+
+
+
+
+          <div className="row middle-xs" style={{ padding: '0 0 20px 0', borderBottom: '1px solid #e0e0e0' }}>
+            <div className="col-xs-12 col-sm-4">
+              {messages.tags}
+            </div>
+            <div className="col-xs-12 col-sm-8">
+              <Field name="tags" component={TagsField} placeholder={messages.newTag} />
+            </div>
+          </div>
+
+
+          <div className="row middle-xs" style={{ borderBottom: '1px solid #e0e0e0', marginBottom: 20 }}>
+            <div className="col-xs-12 col-sm-4">
+              {messages.position}
+            </div>
+            <div className="col-xs-12 col-sm-8">
+              <Field name="position" component={TextField} floatingLabelText={messages.position} fullWidth={false} style={{ width: 128 }} type="number"/>
+            </div>
+          </div>
+
+
+
           {messages.relatedProducts}
           <FieldArray name="related_product_ids" component={ProductsArray} settings={settings} />
         </div>
