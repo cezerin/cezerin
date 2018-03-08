@@ -1,12 +1,13 @@
 node_modules
-public/admin-assets/css/app-*
 public/admin-assets/js/app-*
 public/admin-assets/js/vendor-*
+public/admin-assets/css/bundle-*
 public/admin/index.html
 public/content/*
 !public/content/*.md
 theme/dist/*
-theme/assets/js/bundle-*
+theme/assets/js/app-*
+theme/assets/js/theme-*
 theme/assets/css/bundle-*
 theme/assets/index.html
 dist/*
