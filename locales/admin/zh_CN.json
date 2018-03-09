@@ -353,7 +353,7 @@
   "webhookEvents": "事件",
   "webhookSecret": "密匙",
   "themeInstalled": "安装完成",
-  "category": "Category",
-  "additionalCategories": "Additional Categories",
-  "alt": "Alternative text"
+  "category": "类别",
+  "additionalCategories": "其他类别",
+  "alt": "替代文本"
 }

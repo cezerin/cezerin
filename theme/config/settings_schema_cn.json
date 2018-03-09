@@ -1,0 +1,353 @@
+[{
+  "section": "页脚",
+  "key": "footer_logo_url",
+  "type": "image",
+  "label": "Logo"
+}, {
+  "section": "产品列表",
+  "key": "list_image_max_height",
+  "type": "number",
+  "label": "图片最大高度"
+}, {
+  "section": "产品详情",
+  "key": "button_addtocart_bg",
+  "type": "color",
+  "label": "添加到购物车按钮-背景颜色"
+}, {
+  "section": "产品详情",
+  "key": "button_addtocart_color",
+  "type": "color",
+  "label": "添加到购物车按钮-文本颜色"
+}, {
+  "section": "产品详情",
+  "key": "button_addtocart_text",
+  "type": "string",
+  "label": "添加到购物车按钮-文本"
+}, {
+  "section": "产品列表",
+  "key": "button_loadmore_bg",
+  "type": "color",
+  "label": "加载更多按钮-背景颜色"
+}, {
+  "section": "产品列表",
+  "key": "button_loadmore_color",
+  "type": "color",
+  "label": "加载更多按钮-文本颜色"
+}, {
+  "section": "产品列表",
+  "key": "button_loadmore_text",
+  "type": "string",
+  "label": "加载更多按钮-文本"
+}, {
+  "section": "产品列表",
+  "key": "list_price_color",
+  "type": "color",
+  "label": "价格颜色"
+}, {
+  "section": "产品列表",
+  "key": "list_price_size",
+  "type": "number",
+  "label": "价格字体大小（px）"
+}, {
+  "section": "产品详情",
+  "key": "details_price_color",
+  "type": "color",
+  "label": "价格颜色"
+}, {
+  "section": "产品详情",
+  "key": "details_price_size",
+  "type": "number",
+  "label": "价格字体大小（px）"
+}, {
+  "section": "标题",
+  "key": "search_placeholder",
+  "type": "string",
+  "label": "搜索占位符"
+}, {
+  "section": "产品列表",
+  "key": "show_product_filter",
+  "type": "boolean",
+  "label": "显示产品筛选"
+}, {
+  "section": "产品详情",
+  "key": "show_product_breadcrumbs",
+  "type": "boolean",
+  "label": "显示面包屑导航"
+}, {
+  "section": "产品列表",
+  "key": "show_category_breadcrumbs",
+  "type": "boolean",
+  "label": "显示面包屑导航"
+}, {
+  "section": "产品详情",
+  "key": "show_discount_countdown",
+  "type": "boolean",
+  "label": "显示折扣倒计时"
+}, {
+  "section": "主页",
+  "key": "home_products_title",
+  "type": "string",
+  "label": "特色产品标题"
+}, {
+  "section": "主页",
+  "key": "home_products_sort",
+  "type": "string",
+  "label": "特色产品排序"
+}, {
+  "section": "主页",
+  "key": "home_products_sku",
+  "type": "string",
+  "label": "特色产品-SKU"
+}, {
+  "section": "主页",
+  "key": "home_products_limit",
+  "type": "number",
+  "label": "特色产品数量"
+}, {
+  "section": "购物车和结帐",
+  "key": "hide_footer_on_checkout",
+  "type": "boolean",
+  "label": "结帐时隐藏页脚"
+}, {
+  "section": "购物车和结帐",
+  "key": "checkoutInputClass",
+  "type": "string",
+  "label": "文本输入-类"
+}, {
+  "section": "购物车和结帐",
+  "key": "checkoutButtonClass",
+  "type": "string",
+  "label": "按钮-类"
+}, {
+  "section": "购物车和结帐",
+  "key": "checkoutEditButtonClass",
+  "type": "string",
+  "label": "编辑按钮-类"
+}, {
+  "section": "产品列表",
+  "key": "sortNewest",
+  "type": "string",
+  "label": "按最新排序（逗号分隔的字段）"
+}, {
+  "section": "产品列表",
+  "key": "sortPriceLow",
+  "type": "string",
+  "label": "按价格从低到高排序（逗号分隔的字段）"
+}, {
+  "section": "产品列表",
+  "key": "sortPriceHigh",
+  "type": "string",
+  "label": "按价格从高到低排序（逗号分隔的字段）"
+}, {
+  "section": "产品详情",
+  "key": "product_thumbnail_position",
+  "type": "string",
+  "label": "图库缩略图位置",
+  "options": [{
+      "label": "顶部",
+      "value": "top"
+    },
+    {
+      "label": "右侧",
+      "value": "right"
+    },
+    {
+      "label": "底部",
+      "value": "bottom"
+    },
+    {
+      "label": "左侧",
+      "value": "left"
+    }
+  ]
+}, {
+  "section": "产品详情",
+  "key": "disqus_shortname",
+  "type": "string",
+  "label": "DISQUS-简称"
+}, {
+  "section": "页脚",
+  "key": "footer_about",
+  "type": "string",
+  "label": "简短描述"
+}, {
+  "section": "页脚",
+  "key": "footer_menu_1_title",
+  "type": "string",
+  "label": "菜单1-标题"
+}, {
+  "section": "页脚",
+  "key": "footer_menu_2_title",
+  "type": "string",
+  "label": "菜单2-标题"
+}, {
+  "section": "购物车和结账",
+  "key": "maxCartItemQty",
+  "type": "number",
+  "label": "最大数量"
+}, {
+  "section": "购物车和结账",
+  "key": "cartThumbnailWidth",
+  "type": "number",
+  "label": "图像宽度（px）"
+}, {
+  "section": "产品列表",
+  "key": "listThumbnailWidth",
+  "type": "number",
+  "label": "图像宽度（px）"
+}, {
+  "section": "产品详情",
+  "key": "previewThumbnailWidth",
+  "type": "number",
+  "label": "缩略图宽度（px）"
+}, {
+  "section": "产品详情",
+  "key": "bigThumbnailWidth",
+  "type": "number",
+  "label": "图像宽度（px）"
+}, {
+  "section": "主页",
+  "key": "category_list_thumbnail_width",
+  "type": "number",
+  "label": "类别列表的图像宽度（px）"
+}, {
+  "section": "页脚",
+  "key": "footer_menu_1_items",
+  "type": "array",
+  "label": "菜单1（链接）",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "链接文本"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "链接网址"
+  }]
+}, {
+  "section": "页脚",
+  "key": "footer_menu_2_items",
+  "type": "array",
+  "label": "菜单2（链接）",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "链接文本"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "链接网址"
+  }]
+}, {
+  "section": "页脚",
+  "key": "footer_social",
+  "type": "array",
+  "label": "社交网站图标",
+  "properties": [{
+    "key": "type",
+    "type": "string",
+    "label": "社交网站名称",
+    "options": [{
+        "label": "Facebook",
+        "value": "facebook"
+      },
+      {
+        "label": "Twitter",
+        "value": "twitter"
+      },
+      {
+        "label": "Instagram",
+        "value": "instagram"
+      },
+      {
+        "label": "VK",
+        "value": "vk"
+      }
+    ]
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "网址"
+  }]
+}, {
+  "section": "主页",
+  "key": "home_slider",
+  "type": "array",
+  "label": "轮播插件-slider",
+  "properties": [{
+    "key": "image",
+    "type": "image",
+    "label": "图片"
+  }, {
+    "key": "title",
+    "type": "string",
+    "label": "标题"
+  }, {
+    "key": "description",
+    "type": "string",
+    "label": "描述"
+  }, {
+    "key": "path",
+    "type": "string",
+    "label": "页面路径"
+  }]
+}, {
+  "section": "主页",
+  "key": "home_slider_color",
+  "type": "color",
+  "label": "Slider-文本颜色"
+}, {
+  "section": "页脚",
+  "key": "footer_contacts",
+  "type": "array",
+  "label": "联系方式",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "文本行"
+  }]
+}, {
+  "section": "标题",
+  "key": "header_menu",
+  "type": "array",
+  "label": "菜单",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "链接文本"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "链接网址"
+  }]
+}, {
+  "section": "产品详情",
+  "key": "related_products_title",
+  "type": "string",
+  "label": "相关产品标题"
+}, {
+  "section": "产品详情",
+  "key": "product_gallery_shownav",
+  "type": "boolean",
+  "label": "在图库中显示导航箭头"
+}, {
+  "section": "主页",
+  "key": "home_gallery_shownav",
+  "type": "boolean",
+  "label": "在图库中显示导航箭头"
+}, {
+  "section": "产品详情",
+  "key": "show_viewed_products",
+  "type": "boolean",
+  "label": "显示最近浏览的产品"
+}, {
+  "section": "产品详情",
+  "key": "limit_viewed_products",
+  "type": "number",
+  "label": "最近浏览过产品的数量"
+}, {
+  "section": "页面",
+  "key": "page_list_tag",
+  "type": "string",
+  "label": "标签分组创建的页面（博客，新闻，文章或文档）"
+}]
