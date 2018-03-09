@@ -214,39 +214,39 @@
   "section": "页脚",
   "key": "footer_menu_1_items",
   "type": "array",
-  "label": "Menu 1 (links)",
+  "label": "菜单1（链接）",
   "properties": [{
     "key": "text",
     "type": "string",
-    "label": "Link text"
+    "label": "链接文本"
   }, {
     "key": "url",
     "type": "string",
-    "label": "Link url"
+    "label": "链接网址"
   }]
 }, {
   "section": "页脚",
   "key": "footer_menu_2_items",
   "type": "array",
-  "label": "Menu 2 (links)",
+  "label": "菜单2（链接）",
   "properties": [{
     "key": "text",
     "type": "string",
-    "label": "Link text"
+    "label": "链接文本"
   }, {
     "key": "url",
     "type": "string",
-    "label": "Link url"
+    "label": "链接网址"
   }]
 }, {
   "section": "页脚",
   "key": "footer_social",
   "type": "array",
-  "label": "Social icons",
+  "label": "社交网站图标",
   "properties": [{
     "key": "type",
     "type": "string",
-    "label": "Type",
+    "label": "网站名称",
     "options": [{
         "label": "Facebook",
         "value": "facebook"
@@ -267,87 +267,87 @@
   }, {
     "key": "url",
     "type": "string",
-    "label": "Url"
+    "label": "网址"
   }]
 }, {
   "section": "主页",
   "key": "home_slider",
   "type": "array",
-  "label": "Slider",
+  "label": "轮播插件-slider",
   "properties": [{
     "key": "image",
     "type": "image",
-    "label": "Image"
+    "label": "图片"
   }, {
     "key": "title",
     "type": "string",
-    "label": "Title"
+    "label": "标题"
   }, {
     "key": "description",
     "type": "string",
-    "label": "Description"
+    "label": "描述"
   }, {
     "key": "path",
     "type": "string",
-    "label": "Page path"
+    "label": "页面路径"
   }]
 }, {
   "section": "主页",
   "key": "home_slider_color",
   "type": "color",
-  "label": "Slider text color"
+  "label": "Slider-文本颜色"
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_contacts",
   "type": "array",
-  "label": "Contacts",
+  "label": "联系方式",
   "properties": [{
     "key": "text",
     "type": "string",
-    "label": "Text line"
+    "label": "文本行"
   }]
 }, {
   "section": "标题",
   "key": "header_menu",
   "type": "array",
-  "label": "Menu",
+  "label": "菜单",
   "properties": [{
     "key": "text",
     "type": "string",
-    "label": "Link text"
+    "label": "链接文本"
   }, {
     "key": "url",
     "type": "string",
-    "label": "Link url"
+    "label": "链接网址"
   }]
 }, {
   "section": "产品详情",
   "key": "related_products_title",
   "type": "string",
-  "label": "Related Products Title"
+  "label": "相关产品标题"
 }, {
   "section": "产品详情",
   "key": "product_gallery_shownav",
   "type": "boolean",
-  "label": "Show Navigation Arrows in Gallery"
+  "label": "在图库中显示导航箭头"
 }, {
   "section": "主页",
   "key": "home_gallery_shownav",
   "type": "boolean",
-  "label": "Show Navigation Arrows in Gallery"
+  "label": "在图库中显示导航箭头"
 }, {
   "section": "产品详情",
   "key": "show_viewed_products",
   "type": "boolean",
-  "label": "Show recently viewed products"
+  "label": "显示最近浏览的产品"
 }, {
   "section": "产品详情",
   "key": "limit_viewed_products",
   "type": "number",
-  "label": "Count of recently viewed products"
+  "label": "最近浏览过产品的数量"
 }, {
-  "section": "Pages",
+  "section": "页面",
   "key": "page_list_tag",
   "type": "string",
-  "label": "Tag to create page list (blog, news, articles or docs)"
+  "label": "标签分组创建的页面（博客，新闻，文章或文档）"
 }]
