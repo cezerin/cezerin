@@ -104,42 +104,42 @@
   "type": "number",
   "label": "特色产品数量"
 }, {
-  "section": "Cart and Checkout",
+  "section": "购物车和结帐",
   "key": "hide_footer_on_checkout",
   "type": "boolean",
   "label": "Hide footer on checkout"
 }, {
-  "section": "Cart and Checkout",
+  "section": "购物车和结帐",
   "key": "checkoutInputClass",
   "type": "string",
   "label": "Text input class"
 }, {
-  "section": "Cart and Checkout",
+  "section": "购物车和结帐",
   "key": "checkoutButtonClass",
   "type": "string",
   "label": "Button class"
 }, {
-  "section": "Cart and Checkout",
+  "section": "购物车和结帐",
   "key": "checkoutEditButtonClass",
   "type": "string",
   "label": "Edit button class"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "sortNewest",
   "type": "string",
   "label": "Sort by newest (comma separated fields)"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "sortPriceLow",
   "type": "string",
   "label": "Sort by low price (comma separated fields)"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "sortPriceHigh",
   "type": "string",
   "label": "Sort by high price (comma separated fields)"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "product_thumbnail_position",
   "type": "string",
   "label": "Gallery thumbnail position",
