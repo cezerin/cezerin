@@ -72,17 +72,17 @@
   "section": "产品详情",
   "key": "show_product_breadcrumbs",
   "type": "boolean",
-  "label": "Show breadcrumbs"
+  "label": "显示面包屑导航"
 }, {
   "section": "产品列表",
   "key": "show_category_breadcrumbs",
   "type": "boolean",
-  "label": "Show breadcrumbs"
+  "label": "显示面包屑导航"
 }, {
   "section": "产品详情",
   "key": "show_discount_countdown",
   "type": "boolean",
-  "label": "Show discount countdown"
+  "label": "显示折扣倒计时"
 }, {
   "section": "Home",
   "key": "home_products_title",
