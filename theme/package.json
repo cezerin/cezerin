@@ -3,22 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
-  "scripts": {
-    "build": "babel src -d dist --quiet"
-  },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
-    "bulma": "^0.6.1",
-    "rc-slider": "^8.4.1",
-    "react-image-gallery": "^0.8.6",
-    "react-image-lightbox": "^4.3.0",
+    "bulma": "^0.6.2",
+    "rc-slider": "^8.6.1",
+    "react-image-gallery": "^0.8.7",
+    "react-image-lightbox": "^4.6.0",
     "react-lazyload": "^2.3.0"
   }
 }
