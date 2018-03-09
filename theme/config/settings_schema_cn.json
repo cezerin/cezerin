@@ -84,25 +84,25 @@
   "type": "boolean",
   "label": "显示折扣倒计时"
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_products_title",
   "type": "string",
-  "label": "Featured Products Title"
+  "label": "特色产品标题"
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_products_sort",
   "type": "string",
-  "label": "Featured Products Sort By"
+  "label": "特色产品排序"
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_products_sku",
   "type": "string",
-  "label": "Featured Products SKUs"
+  "label": "特色产品-SKU"
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_products_limit",
   "type": "number",
-  "label": "Featured Products Items Count"
+  "label": "特色产品数量"
 }, {
   "section": "Cart and Checkout",
   "key": "hide_footer_on_checkout",
