@@ -5,9 +5,6 @@
     "watch": ["./config/server.js", "./src/api/server/"],
     "instances": "1",
     "exec_mode": "fork",
-    "env": {
-      "NODE_ENV": "production"
-    },
     "watch_options": {
       "persistent": true,
       "ignoreInitial": false
@@ -15,12 +12,9 @@
   }, {
     "name": "store",
     "script": "./dist/store/server/index.js",
-    "watch": ["./config/server.js", "./public/admin/index.html", "./dist/store/", "./theme/dist/", "./theme/assets/index.html"],
+    "watch": ["./config/server.js", "./dist/store/", "./theme/dist/", "./theme/assets/index.html"],
     "instances": "1",
     "exec_mode": "fork",
-    "env": {
-      "NODE_ENV": "production"
-    },
     "watch_options": {
       "persistent": true,
       "ignoreInitial": false
