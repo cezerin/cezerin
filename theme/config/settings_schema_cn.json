@@ -1,28 +1,28 @@
 [{
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_logo_url",
   "type": "image",
   "label": "Logo"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "list_image_max_height",
   "type": "number",
-  "label": "Image max height"
+  "label": "图片最大高度"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "button_addtocart_bg",
   "type": "color",
-  "label": "Button Add to Cart. Background color."
+  "label": "添加到购物车按钮背景颜色"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "button_addtocart_color",
   "type": "color",
-  "label": "Button Add to Cart. Text color."
+  "label": "添加到购物车按钮文本颜色"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "button_addtocart_text",
   "type": "string",
-  "label": "Button Add to Cart. Text."
+  "label": "添加到购物车按钮文本"
 }, {
   "section": "Product List",
   "key": "button_loadmore_bg",
