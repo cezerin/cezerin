@@ -127,22 +127,22 @@
   "section": "产品列表",
   "key": "sortNewest",
   "type": "string",
-  "label": "Sort by newest (comma separated fields)"
+  "label": "按最新排序（逗号分隔的字段）"
 }, {
   "section": "产品列表",
   "key": "sortPriceLow",
   "type": "string",
-  "label": "Sort by low price (comma separated fields)"
+  "label": "按价格从低到高排序（逗号分隔的字段）"
 }, {
   "section": "产品列表",
   "key": "sortPriceHigh",
   "type": "string",
-  "label": "Sort by high price (comma separated fields)"
+  "label": "按价格从高到低排序（逗号分隔的字段）"
 }, {
   "section": "产品详情",
   "key": "product_thumbnail_position",
   "type": "string",
-  "label": "Gallery thumbnail position",
+  "label": "图库缩略图位置",
   "options": [{
       "label": "顶部",
       "value": "top"
