@@ -209,7 +209,7 @@
   "section": "主页",
   "key": "category_list_thumbnail_width",
   "type": "number",
-  "label": "Category list. Image width (px)"
+  "label": "类别列表的图像宽度（px）"
 }, {
   "section": "页脚",
   "key": "footer_menu_1_items",
