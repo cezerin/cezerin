@@ -144,19 +144,19 @@
   "type": "string",
   "label": "Gallery thumbnail position",
   "options": [{
-      "label": "Top",
+      "label": "顶部",
       "value": "top"
     },
     {
-      "label": "Right",
+      "label": "右侧",
       "value": "right"
     },
     {
-      "label": "Bottom",
+      "label": "底部",
       "value": "bottom"
     },
     {
-      "label": "Left",
+      "label": "左侧",
       "value": "left"
     }
   ]
