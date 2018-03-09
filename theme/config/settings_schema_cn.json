@@ -112,17 +112,17 @@
   "section": "购物车和结帐",
   "key": "checkoutInputClass",
   "type": "string",
-  "label": "文本输入类"
+  "label": "文本输入-类"
 }, {
   "section": "购物车和结帐",
   "key": "checkoutButtonClass",
   "type": "string",
-  "label": "按钮类"
+  "label": "按钮-类"
 }, {
   "section": "购物车和结帐",
   "key": "checkoutEditButtonClass",
   "type": "string",
-  "label": "编辑按钮类"
+  "label": "编辑按钮-类"
 }, {
   "section": "产品列表",
   "key": "sortNewest",
