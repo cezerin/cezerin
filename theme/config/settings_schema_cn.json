@@ -59,27 +59,27 @@
   "type": "number",
   "label": "价格字体大小（px）"
 }, {
-  "section": "Header",
+  "section": "标题",
   "key": "search_placeholder",
   "type": "string",
-  "label": "Search placeholder"
+  "label": "搜索占位符"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "show_product_filter",
   "type": "boolean",
-  "label": "Show Product Filter"
+  "label": "显示产品筛选"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "show_product_breadcrumbs",
   "type": "boolean",
   "label": "Show breadcrumbs"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "show_category_breadcrumbs",
   "type": "boolean",
   "label": "Show breadcrumbs"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "show_discount_countdown",
   "type": "boolean",
   "label": "Show discount countdown"
