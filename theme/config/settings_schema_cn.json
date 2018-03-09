@@ -246,7 +246,7 @@
   "properties": [{
     "key": "type",
     "type": "string",
-    "label": "网站名称",
+    "label": "社交网站名称",
     "options": [{
         "label": "Facebook",
         "value": "facebook"
