@@ -12,52 +12,52 @@
   "section": "产品详情",
   "key": "button_addtocart_bg",
   "type": "color",
-  "label": "添加到购物车按钮背景颜色"
+  "label": "添加到购物车按钮-背景颜色"
 }, {
   "section": "产品详情",
   "key": "button_addtocart_color",
   "type": "color",
-  "label": "添加到购物车按钮文本颜色"
+  "label": "添加到购物车按钮-文本颜色"
 }, {
   "section": "产品详情",
   "key": "button_addtocart_text",
   "type": "string",
-  "label": "添加到购物车按钮文本"
+  "label": "添加到购物车按钮-文本"
 }, {
   "section": "产品列表",
   "key": "button_loadmore_bg",
   "type": "color",
-  "label": "Button Load more. Background color."
+  "label": "加载更多按钮-背景颜色"
 }, {
   "section": "产品列表",
   "key": "button_loadmore_color",
   "type": "color",
-  "label": "Button Load more. Text color."
+  "label": "加载更多按钮-文本颜色"
 }, {
   "section": "产品列表",
   "key": "button_loadmore_text",
   "type": "string",
-  "label": "Button Load more. Text."
+  "label": "加载更多按钮-文本"
 }, {
   "section": "产品列表",
   "key": "list_price_color",
   "type": "color",
-  "label": "Price color"
+  "label": "价格颜色"
 }, {
   "section": "产品列表",
   "key": "list_price_size",
   "type": "number",
-  "label": "Price font size (px)"
+  "label": "价格字体大小（px）"
 }, {
   "section": "产品详情",
   "key": "details_price_color",
   "type": "color",
-  "label": "Price color"
+  "label": "价格颜色"
 }, {
   "section": "产品详情",
   "key": "details_price_size",
   "type": "number",
-  "label": "Price font size (px)"
+  "label": "价格字体大小（px）"
 }, {
   "section": "Header",
   "key": "search_placeholder",
