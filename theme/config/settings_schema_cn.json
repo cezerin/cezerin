@@ -164,47 +164,47 @@
   "section": "产品详情",
   "key": "disqus_shortname",
   "type": "string",
-  "label": "DISQUS shortname"
+  "label": "DISQUS-简称"
 }, {
   "section": "页脚",
   "key": "footer_about",
   "type": "string",
-  "label": "Short description"
+  "label": "简短描述"
 }, {
   "section": "页脚",
   "key": "footer_menu_1_title",
   "type": "string",
-  "label": "Menu 1 title"
+  "label": "菜单1-标题"
 }, {
   "section": "页脚",
   "key": "footer_menu_2_title",
   "type": "string",
-  "label": "Menu 2 title"
+  "label": "菜单2-标题"
 }, {
   "section": "购物车和结账",
   "key": "maxCartItemQty",
   "type": "number",
-  "label": "Max Quantity"
+  "label": "最大数量"
 }, {
   "section": "购物车和结账",
   "key": "cartThumbnailWidth",
   "type": "number",
-  "label": "Image width (px)"
+  "label": "图像宽度（px）"
 }, {
   "section": "产品列表",
   "key": "listThumbnailWidth",
   "type": "number",
-  "label": "Image width (px)"
+  "label": "图像宽度（px）"
 }, {
   "section": "产品详情",
   "key": "previewThumbnailWidth",
   "type": "number",
-  "label": "Thumbnail image width (px)"
+  "label": "缩略图宽度（px）"
 }, {
   "section": "产品详情",
   "key": "bigThumbnailWidth",
   "type": "number",
-  "label": "Image width (px)"
+  "label": "图像宽度（px）"
 }, {
   "section": "主页",
   "key": "category_list_thumbnail_width",
