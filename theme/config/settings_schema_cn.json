@@ -161,57 +161,57 @@
     }
   ]
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "disqus_shortname",
   "type": "string",
   "label": "DISQUS shortname"
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_about",
   "type": "string",
   "label": "Short description"
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_menu_1_title",
   "type": "string",
   "label": "Menu 1 title"
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_menu_2_title",
   "type": "string",
   "label": "Menu 2 title"
 }, {
-  "section": "Cart and Checkout",
+  "section": "购物车和结账",
   "key": "maxCartItemQty",
   "type": "number",
   "label": "Max Quantity"
 }, {
-  "section": "Cart and Checkout",
+  "section": "购物车和结账",
   "key": "cartThumbnailWidth",
   "type": "number",
   "label": "Image width (px)"
 }, {
-  "section": "Product List",
+  "section": "产品列表",
   "key": "listThumbnailWidth",
   "type": "number",
   "label": "Image width (px)"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "previewThumbnailWidth",
   "type": "number",
   "label": "Thumbnail image width (px)"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "bigThumbnailWidth",
   "type": "number",
   "label": "Image width (px)"
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "category_list_thumbnail_width",
   "type": "number",
   "label": "Category list. Image width (px)"
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_menu_1_items",
   "type": "array",
   "label": "Menu 1 (links)",
@@ -225,7 +225,7 @@
     "label": "Link url"
   }]
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_menu_2_items",
   "type": "array",
   "label": "Menu 2 (links)",
@@ -239,7 +239,7 @@
     "label": "Link url"
   }]
 }, {
-  "section": "Footer",
+  "section": "页脚",
   "key": "footer_social",
   "type": "array",
   "label": "Social icons",
@@ -270,7 +270,7 @@
     "label": "Url"
   }]
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_slider",
   "type": "array",
   "label": "Slider",
@@ -292,7 +292,7 @@
     "label": "Page path"
   }]
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_slider_color",
   "type": "color",
   "label": "Slider text color"
@@ -307,7 +307,7 @@
     "label": "Text line"
   }]
 }, {
-  "section": "Header",
+  "section": "标题",
   "key": "header_menu",
   "type": "array",
   "label": "Menu",
@@ -321,27 +321,27 @@
     "label": "Link url"
   }]
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "related_products_title",
   "type": "string",
   "label": "Related Products Title"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "product_gallery_shownav",
   "type": "boolean",
   "label": "Show Navigation Arrows in Gallery"
 }, {
-  "section": "Home",
+  "section": "主页",
   "key": "home_gallery_shownav",
   "type": "boolean",
   "label": "Show Navigation Arrows in Gallery"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "show_viewed_products",
   "type": "boolean",
   "label": "Show recently viewed products"
 }, {
-  "section": "Product Details",
+  "section": "产品详情",
   "key": "limit_viewed_products",
   "type": "number",
   "label": "Count of recently viewed products"
