@@ -27,8 +27,9 @@ Single-Page Application with React server-side rendering. [Demo store](https://s
 
 ## Installation
 
-- [with GitHub](https://github.com/cezerin/cezerin/blob/master/docs/getting-started.md)
-- [with Docker](https://github.com/cezerin/cezerin/blob/master/docs/getting-started-docker.md)
+- [with GitHub](/blob/master/docs/getting-started.md)
+- [with Docker](/blob/master/docs/getting-started-docker.md)
+- [How to deploy a Cezerin on Ubuntu 16.04](/blob/master/docs/how-to-deploy-a-cezerin-on-ubuntu-16-04.md)
 
 ### Requirements
 * Node.js >= 8
