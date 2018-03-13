@@ -16,7 +16,7 @@ docker run --name store-db -v /var/www/store-db:/data/db -d mongo:latest
 ```shell
 docker run -d \
 --name store \
---link store-db:db
+--link store-db:db \
 -p 80:80 \
 -e DB_HOST=db \
 -e DB_PORT=27017 \
