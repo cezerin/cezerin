@@ -139,5 +139,5 @@ To turn off developer mode, you need to do:
  - Set SMTP server from Dashboard or in `config/server.js`
  - Remove `developerMode` from `config/server.js`
  - Remove `developerMode` from `config/admin.js`
- - `npm run build`
- - `pm2 reload api`
+ - `npm run build` inside Cezerin container
+ - `pm2 reload api` inside Cezerin container
