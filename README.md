@@ -8,7 +8,7 @@ Built with:
 * Redux
 * Express
 * Babel
-* WebPack
+* WebPack 4
 * MongoDB
 
 ## Dashboard
@@ -16,6 +16,7 @@ Client-side dashboard use JSON Web Token (JWT) to access REST API.
 
 ![Cezerin Dashboard](https://cezerin.com/assets/images/cezerin-dashboard-products.png?)
 
+![Signin email](https://store.cezerin.com/signin-email.png)
 
 ## Store
 Single-Page Application with React server-side rendering. [Demo store](https://store.cezerin.com)
@@ -26,49 +27,20 @@ Single-Page Application with React server-side rendering. [Demo store](https://s
 
 ## Installation
 
+- [with GitHub](https://github.com/cezerin/cezerin/blob/master/docs/getting-started.md)
+- [with Docker](https://github.com/cezerin/cezerin/blob/master/docs/getting-started-docker.md)
+
 ### Requirements
-* NodeJS >= 8
-* NPM >= 5
+* Node.js >= 8
 * MongoDB >= 3.2
 
 
-### Installation
+## Documentation
 
-
-```shell
-git clone https://github.com/cezerin/cezerin.git cezerin
-cd cezerin
-npm install
-npm run build
-npm start
-```
-
-Then open <http://localhost:3000> to see your app.
-
-
-
-|`npm run <script>`|Description|
-|------------------|-----------|
-|`clean:admin`|Delete admin asset bundles.|
-|`clean:store`|Delete store asset bundles.|
-|`compile:dev`|Compiles the application to disk **and watch** (`~/dist` by default).|
-|`compile`|Compiles the application to disk (`~/dist` by default).|
-|`webpack:admin:dev`|Assemble admin bundles **and watch**.|
-|`webpack:store:dev`|Assemble store bundles **and watch**.|
-|`webpack:admin:prod`|Assemble admin bundles.|
-|`webpack:store:prod`|Assemble store bundles.|
-|`theme:install`|Install theme from /public/<file>.zip|
-|`theme:export`|Zip current theme to /public/<file>.zip|
-|`theme:copy`|Compile theme and copy assets to /public/|
-|`theme:build:dev`|Refresh theme after modification **and watch**.|
-|`theme:build:prod`|Refresh theme after modification.|
-|`build:dev`|Compile and assemble bundles **and watch**.|
-|`build`|Compile and assemble bundles.|
-|`start`|Start node server.|
+[Documentation](https://github.com/cezerin/cezerin/tree/master/docs)
 
 
 ## Application Structure
-
 
 ```
 .
@@ -95,11 +67,6 @@ Then open <http://localhost:3000> to see your app.
 ├── theme                    # Theme as a local package
 └── process.json             # pm2 process file
 ```
-
-
-## Documentation
-
-[Documentation](https://github.com/cezerin/cezerin/tree/master/docs)
 
 
 ## Contributing
