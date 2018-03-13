@@ -1,4 +1,4 @@
-# Getting Started
+# Getting Started with Docker
 
 * [Docker](#docker)
 * [Docker Compose](#docker-compose)
