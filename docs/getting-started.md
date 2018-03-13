@@ -24,6 +24,16 @@ npm run build
 npm start
 ```
 
+Also, you can run application with PM2 and watch for modifications.
+1. Install PM2 globally
+```
+npm install pm2 -g
+```
+2. Run application
+```shell
+pm2 start process.json
+```
+
 Open http://localhost:3000 to see your store.  
 Dashboard - http://localhost:3000/admin  
 API - http://localhost:3001
