@@ -1,4 +1,4 @@
-## Initialize MongoDB
+# Initialize MongoDB
 
 * [Adding common pages](#adding-common-pages)
 * [Adding a User](#adding-a-user)
@@ -6,7 +6,9 @@
 * [Settings](#settings)
 * [Create indexes](#create-indexes)
 
-### Adding common pages
+Open `mongo` shell and execute scripts.
+
+## Adding common pages
 
 ```js
 db.pages.insertMany([
@@ -21,7 +23,7 @@ db.pages.insertMany([
 ]);
 ```
 
-### Adding a User
+## Adding a User
 
 ```js
 db.tokens.insert({
@@ -34,7 +36,7 @@ db.tokens.insert({
 });
 ```
 
-### Setting up a mail server
+## Setting up a mail server
 
 ```js
 db.emailSettings.insert({
@@ -47,11 +49,11 @@ db.emailSettings.insert({
 });
 ```
 
-### Settings
+## Settings
 
 ```js
 db.settings.insert({
-  domain: 'https://domain.com',
+  domain: 'http://localhost:3000',
   logo_file: null,
   language: 'en',
   currency_code: 'USD',
@@ -73,7 +75,7 @@ db.settings.insert({
 });
 ```
 
-### Create indexes
+## Create indexes
 
 ```js
 db.pages.createIndex({ enabled: 1 });

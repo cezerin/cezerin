@@ -1,11 +1,15 @@
-## Getting Started
+# Getting Started
 
 * [Installation](#1-installation)
-* [Configuration](#2-configuration)
-* [Run Application](#3-run-application)
+* [Run Application](#2-run-application)
+* [Configuration](#3-configuration)
 * [Add default data](#4-add-default-data)
 
-### 1. Installation
+## 1. Installation
+
+### Requirements
+- Node.js >= 8
+- MongoDB >= 3.2
 
 ```shell
 git clone https://github.com/cezerin/cezerin.git cezerin
@@ -14,49 +18,31 @@ npm install
 npm run build
 ```
 
-### 2. Configuration
-
-1. open config/server.js
-2. connecting to your MongoDB
-```js
-mongodbServerUrl: 'mongodb://127.0.0.1:27017/shop'
-```
-
-### 3. Run Application
+## 2. Run Application
 
 ```shell
 npm start
 ```
 
-### 4. Add default data
-
-1. open mongo shell
-2. setting up default settings
-```js
-db.settings.insert({
-  domain: 'http://localhost:3000',
-  currency_code: 'USD',
-  currency_symbol: '$',
-  currency_format: '${amount}',
-  thousand_separator: ',',
-  decimal_separator: '.',
-  decimal_number: 2,
-  date_format: 'MMMM D, YYYY',
-  time_format: 'h:mm a',
-  default_product_sorting: 'stock_status,price,position'
-});
-```
-3. add common pages
-```js
-db.pages.insertMany([
-  {slug: '', meta_title: 'Home', enabled: true, is_system: true},
-  {slug: 'checkout', meta_title: 'Checkout', enabled: true, is_system: true},
-  {slug: 'checkout-success', meta_title: 'Thank You!', enabled: true, is_system: true}
-]);
-```
-
-Open http://localhost:3000 to see your store.
-
-Dashboard - http://localhost:3000/admin
-
+Open http://localhost:3000 to see your store.  
+Dashboard - http://localhost:3000/admin  
 API - http://localhost:3001
+
+## 3. Configuration
+
+By default MongoDB connection string is `mongodb://127.0.0.1:27017/shop`
+
+Change it with environment variables
+
+```shell
+DB_HOST=255.255.255.255 \
+DB_PORT=27017 \
+DB_NAME=shop \
+DB_USER=user \
+DB_PASS=password \
+npm start
+```
+
+## 4. Add default data
+
+You need to manually add default data to MongoDB. [Initialize MongoDB.](https://github.com/cezerin/cezerin/blob/master/docs/initialize-mongodb.md)
