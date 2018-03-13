@@ -1,15 +1,25 @@
 # How to deploy a Cezerin on Ubuntu 16.04
 
-I'll use DigitalOcean to deploy Cezerin.
+* [Create droplet](#1-create-droplet)
+* [Install Docker](#2-install-docker)
+* [Run MongoDB](#3-run-mongodb)
+* [Run Cezerin](#4-run-cezerin)
+* [Add default data to MongoDB](#5-add-default-data-to-mongodb)
+* [Setup domain with](#6-setup-domain-with-cloudflare)
+* [Turn off Developer Mode](#7-turn-off-developer-mode)
+
+## 1. Create droplet
+I'll use [DigitalOcean](https://www.digitalocean.com/) to deploy Cezerin.
 
 1. Click **Create droplet**
  - Choose an image: `Ubuntu 16.04.4 x64`
  - Choose a size: `2 GB (RAM), 1 vCPU, 50 GB (SSD)`
  - Choose a datacenter region: `San Francisco`
+2. Then SSH to droplet.
 
-2. SSH to droplet
+## 2. Install Docker
+[Docker guide.](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 
-3. [Install Docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/)
 ```shell
 sudo apt-get update
 ```
@@ -36,12 +46,12 @@ sudo apt-get update
 sudo apt-get install docker-ce
 ```
 
-5. Run MongoDB
+## 3. Run MongoDB
 ```shell
 docker run --name store-db -v /var/www/store-db:/data/db -d mongo:latest
 ```
 
-6. Run Cezerin
+## 4. Run Cezerin
 ```shell
 docker run -d \
 --name store \
@@ -58,7 +68,9 @@ Check logs
 docker logs store
 ```
 
-6. Add default data to MongoDB
+## 5. Add default data to MongoDB
+Open `mongo` shell from container and switch to `shop` database.
+
 ```shell
 docker exec -it store-db mongo shop
 ```
@@ -105,7 +117,9 @@ db.orders.createIndex({
 }, { default_language: 'english', name: 'textIndex' });
 ```
 
-7. Setup domain with [CloudFlare](https://www.cloudflare.com)  
+## 6. Setup domain with CloudFlare
+[Cloudflare.](https://www.cloudflare.com)
+
  - Get droplet IP on DigitalOcean
 ![DigitalOcean IP Address](./images/do-ip.png)
 
@@ -117,8 +131,8 @@ db.orders.createIndex({
  - Turn on `Always use HTTPS` on CloudFlare
 ![CloudFlare Always HTTPS](./images/cf-alway-https.png)
 
-8. Turn off Developer Mode  
-By default Cezerin is in developer mode. This means you can access API and Dashboard without access tokens.  
+## 7. Turn off Developer Mode
+By default, Cezerin is in developer mode. This means you can access API and Dashboard without access tokens.  
 To turn off developer mode, you need to do:
 
  - Add access token in Dashboard or MongoDB
