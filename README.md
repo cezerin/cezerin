@@ -16,7 +16,7 @@ Client-side dashboard use JSON Web Token (JWT) to access REST API.
 
 ![Cezerin Dashboard](https://cezerin.com/assets/images/cezerin-dashboard-products.png?)
 
-![Signin email](https://store.cezerin.com/signin-email.png?)
+![Signin email](https://cezerin.com/assets/images/cezerin-signin-email.png)
 
 ## Store
 Single-Page Application with React server-side rendering. [Demo store](https://store.cezerin.com)
