@@ -79,13 +79,13 @@ const ProductInventoryForm = ({ handleSubmit, pristine, reset, submitting, initi
         <div className={style.innerBox}>
           <div className="row" style={{ marginBottom: 50 }}>
             <div className="col-xs-5">
-              <div className="blue-title">{messages.products_pricing}</div>
+              <div className="blue-title">{messages.products_pricing} ({settings.currency_symbol})</div>
               <div className="row">
                 <div className="col-xs-6">
-                  <Field name="regular_price" component={TextField} floatingLabelText={messages.products_regularPrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
+                  <Field name="regular_price" component={TextField} floatingLabelText={messages.products_regularPrice} fullWidth={true}/>
                 </div>
                 <div className="col-xs-6">
-                  <Field name="sale_price" component={TextField} floatingLabelText={messages.products_salePrice + ` (${settings.currency_symbol})`} fullWidth={true}/>
+                  <Field name="sale_price" component={TextField} floatingLabelText={messages.products_salePrice} fullWidth={true}/>
                 </div>
                 <div className="col-xs-6">
                   <Field name="date_sale_from"
