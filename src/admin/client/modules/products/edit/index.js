@@ -1,6 +1,8 @@
 import React from 'react'
 import messages from 'lib/text'
 
+import {Tabs, Tab} from 'material-ui/Tabs';
+
 import ProductVariants from 'modules/products/edit/variants'
 import ProductAttributes from 'modules/products/edit/attributes'
 import ProductInventory from 'modules/products/edit/inventory'
@@ -23,25 +25,32 @@ class ProductEditContainer extends React.Component {
 
   render() {
     return (
-      <div>
-        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.description}</div>
-        <ProductGeneral />
-
-        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.products_inventory}</div>
-        <ProductInventory />
-
-        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.productVariants}</div>
-        <ProductVariants />
-
-        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.attributes}</div>
-        <ProductAttributes />
-
-        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.additionalInfo}</div>
-        <ProductAdditional />
-
-        <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.images}</div>
-        <ProductImages />
-      </div>
+      <Tabs style={{margin: 20}}>
+        <Tab label="Description">
+          <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.general}</div>
+          <ProductGeneral />
+        </Tab>
+        <Tab label="Inventory">
+          <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.products_inventory}</div>
+          <ProductInventory/>
+        </Tab>
+        <Tab label="Variants">
+          <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.productVariants}</div>
+          <ProductVariants/>
+        </Tab>
+        <Tab label="Attributes">
+          <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.attributes}</div>
+          <ProductAttributes/>
+        </Tab>
+        <Tab label="Additional Info">
+          <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.additionalInfo}</div>
+          <ProductAdditional/>
+        </Tab>
+        <Tab label="Images">
+          <div style={{margin: 20, color: 'rgba(0, 0, 0, 0.52)'}}>{messages.images}</div>
+          <ProductImages/>
+        </Tab>
+      </Tabs>
     )
   }
 }
