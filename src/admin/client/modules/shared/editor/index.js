@@ -43,6 +43,9 @@ export default class Editor extends React.Component {
         entityId={this.props.entityId}
         content={this.state.value}
         config={{
+          relative_urls : false,
+          remove_script_host : false,
+          convert_urls : false,
           language: settings.language,
           themes: config.themes,
           inline: config.inline,
