@@ -41,11 +41,11 @@
     "theme:install": "./scripts/theme-install.sh",
     "theme:export": "./scripts/theme-export.sh",
     "theme:build": "babel theme/src -d theme/dist --quiet && npm run webpack:store",
-    "build": "NODE_ENV=production npm run compile && npm run theme:build && npm run webpack:admin",
+    "build": "npm run compile && npm run theme:build && npm run webpack:admin",
     "build:watch": "npm run compile:watch & npm run webpack:store:watch & npm run webpack:admin:watch",
     "start-api": "node src/api/server/index.js",
     "start-store": "node dist/store/server/index.js",
-    "start": "NODE_ENV=production npm run start-api & npm run start-store"
+    "start": "npm run start-api & npm run start-store"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
