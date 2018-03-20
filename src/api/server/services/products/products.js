@@ -831,13 +831,16 @@ class ProductsService {
               item.category_slug = category.slug;
             }
 
+            const categorySlug = category.slug || '';
+            const productSlug = item.slug || '';
+
             if(item.url === "") {
-              const itemUrl = new URL((category.slug || '') + '/' + (item.slug || ''), domain);
+              const itemUrl = new URL(categorySlug + '/' + productSlug, domain);
               item.url = itemUrl.toString();
             }
 
             if(item.path === "") {
-              item.path = path.join('/', category.slug || '', item.slug || '');
+              item.path = `/${categorySlug}/${productSlug}`;
             }
           }
         }
