@@ -67,7 +67,6 @@
   "products_preorder": "预购",
   "products_inStock": "现货",
   "products_stockStatus": "库存状态",
-  "products_discontinued": "已停产",
   "products_onSale": "出售",
   "products_search": "搜索产品",
   "products_aboutDelete": "{count}件产品即将被彻底删除，您不能撤消此操作。",

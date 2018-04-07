@@ -67,7 +67,6 @@
   "products_preorder": "Предзаказ",
   "products_inStock": "Есть на складе",
   "products_stockStatus": "Наличие",
-  "products_discontinued": "Снят с продажи",
   "products_onSale": "Скидка",
   "products_search": "Поиск товаров",
   "products_aboutDelete": "{count} товары будут удалены безвозвратно. Вы не сможете отменить это действие.",
