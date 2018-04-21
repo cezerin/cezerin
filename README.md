@@ -70,6 +70,22 @@ Single-Page Application with React server-side rendering. [Demo store](https://s
 ```
 
 
+## Sponsoring
+
+Cezerin is an MIT-licensed open source project. It's an independent project with ongoing development made possible thanks to the support of these awesome backers. [Become a backer or sponsor on OpenCollective](https://opencollective.com/cezerin).
+
+### Sponsors
+
+[Become a sponsor](https://opencollective.com/cezerin#sponsor) and get your logo on our README on Github and [cezerin.com](https://cezerin.com) with a link to your site.
+
+<a href="https://opencollective.com/cezerin/tiers/sponsor/1/website" rel="noopener" target="_blank" style="margin-right: 8px;">
+<img src="https://opencollective.com/cezerin/tiers/sponsor/1/avatar.svg" alt="0" /></a>
+<a href="https://opencollective.com/cezerin/tiers/sponsor/2/website" rel="noopener" target="_blank" style="margin-right: 8px;">
+<img src="https://opencollective.com/cezerin/tiers/sponsor/2/avatar.svg" alt="0" /></a>
+<a href="https://opencollective.com/cezerin/tiers/sponsor/0/website" rel="noopener" target="_blank" style="margin-right: 8px;">
+<img src="https://opencollective.com/cezerin/tiers/sponsor/0/avatar.svg" alt="0" /></a>
+
+
 ## Contributing
 
 If you can, please contribute by reporting issues, discussing ideas, or submitting pull requests with patches and new features. We do our best to respond to all issues and pull requests within a day or two, and make patch releases to npm regularly.
