@@ -14,3 +14,5 @@ dist/*
 logs/*.log
 npm-debug.log*
 *.zip
+db/*
+*.swp
