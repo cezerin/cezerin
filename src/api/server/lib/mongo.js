@@ -4,7 +4,8 @@ const MongoClient = require('mongodb').MongoClient;
 
 const mongodbConnection = settings.mongodbServerUrl;
 const lastslashindex = mongodbConnection.lastIndexOf('/');
-const dbName = mongodbConnection.substring(lastslashindex  + 1);
+const parameterStart = mongodbConnection.lastIndexOf('?');
+const dbName = mongodbConnection.substring(lastslashindex  + 1, parameterStart);
 
 const RECONNECT_INTERVAL = 1000;
 const CONNECT_OPTIONS = {

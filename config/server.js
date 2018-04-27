@@ -5,8 +5,9 @@ const dbPort = process.env.DB_PORT || 27017;
 const dbName = process.env.DB_NAME || 'shop'
 const dbUser = process.env.DB_USER || '';
 const dbPass = process.env.DB_PASS || '';
+const dbParam = process.env.DB_PARAM || '';
 const dbCred = dbUser.length > 0 || dbPass.length > 0 ? `${dbUser}:${dbPass}@` : '';
-const dbUrl = `mongodb://${dbCred}${dbHost}:${dbPort}/${dbName}`;
+const dbUrl = `mongodb://${dbCred}${dbHost}:${dbPort}/${dbName}?${dbParam}`;
 
 module.exports = {
   // used by Store (server side)

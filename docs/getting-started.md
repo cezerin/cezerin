@@ -50,8 +50,11 @@ DB_PORT=27017 \
 DB_NAME=shop \
 DB_USER=user \
 DB_PASS=password \
+DB_PARAM=ssl=true&authSource=admin \
 npm start
 ```
+
+If you are using MongoDB Atlas (free tier available) you have to specify the uri parameter ssl=true&authSource=admin
 
 ## 4. Add default data
 
