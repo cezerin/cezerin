@@ -1,10 +1,11 @@
 const settings = require('./settings');
 const winston = require('winston');
+const url = require('url');
 const MongoClient = require('mongodb').MongoClient;
 
 const mongodbConnection = settings.mongodbServerUrl;
-const lastslashindex = mongodbConnection.lastIndexOf('/');
-const dbName = mongodbConnection.substring(lastslashindex  + 1);
+const mongoPathName = url.parse(mongodbConnection).pathname;
+const dbName = mongoPathName.substring(mongoPathName.lastIndexOf('/') + 1);
 
 const RECONNECT_INTERVAL = 1000;
 const CONNECT_OPTIONS = {
