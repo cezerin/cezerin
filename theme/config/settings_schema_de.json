@@ -1,0 +1,353 @@
+[{
+  "section": "Footer",
+  "key": "footer_logo_url",
+  "type": "image",
+  "label": "Logo"
+}, {
+  "section": "Artikelliste",
+  "key": "list_image_max_height",
+  "type": "number",
+  "label": "Maximale Bildhöhe"
+}, {
+  "section": "Artikeldetails",
+  "key": "button_addtocart_bg",
+  "type": "color",
+  "label": "In den Warenkorb Button. Hintergrundfarbe."
+}, {
+  "section": "Artikeldetails",
+  "key": "button_addtocart_color",
+  "type": "color",
+  "label": "In den Warenkorb Button. Textfarbe."
+}, {
+  "section": "Artikeldetails",
+  "key": "button_addtocart_text",
+  "type": "string",
+  "label": "In den Warenkorb Button. Text."
+}, {
+  "section": "Artikelliste",
+  "key": "button_loadmore_bg",
+  "type": "color",
+  "label": "Weitere laden Button. Hintergrundfarbe."
+}, {
+  "section": "Artikelliste",
+  "key": "button_loadmore_color",
+  "type": "color",
+  "label": "Weitere laden Button. Textfarbe."
+}, {
+  "section": "Artikelliste",
+  "key": "button_loadmore_text",
+  "type": "string",
+  "label": "Weitere laden Button. Text."
+}, {
+  "section": "Artikelliste",
+  "key": "list_price_color",
+  "type": "color",
+  "label": "Farbe Preis"
+}, {
+  "section": "Artikelliste",
+  "key": "list_price_size",
+  "type": "number",
+  "label": "Schriftgröße Preis (px)"
+}, {
+  "section": "Artikeldetails",
+  "key": "details_price_color",
+  "type": "color",
+  "label": "Farbe Preis"
+}, {
+  "section": "Artikeldetails",
+  "key": "details_price_size",
+  "type": "number",
+  "label": "Schriftgröße Preis (px)"
+}, {
+  "section": "Header",
+  "key": "search_placeholder",
+  "type": "string",
+  "label": "Platzhalter Suche"
+}, {
+  "section": "Artikelliste",
+  "key": "show_product_filter",
+  "type": "boolean",
+  "label": "Artikelfilter anzeigen"
+}, {
+  "section": "Artikeldetails",
+  "key": "show_product_breadcrumbs",
+  "type": "boolean",
+  "label": "Breadcrumbs anzeigen"
+}, {
+  "section": "Artikelliste",
+  "key": "show_category_breadcrumbs",
+  "type": "boolean",
+  "label": "Breadcrumbs anzeigen"
+}, {
+  "section": "Artikeldetails",
+  "key": "show_discount_countdown",
+  "type": "boolean",
+  "label": "Rabatt Countdown anzeigen"
+}, {
+  "section": "Home",
+  "key": "home_products_title",
+  "type": "string",
+  "label": "Titel hervorgehobene Artikel"
+}, {
+  "section": "Home",
+  "key": "home_products_sort",
+  "type": "string",
+  "label": "Hervorgehobene Artikel filtern nach"
+}, {
+  "section": "Home",
+  "key": "home_products_sku",
+  "type": "string",
+  "label": "SKU hervorgehobene Artikel"
+}, {
+  "section": "Home",
+  "key": "home_products_limit",
+  "type": "number",
+  "label": "Anzahl hervorgehobene Artikel"
+}, {
+  "section": "Warenkorb und Checkout",
+  "key": "hide_footer_on_checkout",
+  "type": "boolean",
+  "label": "Footer im Checkout verstecken"
+}, {
+  "section": "Warenkorb und Checkout",
+  "key": "checkoutInputClass",
+  "type": "string",
+  "label": "Text input class"
+}, {
+  "section": "Warenkorb und Checkout",
+  "key": "checkoutButtonClass",
+  "type": "string",
+  "label": "Button class"
+}, {
+  "section": "Warenkorb und Checkout",
+  "key": "checkoutEditButtonClass",
+  "type": "string",
+  "label": "Edit button class"
+}, {
+  "section": "Artikelliste",
+  "key": "sortNewest",
+  "type": "string",
+  "label": "Nach Neuste sortieren (Mit Komma getrennte Felder)"
+}, {
+  "section": "Artikelliste",
+  "key": "sortPriceLow",
+  "type": "string",
+  "label": "Sortieren nach kleinstem Preis (Mit Komma getrennte Felder)"
+}, {
+  "section": "Artikelliste",
+  "key": "sortPriceHigh",
+  "type": "string",
+  "label": "Sortieren nach höchstem Preis (Mit Komma getrennte Felder)"
+}, {
+  "section": "Artikeldetails",
+  "key": "product_thumbnail_position",
+  "type": "string",
+  "label": "Gallery thumbnail position",
+  "options": [{
+    "label": "Top",
+    "value": "top"
+  },
+    {
+      "label": "Right",
+      "value": "right"
+    },
+    {
+      "label": "Bottom",
+      "value": "bottom"
+    },
+    {
+      "label": "Left",
+      "value": "left"
+    }
+  ]
+}, {
+  "section": "Artikeldetails",
+  "key": "disqus_shortname",
+  "type": "string",
+  "label": "DISQUS Abkürzung"
+}, {
+  "section": "Footer",
+  "key": "footer_about",
+  "type": "string",
+  "label": "Kurzbeschreibung"
+}, {
+  "section": "Footer",
+  "key": "footer_menu_1_title",
+  "type": "string",
+  "label": "Menü 1 Titel"
+}, {
+  "section": "Footer",
+  "key": "footer_menu_2_title",
+  "type": "string",
+  "label": "Menü 2 Titel"
+}, {
+  "section": "Warenkorb und Checkout",
+  "key": "maxCartItemQty",
+  "type": "number",
+  "label": "Maximale Menge"
+}, {
+  "section": "Warenkorb und Checkout",
+  "key": "cartThumbnailWidth",
+  "type": "number",
+  "label": "Bildbreite (px)"
+}, {
+  "section": "Artikelliste",
+  "key": "listThumbnailWidth",
+  "type": "number",
+  "label": "Bildbreite (px)"
+}, {
+  "section": "Artikeldetails",
+  "key": "previewThumbnailWidth",
+  "type": "number",
+  "label": "Bildbreite Thumbnails (px)"
+}, {
+  "section": "Artikeldetails",
+  "key": "bigThumbnailWidth",
+  "type": "number",
+  "label": "Bildbreite (px)"
+}, {
+  "section": "Home",
+  "key": "category_list_thumbnail_width",
+  "type": "number",
+  "label": "Kategorienliste. Bildbreite (px)"
+}, {
+  "section": "Footer",
+  "key": "footer_menu_1_items",
+  "type": "array",
+  "label": "Menü 1 (links)",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Link text"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "Link url"
+  }]
+}, {
+  "section": "Footer",
+  "key": "footer_menu_2_items",
+  "type": "array",
+  "label": "Menü 2 (links)",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Link text"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "Link url"
+  }]
+}, {
+  "section": "Footer",
+  "key": "footer_social",
+  "type": "array",
+  "label": "Social icons",
+  "properties": [{
+    "key": "type",
+    "type": "string",
+    "label": "Type",
+    "options": [{
+      "label": "Facebook",
+      "value": "facebook"
+    },
+      {
+        "label": "Twitter",
+        "value": "twitter"
+      },
+      {
+        "label": "Instagram",
+        "value": "instagram"
+      },
+      {
+        "label": "VK",
+        "value": "vk"
+      }
+    ]
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "Url"
+  }]
+}, {
+  "section": "Home",
+  "key": "home_slider",
+  "type": "array",
+  "label": "Slider",
+  "properties": [{
+    "key": "image",
+    "type": "image",
+    "label": "Bild"
+  }, {
+    "key": "title",
+    "type": "string",
+    "label": "Titel"
+  }, {
+    "key": "description",
+    "type": "string",
+    "label": "Beschreibung"
+  }, {
+    "key": "path",
+    "type": "string",
+    "label": "Page path"
+  }]
+}, {
+  "section": "Home",
+  "key": "home_slider_color",
+  "type": "color",
+  "label": "Textfarbe Slider"
+}, {
+  "section": "Footer",
+  "key": "footer_contacts",
+  "type": "array",
+  "label": "Kontakte",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Textzeile"
+  }]
+}, {
+  "section": "Header",
+  "key": "header_menu",
+  "type": "array",
+  "label": "Menü",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Link text"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "Link url"
+  }]
+}, {
+  "section": "Artikeldetails",
+  "key": "related_products_title",
+  "type": "string",
+  "label": "Titel Verwandte Artikel"
+}, {
+  "section": "Artikeldetails",
+  "key": "product_gallery_shownav",
+  "type": "boolean",
+  "label": "Navigationspfeile in der Galerie anzeigen"
+}, {
+  "section": "Home",
+  "key": "home_gallery_shownav",
+  "type": "boolean",
+  "label": "Navigationspfeile in der Galerie anzeigen"
+}, {
+  "section": "Artikeldetails",
+  "key": "show_viewed_products",
+  "type": "boolean",
+  "label": "Zuletzt besuchte Artikel anzeigen"
+}, {
+  "section": "Artikeldetails",
+  "key": "limit_viewed_products",
+  "type": "number",
+  "label": "Zuletzt besuchte Artikel zählen"
+}, {
+  "section": "Pages",
+  "key": "page_list_tag",
+  "type": "string",
+  "label": "Taggen um Seitenliste zu erstellen (blog, news, articles oder docs)"
+}]
