@@ -10,6 +10,8 @@ import MenuItem from 'material-ui/MenuItem';
 
 const GatewaySettings = ({ gateway }) => {
   switch(gateway){
+    case 'transbank-webpay':
+      return <Webpay />
     case 'paypal-checkout':
       return <PayPalButton />;
     case 'liqpay':
@@ -69,6 +71,17 @@ const LiqPay = props => {
       </Field>
 
       <Field component={TextField} name="server_url" floatingLabelText="Server URL" hintText="https://<domain>/api/v1/notifications/liqpay" fullWidth={true} />
+    </div>
+  )
+}
+
+const Webpay = props => {
+  return (
+    <div>
+      <Field component={TextField} name="commerce_code" floatingLabelText="Código de comercio (Commerce Code)" fullWidth={true} />
+      <p>
+        Debe guardar los certificados entregados por Webpay en: <i>/src/api/server/paymentGateways/TransbankWebpay/certificates</i>
+      </p>
     </div>
   )
 }

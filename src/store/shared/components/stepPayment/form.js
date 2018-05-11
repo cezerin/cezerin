@@ -15,6 +15,7 @@ export default class CheckoutStepPayment extends React.Component {
     } = this.props;
 
     const { payment_method_gateway, grand_total } = cart;
+    console.log('payment_method_gateway:', payment_method_gateway);
 
     if(!this.props.show){
       return (

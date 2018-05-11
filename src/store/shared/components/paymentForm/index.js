@@ -2,6 +2,7 @@ import React from 'react'
 import api from '../../../client/api'
 import PayPalCheckout from './PayPalCheckout'
 import LiqPay from './LiqPay'
+import WebpayCheckout from './WebpayCheckout'
 
 export default class PaymentForm extends React.Component {
   constructor(props) {
@@ -18,6 +19,7 @@ export default class PaymentForm extends React.Component {
     });
 
     api.ajax.paymentFormSettings.retrieve().then(({ status, json }) => {
+      console.log('json:', json);
       this.setState({
         formSettings: json,
         loading: false
@@ -48,12 +50,20 @@ export default class PaymentForm extends React.Component {
 
   render() {
     const { gateway, shopSettings, onPayment } = this.props;
+    console.log('gateway:', gateway);
     const { formSettings, loading } = this.state;
 
     if(loading){
       return null;
     } else if(formSettings && gateway && gateway !== '') {
+      console.log('gateway:', gateway);
       switch(gateway){
+        case 'transbank-webpay':
+          return (
+            <div className="payment-form">
+              <WebpayCheckout formSettings={formSettings} shopSettings={shopSettings} onPayment={onPayment} />
+            </div>
+          )
         case 'paypal-checkout':
           return (
             <div className="payment-form">
@@ -68,7 +78,7 @@ export default class PaymentForm extends React.Component {
           )
         default:
           return (
-            <div>Payment Gateway <b>{gateway}</b> not found!</div>
+            <div>asdfasdPayment Gateway <b>{gateway}</b> not found!</div>
           )
       }
     } else {
