@@ -11,7 +11,9 @@ const AddToCartButton = ({ product, variant, addCartItem, isAllOptionsSelected }
     buttonStyle.color = themeSettings.button_addtocart_color;
   }
 
-  let addToCartText = themeSettings.button_addtocart_text && themeSettings.button_addtocart_text.length > 0 ? themeSettings.button_addtocart_text : text.addToCart;
+  let addToCartText = themeSettings.button_addtocart_text && themeSettings.button_addtocart_text.length > 0
+    ? themeSettings.button_addtocart_text
+    : text.addToCart;
 
   if(product.stock_status === 'discontinued') {
     return <button className="button is-dark is-fullwidth" style={buttonStyle} disabled>{text.discontinued}</button>
