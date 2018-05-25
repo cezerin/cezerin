@@ -4,7 +4,6 @@ const mongo = require('../../lib/mongo');
 const parse = require('../../lib/parse');
 
 class CheckoutFieldsService {
-  constructor() {}
 
   getCheckoutFields() {
     return mongo.db.collection('checkoutFields').find().toArray().then(fields => fields.map(field => {

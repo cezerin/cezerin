@@ -10,6 +10,8 @@ import MenuItem from 'material-ui/MenuItem';
 
 const GatewaySettings = ({ gateway }) => {
   switch(gateway){
+    case 'qvo':
+      return <Qvo />
     case 'transbank-webpay':
       return <Webpay />
     case 'paypal-checkout':
@@ -82,6 +84,16 @@ const Webpay = props => {
       <p>
         Debe guardar los certificados entregados por Webpay en: <i>/src/api/server/paymentGateways/TransbankWebpay/certificates</i>
       </p>
+    </div>
+  )
+}
+
+const Qvo = props => {
+  return (
+    <div>
+      <Field component={TextField} name="public-key" floatingLabelText="Qvo Public Key" fullWidth={true} />
+      <Field component={TextField} name="store-name" floatingLabelText="Nombre de la tienda" fullWidth={true} />
+      <Field component={TextField} name="logo" floatingLabelText="Link a logo de la tienda" fullWidth={true} />
     </div>
   )
 }

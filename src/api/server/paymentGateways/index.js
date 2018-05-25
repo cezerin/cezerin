@@ -5,6 +5,7 @@ const PaymentGatewaysService = require('../services/settings/paymentGateways');
 const PayPalCheckout = require('./PayPalCheckout');
 const LiqPay = require('./LiqPay');
 const TransbankWebpay = require('./TransbankWebpay');
+const Qvo = require('./Qvo');
 
 const getOptions = (orderId) => {
   return Promise.all([
@@ -31,6 +32,8 @@ const getOptions = (orderId) => {
 const getPaymentFormSettings = (orderId) => {
   return getOptions(orderId).then(options => {
     switch(options.gateway){
+      case 'qvo':
+        return Qvo.getPaymentFormSettings(options);
       case 'transbank-webpay':
         return TransbankWebpay.getPaymentFormSettings(options);
       case 'paypal-checkout':
@@ -53,6 +56,8 @@ const paymentNotification = (req, res, gateway) => {
     };
 
     switch(gateway){
+      case 'qvo':
+        return Qvo.paymentNotification(options);
       case 'transbank-webpay':
         return TransbankWebpay.paymentNotification(options);
       case 'paypal-checkout':

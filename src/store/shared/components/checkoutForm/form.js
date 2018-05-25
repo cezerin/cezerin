@@ -52,6 +52,7 @@ export default class Form extends React.Component {
     if (cart && cart.items.length > 0) {
       const { payment_method_gateway } = cart;
       const showPaymentForm = payment_method_gateway && payment_method_gateway !== '';
+      console.log('payment_method_gateway:', payment_method_gateway)
 
       return (
         <div className="checkout-form">

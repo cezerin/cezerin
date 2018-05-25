@@ -88,21 +88,18 @@ class CheckoutStepContacts extends React.Component {
       return field.label;
     } else {
       switch (fieldName) {
+        case 'fullName':
+          return text.fullName;
         case 'email':
           return text.email;
-          break;
         case 'mobile':
           return text.mobile;
-          break;
         case 'country':
           return text.country;
-          break;
         case 'state':
           return text.state;
-          break;
         case 'city':
           return text.city;
-          break;
         default:
           return 'Unnamed field';
       }
@@ -142,6 +139,13 @@ class CheckoutStepContacts extends React.Component {
       return (
         <div className="checkout-step">
           <h1><span>1</span>{this.props.title}</h1>
+
+          {!this.isFieldHidden('fullName') &&
+            <div className="checkout-field-preview">
+              <div className="name">{text.fullName}</div>
+              <div className="value">{initialValues.fullName}</div>
+            </div>
+          }
 
           {!this.isFieldHidden('email') &&
             <div className="checkout-field-preview">

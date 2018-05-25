@@ -45,7 +45,8 @@
     "build:watch": "npm run compile:watch & npm run webpack:store:watch & npm run webpack:admin:watch",
     "start-api": "node src/api/server/index.js",
     "start-store": "node dist/store/server/index.js",
-    "start": "npm run start-api & npm run start-store"
+    "start": "npm run start-api & npm run start-store",
+    "start-watch": "npm run webpack:admin:watch & npm run webpack:store:watch & pm2 start process.json"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
