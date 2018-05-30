@@ -92,6 +92,7 @@ const Qvo = props => {
   return (
     <div>
       <Field component={TextField} name="public-key" floatingLabelText="Qvo Public Key" fullWidth={true} />
+      <Field component={TextField} name="private-key" floatingLabelText="Qvo Private Key" fullWidth={true} />
       <Field component={TextField} name="store-name" floatingLabelText="Nombre de la tienda" fullWidth={true} />
       <Field component={TextField} name="logo" floatingLabelText="Link a logo de la tienda" fullWidth={true} />
     </div>
