@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {createStore, applyMiddleware} from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension';
 import {Provider} from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { BrowserRouter } from 'react-router-dom'
@@ -9,7 +10,7 @@ import * as analytics from '../shared/analytics'
 import App from '../shared/app'
 
 const initialState = window.__APP_STATE__;
-const store = createStore(reducers, initialState, applyMiddleware(thunkMiddleware));
+const store = createStore(reducers, initialState, composeWithDevTools(applyMiddleware(thunkMiddleware)));
 
 ReactDOM.hydrate(
   <Provider store={store}>

@@ -55,8 +55,11 @@ const paymentNotification = (req, res, gateway) => {
       res: res
     };
 
+    console.log('options on paymentNotification:', options)
+
     switch(gateway){
       case 'qvo':
+        console.log('running paymentNotification function')
         return Qvo.paymentNotification(options);
       case 'transbank-webpay':
         return TransbankWebpay.paymentNotification(options);
