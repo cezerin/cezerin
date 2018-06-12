@@ -186,6 +186,7 @@ class SettingsService {
 
   uploadLogo(req, res, next) {
     let uploadDir = path.resolve(settings.filesUploadPath);
+    console.log('uploadDir:', uploadDir)
     fse.ensureDirSync(uploadDir);
 
     let form = new formidable.IncomingForm(),

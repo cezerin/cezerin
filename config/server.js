@@ -46,13 +46,13 @@ module.exports = {
   // path to uploads
   categoriesUploadPath: 'public/content/images/categories',
   productsUploadPath: 'public/content/images/products',
-  filesUploadPath: 'public/content',
+  filesUploadPath: 'public/content/files',
   themeAssetsUploadPath: 'theme/assets/images',
 
   // url to uploads
   categoriesUploadUrl: '/images/categories',
   productsUploadUrl: '/images/products',
-  filesUploadUrl: '',
+  filesUploadUrl: '/files',
   themeAssetsUploadUrl: '/assets/images',
 
   // store UI language

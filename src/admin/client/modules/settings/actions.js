@@ -399,6 +399,7 @@ export function updatePaymentGateway(gatewayName, data) {
 
 export function uploadLogo(form) {
   return (dispatch, getState) => {
+    console.log('form:', form)
     return api.settings.uploadLogo(form)
     .then(() => {
       dispatch(fetchSettings());
