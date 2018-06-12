@@ -22,7 +22,7 @@ const getPaymentFormSettings = options => {
   return Promise.resolve(formSettings);
 }
 
-const paymentNotification = (options) => {
+const paymentNotification = options => {
   const { gateway, gatewaySettings, req, res } = options
   console.log('gateway:', gateway)
   console.log('gatewaySettings:', gatewaySettings)
