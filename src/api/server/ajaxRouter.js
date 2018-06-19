@@ -217,6 +217,22 @@ ajaxRouter.put('/cart/billing_address', (req, res, next) => {
   }
 })
 
+ajaxRouter.post('/payments', (req, res, next) => {
+  const order_id = req.signedCookies.order_id;
+
+  if (order_id) {
+    let client = api.orders.client;
+
+    client.post('/payments/stripe-elements', req.body)
+      .then(orderResponse => {
+        return res.status(200).send(orderResponse.json)
+      })
+  } else {
+    res.end();
+  }
+
+});
+
 ajaxRouter.get('/pages', (req, res, next) => {
   api.pages.list(req.query).then(({status, json}) => {
     res.status(status).header('Cache-Control', DEFAULT_CACHE_CONTROL).send(json);

@@ -364,6 +364,17 @@ class OrdersService {
         'date_updated': new Date()
       }
 
+      if (data.payment_token !== undefined) {
+        order.payment_token = {
+          id: parse.getString(data.payment_token.id),
+          card_id: parse.getString(data.payment_token.card.id),
+          card_brand: parse.getString(data.payment_token.card.brand),
+          card_exp_month: parse.getString(data.payment_token.card.exp_month),
+          card_exp_year: parse.getString(data.payment_token.card.exp_year),
+          card_last4: parse.getString(data.payment_token.card.last4),
+        }
+      }
+
       if (data.item_tax !== undefined) {
         order.item_tax = parse.getNumberIfPositive(data.item_tax) || 0;
       }

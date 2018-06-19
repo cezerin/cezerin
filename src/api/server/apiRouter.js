@@ -22,6 +22,7 @@ const RedirectsRoute = require('./routes/redirects');
 const FilesRoute = require('./routes/files');
 const AppsRoute = require('./routes/apps');
 const WebhooksRoute = require('./routes/webhooks');
+const PaymentsRoute = require('./routes/payments');
 
 new ProductsRoute(apiRouter);
 new ProductCategoriesRoute(apiRouter);
@@ -42,5 +43,6 @@ new RedirectsRoute(apiRouter);
 new FilesRoute(apiRouter);
 new AppsRoute(apiRouter);
 new WebhooksRoute(apiRouter);
+new PaymentsRoute(apiRouter);
 
 module.exports = apiRouter;
