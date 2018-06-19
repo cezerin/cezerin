@@ -10,6 +10,7 @@ export default class CheckoutStepPayment extends React.Component {
       settings,
       processingCheckout,
       finishCheckout,
+      checkoutStripe,
       inputClassName,
       buttonClassName
     } = this.props;
@@ -33,6 +34,7 @@ export default class CheckoutStepPayment extends React.Component {
                 amount={grand_total}
                 shopSettings={settings}
                 onPayment={finishCheckout}
+                onCreateToken={checkoutStripe}
                 inputClassName={inputClassName}
                 buttonClassName={buttonClassName}
               />

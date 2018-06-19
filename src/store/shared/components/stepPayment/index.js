@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
-import {checkout} from '../../actions'
+import {checkout, checkoutStripe} from '../../actions'
 import Form from './form'
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,6 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     finishCheckout: () => {
       dispatch(checkout(null, ownProps.history));
+    },
+    checkoutStripe: (value) => {
+      dispatch(checkoutStripe(value, ownProps.history));
     }
   }
 }

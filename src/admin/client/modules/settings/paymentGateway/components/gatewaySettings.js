@@ -14,12 +14,27 @@ const GatewaySettings = ({ gateway }) => {
       return <PayPalButton />;
     case 'liqpay':
       return <LiqPay />;
+    case 'stripe-elements':
+      return <StripeElements />;
     default:
       return null;
   }
 }
 
 export default GatewaySettings;
+
+const StripeElements = props => {
+  return (
+    <div>
+      <Field component={SelectField} name="env" floatingLabelText="Environment" fullWidth={true} autoWidth={true}>
+        <MenuItem value="production" primaryText="production" />
+        <MenuItem value="sandbox" primaryText="sandbox" />
+      </Field>
+
+      <Field component={TextField} name="api_key" floatingLabelText="API Key" fullWidth={true} />
+    </div>
+  )
+}
 
 const PayPalButton = props => {
   return (

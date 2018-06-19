@@ -175,6 +175,30 @@ const receiveShippingMethods = methods => ({
   methods
 })
 
+export const checkoutStripe = (token, history) => (dispatch, getState) => {
+  return api.ajax.cart.update({payment_token: token })
+    .then(order =>
+      api.ajax.cart.client.post('/payments', {
+        amount: order.json.grand_total,
+        statement: "Order #" + order.json.number,
+        currency: 'eur',
+        order: {
+          id: order.json.id
+        },
+        stripeToken: {
+          id: token.id
+        }
+      })
+    )
+    .then(() => api.ajax.cart.checkout())
+    .then(orderResponse => {
+      dispatch(receiveCheckout(orderResponse.json))
+      history.push('/checkout-success');
+      analytics.checkoutSuccess({ order: orderResponse.json });
+    })
+    .catch(error => {});
+}
+
 export const checkout = (cart, history) => (dispatch, getState) => {
   dispatch(requestCheckout())
   if(cart){
