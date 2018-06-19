@@ -34,6 +34,7 @@ const paymentNotification = options => {
   res.status(200).end()
 
   // Make a call to Qvo api with transaction id to veriify payment
+  const orderId = data.order_id
   const transactionVerified = verify(data.transactionId)
   
   if (transactionVerified) {

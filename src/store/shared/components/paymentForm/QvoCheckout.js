@@ -1,7 +1,7 @@
 import React from 'react'
 import text from '../../text'
 import { formatCurrency } from '../../lib/helper'
-import fetch from 'node-fetch'
+import api from '../../../client/api'
 
 export default class QvoCheckout extends React.Component {
   constructor (props) {
