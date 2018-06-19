@@ -225,7 +225,7 @@ ajaxRouter.post('/payments', (req, res, next) => {
 
     client.post('/payments/stripe-elements', req.body)
       .then(orderResponse => {
-        return res.status(200).send({ message: 'obbravo' })
+        return res.status(200).send(orderResponse.json)
       })
   } else {
     res.end();
