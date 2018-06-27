@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const applicationConfig = require('./config/admin.js');
 const applicationText = require('./locales/admin/' + applicationConfig.language + '.json');
@@ -60,32 +60,30 @@ module.exports = {
       }, {
         test: /\.css$/,
         include: [ path.resolve(__dirname, "public") ],
-        use: ExtractTextPlugin.extract({
-            use: [
-                {
-                    loader: "css-loader",
-                    options: {
-                        modules: false,
-                        importLoaders: true
-                    }
-                }
-            ]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+                modules: false,
+                importLoaders: true
+            }
+          }
+        ]
       }, {
         test: /\.css$/,
         exclude: /node_modules|public/,
-        use: ExtractTextPlugin.extract({
-            use: [
-                {
-                    loader: "css-loader",
-                    options: {
-                        modules: true,
-                        importLoaders: true,
-                        localIdentName: "[name]__[local]___[hash:base64:5]"
-                    }
-                }
-            ]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+                modules: true,
+                importLoaders: true,
+                localIdentName: "[name]__[local]___[hash:base64:5]"
+            }
+          }
+        ]
       }
     ]
   },
@@ -93,7 +91,10 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({ APPLICATION_CONFIG: JSON.stringify(applicationConfig) }),
     new webpack.DefinePlugin({ APPLICATION_TEXT: JSON.stringify(applicationText) }),
-    new ExtractTextPlugin("admin-assets/css/bundle-[contenthash].css"),
+    new MiniCssExtractPlugin({
+      filename: "admin-assets/css/bundle-[contenthash].css",
+      chunkFilename: "admin-assets/css/bundle-[contenthash].css"
+    }),
     new HtmlWebpackPlugin({
       template: 'src/admin/client/index.html',
       language: applicationConfig.language,
