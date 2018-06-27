@@ -9,6 +9,7 @@ export default class GeneralLogoSettingsForm extends React.Component {
 
   render() {
     const { onImageUpload, onImageDelete, settings } = this.props;
+    console.log('settings:', settings)
     let imageUrl = settings && settings.logo ? settings.logo : '';
     console.log('imageUrl:', imageUrl)
 
