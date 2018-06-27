@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -37,33 +37,33 @@ module.exports = {
         use: ['babel-loader']
       }, {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-            use: [
-                {
-                    loader: "css-loader",
-                    options: {
-                        modules: false,
-                        importLoaders: true
-                    }
-                }
-            ]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+                modules: false,
+                importLoaders: true
+            }
+          }
+        ]
       },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-            use: [{
-                loader: "css-loader"
-            }, {
-                loader: "sass-loader"
-            }]
-        })
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader"
+        ]
       }
     ]
   },
 
   plugins: [
-    new ExtractTextPlugin("assets/css/bundle-[contenthash].css"),
+    new MiniCssExtractPlugin({
+      filename: "assets/css/bundle-[contenthash].css",
+      chunkFilename: "assets/css/bundle-[contenthash].css"
+    }),
     new HtmlWebpackPlugin({
       template: 'theme/index.html',
       inject: 'body',
