@@ -27,16 +27,19 @@ const getArrayOfObjectID = (value) => {
   }
 }
 
-const getNumberIfValid = (value) => {
-  const n = parseFloat(value);
-  return n
-    ? n
+const isNumber = value => {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+}
+
+const getNumberIfValid = value => {
+  return isNumber(value)
+    ? parseFloat(value)
     : null;
 }
 
 const getNumberIfPositive = (value) => {
-  const n = parseFloat(value);
-  return n >= 0
+  const n = getNumberIfValid(value);
+  return n && n >= 0
     ? n
     : null;
 }
