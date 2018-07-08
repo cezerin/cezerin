@@ -1,10 +1,6 @@
 const ObjectID = require('mongodb').ObjectID;
 
-const getString = (value) => {
-  return value
-    ? value.toString()
-    : '';
-}
+const getString = value => (value || '').toString();
 
 const getDateIfValid = (value) => {
   const date = Date.parse(value);
