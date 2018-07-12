@@ -8,6 +8,10 @@ module.exports = {
     app: ['babel-polyfill', './src/store/client/index.js'],
     theme: ['theme']
   },
+  
+  performance: {
+    hints: false
+  },
 
   output: {
     publicPath: '/',
