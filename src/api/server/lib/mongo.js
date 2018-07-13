@@ -10,7 +10,8 @@ const dbName = mongoPathName.substring(mongoPathName.lastIndexOf('/') + 1);
 const RECONNECT_INTERVAL = 1000;
 const CONNECT_OPTIONS = {
   reconnectTries: 3600,
-  reconnectInterval: RECONNECT_INTERVAL
+  reconnectInterval: RECONNECT_INTERVAL,
+  useNewUrlParser: true
 }
 
 const onClose = () => {
