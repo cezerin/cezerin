@@ -33,7 +33,7 @@
   },
   "scripts": {
     "compile": "babel src/store -d dist/store --quiet",
-    "compile:watch": "babel src/store -d dist/store --watch & babel theme/src -d theme/dist --watch",
+    "compile:watch": "concurrently -n storeWatcher,themeWatcher \"babel src/store -d dist/store --watch\" \"babel theme/src -d theme/dist --watch\"",
     "webpack:admin": "webpack --config webpack.config.admin.js --mode production",
     "webpack:store": "webpack --config webpack.config.store.js --mode production",
     "webpack:admin:watch": "webpack --config webpack.config.admin.js --mode development --watch",
@@ -42,10 +42,10 @@
     "theme:export": "./scripts/theme-export.sh",
     "theme:build": "babel theme/src -d theme/dist --quiet && npm run webpack:store",
     "build": "npm run compile && npm run theme:build && npm run webpack:admin",
-    "build:watch": "npm run compile:watch & npm run webpack:store:watch & npm run webpack:admin:watch",
+    "build:watch": "concurrently -n compile,webpackStore,webpackAdmin \"npm run compile:watch\" \"npm run webpack:store:watch\" \"npm run webpack:admin:watch\"",
     "start-api": "node src/api/server/index.js",
     "start-store": "node dist/store/server/index.js",
-    "start": "npm run start-api & npm run start-store"
+    "start": "concurrently npm:start-*"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -58,6 +58,7 @@
     "body-parser": "^1.18.3",
     "cezerin-client": "^0.31.1",
     "chart.js": "^2.7.2",
+    "concurrently": "^3.6.0",
     "cookie-parser": "^1.4.3",
     "css-loader": "^0.28.11",
     "express": "^4.16.3",
