@@ -234,52 +234,6 @@ export const setSort = sort => (dispatch, getState) => {
 
 const setProductsFilter = filter => ({type: t.SET_PRODUCTS_FILTER, filter: filter})
 
-export const updateCartShippingCountry = country => (dispatch, getState) => {
-  return [
-    api.ajax.cart.updateShippingAddress({country: country}),
-    api.ajax.cart.update({payment_method_id: null, shipping_method_id: null})
-  ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    dispatch(fetchShippingMethods())
-    dispatch(fetchPaymentMethods())
-  }).catch(error => {});
-}
-
-export const updateCartShippingState = state => (dispatch, getState) => {
-  return [
-    api.ajax.cart.updateShippingAddress({state: state}),
-    api.ajax.cart.update({payment_method_id: null, shipping_method_id: null})
-  ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    dispatch(fetchShippingMethods())
-    dispatch(fetchPaymentMethods())
-  }).catch(error => {});
-}
-
-export const updateCartShippingCity = city => (dispatch, getState) => {
-  return [
-    api.ajax.cart.updateShippingAddress({city: city}),
-    api.ajax.cart.update({payment_method_id: null, shipping_method_id: null})
-  ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    dispatch(fetchShippingMethods())
-    dispatch(fetchPaymentMethods())
-  }).catch(error => {});
-}
-
-export const updateCartShippingMethod = method_id => (dispatch, getState) => {
-  api.ajax.cart.update({payment_method_id: null, shipping_method_id: method_id}).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    dispatch(fetchPaymentMethods())
-  }).catch(error => {});
-}
-
-export const updateCartPaymentMethod = method_id => (dispatch, getState) => {
-  api.ajax.cart.update({payment_method_id: method_id}).then(({status, json}) => {
-    dispatch(receiveCart(json))
-  }).catch(error => {});
-}
-
 export const analyticsSetShippingMethod = method_id => (dispatch, getState) => {
   const {app} = getState();
   analytics.setShippingMethod({
@@ -296,25 +250,30 @@ export const analyticsSetPaymentMethod = method_id => (dispatch, getState) => {
   })
 }
 
-export const updateCart = cart => (dispatch, getState) => {
-  return [
-    api.ajax.cart.update({
-      email: cart.email,
-      mobile: cart.mobile
-    })
-  ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
-    dispatch(receiveCart(json))
-  }).catch(error => {});
+export const updateCart = (data, callback) => (dispatch, getState) => {
+  return api.ajax.cart.update(data)
+    .then(({ status, json }) => {
+      dispatch(receiveCart(json));
+      if(typeof callback === 'function'){
+        callback(json);
+      }
+    }).catch(error => { });
 }
 
-export const updateShipping = cart => (dispatch, getState) => {
-  return [
-    api.ajax.cart.updateShippingAddress(cart.shipping_address),
-    api.ajax.cart.updateBillingAddress(cart.billing_address),
-    api.ajax.cart.update({ comments: cart.comments })
-  ].reduce((p, fn) => p.then(() => fn), Promise.resolve()).then(({status, json}) => {
-    dispatch(receiveCart(json))
-  }).catch(error => {});
+export const updateShippingAddress = shippingAddress => (dispatch, getState) => {
+  return api.ajax.cart.updateShippingAddress(shippingAddress)
+    .then(({ status, json }) => {
+      dispatch(receiveCart(json))
+      cosole.log(json);
+    }).catch(error => { });
+}
+
+export const updateBillingAddress = billingAddress => (dispatch, getState) => {
+  return api.ajax.cart.updateBillingAddress(billingAddress)
+    .then(({ status, json }) => {
+      dispatch(receiveCart(json))
+      cosole.log(json);
+    }).catch(error => { });
 }
 
 export const setCurrentPage = location => (dispatch, getState) => {

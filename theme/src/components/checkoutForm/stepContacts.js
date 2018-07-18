@@ -1,7 +1,8 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
-import text from '../../text'
+import { themeSettings, text } from '../../lib/settings'
 import { formatCurrency } from '../../lib/helper'
+import InputField from './inputField'
 
 const validateRequired = value => value && value.length > 0 ? undefined : text.required;
 
@@ -9,41 +10,17 @@ const validateEmail = value => value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4
   ? text.emailInvalid
   : undefined;
 
-const inputField = (field) => (
-  <div className={field.className}>
-    <label htmlFor={field.id}>{field.label}{field.meta.touched && field.meta.error && <span className="error">{field.meta.error}</span>}</label>
-    <input {...field.input} placeholder={field.placeholder} type={field.type} id={field.id} className={field.meta.touched && field.meta.error
-      ? "invalid"
-      : ""}/>
+const ReadOnlyField = ({ name, value }) => {
+  return <div className="checkout-field-preview">
+    <div className="name">{name}</div>
+    <div className="value">{value}</div>
   </div>
-)
+}
 
 class CheckoutStepContacts extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      done: false
-    };
   }
-
-  componentDidMount() {
-    this.props.onLoad();
-  }
-
-  handleSave = () => {
-    this.setState({
-      done: true
-    });
-    this.props.saveForm();
-    this.props.onSave();
-  };
-
-  handleEdit = () => {
-    this.setState({
-      done: false
-    });
-    this.props.onEdit();
-  };
 
   getField = (fieldName) => {
     const fields = this.props.checkoutFields || [];
@@ -126,73 +103,36 @@ class CheckoutStepContacts extends React.Component {
       loadingPaymentMethods,
       initialValues,
       settings,
-      saveShippingCountry,
-      saveShippingState,
-      saveShippingCity,
+      saveShippingLocation,
       saveShippingMethod,
       savePaymentMethod,
       paymentMethods,
       shippingMethods,
       inputClassName,
       buttonClassName,
-      editButtonClassName
+      editButtonClassName,
+      onEdit,
+      isReadOnly,
+      title
     } = this.props;
 
-    if(this.state.done){
+    if(isReadOnly){
       return (
         <div className="checkout-step">
-          <h1><span>1</span>{this.props.title}</h1>
+          <h1><span>1</span>{title}</h1>
 
-          {!this.isFieldHidden('email') &&
-            <div className="checkout-field-preview">
-              <div className="name">{text.email}</div>
-              <div className="value">{initialValues.email}</div>
-            </div>
-          }
-
-          {!this.isFieldHidden('mobile') &&
-            <div className="checkout-field-preview">
-              <div className="name">{text.mobile}</div>
-              <div className="value">{initialValues.mobile}</div>
-            </div>
-          }
-
-
-          {!this.isFieldHidden('country') &&
-            <div className="checkout-field-preview">
-              <div className="name">{text.country}</div>
-              <div className="value">{initialValues.shipping_address.country}</div>
-            </div>
-          }
-
-          {!this.isFieldHidden('state') &&
-            <div className="checkout-field-preview">
-              <div className="name">{text.state}</div>
-              <div className="value">{initialValues.shipping_address.state}</div>
-            </div>
-          }
-
-          {!this.isFieldHidden('city') &&
-            <div className="checkout-field-preview">
-              <div className="name">{text.city}</div>
-              <div className="value">{initialValues.shipping_address.city}</div>
-            </div>
-          }
-
-          <div className="checkout-field-preview">
-            <div className="name">{text.shippingMethod}</div>
-            <div className="value">{initialValues.shipping_method}</div>
-          </div>
-
-          <div className="checkout-field-preview">
-            <div className="name">{text.paymentMethod}</div>
-            <div className="value">{initialValues.payment_method}</div>
-          </div>
+          {!this.isFieldHidden('email') && <ReadOnlyField name={text.email} value={initialValues.email} />}
+          {!this.isFieldHidden('mobile') && <ReadOnlyField name={text.mobile} value={initialValues.mobile} />}
+          {!this.isFieldHidden('country') && <ReadOnlyField name={text.country} value={initialValues.shipping_address.country} />}
+          {!this.isFieldHidden('state') && <ReadOnlyField name={text.state} value={initialValues.shipping_address.state} />}
+          {!this.isFieldHidden('city') && <ReadOnlyField name={text.city} value={initialValues.shipping_address.city} />}
+          <ReadOnlyField name={text.shippingMethod} value={initialValues.shipping_method} />
+          <ReadOnlyField name={text.paymentMethod} value={initialValues.payment_method} />
 
           <div className="checkout-button-wrap">
             <button
               type="button"
-              onClick={this.handleEdit}
+              onClick={onEdit}
               className={editButtonClassName}>
               {text.edit}
             </button>
@@ -202,18 +142,18 @@ class CheckoutStepContacts extends React.Component {
     } else {
       return (
         <div className="checkout-step">
-          <h1><span>1</span>{this.props.title}</h1>
+          <h1><span>1</span>{title}</h1>
           <form onSubmit={handleSubmit}>
 
             {!this.isFieldHidden('email') &&
-              <Field className={inputClassName} name="email" id="customer.email" component={inputField} type="email"
+              <Field className={inputClassName} name="email" id="customer.email" component={InputField} type="email"
                 label={this.getFieldLabel('email')}
                 validate={this.getFieldValidators('email')}
                 placeholder={this.getFieldPlaceholder('email')}/>
             }
 
             {!this.isFieldHidden('mobile') &&
-              <Field className={inputClassName} name="mobile" id="customer.mobile" component={inputField} type="tel"
+              <Field className={inputClassName} name="mobile" id="customer.mobile" component={InputField} type="tel"
                 label={this.getFieldLabel('mobile')}
                 validate={this.getFieldValidators('mobile')}
                 placeholder={this.getFieldPlaceholder('mobile')}/>
@@ -222,27 +162,27 @@ class CheckoutStepContacts extends React.Component {
             <h2>{text.shippingTo}</h2>
 
             {!this.isFieldHidden('country') &&
-              <Field className={inputClassName} name="shipping_address.country" id="shipping_address.country" component={inputField} type="text"
+              <Field className={inputClassName} name="shipping_address.country" id="shipping_address.country" component={InputField} type="text"
                 label={this.getFieldLabel('country')}
                 validate={this.getFieldValidators('country')}
                 placeholder={this.getFieldPlaceholder('country')}
-                onBlur={(event, value) => setTimeout(() => saveShippingCountry(value))}/>
+                onBlur={(event, value) => setTimeout(() => saveShippingLocation({ country: value }))}/>
             }
 
             {!this.isFieldHidden('state') &&
-              <Field className={inputClassName} name="shipping_address.state" id="shipping_address.state" component={inputField} type="text"
+              <Field className={inputClassName} name="shipping_address.state" id="shipping_address.state" component={InputField} type="text"
                 label={this.getFieldLabel('state')}
                 validate={this.getFieldValidators('state')}
                 placeholder={this.getFieldPlaceholder('state')}
-                onBlur={(event, value) => setTimeout(() => saveShippingState(value))}/>
+                onBlur={(event, value) => setTimeout(() => saveShippingLocation({ state: value }))}/>
             }
 
             {!this.isFieldHidden('city') &&
-              <Field className={inputClassName} name="shipping_address.city" id="shipping_address.city" component={inputField} type="text"
+              <Field className={inputClassName} name="shipping_address.city" id="shipping_address.city" component={InputField} type="text"
                 label={this.getFieldLabel('city')}
                 validate={this.getFieldValidators('city')}
                 placeholder={this.getFieldPlaceholder('city')}
-                onBlur={(event, value) => setTimeout(() => saveShippingCity(value))}/>
+                onBlur={(event, value) => setTimeout(() => saveShippingLocation({ city: value }))}/>
             }
 
             <h2>{text.shippingMethods} {loadingShippingMethods && <small>{text.loading}</small>}</h2>
@@ -284,10 +224,7 @@ class CheckoutStepContacts extends React.Component {
 
             <div className="checkout-button-wrap">
               <button
-                type="button"
-                onClick={handleSubmit(data => {
-                  this.handleSave();
-                })}
+                type="submit"
                 disabled={invalid}
                 className={buttonClassName}>
                 {text.next}

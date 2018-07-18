@@ -2,11 +2,11 @@ import React from 'react'
 import { themeSettings, text } from '../lib/settings'
 import MetaTags from '../components/metaTags'
 import OrderSummary from '../components/orderSummary'
+import CheckoutForm from '../components/checkoutForm'
 const Fragment = React.Fragment;
 
 const CheckoutContainer = (props) => {
   const {pageDetails} = props.state;
-  const {checkoutForm} = props;
 
   return (
     <Fragment>
@@ -25,7 +25,7 @@ const CheckoutContainer = (props) => {
               <OrderSummary {...props} />
             </div>
             <div className="column is-6-widescreen is-6-desktop">
-              {checkoutForm}
+              <CheckoutForm {...props} />
             </div>
           </div>
         </div>

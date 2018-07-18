@@ -1,5 +1,5 @@
 import React from 'react'
-import api from '../../../client/api'
+import api from '../../../lib/api'
 import PayPalCheckout from './PayPalCheckout'
 import LiqPay from './LiqPay'
 

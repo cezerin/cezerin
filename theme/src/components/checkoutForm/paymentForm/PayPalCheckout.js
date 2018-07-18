@@ -1,6 +1,4 @@
 import React from 'react'
-import text from '../../text'
-import { formatCurrency } from '../../lib/helper'
 
 let scriptAdded = false;
 export default class PayPalButton extends React.Component {

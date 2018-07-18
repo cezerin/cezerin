@@ -1,27 +1,10 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
-import text from '../../text'
-import { formatCurrency } from '../../lib/helper'
+import { themeSettings, text } from '../../lib/settings'
+import InputField from './inputField'
+import TextareaField from './textareaField'
 
 const validateRequired = value => value && value.length > 0 ? undefined : text.required;
-
-const inputField = (field) => (
-  <div className={field.className}>
-    <label htmlFor={field.id}>{field.label}{field.meta.touched && field.meta.error && <span className="error">{field.meta.error}</span>}</label>
-    <input {...field.input} placeholder={field.placeholder} type={field.type} id={field.id} className={field.meta.touched && field.meta.error
-      ? "invalid"
-      : ""}/>
-  </div>
-)
-
-const textareaField = (field) => (
-  <div className={field.className}>
-    <label htmlFor={field.id}>{field.label}{field.meta.touched && field.meta.error && <span className="error">{field.meta.error}</span>}</label>
-    <textarea {...field.input} placeholder={field.placeholder} rows={field.rows} id={field.id} className={field.meta.touched && field.meta.error
-      ? "invalid"
-      : ""}></textarea>
-  </div>
-)
 
 const getFieldLabelByKey = (key) => {
   switch (key) {
@@ -50,33 +33,7 @@ const getFieldLabel = (field) => {
 class CheckoutStepShipping extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      done: false
-    };
   }
-
-  componentWillReceiveProps(nextProps) {
-    if(this.props.show !== nextProps.show){
-      this.setState({
-        done: !nextProps.show
-      });
-    }
-  }
-
-  handleSave = () => {
-    this.setState({
-      done: true
-    });
-    this.props.saveForm();
-    this.props.onSave();
-  };
-
-  handleEdit = () => {
-    this.setState({
-      done: false
-    });
-    this.props.onEdit();
-  };
 
   onChangeBillingAsShipping = (event) => {
     this.setState({
@@ -97,16 +54,17 @@ class CheckoutStepShipping extends React.Component {
       shippingMethod,
       checkoutFields,
       settings,
-      finishCheckout,
       inputClassName,
       buttonClassName,
-      editButtonClassName
+      editButtonClassName,
+      title,
+      show,
+      isReadOnly,
+      showPaymentForm,
+      onEdit
     } = this.props;
 
     const hideBillingAddress = settings.hide_billing_address === true;
-    const { payment_method_gateway, grand_total } = initialValues;
-    const showPaymentForm = payment_method_gateway && payment_method_gateway !== '';
-
     const commentsField = checkoutFields.find(f => f.name === 'comments');
     const commentsFieldPlaceholder = commentsField && commentsField.placeholder && commentsField.placeholder.length > 0 ? commentsField.placeholder : '';
     const commentsFieldLabel = commentsField && commentsField.label && commentsField.label.length > 0 ? commentsField.label : text.comments;
@@ -114,13 +72,13 @@ class CheckoutStepShipping extends React.Component {
     const commentsValidate = commentsFieldStatus === 'required' ? validateRequired : null;
     const hideCommentsField = commentsFieldStatus === 'hidden';
 
-    if(!this.props.show){
+    if(!show){
       return (
         <div className="checkout-step">
-          <h1><span>2</span>{this.props.title}</h1>
+          <h1><span>2</span>{title}</h1>
         </div>
       )
-    } else if(this.state.done){
+    } else if(isReadOnly){
 
       let shippingFields = null;
       if(shippingMethod && shippingMethod.fields && shippingMethod.fields.length > 0){
@@ -137,7 +95,7 @@ class CheckoutStepShipping extends React.Component {
 
       return (
         <div className="checkout-step">
-          <h1><span>2</span>{this.props.title}</h1>
+          <h1><span>2</span>{title}</h1>
           {shippingFields}
 
           {!hideCommentsField && initialValues.comments !== '' &&
@@ -150,7 +108,7 @@ class CheckoutStepShipping extends React.Component {
           <div className="checkout-button-wrap">
             <button
               type="button"
-              onClick={this.handleEdit}
+              onClick={onEdit}
               className={editButtonClassName}>
               {text.edit}
             </button>
@@ -172,7 +130,7 @@ class CheckoutStepShipping extends React.Component {
             className={fieldClassName}
             name={fieldId}
             id={fieldId}
-            component={inputField}
+            component={InputField}
             type="text"
             label={fieldLabel}
             validate={validate}
@@ -182,7 +140,7 @@ class CheckoutStepShipping extends React.Component {
 
       return (
         <div className="checkout-step">
-          <h1><span>2</span>{this.props.title}</h1>
+          <h1><span>2</span>{title}</h1>
           <form onSubmit={handleSubmit}>
             {shippingFields}
 
@@ -191,7 +149,7 @@ class CheckoutStepShipping extends React.Component {
                 className={inputClassName + ' shipping-comments'}
                 name="comments"
                 id="customer.comments"
-                component={textareaField}
+                component={TextareaField}
                 type="text"
                 label={commentsFieldLabel}
                 placeholder={commentsFieldPlaceholder}
@@ -210,42 +168,24 @@ class CheckoutStepShipping extends React.Component {
 
                 {!this.state.billingAsShipping &&
                   <div>
-                    <Field className={inputClassName + ' billing-fullname'} name="billing_address.full_name" id="billing_address.full_name" component={inputField} type="text" label={text.fullName} validate={[validateRequired]}/>
-                    <Field className={inputClassName + ' billing-address1'} name="billing_address.address1" id="billing_address.address1" component={inputField} type="text" label={text.address1} validate={[validateRequired]}/>
-                    <Field className={inputClassName + ' billing-address2'} name="billing_address.address2" id="billing_address.address2" component={inputField} type="text" label={text.address2 + ` (${text.optional})`}/>
-                    <Field className={inputClassName + ' billing-postalcode'} name="billing_address.postal_code" id="billing_address.postal_code" component={inputField} type="text" label={text.postal_code + ` (${text.optional})`}/>
-                    <Field className={inputClassName + ' billing-phone'} name="billing_address.phone" id="billing_address.phone" component={inputField} type="text" label={text.phone + ` (${text.optional})`}/>
-                    <Field className={inputClassName + ' billing-company'} name="billing_address.company" id="billing_address.company" component={inputField} type="text" label={text.company + ` (${text.optional})`}/>
+                    <Field className={inputClassName + ' billing-fullname'} name="billing_address.full_name" id="billing_address.full_name" component={InputField} type="text" label={text.fullName} validate={[validateRequired]}/>
+                    <Field className={inputClassName + ' billing-address1'} name="billing_address.address1" id="billing_address.address1" component={InputField} type="text" label={text.address1} validate={[validateRequired]}/>
+                    <Field className={inputClassName + ' billing-address2'} name="billing_address.address2" id="billing_address.address2" component={InputField} type="text" label={text.address2 + ` (${text.optional})`}/>
+                    <Field className={inputClassName + ' billing-postalcode'} name="billing_address.postal_code" id="billing_address.postal_code" component={InputField} type="text" label={text.postal_code + ` (${text.optional})`}/>
+                    <Field className={inputClassName + ' billing-phone'} name="billing_address.phone" id="billing_address.phone" component={InputField} type="text" label={text.phone + ` (${text.optional})`}/>
+                    <Field className={inputClassName + ' billing-company'} name="billing_address.company" id="billing_address.company" component={InputField} type="text" label={text.company + ` (${text.optional})`}/>
                   </div>
                 }
               </div>
             }
 
             <div className="checkout-button-wrap">
-              {showPaymentForm &&
-                <button
-                  type="button"
-                  onClick={handleSubmit(data => {
-                    this.handleSave();
-                  })}
-                  disabled={invalid}
-                  className={buttonClassName}>
-                  {text.next}
-                </button>
-              }
-
-              {!showPaymentForm &&
-                <button
-                  type="button"
-                  onClick={handleSubmit(data => {
-                    finishCheckout(data)
-                  })}
-                  disabled={submitting || processingCheckout || invalid}
-                  className={buttonClassName}>
-                  {text.orderSubmit}
-                </button>
-              }
-
+              <button
+                type="submit"
+                disabled={submitting || processingCheckout || invalid}
+                className={buttonClassName}>
+                {showPaymentForm ? text.next : text.orderSubmit}
+              </button>
             </div>
           </form>
         </div>
