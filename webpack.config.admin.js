@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const applicationConfig = require('./config/admin.js');
-const applicationText = require('./locales/admin/' + applicationConfig.language + '.json');
+const applicationText = require('./locales/' + applicationConfig.language + '.json');
 
 module.exports = {
   entry: {
