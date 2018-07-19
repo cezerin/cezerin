@@ -72,7 +72,8 @@ module.exports = {
                 modules: false,
                 importLoaders: true
             }
-          }
+          },
+          "postcss-loader"
         ]
       }, {
         test: /\.css$/,
@@ -86,7 +87,8 @@ module.exports = {
                 importLoaders: true,
                 localIdentName: "[name]__[local]___[hash:base64:5]"
             }
-          }
+          },
+          "postcss-loader"
         ]
       }
     ]
