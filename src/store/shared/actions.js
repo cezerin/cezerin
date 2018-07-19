@@ -9,16 +9,14 @@ const requestProduct = () => ({type: t.PRODUCT_REQUEST})
 
 const receiveProduct = product => ({type: t.PRODUCT_RECEIVE, product})
 
-export const fetchProducts = () => (dispatch, getState) => {
-  const {app} = getState();
+export const fetchProducts = () => async (dispatch, getState) => {
   dispatch(requestProducts());
-
-  let filter = getParsedProductFilter(app.productFilter);
-
-  return api.ajax.products.list(filter).then(({status, json}) => {
-    dispatch(receiveProducts(null));
-    dispatch(receiveProducts(json));
-  }).catch(error => {});
+  const {app} = getState();
+  const filter = getParsedProductFilter(app.productFilter);
+  const response = await api.ajax.products.list(filter);
+  const products = response.json;
+  dispatch(receiveProducts(null));
+  dispatch(receiveProducts(products));
 }
 
 export const getProductFilterForCategory = (locationSearch, sortBy) => {
@@ -76,20 +74,20 @@ const requestProducts = () => ({type: t.PRODUCTS_REQUEST})
 
 const receiveProducts = (products) => ({type: t.PRODUCTS_RECEIVE, products})
 
-export const fetchMoreProducts = () => (dispatch, getState) => {
+export const fetchMoreProducts = () => async (dispatch, getState) => {
   const {app} = getState();
   if (app.loadingProducts || app.loadingMoreProducts || app.products.length === 0 || !app.productsHasMore) {
-    return Promise.resolve();
+    return;
   } else {
     dispatch(requestMoreProducts());
 
-    let filter = getParsedProductFilter(app.productFilter);
+    const filter = getParsedProductFilter(app.productFilter);
     filter.offset = app.products.length;
 
-    return api.ajax.products.list(filter).then(({status, json}) => {
-      dispatch(receiveMoreProducts(json))
-      animateScroll.scrollMore(200);
-    }).catch(error => {});
+    const response = await api.ajax.products.list(filter);
+    const products = response.json;
+    dispatch(receiveMoreProducts(products))
+    animateScroll.scrollMore(200);
   }
 }
 
@@ -101,71 +99,67 @@ const requestPage = () => ({type: t.PAGE_REQUEST})
 
 const receivePage = pageDetails => ({type: t.PAGE_RECEIVE, pageDetails})
 
-export const fetchCart = () => (dispatch, getState) => {
+export const fetchCart = () => async (dispatch, getState) => {
   dispatch(requestCart());
-  return api.ajax.cart.retrieve().then(({status, json}) => {
-    dispatch(receiveCart(json))
-  }).catch(error => {});
+  const response = await api.ajax.cart.retrieve()
+  const cart = response.json;
+  dispatch(receiveCart(cart));
 }
 
 const requestCart = () => ({type: t.CART_REQUEST})
 
 const receiveCart = cart => ({type: t.CART_RECEIVE, cart})
 
-export const addCartItem = item => (dispatch, getState) => {
-  dispatch(requestAddCartItem())
-  return api.ajax.cart.addItem(item).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    analytics.addCartItem({
-      item: item,
-      cart: json
-    });
-  }).catch(error => {});
+export const addCartItem = item => async (dispatch, getState) => {
+  dispatch(requestAddCartItem());
+  const response = await api.ajax.cart.addItem(item);
+  const cart = response.json;
+  dispatch(receiveCart(cart));
+  analytics.addCartItem({
+    item: item,
+    cart: cart
+  });
 }
 
 const requestAddCartItem = () => ({type: t.CART_ITEM_ADD_REQUEST})
 
-export const updateCartItemQuantiry = (item_id, quantity) => (dispatch, getState) => {
+export const updateCartItemQuantiry = (item_id, quantity) => async (dispatch, getState) => {
   dispatch(requestUpdateCartItemQuantiry())
-  return api.ajax.cart.updateItem(item_id, {quantity: quantity}).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    dispatch(fetchShippingMethods())
-  }).catch(error => {});
+  const response = await api.ajax.cart.updateItem(item_id, {quantity: quantity});
+  dispatch(receiveCart(response.json));
+  dispatch(fetchShippingMethods());
 }
 
 const requestUpdateCartItemQuantiry = () => ({type: t.CART_ITEM_UPDATE_REQUEST})
 
-export const deleteCartItem = item_id => (dispatch, getState) => {
+export const deleteCartItem = item_id => async (dispatch, getState) => {
   dispatch(requestDeleteCartItem())
   const {app} = getState();
-  return api.ajax.cart.deleteItem(item_id).then(({status, json}) => {
-    dispatch(receiveCart(json))
-    dispatch(fetchShippingMethods())
-    analytics.deleteCartItem({
-      itemId: item_id,
-      cart: app.cart
-    });
-  }).catch(error => {});
+  const response = await api.ajax.cart.deleteItem(item_id);
+  dispatch(receiveCart(response.json));
+  dispatch(fetchShippingMethods());
+  analytics.deleteCartItem({
+    itemId: item_id,
+    cart: app.cart
+  });
 }
 
 const requestDeleteCartItem = () => ({type: t.CART_ITEM_DELETE_REQUEST})
 
-export const fetchPaymentMethods = () => (dispatch, getState) => {
+export const fetchPaymentMethods = () => async (dispatch, getState) => {
   dispatch(requestPaymentMethods())
-  return api.ajax.paymentMethods.list().then(({status, json}) => {
-    dispatch(receivePaymentMethods(json))
-  }).catch(error => {});
+  const response = await api.ajax.paymentMethods.list()
+  dispatch(receivePaymentMethods(response.json));
 }
 
 const requestPaymentMethods = () => ({type: t.PAYMENT_METHODS_REQUEST})
 
 const receivePaymentMethods = methods => ({type: t.PAYMENT_METHODS_RECEIVE, methods})
 
-export const fetchShippingMethods = () => (dispatch, getState) => {
+export const fetchShippingMethods = () => async (dispatch, getState) => {
   dispatch(requestShippingMethods())
-  return api.ajax.shippingMethods.list().then(({status, json}) => {
-    dispatch(receiveShippingMethods(json))
-  }).catch(error => {});
+  const response = await api.ajax.shippingMethods.list();
+  dispatch(receiveShippingMethods(response.json))
 }
 
 const requestShippingMethods = () => ({type: t.SHIPPING_METHODS_REQUEST})
@@ -175,36 +169,25 @@ const receiveShippingMethods = methods => ({
   methods
 })
 
-export const checkout = (cart, history) => (dispatch, getState) => {
+export const checkout = (cart, history) => async (dispatch, getState) => {
   dispatch(requestCheckout())
   if(cart){
-    // update cart and checkout
-    return api.ajax.cart.updateShippingAddress(cart.shipping_address)
-      .then(() => api.ajax.cart.updateBillingAddress(cart.billing_address))
-      .then(() => api.ajax.cart.update({
-        email: cart.email,
-        mobile: cart.mobile,
-        payment_method_id: cart.payment_method_id,
-        shipping_method_id: cart.shipping_method_id,
-        comments: cart.comments
-      }))
-      .then(() => api.ajax.cart.checkout())
-      .then(orderResponse => {
-        dispatch(receiveCheckout(orderResponse.json))
-        history.push('/checkout-success');
-        analytics.checkoutSuccess({ order: orderResponse.json });
-      })
-      .catch(error => {});
-  } else {
-    // just checkout
-    return api.ajax.cart.checkout()
-      .then(orderResponse => {
-        dispatch(receiveCheckout(orderResponse.json))
-        history.push('/checkout-success');
-        analytics.checkoutSuccess({ order: orderResponse.json });
-      })
-      .catch(error => {});
+    await api.ajax.cart.updateShippingAddress(cart.shipping_address);
+    await api.ajax.cart.updateBillingAddress(cart.billing_address);
+    await api.ajax.cart.update({
+      email: cart.email,
+      mobile: cart.mobile,
+      payment_method_id: cart.payment_method_id,
+      shipping_method_id: cart.shipping_method_id,
+      comments: cart.comments
+    });
   }
+
+  const response = await api.ajax.cart.checkout();
+  const order = response.json;
+  dispatch(receiveCheckout(order));
+  history.push('/checkout-success');
+  analytics.checkoutSuccess({ order: order });
 }
 
 const requestCheckout = () => ({type: t.CHECKOUT_REQUEST})
@@ -250,33 +233,26 @@ export const analyticsSetPaymentMethod = method_id => (dispatch, getState) => {
   })
 }
 
-export const updateCart = (data, callback) => (dispatch, getState) => {
-  return api.ajax.cart.update(data)
-    .then(({ status, json }) => {
-      dispatch(receiveCart(json));
-      if(typeof callback === 'function'){
-        callback(json);
-      }
-    }).catch(error => { });
+export const updateCart = (data, callback) => async (dispatch, getState) => {
+  const response = await api.ajax.cart.update(data);
+  const newCart = response.json;
+  dispatch(receiveCart(newCart));
+  if(typeof callback === 'function'){
+    callback(newCart);
+  }
 }
 
-export const updateShippingAddress = shippingAddress => (dispatch, getState) => {
-  return api.ajax.cart.updateShippingAddress(shippingAddress)
-    .then(({ status, json }) => {
-      dispatch(receiveCart(json))
-      cosole.log(json);
-    }).catch(error => { });
+export const updateShippingAddress = shippingAddress => async (dispatch, getState) => {
+  const response = await api.ajax.cart.updateShippingAddress(shippingAddress);
+  dispatch(receiveCart(response.json));
 }
 
-export const updateBillingAddress = billingAddress => (dispatch, getState) => {
-  return api.ajax.cart.updateBillingAddress(billingAddress)
-    .then(({ status, json }) => {
-      dispatch(receiveCart(json))
-      cosole.log(json);
-    }).catch(error => { });
+export const updateBillingAddress = billingAddress => async (dispatch, getState) => {
+  const response = await api.ajax.cart.updateBillingAddress(billingAddress);
+  dispatch(receiveCart(response.json));
 }
 
-export const setCurrentPage = location => (dispatch, getState) => {
+export const setCurrentPage = location => async (dispatch, getState) => {
   let locationPathname = '/404';
   let locationSearch = '';
   let locationHash = '';
@@ -320,21 +296,18 @@ export const setCurrentPage = location => (dispatch, getState) => {
       dispatch(receiveSitemap(newCurrentPage)) // remove .data
       dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
     } else {
-
-      api.ajax.sitemap.retrieve({ path: locationPathname })
-      .then(sitemapResponse => {
-        if(sitemapResponse.status === 404){
-          dispatch(receiveSitemap({
-            type: 404,
-            path: locationPathname,
-            resource: null
-          }))
-        } else {
-          const newCurrentPage = sitemapResponse.json;
-          dispatch(receiveSitemap(newCurrentPage))
-          dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
-        }
-      });
+      const sitemapResponse = await api.ajax.sitemap.retrieve({ path: locationPathname });
+      if(sitemapResponse.status === 404){
+        dispatch(receiveSitemap({
+          type: 404,
+          path: locationPathname,
+          resource: null
+        }))
+      } else {
+        const newCurrentPage = sitemapResponse.json;
+        dispatch(receiveSitemap(newCurrentPage))
+        dispatch(fetchDataOnCurrentPageChange(newCurrentPage))
+      }
     }
   }
 }
