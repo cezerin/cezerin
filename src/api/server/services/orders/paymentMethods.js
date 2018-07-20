@@ -154,6 +154,20 @@ class PaymentMethodsService {
 			});
 	}
 
+	async pullShippingMethod(id) {
+		if (!ObjectID.isValid(id)) {
+			return Promise.reject('Invalid identifier');
+		}
+		const methodObjectID = new ObjectID(id);
+		return mongo.db
+			.collection('paymentMethods')
+			.update(
+				{},
+				{ $pull: { 'conditions.shipping_method_ids': methodObjectID } },
+				{ multi: true }
+			);
+	}
+
 	getPaymentMethodConditions(conditions) {
 		let methodIds = conditions
 			? parse.getArrayIfValid(conditions.shipping_method_ids) || []

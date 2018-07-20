@@ -1,5 +1,3 @@
-'use strict';
-
 const security = require('../lib/security');
 const ShippingMethodsService = require('../services/orders/shippingMethods');
 
@@ -77,12 +75,9 @@ class ShippingMethodsRoute {
 			.catch(next);
 	}
 
-	deleteMethod(req, res, next) {
-		ShippingMethodsService.deleteMethod(req.params.id)
-			.then(data => {
-				res.status(data ? 200 : 404).end();
-			})
-			.catch(next);
+	async deleteMethod(req, res, next) {
+		const result = await ShippingMethodsService.deleteMethod(req.params.id);
+		res.status(result ? 200 : 404).end();
 	}
 }
 

@@ -5,6 +5,7 @@ const utils = require('../../lib/utils');
 const parse = require('../../lib/parse');
 const ObjectID = require('mongodb').ObjectID;
 const ShippingMethodsLightService = require('./shippingMethodsLight');
+const PaymentMethodsService = require('./paymentMethods');
 const OrdersService = require('./orders');
 
 class ShippingMethodsService {
@@ -182,17 +183,17 @@ class ShippingMethodsService {
 			.then(res => this.getSingleMethod(id));
 	}
 
-	deleteMethod(id) {
+	async deleteMethod(id) {
 		if (!ObjectID.isValid(id)) {
 			return Promise.reject('Invalid identifier');
 		}
 		const methodObjectID = new ObjectID(id);
-		return mongo.db
+		const deleteResponse = await mongo.db
 			.collection('shippingMethods')
-			.deleteOne({ _id: methodObjectID })
-			.then(deleteResponse => {
-				return deleteResponse.deletedCount > 0;
-			});
+			.deleteOne({ _id: methodObjectID });
+
+		await PaymentMethodsService.pullShippingMethod(id);
+		return deleteResponse.deletedCount > 0;
 	}
 
 	getShippingMethodConditions(conditions) {
