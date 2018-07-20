@@ -1,21 +1,26 @@
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
-import { deleteShippingMethod } from '../actions'
-import Buttons from './components/headButtons'
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import { deleteShippingMethod } from '../actions';
+import Buttons from './components/headButtons';
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    shippingMethod: state.settings.shippingMethodEdit
-  }
-}
+	return {
+		shippingMethod: state.settings.shippingMethodEdit
+	};
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {
-    onDelete: (id) => {
-      dispatch(deleteShippingMethod(id));
-      ownProps.history.push('/admin/settings/shipping');
-    }
-  }
-}
+	return {
+		onDelete: id => {
+			dispatch(deleteShippingMethod(id));
+			ownProps.history.push('/admin/settings/shipping');
+		}
+	};
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Buttons));
+export default withRouter(
+	connect(
+		mapStateToProps,
+		mapDispatchToProps
+	)(Buttons)
+);

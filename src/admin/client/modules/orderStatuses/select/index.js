@@ -1,19 +1,22 @@
-import { connect } from 'react-redux'
-import { fetchStatusesIfNeeded } from '../actions'
-import List from '../components/list'
+import { connect } from 'react-redux';
+import { fetchStatusesIfNeeded } from '../actions';
+import List from '../components/list';
 
-const mapStateToProps = (state) => {
-  return {
-    items: state.orderStatuses.items
-  }
-}
+const mapStateToProps = state => {
+	return {
+		items: state.orderStatuses.items
+	};
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onLoad: () => {
-      dispatch(fetchStatusesIfNeeded());
-    }
-  }
-}
+const mapDispatchToProps = dispatch => {
+	return {
+		onLoad: () => {
+			dispatch(fetchStatusesIfNeeded());
+		}
+	};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(List);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(List);

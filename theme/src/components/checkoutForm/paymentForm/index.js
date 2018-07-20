@@ -1,78 +1,97 @@
-import React from 'react'
-import api from '../../../lib/api'
-import PayPalCheckout from './PayPalCheckout'
-import LiqPay from './LiqPay'
+import React from 'react';
+import api from '../../../lib/api';
+import PayPalCheckout from './PayPalCheckout';
+import LiqPay from './LiqPay';
 
 export default class PaymentForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formSettings: null,
-      loading: false
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			formSettings: null,
+			loading: false
+		};
+	}
 
-  fetchFormSettings = () => {
-    this.setState({
-      loading: true
-    });
+	fetchFormSettings = () => {
+		this.setState({
+			loading: true
+		});
 
-    api.ajax.paymentFormSettings.retrieve().then(({ status, json }) => {
-      this.setState({
-        formSettings: json,
-        loading: false
-      });
-    })
-    .catch(e => {
-      this.setState({
-        formSettings: null,
-        loading: false
-      });
-      console.log(e);
-    });
-  }
+		api.ajax.paymentFormSettings
+			.retrieve()
+			.then(({ status, json }) => {
+				this.setState({
+					formSettings: json,
+					loading: false
+				});
+			})
+			.catch(e => {
+				this.setState({
+					formSettings: null,
+					loading: false
+				});
+				console.log(e);
+			});
+	};
 
-  componentDidMount() {
-    this.fetchFormSettings();
-  }
+	componentDidMount() {
+		this.fetchFormSettings();
+	}
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.gateway !== this.props.gateway || nextProps.amount !== this.props.amount){
-      this.fetchFormSettings();
-    }
-  }
+	componentWillReceiveProps(nextProps) {
+		if (
+			nextProps.gateway !== this.props.gateway ||
+			nextProps.amount !== this.props.amount
+		) {
+			this.fetchFormSettings();
+		}
+	}
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.gateway !== this.props.gateway || nextProps.amount !== this.props.amount || this.state !== nextState;
-  }
+	shouldComponentUpdate(nextProps, nextState) {
+		return (
+			nextProps.gateway !== this.props.gateway ||
+			nextProps.amount !== this.props.amount ||
+			this.state !== nextState
+		);
+	}
 
-  render() {
-    const { gateway, shopSettings, onPayment } = this.props;
-    const { formSettings, loading } = this.state;
+	render() {
+		const { gateway, shopSettings, onPayment } = this.props;
+		const { formSettings, loading } = this.state;
 
-    if(loading){
-      return null;
-    } else if(formSettings && gateway && gateway !== '') {
-      switch(gateway){
-        case 'paypal-checkout':
-          return (
-            <div className="payment-form">
-              <PayPalCheckout formSettings={formSettings} shopSettings={shopSettings} onPayment={onPayment} />
-            </div>
-          )
-        case 'liqpay':
-          return (
-            <div className="payment-form">
-              <LiqPay formSettings={formSettings} shopSettings={shopSettings} onPayment={onPayment} />
-            </div>
-          )
-        default:
-          return (
-            <div>Payment Gateway <b>{gateway}</b> not found!</div>
-          )
-      }
-    } else {
-      return null;
-    }
-  }
+		if (loading) {
+			return null;
+		} else if (formSettings && gateway && gateway !== '') {
+			switch (gateway) {
+				case 'paypal-checkout':
+					return (
+						<div className="payment-form">
+							<PayPalCheckout
+								formSettings={formSettings}
+								shopSettings={shopSettings}
+								onPayment={onPayment}
+							/>
+						</div>
+					);
+				case 'liqpay':
+					return (
+						<div className="payment-form">
+							<LiqPay
+								formSettings={formSettings}
+								shopSettings={shopSettings}
+								onPayment={onPayment}
+							/>
+						</div>
+					);
+				default:
+					return (
+						<div>
+							Payment Gateway <b>{gateway}</b> not found!
+						</div>
+					);
+			}
+		} else {
+			return null;
+		}
+	}
 }

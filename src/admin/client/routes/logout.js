@@ -1,12 +1,12 @@
-import React from 'react'
-import * as auth from 'lib/auth'
+import React from 'react';
+import * as auth from 'lib/auth';
 
 export default class Logout extends React.Component {
-  componentWillMount() {
-    auth.removeToken();
-  }
+	componentWillMount() {
+		auth.removeToken();
+	}
 
-  render() {
-    return null;
-  }
+	render() {
+		return null;
+	}
 }

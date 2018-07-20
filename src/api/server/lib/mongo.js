@@ -9,32 +9,36 @@ const dbName = mongoPathName.substring(mongoPathName.lastIndexOf('/') + 1);
 
 const RECONNECT_INTERVAL = 1000;
 const CONNECT_OPTIONS = {
-  reconnectTries: 3600,
-  reconnectInterval: RECONNECT_INTERVAL,
-  useNewUrlParser: true
-}
+	reconnectTries: 3600,
+	reconnectInterval: RECONNECT_INTERVAL,
+	useNewUrlParser: true
+};
 
 const onClose = () => {
-  winston.info('MongoDB connection was closed');
-}
+	winston.info('MongoDB connection was closed');
+};
 
 const onReconnect = () => {
-  winston.info('MongoDB reconnected');
-}
+	winston.info('MongoDB reconnected');
+};
 
 const connectWithRetry = () => {
-  MongoClient.connect(mongodbConnection, CONNECT_OPTIONS, (err, client) => {
-    if(err){
-      winston.error('MongoDB connection was failed:', err.message);
-      setTimeout(connectWithRetry, RECONNECT_INTERVAL);
-    } else {
-      const db = client.db(dbName);
-      db.on('close', onClose);
-      db.on('reconnect', onReconnect);
-      module.exports.db = db;
-      winston.info('MongoDB connected successfully');
-    }
-  });
+	MongoClient.connect(
+		mongodbConnection,
+		CONNECT_OPTIONS,
+		(err, client) => {
+			if (err) {
+				winston.error('MongoDB connection was failed:', err.message);
+				setTimeout(connectWithRetry, RECONNECT_INTERVAL);
+			} else {
+				const db = client.db(dbName);
+				db.on('close', onClose);
+				db.on('reconnect', onReconnect);
+				module.exports.db = db;
+				winston.info('MongoDB connected successfully');
+			}
+		}
+	);
 };
 
 connectWithRetry();

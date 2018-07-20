@@ -1,14 +1,14 @@
-import React from 'react'
-import messages from 'lib/text'
-import api from 'lib/api'
-import TextField from 'material-ui/TextField'
-import RaisedButton from 'material-ui/RaisedButton'
+import React from 'react';
+import messages from 'lib/text';
+import api from 'lib/api';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 export const Description = {
-  key: 'google-analytics',
-  name: 'Google Analytics',
-  coverUrl: '/admin-assets/images/apps/google_analytics.png',
-  description: `Google Analytics gives you the digital analytics tools you need to analyze data from all touchpoints in one place, for a deeper understanding of the customer experience.
+	key: 'google-analytics',
+	name: 'Google Analytics',
+	coverUrl: '/admin-assets/images/apps/google_analytics.png',
+	description: `Google Analytics gives you the digital analytics tools you need to analyze data from all touchpoints in one place, for a deeper understanding of the customer experience.
   <p>This App logs page views and Enhanced ecommerce events:</p>
   <ol>
     <li>Page view</li>
@@ -34,69 +34,78 @@ const GTAG_CODE = `<!-- Global site tag (gtag.js) - Google Analytics -->
 </script>`;
 
 export class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      trackingId: ''
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			trackingId: ''
+		};
+	}
 
-  handleTrackingIdChange = (event) => {
-    this.setState({
-      trackingId: event.target.value
-    });
-  };
+	handleTrackingIdChange = event => {
+		this.setState({
+			trackingId: event.target.value
+		});
+	};
 
-  fetchSettings = () => {
-    api.apps.settings.retrieve('google-analytics')
-    .then(({status, json}) => {
-      const appSettings = json;
-      if(appSettings){
-        this.setState({ trackingId: appSettings.GA_TRACKING_ID });
-      }
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
+	fetchSettings = () => {
+		api.apps.settings
+			.retrieve('google-analytics')
+			.then(({ status, json }) => {
+				const appSettings = json;
+				if (appSettings) {
+					this.setState({ trackingId: appSettings.GA_TRACKING_ID });
+				}
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	};
 
-  updateSettings = () => {
-    const { trackingId } = this.state;
-    const gtag = trackingId && trackingId.length > 0 ? GTAG_CODE.replace(/GA_TRACKING_ID/g, trackingId) : '';
+	updateSettings = () => {
+		const { trackingId } = this.state;
+		const gtag =
+			trackingId && trackingId.length > 0
+				? GTAG_CODE.replace(/GA_TRACKING_ID/g, trackingId)
+				: '';
 
-    api.apps.settings.update('google-analytics', { GA_TRACKING_ID: trackingId });
-    api.theme.placeholders.update('google-analytics', {
-      place: 'head_start',
-      value: gtag
-    });
-  }
+		api.apps.settings.update('google-analytics', {
+			GA_TRACKING_ID: trackingId
+		});
+		api.theme.placeholders.update('google-analytics', {
+			place: 'head_start',
+			value: gtag
+		});
+	};
 
-  componentDidMount() {
-    this.fetchSettings()
-  }
+	componentDidMount() {
+		this.fetchSettings();
+	}
 
-  render() {
-    return (
-      <div>
-        <div>Enter your Google Analytics Tracking ID to track page views and other events.</div>
+	render() {
+		return (
+			<div>
+				<div>
+					Enter your Google Analytics Tracking ID to track page views and other
+					events.
+				</div>
 
-        <TextField
-          type="text"
-          value={this.state.trackingId}
-          onChange={this.handleTrackingIdChange}
-          floatingLabelText="Tracking ID"
-          hintText="UA-XXXXXXXX-X"
-        />
+				<TextField
+					type="text"
+					value={this.state.trackingId}
+					onChange={this.handleTrackingIdChange}
+					floatingLabelText="Tracking ID"
+					hintText="UA-XXXXXXXX-X"
+				/>
 
-        <div style={{ textAlign: 'right' }}>
-          <RaisedButton
-            label={messages.save}
-            primary={true}
-            disabled={false}
-            onClick={this.updateSettings}
-          />
-        </div>
-      </div>
-    )
-  }
+				<div style={{ textAlign: 'right' }}>
+					<RaisedButton
+						label={messages.save}
+						primary={true}
+						disabled={false}
+						onClick={this.updateSettings}
+					/>
+				</div>
+			</div>
+		);
+	}
 }
