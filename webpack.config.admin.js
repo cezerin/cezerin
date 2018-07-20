@@ -118,5 +118,11 @@ module.exports = {
 			raw: false,
 			entryOnly: false
 		})
-	]
+	],
+
+	stats: {
+		children: false,
+		entrypoints: false,
+		modules: false
+	}
 };
