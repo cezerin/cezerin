@@ -216,16 +216,16 @@ class OrderItemsService {
 		return null;
 	}
 
-	async calculateAndUpdateItem(order_id, item_id) {
+	async calculateAndUpdateItem(orderId, itemId) {
 		// TODO: tax_total, discount_total
 
-		let orderObjectID = new ObjectID(order_id);
-		let itemObjectID = new ObjectID(item_id);
+		const orderObjectID = new ObjectID(orderId);
+		const itemObjectID = new ObjectID(itemId);
 
-		const order = await OrdersService.getSingleOrder(order_id);
+		const order = await OrdersService.getSingleOrder(orderId);
 
-		if (order.items.length > 0) {
-			let item = order.items.find(i => i.id.toString() === item_id.toString());
+		if (order && order.items && order.items.length > 0) {
+			const item = order.items.find(i => i.id.toString() === itemId.toString());
 			if (item) {
 				const itemData = await this.getCalculatedData(item);
 				await mongo.db.collection('orders').updateOne(
