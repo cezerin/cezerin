@@ -1,84 +1,85 @@
 const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: {
-    app: ['babel-polyfill', './src/store/client/index.js'],
-    theme: ['theme']
-  },
-  
-  performance: {
-    hints: false
-  },
+	entry: {
+		app: ['babel-polyfill', './src/store/client/index.js'],
+		theme: ['theme']
+	},
 
-  output: {
-    publicPath: '/',
-    path: path.resolve(__dirname, 'theme'),
-    filename: 'assets/js/[name]-[chunkhash].js',
-    chunkFilename: 'assets/js/[name]-[chunkhash].js'
-  },
+	performance: {
+		hints: false
+	},
 
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          chunks: 'initial',
-          name: 'theme',
-          test: 'theme',
-          enforce: true
-        },
-      }
-    }
-  },
+	output: {
+		publicPath: '/',
+		path: path.resolve(__dirname, 'theme'),
+		filename: 'assets/js/[name]-[chunkhash].js',
+		chunkFilename: 'assets/js/[name]-[chunkhash].js'
+	},
 
-  module: {
-    rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      }, {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: "css-loader",
-            options: {
-                modules: false,
-                importLoaders: true
-            }
-          },
-          "postcss-loader"
-        ]
-      },
-      {
-        test: /\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "postcss-loader",
-          "sass-loader"
-        ]
-      }
-    ]
-  },
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				vendor: {
+					chunks: 'initial',
+					name: 'theme',
+					test: 'theme',
+					enforce: true
+				}
+			}
+		}
+	},
 
-  plugins: [
-    new MiniCssExtractPlugin({
-      filename: "assets/css/bundle-[contenthash].css",
-      chunkFilename: "assets/css/bundle-[contenthash].css"
-    }),
-    new HtmlWebpackPlugin({
-      template: 'theme/index.html',
-      inject: 'body',
-      filename: 'assets/index.html'
-    }),
-    new webpack.BannerPlugin({
-      banner: `Created: ${new Date().toUTCString()}`,
-      raw: false,
-      entryOnly: false
-    })
-  ]
+	module: {
+		rules: [
+			{
+				test: /\.(js|jsx)$/,
+				exclude: /node_modules/,
+				use: ['babel-loader']
+			},
+			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							modules: false,
+							importLoaders: true
+						}
+					},
+					'postcss-loader'
+				]
+			},
+			{
+				test: /\.scss$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'postcss-loader',
+					'sass-loader'
+				]
+			}
+		]
+	},
+
+	plugins: [
+		new MiniCssExtractPlugin({
+			filename: 'assets/css/bundle-[contenthash].css',
+			chunkFilename: 'assets/css/bundle-[contenthash].css'
+		}),
+		new HtmlWebpackPlugin({
+			template: 'theme/index.html',
+			inject: 'body',
+			filename: 'assets/index.html'
+		}),
+		new webpack.BannerPlugin({
+			banner: `Created: ${new Date().toUTCString()}`,
+			raw: false,
+			entryOnly: false
+		})
+	]
 };
