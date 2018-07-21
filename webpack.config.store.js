@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
 	entry: {
@@ -75,6 +76,34 @@ module.exports = {
 			template: 'theme/index.html',
 			inject: 'body',
 			filename: 'assets/index.html'
+		}),
+		new WorkboxPlugin.GenerateSW({
+			swDest: 'assets/sw.js',
+			precacheManifestFilename: 'assets/precache-manifest.[manifestHash].js',
+			clientsClaim: true,
+			skipWaiting: true,
+			exclude: [/\.html$/],
+			runtimeCaching: [
+				{
+					urlPattern: new RegExp('/(images|assets|admin-assets)/'),
+					handler: 'cacheFirst'
+				},
+				{
+					urlPattern: new RegExp('/api/'),
+					handler: 'networkOnly'
+				},
+				{
+					urlPattern: new RegExp('/ajax/payment_form_settings'),
+					handler: 'networkOnly'
+				},
+				{
+					urlPattern: new RegExp('/'),
+					handler: 'networkFirst',
+					options: {
+						networkTimeoutSeconds: 10
+					}
+				}
+			]
 		}),
 		new webpack.BannerPlugin({
 			banner: `Created: ${new Date().toUTCString()}`,

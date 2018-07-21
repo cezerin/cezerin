@@ -30,11 +30,7 @@ app.get('/images/:entity/:id/:size/:filename', (req, res, next) => {
 app.use(express.static('public/content', STATIC_OPTIONS));
 app.use('/assets', express.static('theme/assets', STATIC_OPTIONS));
 app.use('/admin-assets', express.static('public/admin-assets', STATIC_OPTIONS));
-app.use('/sw.js', express.static('public/sw.js', STATIC_OPTIONS));
-app.use(
-	'/sw-toolbox.js',
-	express.static('public/sw-toolbox.js', STATIC_OPTIONS)
-);
+app.use('/sw.js', express.static('theme/assets/sw.js'));
 app.use('/admin', (req, res) => {
 	res.sendFile(ADMIN_INDEX_PATH);
 });

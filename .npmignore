@@ -11,6 +11,8 @@ theme/assets/js/app-*
 theme/assets/js/theme-*
 theme/assets/css/bundle-*
 theme/assets/index.html
+theme/assets/sw.js
+theme/assets/precache-manifest.*.js
 dist/*
 logs/*.log
 npm-debug.log*
