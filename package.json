@@ -68,6 +68,7 @@
     "body-parser": "^1.18.3",
     "cezerin-client": "^0.31.1",
     "chart.js": "^2.7.2",
+    "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.6.0",
     "cookie-parser": "^1.4.3",
     "css-loader": "^1.0.0",

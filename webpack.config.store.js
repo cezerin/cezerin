@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
@@ -68,6 +69,16 @@ module.exports = {
 	},
 
 	plugins: [
+		new CleanWebpackPlugin(
+			[
+				'theme/assets/js/app-*.js',
+				'theme/assets/js/theme-*.js',
+				'theme/assets/css/bundle-*.css',
+				'theme/assets/sw.js',
+				'theme/assets/precache-manifest.*.js'
+			],
+			{ verbose: false }
+		),
 		new MiniCssExtractPlugin({
 			filename: 'assets/css/bundle-[contenthash].css',
 			chunkFilename: 'assets/css/bundle-[contenthash].css'
