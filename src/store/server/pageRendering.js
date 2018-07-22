@@ -121,6 +121,7 @@ const renderPage = (req, res, store, themeText, placeholders) => {
 };
 
 const pageRendering = (req, res) => {
+	console.warn('pageRendering', serverSettings.language);
 	loadState(req, serverSettings.language)
 		.then(({ state, themeText, placeholders }) => {
 			updateThemeSettings({
