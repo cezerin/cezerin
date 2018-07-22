@@ -265,14 +265,14 @@ class ProductCategoriesService {
 			}
 
 			if (item.slug) {
-				item.url = url.resolve(domain, item.slug || '');
-				item.path = url.resolve('/', item.slug || '');
+				item.url = url.resolve(domain, `/${item.slug}`);
+				item.path = url.resolve('/', item.slug);
 			}
 
 			if (item.image) {
 				item.image = url.resolve(
 					domain,
-					settings.categoriesUploadUrl + '/' + item.id + '/' + item.image
+					`${settings.categoriesUploadUrl}/${item.id}/${item.image}`
 				);
 			}
 		}

@@ -178,10 +178,12 @@ class PagesService {
 			item.id = item._id.toString();
 			item._id = undefined;
 
-			if (item.slug) {
-				item.url = url.resolve(domain, item.slug || '');
-				item.path = url.resolve('/', item.slug || '');
+			if (!item.slug) {
+				item.slug = '';
 			}
+
+			item.url = url.resolve(domain, `/${item.slug}`);
+			item.path = url.resolve('/', item.slug);
 		}
 
 		return item;

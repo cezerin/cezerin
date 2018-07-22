@@ -965,11 +965,10 @@ class ProductsService {
 	}
 
 	getImageUrl(domain, productId, imageFileName) {
-		const imageUrl = url.resolve(
+		return url.resolve(
 			domain,
-			settings.productsUploadUrl + '/' + productId + '/' + imageFileName
+			`${settings.productsUploadUrl}/${productId}/${imageFileName}`
 		);
-		return imageUrl.toString();
 	}
 
 	changeProperties(item, domain) {
@@ -998,11 +997,7 @@ class ProductsService {
 						const productSlug = item.slug || '';
 
 						if (item.url === '') {
-							const itemUrl = url.resolve(
-								domain,
-								categorySlug + '/' + productSlug
-							);
-							item.url = itemUrl.toString();
+							item.url = url.resolve(domain, `/${categorySlug}/${productSlug}`);
 						}
 
 						if (item.path === '') {
