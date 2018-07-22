@@ -61,10 +61,7 @@ class CustomersService {
 				.skip(offset)
 				.limit(limit)
 				.toArray(),
-			mongo.db
-				.collection('customers')
-				.find(filter)
-				.count()
+			mongo.db.collection('customers').countDocuments(filter)
 		]).then(([customerGroups, customers, customersCount]) => {
 			const items = customers.map(customer =>
 				this.changeProperties(customer, customerGroups)

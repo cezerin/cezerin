@@ -156,10 +156,7 @@ class OrdersService {
 				.skip(offset)
 				.limit(limit)
 				.toArray(),
-			mongo.db
-				.collection('orders')
-				.find(filter)
-				.count(),
+			mongo.db.collection('orders').countDocuments(filter),
 			OrderStatusesService.getStatuses(),
 			ShippingMethodsLightService.getMethods(),
 			PaymentMethodsLightService.getMethods()

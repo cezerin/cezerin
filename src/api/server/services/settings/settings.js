@@ -67,7 +67,7 @@ class SettingsService {
 	insertDefaultSettingsIfEmpty() {
 		return mongo.db
 			.collection('settings')
-			.count()
+			.countDocuments({})
 			.then(count => {
 				if (count === 0) {
 					return mongo.db

@@ -43,7 +43,7 @@ class EmailSettingsService {
 	insertDefaultSettingsIfEmpty() {
 		return mongo.db
 			.collection('emailSettings')
-			.count()
+			.countDocuments({})
 			.then(count => {
 				if (count === 0) {
 					return mongo.db
