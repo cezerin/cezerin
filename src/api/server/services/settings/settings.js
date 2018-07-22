@@ -13,7 +13,7 @@ const parse = require('../../lib/parse');
 class SettingsService {
 	constructor() {
 		this.defaultSettings = {
-			domain: 'http://localhost',
+			domain: '',
 			logo_file: null,
 			language: 'en',
 			currency_code: 'USD',
@@ -194,6 +194,10 @@ class SettingsService {
 	changeProperties(data) {
 		if (data) {
 			delete data._id;
+			if (data.domain === null || data.domain === undefined) {
+				data.domain = '';
+			}
+
 			if (data.logo_file && data.logo_file.length > 0) {
 				data.logo = url.resolve(
 					data.domain,

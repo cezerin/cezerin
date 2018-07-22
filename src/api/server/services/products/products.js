@@ -1,7 +1,7 @@
 'use strict';
 
 const path = require('path');
-const { URL } = require('url');
+const url = require('url');
 const fse = require('fs-extra');
 const ObjectID = require('mongodb').ObjectID;
 const settings = require('../../lib/settings');
@@ -965,9 +965,9 @@ class ProductsService {
 	}
 
 	getImageUrl(domain, productId, imageFileName) {
-		const imageUrl = new URL(
-			settings.productsUploadUrl + '/' + productId + '/' + imageFileName,
-			domain
+		const imageUrl = url.resolve(
+			domain,
+			settings.productsUploadUrl + '/' + productId + '/' + imageFileName
 		);
 		return imageUrl.toString();
 	}
@@ -998,7 +998,10 @@ class ProductsService {
 						const productSlug = item.slug || '';
 
 						if (item.url === '') {
-							const itemUrl = new URL(categorySlug + '/' + productSlug, domain);
+							const itemUrl = url.resolve(
+								domain,
+								categorySlug + '/' + productSlug
+							);
 							item.url = itemUrl.toString();
 						}
 
