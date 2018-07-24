@@ -1,7 +1,7 @@
-const settings = require('./settings');
 const winston = require('winston');
 const url = require('url');
-const MongoClient = require('mongodb').MongoClient;
+const { MongoClient } = require('mongodb');
+const settings = require('./settings');
 
 const mongodbConnection = settings.mongodbServerUrl;
 const mongoPathName = url.parse(mongodbConnection).pathname;
@@ -28,7 +28,10 @@ const connectWithRetry = () => {
 		CONNECT_OPTIONS,
 		(err, client) => {
 			if (err) {
-				winston.error('MongoDB connection was failed:', err.message);
+				winston.error(
+					`MongoDB connection was failed: ${err.message}`,
+					err.message
+				);
 				setTimeout(connectWithRetry, RECONNECT_INTERVAL);
 			} else {
 				const db = client.db(dbName);
