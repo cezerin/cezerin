@@ -56,7 +56,9 @@ const fillCartItemWithProductData = (products, cartItem) => {
 	const product = products.find(p => p.id === cartItem.product_id);
 	if (product) {
 		cartItem.image_url =
-			product.images.length > 0 ? product.images[0].url : null;
+			product.images && product.images.length > 0
+				? product.images[0].url
+				: null;
 		cartItem.path = product.path;
 		cartItem.stock_backorder = product.stock_backorder;
 		cartItem.stock_preorder = product.stock_preorder;
