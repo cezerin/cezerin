@@ -49,32 +49,6 @@ db.emailSettings.insert({
 });
 ```
 
-## Settings
-
-```js
-db.settings.insert({
-  domain: 'http://localhost:3000',
-  logo_file: null,
-  language: 'en',
-  currency_code: 'USD',
-  currency_symbol: '$',
-  currency_format: '${amount}',
-  thousand_separator: ',',
-  decimal_separator: '.',
-  decimal_number: 2,
-  timezone: 'Asia/Singapore',
-  date_format: 'MMMM D, YYYY',
-  time_format: 'h:mm a',
-  default_shipping_country: 'SG',
-  default_shipping_state: '',
-  default_shipping_city: '',
-  default_product_sorting: 'stock_status,price,position',
-  weight_unit: 'kg',
-  length_unit: 'cm',
-  hide_billing_address: false
-});
-```
-
 ## Create indexes
 
 ```js

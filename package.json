@@ -32,6 +32,7 @@
     "url": "https://github.com/cezerin/cezerin"
   },
   "scripts": {
+    "setup": "node src/api/server/setup.js",
     "compile": "babel src/store -d dist/store --quiet",
     "compile:watch": "concurrently -n storeWatcher,themeWatcher \"babel src/store -d dist/store --watch\" \"babel theme/src -d theme/dist --watch\"",
     "webpack:admin": "webpack --config webpack.config.admin.js --mode production",

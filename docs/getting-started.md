@@ -3,7 +3,7 @@
 * [Installation](#1-installation)
 * [Run Application](#2-run-application)
 * [Configuration](#3-configuration)
-* [Add default data](#4-add-default-data)
+* [Preparing Database](#4-preparing-database)
 
 ## 1. Installation
 
@@ -55,6 +55,13 @@ DB_URL=mongodb://db1.example.net:27017,db2.example.net:2500/?replicaSet=test
 npm start
 ```
 
-## 4. Add default data
+## 4. Preparing Database
 
-You need to manually add default data to MongoDB. [Initialize MongoDB.](https://github.com/cezerin/cezerin/blob/master/docs/initialize-mongodb.md)
+This script will:
+- test MongoDB connection
+- add default data
+- create basic indexes
+
+```
+npm run setup
+```
