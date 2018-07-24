@@ -37,6 +37,9 @@ const getFieldLabel = field => {
 class CheckoutStepShipping extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			billingAsShipping: true
+		};
 	}
 
 	onChangeBillingAsShipping = event => {
