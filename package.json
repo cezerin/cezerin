@@ -50,7 +50,7 @@
     "precommit": "lint-staged",
     "start-api": "node src/api/server/index.js",
     "start-store": "node dist/store/server/index.js",
-    "watch": "npm run webpack:admin:watch & npm run webpack:store:watch & pm2 start process.json"
+    "watch": "npm run webpack:admin:watch & npm run webpack:store:watch & pm2 start process.json",
     "start": "concurrently npm:start-*"
   },
   "lint-staged": {
