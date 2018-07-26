@@ -58,5 +58,19 @@
   "phone": "Телефон",
   "company": "Название компании",
   "comments": "Примечание",
-  "recentlyViewed": "Недавно посмотренное"
+  "recentlyViewed": "Недавно посмотренное",
+  "loading": "Загружается ...",
+  "optional": "необязательно",
+  "shippingTo": "Доставка",
+  "shippingMethods": "Варианты доставки",
+  "paymentMethods": "Варианты оплаты",
+  "orderSubmit": "Разместить заказ",
+  "emptyCheckout": "Ваша корзина пуста",
+  "required": "Заполните это поле.",
+  "emailInvalid": "Пожалуйста, введите действительный адрес электронной почты.",
+  "sameAsShipping": "Такой же, что и адрес доставки",
+  "edit": "Изменить",
+  "next": "Далее",
+  "customerDetails": "Контактные данные",
+  "payment": "Оплата"
 }

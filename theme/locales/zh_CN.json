@@ -58,5 +58,19 @@
   "phone": "电话",
   "company": "公司",
   "comments": "备注",
-  "recentlyViewed": "最近浏览"
+  "recentlyViewed": "最近浏览",
+  "loading": "加载中...",
+  "optional": "可选",
+  "shippingTo": "送货至",
+  "shippingMethods": "运送选项",
+  "paymentMethods": "付款选项",
+  "orderSubmit": "下单",
+  "emptyCheckout": "你的购物车是空的",
+  "required": "此字段需要填写",
+  "emailInvalid": "请输入一个有效的电子邮件地址。",
+  "sameAsShipping": "同送货地址",
+  "edit": "编辑",
+  "next": "下一步",
+  "customerDetails": "客户详情",
+  "payment": "付款"
 }

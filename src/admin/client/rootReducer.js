@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { reducer as formReducer } from 'redux-form'
+import { reducer as formReducer } from 'redux-form';
 
 import productCategories from 'modules/productCategories/reducer';
 import products from 'modules/products/reducer';
@@ -13,15 +13,15 @@ import apps from 'modules/apps/reducer';
 import files from 'modules/files/reducer';
 
 export default combineReducers({
-  form: formReducer,
-  productCategories,
-  products,
-  settings,
-  customerGroups,
-  customers,
-  orders,
-  orderStatuses,
-  pages,
-  apps,
-  files
+	form: formReducer,
+	productCategories,
+	products,
+	settings,
+	customerGroups,
+	customers,
+	orders,
+	orderStatuses,
+	pages,
+	apps,
+	files
 });

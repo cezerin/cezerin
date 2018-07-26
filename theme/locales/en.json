@@ -58,5 +58,19 @@
   "phone": "Phone",
   "company": "Company",
   "comments": "Comments",
-  "recentlyViewed": "Recently Viewed"
+  "recentlyViewed": "Recently Viewed",
+  "loading": "Loading...",
+  "optional": "optional",
+  "shippingTo": "Shipping To",
+  "shippingMethods": "Shipping options",
+  "paymentMethods": "Payment options",
+  "orderSubmit": "Place Order",
+  "emptyCheckout": "Your cart is empty",
+  "required": "This field is required.",
+  "emailInvalid": "Please enter a valid email address.",
+  "sameAsShipping": "Same as shipping address",
+  "edit": "Edit",
+  "next": "Next",
+  "customerDetails": "Customer Details",
+  "payment": "Payment"
 }

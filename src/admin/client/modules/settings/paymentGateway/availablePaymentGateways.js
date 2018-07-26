@@ -14,5 +14,5 @@ export const AVAILABLE_PAYMENT_GATEWAYS = [
   {
     'key': 'qvo',
     'name': 'Qvo'
-  },
+  }
 ];

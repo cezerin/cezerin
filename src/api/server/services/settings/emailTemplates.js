@@ -4,52 +4,62 @@ const mongo = require('../../lib/mongo');
 const parse = require('../../lib/parse');
 
 class EmailTemplatesService {
-  constructor() {}
+	constructor() {}
 
-  getEmailTemplate(name) {
-    return mongo.db.collection('emailTemplates').findOne({name: name}).then(template => {
-      return this.changeProperties(template);
-    });
-  }
+	getEmailTemplate(name) {
+		return mongo.db
+			.collection('emailTemplates')
+			.findOne({ name: name })
+			.then(template => {
+				return this.changeProperties(template);
+			});
+	}
 
-  updateEmailTemplate(name, data) {
-    const template = this.getValidDocumentForUpdate(data);
-    return mongo.db.collection('emailTemplates').updateOne({name: name}, {
-      $set: template
-    }, {upsert: true}).then(res => this.getEmailTemplate(name));
-  }
+	updateEmailTemplate(name, data) {
+		const template = this.getValidDocumentForUpdate(data);
+		return mongo.db
+			.collection('emailTemplates')
+			.updateOne(
+				{ name: name },
+				{
+					$set: template
+				},
+				{ upsert: true }
+			)
+			.then(res => this.getEmailTemplate(name));
+	}
 
-  getValidDocumentForUpdate(data) {
-    if (Object.keys(data).length === 0) {
-      return new Error('Required fields are missing');
-    }
+	getValidDocumentForUpdate(data) {
+		if (Object.keys(data).length === 0) {
+			return new Error('Required fields are missing');
+		}
 
-    let template = {}
+		let template = {};
 
-    if (data.subject !== undefined) {
-      template.subject = parse.getString(data.subject);
-    }
+		if (data.subject !== undefined) {
+			template.subject = parse.getString(data.subject);
+		}
 
-    if (data.body !== undefined) {
-      template.body = parse.getString(data.body);
-    }
+		if (data.body !== undefined) {
+			template.body = parse.getString(data.body);
+		}
 
-    return template;
-  }
+		return template;
+	}
 
-  changeProperties(template) {
-    if (template) {
-      delete template._id;
-      delete template.name;
-    } else {
-      return {
-        subject: '',
-        body: ''
-      }
-    }
+	changeProperties(template) {
+		if (template) {
+			delete template._id;
+			delete template.name;
+		} else {
+			return {
+				subject: '',
+				body: ''
+			};
+		}
 
-    return template;
-  }
+		return template;
+	}
 }
 
 module.exports = new EmailTemplatesService();

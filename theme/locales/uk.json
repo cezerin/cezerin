@@ -58,5 +58,19 @@
   "phone": "Телефон",
   "company": "Назва компанії",
   "comments": "Примітка",
-  "recentlyViewed": "Переглянуті товари"
+  "recentlyViewed": "Переглянуті товари",
+  "loading": "Завантаження ...",
+  "optional": "не обов'язково",
+  "shippingTo": "Доставка",
+  "shippingMethods": "Варіанти доставки",
+  "paymentMethods": "Варіанти оплати",
+  "orderSubmit": "Замовлення підтверджую",
+  "emptyCheckout": "Кошик порожній",
+  "required": "Заповніть це поле.",
+  "emailInvalid": "Будь ласка, введіть адресу електронної пошти.",
+  "sameAsShipping": "Такий же, що і адреса доставки",
+  "edit": "Змінити",
+  "next": "Далі",
+  "customerDetails": "Контактні дані",
+  "payment": "Оплата"
 }

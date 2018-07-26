@@ -4,7 +4,7 @@
 * [Install Docker](#2-install-docker)
 * [Run MongoDB](#3-run-mongodb)
 * [Run Cezerin](#4-run-cezerin)
-* [Add default data to MongoDB](#5-add-default-data-to-mongodb)
+* [Preparing Database](#5-preparing-database)
 * [Setup domain with](#6-setup-domain-with-cloudflare)
 * [Turn off Developer Mode](#7-turn-off-developer-mode)
 
@@ -68,53 +68,11 @@ Check logs
 docker logs store
 ```
 
-## 5. Add default data to MongoDB
-Open `mongo` shell from container and switch to `shop` database.
+## 5. Preparing Database
+Run `npm run setup` on Cezerin container to add default data and create indexes.
 
 ```shell
-docker exec -it store-db mongo shop
-```
-Copy and paste
-```js
-db.pages.insertMany([
-  {slug: '', meta_title: 'Home', enabled: true, is_system: true},
-  {slug: 'checkout', meta_title: 'Checkout', enabled: true, is_system: true},
-  {slug: 'checkout-success', meta_title: 'Thank You!', enabled: true, is_system: true},
-  {slug: 'cart', meta_title: 'Cart', enabled: true, is_system: true},
-  {slug: 'login', meta_title: 'Login', enabled: true, is_system: true},
-  {slug: 'logout', meta_title: 'Logout', enabled: true, is_system: true},
-  {slug: 'register', meta_title: 'Register', enabled: true, is_system: true},
-  {slug: 'account', meta_title: 'Account', enabled: true, is_system: true}
-]);
-db.pages.createIndex({ enabled: 1 });
-db.pages.createIndex({ slug: 1 });
-db.productCategories.createIndex({ enabled: 1 });
-db.productCategories.createIndex({ slug: 1 });
-db.products.createIndex({ slug: 1 });
-db.products.createIndex({ enabled: 1 });
-db.products.createIndex({ category_id: 1 });
-db.products.createIndex({ sku: 1 });
-db.products.createIndex({'attributes.name' : 1, 'attributes.value' : 1});
-db.products.createIndex({
-  'name': 'text',
-  'description': 'text'
-}, { default_language: 'english', name: 'textIndex' });
-db.customers.createIndex({ group_id: 1 });
-db.customers.createIndex({ email: 1 });
-db.customers.createIndex({ mobile: 1 });
-db.customers.createIndex({
-  'full_name': 'text',
-  'addresses.address1': 'text'
-}, { default_language: 'english', name: 'textIndex' });
-db.orders.createIndex({ draft: 1 });
-db.orders.createIndex({ number: 1 });
-db.orders.createIndex({ customer_id: 1 });
-db.orders.createIndex({ email: 1 });
-db.orders.createIndex({ mobile: 1 });
-db.orders.createIndex({
-  'shipping_address.full_name': 'text',
-  'shipping_address.address1': 'text'
-}, { default_language: 'english', name: 'textIndex' });
+sudo docker exec store bash -c "npm run setup"
 ```
 
 ## 6. Setup domain with CloudFlare

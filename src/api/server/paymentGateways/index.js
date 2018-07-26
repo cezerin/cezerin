@@ -7,27 +7,28 @@ const LiqPay = require('./LiqPay');
 const TransbankWebpay = require('./TransbankWebpay');
 const Qvo = require('./Qvo');
 
-const getOptions = (orderId) => {
-  return Promise.all([
-    OrdersService.getSingleOrder(orderId),
-    SettingsService.getSettings()
-  ]).then(([order, settings]) => {
-    if(order && order.payment_method_id){
-      return PaymentGatewaysService.getGateway(order.payment_method_gateway).then(gatewaySettings => {
+const getOptions = orderId => {
+	return Promise.all([
+		OrdersService.getSingleOrder(orderId),
+		SettingsService.getSettings()
+	]).then(([order, settings]) => {
+		if (order && order.payment_method_id) {
+			return PaymentGatewaysService.getGateway(
+				order.payment_method_gateway
+			).then(gatewaySettings => {
+				const options = {
+					gateway: order.payment_method_gateway,
+					gatewaySettings: gatewaySettings,
+					order: order,
+					amount: order.grand_total,
+					currency: settings.currency_code
+				};
 
-        const options = {
-          gateway: order.payment_method_gateway,
-          gatewaySettings: gatewaySettings,
-          order: order,
-          amount: order.grand_total,
-          currency: settings.currency_code
-        };
-
-        return options;
-      });
-    }
-  });
-}
+				return options;
+			});
+		}
+	});
+};
 
 const getPaymentFormSettings = (orderId) => {
   return getOptions(orderId).then(options => {
@@ -47,15 +48,13 @@ const getPaymentFormSettings = (orderId) => {
 }
 
 const paymentNotification = (req, res, gateway) => {
-  return PaymentGatewaysService.getGateway(gateway).then(gatewaySettings => {
-    const options = {
-      gateway: gateway,
-      gatewaySettings: gatewaySettings,
-      req: req,
-      res: res
-    };
-
-    console.log('options on paymentNotification:', options)
+	return PaymentGatewaysService.getGateway(gateway).then(gatewaySettings => {
+		const options = {
+			gateway: gateway,
+			gatewaySettings: gatewaySettings,
+			req: req,
+			res: res
+		};
 
     switch(gateway){
       case 'qvo':
@@ -74,6 +73,6 @@ const paymentNotification = (req, res, gateway) => {
 }
 
 module.exports = {
-  getPaymentFormSettings: getPaymentFormSettings,
-  paymentNotification: paymentNotification
-}
+	getPaymentFormSettings: getPaymentFormSettings,
+	paymentNotification: paymentNotification
+};
