@@ -9,22 +9,11 @@ import Checkbox from 'material-ui/Checkbox';
 import MenuItem from 'material-ui/MenuItem';
 
 const GatewaySettings = ({ gateway }) => {
-<<<<<<< HEAD
-  switch(gateway){
-    case 'qvo':
-      return <Qvo />
-    case 'transbank-webpay':
-      return <Webpay />
-    case 'paypal-checkout':
-      return <PayPalButton />;
-    case 'liqpay':
-      return <LiqPay />;
-    default:
-      return null;
-  }
-}
-=======
 	switch (gateway) {
+		case 'qvo':
+			return <Qvo />;
+		case 'transbank-webpay':
+			return <Webpay />;
 		case 'paypal-checkout':
 			return <PayPalButton />;
 		case 'liqpay':
@@ -33,7 +22,6 @@ const GatewaySettings = ({ gateway }) => {
 			return null;
 	}
 };
->>>>>>> upstream/master
 
 export default GatewaySettings;
 
@@ -135,29 +123,61 @@ const LiqPay = props => {
 				<MenuItem value="en" primaryText="English" />
 			</Field>
 
-      <Field component={TextField} name="server_url" floatingLabelText="Server URL" hintText="https://<domain>/api/v1/notifications/liqpay" fullWidth={true} />
-    </div>
-  )
-}
+			<Field
+				component={TextField}
+				name="server_url"
+				floatingLabelText="Server URL"
+				hintText="https://<domain>/api/v1/notifications/liqpay"
+				fullWidth={true}
+			/>
+		</div>
+	);
+};
 
 const Webpay = props => {
-  return (
-    <div>
-      <Field component={TextField} name="commerce_code" floatingLabelText="Código de comercio (Commerce Code)" fullWidth={true} />
-      <p>
-        Debe guardar los certificados entregados por Webpay en: <i>/src/api/server/paymentGateways/TransbankWebpay/certificates</i>
-      </p>
-    </div>
-  )
-}
+	return (
+		<div>
+			<Field
+				component={TextField}
+				name="commerce_code"
+				floatingLabelText="Código de comercio (Commerce Code)"
+				fullWidth={true}
+			/>
+			<p>
+				Debe guardar los certificados entregados por Webpay en:{' '}
+				<i>/src/api/server/paymentGateways/TransbankWebpay/certificates</i>
+			</p>
+		</div>
+	);
+};
 
 const Qvo = props => {
-  return (
-    <div>
-      <Field component={TextField} name="public-key" floatingLabelText="Qvo Public Key" fullWidth={true} />
-      <Field component={TextField} name="private-key" floatingLabelText="Qvo Private Key" fullWidth={true} />
-      <Field component={TextField} name="store-name" floatingLabelText="Nombre de la tienda" fullWidth={true} />
-      <Field component={TextField} name="logo" floatingLabelText="Link a logo de la tienda" fullWidth={true} />
-    </div>
-  )
-}
+	return (
+		<div>
+			<Field
+				component={TextField}
+				name="public-key"
+				floatingLabelText="Qvo Public Key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="private-key"
+				floatingLabelText="Qvo Private Key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="store-name"
+				floatingLabelText="Nombre de la tienda"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="logo"
+				floatingLabelText="Link a logo de la tienda"
+				fullWidth={true}
+			/>
+		</div>
+	);
+};

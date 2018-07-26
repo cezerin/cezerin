@@ -212,19 +212,6 @@ ajaxRouter.put('/cart/items/:item_id', (req, res, next) => {
 });
 
 ajaxRouter.put('/cart/checkout', (req, res, next) => {
-<<<<<<< HEAD
-  const order_id = req.signedCookies.order_id;
-  if (order_id) {
-    api.orders.checkout(order_id)
-      .then(cartResponse => fillCartItems(cartResponse))
-      .then(({status, json}) => {
-        res.clearCookie('order_id');
-        res.status(status).send(json);
-      })
-  } else {
-    res.end();
-  }
-=======
 	const order_id = req.signedCookies.order_id;
 	if (order_id) {
 		api.orders
@@ -237,7 +224,6 @@ ajaxRouter.put('/cart/checkout', (req, res, next) => {
 	} else {
 		res.end();
 	}
->>>>>>> upstream/master
 });
 
 ajaxRouter.put('/cart', (req, res, next) => {

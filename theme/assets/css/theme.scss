@@ -1,0 +1,125 @@
+@import "~bulma/sass/utilities/initial-variables";
+
+$green: #00b366;
+$primary: $green;
+$link: #000;
+
+$tag-background-color: #ffdd57;
+$tag-color: rgba(0, 0, 0, 0.7);
+$tag-radius: 3px;
+
+$breadcrumb-item-color: #7a7a7a;
+$breadcrumb-item-separator-color: #7a7a7a;
+
+@import "~bulma";
+@import "~rc-slider/assets/index.css";
+$ig-blue: #636363 !default;
+@import "~react-image-gallery/styles/scss/image-gallery-no-icon.scss";
+
+.image-gallery-bullets .image-gallery-bullets-container {
+  background-color: rgba(0,0,0,0.2);
+  padding: 4px 0;
+  border-radius: 20px;
+  display: flex;
+  width: fit-content;
+  width: -moz-fit-content;
+  margin: 0 auto;
+}
+
+.image-gallery-right-nav,
+.image-gallery-left-nav {
+  background-color: rgba(0,0,0,0.2);
+}
+
+.image-gallery-thumbnails-wrapper.left {
+  min-height: 340px;
+}
+
+.dark-overflow {
+  background: rgba(0,0,0,0.4);
+  position: fixed;
+  top: 3.25rem;
+  left: 0;
+  height: 100%;
+  z-index: 1001;
+  width: 100%;
+}
+
+body {
+  margin-top: 3.25rem;
+  transition: margin 200ms ease-in-out;
+}
+
+a, input, button {
+  outline: none;
+}
+
+hr.separator {
+  margin: 1rem 0;
+}
+
+.hero-body, .section {
+  padding: 1.5rem;
+}
+
+.navbar-burger {
+  margin-left: 0;
+}
+
+.navbar-burger span {
+  height: 2px;
+  width: 18px;
+}
+
+.box {
+  border-radius: 0;
+}
+
+.modal-content {
+  z-index: 1002;
+  margin: 3.25rem 1.5rem 0 1.5rem;
+}
+
+.title {
+  font-weight: 300;
+}
+
+.shipping-address2 {}
+.shipping-postalcode {}
+.shipping-phone {}
+.shipping-company { display:none; }
+.shipping-comments {}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/*
+MOBILE
+*/
+@media screen and (max-width: 769px) {
+  body.search-active {
+    margin-top: 6.25rem;
+  }
+
+  body.noscroll {
+    position:fixed;
+    overflow:hidden;
+  }
+}
+
+@import "homeSlider.scss";
+@import "checkout.scss";
+@import "cart.scss";
+@import "header.scss";
+@import "footer.scss";
+@import "category.scss";
+@import "product.scss";
+@import "page.scss";
+@import "custom.scss";

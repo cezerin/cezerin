@@ -12,7 +12,7 @@ const CONNECT_OPTIONS = {
 	useNewUrlParser: true
 };
 
-const DEFAULT_LANGUAGE = 'english';
+const DEFAULT_LANGUAGE = 'español';
 
 const addPage = async (db, pageObject) => {
 	const count = await db
@@ -30,19 +30,19 @@ const addAllPages = async db => {
 		slug: '',
 		meta_title: 'Home',
 		enabled: true,
-		is_system: true
+		is_system: false
 	});
 	await addPage(db, {
 		slug: 'checkout',
 		meta_title: 'Checkout',
 		enabled: true,
-		is_system: true
+		is_system: false
 	});
 	await addPage(db, {
 		slug: 'checkout-success',
-		meta_title: 'Thank You!',
+		meta_title: 'Gracias!',
 		enabled: true,
-		is_system: true
+		is_system: false
 	});
 	await addPage(db, {
 		slug: 'about',
@@ -152,19 +152,19 @@ const addEmailTemplates = async db => {
 			name: 'order_confirmation',
 			subject: 'Order confirmation',
 			body: `<div>
-			<div><b>Order number</b>: {{number}}</div>
-			<div><b>Shipping method</b>: {{shipping_method}}</div>
-			<div><b>Payment method</b>: {{payment_method}}</div>
+			<div><b>Número de Orden</b>: {{number}}</div>
+			<div><b>Método de envío</b>: {{shipping_method}}</div>
+			<div><b>Método de pago</b>: {{payment_method}}</div>
 		  
 			<div style="width: 100%; margin-top: 20px;">
-			  Shipping to<br /><br />
-			  <b>Full name</b>: {{shipping_address.full_name}}<br />
-			  <b>Address 1</b>: {{shipping_address.address1}}<br />
-			  <b>Address 2</b>: {{shipping_address.address2}}<br />
-			  <b>Postal code</b>: {{shipping_address.postal_code}}<br />
-			  <b>City</b>: {{shipping_address.city}}<br />
-			  <b>State</b>: {{shipping_address.state}}<br />
-			  <b>Phone</b>: {{shipping_address.phone}}
+			  Destino del envío<br /><br />
+			  <b>Nombre completo</b>: {{shipping_address.full_name}}<br />
+			  <b>Dirección 1</b>: {{shipping_address.address1}}<br />
+			  <b>Dirección 2</b>: {{shipping_address.address2}}<br />
+			  <b>Código postal</b>: {{shipping_address.postal_code}}<br />
+			  <b>Ciudad</b>: {{shipping_address.city}}<br />
+			  <b>Estado</b>: {{shipping_address.state}}<br />
+			  <b>Teléefono</b>: {{shipping_address.phone}}
 			</div>
 		  
 			<table style="width: 100%; margin-top: 20px;">
@@ -192,11 +192,11 @@ const addEmailTemplates = async db => {
 				<td style="width: 20%; padding: 10px 0px; text-align: right;">$ {{subtotal}}</td>
 			  </tr>
 			  <tr>
-				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>Shipping</b></td>
+				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>Envío</b></td>
 				<td style="width: 20%; padding: 10px 0px; text-align: right;">$ {{shipping_total}}</td>
 			  </tr>
 			  <tr>
-				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>Grand total</b></td>
+				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>TOTAL</b></td>
 				<td style="width: 20%; padding: 10px 0px; text-align: right;">$ {{grand_total}}</td>
 			  </tr>
 			</table>

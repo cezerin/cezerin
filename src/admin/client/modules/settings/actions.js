@@ -477,16 +477,6 @@ export function updatePaymentGateway(gatewayName, data) {
 }
 
 export function uploadLogo(form) {
-<<<<<<< HEAD
-  return (dispatch, getState) => {
-    console.log('form:', form)
-    return api.settings.uploadLogo(form)
-    .then(() => {
-      dispatch(fetchSettings());
-    })
-    .catch(error => {});
-  }
-=======
 	return (dispatch, getState) => {
 		return api.settings
 			.uploadLogo(form)
@@ -495,7 +485,6 @@ export function uploadLogo(form) {
 			})
 			.catch(error => {});
 	};
->>>>>>> upstream/master
 }
 
 export function fetchThemeSettings() {

@@ -45,21 +45,20 @@ module.exports = {
 	// key to sign store cookies
 	cookieSecretKey: '-',
 
-<<<<<<< HEAD
-  // path to uploads
-  categoriesUploadPath: 'public/content/images/categories',
-  productsUploadPath: 'public/content/images/products',
-  filesUploadPath: 'public/content/files',
-  themeAssetsUploadPath: 'theme/assets/images',
+	// path to uploads
+	categoriesUploadPath: 'public/content/images/categories',
+	productsUploadPath: 'public/content/images/products',
+	filesUploadPath: 'public/content/files',
+	themeAssetsUploadPath: 'theme/assets/images',
 
-  // url to uploads
-  categoriesUploadUrl: '/images/categories',
-  productsUploadUrl: '/images/products',
-  filesUploadUrl: '/files',
-  themeAssetsUploadUrl: '/assets/images',
+	// url to uploads
+	categoriesUploadUrl: '/images/categories',
+	productsUploadUrl: '/images/products',
+	filesUploadUrl: '/files',
+	themeAssetsUploadUrl: '/assets/images',
 
-  // store UI language
-  language: 'es',
+	// store UI language
+	language: 'es',
 
 	// used by API
 	orderStartNumber: 1000,
