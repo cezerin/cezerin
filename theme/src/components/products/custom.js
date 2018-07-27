@@ -13,7 +13,12 @@ export default class CustomProducts extends React.Component {
 	}
 
 	componentDidMount() {
+		this.isCancelled = false;
 		this.fetchProducts(this.props);
+	}
+
+	componentWillUnmount() {
+		this.isCancelled = true;
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -57,9 +62,11 @@ export default class CustomProducts extends React.Component {
 		api.ajax.products
 			.list(filter)
 			.then(({ status, json }) => {
-				this.setState({
-					products: json.data
-				});
+				if (!this.isCancelled) {
+					this.setState({
+						products: json.data
+					});
+				}
 			})
 			.catch(() => {});
 	};
