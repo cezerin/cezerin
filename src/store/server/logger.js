@@ -1,4 +1,4 @@
-const winston = require('winston');
+import winston from 'winston';
 const LOGS_FILE = 'logs/server.log';
 
 winston.configure({
@@ -17,3 +17,5 @@ winston.configure({
 		})
 	]
 });
+
+export default {};
