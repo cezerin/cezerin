@@ -3,6 +3,7 @@
 		{
 			"name": "api",
 			"script": "./src/api/server/index.js",
+			"node_args": "-r esm",
 			"watch": ["./config/server.js", "./src/api/server/"],
 			"instances": "1",
 			"exec_mode": "fork",
@@ -14,6 +15,7 @@
 		{
 			"name": "store",
 			"script": "./dist/store/server/index.js",
+			"node_args": "-r esm",
 			"watch": [
 				"./config/server.js",
 				"./dist/store/",
