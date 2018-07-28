@@ -1,5 +1,5 @@
-const security = require('../lib/security');
-const ShippingMethodsService = require('../services/orders/shippingMethods');
+import security from '../lib/security';
+import ShippingMethodsService from '../services/orders/shippingMethods';
 
 class ShippingMethodsRoute {
 	constructor(router) {
@@ -81,4 +81,4 @@ class ShippingMethodsRoute {
 	}
 }
 
-module.exports = ShippingMethodsRoute;
+export default ShippingMethodsRoute;

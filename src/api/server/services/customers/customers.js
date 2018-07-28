@@ -1,11 +1,9 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const webhooks = require('../../lib/webhooks');
-const ObjectID = require('mongodb').ObjectID;
-const CustomerGroupsService = require('./customerGroups');
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import webhooks from '../../lib/webhooks';
+import CustomerGroupsService from './customerGroups';
 
 class CustomersService {
 	constructor() {}
@@ -54,14 +52,14 @@ class CustomersService {
 
 		return Promise.all([
 			CustomerGroupsService.getGroups(),
-			mongo.db
+			db
 				.collection('customers')
 				.find(filter)
 				.sort({ date_created: -1 })
 				.skip(offset)
 				.limit(limit)
 				.toArray(),
-			mongo.db.collection('customers').countDocuments(filter)
+			db.collection('customers').countDocuments(filter)
 		]).then(([customerGroups, customers, customersCount]) => {
 			const items = customers.map(customer =>
 				this.changeProperties(customer, customerGroups)
@@ -89,7 +87,7 @@ class CustomersService {
 
 		// is email unique
 		if (customer.email && customer.email.length > 0) {
-			const customerCount = await mongo.db
+			const customerCount = await db
 				.collection('customers')
 				.count({ email: customer.email });
 			if (customerCount > 0) {
@@ -97,7 +95,7 @@ class CustomersService {
 			}
 		}
 
-		const insertResponse = await mongo.db
+		const insertResponse = await db
 			.collection('customers')
 			.insertMany([customer]);
 		const newCustomerId = insertResponse.ops[0]._id.toString();
@@ -118,7 +116,7 @@ class CustomersService {
 
 		// is email unique
 		if (customer.email && customer.email.length > 0) {
-			const customerCount = await mongo.db.collection('customers').count({
+			const customerCount = await db.collection('customers').count({
 				_id: {
 					$ne: customerObjectID
 				},
@@ -130,7 +128,7 @@ class CustomersService {
 			}
 		}
 
-		await mongo.db.collection('customers').updateOne(
+		await db.collection('customers').updateOne(
 			{
 				_id: customerObjectID
 			},
@@ -157,7 +155,7 @@ class CustomersService {
 			orders_count: ordersCount
 		};
 
-		return mongo.db
+		return db
 			.collection('customers')
 			.updateOne({ _id: customerObjectID }, { $set: customerData });
 	}
@@ -168,7 +166,7 @@ class CustomersService {
 		}
 		const customerObjectID = new ObjectID(customerId);
 		const customer = await this.getSingleCustomer(customerId);
-		const deleteResponse = await mongo.db
+		const deleteResponse = await db
 			.collection('customers')
 			.deleteOne({ _id: customerObjectID });
 		await webhooks.trigger({
@@ -315,7 +313,7 @@ class CustomersService {
 		let customerObjectID = new ObjectID(customer_id);
 		const validAddress = parse.getCustomerAddress(address);
 
-		return mongo.db.collection('customers').updateOne(
+		return db.collection('customers').updateOne(
 			{
 				_id: customerObjectID
 			},
@@ -405,7 +403,7 @@ class CustomersService {
 		let addressObjectID = new ObjectID(address_id);
 		const addressFields = this.createObjectToUpdateAddressFields(data);
 
-		return mongo.db.collection('customers').updateOne(
+		return db.collection('customers').updateOne(
 			{
 				_id: customerObjectID,
 				'addresses.id': addressObjectID
@@ -421,7 +419,7 @@ class CustomersService {
 		let customerObjectID = new ObjectID(customer_id);
 		let addressObjectID = new ObjectID(address_id);
 
-		return mongo.db.collection('customers').updateOne(
+		return db.collection('customers').updateOne(
 			{
 				_id: customerObjectID
 			},
@@ -442,7 +440,7 @@ class CustomersService {
 		let customerObjectID = new ObjectID(customer_id);
 		let addressObjectID = new ObjectID(address_id);
 
-		return mongo.db
+		return db
 			.collection('customers')
 			.updateOne(
 				{
@@ -456,7 +454,7 @@ class CustomersService {
 				}
 			)
 			.then(res => {
-				return mongo.db.collection('customers').updateOne(
+				return db.collection('customers').updateOne(
 					{
 						_id: customerObjectID,
 						'addresses.id': addressObjectID
@@ -477,7 +475,7 @@ class CustomersService {
 		let customerObjectID = new ObjectID(customer_id);
 		let addressObjectID = new ObjectID(address_id);
 
-		return mongo.db
+		return db
 			.collection('customers')
 			.updateOne(
 				{
@@ -491,7 +489,7 @@ class CustomersService {
 				}
 			)
 			.then(res => {
-				return mongo.db.collection('customers').updateOne(
+				return db.collection('customers').updateOne(
 					{
 						_id: customerObjectID,
 						'addresses.id': addressObjectID
@@ -506,4 +504,4 @@ class CustomersService {
 	}
 }
 
-module.exports = new CustomersService();
+export default new CustomersService();

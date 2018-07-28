@@ -1,6 +1,4 @@
-'use strict';
-
-const PaymentGateways = require('../paymentGateways');
+import PaymentGateways from '../paymentGateways';
 
 class NotificationsRoute {
 	constructor(router) {
@@ -20,4 +18,4 @@ class NotificationsRoute {
 	}
 }
 
-module.exports = NotificationsRoute;
+export default NotificationsRoute;

@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const WebhooksService = require('../services/webhooks');
+import security from '../lib/security';
+import WebhooksService from '../services/webhooks';
 
 class WebhooksRoute {
 	constructor(router) {
@@ -86,4 +84,4 @@ class WebhooksRoute {
 	}
 }
 
-module.exports = WebhooksRoute;
+export default WebhooksRoute;

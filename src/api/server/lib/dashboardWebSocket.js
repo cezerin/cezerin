@@ -1,6 +1,6 @@
-const WebSocket = require('ws');
-const url = require('url');
-const security = require('./security.js');
+import WebSocket from 'ws';
+import url from 'url';
+import security from './security';
 
 let wss = null;
 
@@ -66,7 +66,7 @@ const events = {
 	THEME_INSTALLED: 'theme.installed'
 };
 
-module.exports = {
+export default {
 	listen: listen,
 	send: send,
 	events: events

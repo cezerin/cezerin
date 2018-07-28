@@ -1,13 +1,11 @@
-'use strict';
-
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const OrdersService = require('./orders');
-const ProductsService = require('../products/products');
-const ProductStockService = require('../products/stock');
+import { ObjectID } from 'mongodb';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import OrdersService from './orders';
+import ProductsService from '../products/products';
+import ProductStockService from '../products/stock';
 
 class OrderItemsService {
 	constructor() {}
@@ -58,7 +56,7 @@ class OrderItemsService {
 
 		if (availableQuantity > 0) {
 			newItem.quantity = availableQuantity;
-			await mongo.db.collection('orders').updateOne(
+			await db.collection('orders').updateOne(
 				{
 					_id: orderObjectID
 				},
@@ -103,7 +101,7 @@ class OrderItemsService {
 
 	async getOrderItemIfExists(order_id, product_id, variant_id) {
 		let orderObjectID = new ObjectID(order_id);
-		const order = await mongo.db.collection('orders').findOne(
+		const order = await db.collection('orders').findOne(
 			{
 				_id: orderObjectID
 			},
@@ -137,7 +135,7 @@ class OrderItemsService {
 		} else {
 			// update
 			await ProductStockService.handleDeleteOrderItem(order_id, item_id);
-			await mongo.db.collection('orders').updateOne(
+			await db.collection('orders').updateOne(
 				{
 					_id: orderObjectID,
 					'items.id': itemObjectID
@@ -228,7 +226,7 @@ class OrderItemsService {
 			const item = order.items.find(i => i.id.toString() === itemId.toString());
 			if (item) {
 				const itemData = await this.getCalculatedData(item);
-				await mongo.db.collection('orders').updateOne(
+				await db.collection('orders').updateOne(
 					{
 						_id: orderObjectID,
 						'items.id': itemObjectID
@@ -323,7 +321,7 @@ class OrderItemsService {
 		let itemObjectID = new ObjectID(item_id);
 
 		await ProductStockService.handleDeleteOrderItem(order_id, item_id);
-		await mongo.db.collection('orders').updateOne(
+		await db.collection('orders').updateOne(
 			{
 				_id: orderObjectID
 			},
@@ -377,4 +375,4 @@ class OrderItemsService {
 	}
 }
 
-module.exports = new OrderItemsService();
+export default new OrderItemsService();

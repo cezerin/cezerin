@@ -1,8 +1,6 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class ProductOptionValuesService {
 	constructor() {}
@@ -10,7 +8,7 @@ class ProductOptionValuesService {
 	getOptionValues(productId, optionId) {
 		let productObjectID = new ObjectID(productId);
 
-		return mongo.db
+		return db
 			.collection('products')
 			.findOne({ _id: productObjectID }, { fields: { options: 1 } })
 			.then(product => (product && product.options ? product.options : null))
@@ -40,7 +38,7 @@ class ProductOptionValuesService {
 
 		const optionValueData = this.getValidDocumentForInsert(data);
 
-		return mongo.db
+		return db
 			.collection('products')
 			.updateOne(
 				{
@@ -128,7 +126,7 @@ class ProductOptionValuesService {
 			return;
 		}
 
-		return mongo.db
+		return db
 			.collection('products')
 			.updateOne(
 				{ _id: productObjectID, 'options.id': optionObjectID },
@@ -146,4 +144,4 @@ class ProductOptionValuesService {
 	}
 }
 
-module.exports = new ProductOptionValuesService();
+export default new ProductOptionValuesService();

@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const FilesService = require('../services/files');
+import security from '../lib/security';
+import FilesService from '../services/files';
 
 class FilesRoute {
 	constructor(router) {
@@ -48,4 +46,4 @@ class FilesRoute {
 	}
 }
 
-module.exports = FilesRoute;
+export default FilesRoute;

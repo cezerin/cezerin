@@ -1,13 +1,13 @@
-'use strict';
+import fs from 'fs';
+import path from 'path';
+import lruCache from 'lru-cache';
 
-const fs = require('fs');
-const path = require('path');
-const cache = require('lru-cache')({
+const cache = lruCache({
 	max: 10000,
 	maxAge: 1000 * 60 * 60 * 24 // 24h
 });
-const THEME_SETTINGS_CACHE_KEY = 'themesettings';
 
+const THEME_SETTINGS_CACHE_KEY = 'themesettings';
 const SETTINGS_FILE = path.resolve('theme/config/settings.json');
 const SETTINGS_SCHEMA_FILE = path.resolve('theme/config/settings_schema.json');
 
@@ -71,4 +71,4 @@ class ThemeSettingsService {
 	}
 }
 
-module.exports = new ThemeSettingsService();
+export default new ThemeSettingsService();

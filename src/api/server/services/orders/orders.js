@@ -1,23 +1,21 @@
-'use strict';
-
-const winston = require('winston');
-const handlebars = require('handlebars');
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const webhooks = require('../../lib/webhooks');
-const dashboardWebSocket = require('../../lib/dashboardWebSocket');
-const mailer = require('../../lib/mailer');
-const ObjectID = require('mongodb').ObjectID;
-const ProductsService = require('../products/products');
-const CustomersService = require('../customers/customers');
-const OrderStatusesService = require('./orderStatuses');
-const PaymentMethodsLightService = require('./paymentMethodsLight');
-const ShippingMethodsLightService = require('./shippingMethodsLight');
-const EmailTemplatesService = require('../settings/emailTemplates');
-const ProductStockService = require('../products/stock');
-const SettingsService = require('../settings/settings');
+import { ObjectID } from 'mongodb';
+import winston from 'winston';
+import handlebars from 'handlebars';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import webhooks from '../../lib/webhooks';
+import dashboardWebSocket from '../../lib/dashboardWebSocket';
+import mailer from '../../lib/mailer';
+import ProductsService from '../products/products';
+import CustomersService from '../customers/customers';
+import OrderStatusesService from './orderStatuses';
+import PaymentMethodsLightService from './paymentMethodsLight';
+import ShippingMethodsLightService from './shippingMethodsLight';
+import EmailTemplatesService from '../settings/emailTemplates';
+import ProductStockService from '../products/stock';
+import SettingsService from '../settings/settings';
 
 class OrdersService {
 	constructor() {}
@@ -149,14 +147,14 @@ class OrdersService {
 		const offset = parse.getNumberIfPositive(params.offset) || 0;
 
 		return Promise.all([
-			mongo.db
+			db
 				.collection('orders')
 				.find(filter)
 				.sort({ date_placed: -1, date_created: -1 })
 				.skip(offset)
 				.limit(limit)
 				.toArray(),
-			mongo.db.collection('orders').countDocuments(filter),
+			db.collection('orders').countDocuments(filter),
 			OrderStatusesService.getStatuses(),
 			ShippingMethodsLightService.getMethods(),
 			PaymentMethodsLightService.getMethods()
@@ -239,9 +237,7 @@ class OrdersService {
 
 	async addOrder(data) {
 		const order = await this.getValidDocumentForInsert(data);
-		const insertResponse = await mongo.db
-			.collection('orders')
-			.insertMany([order]);
+		const insertResponse = await db.collection('orders').insertMany([order]);
 		const newOrderId = insertResponse.ops[0]._id.toString();
 		const newOrder = await this.getSingleOrder(newOrderId);
 		return newOrder;
@@ -253,7 +249,7 @@ class OrdersService {
 		}
 		const orderObjectID = new ObjectID(id);
 		const orderData = await this.getValidDocumentForUpdate(id, data);
-		const updateResponse = await mongo.db
+		const updateResponse = await db
 			.collection('orders')
 			.updateOne({ _id: orderObjectID }, { $set: orderData });
 		const updatedOrder = await this.getSingleOrder(id);
@@ -277,7 +273,7 @@ class OrdersService {
 			event: webhooks.events.ORDER_DELETED,
 			payload: order
 		});
-		const deleteResponse = await mongo.db
+		const deleteResponse = await db
 			.collection('orders')
 			.deleteOne({ _id: orderObjectID });
 		return deleteResponse.deletedCount > 0;
@@ -330,7 +326,7 @@ class OrdersService {
 	}
 
 	getValidDocumentForInsert(data) {
-		return mongo.db
+		return db
 			.collection('orders')
 			.find({}, { number: 1 })
 			.sort({ number: -1 })
@@ -757,4 +753,4 @@ class OrdersService {
 	}
 }
 
-module.exports = new OrdersService();
+export default new OrdersService();

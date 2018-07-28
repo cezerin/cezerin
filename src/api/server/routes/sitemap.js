@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const SitemapService = require('../services/sitemap');
+import security from '../lib/security';
+import SitemapService from '../services/sitemap';
 
 class SitemapRoute {
 	constructor(router) {
@@ -38,4 +36,4 @@ class SitemapRoute {
 	}
 }
 
-module.exports = SitemapRoute;
+export default SitemapRoute;

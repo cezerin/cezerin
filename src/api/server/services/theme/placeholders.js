@@ -1,20 +1,18 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class ThemePlaceholdersService {
 	constructor() {}
 
 	getPlaceholders() {
-		return mongo.db
+		return db
 			.collection('themePlaceholders')
 			.find({}, { _id: 0 })
 			.toArray();
 	}
 
 	getSinglePlaceholder(placeholderKey) {
-		return mongo.db
+		return db
 			.collection('themePlaceholders')
 			.findOne({ key: placeholderKey }, { _id: 0 });
 	}
@@ -29,7 +27,7 @@ class ThemePlaceholdersService {
 				return new Error('Placeholder exists');
 			} else {
 				// add
-				return mongo.db
+				return db
 					.collection('themePlaceholders')
 					.insertOne(field)
 					.then(res => this.getSinglePlaceholder(placeholderKey));
@@ -39,7 +37,7 @@ class ThemePlaceholdersService {
 
 	updatePlaceholder(placeholderKey, data) {
 		const field = this.getValidDocumentForUpdate(data);
-		return mongo.db
+		return db
 			.collection('themePlaceholders')
 			.updateOne(
 				{ key: placeholderKey },
@@ -52,7 +50,7 @@ class ThemePlaceholdersService {
 	}
 
 	deletePlaceholder(placeholderKey) {
-		return mongo.db
+		return db
 			.collection('themePlaceholders')
 			.deleteOne({ key: placeholderKey });
 	}
@@ -98,4 +96,4 @@ class ThemePlaceholdersService {
 	}
 }
 
-module.exports = new ThemePlaceholdersService();
+export default new ThemePlaceholdersService();

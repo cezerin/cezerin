@@ -1,13 +1,11 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class EmailTemplatesService {
 	constructor() {}
 
 	getEmailTemplate(name) {
-		return mongo.db
+		return db
 			.collection('emailTemplates')
 			.findOne({ name: name })
 			.then(template => {
@@ -17,7 +15,7 @@ class EmailTemplatesService {
 
 	updateEmailTemplate(name, data) {
 		const template = this.getValidDocumentForUpdate(data);
-		return mongo.db
+		return db
 			.collection('emailTemplates')
 			.updateOne(
 				{ name: name },
@@ -62,4 +60,4 @@ class EmailTemplatesService {
 	}
 }
 
-module.exports = new EmailTemplatesService();
+export default new EmailTemplatesService();

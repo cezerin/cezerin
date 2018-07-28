@@ -1,11 +1,9 @@
-'use strict';
-
-const security = require('../lib/security');
-const ProductsService = require('../services/products/products');
-const ProductOptionsService = require('../services/products/options');
-const ProductOptionValuesService = require('../services/products/optionValues');
-const ProductVariantsService = require('../services/products/variants');
-const ProductImagesService = require('../services/products/images');
+import security from '../lib/security';
+import ProductsService from '../services/products/products';
+import ProductOptionsService from '../services/products/options';
+import ProductOptionValuesService from '../services/products/optionValues';
+import ProductVariantsService from '../services/products/variants';
+import ProductImagesService from '../services/products/images';
 
 class ProductsRoute {
 	constructor(router) {
@@ -416,4 +414,4 @@ class ProductsRoute {
 	}
 }
 
-module.exports = ProductsRoute;
+export default ProductsRoute;

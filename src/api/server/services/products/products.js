@@ -1,15 +1,13 @@
-'use strict';
-
-const path = require('path');
-const url = require('url');
-const fse = require('fs-extra');
-const ObjectID = require('mongodb').ObjectID;
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const CategoriesService = require('./productCategories');
-const SettingsService = require('../settings/settings');
+import { ObjectID } from 'mongodb';
+import path from 'path';
+import url from 'url';
+import fse from 'fs-extra';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import CategoriesService from './productCategories';
+import SettingsService from '../settings/settings';
 
 class ProductsService {
 	constructor() {}
@@ -70,7 +68,7 @@ class ProductsService {
 			attributesResult,
 			generalSettings
 		] = await Promise.all([
-			mongo.db
+			db
 				.collection('products')
 				.aggregate(itemsAggregation)
 				.toArray(),
@@ -211,7 +209,7 @@ class ProductsService {
 			aggregation.push({ $project: projectQuery });
 			aggregation.push({ $match: matchQuery });
 			aggregation.push({ $group: { _id: null, count: { $sum: 1 } } });
-			return mongo.db
+			return db
 				.collection('products')
 				.aggregate(aggregation)
 				.toArray();
@@ -244,7 +242,7 @@ class ProductsService {
 					max_price: { $max: '$price' }
 				}
 			});
-			return mongo.db
+			return db
 				.collection('products')
 				.aggregate(aggregation)
 				.toArray();
@@ -272,7 +270,7 @@ class ProductsService {
 			aggregation.push({ $match: attributesMatchQuery });
 			aggregation.push({ $unwind: '$attributes' });
 			aggregation.push({ $group: { _id: '$attributes', count: { $sum: 1 } } });
-			return mongo.db
+			return db
 				.collection('products')
 				.aggregate(aggregation)
 				.toArray();
@@ -300,7 +298,7 @@ class ProductsService {
 			aggregation.push({ $match: attributesMatchQuery });
 			aggregation.push({ $unwind: '$attributes' });
 			aggregation.push({ $group: { _id: '$attributes', count: { $sum: 1 } } });
-			return mongo.db
+			return db
 				.collection('products')
 				.aggregate(aggregation)
 				.toArray();
@@ -657,7 +655,7 @@ class ProductsService {
 	addProduct(data) {
 		return this.getValidDocumentForInsert(data)
 			.then(dataToInsert =>
-				mongo.db.collection('products').insertMany([dataToInsert])
+				db.collection('products').insertMany([dataToInsert])
 			)
 			.then(res => this.getSingleProduct(res.ops[0]._id.toString()));
 	}
@@ -670,7 +668,7 @@ class ProductsService {
 
 		return this.getValidDocumentForUpdate(id, data)
 			.then(dataToSet =>
-				mongo.db
+				db
 					.collection('products')
 					.updateOne({ _id: productObjectID }, { $set: dataToSet })
 			)
@@ -683,7 +681,7 @@ class ProductsService {
 		}
 		const productObjectID = new ObjectID(productId);
 		// 1. delete Product
-		return mongo.db
+		return db
 			.collection('products')
 			.deleteOne({ _id: productObjectID })
 			.then(deleteResponse => {
@@ -1021,7 +1019,7 @@ class ProductsService {
 			filter._id = { $ne: new ObjectID(productId) };
 		}
 
-		return mongo.db
+		return db
 			.collection('products')
 			.count(filter)
 			.then(count => count > 0);
@@ -1036,7 +1034,7 @@ class ProductsService {
 				filter._id = { $ne: new ObjectID(productId) };
 			}
 
-			return mongo.db
+			return db
 				.collection('products')
 				.find(filter)
 				.project({ sku: 1 })
@@ -1062,7 +1060,7 @@ class ProductsService {
 			filter._id = { $ne: new ObjectID(productId) };
 		}
 
-		return mongo.db
+		return db
 			.collection('products')
 			.count(filter)
 			.then(count => count > 0);
@@ -1076,7 +1074,7 @@ class ProductsService {
 				filter._id = { $ne: new ObjectID(productId) };
 			}
 
-			return mongo.db
+			return db
 				.collection('products')
 				.find(filter)
 				.project({ slug: 1 })
@@ -1094,4 +1092,4 @@ class ProductsService {
 	}
 }
 
-module.exports = new ProductsService();
+export default new ProductsService();

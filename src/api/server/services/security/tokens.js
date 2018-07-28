@@ -1,20 +1,21 @@
-'use strict';
+import { ObjectID } from 'mongodb';
+import url from 'url';
+import jwt from 'jsonwebtoken';
+import moment from 'moment';
+import uaParser from 'ua-parser-js';
+import handlebars from 'handlebars';
+import lruCache from 'lru-cache';
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
+import settings from '../../lib/settings';
+import mailer from '../../lib/mailer';
+import SettingsService from '../settings/settings';
 
-const url = require('url');
-const handlebars = require('handlebars');
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
-const settings = require('../../lib/settings');
-const mailer = require('../../lib/mailer');
-const SettingsService = require('../settings/settings');
-const ObjectID = require('mongodb').ObjectID;
-const jwt = require('jsonwebtoken');
-const moment = require('moment');
-const uaParser = require('ua-parser-js');
-const cache = require('lru-cache')({
+const cache = lruCache({
 	max: 10000,
 	maxAge: 1000 * 60 * 60 * 24 // 24h
 });
+
 const BLACKLIST_CACHE_KEY = 'blacklist';
 
 class SecurityTokensService {
@@ -34,7 +35,7 @@ class SecurityTokensService {
 			filter.email = email;
 		}
 
-		return mongo.db
+		return db
 			.collection('tokens')
 			.find(filter)
 			.toArray()
@@ -47,7 +48,7 @@ class SecurityTokensService {
 		if (blacklistFromCache) {
 			return Promise.resolve(blacklistFromCache);
 		} else {
-			return mongo.db
+			return db
 				.collection('tokens')
 				.find(
 					{
@@ -81,7 +82,7 @@ class SecurityTokensService {
 
 	addToken(data) {
 		return this.getValidDocumentForInsert(data)
-			.then(tokenData => mongo.db.collection('tokens').insertMany([tokenData]))
+			.then(tokenData => db.collection('tokens').insertMany([tokenData]))
 			.then(res => this.getSingleToken(res.ops[0]._id.toString()))
 			.then(token =>
 				this.getSignedToken(token).then(signedToken => {
@@ -98,7 +99,7 @@ class SecurityTokensService {
 		const tokenObjectID = new ObjectID(id);
 		const token = this.getValidDocumentForUpdate(id, data);
 
-		return mongo.db
+		return db
 			.collection('tokens')
 			.updateOne(
 				{
@@ -114,7 +115,7 @@ class SecurityTokensService {
 			return Promise.reject('Invalid identifier');
 		}
 		const tokenObjectID = new ObjectID(id);
-		return mongo.db
+		return db
 			.collection('tokens')
 			.updateOne(
 				{
@@ -134,7 +135,7 @@ class SecurityTokensService {
 
 	checkTokenEmailUnique(email) {
 		if (email && email.length > 0) {
-			return mongo.db
+			return db
 				.collection('tokens')
 				.count({ email: email, is_revoked: false })
 				.then(
@@ -320,4 +321,4 @@ class SecurityTokensService {
 	}
 }
 
-module.exports = new SecurityTokensService();
+export default new SecurityTokensService();

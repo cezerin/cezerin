@@ -1,15 +1,13 @@
-'use strict';
-
-const path = require('path');
-const url = require('url');
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const SettingsService = require('../settings/settings');
-const ObjectID = require('mongodb').ObjectID;
-const formidable = require('formidable');
-const fse = require('fs-extra');
+import { ObjectID } from 'mongodb';
+import path from 'path';
+import url from 'url';
+import formidable from 'formidable';
+import fse from 'fs-extra';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import SettingsService from '../settings/settings';
 
 class ProductImagesService {
 	constructor() {}
@@ -25,7 +23,7 @@ class ProductImagesService {
 		let productObjectID = new ObjectID(productId);
 
 		return SettingsService.getSettings().then(generalSettings =>
-			mongo.db
+			db
 				.collection('products')
 				.findOne({ _id: productObjectID }, { fields: { images: 1 } })
 				.then(product => {
@@ -70,7 +68,7 @@ class ProductImagesService {
 							settings.productsUploadPath + '/' + productId + '/' + filename
 						);
 						fse.removeSync(filepath);
-						return mongo.db
+						return db
 							.collection('products')
 							.updateOne(
 								{ _id: productObjectID },
@@ -121,7 +119,7 @@ class ProductImagesService {
 
 					uploadedFiles.push(imageData);
 
-					await mongo.db.collection('products').updateOne(
+					await db.collection('products').updateOne(
 						{
 							_id: productObjectID
 						},
@@ -150,7 +148,7 @@ class ProductImagesService {
 
 		const imageData = this.getValidDocumentForUpdate(data);
 
-		return mongo.db.collection('products').updateOne(
+		return db.collection('products').updateOne(
 			{
 				_id: productObjectID,
 				'images.id': imageObjectID
@@ -179,4 +177,4 @@ class ProductImagesService {
 	}
 }
 
-module.exports = new ProductImagesService();
+export default new ProductImagesService();

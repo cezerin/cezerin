@@ -1,14 +1,12 @@
-'use strict';
-
-const path = require('path');
-const fse = require('fs-extra');
-const fs = require('fs');
-const url = require('url');
-const formidable = require('formidable');
-const settings = require('../../lib/settings');
-const utils = require('../../lib/utils');
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
+import path from 'path';
+import fse from 'fs-extra';
+import fs from 'fs';
+import url from 'url';
+import formidable from 'formidable';
+import settings from '../../lib/settings';
+import utils from '../../lib/utils';
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class SettingsService {
 	constructor() {
@@ -40,7 +38,7 @@ class SettingsService {
 	}
 
 	getSettings() {
-		return mongo.db
+		return db
 			.collection('settings')
 			.findOne()
 			.then(settings => {
@@ -51,7 +49,7 @@ class SettingsService {
 	updateSettings(data) {
 		const settings = this.getValidDocumentForUpdate(data);
 		return this.insertDefaultSettingsIfEmpty().then(() =>
-			mongo.db
+			db
 				.collection('settings')
 				.updateOne(
 					{},
@@ -65,14 +63,12 @@ class SettingsService {
 	}
 
 	insertDefaultSettingsIfEmpty() {
-		return mongo.db
+		return db
 			.collection('settings')
 			.countDocuments({})
 			.then(count => {
 				if (count === 0) {
-					return mongo.db
-						.collection('settings')
-						.insertOne(this.defaultSettings);
+					return db.collection('settings').insertOne(this.defaultSettings);
 				} else {
 					return;
 				}
@@ -269,4 +265,4 @@ class SettingsService {
 	}
 }
 
-module.exports = new SettingsService();
+export default new SettingsService();

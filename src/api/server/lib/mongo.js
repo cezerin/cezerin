@@ -1,7 +1,7 @@
-const winston = require('winston');
-const url = require('url');
-const { MongoClient } = require('mongodb');
-const settings = require('./settings');
+import winston from 'winston';
+import url from 'url';
+import { MongoClient } from 'mongodb';
+import settings from './settings';
 
 const mongodbConnection = settings.mongodbServerUrl;
 const mongoPathName = url.parse(mongodbConnection).pathname;
@@ -22,6 +22,8 @@ const onReconnect = () => {
 	winston.info('MongoDB reconnected');
 };
 
+export let db = null;
+
 const connectWithRetry = () => {
 	MongoClient.connect(
 		mongodbConnection,
@@ -34,10 +36,9 @@ const connectWithRetry = () => {
 				);
 				setTimeout(connectWithRetry, RECONNECT_INTERVAL);
 			} else {
-				const db = client.db(dbName);
+				db = client.db(dbName);
 				db.on('close', onClose);
 				db.on('reconnect', onReconnect);
-				module.exports.db = db;
 				winston.info('MongoDB connected successfully');
 			}
 		}

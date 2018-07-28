@@ -1,13 +1,11 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class CheckoutFieldsService {
 	constructor() {}
 
 	getCheckoutFields() {
-		return mongo.db
+		return db
 			.collection('checkoutFields')
 			.find()
 			.toArray()
@@ -20,7 +18,7 @@ class CheckoutFieldsService {
 	}
 
 	getCheckoutField(name) {
-		return mongo.db
+		return db
 			.collection('checkoutFields')
 			.findOne({ name: name })
 			.then(field => {
@@ -30,7 +28,7 @@ class CheckoutFieldsService {
 
 	updateCheckoutField(name, data) {
 		const field = this.getValidDocumentForUpdate(data);
-		return mongo.db
+		return db
 			.collection('checkoutFields')
 			.updateOne(
 				{ name: name },
@@ -80,4 +78,4 @@ class CheckoutFieldsService {
 	}
 }
 
-module.exports = new CheckoutFieldsService();
+export default new CheckoutFieldsService();

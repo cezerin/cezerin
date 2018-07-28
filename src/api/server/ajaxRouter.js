@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import CezerinClient from 'cezerin-client';
+import serverSettings from './lib/settings';
 const ajaxRouter = express.Router();
-const jwt = require('jsonwebtoken');
-const CezerinClient = require('cezerin-client');
-const serverSettings = require('./lib/settings');
 
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
 const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
@@ -346,4 +346,4 @@ ajaxRouter.get('/payment_form_settings', (req, res, next) => {
 	}
 });
 
-module.exports = ajaxRouter;
+export default ajaxRouter;

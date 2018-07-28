@@ -1,12 +1,10 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
+import { db } from '../../lib/mongo';
 
 class PaymentMethodsLightService {
 	constructor() {}
 
 	getMethods(filter = {}) {
-		return mongo.db
+		return db
 			.collection('paymentMethods')
 			.find(filter)
 			.toArray()
@@ -22,4 +20,4 @@ class PaymentMethodsLightService {
 	}
 }
 
-module.exports = new PaymentMethodsLightService();
+export default new PaymentMethodsLightService();

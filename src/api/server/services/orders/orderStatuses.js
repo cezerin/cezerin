@@ -1,9 +1,7 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
 
 class OrderStatusesService {
 	constructor() {}
@@ -15,7 +13,7 @@ class OrderStatusesService {
 			filter._id = new ObjectID(id);
 		}
 
-		return mongo.db
+		return db
 			.collection('orderStatuses')
 			.find(filter)
 			.toArray()
@@ -33,7 +31,7 @@ class OrderStatusesService {
 
 	addStatus(data) {
 		const status = this.getValidDocumentForInsert(data);
-		return mongo.db
+		return db
 			.collection('orderStatuses')
 			.insertMany([status])
 			.then(res => this.getSingleStatus(res.ops[0]._id.toString()));
@@ -46,7 +44,7 @@ class OrderStatusesService {
 		const statusObjectID = new ObjectID(id);
 		const status = this.getValidDocumentForUpdate(id, data);
 
-		return mongo.db
+		return db
 			.collection('orderStatuses')
 			.updateOne(
 				{
@@ -62,7 +60,7 @@ class OrderStatusesService {
 			return Promise.reject('Invalid identifier');
 		}
 		const statusObjectID = new ObjectID(id);
-		return mongo.db
+		return db
 			.collection('orderStatuses')
 			.deleteOne({ _id: statusObjectID })
 			.then(deleteResponse => {
@@ -122,4 +120,4 @@ class OrderStatusesService {
 	}
 }
 
-module.exports = new OrderStatusesService();
+export default new OrderStatusesService();

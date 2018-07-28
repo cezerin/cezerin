@@ -1,11 +1,9 @@
-'use strict';
-
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const OrdersService = require('./orders');
+import { ObjectID } from 'mongodb';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import OrdersService from './orders';
 
 class OrdertDiscountsService {
 	constructor() {}
@@ -17,7 +15,7 @@ class OrdertDiscountsService {
 		let orderObjectID = new ObjectID(order_id);
 		const discount = this.getValidDocumentForInsert(data);
 
-		return mongo.db.collection('orders').updateOne(
+		return db.collection('orders').updateOne(
 			{
 				_id: orderObjectID
 			},
@@ -37,7 +35,7 @@ class OrdertDiscountsService {
 		let discountObjectID = new ObjectID(discount_id);
 		const discount = this.getValidDocumentForUpdate(data);
 
-		return mongo.db
+		return db
 			.collection('orders')
 			.updateOne(
 				{
@@ -56,7 +54,7 @@ class OrdertDiscountsService {
 		let orderObjectID = new ObjectID(order_id);
 		let discountObjectID = new ObjectID(discount_id);
 
-		return mongo.db
+		return db
 			.collection('orders')
 			.updateOne(
 				{
@@ -100,4 +98,4 @@ class OrdertDiscountsService {
 	}
 }
 
-module.exports = new OrdertDiscountsService();
+export default new OrdertDiscountsService();

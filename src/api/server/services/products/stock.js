@@ -1,9 +1,7 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const ObjectID = require('mongodb').ObjectID;
-const ProductsService = require('./products');
-const ProductVariantsService = require('./variants');
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import ProductsService from './products';
+import ProductVariantsService from './variants';
 
 class ProductStockService {
 	async handleOrderCheckout(orderId) {
@@ -114,7 +112,7 @@ class ProductStockService {
 			draft: false
 		};
 
-		const order = await mongo.db.collection('orders').findOne(filter);
+		const order = await db.collection('orders').findOne(filter);
 		return order;
 	}
 
@@ -128,4 +126,4 @@ class ProductStockService {
 	}
 }
 
-module.exports = new ProductStockService();
+export default new ProductStockService();

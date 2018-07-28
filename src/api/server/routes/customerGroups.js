@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const CustomerGroupsService = require('../services/customers/customerGroups');
+import security from '../lib/security';
+import CustomerGroupsService from '../services/customers/customerGroups';
 
 class CustomerGroupsRoute {
 	constructor(router) {
@@ -86,4 +84,4 @@ class CustomerGroupsRoute {
 	}
 }
 
-module.exports = CustomerGroupsRoute;
+export default CustomerGroupsRoute;

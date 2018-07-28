@@ -1,12 +1,10 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const ShippingMethodsLightService = require('./shippingMethodsLight');
-const PaymentMethodsService = require('./paymentMethods');
-const OrdersService = require('./orders');
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import ShippingMethodsLightService from './shippingMethodsLight';
+import PaymentMethodsService from './paymentMethods';
+import OrdersService from './orders';
 
 class ShippingMethodsService {
 	constructor() {}
@@ -159,7 +157,7 @@ class ShippingMethodsService {
 
 	addMethod(data) {
 		const method = this.getValidDocumentForInsert(data);
-		return mongo.db
+		return db
 			.collection('shippingMethods')
 			.insertMany([method])
 			.then(res => this.getSingleMethod(res.ops[0]._id.toString()));
@@ -172,7 +170,7 @@ class ShippingMethodsService {
 		const methodObjectID = new ObjectID(id);
 		const method = this.getValidDocumentForUpdate(id, data);
 
-		return mongo.db
+		return db
 			.collection('shippingMethods')
 			.updateOne(
 				{
@@ -188,7 +186,7 @@ class ShippingMethodsService {
 			return Promise.reject('Invalid identifier');
 		}
 		const methodObjectID = new ObjectID(id);
-		const deleteResponse = await mongo.db
+		const deleteResponse = await db
 			.collection('shippingMethods')
 			.deleteOne({ _id: methodObjectID });
 
@@ -289,4 +287,4 @@ class ShippingMethodsService {
 	}
 }
 
-module.exports = new ShippingMethodsService();
+export default new ShippingMethodsService();

@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const PaymentGatewaysService = require('../services/settings/paymentGateways');
+import security from '../lib/security';
+import PaymentGatewaysService from '../services/settings/paymentGateways';
 
 class PaymentGatewaysRoute {
 	constructor(router) {
@@ -39,4 +37,4 @@ class PaymentGatewaysRoute {
 	}
 }
 
-module.exports = PaymentGatewaysRoute;
+export default PaymentGatewaysRoute;

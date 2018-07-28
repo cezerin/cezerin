@@ -1,5 +1,6 @@
-const winston = require('winston');
-const settings = require('./settings');
+import winston from 'winston';
+import settings from './settings';
+
 const LOGS_FILE = 'logs/server.log';
 
 winston.configure({
@@ -42,6 +43,6 @@ const sendResponse = (err, req, res, next) => {
 	}
 };
 
-module.exports = {
+export default {
 	sendResponse: sendResponse
 };

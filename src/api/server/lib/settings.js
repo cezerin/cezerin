@@ -1,2 +1,1 @@
-const settings = require('../../../../config/server');
-module.exports = settings;
+export { default } from '../../../../config/server';

@@ -1,12 +1,10 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
+import { db } from '../../lib/mongo';
 
 class PaymentGatewaysService {
 	constructor() {}
 
 	getGateway(gatewayName) {
-		return mongo.db
+		return db
 			.collection('paymentGateways')
 			.findOne({ name: gatewayName })
 			.then(data => {
@@ -18,7 +16,7 @@ class PaymentGatewaysService {
 		if (Object.keys(data).length === 0) {
 			return this.getGateway(gatewayName);
 		} else {
-			return mongo.db
+			return db
 				.collection('paymentGateways')
 				.updateOne({ name: gatewayName }, { $set: data }, { upsert: true })
 				.then(res => this.getGateway(gatewayName));
@@ -34,4 +32,4 @@ class PaymentGatewaysService {
 	}
 }
 
-module.exports = new PaymentGatewaysService();
+export default new PaymentGatewaysService();

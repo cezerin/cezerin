@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const OrderStatusesService = require('../services/orders/orderStatuses');
+import security from '../lib/security';
+import OrderStatusesService from '../services/orders/orderStatuses';
 
 class OrderStatusesRoute {
 	constructor(router) {
@@ -86,4 +84,4 @@ class OrderStatusesRoute {
 	}
 }
 
-module.exports = OrderStatusesRoute;
+export default OrderStatusesRoute;

@@ -1,8 +1,8 @@
-const winston = require('winston');
-const url = require('url');
-const { MongoClient } = require('mongodb');
-const logger = require('./lib/logger');
-const settings = require('./lib/settings');
+import winston from 'winston';
+import url from 'url';
+import { MongoClient } from 'mongodb';
+import logger from './lib/logger';
+import settings from './lib/settings';
 
 const mongodbConnection = settings.mongodbServerUrl;
 const mongoPathName = url.parse(mongodbConnection).pathname;

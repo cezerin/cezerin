@@ -1,7 +1,7 @@
-const settings = require('./settings');
-const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt');
-const SecurityTokensService = require('../services/security/tokens');
+import jwt from 'jsonwebtoken';
+import expressJwt from 'express-jwt';
+import settings from './settings';
+import SecurityTokensService from '../services/security/tokens';
 
 const DEVELOPER_MODE = settings.developerMode === true;
 const SET_TOKEN_AS_REVOKEN_ON_EXCEPTION = true;
@@ -97,7 +97,7 @@ const getAccessControlAllowOrigin = () => {
 	return settings.storeBaseUrl || '*';
 };
 
-module.exports = {
+export default {
 	checkUserScope: checkUserScope,
 	scope: scope,
 	verifyToken: verifyToken,

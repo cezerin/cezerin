@@ -1,9 +1,8 @@
-const OrdersService = require('../services/orders/orders');
-const SettingsService = require('../services/settings/settings');
-const PaymentGatewaysService = require('../services/settings/paymentGateways');
-
-const PayPalCheckout = require('./PayPalCheckout');
-const LiqPay = require('./LiqPay');
+import OrdersService from '../services/orders/orders';
+import SettingsService from '../services/settings/settings';
+import PaymentGatewaysService from '../services/settings/paymentGateways';
+import PayPalCheckout from './PayPalCheckout';
+import LiqPay from './LiqPay';
 
 const getOptions = orderId => {
 	return Promise.all([
@@ -61,7 +60,7 @@ const paymentNotification = (req, res, gateway) => {
 	});
 };
 
-module.exports = {
+export default {
 	getPaymentFormSettings: getPaymentFormSettings,
 	paymentNotification: paymentNotification
 };

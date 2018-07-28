@@ -1,6 +1,6 @@
-const crypto = require('crypto');
-const fetch = require('node-fetch');
-const WebhooksService = require('../services/webhooks');
+import crypto from 'crypto';
+import fetch from 'node-fetch';
+import WebhooksService from '../services/webhooks';
 
 const trigger = async ({ event, payload }) => {
 	const webhooks = await WebhooksService.getWebhooks();
@@ -58,7 +58,7 @@ const events = {
 	CUSTOMER_DELETED: 'customer.deleted'
 };
 
-module.exports = {
+export default {
 	trigger: trigger,
 	events: events
 };

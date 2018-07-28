@@ -1,10 +1,8 @@
-'use strict';
-
-const security = require('../lib/security');
-const SettingsService = require('../services/settings/settings');
-const EmailSettingsService = require('../services/settings/email');
-const EmailTemplatesService = require('../services/settings/emailTemplates');
-const CheckoutFieldsService = require('../services/settings/checkoutFields');
+import security from '../lib/security';
+import SettingsService from '../services/settings/settings';
+import EmailSettingsService from '../services/settings/email';
+import EmailTemplatesService from '../services/settings/emailTemplates';
+import CheckoutFieldsService from '../services/settings/checkoutFields';
 
 class SettingsRoute {
 	constructor(router) {
@@ -169,4 +167,4 @@ class SettingsRoute {
 	}
 }
 
-module.exports = SettingsRoute;
+export default SettingsRoute;

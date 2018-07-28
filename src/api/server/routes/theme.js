@@ -1,10 +1,8 @@
-'use strict';
-
-const security = require('../lib/security');
-const ThemeService = require('../services/theme/theme');
-const ThemeSettingsService = require('../services/theme/settings');
-const ThemeAssetsService = require('../services/theme/assets');
-const ThemePlaceholdersService = require('../services/theme/placeholders');
+import security from '../lib/security';
+import ThemeService from '../services/theme/theme';
+import ThemeSettingsService from '../services/theme/settings';
+import ThemeAssetsService from '../services/theme/assets';
+import ThemePlaceholdersService from '../services/theme/placeholders';
 
 class ThemeRoute {
 	constructor(router) {
@@ -171,4 +169,4 @@ class ThemeRoute {
 	}
 }
 
-module.exports = ThemeRoute;
+export default ThemeRoute;

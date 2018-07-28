@@ -1,13 +1,14 @@
-'use strict';
+import { ObjectID } from 'mongodb';
+import lruCache from 'lru-cache';
+import { db } from '../lib/mongo';
+import utils from '../lib/utils';
+import parse from '../lib/parse';
 
-const mongo = require('../lib/mongo');
-const utils = require('../lib/utils');
-const parse = require('../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const cache = require('lru-cache')({
+const cache = lruCache({
 	max: 10000,
 	maxAge: 1000 * 60 * 60 * 24 // 24h
 });
+
 const WEBHOOKS_CACHE_KEY = 'webhooks';
 
 class WebhooksService {
@@ -19,7 +20,7 @@ class WebhooksService {
 		if (webhooksFromCache) {
 			return webhooksFromCache;
 		} else {
-			const items = await mongo.db
+			const items = await db
 				.collection('webhooks')
 				.find()
 				.toArray();
@@ -35,7 +36,7 @@ class WebhooksService {
 		}
 		let webhookObjectID = new ObjectID(id);
 
-		const item = await mongo.db
+		const item = await db
 			.collection('webhooks')
 			.findOne({ _id: webhookObjectID });
 		const result = this.changeProperties(item);
@@ -44,7 +45,7 @@ class WebhooksService {
 
 	async addWebhook(data) {
 		const webhook = this.getValidDocumentForInsert(data);
-		const res = await mongo.db.collection('webhooks').insertMany([webhook]);
+		const res = await db.collection('webhooks').insertMany([webhook]);
 		cache.del(WEBHOOKS_CACHE_KEY);
 		const newWebhookId = res.ops[0]._id.toString();
 		const newWebhook = await this.getSingleWebhook(newWebhookId);
@@ -58,7 +59,7 @@ class WebhooksService {
 		const webhookObjectID = new ObjectID(id);
 		const webhook = this.getValidDocumentForUpdate(id, data);
 
-		const res = await mongo.db.collection('webhooks').updateOne(
+		const res = await db.collection('webhooks').updateOne(
 			{
 				_id: webhookObjectID
 			},
@@ -77,7 +78,7 @@ class WebhooksService {
 			return Promise.reject('Invalid identifier');
 		}
 		const webhookObjectID = new ObjectID(id);
-		const res = await mongo.db
+		const res = await db
 			.collection('webhooks')
 			.deleteOne({ _id: webhookObjectID });
 		cache.del(WEBHOOKS_CACHE_KEY);
@@ -140,4 +141,4 @@ class WebhooksService {
 	}
 }
 
-module.exports = new WebhooksService();
+export default new WebhooksService();

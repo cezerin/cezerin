@@ -1,6 +1,6 @@
-const crypto = require('crypto');
-const OrdersService = require('../services/orders/orders');
-const OrdertTansactionsService = require('../services/orders/orderTransactions');
+import crypto from 'crypto';
+import OrdersService from '../services/orders/orders';
+import OrdertTansactionsService from '../services/orders/orderTransactions';
 
 const getPaymentFormSettings = options => {
 	const { gateway, gatewaySettings, order, amount, currency } = options;
@@ -88,7 +88,7 @@ const getHashFromString = str => {
 	return sha1.digest('base64');
 };
 
-module.exports = {
+export default {
 	getPaymentFormSettings: getPaymentFormSettings,
 	paymentNotification: paymentNotification
 };

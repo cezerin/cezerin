@@ -1,27 +1,25 @@
-'use strict';
+import express from 'express';
+import ProductsRoute from './routes/products';
+import ProductCategoriesRoute from './routes/productCategories';
+import SitemapRoute from './routes/sitemap';
+import ThemeRoute from './routes/theme';
+import CustomersRoute from './routes/customers';
+import CustomerGroupsRoute from './routes/customerGroups';
+import OrdersRoute from './routes/orders';
+import OrderStatusesRoute from './routes/orderStatuses';
+import ShippingMethodsRoute from './routes/shippingMethods';
+import PaymentMethodsRoute from './routes/paymentMethods';
+import PaymentGatewaysRoute from './routes/paymentGateways';
+import SettingsRoute from './routes/settings';
+import PagesRoute from './routes/pages';
+import SecurityTokensRoute from './routes/tokens';
+import NotificationsRoute from './routes/notifications';
+import RedirectsRoute from './routes/redirects';
+import FilesRoute from './routes/files';
+import AppsRoute from './routes/apps';
+import WebhooksRoute from './routes/webhooks';
 
-const express = require('express');
 const apiRouter = express.Router();
-
-const ProductsRoute = require('./routes/products');
-const ProductCategoriesRoute = require('./routes/productCategories');
-const SitemapRoute = require('./routes/sitemap');
-const ThemeRoute = require('./routes/theme');
-const CustomersRoute = require('./routes/customers');
-const CustomerGroupsRoute = require('./routes/customerGroups');
-const OrdersRoute = require('./routes/orders');
-const OrderStatusesRoute = require('./routes/orderStatuses');
-const ShippingMethodsRoute = require('./routes/shippingMethods');
-const PaymentMethodsRoute = require('./routes/paymentMethods');
-const PaymentGatewaysRoute = require('./routes/paymentGateways');
-const SettingsRoute = require('./routes/settings');
-const PagesRoute = require('./routes/pages');
-const SecurityTokensRoute = require('./routes/tokens');
-const NotificationsRoute = require('./routes/notifications');
-const RedirectsRoute = require('./routes/redirects');
-const FilesRoute = require('./routes/files');
-const AppsRoute = require('./routes/apps');
-const WebhooksRoute = require('./routes/webhooks');
 
 new ProductsRoute(apiRouter);
 new ProductCategoriesRoute(apiRouter);
@@ -43,4 +41,4 @@ new FilesRoute(apiRouter);
 new AppsRoute(apiRouter);
 new WebhooksRoute(apiRouter);
 
-module.exports = apiRouter;
+export default apiRouter;
