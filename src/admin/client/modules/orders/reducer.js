@@ -106,7 +106,6 @@ export default (state = initialState, action) => {
 		case t.ORDERS_BULK_UPDATE_REQUEST:
 		case t.ORDERS_BULK_UPDATE_SUCCESS:
 		case t.ORDERS_BULK_UPDATE_FAILURE:
-		case t.ORDER_SET_CATEGORY_SUCCESS:
 		case t.ORDER_DELETE_SUCCESS:
 		case t.ORDER_CREATE_SUCCESS:
 		default:

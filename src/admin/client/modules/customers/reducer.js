@@ -67,7 +67,6 @@ export default (state = initialState, action) => {
 				totalCount: action.total_count,
 				items: [...state.items, ...action.data]
 			});
-		case t.CUSTOMER_SET_CATEGORY_SUCCESS:
 		case t.CUSTOMER_DELETE_SUCCESS:
 		default:
 			return state;
