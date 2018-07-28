@@ -44,8 +44,13 @@ const getReferrerCookieOptions = isHttps => ({
 });
 
 const renderError = (req, res, err) => {
-	winston.error('Page error', req.url, err);
-	res.status(500).send(err);
+	winston.error(
+		`Error on page rendering\n\tpath: ${req.url}\n\terror: ${err.toString()}`
+	);
+	if (err.stack) {
+		winston.error(err.stack);
+	}
+	res.status(500).send(err.message ? err.message : err);
 };
 
 const getAppHtml = (store, location, context = {}) => {
