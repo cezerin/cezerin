@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import lruCache from 'lru-cache';
+import serverSettings from '../../lib/settings';
 
 const cache = lruCache({
 	max: 10000,
@@ -8,8 +9,11 @@ const cache = lruCache({
 });
 
 const THEME_SETTINGS_CACHE_KEY = 'themesettings';
-const SETTINGS_FILE = path.resolve('theme/config/settings.json');
-const SETTINGS_SCHEMA_FILE = path.resolve('theme/config/settings_schema.json');
+const SETTINGS_FILE = path.resolve('theme/settings/settings.json');
+const SETTINGS_SCHEMA_FILE = path.resolve(
+	`theme/settings/${serverSettings.language}.json`
+);
+const SETTINGS_SCHEMA_FILE_EN = path.resolve('theme/settings/en.json');
 
 class ThemeSettingsService {
 	constructor() {}
@@ -46,8 +50,12 @@ class ThemeSettingsService {
 	}
 
 	getSettingsSchema() {
-		const file = path.resolve(SETTINGS_SCHEMA_FILE);
-		return this.readFile(file);
+		if (fs.existsSync(SETTINGS_SCHEMA_FILE)) {
+			return this.readFile(SETTINGS_SCHEMA_FILE);
+		}
+
+		// If current locale not exist, use scheme in English
+		return this.readFile(SETTINGS_SCHEMA_FILE_EN);
 	}
 
 	getSettings() {
@@ -55,19 +63,16 @@ class ThemeSettingsService {
 
 		if (settingsFromCache) {
 			return Promise.resolve(settingsFromCache);
-		} else {
-			const file = SETTINGS_FILE;
-			return this.readFile(file).then(settings => {
-				cache.set(THEME_SETTINGS_CACHE_KEY, settings);
-				return settings;
-			});
 		}
+		return this.readFile(SETTINGS_FILE).then(settings => {
+			cache.set(THEME_SETTINGS_CACHE_KEY, settings);
+			return settings;
+		});
 	}
 
 	updateSettings(settings) {
 		cache.set(THEME_SETTINGS_CACHE_KEY, settings);
-		const file = SETTINGS_FILE;
-		return this.writeFile(file, settings);
+		return this.writeFile(SETTINGS_FILE, settings);
 	}
 }
 
