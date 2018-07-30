@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken');
 const CezerinClient = require('cezerin-client');
 const serverSettings = require('./lib/settings');
 
+// Chatbot Settings test
+const ChatbotSettingsService = require('./services/apps/chatbot');
+
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
 const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
 
@@ -344,6 +347,12 @@ ajaxRouter.get('/payment_form_settings', (req, res, next) => {
 	} else {
 		res.end();
 	}
+});
+
+ajaxRouter.get('/chatbot/settings', (req, res, next) => {
+	const settings = ChatbotSettingsService.getSettings();
+	console.log('chatbot settings:', settings);
+	res.status('200').send(settings);
 });
 
 module.exports = ajaxRouter;

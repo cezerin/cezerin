@@ -28,6 +28,7 @@ export default class Bot extends React.Component {
 	}
 
 	async componentDidMount() {
+		console.log('API:', api);
 		try {
 			const { status, json } = await api.apps.settings.retrieve('ubot-chatbot');
 			console.log('status:', status);

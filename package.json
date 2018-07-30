@@ -68,7 +68,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
-    "cezerin-client": "^0.31.1",
+    "ucommerce-client": "^0.1.2",
     "chart.js": "^2.7.2",
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.6.0",

@@ -10,30 +10,6 @@ export default class Chat extends Component {
 			const { steps } = this.props;
 			const question = steps.question.value;
 			console.log('question:', question);
-			// if (question) {
-			//   var response = await fetch(
-			//     botConfig.apiURL, {
-			//       method: 'POST',
-			//       headers: {
-			//         Accept: 'application/json',
-			//         'Content-Type': 'application/json',
-			//         'Ocp-Apim-Subscription-Key': botConfig.apiKey
-			//       },
-			//       body: JSON.stringify({
-			//         'question': `${question}`
-			//       })
-			//     })
-			//   response = await response.json()
-			//   if (response.answers.length) {
-			//     if (response.answers[0].score <= 40) {
-			//       this.setDefaultAnswer()
-			//     } else {
-			//       this.setState({ answers: fixVowels(response.answers) })
-			//     }
-			//   } else {
-			//     this.setDefaultAnswer()
-			//   }
-			// }
 		} catch (error) {
 			console.log(error);
 		}
