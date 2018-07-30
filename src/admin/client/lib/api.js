@@ -11,7 +11,7 @@ if (dashboardToken || DEVELOPER_MODE === true) {
 	api = new CezerinClient({
 		apiBaseUrl: settings.apiBaseUrl || '/api/v1',
 		apiToken: dashboardToken,
-		webstoreToken: webstoreToken
+		webstoreToken
 	});
 }
 
