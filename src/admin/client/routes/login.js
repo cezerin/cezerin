@@ -1,6 +1,6 @@
 import React from 'react';
 import messages from 'lib/text';
-import CezerinClient from 'cezerin-client';
+import CezerinClient from 'ucommerce-client';
 import settings from 'lib/settings';
 import * as auth from 'lib/auth';
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const ajaxRouter = express.Router();
 const jwt = require('jsonwebtoken');
-const CezerinClient = require('cezerin-client');
+const CezerinClient = require('ucommerce-client');
 const serverSettings = require('./lib/settings');
 
 // Chatbot Settings test

@@ -1,4 +1,4 @@
-import CezerinClient from 'cezerin-client';
+import CezerinClient from 'ucommerce-client';
 import clientSettings from '../../../config/store';
 
 const api = new CezerinClient({
