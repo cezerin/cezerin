@@ -16,7 +16,7 @@
 			"script": "./dist/store/server/index.js",
 			"watch": [
 				"./config/server.js",
-				"./dist/store/",
+				"./src/store/",
 				"./theme/dist/",
 				"./theme/assets/index.html"
 			],

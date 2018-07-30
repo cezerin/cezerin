@@ -350,9 +350,9 @@ ajaxRouter.get('/payment_form_settings', (req, res, next) => {
 });
 
 ajaxRouter.get('/chatbot/settings', (req, res, next) => {
-	const settings = ChatbotSettingsService.getSettings();
-	console.log('chatbot settings:', settings);
-	res.status('200').send(settings);
+	ChatbotSettingsService.getSettings().then(settings => {
+		res.status('200').send(settings);
+	});
 });
 
 module.exports = ajaxRouter;
