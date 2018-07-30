@@ -25,6 +25,7 @@ export class App extends React.Component {
 	}
 
 	handleProjectIdChange = event => {
+		console.log('event:', event, '\n');
 		this.setState({ projectId: event.target.value });
 	};
 
@@ -70,8 +71,80 @@ export class App extends React.Component {
 					type="text"
 					fullWidth={true}
 					value={this.state.projectId}
-					onChange={this.handleProjectIdChange}
+					onChange={this.handleProjectId}
 					floatingLabelText="Project ID"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.background}
+					onChange={this.handleBackground}
+					floatingLabelText="Chat window background color"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.fontFamily}
+					onChange={this.handleFontFamily}
+					floatingLabelText="Chat text font type"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.headerBackground}
+					onChange={this.handleHeaderBackground}
+					floatingLabelText="Headers background color"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.headerFontColor}
+					onChange={this.handleHeaderFontColor}
+					floatingLabelText="Color for header text"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.headerFontSize}
+					onChange={this.handleHeaderFontSize}
+					floatingLabelText="Size for the chat text"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.botBubbleColor}
+					onChange={this.handleBotBubbleColor}
+					floatingLabelText="Chat bubble color"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.botFontColor}
+					onChange={this.handleBotFontColor}
+					floatingLabelText="Bot font color"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.userBubbleColor}
+					onChange={this.handleUserBubbleColor}
+					floatingLabelText="User bubble color"
+				/>
+
+				<TextField
+					type="text"
+					fullWidth={true}
+					value={this.state.userFontColor}
+					onChange={this.handleUserFontColor}
+					floatingLabelText="Users font color"
 				/>
 
 				<TextField

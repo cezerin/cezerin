@@ -115,6 +115,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scroll": "^1.7.10",
+    "react-simple-chatbot": "^0.3.5",
     "react-sortable-hoc": "^0.8.3",
     "react-tagsinput": "^3.19.0",
     "redux": "^4.0.0",
