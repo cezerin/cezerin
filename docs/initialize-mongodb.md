@@ -29,86 +29,10 @@ db.pages.insertMany([
 db.tokens.insert({
   is_revoked: false,
   date_created: new Date(),
-  expiration: 148,
-  name: 'utips-admin',
-  email: 'clemente@utips.com',
-  scopes: ['admin']  
-});
-db.tokens.insert({
-  is_revoked: false,
-  date_created: new Date(),
-  expiration: 148,
+  expiration: 18,
   name: 'admin',
-  email: 'jjgumucio@gmail.com',
+  email: 'mail@domain.com',
   scopes: ['admin']  
-});
-db.tokens.insert({
-  is_revoked: false,
-  date_created: new Date(),
-  expiration: 148,
-  name: 'andrea-milah',
-  email: 'andrea@milah.cl',
-  scopes: [
-    'read:products',
-    'read:product_categories',
-    'read:orders',
-    'read:customers',
-    'read:customer_groups',
-    'read:pages',
-    'read:order_statuses',
-    'read:theme',
-    'read:sitemap',
-    'read:shipping_methods',
-    'read:payment_methods',
-    'read:settings',
-    'read:files',
-    'dashboard',
-    'write:products',
-    'write:product_categories',
-    'write:orders',
-    'write:customers',
-    'write:customer_groups',
-    'write:pages',
-    'write:order_statuses',
-    'write:theme',
-    'write:shipping_methods',
-    'write:payment_methods',
-    'write:files'
-  ]  
-});
-db.tokens.insert({
-  is_revoked: false,
-  date_created: new Date(),
-  expiration: 148,
-  name: 'inverhaus',
-  email: 'hernan@inverhaus.com',
-  scopes: [
-    'read:products',
-    'read:product_categories',
-    'read:orders',
-    'read:customers',
-    'read:customer_groups',
-    'read:pages',
-    'read:order_statuses',
-    'read:theme',
-    'read:sitemap',
-    'read:shipping_methods',
-    'read:payment_methods',
-    'read:settings',
-    'read:files',
-    'dashboard',
-    'write:products',
-    'write:product_categories',
-    'write:orders',
-    'write:customers',
-    'write:customer_groups',
-    'write:pages',
-    'write:order_statuses',
-    'write:theme',
-    'write:shipping_methods',
-    'write:payment_methods',
-    'write:files'
-  ]  
 });
 ```
 

@@ -12,7 +12,94 @@ const CONNECT_OPTIONS = {
 	useNewUrlParser: true
 };
 
-const DEFAULT_LANGUAGE = 'español';
+const DEFAULT_LANGUAGE = 'spanish';
+
+const addUsers = async db => {
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'utips-admin',
+		email: 'clemente@utips.com',
+		scopes: ['admin']
+	});
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'admin',
+		email: 'jjgumucio@gmail.com',
+		scopes: ['admin']
+	});
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'andrea-milah',
+		email: 'andrea@milah.cl',
+		scopes: [
+			'read:products',
+			'read:product_categories',
+			'read:orders',
+			'read:customers',
+			'read:customer_groups',
+			'read:pages',
+			'read:order_statuses',
+			'read:theme',
+			'read:sitemap',
+			'read:shipping_methods',
+			'read:payment_methods',
+			'read:settings',
+			'read:files',
+			'dashboard',
+			'write:products',
+			'write:product_categories',
+			'write:orders',
+			'write:customers',
+			'write:customer_groups',
+			'write:pages',
+			'write:order_statuses',
+			'write:theme',
+			'write:shipping_methods',
+			'write:payment_methods',
+			'write:files'
+		]
+	});
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'inverhaus',
+		email: 'hernan@inverhaus.com',
+		scopes: [
+			'read:products',
+			'read:product_categories',
+			'read:orders',
+			'read:customers',
+			'read:customer_groups',
+			'read:pages',
+			'read:order_statuses',
+			'read:theme',
+			'read:sitemap',
+			'read:shipping_methods',
+			'read:payment_methods',
+			'read:settings',
+			'read:files',
+			'dashboard',
+			'write:products',
+			'write:product_categories',
+			'write:orders',
+			'write:customers',
+			'write:customer_groups',
+			'write:pages',
+			'write:order_statuses',
+			'write:theme',
+			'write:shipping_methods',
+			'write:payment_methods',
+			'write:files'
+		]
+	});
+};
 
 const addPage = async (db, pageObject) => {
 	const count = await db
@@ -366,6 +453,7 @@ const createAllIndexes = async db => {
 
 	await db.createCollection('customers');
 	await db.createCollection('orders');
+	await addUsers(db);
 	await addAllPages(db);
 	await addAllProducts(db);
 	await addEmailTemplates(db);
