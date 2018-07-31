@@ -1,7 +1,5 @@
-'use strict';
-
-const mongo = require('../lib/mongo');
-const parse = require('../lib/parse');
+import { db } from '../lib/mongo';
+import parse from '../lib/parse';
 
 class SitemapService {
 	constructor() {}
@@ -89,12 +87,12 @@ class SitemapService {
 		}
 
 		return Promise.all([
-			mongo.db
+			db
 				.collection('productCategories')
 				.find(categoriesFilter)
 				.project({ slug: 1 })
 				.toArray(),
-			mongo.db
+			db
 				.collection('products')
 				.find(productFilter)
 				.project({ slug: 1, category_id: 1 })
@@ -120,7 +118,7 @@ class SitemapService {
 			filter.enabled = true;
 		}
 
-		return mongo.db
+		return db
 			.collection('pages')
 			.find(filter)
 			.project({ slug: 1 })
@@ -140,7 +138,7 @@ class SitemapService {
 			filter.enabled = true;
 		}
 
-		return mongo.db
+		return db
 			.collection('productCategories')
 			.find(filter)
 			.project({ slug: 1 })
@@ -180,4 +178,4 @@ class SitemapService {
 	}
 }
 
-module.exports = new SitemapService();
+export default new SitemapService();

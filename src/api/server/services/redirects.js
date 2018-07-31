@@ -1,13 +1,14 @@
-'use strict';
+import { ObjectID } from 'mongodb';
+import lruCache from 'lru-cache';
+import { db } from '../lib/mongo';
+import utils from '../lib/utils';
+import parse from '../lib/parse';
 
-const mongo = require('../lib/mongo');
-const utils = require('../lib/utils');
-const parse = require('../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const cache = require('lru-cache')({
+const cache = lruCache({
 	max: 10000,
 	maxAge: 1000 * 60 * 60 * 24 // 24h
 });
+
 const REDIRECTS_CACHE_KEY = 'redirects';
 
 class RedirectsService {
@@ -19,7 +20,7 @@ class RedirectsService {
 		if (redirectsFromCache) {
 			return Promise.resolve(redirectsFromCache);
 		} else {
-			return mongo.db
+			return db
 				.collection('redirects')
 				.find()
 				.toArray()
@@ -37,7 +38,7 @@ class RedirectsService {
 		}
 		let redirectObjectID = new ObjectID(id);
 
-		return mongo.db
+		return db
 			.collection('redirects')
 			.findOne({ _id: redirectObjectID })
 			.then(item => this.changeProperties(item));
@@ -45,7 +46,7 @@ class RedirectsService {
 
 	addRedirect(data) {
 		const redirect = this.getValidDocumentForInsert(data);
-		return mongo.db
+		return db
 			.collection('redirects')
 			.insertMany([redirect])
 			.then(res => {
@@ -61,7 +62,7 @@ class RedirectsService {
 		const redirectObjectID = new ObjectID(id);
 		const redirect = this.getValidDocumentForUpdate(id, data);
 
-		return mongo.db
+		return db
 			.collection('redirects')
 			.updateOne(
 				{
@@ -80,7 +81,7 @@ class RedirectsService {
 			return Promise.reject('Invalid identifier');
 		}
 		const redirectObjectID = new ObjectID(id);
-		return mongo.db
+		return db
 			.collection('redirects')
 			.deleteOne({ _id: redirectObjectID })
 			.then(deleteResponse => {
@@ -127,4 +128,4 @@ class RedirectsService {
 	}
 }
 
-module.exports = new RedirectsService();
+export default new RedirectsService();

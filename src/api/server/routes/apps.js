@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const AppSettingsService = require('../services/apps/settings');
+import security from '../lib/security';
+import AppSettingsService from '../services/apps/settings';
 
 class AppsRoute {
 	constructor(router) {
@@ -43,4 +41,4 @@ class AppsRoute {
 	}
 }
 
-module.exports = AppsRoute;
+export default AppsRoute;

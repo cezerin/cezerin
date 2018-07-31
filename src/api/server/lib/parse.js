@@ -1,4 +1,4 @@
-const ObjectID = require('mongodb').ObjectID;
+import { ObjectID } from 'mongodb';
 
 const getString = value => (value || '').toString();
 
@@ -132,7 +132,7 @@ const getOrderAddress = address => {
 		: emptyAddress;
 };
 
-module.exports = {
+export default {
 	getString: getString,
 	getObjectIDIfValid: getObjectIDIfValid,
 	getDateIfValid: getDateIfValid,

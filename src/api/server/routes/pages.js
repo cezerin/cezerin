@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const PagesService = require('../services/pages/pages');
+import security from '../lib/security';
+import PagesService from '../services/pages/pages';
 
 class PagesRoute {
 	constructor(router) {
@@ -86,4 +84,4 @@ class PagesRoute {
 	}
 }
 
-module.exports = PagesRoute;
+export default PagesRoute;

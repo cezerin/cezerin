@@ -1,5 +1,6 @@
-const SitemapService = require('../services/sitemap');
-const slug = require('slug');
+import slug from 'slug';
+import SitemapService from '../services/sitemap';
+
 const slugConfig = {
 	symbols: false, // replace unicode symbols or not
 	remove: null, // (optional) regex to remove characters
@@ -43,7 +44,7 @@ const getProjectionFromFields = fields => {
 	return Object.assign({}, ...fieldsArray.map(key => ({ [key]: 1 })));
 };
 
-module.exports = {
+export default {
 	cleanSlug: cleanSlug,
 	getAvailableSlug: getAvailableSlug,
 	getCorrectFileName: getCorrectFileName,

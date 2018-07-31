@@ -1,10 +1,8 @@
-'use strict';
-
-const path = require('path');
-const fs = require('fs');
-const url = require('url');
-const formidable = require('formidable');
-const settings = require('../../lib/settings');
+import path from 'path';
+import fs from 'fs';
+import url from 'url';
+import formidable from 'formidable';
+import settings from '../../lib/settings';
 
 class ThemeAssetsService {
 	deleteFile(fileName) {
@@ -63,4 +61,4 @@ class ThemeAssetsService {
 	}
 }
 
-module.exports = new ThemeAssetsService();
+export default new ThemeAssetsService();

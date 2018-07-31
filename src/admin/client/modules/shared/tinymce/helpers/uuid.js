@@ -1,4 +1,4 @@
 let count = 0;
-module.exports = function uuid() {
+export default function uuid() {
 	return 'react-tinymce-' + count++;
-};
+}

@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const RedirectsService = require('../services/redirects');
+import security from '../lib/security';
+import RedirectsService from '../services/redirects';
 
 class RedirectsRoute {
 	constructor(router) {
@@ -86,4 +84,4 @@ class RedirectsRoute {
 	}
 }
 
-module.exports = RedirectsRoute;
+export default RedirectsRoute;

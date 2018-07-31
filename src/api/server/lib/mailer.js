@@ -1,8 +1,8 @@
-const winston = require('winston');
-const nodemailer = require('nodemailer');
-const smtpTransport = require('nodemailer-smtp-transport');
-const settings = require('./settings');
-const EmailSettingsService = require('../services/settings/email');
+import winston from 'winston';
+import nodemailer from 'nodemailer';
+import smtpTransport from 'nodemailer-smtp-transport';
+import settings from './settings';
+import EmailSettingsService from '../services/settings/email';
 
 const SMTP_FROM_CONFIG_FILE = {
 	host: settings.smtpServer.host,
@@ -75,6 +75,6 @@ const send = async message => {
 	}
 };
 
-module.exports = {
+export default {
 	send: send
 };

@@ -1,15 +1,13 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
 
 class CustomerGroupsService {
 	constructor() {}
 
 	getGroups(params = {}) {
-		return mongo.db
+		return db
 			.collection('customerGroups')
 			.find()
 			.toArray()
@@ -22,7 +20,7 @@ class CustomerGroupsService {
 		}
 		let groupObjectID = new ObjectID(id);
 
-		return mongo.db
+		return db
 			.collection('customerGroups')
 			.findOne({ _id: groupObjectID })
 			.then(item => this.changeProperties(item));
@@ -30,7 +28,7 @@ class CustomerGroupsService {
 
 	addGroup(data) {
 		const group = this.getValidDocumentForInsert(data);
-		return mongo.db
+		return db
 			.collection('customerGroups')
 			.insertMany([group])
 			.then(res => this.getSingleGroup(res.ops[0]._id.toString()));
@@ -43,7 +41,7 @@ class CustomerGroupsService {
 		const groupObjectID = new ObjectID(id);
 		const group = this.getValidDocumentForUpdate(id, data);
 
-		return mongo.db
+		return db
 			.collection('customerGroups')
 			.updateOne(
 				{
@@ -59,7 +57,7 @@ class CustomerGroupsService {
 			return Promise.reject('Invalid identifier');
 		}
 		const groupObjectID = new ObjectID(id);
-		return mongo.db
+		return db
 			.collection('customerGroups')
 			.deleteOne({ _id: groupObjectID })
 			.then(deleteResponse => {
@@ -108,4 +106,4 @@ class CustomerGroupsService {
 	}
 }
 
-module.exports = new CustomerGroupsService();
+export default new CustomerGroupsService();

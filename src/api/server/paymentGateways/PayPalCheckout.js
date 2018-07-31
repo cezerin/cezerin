@@ -1,7 +1,7 @@
-const https = require('https');
-const qs = require('query-string');
-const OrdersService = require('../services/orders/orders');
-const OrdertTansactionsService = require('../services/orders/orderTransactions');
+import https from 'https';
+import qs from 'query-string';
+import OrdersService from '../services/orders/orders';
+import OrdertTansactionsService from '../services/orders/orderTransactions';
 
 const SANDBOX_URL = 'www.sandbox.paypal.com';
 const REGULAR_URL = 'www.paypal.com';
@@ -117,7 +117,7 @@ const verify = (params, settings) => {
 	});
 };
 
-module.exports = {
+export default {
 	getPaymentFormSettings: getPaymentFormSettings,
 	paymentNotification: paymentNotification
 };

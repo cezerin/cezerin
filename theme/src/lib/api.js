@@ -5,4 +5,4 @@ const api = new CezerinClient({
 	ajaxBaseUrl: clientSettings.ajaxBaseUrl || '/ajax'
 });
 
-export default api;
+export { api as default } from './settings';

@@ -1,11 +1,9 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const webhooks = require('../../lib/webhooks');
-const ObjectID = require('mongodb').ObjectID;
-const OrdersService = require('./orders');
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import webhooks from '../../lib/webhooks';
+import OrdersService from './orders';
 
 class OrdertTansactionsService {
 	constructor() {}
@@ -17,7 +15,7 @@ class OrdertTansactionsService {
 		let orderObjectID = new ObjectID(order_id);
 		const transaction = this.getValidDocumentForInsert(data);
 
-		await mongo.db.collection('orders').updateOne(
+		await db.collection('orders').updateOne(
 			{
 				_id: orderObjectID
 			},
@@ -44,7 +42,7 @@ class OrdertTansactionsService {
 		let transactionObjectID = new ObjectID(transaction_id);
 		const transaction = this.getValidDocumentForUpdate(data);
 
-		await mongo.db.collection('orders').updateOne(
+		await db.collection('orders').updateOne(
 			{
 				_id: orderObjectID,
 				'transactions.id': transactionObjectID
@@ -69,7 +67,7 @@ class OrdertTansactionsService {
 		let orderObjectID = new ObjectID(order_id);
 		let transactionObjectID = new ObjectID(transaction_id);
 
-		await mongo.db.collection('orders').updateOne(
+		await db.collection('orders').updateOne(
 			{
 				_id: orderObjectID
 			},
@@ -142,4 +140,4 @@ class OrdertTansactionsService {
 	}
 }
 
-module.exports = new OrdertTansactionsService();
+export default new OrdertTansactionsService();

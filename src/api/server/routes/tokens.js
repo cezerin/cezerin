@@ -1,7 +1,5 @@
-'use strict';
-
-const security = require('../lib/security');
-const SecurityTokensService = require('../services/security/tokens');
+import security from '../lib/security';
+import SecurityTokensService from '../services/security/tokens';
 
 class SecurityTokensRoute {
 	constructor(router) {
@@ -108,4 +106,4 @@ class SecurityTokensRoute {
 	}
 }
 
-module.exports = SecurityTokensRoute;
+export default SecurityTokensRoute;

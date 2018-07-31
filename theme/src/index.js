@@ -1,4 +1,4 @@
-export { updateThemeSettings } from './lib/settings';
+export { initOnClient, initOnServer } from './lib/settings';
 export { default as SharedContainer } from './containers/shared';
 export { default as IndexContainer } from './containers/index';
 export { default as CategoryContainer } from './containers/category';

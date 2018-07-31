@@ -1,5 +1,5 @@
 import winston from 'winston';
-import serverSettings from './settings';
+import CezerinClient from 'cezerin-client';
 import React from 'react';
 import { StaticRouter } from 'react-router';
 import { renderToString } from 'react-dom/server';
@@ -7,11 +7,19 @@ import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 import Helmet from 'react-helmet';
-import { updateThemeSettings } from 'theme';
+import { initOnServer } from 'theme';
+import serverSettings from './settings';
 import reducers from '../shared/reducers';
 import { loadState } from './loadState';
 import { indexHtml } from './readIndexHtml';
 import App from '../shared/app';
+
+initOnServer({
+	language: serverSettings.language,
+	api: new CezerinClient({
+		ajaxBaseUrl: serverSettings.ajaxBaseUrl
+	})
+});
 
 const getHead = () => {
 	const helmet = Helmet.rewind();
@@ -36,8 +44,13 @@ const getReferrerCookieOptions = isHttps => ({
 });
 
 const renderError = (req, res, err) => {
-	winston.error('Page error', req.url, err);
-	res.status(500).send(err);
+	winston.error(
+		`Error on page rendering\n\tpath: ${req.url}\n\terror: ${err.toString()}`
+	);
+	if (err.stack) {
+		winston.error(err.stack);
+	}
+	res.status(500).send(err.message ? err.message : err);
 };
 
 const getAppHtml = (store, location, context = {}) => {
@@ -123,8 +136,8 @@ const renderPage = (req, res, store, themeText, placeholders) => {
 const pageRendering = (req, res) => {
 	loadState(req, serverSettings.language)
 		.then(({ state, themeText, placeholders }) => {
-			updateThemeSettings({
-				settings: state.app.themeSettings,
+			initOnServer({
+				themeSettings: state.app.themeSettings,
 				text: themeText
 			});
 			const store = createStore(

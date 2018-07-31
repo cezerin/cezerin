@@ -1,4 +1,7 @@
-const express = require('express');
+import express from 'express';
+import jwt from 'jsonwebtoken';
+import CezerinClient from 'cezerin-client';
+import serverSettings from './lib/settings';
 const ajaxRouter = express.Router();
 const jwt = require('jsonwebtoken');
 const CezerinClient = require('ucommerce-client');
@@ -359,4 +362,4 @@ ajaxRouter.get('/chatbot/ask', (req, res, next) => {
 	});
 });
 
-module.exports = ajaxRouter;
+export default ajaxRouter;

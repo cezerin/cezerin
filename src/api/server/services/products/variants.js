@@ -1,8 +1,6 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class ProductVariantsService {
 	constructor() {}
@@ -13,7 +11,7 @@ class ProductVariantsService {
 		}
 
 		let productObjectID = new ObjectID(productId);
-		return mongo.db
+		return db
 			.collection('products')
 			.findOne({ _id: productObjectID }, { fields: { variants: 1 } })
 			.then(product => product.variants || []);
@@ -26,7 +24,7 @@ class ProductVariantsService {
 		let productObjectID = new ObjectID(productId);
 		let variantObjectID = new ObjectID(variantId);
 
-		return mongo.db
+		return db
 			.collection('products')
 			.updateOne(
 				{
@@ -51,7 +49,7 @@ class ProductVariantsService {
 
 		const variantData = this.getValidDocumentForInsert(data);
 
-		return mongo.db
+		return db
 			.collection('products')
 			.updateOne({ _id: productObjectID }, { $push: { variants: variantData } })
 			.then(res => this.getVariants(productId));
@@ -66,7 +64,7 @@ class ProductVariantsService {
 
 		const variantData = this.getValidDocumentForUpdate(data);
 
-		return mongo.db
+		return db
 			.collection('products')
 			.updateOne(
 				{
@@ -122,7 +120,7 @@ class ProductVariantsService {
 	getVariantOptions(productId, variantId) {
 		let productObjectID = new ObjectID(productId);
 
-		return mongo.db
+		return db
 			.collection('products')
 			.findOne({ _id: productObjectID }, { fields: { variants: 1 } })
 			.then(product => (product && product.variants ? product.variants : null))
@@ -199,7 +197,7 @@ class ProductVariantsService {
 			data.value_id
 		)
 			.then(options =>
-				mongo.db
+				db
 					.collection('products')
 					.updateOne(
 						{ _id: productObjectID, 'variants.id': variantObjectID },
@@ -210,4 +208,4 @@ class ProductVariantsService {
 	}
 }
 
-module.exports = new ProductVariantsService();
+export default new ProductVariantsService();

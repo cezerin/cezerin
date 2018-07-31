@@ -1,15 +1,13 @@
-'use strict';
-
-const path = require('path');
-const url = require('url');
-const formidable = require('formidable');
-const fse = require('fs-extra');
-const ObjectID = require('mongodb').ObjectID;
-const settings = require('../../lib/settings');
-const SettingsService = require('../settings/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
+import { ObjectID } from 'mongodb';
+import path from 'path';
+import url from 'url';
+import formidable from 'formidable';
+import fse from 'fs-extra';
+import settings from '../../lib/settings';
+import SettingsService from '../settings/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
 
 class ProductCategoriesService {
 	constructor() {}
@@ -32,7 +30,7 @@ class ProductCategoriesService {
 		const projection = utils.getProjectionFromFields(params.fields);
 		const generalSettings = await SettingsService.getSettings();
 		const domain = generalSettings.domain;
-		const items = await mongo.db
+		const items = await db
 			.collection('productCategories')
 			.find(filter, { projection: projection })
 			.sort({ position: 1 })
@@ -53,7 +51,7 @@ class ProductCategoriesService {
 	}
 
 	async addCategory(data) {
-		const lastCategory = await mongo.db
+		const lastCategory = await db
 			.collection('productCategories')
 			.findOne({}, { sort: { position: -1 } });
 		const newPosition =
@@ -62,7 +60,7 @@ class ProductCategoriesService {
 			data,
 			newPosition
 		);
-		const insertResult = await mongo.db
+		const insertResult = await db
 			.collection('productCategories')
 			.insertMany([dataToInsert]);
 		return this.getSingleCategory(insertResult.ops[0]._id.toString());
@@ -76,7 +74,7 @@ class ProductCategoriesService {
 
 		return this.getValidDocumentForUpdate(id, data)
 			.then(dataToSet =>
-				mongo.db
+				db
 					.collection('productCategories')
 					.updateOne({ _id: categoryObjectID }, { $set: dataToSet })
 			)
@@ -115,8 +113,8 @@ class ProductCategoriesService {
 			.then(idsToDelete => {
 				// 3. delete categories
 				let objectsToDelete = idsToDelete.map(id => new ObjectID(id));
-				// return mongo.db.collection('productCategories').deleteMany({_id: { $in: objectsToDelete}}).then(() => idsToDelete);
-				return mongo.db
+				// return db.collection('productCategories').deleteMany({_id: { $in: objectsToDelete}}).then(() => idsToDelete);
+				return db
 					.collection('productCategories')
 					.deleteMany({ _id: { $in: objectsToDelete } })
 					.then(
@@ -127,7 +125,7 @@ class ProductCategoriesService {
 			.then(idsToDelete => {
 				// 4. update category_id for products
 				return idsToDelete
-					? mongo.db
+					? db
 							.collection('products')
 							.updateMany(
 								{ category_id: { $in: idsToDelete } },
@@ -326,4 +324,4 @@ class ProductCategoriesService {
 	}
 }
 
-module.exports = new ProductCategoriesService();
+export default new ProductCategoriesService();

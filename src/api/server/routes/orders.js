@@ -1,13 +1,11 @@
-'use strict';
-
-const security = require('../lib/security');
-const OrdersService = require('../services/orders/orders');
-const OrderAddressService = require('../services/orders/orderAddress');
-const OrderItemsService = require('../services/orders/orderItems');
-const OrdertTansactionsService = require('../services/orders/orderTransactions');
-const OrdertDiscountsService = require('../services/orders/orderDiscounts');
-const SettingsService = require('../services/settings/settings');
-const PaymentGateways = require('../paymentGateways');
+import security from '../lib/security';
+import OrdersService from '../services/orders/orders';
+import OrderAddressService from '../services/orders/orderAddress';
+import OrderItemsService from '../services/orders/orderItems';
+import OrdertTansactionsService from '../services/orders/orderTransactions';
+import OrdertDiscountsService from '../services/orders/orderDiscounts';
+import SettingsService from '../services/settings/settings';
+import PaymentGateways from '../paymentGateways';
 
 class OrdersRoute {
 	constructor(router) {
@@ -350,4 +348,4 @@ class OrdersRoute {
 	}
 }
 
-module.exports = OrdersRoute;
+export default OrdersRoute;

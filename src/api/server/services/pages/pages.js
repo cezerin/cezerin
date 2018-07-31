@@ -1,12 +1,10 @@
-'use strict';
-
-const url = require('url');
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const SettingsService = require('../settings/settings');
+import { ObjectID } from 'mongodb';
+import url from 'url';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import SettingsService from '../settings/settings';
 
 const DEFAULT_SORT = { is_system: -1, date_created: 1 };
 
@@ -49,7 +47,7 @@ class PagesService {
 		const projection = utils.getProjectionFromFields(params.fields);
 		const generalSettings = await SettingsService.getSettings();
 		const domain = generalSettings.domain;
-		const items = await mongo.db
+		const items = await db
 			.collection('pages')
 			.find(filter, { projection: projection })
 			.sort(sortQuery)
@@ -69,7 +67,7 @@ class PagesService {
 
 	addPage(data) {
 		return this.getValidDocumentForInsert(data).then(page =>
-			mongo.db
+			db
 				.collection('pages')
 				.insertMany([page])
 				.then(res => this.getSinglePage(res.ops[0]._id.toString()))
@@ -83,7 +81,7 @@ class PagesService {
 		const pageObjectID = new ObjectID(id);
 
 		return this.getValidDocumentForUpdate(id, data).then(page =>
-			mongo.db
+			db
 				.collection('pages')
 				.updateOne({ _id: pageObjectID }, { $set: page })
 				.then(res => this.getSinglePage(id))
@@ -95,7 +93,7 @@ class PagesService {
 			return Promise.reject('Invalid identifier');
 		}
 		const pageObjectID = new ObjectID(id);
-		return mongo.db
+		return db
 			.collection('pages')
 			.deleteOne({ _id: pageObjectID, is_system: false })
 			.then(deleteResponse => {
@@ -190,4 +188,4 @@ class PagesService {
 	}
 }
 
-module.exports = new PagesService();
+export default new PagesService();

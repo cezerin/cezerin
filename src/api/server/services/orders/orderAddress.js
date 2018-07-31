@@ -1,11 +1,9 @@
-'use strict';
-
-const settings = require('../../lib/settings');
-const mongo = require('../../lib/mongo');
-const utils = require('../../lib/utils');
-const parse = require('../../lib/parse');
-const ObjectID = require('mongodb').ObjectID;
-const OrdersService = require('./orders');
+import { ObjectID } from 'mongodb';
+import settings from '../../lib/settings';
+import { db } from '../../lib/mongo';
+import utils from '../../lib/utils';
+import parse from '../../lib/parse';
+import OrdersService from './orders';
 
 class OrderAddressService {
 	constructor() {}
@@ -21,7 +19,7 @@ class OrderAddressService {
 			'billing_address'
 		);
 
-		return mongo.db
+		return db
 			.collection('orders')
 			.updateOne(
 				{
@@ -43,7 +41,7 @@ class OrderAddressService {
 			'shipping_address'
 		);
 
-		return mongo.db
+		return db
 			.collection('orders')
 			.updateOne(
 				{
@@ -75,4 +73,4 @@ class OrderAddressService {
 	}
 }
 
-module.exports = new OrderAddressService();
+export default new OrderAddressService();

@@ -1,7 +1,5 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class EmailSettingsService {
 	constructor() {
@@ -16,7 +14,7 @@ class EmailSettingsService {
 	}
 
 	getEmailSettings() {
-		return mongo.db
+		return db
 			.collection('emailSettings')
 			.findOne()
 			.then(settings => {
@@ -27,7 +25,7 @@ class EmailSettingsService {
 	updateEmailSettings(data) {
 		const settings = this.getValidDocumentForUpdate(data);
 		return this.insertDefaultSettingsIfEmpty().then(() =>
-			mongo.db
+			db
 				.collection('emailSettings')
 				.updateOne(
 					{},
@@ -41,14 +39,12 @@ class EmailSettingsService {
 	}
 
 	insertDefaultSettingsIfEmpty() {
-		return mongo.db
+		return db
 			.collection('emailSettings')
 			.countDocuments({})
 			.then(count => {
 				if (count === 0) {
-					return mongo.db
-						.collection('emailSettings')
-						.insertOne(this.defaultSettings);
+					return db.collection('emailSettings').insertOne(this.defaultSettings);
 				} else {
 					return;
 				}
@@ -100,4 +96,4 @@ class EmailSettingsService {
 	}
 }
 
-module.exports = new EmailSettingsService();
+export default new EmailSettingsService();

@@ -1,1 +1,1 @@
-module.exports = require('./components/TinyMCE');
+export { default } from './components/TinyMCE';

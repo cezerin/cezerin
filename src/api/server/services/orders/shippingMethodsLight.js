@@ -1,13 +1,11 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const ObjectID = require('mongodb').ObjectID;
+import { ObjectID } from 'mongodb';
+import { db } from '../../lib/mongo';
 
 class ShippingMethodsLightService {
 	constructor() {}
 
 	getMethods(filter = {}) {
-		return mongo.db
+		return db
 			.collection('shippingMethods')
 			.find(filter)
 			.toArray()
@@ -34,4 +32,4 @@ class ShippingMethodsLightService {
 	}
 }
 
-module.exports = new ShippingMethodsLightService();
+export default new ShippingMethodsLightService();

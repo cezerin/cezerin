@@ -1,11 +1,9 @@
-'use strict';
-
-const exec = require('child_process').exec;
-const path = require('path');
-const formidable = require('formidable');
-const winston = require('winston');
-const settings = require('../../lib/settings');
-const dashboardWebSocket = require('../../lib/dashboardWebSocket');
+import { exec } from 'child_process';
+import path from 'path';
+import formidable from 'formidable';
+import winston from 'winston';
+import settings from '../../lib/settings';
+import dashboardWebSocket from '../../lib/dashboardWebSocket';
 
 class ThemesService {
 	constructor() {}
@@ -101,4 +99,4 @@ class ThemesService {
 	}
 }
 
-module.exports = new ThemesService();
+export default new ThemesService();

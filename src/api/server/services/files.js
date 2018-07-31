@@ -1,11 +1,9 @@
-'use strict';
-
-const path = require('path');
-const fs = require('fs');
-const url = require('url');
-const formidable = require('formidable');
-const utils = require('../lib/utils');
-const settings = require('../lib/settings');
+import path from 'path';
+import fs from 'fs';
+import url from 'url';
+import formidable from 'formidable';
+import utils from '../lib/utils';
+import settings from '../lib/settings';
 
 const CONTENT_PATH = path.resolve(settings.filesUploadPath);
 
@@ -99,4 +97,4 @@ class FilesService {
 	}
 }
 
-module.exports = new FilesService();
+export default new FilesService();

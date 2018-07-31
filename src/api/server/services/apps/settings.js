@@ -1,13 +1,11 @@
-'use strict';
-
-const mongo = require('../../lib/mongo');
-const parse = require('../../lib/parse');
+import { db } from '../../lib/mongo';
+import parse from '../../lib/parse';
 
 class AppSettingsService {
 	constructor() {}
 
 	getSettings(appKey) {
-		return mongo.db
+		return db
 			.collection('appSettings')
 			.findOne({ key: appKey }, { _id: 0, key: 0 });
 	}
@@ -19,7 +17,7 @@ class AppSettingsService {
 
 		delete data.key;
 
-		return mongo.db
+		return db
 			.collection('appSettings')
 			.updateOne(
 				{ key: appKey },
@@ -32,4 +30,4 @@ class AppSettingsService {
 	}
 }
 
-module.exports = new AppSettingsService();
+export default new AppSettingsService();
