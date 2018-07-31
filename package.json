@@ -140,6 +140,7 @@
     "npm": "^5.0.0"
   },
   "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "redux-devtools-extension": "^2.13.2"
   }
 }

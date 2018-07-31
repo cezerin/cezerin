@@ -8,7 +8,10 @@ const applicationText = require(`./locales/${applicationConfig.language}.json`);
 
 module.exports = {
 	entry: {
-		app: path.resolve(__dirname, 'src/admin/client/index.js'),
+		app: [
+			'babel-polyfill',
+			path.resolve(__dirname, 'src/admin/client/index.js')
+		],
 		vendor: [
 			'react',
 			'react-dom',
