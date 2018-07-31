@@ -20,6 +20,7 @@ export default class Chat extends Component {
 	}
 
 	render() {
+		console.log('this.props:', this.props, '\n');
 		return <div>{this.state.answers.map(answer => answer.answer)}</div>;
 	}
 }

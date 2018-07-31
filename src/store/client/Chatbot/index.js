@@ -3,36 +3,44 @@ import { ThemeProvider } from 'styled-components';
 import ChatBot from 'react-simple-chatbot';
 import ChatComponent from './Chat';
 import api from '../api';
+import merge from 'lodash/merge';
 
 export default class Bot extends React.Component {
 	constructor(props) {
 		super(props);
 	}
 
-	steps = [
-		{
-			id: '1',
-			message: '¡Hola! Me llamo Ubot. ¿En qué puedo ayudarte?',
-			trigger: 'question'
-		},
-		{
-			id: 'question',
-			user: true,
-			trigger: '3'
-		},
-		{
-			id: '3',
-			component: <ChatComponent />,
-			asMessage: true,
-			trigger: 'question'
-		}
-	];
+	state = {
+		steps: [
+			{
+				id: '1',
+				message: '¡Hola! Me llamo Ubot. ¿En qué puedo ayudarte?',
+				trigger: 'question'
+			},
+			{
+				id: 'question',
+				user: true,
+				trigger: '3'
+			}
+		],
+		theme: {}
+	};
 
 	async componentDidMount() {
-		console.log('API:', api);
 		try {
 			const { status, json } = await api.ajax.chatbotSettings.retrieve();
-			console.log('settings:', json);
+			const newState = merge(this.state, {
+				theme: { ...json },
+				steps: [
+					{
+						id: '3',
+						component: <ChatComponent projectId={json._id} />,
+						asMessage: true,
+						trigger: 'question'
+					}
+				]
+			});
+			this.setState(newState);
 		} catch (error) {
 			console.log('Error getting Chatbot Settings:', error.message);
 		}
@@ -40,8 +48,8 @@ export default class Bot extends React.Component {
 
 	render() {
 		return (
-			<ThemeProvider theme={{}}>
-				<ChatBot floating steps={this.steps} />
+			<ThemeProvider theme={this.state.theme}>
+				<ChatBot floating steps={this.state.steps} />
 			</ThemeProvider>
 		);
 	}
