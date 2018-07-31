@@ -12,7 +12,7 @@ const CONNECT_OPTIONS = {
 	useNewUrlParser: true
 };
 
-const DEFAULT_LANGUAGE = 'spanish';
+const DEFAULT_LANGUAGE = 'english';
 
 const addUsers = async db => {
 	db.collection('tokens').insertOne({
