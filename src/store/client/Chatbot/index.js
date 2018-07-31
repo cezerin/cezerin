@@ -3,7 +3,6 @@ import { ThemeProvider } from 'styled-components';
 import ChatBot from 'react-simple-chatbot';
 import ChatComponent from './Chat';
 import api from '../api';
-import merge from 'lodash/merge';
 
 export default class Bot extends React.Component {
 	constructor(props) {
@@ -13,14 +12,20 @@ export default class Bot extends React.Component {
 	state = {
 		steps: [
 			{
-				id: '1',
+				id: 'welcome',
 				message: '¡Hola! Me llamo Ubot. ¿En qué puedo ayudarte?',
 				trigger: 'question'
 			},
 			{
 				id: 'question',
 				user: true,
-				trigger: '3'
+				trigger: 'answer'
+			},
+			{
+				id: 'answer',
+				component: <ChatComponent />,
+				asMessage: true,
+				trigger: 'question'
 			}
 		],
 		theme: {}
@@ -29,18 +34,7 @@ export default class Bot extends React.Component {
 	async componentDidMount() {
 		try {
 			const { status, json } = await api.ajax.chatbotSettings.retrieve();
-			const newState = merge(this.state, {
-				theme: { ...json },
-				steps: [
-					{
-						id: '3',
-						component: <ChatComponent projectId={json._id} />,
-						asMessage: true,
-						trigger: 'question'
-					}
-				]
-			});
-			this.setState(newState);
+			this.setState({ theme: { ...json } });
 		} catch (error) {
 			console.log('Error getting Chatbot Settings:', error.message);
 		}

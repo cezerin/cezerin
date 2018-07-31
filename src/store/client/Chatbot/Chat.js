@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
+import moment from 'moment';
+import api from '../api';
 
 export default class Chat extends Component {
+	constructor(props) {
+		super(props);
+		this.sessionId = moment().format('DD-MM-YYYY-HH:mm:ss');
+	}
+
 	state = {
 		answers: []
 	};
@@ -9,9 +16,13 @@ export default class Chat extends Component {
 		try {
 			const { steps } = this.props;
 			const question = steps.question.value;
-			console.log('question:', question);
+			const answer = await api.ajax.chatbotSettings.retrieve('/chatbot/ask', {
+				question,
+				sessionId: this.sessionId
+			});
+			console.log('answer:', answer, '\n');
 		} catch (error) {
-			console.log(error);
+			console.log('Error getting answer:', error.message);
 		}
 	}
 
@@ -20,7 +31,7 @@ export default class Chat extends Component {
 	}
 
 	render() {
-		console.log('this.props:', this.props, '\n');
+		console.log('api:', api, '\n');
 		return <div>{this.state.answers.map(answer => answer.answer)}</div>;
 	}
 }
