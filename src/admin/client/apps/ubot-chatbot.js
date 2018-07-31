@@ -24,12 +24,14 @@ export class App extends React.Component {
 		};
 	}
 
-	handleProjectIdChange = event => {
-		console.log('event:', event, '\n');
-		this.setState({ projectId: event.target.value });
+	handleChange = event => {
+		console.log('event:', event.target, '\n');
+		const newState = {};
+		newState[event.target.id] = event.target.value;
+		this.setState(newState);
 	};
 
-	handleLocaleChange = event => {
+	handleLocale = event => {
 		this.setState({ locale: event.target.value });
 	};
 
@@ -69,89 +71,100 @@ export class App extends React.Component {
 
 				<TextField
 					type="text"
+					id="projectId"
 					fullWidth={true}
 					value={this.state.projectId}
-					onChange={this.handleProjectId}
+					onChange={this.handleChange}
 					floatingLabelText="Project ID"
 				/>
 
 				<TextField
 					type="text"
+					id="background"
 					fullWidth={true}
 					value={this.state.background}
-					onChange={this.handleBackground}
+					onChange={this.handleChange}
 					floatingLabelText="Chat window background color"
 				/>
 
 				<TextField
 					type="text"
+					id="fontFamily"
 					fullWidth={true}
 					value={this.state.fontFamily}
-					onChange={this.handleFontFamily}
+					onChange={this.handleChange}
 					floatingLabelText="Chat text font type"
 				/>
 
 				<TextField
 					type="text"
+					id="headerBgColor"
 					fullWidth={true}
-					value={this.state.headerBackground}
-					onChange={this.handleHeaderBackground}
+					value={this.state.headerBgColor}
+					onChange={this.handleChange}
 					floatingLabelText="Headers background color"
 				/>
 
 				<TextField
 					type="text"
+					id="headerFontColor"
 					fullWidth={true}
 					value={this.state.headerFontColor}
-					onChange={this.handleHeaderFontColor}
+					onChange={this.handleChange}
 					floatingLabelText="Color for header text"
 				/>
 
 				<TextField
 					type="text"
+					id="headerFontSize"
 					fullWidth={true}
 					value={this.state.headerFontSize}
-					onChange={this.handleHeaderFontSize}
+					onChange={this.handleChange}
 					floatingLabelText="Size for the chat text"
 				/>
 
 				<TextField
 					type="text"
+					id="botBubbleColor"
 					fullWidth={true}
 					value={this.state.botBubbleColor}
-					onChange={this.handleBotBubbleColor}
-					floatingLabelText="Chat bubble color"
+					onChange={this.handleChange}
+					floatingLabelText="Bot bubble color"
 				/>
 
 				<TextField
 					type="text"
+					id="botFontColor"
 					fullWidth={true}
 					value={this.state.botFontColor}
-					onChange={this.handleBotFontColor}
+					onChange={this.handleChange}
 					floatingLabelText="Bot font color"
 				/>
 
 				<TextField
 					type="text"
+					id="userBubbleColor"
 					fullWidth={true}
 					value={this.state.userBubbleColor}
-					onChange={this.handleUserBubbleColor}
+					onChange={this.handleChange}
 					floatingLabelText="User bubble color"
 				/>
 
 				<TextField
 					type="text"
+					id="userFontColor"
 					fullWidth={true}
 					value={this.state.userFontColor}
-					onChange={this.handleUserFontColor}
+					onChange={this.handleChange}
 					floatingLabelText="Users font color"
 				/>
 
 				<TextField
 					type="text"
+					id="locale"
 					fullWidth={true}
 					value={this.state.locale}
-					onChange={this.handleLocaleChange}
+					onChange={this.handleChange}
 					floatingLabelText="Locale"
 					hintText="es_CL"
 				/>
