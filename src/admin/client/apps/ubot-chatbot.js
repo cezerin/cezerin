@@ -26,34 +26,24 @@ export class App extends React.Component {
 	}
 
 	handleChange = event => {
-		console.log('event:', event.target, '\n');
 		const newState = {};
 		newState[event.target.id] = event.target.value;
 		this.setState(newState);
 	};
 
-	fetchSettings = () => {
-		api.apps.settings
-			.retrieve('ubot-chatbot')
-			.then(({ status, json }) => {
-				const appSettings = json;
-				if (appSettings) {
-					this.setState({
-						projectId: appSettings.projectId,
-						locale: appSettings.locale
-					});
-				}
-			})
-			.catch(error => {
-				console.log(error);
-			});
+	fetchSettings = async () => {
+		try {
+			const { status, json } = await api.apps.settings.retrieve('ubot-chatbot');
+			const { _id, ...settings } = json;
+			this.setState({ ...settings });
+		} catch (error) {
+			console.log('Error fetching settings:', error.message);
+		}
 	};
 
 	updateSettings = async () => {
 		try {
-			const response = await api.apps.settings.update('ubot-chatbot', {
-				...this.state
-			});
+			await api.apps.settings.update('ubot-chatbot', { ...this.state });
 		} catch (error) {
 			console.log('Error updating settings', error.message);
 		}
