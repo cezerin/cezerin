@@ -268,6 +268,17 @@ ajaxRouter.put('/cart/billing_address', (req, res, next) => {
 	}
 });
 
+ajaxRouter.post('/cart/charge', async (req, res, next) => {
+	const order_id = req.signedCookies.order_id;
+	if (order_id) {
+		const client = api.orders.client;
+		const chargeResponse = await client.post(`/orders/${order_id}/charge`);
+		res.status(200).send(chargeResponse.json);
+	} else {
+		res.end();
+	}
+});
+
 ajaxRouter.get('/pages', (req, res, next) => {
 	api.pages.list(req.query).then(({ status, json }) => {
 		res
