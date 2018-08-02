@@ -432,6 +432,10 @@ class OrdersService {
 				date_updated: new Date()
 			};
 
+			if (data.payment_token !== undefined) {
+				order.payment_token = parse.getString(data.payment_token);
+			}
+
 			if (data.item_tax !== undefined) {
 				order.item_tax = parse.getNumberIfPositive(data.item_tax) || 0;
 			}
