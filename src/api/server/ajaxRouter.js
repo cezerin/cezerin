@@ -273,7 +273,7 @@ ajaxRouter.post('/cart/charge', async (req, res, next) => {
 	if (order_id) {
 		const client = api.orders.client;
 		const chargeResponse = await client.post(`/orders/${order_id}/charge`);
-		res.status(200).send(chargeResponse.json);
+		res.status(chargeResponse.status).send(chargeResponse.json);
 	} else {
 		res.end();
 	}
