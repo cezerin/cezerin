@@ -3,6 +3,7 @@ import SettingsService from '../services/settings/settings';
 import PaymentGatewaysService from '../services/settings/paymentGateways';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
+import StripeElements from './StripeElements';
 
 const getOptions = orderId => {
 	return Promise.all([
@@ -34,6 +35,8 @@ const getPaymentFormSettings = orderId => {
 				return PayPalCheckout.getPaymentFormSettings(options);
 			case 'liqpay':
 				return LiqPay.getPaymentFormSettings(options);
+			case 'stripe-elements':
+				return StripeElements.getPaymentFormSettings(options);
 			default:
 				return Promise.reject('Invalid gateway');
 		}
@@ -60,7 +63,30 @@ const paymentNotification = (req, res, gateway) => {
 	});
 };
 
+const processOrderPayment = async order => {
+	const orderAlreadyCharged = order.paid === true;
+	if (orderAlreadyCharged) {
+		return true;
+	}
+
+	const gateway = order.payment_method_gateway;
+	const gatewaySettings = await PaymentGatewaysService.getGateway(gateway);
+	const settings = await SettingsService.getSettings();
+
+	switch (gateway) {
+		case 'stripe-elements':
+			return StripeElements.processOrderPayment({
+				order,
+				gatewaySettings,
+				settings
+			});
+		default:
+			return Promise.reject('Invalid gateway');
+	}
+};
+
 export default {
 	getPaymentFormSettings: getPaymentFormSettings,
-	paymentNotification: paymentNotification
+	paymentNotification: paymentNotification,
+	processOrderPayment: processOrderPayment
 };
