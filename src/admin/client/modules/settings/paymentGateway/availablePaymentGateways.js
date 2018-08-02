@@ -6,5 +6,9 @@ export const AVAILABLE_PAYMENT_GATEWAYS = [
 	{
 		key: 'liqpay',
 		name: 'LiqPay'
+	},
+	{
+		key: 'stripe-elements',
+		name: 'Stripe Elements'
 	}
 ];
