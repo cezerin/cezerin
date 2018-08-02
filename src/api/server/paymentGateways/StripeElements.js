@@ -9,15 +9,14 @@ const getPaymentFormSettings = options => {
 		amount,
 		currency,
 		email: order.email,
-		api_key: gatewaySettings.api_key,
-		notify_url: gatewaySettings.notify_url
+		public_key: gatewaySettings.public_key
 	};
 	return Promise.resolve(formSettings);
 };
 
 const processOrderPayment = async ({ order, gatewaySettings, settings }) => {
 	try {
-		const stripe = stripePackage('sk_test_zHqdfc0y0CB96JJJnwvPQXWv');
+		const stripe = stripePackage(gatewaySettings.secret_key);
 		const charge = await stripe.charges.create({
 			amount: order.grand_total * 100,
 			currency: settings.currency_code,

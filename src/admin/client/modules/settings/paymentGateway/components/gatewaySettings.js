@@ -147,8 +147,14 @@ const StripeElements = props => {
 			</Field>
 			<Field
 				component={TextField}
-				name="api_key"
-				floatingLabelText="API Key"
+				name="public_key"
+				floatingLabelText="Publishable key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="secret_key"
+				floatingLabelText="Secret key"
 				fullWidth={true}
 			/>
 		</div>

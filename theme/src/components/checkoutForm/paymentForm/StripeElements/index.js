@@ -15,7 +15,9 @@ export default class StripeElements extends React.Component {
 		script.src = SCRIPT_URL;
 		script.async = true;
 		script.onload = () => {
-			this.setState({ stripe: window.Stripe(this.props.formSettings.api_key) });
+			this.setState({
+				stripe: window.Stripe(this.props.formSettings.public_key)
+			});
 		};
 		container.appendChild(script);
 	}
