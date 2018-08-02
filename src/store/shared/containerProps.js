@@ -11,7 +11,8 @@ import {
 	updateCart,
 	updateShippingAddress,
 	updateBillingAddress,
-	checkout
+	checkout,
+	checkoutStripe
 } from './actions';
 
 const setQuery = (history, query) => {
@@ -50,6 +51,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		checkout: data => {
 			dispatch(checkout(data, ownProps.history));
+		},
+		checkoutStripe: data => {
+			dispatch(checkoutStripe(data, ownProps.history));
 		},
 		loadMoreProducts: () => {
 			dispatch(fetchMoreProducts());

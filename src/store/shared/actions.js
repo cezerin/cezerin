@@ -187,6 +187,22 @@ const receiveShippingMethods = methods => ({
 	methods
 });
 
+export const checkoutStripe = (tokenId, history) => async (
+	dispatch,
+	getState
+) => {
+	dispatch(requestCheckout());
+	await api.ajax.cart.update({
+		payment_token: tokenId
+	});
+	await api.ajax.cart.client.post('/cart/charge');
+	const response = await api.ajax.cart.checkout();
+	const order = response.json;
+	dispatch(receiveCheckout(order));
+	history.push('/checkout-success');
+	analytics.checkoutSuccess({ order: order });
+};
+
 export const checkout = (cart, history) => async (dispatch, getState) => {
 	dispatch(requestCheckout());
 	if (cart) {
