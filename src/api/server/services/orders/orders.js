@@ -16,6 +16,7 @@ import ShippingMethodsLightService from './shippingMethodsLight';
 import EmailTemplatesService from '../settings/emailTemplates';
 import ProductStockService from '../products/stock';
 import SettingsService from '../settings/settings';
+import PaymentGateways from '../../paymentGateways';
 
 class OrdersService {
 	constructor() {}
@@ -754,6 +755,12 @@ class OrdersService {
 		} else {
 			return null;
 		}
+	}
+
+	async chargeOrder(orderId) {
+		const order = await this.getSingleOrder(orderId);
+		const isSuccess = await PaymentGateways.processOrderPayment(order);
+		return isSuccess;
 	}
 }
 
