@@ -98,8 +98,12 @@ export default class CheckoutForm extends React.Component {
 		}
 	};
 
-	handleSuccessPayment = () => {
+	handleSuccessPaymentonCreateToken = () => {
 		this.props.checkout(null);
+	};
+
+	handleCheckoutStripe = token => {
+		this.props.checkoutStripe(token);
 	};
 
 	render() {
@@ -183,6 +187,7 @@ export default class CheckoutForm extends React.Component {
 							settings={settings}
 							processingCheckout={processingCheckout}
 							handleSuccessPayment={this.handleSuccessPayment}
+							onCreateToken={this.handleCheckoutStripe}
 						/>
 					)}
 				</div>
