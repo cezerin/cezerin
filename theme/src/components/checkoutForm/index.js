@@ -46,10 +46,10 @@ export default class CheckoutForm extends React.Component {
 	};
 
 	handleLocationSave = shippingLocation => {
-		this.props.updateShippingAddress(shippingLocation);
-		this.props.updateBillingAddress(shippingLocation);
 		this.props.updateCart(
 			{
+				shipping_address: shippingLocation,
+				billing_address: shippingLocation,
 				payment_method_id: null,
 				shipping_method_id: null
 			},
@@ -87,10 +87,12 @@ export default class CheckoutForm extends React.Component {
 
 	handleShippingSubmit = values => {
 		if (this.isShowPaymentForm()) {
-			this.props.updateShippingAddress(values.shipping_address);
-			this.props.updateBillingAddress(values.billing_address);
+			const { shipping_address, billing_address, comments } = values;
+
 			this.props.updateCart({
-				comments: values.comments
+				shipping_address,
+				billing_address,
+				comments
 			});
 			this.handleShippingSave();
 		} else {
