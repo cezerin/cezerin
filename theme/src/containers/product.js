@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
 import ProductDetails from '../components/productDetails';
-const Fragment = React.Fragment;
 
 const ProductContainer = props => {
 	const { productDetails, settings, categories } = props.state;
 	const { addCartItem, getJSONLD } = props;
 
 	if (productDetails) {
-		const images = productDetails.images;
-		let imageUrl = images && images.length > 0 ? images[0].url : null;
+		const { images } = productDetails;
+		const imageUrl = images && images.length > 0 ? images[0].url : null;
 		const title =
 			productDetails.meta_title && productDetails.meta_title.length > 0
 				? productDetails.meta_title
@@ -38,9 +37,8 @@ const ProductContainer = props => {
 				/>
 			</Fragment>
 		);
-	} else {
-		return null;
 	}
+	return null;
 };
 
 export default ProductContainer;

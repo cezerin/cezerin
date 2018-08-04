@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
-const Fragment = React.Fragment;
 
 const NotFoundContainer = props => (
 	<Fragment>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
 import ProductList from '../components/productList';
@@ -6,19 +6,18 @@ import ProductFilter from '../components/productFilter';
 import Sort from '../components/sort';
 import CategoryBreadcrumbs from '../components/categoryBreadcrumbs';
 import * as helper from '../lib/helper';
-const Fragment = React.Fragment;
 
 const getFilterAttributesSummary = productFilter => {
 	let attributesSummary = '';
 	if (productFilter.attributes) {
-		for (const attributeKey in productFilter.attributes) {
+		Object.keys(productFilter.attributes).forEach(attributeKey => {
 			const attributeName = attributeKey.replace('attributes.', '');
 			const attributeValue = productFilter.attributes[attributeKey];
 			const attributeValueFormatted = Array.isArray(attributeValue)
 				? attributeValue.join(', ')
 				: attributeValue;
 			attributesSummary += `. ${attributeName}: ${attributeValueFormatted}`;
-		}
+		});
 	}
 	return attributesSummary;
 };

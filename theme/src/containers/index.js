@@ -1,13 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
-import CategoryGallery from '../components/categoryGallery';
 import CustomProducts from '../components/products/custom';
 import HomeSlider from '../components/homeSlider';
-const Fragment = React.Fragment;
 
 const IndexContainer = props => {
-	const { pageDetails, categories, settings } = props.state;
+	const { pageDetails, settings } = props.state;
 	const { addCartItem } = props;
 
 	return (

@@ -9,18 +9,12 @@ const Item = ({
 	product,
 	addCartItem,
 	settings,
-	columnCountOnMobile,
-	columnCountOnTablet,
-	columnCountOnDesktop,
-	columnCountOnWidescreen,
-	columnCountOnFullhd
+	columnCountOnMobile = 2,
+	columnCountOnTablet = 3,
+	columnCountOnDesktop = 4,
+	columnCountOnWidescreen = 4,
+	columnCountOnFullhd = 4
 }) => {
-	columnCountOnMobile = columnCountOnMobile || 2;
-	columnCountOnTablet = columnCountOnTablet || 3;
-	columnCountOnDesktop = columnCountOnDesktop || 4;
-	columnCountOnWidescreen = columnCountOnWidescreen || 4;
-	columnCountOnFullhd = columnCountOnFullhd || 4;
-
 	const columnCount = 12;
 
 	const columnSizeOnMobile = columnCount / columnCountOnMobile;

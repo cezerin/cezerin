@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
 import OrderSummary from '../components/orderSummary';
 import CheckoutForm from '../components/checkoutForm';
-const Fragment = React.Fragment;
 
 const CheckoutContainer = props => {
 	const { pageDetails } = props.state;

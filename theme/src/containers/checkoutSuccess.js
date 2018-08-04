@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../lib/settings';
 import * as helper from '../lib/helper';
 import MetaTags from '../components/metaTags';
 import CheckoutSuccess from '../components/checkoutSuccess';
-const Fragment = React.Fragment;
 
 const CheckoutSuccessContainer = props => {
 	const {

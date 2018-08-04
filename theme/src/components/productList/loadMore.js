@@ -1,11 +1,14 @@
 import React from 'react';
 import { themeSettings, text } from '../../lib/settings';
 
-const LoadMore = ({ loadMoreProducts, hasMore, loading, className }) => {
+const LoadMore = ({
+	loadMoreProducts,
+	hasMore,
+	loading,
+	className = 'button is-fullwidth is-dark'
+}) => {
 	if (hasMore) {
-		className = className || 'button is-fullwidth is-dark';
-
-		let buttonStyle = {};
+		const buttonStyle = {};
 		if (
 			themeSettings.button_loadmore_bg &&
 			themeSettings.button_loadmore_bg.length > 0
@@ -34,9 +37,8 @@ const LoadMore = ({ loadMoreProducts, hasMore, loading, className }) => {
 				{loadMoreText}
 			</button>
 		);
-	} else {
-		return null;
 	}
+	return null;
 };
 
 export default LoadMore;

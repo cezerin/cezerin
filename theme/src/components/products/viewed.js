@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import * as helper from '../../lib/helper';
 import { themeSettings, text } from '../../lib/settings';
 import CustomProductList from './custom';
-
-const Fragment = React.Fragment;
 
 export default class ViewedProducts extends React.Component {
 	constructor(props) {
