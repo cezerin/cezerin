@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { themeSettings, text } from '../lib/settings';
+import { text } from '../lib/settings';
 import * as helper from '../lib/helper';
 
 const getCheckoutField = (checkoutFields, fieldName) => {
@@ -8,9 +9,8 @@ const getCheckoutField = (checkoutFields, fieldName) => {
 		return checkoutFields.find(
 			f => f.name === fieldName && f.status !== 'hidden'
 		);
-	} else {
-		return null;
 	}
+	return null;
 };
 
 const MobileField = ({ order, checkoutFields }) => {
@@ -89,13 +89,12 @@ const OrderItem = ({ item, settings }) => (
 
 const OrderItems = ({ items, settings }) => {
 	if (items && items.length > 0) {
-		const rows = items.map((item, index) => (
-			<OrderItem key={index} item={item} settings={settings} />
+		const rows = items.map(item => (
+			<OrderItem key={item.id} item={item} settings={settings} />
 		));
 		return <div>{rows}</div>;
-	} else {
-		return null;
 	}
+	return null;
 };
 
 const CheckoutSuccess = ({
@@ -109,7 +108,7 @@ const CheckoutSuccess = ({
 		return (
 			<div className="checkout-success-details">
 				<h1 className="checkout-success-title">
-					<img src="/assets/images/success.svg" />
+					<img src="/assets/images/success.svg" alt="" />
 					<br />
 					{text.checkoutSuccessTitle}
 				</h1>
@@ -178,9 +177,20 @@ const CheckoutSuccess = ({
 				</div>
 			</div>
 		);
-	} else {
-		return <div className="has-text-centered">{text.cartEmpty}</div>;
 	}
+	return <div className="has-text-centered">{text.cartEmpty}</div>;
+};
+
+CheckoutSuccess.propTypes = {
+	order: PropTypes.shape({}),
+	settings: PropTypes.shape({}).isRequired,
+	pageDetails: PropTypes.shape({}).isRequired,
+	shippingMethod: PropTypes.shape({}).isRequired,
+	checkoutFields: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+};
+
+CheckoutSuccess.defaultProps = {
+	order: null
 };
 
 export default CheckoutSuccess;

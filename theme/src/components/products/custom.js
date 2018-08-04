@@ -1,28 +1,73 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import * as helper from '../../lib/helper';
+import PropTypes from 'prop-types';
 import api from '../../lib/api';
 import ProductList from '../productList';
 
 export default class CustomProducts extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			products: []
-		};
-	}
+	static propTypes = {
+		ids: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.arrayOf(PropTypes.string)
+		]),
+		sku: PropTypes.string,
+		sort: PropTypes.string,
+		limit: PropTypes.number.isRequired,
+		category_id: PropTypes.string,
+		tags: PropTypes.string,
+		attributes: PropTypes.arrayOf(
+			PropTypes.shape({
+				name: PropTypes.string.isRequired,
+				value: PropTypes.string.isRequired
+			})
+		),
+		price_from: PropTypes.number,
+		price_to: PropTypes.number,
+		on_sale: PropTypes.bool,
+		settings: PropTypes.shape({}).isRequired,
+		addCartItem: PropTypes.func.isRequired,
+		isCentered: PropTypes.bool,
+		className: PropTypes.string,
+		columnCountOnMobile: PropTypes.number,
+		columnCountOnTablet: PropTypes.number,
+		columnCountOnDesktop: PropTypes.number,
+		columnCountOnWidescreen: PropTypes.number,
+		columnCountOnFullhd: PropTypes.number
+	};
+
+	static defaultProps = {
+		ids: null,
+		sku: null,
+		sort: null,
+		category_id: null,
+		tags: null,
+		attributes: null,
+		price_from: null,
+		price_to: null,
+		on_sale: null,
+		isCentered: true,
+		className: null,
+		columnCountOnMobile: null,
+		columnCountOnTablet: null,
+		columnCountOnDesktop: null,
+		columnCountOnWidescreen: null,
+		columnCountOnFullhd: null
+	};
+
+	state = {
+		products: []
+	};
 
 	componentDidMount() {
 		this.isCancelled = false;
 		this.fetchProducts(this.props);
 	}
 
-	componentWillUnmount() {
-		this.isCancelled = true;
-	}
-
 	componentWillReceiveProps(nextProps) {
 		this.fetchProducts(nextProps);
+	}
+
+	componentWillUnmount() {
+		this.isCancelled = true;
 	}
 
 	fetchProducts = ({
@@ -37,16 +82,16 @@ export default class CustomProducts extends React.Component {
 		price_to,
 		on_sale
 	}) => {
-		let filter = {
-			ids: ids,
-			sku: sku,
-			tags: tags,
-			on_sale: on_sale,
+		const filter = {
+			ids,
+			sku,
+			tags,
+			on_sale,
 			search: null,
-			category_id: category_id,
-			price_from: price_from,
-			price_to: price_to,
-			sort: sort,
+			category_id,
+			price_from,
+			price_to,
+			sort,
 			fields:
 				'path,id,name,category_id,category_name,sku,images,enabled,discontinued,stock_status,stock_quantity,price,on_sale,regular_price,attributes,tags',
 			limit: limit || 4,
@@ -61,7 +106,7 @@ export default class CustomProducts extends React.Component {
 
 		api.ajax.products
 			.list(filter)
-			.then(({ status, json }) => {
+			.then(({ json }) => {
 				if (!this.isCancelled) {
 					this.setState({
 						products: json.data
@@ -84,9 +129,11 @@ export default class CustomProducts extends React.Component {
 			columnCountOnFullhd
 		} = this.props;
 
+		const { products } = this.state;
+
 		return (
 			<ProductList
-				products={this.state.products}
+				products={products}
 				addCartItem={addCartItem}
 				settings={settings}
 				loadMoreProducts={null}

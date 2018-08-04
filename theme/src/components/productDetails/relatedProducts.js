@@ -3,10 +3,6 @@ import { themeSettings, text } from '../../lib/settings';
 import CustomProducts from '../products/custom';
 
 export default class RelatedProducts extends React.PureComponent {
-	constructor(props) {
-		super(props);
-	}
-
 	render() {
 		const { ids, settings, addCartItem, limit } = this.props;
 		if (ids && ids.length > 0) {

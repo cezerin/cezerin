@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import ImageGallery from 'react-image-gallery';
-import { themeSettings, text } from '../lib/settings';
-import * as helper from '../lib/helper';
+import { themeSettings } from '../lib/settings';
 
 const renderItem = item => (
 	<div className="image-gallery-image">
@@ -22,7 +22,7 @@ const renderItem = item => (
 const HomeSlider = ({ images }) => {
 	if (images && images.length > 0) {
 		const items = images.map(item => ({
-			original: '/assets/images/' + item.image,
+			original: `/assets/images/${item.image}`,
 			title: item.title,
 			description: item.description,
 			path: item.path || '',
@@ -35,7 +35,7 @@ const HomeSlider = ({ images }) => {
 					<div className="home-slider">
 						<ImageGallery
 							items={items}
-							lazyLoad={true}
+							lazyLoad
 							showThumbnails={false}
 							slideInterval={2000}
 							showNav={themeSettings.home_gallery_shownav === true}
@@ -49,9 +49,16 @@ const HomeSlider = ({ images }) => {
 				</div>
 			</section>
 		);
-	} else {
-		return null;
 	}
+	return null;
+};
+
+HomeSlider.propTypes = {
+	images: PropTypes.arrayOf(PropTypes.shape({}))
+};
+
+HomeSlider.defaultProps = {
+	images: null
 };
 
 export default HomeSlider;
