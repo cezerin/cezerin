@@ -1,17 +1,13 @@
 import React, { Fragment } from 'react';
-import { themeSettings, text } from '../lib/settings';
+import PropTypes from 'prop-types';
 import * as helper from '../lib/helper';
 import MetaTags from '../components/metaTags';
 import CheckoutSuccess from '../components/checkoutSuccess';
 
 const CheckoutSuccessContainer = props => {
 	const {
-		pageDetails,
-		order,
-		settings,
-		shippingMethods,
-		checkoutFields
-	} = props.state;
+		state: { pageDetails, order, settings, shippingMethods, checkoutFields }
+	} = props;
 	const shippingMethod = helper.getShippingMethodFromOrder(
 		order,
 		shippingMethods
@@ -46,6 +42,16 @@ const CheckoutSuccessContainer = props => {
 			</section>
 		</Fragment>
 	);
+};
+
+CheckoutSuccessContainer.propTypes = {
+	state: PropTypes.shape({
+		settings: PropTypes.shape({}),
+		pageDetails: PropTypes.shape({}),
+		order: PropTypes.shape({}),
+		shippingMethods: PropTypes.arrayOf(PropTypes.shape({})),
+		checkoutFields: PropTypes.arrayOf(PropTypes.shape({}))
+	}).isRequired
 };
 
 export default CheckoutSuccessContainer;

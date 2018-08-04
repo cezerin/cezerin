@@ -1,11 +1,15 @@
 import React, { Fragment } from 'react';
-import { themeSettings, text } from '../lib/settings';
+import PropTypes from 'prop-types';
+import { text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
 import ProductList from '../components/productList';
 
-const CategoryContainer = props => {
-	const { products, settings, productFilter, productsHasMore } = props.state;
-	const { addCartItem, loadMoreProducts } = props;
+const SearchContainer = props => {
+	const {
+		addCartItem,
+		loadMoreProducts,
+		state: { products, settings, productFilter, productsHasMore }
+	} = props;
 	const searchNotEmpty = productFilter.search && productFilter.search !== '';
 	const searchDescription = searchNotEmpty
 		? `${text.resultsFor} "${productFilter.search}"`
@@ -41,4 +45,15 @@ const CategoryContainer = props => {
 	);
 };
 
-export default CategoryContainer;
+SearchContainer.propTypes = {
+	addCartItem: PropTypes.func.isRequired,
+	loadMoreProducts: PropTypes.func.isRequired,
+	state: PropTypes.shape({
+		settings: PropTypes.shape({}),
+		products: PropTypes.arrayOf(PropTypes.shape({})),
+		productFilter: PropTypes.shape({}),
+		productsHasMore: PropTypes.bool
+	}).isRequired
+};
+
+export default SearchContainer;

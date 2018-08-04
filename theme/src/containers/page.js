@@ -1,10 +1,13 @@
 import React, { Fragment } from 'react';
-import { themeSettings, text } from '../lib/settings';
+import PropTypes from 'prop-types';
+import { themeSettings } from '../lib/settings';
 import MetaTags from '../components/metaTags';
 import PageList from '../components/pageList';
 
 const PageContainer = props => {
-	const { pageDetails } = props.state;
+	const {
+		state: { pageDetails }
+	} = props;
 	const pageListTag = themeSettings.page_list_tag;
 	const pageListTagDefined = pageListTag && pageListTag.length > 0;
 	const pageListPath = pageListTagDefined ? `/${pageListTag}` : null;
@@ -38,6 +41,12 @@ const PageContainer = props => {
 			</section>
 		</Fragment>
 	);
+};
+
+PageContainer.propTypes = {
+	state: PropTypes.shape({
+		pageDetails: PropTypes.shape({})
+	}).isRequired
 };
 
 export default PageContainer;

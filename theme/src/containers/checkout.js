@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
-import { themeSettings, text } from '../lib/settings';
+import PropTypes from 'prop-types';
 import MetaTags from '../components/metaTags';
 import OrderSummary from '../components/orderSummary';
 import CheckoutForm from '../components/checkoutForm';
 
 const CheckoutContainer = props => {
-	const { pageDetails } = props.state;
+	const {
+		state: { pageDetails }
+	} = props;
 
 	return (
 		<Fragment>
@@ -31,6 +33,12 @@ const CheckoutContainer = props => {
 			</section>
 		</Fragment>
 	);
+};
+
+CheckoutContainer.propTypes = {
+	state: PropTypes.shape({
+		pageDetails: PropTypes.shape({})
+	}).isRequired
 };
 
 export default CheckoutContainer;
