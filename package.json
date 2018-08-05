@@ -34,7 +34,7 @@
   "scripts": {
     "setup": "node -r esm src/api/server/setup.js",
     "compile": "babel src/store -d dist/store --presets react --plugins transform-class-properties --quiet",
-    "compile:watch": "concurrently -n storeWatcher,themeWatcher \"babel src/store -d dist/store --watch\" \"babel theme/src -d theme/dist --watch\"",
+    "compile:watch": "concurrently -n storeWatcher,themeWatcher \"babel src/store -d dist/store --presets react --plugins transform-class-properties --watch\" \"babel theme/src -d theme/dist --presets react --plugins transform-class-properties --watch\"",
     "webpack:admin": "webpack --config webpack.config.admin.js --mode production",
     "webpack:store": "webpack --config webpack.config.store.js --mode production",
     "webpack:admin:watch": "webpack --config webpack.config.admin.js --mode development --watch",
