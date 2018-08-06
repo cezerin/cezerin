@@ -187,25 +187,23 @@ class SettingsService {
 		return settings;
 	}
 
-	changeProperties(data) {
-		if (data) {
-			delete data._id;
-			if (data.domain === null || data.domain === undefined) {
-				data.domain = '';
-			}
-
-			if (data.logo_file && data.logo_file.length > 0) {
-				data.logo = url.resolve(
-					data.domain,
-					settings.filesUploadUrl + '/' + data.logo_file
-				);
-			} else {
-				data.logo = null;
-			}
-			return data;
-		} else {
-			return this.defaultSettings;
+	changeProperties(settingsFromDB) {
+		const data = Object.assign(this.defaultSettings, settingsFromDB, {
+			_id: undefined
+		});
+		if (data.domain === null || data.domain === undefined) {
+			data.domain = '';
 		}
+
+		if (data.logo_file && data.logo_file.length > 0) {
+			data.logo = url.resolve(
+				data.domain,
+				settings.filesUploadUrl + '/' + data.logo_file
+			);
+		} else {
+			data.logo = null;
+		}
+		return data;
 	}
 
 	deleteLogo() {
