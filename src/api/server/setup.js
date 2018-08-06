@@ -348,6 +348,27 @@ const createAllIndexes = async db => {
 	}
 };
 
+const addUser = async (db, userEmail) => {
+	if (userEmail && userEmail.includes('@')) {
+		const tokensCount = await db.collection('tokens').countDocuments({
+			email: userEmail
+		});
+		const tokensNotExists = tokensCount === 0;
+
+		if (tokensNotExists) {
+			await db.collection('tokens').insertOne({
+				is_revoked: false,
+				date_created: new Date(),
+				expiration: 72,
+				name: 'Owner',
+				email: userEmail,
+				scopes: ['admin']
+			});
+			winston.info(`- Added token with email: ${userEmail}`);
+		}
+	}
+};
+
 (async () => {
 	let client = null;
 	let db = null;
@@ -364,6 +385,8 @@ const createAllIndexes = async db => {
 		return;
 	}
 
+	const userEmail = process.argv.length > 2 ? process.argv[2] : null;
+
 	await db.createCollection('customers');
 	await db.createCollection('orders');
 	await addAllPages(db);
@@ -372,6 +395,7 @@ const createAllIndexes = async db => {
 	await addShippingMethods(db);
 	await addPaymentMethods(db);
 	await createAllIndexes(db);
+	await addUser(db, userEmail);
 
 	client.close();
 })();
