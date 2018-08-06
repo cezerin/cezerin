@@ -1,5 +1,7 @@
 # Cezerin - Ecommerce Progressive Web Apps
 
+[![CircleCI](https://circleci.com/gh/cezerin/cezerin/tree/master.svg?style=svg)](https://circleci.com/gh/cezerin/cezerin/tree/master)
+
 Cezerin is React and Node.js based eCommerce platform. Allows creating a Progressive Web Apps.
 
 Built with:
