@@ -369,6 +369,21 @@ const addUser = async (db, userEmail) => {
 	}
 };
 
+const addSettings = async (db, { domain }) => {
+	if (domain && (domain.includes('https://') || domain.includes('http://'))) {
+		await db.collection('settings').updateOne(
+			{},
+			{
+				$set: {
+					domain
+				}
+			},
+			{ upsert: true }
+		);
+		winston.info(`- Set domain: ${domain}`);
+	}
+};
+
 (async () => {
 	let client = null;
 	let db = null;
@@ -386,6 +401,7 @@ const addUser = async (db, userEmail) => {
 	}
 
 	const userEmail = process.argv.length > 2 ? process.argv[2] : null;
+	const domain = process.argv.length > 3 ? process.argv[3] : null;
 
 	await db.createCollection('customers');
 	await db.createCollection('orders');
@@ -396,6 +412,9 @@ const addUser = async (db, userEmail) => {
 	await addPaymentMethods(db);
 	await createAllIndexes(db);
 	await addUser(db, userEmail);
+	await addSettings(db, {
+		domain
+	});
 
 	client.close();
 })();
