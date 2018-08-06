@@ -1,3 +1,4 @@
+import omit from 'lodash/omit';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import CezerinClient from 'ucommerce-client';
@@ -348,13 +349,17 @@ ajaxRouter.get('/payment_form_settings', (req, res, next) => {
 });
 
 ajaxRouter.get('/chatbot/settings', (req, res, next) => {
-	ChatbotService.getSettings().then(settings => {
-		res.status('200').send(settings);
+	api.apps.settings.retrieve('ubot-chatbot').then(settings => {
+		const { status, json } = settings;
+		const theme = omit(json, ['_id', 'projectId', 'key']);
+		res.status('200').send({ status: 200, theme });
 	});
 });
 
 ajaxRouter.get('/chatbot/ask', (req, res, next) => {
 	ChatbotService.askQuestion().then(settings => {
+		const { status, json } = settings;
+		console.log('json:', json);
 		res.status('200').send(settings);
 	});
 });

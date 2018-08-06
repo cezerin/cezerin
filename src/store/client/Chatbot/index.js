@@ -35,8 +35,8 @@ export default class Bot extends React.Component {
 	async componentDidMount() {
 		try {
 			const { status, json } = await api.ajax.chatbotSettings.retrieve();
-			if (status === 200 && json.projectId) {
-				this.setState({ theme: { ...json }, enabled: true });
+			if (status === 200 && json.theme) {
+				this.setState({ theme: { ...json.theme }, enabled: true });
 			}
 		} catch (error) {
 			console.log('Error getting Chatbot Settings:', error.message);
@@ -44,12 +44,14 @@ export default class Bot extends React.Component {
 	}
 
 	render() {
-		console.log('this.state:', this.state, '\n');
-		if (!this.state.enabled) return <span />;
-		return (
-			<ThemeProvider theme={this.state.theme}>
-				<ChatBot floating steps={this.state.steps} />
-			</ThemeProvider>
-		);
+		if (this.state.enabled) {
+			return (
+				<ThemeProvider theme={this.state.theme}>
+					<ChatBot floating steps={this.state.steps} />
+				</ThemeProvider>
+			);
+		} else {
+			return <div />;
+		}
 	}
 }

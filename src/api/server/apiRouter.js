@@ -18,6 +18,7 @@ import RedirectsRoute from './routes/redirects';
 import FilesRoute from './routes/files';
 import AppsRoute from './routes/apps';
 import WebhooksRoute from './routes/webhooks';
+import ChatbotRoute from './routes/chatbot';
 
 const apiRouter = express.Router();
 
@@ -40,5 +41,6 @@ new RedirectsRoute(apiRouter);
 new FilesRoute(apiRouter);
 new AppsRoute(apiRouter);
 new WebhooksRoute(apiRouter);
+new ChatbotRoute(apiRouter);
 
 export default apiRouter;

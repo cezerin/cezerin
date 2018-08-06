@@ -13,10 +13,10 @@ class ChatbotService {
 			.findOne({ key: 'ubot-chatbot' }, { _id: 0, key: 0 });
 	}
 
-	askQuestion(question, sessionId) {
-		console.log('question received!');
-		console.log('question:', question, '\n');
-		console.log('sessionId:', sessionId, '\n');
+	ask(projectId, sessionId, question) {
+		console.log('projectId:', projectId);
+		console.log('sessionId:', sessionId);
+		console.log('question:', question);
 	}
 }
 
