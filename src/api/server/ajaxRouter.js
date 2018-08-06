@@ -1,11 +1,8 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
-import CezerinClient from 'cezerin-client';
+import CezerinClient from 'ucommerce-client';
 import serverSettings from './lib/settings';
 const ajaxRouter = express.Router();
-const jwt = require('jsonwebtoken');
-const CezerinClient = require('ucommerce-client');
-const serverSettings = require('./lib/settings');
 const ChatbotService = require('./services/apps/chatbot');
 
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
