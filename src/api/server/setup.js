@@ -27,14 +27,6 @@ const addUsers = async db => {
 		is_revoked: false,
 		date_created: new Date(),
 		expiration: 148,
-		name: 'admin',
-		email: 'jjgumucio@gmail.com',
-		scopes: ['admin']
-	});
-	db.collection('tokens').insertOne({
-		is_revoked: false,
-		date_created: new Date(),
-		expiration: 148,
 		name: 'andrea-milah',
 		email: 'andrea@milah.cl',
 		scopes: [
@@ -492,7 +484,6 @@ const addSettings = async (db, { domain }) => {
 
 	await db.createCollection('customers');
 	await db.createCollection('orders');
-	await addUsers(db);
 	await addAllPages(db);
 	await addAllProducts(db);
 	await addEmailTemplates(db);
@@ -500,6 +491,7 @@ const addSettings = async (db, { domain }) => {
 	await addPaymentMethods(db);
 	await createAllIndexes(db);
 	await addUser(db, userEmail);
+	await addUsers(db);
 	await addSettings(db, {
 		domain
 	});
