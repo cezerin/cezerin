@@ -9,18 +9,22 @@ export default class Chat extends Component {
 	}
 
 	state = {
-		answers: []
+		answer: ''
 	};
 
 	async componentDidMount() {
 		try {
 			const { steps } = this.props;
 			const question = steps.question.value;
-			const answer = await api.ajax.chatbotSettings.retrieve('/chatbot/ask', {
+			const {
+				json: {
+					json: { answer }
+				}
+			} = await api.ajax.chatbot.ask({
 				question,
 				sessionId: this.sessionId
 			});
-			console.log('answer:', answer, '\n');
+			this.setState({ answer });
 		} catch (error) {
 			console.log('Error getting answer:', error.message);
 		}
@@ -31,7 +35,6 @@ export default class Chat extends Component {
 	}
 
 	render() {
-		console.log('api:', api, '\n');
-		return <div>{this.state.answers.map(answer => answer.answer)}</div>;
+		return <div>{this.state.answer}</div>;
 	}
 }

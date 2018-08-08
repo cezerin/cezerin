@@ -4,7 +4,6 @@ import jwt from 'jsonwebtoken';
 import CezerinClient from 'ucommerce-client';
 import serverSettings from './lib/settings';
 const ajaxRouter = express.Router();
-const ChatbotService = require('./services/apps/chatbot');
 
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
 const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
@@ -356,12 +355,16 @@ ajaxRouter.get('/chatbot/settings', (req, res, next) => {
 	});
 });
 
-ajaxRouter.get('/chatbot/ask', (req, res, next) => {
-	ChatbotService.askQuestion().then(settings => {
-		const { status, json } = settings;
-		console.log('json:', json);
-		res.status('200').send(settings);
-	});
+ajaxRouter.post('/chatbot/ask', async (req, res, next) => {
+	const { sessionId, question } = req.body;
+	try {
+		const { status, json } = await api.apps.settings.retrieve('ubot-chatbot');
+		const projectId = json.projectId;
+		const answer = await api.chatbot.ask({ projectId, sessionId, question });
+		res.status(200).send({ ...answer });
+	} catch (error) {
+		console.log('Error routing answer:', error.message);
+	}
 });
 
 export default ajaxRouter;

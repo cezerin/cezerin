@@ -8,16 +8,18 @@ class ChatbotRoute {
 	}
 
 	registerRoutes() {
-		this.router.post(
-			'/v1/chatbot/ask/:sessionId/:question',
-			this.askQuestion.bind(this)
-		);
+		this.router.post('/v1/chatbot/ask', this.askQuestion.bind(this));
 	}
 
-	askQuestion(req, res, next) {
-		console.log('req.params.question:', req.params.question, '\n');
-		console.log('req.params.sessionId:', req.params.sessionId, '\n');
-		ChatbotService.askQuestion(req.params.question, req.params.sessionId);
+	async askQuestion(req, res, next) {
+		const { projectId, sessionId, question } = req.body;
+		try {
+			const answer = await ChatbotService.ask(projectId, sessionId, question);
+			res.status(200).send({ status: 200, answer });
+		} catch (error) {
+			console.log('Error getting answer from service:', error.message);
+			res.status(500).end();
+		}
 	}
 }
 

@@ -61,12 +61,10 @@
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
     "chart.js": "^2.7.2",
     "clean-webpack-plugin": "^0.1.19",
@@ -106,7 +104,6 @@
     "postcss-loader": "^2.1.6",
     "prettier": "^1.13.7",
     "query-string": "^6.1.0",
-    "react": "^16.4.1",
     "react-chartjs-2": "^2.7.4",
     "react-dom": "^16.4.1",
     "react-dropzone": "^4.2.13",
@@ -129,7 +126,6 @@
     "styled-components": "^3.3.3",
     "theme": "file:theme",
     "ua-parser-js": "^0.7.18",
-    "ucommerce-client": "^0.1.4",
     "webpack": "^4.16.2",
     "webpack-cli": "^3.1.0",
     "winston": "^3.0.0",
@@ -142,7 +138,10 @@
   },
   "devDependencies": {
     "api-ai-javascript": "^2.0.0-beta.21",
+    "babel-core": "^6.26.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.4.2",
     "redux-devtools-extension": "^2.13.2"
   }
 }
