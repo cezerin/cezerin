@@ -45,12 +45,12 @@ export default class CustomProducts extends React.Component {
 		price_to: null,
 		on_sale: null,
 		isCentered: true,
-		className: null,
-		columnCountOnMobile: null,
-		columnCountOnTablet: null,
-		columnCountOnDesktop: null,
-		columnCountOnWidescreen: null,
-		columnCountOnFullhd: null
+		className: 'columns is-multiline is-mobile products',
+		columnCountOnMobile: 2,
+		columnCountOnTablet: 3,
+		columnCountOnDesktop: 4,
+		columnCountOnWidescreen: 4,
+		columnCountOnFullhd: 4
 	};
 
 	state = {
