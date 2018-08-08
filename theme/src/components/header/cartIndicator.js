@@ -4,11 +4,10 @@ import { themeSettings, text } from '../../lib/settings';
 
 const CartCount = ({ cart }) => {
 	if (cart && cart.items && cart.items.length > 0) {
-		let itemsCount = cart.items.reduce((a, b) => a + b.quantity, 0);
+		const itemsCount = cart.items.reduce((a, b) => a + b.quantity, 0);
 		return <span className="cart-count">{itemsCount}</span>;
-	} else {
-		return null;
 	}
+	return null;
 };
 
 const CartIcon = ({ cartIsActive }) => {
@@ -22,17 +21,16 @@ const CartIcon = ({ cartIsActive }) => {
 				style={{ minWidth: 24, padding: 4 }}
 			/>
 		);
-	} else {
-		return (
-			<img
-				src="/assets/images/shopping-bag.svg"
-				className="icon"
-				alt={text.cart}
-				title={text.cart}
-				style={{ minWidth: 24 }}
-			/>
-		);
 	}
+	return (
+		<img
+			src="/assets/images/shopping-bag.svg"
+			className="icon"
+			alt={text.cart}
+			title={text.cart}
+			style={{ minWidth: 24 }}
+		/>
+	);
 };
 
 export default class CartIndicator extends React.PureComponent {

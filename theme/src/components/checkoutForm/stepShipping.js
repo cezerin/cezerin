@@ -274,7 +274,9 @@ class CheckoutStepShipping extends React.Component {
 							<button
 								type="submit"
 								disabled={submitting || processingCheckout || invalid}
-								className={buttonClassName}
+								className={`${buttonClassName}${
+									processingCheckout ? ' is-loading' : ''
+								}`}
 							>
 								{showPaymentForm ? text.next : text.orderSubmit}
 							</button>

@@ -1,14 +1,15 @@
-import React from 'react';
-import { themeSettings, text } from '../lib/settings';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { themeSettings } from '../lib/settings';
 import MetaTags from '../components/metaTags';
-import CategoryGallery from '../components/categoryGallery';
 import CustomProducts from '../components/products/custom';
 import HomeSlider from '../components/homeSlider';
-const Fragment = React.Fragment;
 
 const IndexContainer = props => {
-	const { pageDetails, categories, settings } = props.state;
-	const { addCartItem } = props;
+	const {
+		addCartItem,
+		state: { pageDetails, settings }
+	} = props;
 
 	return (
 		<Fragment>
@@ -53,6 +54,14 @@ const IndexContainer = props => {
 			</section>
 		</Fragment>
 	);
+};
+
+IndexContainer.propTypes = {
+	addCartItem: PropTypes.func.isRequired,
+	state: PropTypes.shape({
+		settings: PropTypes.shape({}),
+		pageDetails: PropTypes.shape({})
+	}).isRequired
 };
 
 export default IndexContainer;

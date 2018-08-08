@@ -18,6 +18,8 @@ const GatewaySettings = ({ gateway }) => {
 			return <PayPalButton />;
 		case 'liqpay':
 			return <LiqPay />;
+		case 'stripe-elements':
+			return <StripeElements />;
 		default:
 			return null;
 	}
@@ -134,6 +136,35 @@ const LiqPay = props => {
 	);
 };
 
+const StripeElements = props => {
+	return (
+		<div>
+			<Field
+				component={SelectField}
+				name="env"
+				floatingLabelText="Environment"
+				fullWidth={true}
+				autoWidth={true}
+			>
+				<MenuItem value="production" primaryText="production" />
+				<MenuItem value="sandbox" primaryText="sandbox" />
+			</Field>
+			<Field
+				component={TextField}
+				name="public_key"
+				floatingLabelText="Publishable key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="secret_key"
+				floatingLabelText="Secret key"
+				fullWidth={true}
+			/>
+		</div>
+	);
+};
+
 const Webpay = props => {
 	return (
 		<div>
@@ -176,7 +207,6 @@ const Qvo = props => {
 				component={TextField}
 				name="logo"
 				floatingLabelText="Link a logo de la tienda"
-				fullWidth={true}
 			/>
 		</div>
 	);

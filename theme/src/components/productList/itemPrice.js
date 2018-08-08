@@ -6,9 +6,9 @@ const FormattedCurrency = ({ number, settings }) =>
 	helper.formatCurrency(number, settings);
 
 const ItemPrice = ({ product, settings }) => {
-	let priceStyle = {};
+	const priceStyle = {};
 	if (themeSettings.list_price_size && themeSettings.list_price_size > 0) {
-		priceStyle.fontSize = themeSettings.list_price_size + 'px';
+		priceStyle.fontSize = `${themeSettings.list_price_size}px`;
 	}
 	if (
 		themeSettings.list_price_color &&
@@ -19,9 +19,11 @@ const ItemPrice = ({ product, settings }) => {
 
 	if (product.stock_status === 'discontinued') {
 		return <div className="product-price">{text.discontinued}</div>;
-	} else if (product.stock_status === 'out_of_stock') {
+	}
+	if (product.stock_status === 'out_of_stock') {
 		return <div className="product-price">{text.outOfStock}</div>;
-	} else if (product.on_sale) {
+	}
+	if (product.on_sale) {
 		return (
 			<div className="product-price">
 				<span className="product-new-price">
@@ -35,13 +37,12 @@ const ItemPrice = ({ product, settings }) => {
 				</del>
 			</div>
 		);
-	} else {
-		return (
-			<div className="product-price" style={priceStyle}>
-				<FormattedCurrency settings={settings} number={product.price} />
-			</div>
-		);
 	}
+	return (
+		<div className="product-price" style={priceStyle}>
+			<FormattedCurrency settings={settings} number={product.price} />
+		</div>
+	);
 };
 
 export default ItemPrice;

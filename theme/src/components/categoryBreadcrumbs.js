@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { themeSettings, text } from '../lib/settings';
+import { text } from '../lib/settings';
 import * as helper from '../lib/helper';
 
 const CategoryBreadcrumbs = ({ currentCategory, categories }) => {
@@ -20,6 +21,11 @@ const CategoryBreadcrumbs = ({ currentCategory, categories }) => {
 			</ul>
 		</nav>
 	);
+};
+
+CategoryBreadcrumbs.propTypes = {
+	currentCategory: PropTypes.shape({}).isRequired,
+	categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 };
 
 export default CategoryBreadcrumbs;

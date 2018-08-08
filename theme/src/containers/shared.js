@@ -1,12 +1,15 @@
-import React from 'react';
-import { themeSettings, text } from '../lib/settings';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { themeSettings } from '../lib/settings';
 import Header from '../components/header';
 import Footer from '../components/footer';
-const Fragment = React.Fragment;
 
 const SharedContainer = props => {
-	const { currentPage, settings } = props.state;
-	let hideFooter =
+	const {
+		children,
+		state: { currentPage, settings }
+	} = props;
+	const hideFooter =
 		(currentPage.path === '/checkout-success' ||
 			currentPage.path === '/checkout') &&
 		themeSettings.hide_footer_on_checkout === true;
@@ -14,10 +17,18 @@ const SharedContainer = props => {
 	return (
 		<Fragment>
 			<Header {...props} />
-			{props.children}
+			{children}
 			{!hideFooter && <Footer settings={settings} />}
 		</Fragment>
 	);
+};
+
+SharedContainer.propTypes = {
+	children: PropTypes.element.isRequired,
+	state: PropTypes.shape({
+		currentPage: PropTypes.shape({}),
+		settings: PropTypes.shape({})
+	}).isRequired
 };
 
 export default SharedContainer;

@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { themeSettings, text } from '../../lib/settings';
-
-const Fragment = React.Fragment;
 
 export default class Quantity extends React.PureComponent {
 	constructor(props) {

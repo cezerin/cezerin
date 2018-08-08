@@ -1,5 +1,5 @@
-import fs from 'fs';
 import sm from 'sitemap';
+import winston from 'winston';
 import api from './api';
 
 const SITEMAP_EXCLUDE_PATH = [
@@ -18,7 +18,14 @@ const sitemapRendering = (req, res) => {
 		api.sitemap.list({ enabled: true }),
 		api.settings.retrieve()
 	]).then(([sitemapResponse, settingsResponse]) => {
-		const urls = sitemapResponse.json
+		const sitemapArray = sitemapResponse.json;
+		const settings = settingsResponse.json;
+		const hostname =
+			settings.domain && settings.domain.length > 0
+				? settings.domain
+				: `${req.protocol}://${req.hostname}`;
+
+		const urls = sitemapArray
 			.filter(
 				item =>
 					item.type !== 'reserved' &&
@@ -26,16 +33,15 @@ const sitemapRendering = (req, res) => {
 					!SITEMAP_EXCLUDE_PATH.includes(item.path)
 			)
 			.map(item => item.path);
-		const sitemap = sm.createSitemap({
-			hostname: settingsResponse.json.domain,
-			urls: urls
-		});
+		const sitemap = sm.createSitemap({ hostname, urls });
 		sitemap.toXML((err, xml) => {
 			if (err) {
+				winston.error(err.message ? err.message : err);
 				res.status(500).end();
+			} else {
+				res.header('Content-Type', 'application/xml');
+				res.send(xml);
 			}
-			res.header('Content-Type', 'application/xml');
-			res.send(xml);
 		});
 	});
 };

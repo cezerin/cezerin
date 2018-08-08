@@ -1,8 +1,9 @@
-const OrdersService = require('../services/orders/orders');
-const SettingsService = require('../services/settings/settings');
-const PaymentGatewaysService = require('../services/settings/paymentGateways');
-const PayPalCheckout = require('./PayPalCheckout');
-const LiqPay = require('./LiqPay');
+import OrdersService from '../services/orders/orders';
+import SettingsService from '../services/settings/settings';
+import PaymentGatewaysService from '../services/settings/paymentGateways';
+import PayPalCheckout from './PayPalCheckout';
+import LiqPay from './LiqPay';
+import StripeElements from './StripeElements';
 const TransbankWebpay = require('./TransbankWebpay');
 const Qvo = require('./Qvo');
 
@@ -40,6 +41,8 @@ const getPaymentFormSettings = orderId => {
 				return PayPalCheckout.getPaymentFormSettings(options);
 			case 'liqpay':
 				return LiqPay.getPaymentFormSettings(options);
+			case 'stripe-elements':
+				return StripeElements.getPaymentFormSettings(options);
 			default:
 				return Promise.reject('Invalid gateway');
 		}
@@ -71,7 +74,30 @@ const paymentNotification = (req, res, gateway) => {
 	});
 };
 
+const processOrderPayment = async order => {
+	const orderAlreadyCharged = order.paid === true;
+	if (orderAlreadyCharged) {
+		return true;
+	}
+
+	const gateway = order.payment_method_gateway;
+	const gatewaySettings = await PaymentGatewaysService.getGateway(gateway);
+	const settings = await SettingsService.getSettings();
+
+	switch (gateway) {
+		case 'stripe-elements':
+			return StripeElements.processOrderPayment({
+				order,
+				gatewaySettings,
+				settings
+			});
+		default:
+			return Promise.reject('Invalid gateway');
+	}
+};
+
 export default {
 	getPaymentFormSettings: getPaymentFormSettings,
-	paymentNotification: paymentNotification
+	paymentNotification: paymentNotification,
+	processOrderPayment: processOrderPayment
 };

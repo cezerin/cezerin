@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import ImageGallery from 'react-image-gallery';
 import Lightbox from 'react-image-lightbox';
 import * as helper from '../../lib/helper';
 import { themeSettings, text } from '../../lib/settings';
-
-const Fragment = React.Fragment;
 
 export default class Gallery extends React.Component {
 	constructor(props) {

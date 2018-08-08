@@ -1,7 +1,7 @@
 import React from 'react';
+import LazyLoad from 'react-lazyload';
 import { themeSettings, text } from '../../lib/settings';
 import * as helper from '../../lib/helper';
-import LazyLoad from 'react-lazyload';
 
 const ItemImage = ({ images, productName, height }) => {
 	if (images && images.length > 0) {
@@ -17,11 +17,8 @@ const ItemImage = ({ images, productName, height }) => {
 				<img src={imageUrl} alt={alt} title={alt} />
 			</LazyLoad>
 		);
-	} else {
-		return (
-			<div style={{ height: height }} className="small-image-placeholder" />
-		);
 	}
+	return <div style={{ height }} className="small-image-placeholder" />;
 };
 
 export default ItemImage;
