@@ -1,0 +1,2 @@
+# mocha.opts
+--require babel-register ./test/**/*.test.js
