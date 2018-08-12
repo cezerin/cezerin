@@ -49,7 +49,9 @@ let testAddress = {
 
 // Drop customers collection to start with blank slate.
 describe('Customers', () => {
-	before(function() {});
+	before(function() {
+		db.collection('customers').drop();
+	});
 	let user, totalCount, addresses;
 
 	describe('/POST customers', function() {
@@ -215,10 +217,8 @@ describe('Customers', () => {
 				.request(server)
 				.delete(`/api/v1/customers/${user.id}`)
 				.end((err, res) => {
-					console.log(res.body);
 					res.should.have.status(200);
 					res.body.should.be.a('object');
-					res.body.should.be;
 					done();
 				});
 		});
