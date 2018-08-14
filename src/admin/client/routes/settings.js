@@ -19,6 +19,8 @@ import Smtp from 'modules/settings/smtp';
 import EmailTemplate from 'modules/settings/emailTemplates';
 import Checkout from 'modules/settings/checkout';
 import CheckoutFields from 'modules/settings/checkoutFields';
+import Redirects from 'modules/settings/redirects/list';
+import RedirectsEdit from 'modules/settings/redirects/edit';
 import Webhooks from 'modules/settings/webhooks/list';
 import WebhooksEdit from 'modules/settings/webhooks/edit';
 
@@ -102,6 +104,16 @@ const SettingsMenu = () => (
 		<NavLink
 			style={styles.link}
 			activeStyle={styles.linkActive}
+			to="/admin/settings/redirects"
+		>
+			<ListItem
+				primaryText={messages.redirects}
+				leftIcon={<FontIcon className="material-icons">repeat</FontIcon>}
+			/>
+		</NavLink>
+		<NavLink
+			style={styles.link}
+			activeStyle={styles.linkActive}
 			to="/admin/settings/webhooks"
 		>
 			<ListItem
@@ -175,6 +187,16 @@ const Settings = ({ match }) => {
 					<Route
 						path="/admin/settings/checkout/fields/:fieldName"
 						component={CheckoutFields}
+					/>
+					<Route path="/admin/settings/redirects" exact component={Redirects} />
+					<Route
+						path="/admin/settings/redirects/add"
+						exact
+						component={RedirectsEdit}
+					/>
+					<Route
+						path="/admin/settings/redirects/:redirectId"
+						component={RedirectsEdit}
 					/>
 					<Route path="/admin/settings/webhooks" exact component={Webhooks} />
 					<Route
