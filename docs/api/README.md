@@ -17,7 +17,7 @@
 * Settings
 * Site Map
 * Theme
-* Redirects
+* [Redirects](./redirects.md)
 * [Webhooks](./webhooks.md)
 
 ## Overview
