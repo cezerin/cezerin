@@ -135,7 +135,19 @@ class ProductCategoriesService {
 					: null;
 			})
 			.then(idsToDelete => {
-				// 5. delete directories with images
+				// 5. update additional category_ids for products
+				return idsToDelete
+					? db
+							.collection('products')
+							.updateMany(
+								{ category_ids: { $all: idsToDelete } },
+								{ $pull: { category_ids: { $all: idsToDelete } } }
+							)
+							.then(() => idsToDelete)
+					: null;
+			})
+			.then(idsToDelete => {
+				// 6. delete directories with images
 				if (idsToDelete) {
 					for (let categoryId of idsToDelete) {
 						let deleteDir = path.resolve(
