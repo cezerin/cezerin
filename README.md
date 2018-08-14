@@ -5,7 +5,7 @@
 ![cezerin-logo](https://user-images.githubusercontent.com/1026183/44085425-660f1a3c-9f6e-11e8-8202-cbae59092480.png)
 
 
-Cezerin is React and Node.js based eCommerce platform. Allows creating a Progressive Web Apps.
+Cezerin is React and Node.js based eCommerce platform. Allows creating Progressive Web Apps.
 
 Built with:
 * Node.js v8.9

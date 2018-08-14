@@ -1,3 +1,5 @@
+![cezerin-inline-logo](https://user-images.githubusercontent.com/1026183/44085943-dcbae16a-9f6f-11e8-98d3-0fca06fb98a7.png)
+
 # How to deploy a Cezerin on Ubuntu 16.04
 
 * [Create droplet](#1-create-droplet)
