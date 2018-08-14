@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import SVGInline from 'react-svg-inline';
 import messages from 'lib/text';
 
 import Divider from 'material-ui/Divider';
@@ -9,6 +10,8 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+
+import logoSVG from '../../../../../../public/admin-assets/images/admin-logo.svg';
 
 const menuItems = [
 	{
@@ -138,121 +141,7 @@ const DrawerMenu = ({ open, onClose, currentUrl }) => {
 	return (
 		<Drawer docked={false} width={280} open={open} onRequestChange={onClose}>
 			<AppBar
-				title={
-					<span>
-						<svg
-							style={{ height: 38, paddingTop: 12, paddingLeft: 2 }}
-							xmlns="http://www.w3.org/2000/svg"
-							viewBox="0 0 345 97.5"
-						>
-							<path
-								fill="#122B6F"
-								d="M117.8 69.8c-11.3 0-18.6-8.1-18.6-21s7.4-21 18.6-21c8.2 0 13.4 3.4 15.8 10l-3.5 1.6c-1.9-5.5-5.8-8.3-12.1-8.3-9.1 0-15.2 6.7-15.2 17.7s5.9 17.7 15 17.7c6.3 0 11-3.2 12.9-9l3.5 1.3c-2.5 7-8.5 11-16.4 11zm54.6-3.9v3.3h-29V28.4h28v3.3h-24.5v15.2h19.3v3.3h-19.3V66h25.5zm75.4 0v3.3h-29V28.4h28v3.3h-24.5v15.2h19.3v3.3h-19.3V66h25.5zm24.4-14.2h-11.6v17.5H257V28.4h15.2c8.2 0 13.5 4.5 13.5 11.6 0 6-3.6 10.1-9.5 11.3l11.7 17.9h-4.1l-11.6-17.5zm-11.7-3.3h11.6c6.4 0 9.8-3 9.8-8.4s-3.4-8.3-9.8-8.3h-11.6v16.7zm40 20.8H297V28.4h3.5v40.8zm44.5 0h-4.4l-20.6-31-3.3-6h-.1l.2 5.5v31.5h-3.3V28.4h4.4l20.5 30.9 3.4 6.1-.2-5.5V28.4h3.4v40.8z"
-							/>
-							<path
-								fill="#0090ED"
-								d="M209.6 65.9v3.3h-31.7V66l26.5-34.4h-26v-3.3h30.2v3.2L182 65.9h27.6z"
-							/>
-							<linearGradient
-								id="a"
-								gradientUnits="userSpaceOnUse"
-								x1="143.353"
-								y1="29.989"
-								x2="208.242"
-								y2="29.989"
-							>
-								<stop offset="0" stop-color="#122b6f" />
-								<stop offset="1" stop-color="#0090ed" />
-							</linearGradient>
-							<path fill="url(#a)" d="M143.4 31.6v-3.3h64.9v3.3h-64.9z" />
-							<linearGradient
-								id="b"
-								gradientUnits="userSpaceOnUse"
-								x1="247.794"
-								y1="67.54"
-								x2="182.905"
-								y2="67.54"
-							>
-								<stop offset="0" stop-color="#122b6f" />
-								<stop offset="1" stop-color="#0090ed" />
-							</linearGradient>
-							<path fill="url(#b)" d="M182.9 69.2v-3.3h64.9v3.3h-64.9z" />
-							<linearGradient
-								id="c"
-								gradientUnits="userSpaceOnUse"
-								y1="29.807"
-								x2="39.03"
-								y2="29.807"
-							>
-								<stop offset="0" stop-color="#f2b518" />
-								<stop offset="1" stop-color="#ff9200" />
-							</linearGradient>
-							<path
-								fill="url(#c)"
-								d="M39 23.7L20.5 12.6 2.2 23.2C.8 24 0 25.4 0 27v20l39-23.3z"
-							/>
-							<linearGradient
-								id="d"
-								gradientUnits="userSpaceOnUse"
-								x1="23.788"
-								y1="16.08"
-								x2="74.485"
-								y2="16.08"
-							>
-								<stop offset="0" stop-color="#008232" />
-								<stop offset="1" stop-color="#d4d818" />
-							</linearGradient>
-							<path
-								fill="url(#d)"
-								d="M44.5 22.3l16 9.3c1.7 1 3.9.7 5.2-.7l7.4-7.4c2-2 1.6-5.4-.9-6.8L44.5.6c-1.3-.8-3-.8-4.3 0L23.8 10l20.7 12.3z"
-							/>
-							<linearGradient
-								id="e"
-								gradientUnits="userSpaceOnUse"
-								x1="46.731"
-								y1="74.243"
-								x2="77.158"
-								y2="74.243"
-							>
-								<stop offset="0" stop-color="#2342a1" />
-								<stop offset=".995" stop-color="#8237a3" />
-							</linearGradient>
-							<path
-								fill="url(#e)"
-								d="M46.7 73.8l18.8 10.9 9.4-5.4c2.5-1.4 2.9-4.8.9-6.8L68.5 65c-1.4-1.4-3.5-1.7-5.2-.7"
-							/>
-							<linearGradient
-								id="f"
-								gradientUnits="userSpaceOnUse"
-								x1="23.213"
-								y1="81.148"
-								x2="62.252"
-								y2="81.148"
-							>
-								<stop offset="0" stop-color="#f21818" />
-								<stop offset="1" stop-color="#ff9200" />
-							</linearGradient>
-							<path
-								fill="url(#f)"
-								d="M23.2 64.8v21.8l18 10.4c1.3.8 3 .8 4.3 0l16.7-9.6-39-22.6z"
-							/>
-							<linearGradient
-								id="g"
-								gradientUnits="userSpaceOnUse"
-								y1="63.089"
-								x2="18.85"
-								y2="63.089"
-							>
-								<stop offset="0" stop-color="#122b6f" />
-								<stop offset="1" stop-color="#0090ed" />
-							</linearGradient>
-							<path
-								fill="url(#g)"
-								d="M18.9 40.6L0 52.2v20c0 1.6.8 3 2.2 3.8l16.6 9.6.1-45z"
-							/>
-						</svg>
-					</span>
-				}
+				title={<SVGInline className="adminLogo" svg={logoSVG} />}
 				style={styles.appBar}
 				titleStyle={styles.appBarTitle}
 				zDepth={0}
