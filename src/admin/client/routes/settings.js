@@ -108,7 +108,7 @@ const SettingsMenu = () => (
 		>
 			<ListItem
 				primaryText={messages.redirects}
-				leftIcon={<FontIcon className="material-icons">repeat</FontIcon>}
+				leftIcon={<FontIcon className="material-icons">swap_calls</FontIcon>}
 			/>
 		</NavLink>
 		<NavLink
