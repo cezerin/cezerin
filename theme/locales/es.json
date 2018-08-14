@@ -58,5 +58,11 @@
   "phone": "Teléfono",
   "company": "Compañía / Empresa",
   "comments": "Comentarios",
-  "recentlyViewed": "Visto recientemente"
+  "recentlyViewed": "Visto recientemente",
+  "customerDetails": "Detalles del comprador",
+  "payment": "Pago",
+  "edit": "Editar",
+  "next": "Siguiente",
+  "orderSubmit": "Ingresar Orden",
+  "sameAsShipping": "Igual que dirección de despacho"
 }
