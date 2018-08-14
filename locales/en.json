@@ -347,7 +347,7 @@
   "multipleDeleteTitle": "Are you sure you want to delete the {count} selected items?",
   "multipleDeleteDescription": "{count} items will be deleted immediately. You can't undo this action.",
   "redirects": "Redirects",
-  "redirectsAbout": "Redirects allow you migrate routes from previous sites. Each redirect will use the 301 status code.",
+  "redirectsAbout": "Redirects allow you to migrate routes from previous sites. Each redirect will return the 301 http status code.",
   "redirectEdit": "Edit redirect",
   "redirectAdd": "Add redirect",
   "webhooks": "Webhooks",

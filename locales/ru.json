@@ -347,7 +347,7 @@
   "multipleDeleteTitle": "Вы действительно хотите удалить {count} выбранных элементов?",
   "multipleDeleteDescription": "{count} элементов будут удалены безвозвратно. Вы не можете отменить это действие.",
   "redirects": "Redirects",
-  "redirectsAbout": "Redirects allow you migrate routes from previous sites. Each redirect will use the 301 status code.",
+  "redirectsAbout": "Redirects allow you to migrate routes from previous sites. Each redirect will return the 301 http status code.",
   "redirectEdit": "Edit redirect",
   "redirectAdd": "Add redirect",
   "webhooks": "Webhooks",

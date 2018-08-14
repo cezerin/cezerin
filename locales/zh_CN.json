@@ -347,7 +347,7 @@
   "multipleDeleteTitle": "你确定要删除所选的{count}项吗？",
   "multipleDeleteDescription": "{count}项目将被立即删除，你无法撤消此操作。",
   "redirects": "Redirects",
-  "redirectsAbout": "Redirects allow you migrate routes from previous sites. Each redirect will use the 301 status code.",
+  "redirectsAbout": "Redirects allow you to migrate routes from previous sites. Each redirect will return the 301 http status code.",
   "redirectEdit": "Edit redirect",
   "redirectAdd": "Add redirect",
   "webhooks": "Webhooks",

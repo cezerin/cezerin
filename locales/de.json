@@ -347,7 +347,7 @@
   "multipleDeleteTitle": "Bist Du sicher da Du die ausgewählten {count} Artikel löschen möchtest?",
   "multipleDeleteDescription": "{count} Artikel werden sofort gelöscht. Aktion kann nicht rückgängig gemacht werden.",
   "redirects": "Redirects",
-  "redirectsAbout": "Redirects allow you migrate routes from previous sites. Each redirect will use the 301 status code.",
+  "redirectsAbout": "Redirects allow you to migrate routes from previous sites. Each redirect will return the 301 http status code.",
   "redirectEdit": "Edit redirect",
   "redirectAdd": "Add redirect",
   "webhooks": "Webhooks",
