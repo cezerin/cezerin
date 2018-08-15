@@ -7,7 +7,8 @@ import List from './components/list';
 const mapStateToProps = (state, ownProps) => {
 	const webstoreAuthorized = webstoreAuth.isCurrentTokenValid();
 	return {
-		services: state.apps.services,
+		// Commented to just leave chatbot and analytics apps available
+		services: [], // state.apps.services,
 		webstoreAuthorized: webstoreAuthorized
 	};
 };

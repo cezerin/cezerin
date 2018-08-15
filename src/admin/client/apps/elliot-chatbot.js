@@ -5,9 +5,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 import messages from 'lib/text';
 
 export const Description = {
-	key: 'uBot-chatbot',
-	name: 'uBot Chatbot',
-	coverUrl: '/admin-assets/images/apps/logoUTIPS.png',
+	key: 'elliot-chatbot',
+	name: 'elliot Chatbot',
+	coverUrl: '/admin-assets/images/apps/elliot-logo.png',
 	description: `
     Servicio de chatbot automatizado:
     <ol>
@@ -33,7 +33,7 @@ export class App extends React.Component {
 
 	fetchSettings = async () => {
 		try {
-			const { status, json } = await api.apps.settings.retrieve('ubot-chatbot');
+			const { status, json } = await api.apps.settings.retrieve('elliot-bot');
 			const { _id, ...settings } = json;
 			this.setState({ ...settings });
 		} catch (error) {
@@ -43,7 +43,7 @@ export class App extends React.Component {
 
 	updateSettings = async () => {
 		try {
-			await api.apps.settings.update('ubot-chatbot', { ...this.state });
+			await api.apps.settings.update('elliot-chatbot', { ...this.state });
 		} catch (error) {
 			console.log('Error updating settings', error.message);
 		}

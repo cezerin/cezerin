@@ -198,8 +198,8 @@ const addAllProducts = async db => {
 			enabled: true,
 			discontinued: false,
 			attributes: [
-				{ name: 'Brand', value: 'Brand A' },
-				{ name: 'Size', value: 'M' }
+				{ name: 'Marca', value: 'Brand A' },
+				{ name: 'Tamaño', value: 'M' }
 			]
 		});
 
@@ -212,8 +212,8 @@ const addAllProducts = async db => {
 			enabled: true,
 			discontinued: false,
 			attributes: [
-				{ name: 'Brand', value: 'Brand B' },
-				{ name: 'Size', value: 'L' }
+				{ name: 'Marca', value: 'Brand B' },
+				{ name: 'Tamaño', value: 'L' }
 			]
 		});
 
