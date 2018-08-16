@@ -50,7 +50,8 @@
     "precommit": "lint-staged",
     "start-api": "node -r esm src/api/server/index.js",
     "start-store": "node -r esm dist/store/server/index.js",
-    "start": "concurrently npm:start-*"
+    "start": "concurrently npm:start-*",
+    "test": "mocha --watch"
   },
   "lint-staged": {
     "*.js": [
@@ -139,5 +140,11 @@
   "engines": {
     "node": "^8.0.0",
     "npm": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "mocha": "^5.2.0"
   }
 }

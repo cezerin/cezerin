@@ -116,9 +116,3 @@ describe('Customer Groups', () => {
 		describe('For Non-Admin users', function() {});
 	});
 });
-
-// this.router.get('/v1/customer_groups/:id',this.getSingleGroup.bind(this)
-//
-// this.router.put('/v1/customer_groups/:id',this.updateGroup.bind(this)
-//
-// this.router.delete('/v1/customer_groups/:id', this.deleteGroup.bind(this)

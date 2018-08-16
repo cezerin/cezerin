@@ -13,6 +13,8 @@ import server from '../../src/api/server';
 // Import the database
 import { db } from '../../src/api/server/lib/mongo';
 
+chai.use(chaiHttp);
+
 let testCategory = {
 	image: '',
 	name: 'Test Category',

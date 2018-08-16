@@ -85,25 +85,6 @@ describe('Products', () => {
 					});
 			});
 
-			// it('should POST a new image to a specific product', function(done) {
-			//   let testImage = {
-			//     "id": "",
-			//     "alt": "",
-			//     "position": 99,
-			//     "filename": "image.jpeg",
-			//     "url": `/images/products/${product.id}/image.jpeg`
-			//   }
-			//
-			//   chai
-			//     .request(server)
-			//     .post(`/api/v1/products/${product.id}/images`)
-			//     .send(testImage)
-			//     .end((err, res) => {
-			//       console.log(res.body);
-			//       res.should.have.status(200);
-			//     });
-			// });
-
 			it('should POST new options to an existing product', function(done) {
 				let testOptions = {
 					name: 'New Options',
