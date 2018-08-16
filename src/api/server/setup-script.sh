@@ -41,9 +41,10 @@ rm admin.js server.js store.js
 mv admin.production.js admin.js
 mv server.production.js server.js
 mv store.production.js store.js
+cd ..
 
 echo "Installing dependencies"
-cd cezerin && npm i
+npm i
 
 echo "Building ucommerce"
 npm run build
