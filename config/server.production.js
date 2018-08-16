@@ -33,8 +33,8 @@ module.exports = {
 		host: 'email-smtp.us-east-1.amazonaws.com',
 		port: 587,
 		secure: true,
-		user: 'ucommerce-development',
-		pass: 'Am3pyAMfBRM/e25HXfGIv4v1bdquC4yv4CrJhLbdtxS8',
+		user: 'AKIAIOTRKUBFQ2HFTTNA',
+		pass: 'AqULBfrhoOYu4UsOur4jkPlbHHaluHxbRwpqFMTPBp7A',
 		fromName: 'Contacto uTips',
 		fromAddress: 'contacto@utips.cl'
 	},
