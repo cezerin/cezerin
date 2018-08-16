@@ -1,7 +1,7 @@
 #! /bin/bash
 echo "Running startup-script"
 apt-get update
-apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+apt-get install -y build-essential apt-transport-https ca-certificates curl software-properties-common
 
 echo "Installing Docker CE"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
@@ -12,15 +12,17 @@ apt-get update
 apt-get install -y docker-ce
 
 echo "Installing NGNX"
-apt-get update && apt -y install nginx-full
+apt-get update && apt-get install -y nginx-full
 
-echo "Installing NVM and NODE"
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-nvm install --lts
-nvm use --lts
-node -v
+# echo "Installing NVM and NODE"
+# curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# nvm install --lts
+# nvm use --lts
+# node -v
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+apt-get install -y nodejs
 
 echo "Update NPM"
 npm i -g npm
@@ -151,6 +153,7 @@ server {
 }
 ' > default
 
-nginx -t && service nginx reload
+# nginx -t && service nginx reload
+sudo systemctl reload nginx
 
 echo "UCOMMERCE READY"
