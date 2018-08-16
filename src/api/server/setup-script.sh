@@ -48,6 +48,7 @@ cd cezerin && npm i
 echo "Building ucommerce"
 npm run build
 
+# Change the email and domain to customize the client
 echo "Running setup script"
 npm run setup jjgumucio@gmail.com http://utipsprojects.cl
 
