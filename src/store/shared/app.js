@@ -16,7 +16,7 @@ import SearchContainer from './containers/search';
 
 import { setCurrentPage } from './actions';
 import { PAGE, PRODUCT_CATEGORY, PRODUCT, RESERVED, SEARCH } from './pageTypes';
-import ChatBot from '../../store/client/Chatbot';
+import Chatbot from '../client/Chatbot';
 
 class SwitchContainers extends React.Component {
 	constructor(props) {
@@ -93,8 +93,8 @@ const SwitchContainersConnected = connect(
 
 const App = () => (
 	<SharedContainer>
+		<Chatbot />
 		<Route component={SwitchContainersConnected} />
-		<ChatBot />
 	</SharedContainer>
 );
 
