@@ -35,6 +35,13 @@ echo "Installing Cezerin"
 cd /var/www
 git clone https://github.com/UTipsProjects/ucommerce.git cezerin
 
+echo "Change settings files"
+cd cezerin/config
+rm admin.js server.js store.js
+mv admin.production.js admin.js
+mv server.production.js server.js
+mv store.production.js store.js
+
 echo "Installing dependencies"
 cd cezerin && npm i
 
