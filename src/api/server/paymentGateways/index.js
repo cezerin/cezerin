@@ -3,6 +3,7 @@ import SettingsService from '../services/settings/settings';
 import PaymentGatewaysService from '../services/settings/paymentGateways';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
+import BeamCheckout from './BeamCheckout';
 
 const getOptions = orderId => {
 	return Promise.all([
@@ -34,6 +35,8 @@ const getPaymentFormSettings = orderId => {
 				return PayPalCheckout.getPaymentFormSettings(options);
 			case 'liqpay':
 				return LiqPay.getPaymentFormSettings(options);
+			case 'beam-checkout':
+				return BeamCheckout.getPaymentFormSettings(options);
 			default:
 				return Promise.reject('Invalid gateway');
 		}
@@ -54,6 +57,8 @@ const paymentNotification = (req, res, gateway) => {
 				return PayPalCheckout.paymentNotification(options);
 			case 'liqpay':
 				return LiqPay.paymentNotification(options);
+			case 'beam-checkout':
+				return BeamCheckout.paymentNotification(options);
 			default:
 				return Promise.reject('Invalid gateway');
 		}
