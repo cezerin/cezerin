@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 
 const MetaTags = ({
-	title,
+	title = null,
 	description,
 	canonicalUrl,
 	imageUrl,
@@ -11,8 +12,8 @@ const MetaTags = ({
 	ogDescription,
 	jsonld
 }) => {
-	let metaArray = [];
-	let linkArray = [];
+	const metaArray = [];
+	const linkArray = [];
 
 	if (description && description.length > 0) {
 		metaArray.push({
@@ -76,6 +77,28 @@ const MetaTags = ({
 			{scriptJSONLD}
 		</Helmet>
 	);
+};
+
+MetaTags.propTypes = {
+	title: PropTypes.string,
+	description: PropTypes.string,
+	canonicalUrl: PropTypes.string,
+	imageUrl: PropTypes.string,
+	ogType: PropTypes.string,
+	ogTitle: PropTypes.string,
+	ogDescription: PropTypes.string,
+	jsonld: PropTypes.string
+};
+
+MetaTags.defaultProps = {
+	title: null,
+	description: null,
+	canonicalUrl: null,
+	imageUrl: null,
+	ogType: null,
+	ogTitle: null,
+	ogDescription: null,
+	jsonld: null
 };
 
 export default MetaTags;

@@ -16,6 +16,7 @@ import ShippingMethodsLightService from './shippingMethodsLight';
 import EmailTemplatesService from '../settings/emailTemplates';
 import ProductStockService from '../products/stock';
 import SettingsService from '../settings/settings';
+import PaymentGateways from '../../paymentGateways';
 
 class OrdersService {
 	constructor() {}
@@ -432,6 +433,10 @@ class OrdersService {
 				date_updated: new Date()
 			};
 
+			if (data.payment_token !== undefined) {
+				order.payment_token = parse.getString(data.payment_token);
+			}
+
 			if (data.item_tax !== undefined) {
 				order.item_tax = parse.getNumberIfPositive(data.item_tax) || 0;
 			}
@@ -750,6 +755,12 @@ class OrdersService {
 		} else {
 			return null;
 		}
+	}
+
+	async chargeOrder(orderId) {
+		const order = await this.getSingleOrder(orderId);
+		const isSuccess = await PaymentGateways.processOrderPayment(order);
+		return isSuccess;
 	}
 }
 

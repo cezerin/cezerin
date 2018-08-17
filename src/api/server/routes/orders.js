@@ -125,6 +125,12 @@ class OrdersRoute {
 			security.checkUserScope.bind(this, security.scope.READ_ORDERS),
 			this.getPaymentFormSettings.bind(this)
 		);
+
+		this.router.post(
+			'/v1/orders/:id/charge',
+			security.checkUserScope.bind(this, security.scope.WRITE_ORDERS),
+			this.chargeOrder.bind(this)
+		);
 	}
 
 	getOrders(req, res, next) {
@@ -345,6 +351,16 @@ class OrdersRoute {
 				res.send(data);
 			})
 			.catch(next);
+	}
+
+	async chargeOrder(req, res, next) {
+		const orderId = req.params.id;
+		try {
+			const isSuccess = await OrdersService.chargeOrder(orderId);
+			res.status(isSuccess ? 200 : 500).end();
+		} catch (err) {
+			next(err);
+		}
 	}
 }
 

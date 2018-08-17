@@ -1,14 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { themeSettings, text } from '../lib/settings';
 import * as helper from '../lib/helper';
 
-const SummaryItem = ({
-	settings,
-	item,
-	deleteCartItem,
-	updateCartItemQuantiry
-}) => {
+const SummaryItem = ({ settings, item, updateCartItemQuantiry }) => {
 	const thumbnail = helper.getThumbnailUrl(
 		item.image_url,
 		themeSettings.cartThumbnailWidth
@@ -71,16 +67,24 @@ const SummaryItem = ({
 	);
 };
 
+SummaryItem.propTypes = {
+	settings: PropTypes.shape({}).isRequired,
+	item: PropTypes.shape({}).isRequired,
+	updateCartItemQuantiry: PropTypes.func.isRequired
+};
+
 const OrderSummary = props => {
-	const { cart, settings } = props.state;
+	const {
+		updateCartItemQuantiry,
+		state: { cart, settings }
+	} = props;
 
 	if (cart && cart.items && cart.items.length > 0) {
-		let items = cart.items.map(item => (
+		const items = cart.items.map(item => (
 			<SummaryItem
 				key={item.id}
 				item={item}
-				deleteCartItem={props.deleteCartItem}
-				updateCartItemQuantiry={props.updateCartItemQuantiry}
+				updateCartItemQuantiry={updateCartItemQuantiry}
 				settings={settings}
 			/>
 		));
@@ -122,9 +126,16 @@ const OrderSummary = props => {
 				</div>
 			</div>
 		);
-	} else {
-		return null;
 	}
+	return null;
+};
+
+OrderSummary.propTypes = {
+	updateCartItemQuantiry: PropTypes.func.isRequired,
+	state: PropTypes.shape({
+		cart: PropTypes.shape({}),
+		settings: PropTypes.shape({}).isRequired
+	}).isRequired
 };
 
 export default OrderSummary;

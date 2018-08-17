@@ -226,11 +226,23 @@ ajaxRouter.put('/cart/checkout', (req, res, next) => {
 	}
 });
 
-ajaxRouter.put('/cart', (req, res, next) => {
-	const order_id = req.signedCookies.order_id;
-	if (order_id) {
-		api.orders
-			.update(order_id, req.body)
+ajaxRouter.put('/cart', async (req, res, next) => {
+	const cartData = req.body;
+	const {
+		shipping_address: shippingAddress,
+		billing_address: billingAddress
+	} = cartData;
+	const orderId = req.signedCookies.order_id;
+	if (orderId) {
+		if (shippingAddress) {
+			await api.orders.updateShippingAddress(orderId, shippingAddress);
+		}
+		if (billingAddress) {
+			await api.orders.updateBillingAddress(orderId, billingAddress);
+		}
+
+		await api.orders
+			.update(orderId, cartData)
 			.then(cartResponse => fillCartItems(cartResponse))
 			.then(({ status, json }) => {
 				res.status(status).send(json);
@@ -263,6 +275,17 @@ ajaxRouter.put('/cart/billing_address', (req, res, next) => {
 			.then(({ status, json }) => {
 				res.status(status).send(json);
 			});
+	} else {
+		res.end();
+	}
+});
+
+ajaxRouter.post('/cart/charge', async (req, res, next) => {
+	const order_id = req.signedCookies.order_id;
+	if (order_id) {
+		const client = api.orders.client;
+		const chargeResponse = await client.post(`/orders/${order_id}/charge`);
+		res.status(chargeResponse.status).send(chargeResponse.json);
 	} else {
 		res.end();
 	}

@@ -1,25 +1,14 @@
-import React from 'react';
-import { themeSettings, text } from '../lib/settings';
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
 import ProductList from '../components/productList';
-const Fragment = React.Fragment;
 
-const CategoryContainer = props => {
+const SearchContainer = props => {
 	const {
-		products,
-		settings,
-		productFilter,
-		productsHasMore,
-		productsMinPrice,
-		productsMaxPrice,
-		productsTotalCount
-	} = props.state;
-	const {
-		setSearch,
-		setSort,
-		setPriceFromAndTo,
 		addCartItem,
-		loadMoreProducts
+		loadMoreProducts,
+		state: { products, settings, productFilter, productsHasMore }
 	} = props;
 	const searchNotEmpty = productFilter.search && productFilter.search !== '';
 	const searchDescription = searchNotEmpty
@@ -56,4 +45,15 @@ const CategoryContainer = props => {
 	);
 };
 
-export default CategoryContainer;
+SearchContainer.propTypes = {
+	addCartItem: PropTypes.func.isRequired,
+	loadMoreProducts: PropTypes.func.isRequired,
+	state: PropTypes.shape({
+		settings: PropTypes.shape({}),
+		products: PropTypes.arrayOf(PropTypes.shape({})),
+		productFilter: PropTypes.shape({}),
+		productsHasMore: PropTypes.bool
+	}).isRequired
+};
+
+export default SearchContainer;

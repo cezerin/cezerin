@@ -5,19 +5,19 @@ export let api = null;
 
 const setVariables = options => {
 	if (options.themeSettings) {
-		themeSettings = options.themeSettings;
+		({ themeSettings } = options);
 	}
 
 	if (options.text) {
-		text = options.text;
+		({ text } = options);
 	}
 
 	if (options.language) {
-		language = options.language;
+		({ language } = options);
 	}
 
 	if (options.api) {
-		api = options.api;
+		({ api } = options);
 	}
 };
 

@@ -190,15 +190,26 @@ const receiveShippingMethods = methods => ({
 export const checkout = (cart, history) => async (dispatch, getState) => {
 	dispatch(requestCheckout());
 	if (cart) {
-		await api.ajax.cart.updateShippingAddress(cart.shipping_address);
-		await api.ajax.cart.updateBillingAddress(cart.billing_address);
 		await api.ajax.cart.update({
+			shipping_address: cart.shipping_address,
+			billing_address: cart.billing_address,
 			email: cart.email,
 			mobile: cart.mobile,
 			payment_method_id: cart.payment_method_id,
 			shipping_method_id: cart.shipping_method_id,
 			comments: cart.comments
 		});
+	}
+
+	const cartResponse = await api.ajax.cart.retrieve();
+	const chargeNeeded = !!cartResponse.json.payment_token;
+
+	if (chargeNeeded) {
+		const chargeResponse = await api.ajax.cart.client.post('/cart/charge');
+		const chargeSucceeded = chargeResponse.status === 200;
+		if (!chargeSucceeded) {
+			return;
+		}
 	}
 
 	const response = await api.ajax.cart.checkout();
@@ -270,22 +281,6 @@ export const updateCart = (data, callback) => async (dispatch, getState) => {
 	if (typeof callback === 'function') {
 		callback(newCart);
 	}
-};
-
-export const updateShippingAddress = shippingAddress => async (
-	dispatch,
-	getState
-) => {
-	const response = await api.ajax.cart.updateShippingAddress(shippingAddress);
-	dispatch(receiveCart(response.json));
-};
-
-export const updateBillingAddress = billingAddress => async (
-	dispatch,
-	getState
-) => {
-	const response = await api.ajax.cart.updateBillingAddress(billingAddress);
-	dispatch(receiveCart(response.json));
 };
 
 export const setCurrentPage = location => async (dispatch, getState) => {

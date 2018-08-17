@@ -16,6 +16,8 @@ const GatewaySettings = ({ gateway }) => {
 			return <LiqPay />;
 		case 'beam-checkout':
 			return <BeamButton />;
+		case 'stripe-elements':
+			return <StripeElements />;
 		default:
 			return null;
 	}
@@ -153,6 +155,35 @@ const BeamButton = props => {
 				component={TextField}
 				name="private_key"
 				floatingLabelText="Private Key"
+				fullWidth={true}
+			/>
+		</div>
+	);
+};
+
+const StripeElements = props => {
+	return (
+		<div>
+			<Field
+				component={SelectField}
+				name="env"
+				floatingLabelText="Environment"
+				fullWidth={true}
+				autoWidth={true}
+			>
+				<MenuItem value="production" primaryText="production" />
+				<MenuItem value="sandbox" primaryText="sandbox" />
+			</Field>
+			<Field
+				component={TextField}
+				name="public_key"
+				floatingLabelText="Publishable key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="secret_key"
+				floatingLabelText="Secret key"
 				fullWidth={true}
 			/>
 		</div>

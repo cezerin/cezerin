@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import * as helper from '../../lib/helper';
 import { themeSettings, text } from '../../lib/settings';
 import Disqus from '../comments/disqus';
 import ViewedProducts from '../products/viewed';
-
 import Breadcrumbs from './breadcrumbs';
 import DiscountCountdown from './discountCountdown';
 import AddToCartButton from './addToCartButton';
@@ -15,8 +14,6 @@ import Price from './price';
 import Quantity from './quantity';
 import RelatedProducts from './relatedProducts';
 import Tags from './tags';
-
-const Fragment = React.Fragment;
 
 const Description = ({ description }) => (
 	<div

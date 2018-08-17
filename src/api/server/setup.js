@@ -348,6 +348,42 @@ const createAllIndexes = async db => {
 	}
 };
 
+const addUser = async (db, userEmail) => {
+	if (userEmail && userEmail.includes('@')) {
+		const tokensCount = await db.collection('tokens').countDocuments({
+			email: userEmail
+		});
+		const tokensNotExists = tokensCount === 0;
+
+		if (tokensNotExists) {
+			await db.collection('tokens').insertOne({
+				is_revoked: false,
+				date_created: new Date(),
+				expiration: 72,
+				name: 'Owner',
+				email: userEmail,
+				scopes: ['admin']
+			});
+			winston.info(`- Added token with email: ${userEmail}`);
+		}
+	}
+};
+
+const addSettings = async (db, { domain }) => {
+	if (domain && (domain.includes('https://') || domain.includes('http://'))) {
+		await db.collection('settings').updateOne(
+			{},
+			{
+				$set: {
+					domain
+				}
+			},
+			{ upsert: true }
+		);
+		winston.info(`- Set domain: ${domain}`);
+	}
+};
+
 (async () => {
 	let client = null;
 	let db = null;
@@ -364,6 +400,9 @@ const createAllIndexes = async db => {
 		return;
 	}
 
+	const userEmail = process.argv.length > 2 ? process.argv[2] : null;
+	const domain = process.argv.length > 3 ? process.argv[3] : null;
+
 	await db.createCollection('customers');
 	await db.createCollection('orders');
 	await addAllPages(db);
@@ -372,6 +411,10 @@ const createAllIndexes = async db => {
 	await addShippingMethods(db);
 	await addPaymentMethods(db);
 	await createAllIndexes(db);
+	await addUser(db, userEmail);
+	await addSettings(db, {
+		domain
+	});
 
 	client.close();
 })();

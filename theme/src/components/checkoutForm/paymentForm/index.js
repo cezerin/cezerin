@@ -3,6 +3,7 @@ import api from '../../../lib/api';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
 import BeamButton from './BeamCheckout';
+import StripeElements from './StripeElements';
 
 export default class PaymentForm extends React.Component {
 	constructor(props) {
@@ -57,7 +58,7 @@ export default class PaymentForm extends React.Component {
 	}
 
 	render() {
-		const { gateway, shopSettings, onPayment } = this.props;
+		const { gateway, shopSettings, onPayment, onCreateToken } = this.props;
 		const { formSettings, loading } = this.state;
 
 		if (loading) {
@@ -91,6 +92,17 @@ export default class PaymentForm extends React.Component {
 								formSettings={formSettings}
 								shopSettings={shopSettings}
 								onPayment={onPayment}
+							/>
+						</div>
+					);
+				case 'stripe-elements':
+					return (
+						<div className="payment-form">
+							<StripeElements
+								formSettings={formSettings}
+								shopSettings={shopSettings}
+								onPayment={onPayment}
+								onCreateToken={onCreateToken}
 							/>
 						</div>
 					);

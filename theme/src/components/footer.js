@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { themeSettings, text } from '../lib/settings';
 
@@ -10,10 +11,11 @@ class FooterMenu extends React.Component {
 		};
 	}
 
-	isActiveToggle = () =>
+	isActiveToggle = () => {
 		this.setState({
 			isActive: !this.state.isActive
 		});
+	};
 
 	render() {
 		const { title, items } = this.props;
@@ -84,6 +86,10 @@ const Contacts = ({ contacts }) => {
 };
 
 export default class Footer extends React.PureComponent {
+	static propTypes = {
+		settings: PropTypes.shape({}).isRequired
+	};
+
 	render() {
 		const { settings } = this.props;
 		const footerLogoUrl =

@@ -1,63 +1,28 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import * as helper from '../../lib/helper';
-import { themeSettings, text } from '../../lib/settings';
+import PropTypes from 'prop-types';
+import { text } from '../../lib/settings';
 import CustomProductList from './custom';
 
-const Fragment = React.Fragment;
-
 export default class ViewedProducts extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			viewedProducts: []
-		};
-	}
-
-	getArrayFromLocalStorage = () => {
-		let values = [];
-		let viewedProducts = localStorage.getItem('viewedProducts');
-
-		try {
-			if (viewedProducts && viewedProducts.length > 0) {
-				let viewedProductsParsed = JSON.parse(viewedProducts);
-				if (Array.isArray(viewedProductsParsed)) {
-					values = viewedProductsParsed;
-				}
-			}
-		} catch (e) {}
-
-		return values;
+	static propTypes = {
+		limit: PropTypes.number.isRequired,
+		settings: PropTypes.shape({}).isRequired,
+		addCartItem: PropTypes.func.isRequired,
+		product: PropTypes.shape({}).isRequired
 	};
 
-	addProductIdToLocalStorage = productId => {
-		if (productId && productId.length > 0) {
-			let viewedProducts = this.getArrayFromLocalStorage();
-
-			if (viewedProducts.includes(productId)) {
-				const index = viewedProducts.indexOf(productId);
-				viewedProducts.splice(index, 1);
-				viewedProducts.push(productId);
-			} else {
-				viewedProducts.push(productId);
-			}
-
-			localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
-			this.setState({ viewedProducts: viewedProducts });
-		}
+	state = {
+		viewedProducts: []
 	};
 
 	componentDidMount() {
+		const { product } = this.props;
 		const viewedProducts = this.getArrayFromLocalStorage();
-		this.setState({ viewedProducts: viewedProducts });
+		this.setState({ viewedProducts });
 
-		if (this.props.product && this.props.product.id) {
-			this.addProductIdToLocalStorage(this.props.product.id);
+		if (product && product.id) {
+			this.addProductIdToLocalStorage(product.id);
 		}
-	}
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return this.state.viewedProducts !== nextState.viewedProducts;
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -69,6 +34,45 @@ export default class ViewedProducts extends React.Component {
 			this.addProductIdToLocalStorage(nextProps.product.id);
 		}
 	}
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return this.state.viewedProducts !== nextState.viewedProducts;
+	}
+
+	getArrayFromLocalStorage = () => {
+		let values = [];
+		const viewedProducts = localStorage.getItem('viewedProducts');
+
+		try {
+			if (viewedProducts && viewedProducts.length > 0) {
+				const viewedProductsParsed = JSON.parse(viewedProducts);
+				if (Array.isArray(viewedProductsParsed)) {
+					values = viewedProductsParsed;
+				}
+			}
+		} catch (e) {
+			//
+		}
+
+		return values;
+	};
+
+	addProductIdToLocalStorage = productId => {
+		if (productId && productId.length > 0) {
+			const viewedProducts = this.getArrayFromLocalStorage();
+
+			if (viewedProducts.includes(productId)) {
+				const index = viewedProducts.indexOf(productId);
+				viewedProducts.splice(index, 1);
+				viewedProducts.push(productId);
+			} else {
+				viewedProducts.push(productId);
+			}
+
+			localStorage.setItem('viewedProducts', JSON.stringify(viewedProducts));
+			this.setState({ viewedProducts });
+		}
+	};
 
 	render() {
 		const { limit, settings, addCartItem, product } = this.props;
@@ -91,13 +95,12 @@ export default class ViewedProducts extends React.Component {
 							settings={settings}
 							addCartItem={addCartItem}
 							limit={limit}
-							isCentered={true}
+							isCentered
 						/>
 					</div>
 				</section>
 			);
-		} else {
-			return null;
 		}
+		return null;
 	}
 }

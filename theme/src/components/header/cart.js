@@ -49,7 +49,7 @@ export default class Cart extends React.PureComponent {
 		const { cart, deleteCartItem, settings, cartToggle } = this.props;
 
 		if (cart && cart.items && cart.items.length > 0) {
-			let items = cart.items.map(item => (
+			const items = cart.items.map(item => (
 				<CartItem
 					key={item.id}
 					item={item}
@@ -80,12 +80,11 @@ export default class Cart extends React.PureComponent {
 					</NavLink>
 				</div>
 			);
-		} else {
-			return (
-				<div className="mini-cart">
-					<p>{text.cartEmpty}</p>
-				</div>
-			);
 		}
+		return (
+			<div className="mini-cart">
+				<p>{text.cartEmpty}</p>
+			</div>
+		);
 	}
 }

@@ -1,9 +1,8 @@
-import React from 'react';
-import { themeSettings, text } from '../lib/settings';
+import React, { Fragment } from 'react';
+import { text } from '../lib/settings';
 import MetaTags from '../components/metaTags';
-const Fragment = React.Fragment;
 
-const NotFoundContainer = props => (
+const NotFoundContainer = () => (
 	<Fragment>
 		<MetaTags title={text.title404} />
 		<section className="section">
