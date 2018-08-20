@@ -10,7 +10,10 @@
 			"watch_options": {
 				"persistent": true,
 				"ignoreInitial": false
-			}
+			},
+      "output": "/var/www/ucommerce/logs/api/out.log",
+      "error": "/var/www/ucommerce/logs/api/error.log",
+      "log": "/var/www/ucommerce/logs/api/all.log"
 		},
 		{
 			"name": "store",
@@ -27,7 +30,10 @@
 			"watch_options": {
 				"persistent": true,
 				"ignoreInitial": false
-			}
+			},
+      "output": "/var/www/ucommerce/logs/store/out.log",
+      "error": "/var/www/ucommerce/logs/store/error.log",
+      "log": "/var/www/ucommerce/logs/store/all.log"
 		}
 	]
 }

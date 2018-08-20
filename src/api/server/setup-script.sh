@@ -40,6 +40,17 @@ echo "Installing Ucommerce"
 cd /var/www
 git clone https://github.com/UTipsProjects/ucommerce.git
 
+echo "Creating directories and files for logs"
+mkdir -p ucommerce/logs/api
+touch  ucommerce/logs/api/out.log
+touch  ucommerce/logs/api/error.log
+touch  ucommerce/logs/api/all.log
+
+mkdir -p ucommerce/logs/store
+touch  ucommerce/logs/store/out.log
+touch  ucommerce/logs/store/error.log
+touch  ucommerce/logs/store/all.log
+
 echo "Change settings files"
 cd ucommerce/config
 rm admin.js server.js store.js
