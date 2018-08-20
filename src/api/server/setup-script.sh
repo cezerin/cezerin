@@ -3,6 +3,9 @@ echo "Running startup-script"
 apt-get update
 apt-get install -y build-essential apt-transport-https ca-certificates curl software-properties-common
 
+echo "Deleting previous installation"
+rm -rf /var/www/ucommerce
+
 echo "Installing Docker CE"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
@@ -31,14 +34,14 @@ echo "Installing PM2"
 npm i -g pm2
 
 echo "Running DB container"
-docker run --name store-db -d -p 27017:27017 -v /var/www/store-db:/data/db mongo:latest
+docker run --name store-db -d -p 27017:27017 -v /var/www/store-db:/data/db mongo:latest || docker start store-db
 
-echo "Installing Cezerin"
+echo "Installing Ucommerce"
 cd /var/www
-git clone https://github.com/UTipsProjects/ucommerce.git cezerin
+git clone https://github.com/UTipsProjects/ucommerce.git
 
 echo "Change settings files"
-cd cezerin/config
+cd ucommerce/config
 rm admin.js server.js store.js
 mv admin.production.js admin.js
 mv server.production.js server.js
@@ -67,7 +70,7 @@ server {
         listen 127.0.0.1:8888;
         server_tokens off;
         location ~ "^/resize/(?<entity>\w+)/(?<id>\w+)/(?<width>[1-9][0-9][0-9]{1}|[1][0-9][0-9][0-9]{1})/(?<file>.+)$" {
-                alias /var/www/cezerin/public/content/images/$entity/$id/$file;
+                alias /var/www/ucommerce/public/content/images/$entity/$id/$file;
                 image_filter_buffer 20M;
                 image_filter_jpeg_quality 85;
                 image_filter_interlace on;
@@ -99,7 +102,7 @@ server {
         expires 1y;
         access_log off;
         log_not_found off;
-        root /var/www/cezerin/public/content;
+        root /var/www/ucommerce/public/content;
 
         location ~ "^/images/(?<entity>\w+)/(?<id>\w+)/(?<width>[1-9][0-9][0-9]{1}|[1][0-9][0-9][0-9]{1})/(?<file>.+)$" {
                 # /images/products/id/100/file.jpg >>> Proxy to internal image resizing server
@@ -109,20 +112,20 @@ server {
         }
 
         location /admin {
-                alias /var/www/cezerin/public/admin/;
+                alias /var/www/ucommerce/public/admin/;
 		            try_files /index.html /index.html;
         }
 
         location /admin-assets/ {
-                alias /var/www/cezerin/public/admin-assets/;
+                alias /var/www/ucommerce/public/admin-assets/;
         }
 
         location /assets/ {
-                alias /var/www/cezerin/theme/assets/;
+                alias /var/www/ucommerce/theme/assets/;
         }
 
         location /sw.js {
-                root /var/www/cezerin/theme/assets/;
+                root /var/www/ucommerce/theme/assets/;
         }
 
         location ~ ^/(api|ajax|ws)/ {
