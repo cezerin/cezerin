@@ -30,11 +30,11 @@ module.exports = {
 	mongodbServerUrl: dbUrl,
 
 	smtpServer: {
-		host: 'email-smtp.us-east-1.amazonaws.com',
-		port: 587,
+		host: 'smtp.gmail.com',
+		port: 465,
 		secure: true,
-		user: 'AKIAIOTRKUBFQ2HFTTNA',
-		pass: 'AqULBfrhoOYu4UsOur4jkPlbHHaluHxbRwpqFMTPBp7A',
+		user: 'clementeserranosutil@gmail.com',
+		pass: 'teoriadecuerdas123',
 		fromName: 'Contacto uTips',
 		fromAddress: 'contacto@utips.cl'
 	},

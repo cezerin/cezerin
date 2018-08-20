@@ -34,7 +34,7 @@ module.exports = {
 		port: 465,
 		secure: true,
 		user: 'clementeserranosutil@gmail.com',
-		pass: 'Crecerchile123',
+		pass: 'teoriadecuerdas123',
 		fromName: 'Contacto uTips',
 		fromAddress: 'contacto@utips.cl'
 	},
