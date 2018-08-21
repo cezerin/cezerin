@@ -37,6 +37,12 @@ echo "Running DB container"
 docker run --name store-db -d -p 27017:27017 -v /var/www/store-db:/data/db mongo:latest || docker start store-db
 
 echo "Installing Ucommerce"
+if [ -d "/var/www/ucommerce" ] 
+  then
+    rm -rf /var/www/ecommerce
+  else
+    echo "Error: Directory /var/www/ucommerce does not exists."
+fi
 cd /var/www
 git clone https://github.com/UTipsProjects/ucommerce.git
 
