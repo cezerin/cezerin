@@ -33,7 +33,9 @@ export class App extends React.Component {
 
 	fetchSettings = async () => {
 		try {
-			const { status, json } = await api.apps.settings.retrieve('elliot-bot');
+			const { status, json } = await api.apps.settings.retrieve(
+				'elliot-chatbot'
+			);
 			const { _id, ...settings } = json;
 			this.setState({ ...settings });
 		} catch (error) {
