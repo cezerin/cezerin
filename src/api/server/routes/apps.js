@@ -21,8 +21,10 @@ class AppsRoute {
 	}
 
 	getSettings(req, res, next) {
+		console.log('key:', req.params.key);
 		AppSettingsService.getSettings(req.params.key)
 			.then(data => {
+				console.log('data:', data);
 				res.send(data);
 			})
 			.catch(next);

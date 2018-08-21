@@ -371,7 +371,7 @@ ajaxRouter.get('/payment_form_settings', (req, res, next) => {
 });
 
 ajaxRouter.get('/chatbot/settings', (req, res, next) => {
-	api.apps.settings.retrieve('ubot-chatbot').then(settings => {
+	api.apps.settings.retrieve('elliot-chatbot').then(settings => {
 		const { status, json } = settings;
 		const theme = omit(json, ['_id', 'projectId', 'key']);
 		res.status('200').send({ status: 200, theme });
@@ -381,7 +381,7 @@ ajaxRouter.get('/chatbot/settings', (req, res, next) => {
 ajaxRouter.post('/chatbot/ask', async (req, res, next) => {
 	const { sessionId, question } = req.body;
 	try {
-		const { status, json } = await api.apps.settings.retrieve('ubot-chatbot');
+		const { status, json } = await api.apps.settings.retrieve('elliot-chatbot');
 		const projectId = json.projectId;
 		const answer = await api.chatbot.ask({ projectId, sessionId, question });
 		res.status(200).send({ ...answer });

@@ -11,7 +11,7 @@ class ChatbotService {
 	getSettings() {
 		return mongo.db
 			.collection('appSettings')
-			.findOne({ key: 'ubot-chatbot' }, { _id: 0, key: 0 });
+			.findOne({ key: 'elliot-chatbot' }, { _id: 0, key: 0 });
 	}
 
 	async ask(projectId, sessionId, question, locale = 'es-CL') {
