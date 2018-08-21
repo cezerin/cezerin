@@ -49,10 +49,11 @@ let testAddress = {
 
 // Drop customers collection to start with blank slate.
 describe('Customers', () => {
-	before(function() {
+	before(function(done) {
 		db.collection('customers').drop();
+		done();
 	});
-	let user, totalCount, addresses;
+	let user, addresses;
 
 	describe('For Admin users', function() {
 		describe('/POST customers', function() {
@@ -90,7 +91,7 @@ describe('Customers', () => {
 					.post(`/api/v1/customers/${user.id}/addresses`)
 					.send(parse.getCustomerAddress(testAddress))
 					.end((err, res) => {
-						// TODO
+						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
 						done();
 					});
@@ -103,13 +104,11 @@ describe('Customers', () => {
 					.request(server)
 					.get('/api/v1/customers/')
 					.end((err, res) => {
-						// console.log(res.body.data[0].addresses);
-						totalCount = res.body.total_count;
 						res.should.have.status(200);
 						res.should.be.a('object');
 						res.body.should.have.property('data');
-						res.body.data.length.should.be.eql(totalCount);
-						// res.body.data.length.should.be.eql(3);
+						res.body.should.have.property('total_count');
+						res.body.data.length.should.be.eql(1);
 						done();
 					});
 			});
@@ -167,9 +166,8 @@ describe('Customers', () => {
 					.put(`/api/v1/customers/${user.id}/addresses/${addresses[0].id}`)
 					.send(updateAddressData)
 					.end((err, res) => {
-						// TODO
+						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
-						// res.body.should.have.property('address1').eql('4931 SW Theo Avenue');
 						done();
 					});
 			});
@@ -183,7 +181,7 @@ describe('Customers', () => {
 						}/default_billing`
 					)
 					.end((err, res) => {
-						// TODO
+						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
 						done();
 					});
@@ -198,7 +196,7 @@ describe('Customers', () => {
 						}/default_shipping`
 					)
 					.end((err, res) => {
-						// TODO
+						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
 						done();
 					});
@@ -211,7 +209,7 @@ describe('Customers', () => {
 					.request(server)
 					.delete(`/api/v1/customers/${user.id}/addresses/${addresses[0].id}`)
 					.end((err, res) => {
-						// TODO
+						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
 						done();
 					});

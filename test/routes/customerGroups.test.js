@@ -20,8 +20,9 @@ let testCustomerGroup = {
 };
 
 describe('Customer Groups', () => {
-	before(function() {
+	before(function(done) {
 		db.collection('customerGroups').drop();
+		done();
 	});
 	let customerGroup;
 

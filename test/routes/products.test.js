@@ -85,6 +85,22 @@ describe('Products', () => {
 					});
 			});
 
+			it('should POST a new product with unique SKU in our inventory', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/products')
+					.send(testProduct)
+					.end((err, res) => {
+						res.should.have.status(200);
+						res.should.be.a('object');
+						res.body.should.have.property('name').eql('Product A');
+						res.body.should.have.property('sku').eql('12345-2');
+						res.body.should.have.property('price').eql(950);
+						res.body.should.have.property('date_created');
+						done();
+					});
+			});
+
 			it('should POST new options to an existing product', function(done) {
 				let testOptions = {
 					name: 'New Options',
@@ -153,7 +169,7 @@ describe('Products', () => {
 					.request(server)
 					.post(`/api/v1/products/${product.id}/images`)
 					.field('Content-Type', 'multipart/form-data')
-					.attach('files', './test/test_image.png', 'test_image.png')
+					.attach('images', './test/test_image.png', 'test_image.png')
 					.end((err, res) => {
 						images = res.body;
 						res.should.have.status(200);
@@ -173,7 +189,7 @@ describe('Products', () => {
 						res.should.have.status(200);
 						res.should.be.a('object');
 						res.body.should.have.property('data');
-						res.body.data.length.should.be.eql(1);
+						res.body.data.length.should.be.eql(2);
 						done();
 					});
 			});
@@ -351,17 +367,16 @@ describe('Products', () => {
 
 			// TODO: Fix me!!
 			// it('should UPDATE an image for a product', function(done) {
-			// 	console.log(`/api/v1/products/${product.id}/images/${images[0].id}`);
 			// 	chai
 			// 		.request(server)
-			// 		.put(`/api/v1/products/${product.id}/images/${images[0].id}`)
-			// 		// .field('Content-Type', 'multipart/form-data')
-			// 		.attach('files', './test/test_image2.png', 'test_image2.png')
+			// 		.put(`/api/v1/images/products/${product.id}/${images[0].id}`)
+			// 		.field('Content-Type', 'multipart/form-data')
+			// 		.attach('images', './test/test_image2.png', 'test_image2.png')
 			// 		.end((err, res) => {
 			// 			console.log(res.body);
 			// 			res.should.have.status(200);
-			// 			// res.body[0].should.have.property('filename').eql('test_image2.png');
-			// 			// res.body[0].should.have.property('id');
+			// 			res.body[0].should.have.property('filename').eql('test_image2.png');
+			// 			res.body[0].should.have.property('id');
 			// 			done();
 			// 		});
 			// });
@@ -433,11 +448,3 @@ describe('Products', () => {
 
 	describe('For Non-Admin users', function() {});
 });
-
-// this.router.put('/v1/products/:productId/images/:imageId',this.updateImage.bind(this)
-
-// this.router.get('/v1/products/:productId/sku',this.isSkuExists.bind(this)
-//
-// this.router.get('/v1/products/:productId/slug',this.isSlugExists.bind(this)
-//
-// this.router.put('/v1/products/:productId/variants/:variantId/options',this.setVariantOption.bind(this)

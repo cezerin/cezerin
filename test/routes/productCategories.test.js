@@ -30,11 +30,10 @@ let testCategory = {
 	path: '/test-category'
 };
 
-// console.log(CategoriesService.getValidDocumentForInsert(testCategory));
-
 describe('Product Categories', function() {
-	before(function() {
+	before(function(done) {
 		db.collection('productCategories').drop();
+		done();
 	});
 	let category;
 
