@@ -1,9 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-// Import services
-import security from '../../src/api//server/lib/security';
-import CategoriesService from '../../src/api/server/services/products/productCategories';
-
 // Import the test dependencies
 import chai from 'chai';
 import chaiHttp from 'chai-http';

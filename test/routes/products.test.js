@@ -1,14 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-// Import services
-import security from '../../src/api//server/lib/security';
-import ProductsService from '../../src/api/server/services/products/products';
-import ProductOptionsService from '../../src/api/server/services/products/options';
-import ProductOptionValuesService from '../../src/api/server/services/products/optionValues';
-import ProductVariantsService from '../../src/api/server/services/products/variants';
-import ProductImagesService from '../../src/api/server/services/products/images';
-import parse from '../../src/api/server/lib/parse';
-
 // Import the test dependencies
 import chai from 'chai';
 import chaiHttp from 'chai-http';
@@ -294,8 +285,8 @@ describe('Products', () => {
 		describe('/PUT products', function() {
 			it('should UPDATE a single product from inventory with id', function(done) {
 				let updateProductData = {};
-				updateProductData.name = parse.getString('New Product A');
-				updateProductData.regular_price = parse.getNumberIfValid(1);
+				updateProductData.name = 'New Product A';
+				updateProductData.regular_price = 1;
 
 				chai
 					.request(server)
@@ -312,7 +303,7 @@ describe('Products', () => {
 
 			it('should UPDATE a single option for a single product', function(done) {
 				let updateOptions = {};
-				updateOptions.name = parse.getString('Updated Options');
+				updateOptions.name = 'Updated Options';
 
 				chai
 					.request(server)
@@ -327,8 +318,8 @@ describe('Products', () => {
 
 			it('should UPDATE a single variant for a single product', function(done) {
 				let updateVariants = {};
-				updateVariants.sku = parse.getString('15');
-				updateVariants.price = parse.getNumberIfValid(99);
+				updateVariants.sku = '15';
+				updateVariants.price = 99;
 
 				chai
 					.request(server)

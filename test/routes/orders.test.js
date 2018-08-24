@@ -1,14 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-// Import services
-import OrdersService from '../../src/api/server/services/orders/orders';
-import OrderAddressService from '../../src/api/server/services/orders/orderAddress';
-import OrderItemsService from '../../src/api/server/services/orders/orderItems';
-import OrdertTansactionsService from '../../src/api/server/services/orders/orderTransactions';
-import OrdertDiscountsService from '../../src/api/server/services/orders/orderDiscounts';
-import SettingsService from '../../src/api/server/services/settings/settings';
-import PaymentGateways from '../../src/api/server/paymentGateways';
-
 // Import the test dependencies
 import chai from 'chai';
 import chaiHttp from 'chai-http';

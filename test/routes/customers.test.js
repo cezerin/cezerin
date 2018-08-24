@@ -1,10 +1,5 @@
 process.env.NODE_ENV = 'test';
 
-// Import services
-import security from '../../src/api/server/lib/security';
-import CustomersService from '../../src/api/server/services/customers/customers';
-import parse from '../../src/api/server/lib/parse';
-
 // Import the test dependencies
 import chai from 'chai';
 import chaiHttp from 'chai-http';
@@ -61,7 +56,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.post('/api/v1/customers/')
-					.send(CustomersService.getValidDocumentForInsert(testCustomer))
+					.send(testCustomer)
 					.end((err, res) => {
 						user = res.body;
 						res.should.have.status(200);
@@ -77,7 +72,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.post('/api/v1/customers/')
-					.send(CustomersService.getValidDocumentForInsert(testCustomer))
+					.send(testCustomer)
 					.end((err, res) => {
 						res.should.have.status(500);
 						res.body.should.have.property('error').eql(true);
@@ -89,7 +84,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.post(`/api/v1/customers/${user.id}/addresses`)
-					.send(parse.getCustomerAddress(testAddress))
+					.send(testAddress)
 					.end((err, res) => {
 						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
@@ -134,10 +129,8 @@ describe('Customers', () => {
 			it('should UPDATE a single customer with id', function(done) {
 				let updateData = {};
 
-				updateData.full_name = parse.getString('Updated Customer');
-				updateData.email = parse
-					.getString('updatedcustomer@test.com')
-					.toLowerCase();
+				updateData.full_name = 'Updated Customer';
+				updateData.email = 'updatedcustomer@test.com';
 
 				chai
 					.request(server)
@@ -159,7 +152,7 @@ describe('Customers', () => {
 			it('should UPDATE a single address with id', function(done) {
 				let updateAddressData = {};
 
-				updateAddressData.address1 = parse.getString('4931 SW Theo Avenue');
+				updateAddressData.address1 = '4931 SW Theo Avenue';
 
 				chai
 					.request(server)
