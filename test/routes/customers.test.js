@@ -42,13 +42,27 @@ let testAddress = {
 	default_shipping: false
 };
 
-// Drop customers collection to start with blank slate.
+let loggedInAdminToken, user, addresses;
+
 describe('Customers', () => {
 	before(function(done) {
+		// Empty database before proceeding with tests
 		db.collection('customers').drop();
-		done();
+
+		// Create a Test Admin user for testing, adjust this e-mail address to
+		// match an existing user.
+		let existingAdminEmail = 'admin@test.com';
+
+		chai
+			.request(server)
+			.post(`/api/v1/authorize`)
+			.set('content-type', 'application/x-www-form-urlencoded')
+			.send({ email: existingAdminEmail })
+			.end((err, res) => {
+				loggedInAdminToken = res.body.token;
+				done();
+			});
 	});
-	let user, addresses;
 
 	describe('For Admin users', function() {
 		describe('/POST customers', function() {
@@ -56,6 +70,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.post('/api/v1/customers/')
+					.set('Authorization', loggedInAdminToken)
 					.send(testCustomer)
 					.end((err, res) => {
 						user = res.body;
@@ -72,6 +87,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.post('/api/v1/customers/')
+					.set('Authorization', loggedInAdminToken)
 					.send(testCustomer)
 					.end((err, res) => {
 						res.should.have.status(500);
@@ -84,6 +100,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.post(`/api/v1/customers/${user.id}/addresses`)
+					.set('Authorization', loggedInAdminToken)
 					.send(testAddress)
 					.end((err, res) => {
 						// Returns an empty object, so can only test status.
@@ -98,6 +115,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.get('/api/v1/customers/')
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -112,6 +130,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/customers/${user.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						addresses = res.body.addresses;
 						res.should.have.status(200);
@@ -135,6 +154,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.put(`/api/v1/customers/${user.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateData)
 					.end((err, res) => {
 						addresses = res.body.addresses;
@@ -157,6 +177,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.put(`/api/v1/customers/${user.id}/addresses/${addresses[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateAddressData)
 					.end((err, res) => {
 						// Returns an empty object, so can only test status.
@@ -173,6 +194,7 @@ describe('Customers', () => {
 							addresses[0].id
 						}/default_billing`
 					)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
@@ -188,6 +210,7 @@ describe('Customers', () => {
 							addresses[0].id
 						}/default_shipping`
 					)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
@@ -201,6 +224,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/customers/${user.id}/addresses/${addresses[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						// Returns an empty object, so can only test status.
 						res.should.have.status(200);
@@ -212,6 +236,7 @@ describe('Customers', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/customers/${user.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.a('object');
@@ -221,5 +246,147 @@ describe('Customers', () => {
 		});
 	});
 
-	describe('For Non-Admin users', function() {});
+	// If NOT in developer mode, all routes should provide a 401 error.
+	describe('For Non-Admin users', function() {
+		describe('/POST customers', function() {
+			it('should give a 401 error when POSTing a new customer', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/customers/')
+					.send(testCustomer)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing a duplicate customer', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/customers/')
+					.send(testCustomer)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing a new customer address', function(done) {
+				chai
+					.request(server)
+					.post(`/api/v1/customers/${user.id}/addresses`)
+					.send(testAddress)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/GET customers', function() {
+			it('should give a 401 error when GETTING all customers', function(done) {
+				chai
+					.request(server)
+					.get('/api/v1/customers/')
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING a single customer with id', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/customers/${user.id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/PUT customers', function() {
+			it('should give a 401 error when UPDATING a single customer with id', function(done) {
+				let updateData = {};
+
+				updateData.full_name = 'Updated Customer';
+				updateData.email = 'updatedcustomer@test.com';
+
+				chai
+					.request(server)
+					.put(`/api/v1/customers/${user.id}`)
+					.send(updateData)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when UPDATING a single address with id', function(done) {
+				let updateAddressData = {};
+
+				updateAddressData.address1 = '4931 SW Theo Avenue';
+
+				chai
+					.request(server)
+					.put(`/api/v1/customers/${user.id}/addresses/${addresses[0].id}`)
+					.send(updateAddressData)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when setting a default billing address for a single customer with id', function(done) {
+				chai
+					.request(server)
+					.post(
+						`/api/v1/customers/${user.id}/addresses/${
+							addresses[0].id
+						}/default_billing`
+					)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when setting a default shipping address for a single customer with id', function(done) {
+				chai
+					.request(server)
+					.post(
+						`/api/v1/customers/${user.id}/addresses/${
+							addresses[0].id
+						}/default_shipping`
+					)
+					.end((err, res) => {
+						// Returns an empty object, so can only test status.
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/DELETE customers', function() {
+			it('should give a 401 error when DELETING a single customers address with id', function(done) {
+				chai
+					.request(server)
+					.delete(`/api/v1/customers/${user.id}/addresses/${addresses[0].id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when DELETING a single customer with id', function(done) {
+				chai
+					.request(server)
+					.delete(`/api/v1/customers/${user.id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
 });

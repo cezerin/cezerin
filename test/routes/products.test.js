@@ -49,13 +49,33 @@ let testProduct = {
 	id: ''
 };
 
+let loggedInAdminToken,
+	product,
+	options,
+	variants,
+	optionValues,
+	variantsOptions,
+	images;
+
 describe('Products', () => {
 	before(done => {
+		// Empty database before proceeding with tests
 		db.collection('products').drop();
-		done();
-	});
 
-	let product, options, variants, optionValues, variantsOptions, images;
+		// Create a Test Admin user for testing, adjust this e-mail address to
+		// match an existing user.
+		let existingAdminEmail = 'admin@test.com';
+
+		chai
+			.request(server)
+			.post(`/api/v1/authorize`)
+			.set('content-type', 'application/x-www-form-urlencoded')
+			.send({ email: existingAdminEmail })
+			.end((err, res) => {
+				loggedInAdminToken = res.body.token;
+				done();
+			});
+	});
 
 	describe('For Admin users', function() {
 		describe('/POST products', function() {
@@ -63,6 +83,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.post('/api/v1/products')
+					.set('Authorization', loggedInAdminToken)
 					.send(testProduct)
 					.end((err, res) => {
 						product = res.body;
@@ -80,6 +101,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.post('/api/v1/products')
+					.set('Authorization', loggedInAdminToken)
 					.send(testProduct)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -102,6 +124,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.post(`/api/v1/products/${product.id}/options`)
+					.set('Authorization', loggedInAdminToken)
 					.send(testOptions)
 					.end((err, res) => {
 						options = res.body;
@@ -123,6 +146,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.post(`/api/v1/products/${product.id}/variants`)
+					.set('Authorization', loggedInAdminToken)
 					.send(testVariants)
 					.end((err, res) => {
 						variants = res.body;
@@ -145,6 +169,7 @@ describe('Products', () => {
 					.post(
 						`/api/v1/products/${product.id}/options/${options[0].id}/values`
 					)
+					.set('Authorization', loggedInAdminToken)
 					.send(newOptionValues)
 					.end((err, res) => {
 						optionValues = res.body;
@@ -159,6 +184,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.post(`/api/v1/products/${product.id}/images`)
+					.set('Authorization', loggedInAdminToken)
 					.field('Content-Type', 'multipart/form-data')
 					.attach('images', './test/test_image.png', 'test_image.png')
 					.end((err, res) => {
@@ -176,6 +202,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get('/api/v1/products')
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -189,6 +216,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/products/${product.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.have.property('name').eql('Product A');
@@ -203,6 +231,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/products/${product.id}/options`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -217,6 +246,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/products/${product.id}/options/${options[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -230,6 +260,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/products/${product.id}/options/${options[0].id}/values`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -246,6 +277,7 @@ describe('Products', () => {
 							optionValues[0].id
 						}`
 					)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -258,6 +290,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/products/${product.id}/variants`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.body.should.be.a('array');
 						res.body.length.should.be.eql(1);
@@ -272,6 +305,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/products/${product.id}/images`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						images = res.body;
 						res.should.have.status(200);
@@ -291,6 +325,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.put(`/api/v1/products/${product.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateProductData)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -308,6 +343,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.put(`/api/v1/products/${product.id}/options/${options[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateOptions)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -324,6 +360,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.put(`/api/v1/products/${product.id}/variants/${variants[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateVariants)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -345,6 +382,7 @@ describe('Products', () => {
 							optionValues[0].id
 						}`
 					)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateOptionValues)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -378,6 +416,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/products/${product.id}/options/${options[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.empty;
@@ -389,6 +428,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/products/${product.id}/variants/${variants[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.empty;
@@ -404,6 +444,7 @@ describe('Products', () => {
 							optionValues[0].id
 						}`
 					)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -416,6 +457,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/products/${product.id}/images/${images[0].id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.empty;
@@ -427,6 +469,7 @@ describe('Products', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/products/${product.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -437,5 +480,360 @@ describe('Products', () => {
 		});
 	});
 
-	describe('For Non-Admin users', function() {});
+	// If NOT in developer mode, all routes should provide a 401 error.
+	describe('For Non-Admin users', function() {
+		describe('/POST products', function() {
+			// These next four tests are required to create a new product in the database
+			// to stop the following .id's from being undefined.
+			it('should POST a new product in our inventory', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/products')
+					.set('Authorization', loggedInAdminToken)
+					.send(testProduct)
+					.end((err, res) => {
+						product = res.body;
+						res.should.have.status(200);
+						done();
+					});
+			});
+
+			it('should POST new options to an existing product', function(done) {
+				let testOptions = {
+					name: 'New Options',
+					control: 'select',
+					required: true
+				};
+
+				chai
+					.request(server)
+					.post(`/api/v1/products/${product.id}/options`)
+					.set('Authorization', loggedInAdminToken)
+					.send(testOptions)
+					.end((err, res) => {
+						options = res.body;
+						res.should.have.status(200);
+						done();
+					});
+			});
+
+			it('should POST new variants to an existing product', function(done) {
+				let testVariants = {
+					sku: '99',
+					price: 500,
+					stock_quantity: 1
+				};
+
+				chai
+					.request(server)
+					.post(`/api/v1/products/${product.id}/variants`)
+					.set('Authorization', loggedInAdminToken)
+					.send(testVariants)
+					.end((err, res) => {
+						variants = res.body;
+						res.should.have.status(200);
+						done();
+					});
+			});
+
+			it('should POST new values to existing options for an existing product', function(done) {
+				let newOptionValues = {
+					name: 'New Options Values'
+				};
+
+				chai
+					.request(server)
+					.post(
+						`/api/v1/products/${product.id}/options/${options[0].id}/values`
+					)
+					.set('Authorization', loggedInAdminToken)
+					.send(newOptionValues)
+					.end((err, res) => {
+						optionValues = res.body;
+						res.should.have.status(200);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing a new product in our inventory', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/products')
+					.send(testProduct)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing a new product with unique SKU in our inventory', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/products')
+					.send(testProduct)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing new options to an existing product', function(done) {
+				let testOptions = {
+					name: 'New Options',
+					control: 'select',
+					required: true
+				};
+
+				chai
+					.request(server)
+					.post(`/api/v1/products/${product.id}/options`)
+					.send(testOptions)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing new variants to an existing product', function(done) {
+				let testVariants = {
+					sku: '99',
+					price: 500,
+					stock_quantity: 1
+				};
+
+				chai
+					.request(server)
+					.post(`/api/v1/products/${product.id}/variants`)
+					.send(testVariants)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing new values to existing options for an existing product', function(done) {
+				let newOptionValues = {
+					name: 'New Options Values'
+				};
+
+				chai
+					.request(server)
+					.post(
+						`/api/v1/products/${product.id}/options/${options[0].id}/values`
+					)
+					.send(newOptionValues)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/GET products', function() {
+			it('should give a 401 error when GETTING all products from our inventory', function(done) {
+				chai
+					.request(server)
+					.get('/api/v1/products')
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING a single product from inventory with id', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/products/${product.id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING all options for a single product', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/products/${product.id}/options`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING single option for a single product', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/products/${product.id}/options/${options[0].id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING all values for a single option for a single product', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/products/${product.id}/options/${options[0].id}/values`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING single value for a single option for a single product', function(done) {
+				chai
+					.request(server)
+					.get(
+						`/api/v1/products/${product.id}/options/${options[0].id}/values/${
+							optionValues[0].id
+						}`
+					)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING all variants for a single product', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/products/${product.id}/variants`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING all images for a product', function(done) {
+				chai
+					.request(server)
+					.get(`/api/v1/products/${product.id}/images`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/PUT products', function() {
+			it('should give a 401 error when UPDATING a single product from inventory with id', function(done) {
+				let updateProductData = {};
+				updateProductData.name = 'New Product A';
+				updateProductData.regular_price = 1;
+
+				chai
+					.request(server)
+					.put(`/api/v1/products/${product.id}`)
+					.send(updateProductData)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when UPDATING a single option for a single product', function(done) {
+				let updateOptions = {};
+				updateOptions.name = 'Updated Options';
+
+				chai
+					.request(server)
+					.put(`/api/v1/products/${product.id}/options/${options[0].id}`)
+					.send(updateOptions)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when UPDATING a single variant for a single product', function(done) {
+				let updateVariants = {};
+				updateVariants.sku = '15';
+				updateVariants.price = 99;
+
+				chai
+					.request(server)
+					.put(`/api/v1/products/${product.id}/variants/${variants[0].id}`)
+					.send(updateVariants)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 when UPDATING single value for a single option for a single product', function(done) {
+				let updateOptionValues = {
+					name: 'Updated Option Values'
+				};
+
+				chai
+					.request(server)
+					.put(
+						`/api/v1/products/${product.id}/options/${options[0].id}/values/${
+							optionValues[0].id
+						}`
+					)
+					.send(updateOptionValues)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			describe('/DELETE products', function() {
+				it('should give a 401 error when DELETING a single option for a single product', function(done) {
+					chai
+						.request(server)
+						.delete(`/api/v1/products/${product.id}/options/${options[0].id}`)
+						.end((err, res) => {
+							res.should.have.status(401);
+							done();
+						});
+				});
+
+				it('should give a 401 error when DELETING a single variant for a single product', function(done) {
+					chai
+						.request(server)
+						.delete(`/api/v1/products/${product.id}/variants/${variants[0].id}`)
+						.end((err, res) => {
+							res.should.have.status(401);
+							done();
+						});
+				});
+
+				it('should give a 401 error when DELETING single value for a single option for a single product', function(done) {
+					chai
+						.request(server)
+						.delete(
+							`/api/v1/products/${product.id}/options/${options[0].id}/values/${
+								optionValues[0].id
+							}`
+						)
+						.end((err, res) => {
+							res.should.have.status(401);
+							done();
+						});
+				});
+
+				it('should give a 401 error when DELETING an image for a product', function(done) {
+					chai
+						.request(server)
+						.delete(`/api/v1/products/${product.id}/images/${images[0].id}`)
+						.end((err, res) => {
+							res.should.have.status(401);
+							done();
+						});
+				});
+
+				it('should give a 401 error when DELETING a product from inventory with id', function(done) {
+					chai
+						.request(server)
+						.delete(`/api/v1/products/${product.id}`)
+						.end((err, res) => {
+							res.should.have.status(401);
+							done();
+						});
+				});
+			});
+		});
+	});
 });

@@ -313,8 +313,13 @@ class SecurityTokensService {
 					requestFrom
 				})
 			};
+			const extractedToken = link.substr(19);
 			const emailSent = await mailer.send(message);
-			return { sent: emailSent, error: null };
+			return {
+				sent: emailSent,
+				error: null,
+				token: 'Bearer ' + extractedToken
+			};
 		} else {
 			return { sent: false, error: 'Access Denied' };
 		}

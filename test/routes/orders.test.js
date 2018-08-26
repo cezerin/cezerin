@@ -113,12 +113,27 @@ let testOrder = {
 	grand_total: 950
 };
 
+let loggedInAdminToken, product, order;
+
 describe('Orders', () => {
 	before(done => {
+		// Empty database before proceeding with tests
 		db.collection('orders').drop();
-		done();
+
+		// Create a Test Admin user for testing, adjust this e-mail address to
+		// match an existing user.
+		let existingAdminEmail = 'admin@test.com';
+
+		chai
+			.request(server)
+			.post(`/api/v1/authorize`)
+			.set('content-type', 'application/x-www-form-urlencoded')
+			.send({ email: existingAdminEmail })
+			.end((err, res) => {
+				loggedInAdminToken = res.body.token;
+				done();
+			});
 	});
-	let product, order;
 
 	describe('Admin users', function() {
 		describe('/POST orders', () => {
@@ -127,6 +142,7 @@ describe('Orders', () => {
 				chai
 					.request(server)
 					.post('/api/v1/products')
+					.set('Authorization', loggedInAdminToken)
 					.send(testProduct)
 					.end((err, res) => {
 						product = res.body;
@@ -141,6 +157,7 @@ describe('Orders', () => {
 				chai
 					.request(server)
 					.post('/api/v1/orders/')
+					.set('Authorization', loggedInAdminToken)
 					.send(testOrder)
 					.end((err, res) => {
 						order = res.body;
@@ -159,6 +176,7 @@ describe('Orders', () => {
 				chai
 					.request(server)
 					.get('/api/v1/orders/')
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -175,6 +193,7 @@ describe('Orders', () => {
 				chai
 					.request(server)
 					.get(`/api/v1/orders/${order.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.should.be.a('object');
@@ -194,6 +213,7 @@ describe('Orders', () => {
 				chai
 					.request(server)
 					.put(`/api/v1/orders/${order.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.send(updateOrder)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -210,6 +230,7 @@ describe('Orders', () => {
 				chai
 					.request(server)
 					.delete(`/api/v1/orders/${order.id}`)
+					.set('Authorization', loggedInAdminToken)
 					.end((err, res) => {
 						res.should.have.status(200);
 						res.body.should.be.empty;
@@ -219,7 +240,99 @@ describe('Orders', () => {
 		});
 	});
 
-	describe('Non-Admin users', function() {});
+	// If NOT in developer mode, all routes should provide a 401 error.
+	describe('Non-Admin users', function() {
+		describe('/POST orders', () => {
+			// Setup a test product in the database
+			it('should POST a new product in our inventory', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/products')
+					.set('Authorization', loggedInAdminToken)
+					.send(testProduct)
+					.end((err, res) => {
+						product = res.body;
+						res.should.have.status(200);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing a new product in our inventory', function(done) {
+				chai
+					.request(server)
+					.post('/api/v1/products')
+					.send(testProduct)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when POSTing an order', done => {
+				testOrder.items = [product];
+
+				chai
+					.request(server)
+					.post('/api/v1/orders/')
+					.send(testOrder)
+					.end((err, res) => {
+						order = res.body;
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/GET orders', () => {
+			it('should give a 401 error when GETTING all the orders', done => {
+				chai
+					.request(server)
+					.get('/api/v1/orders/')
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+
+			it('should give a 401 error when GETTING a single order', done => {
+				chai
+					.request(server)
+					.get(`/api/v1/orders/${order.id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/PUT orders', function() {
+			it('should give a 401 error when UPDATING an order', function(done) {
+				let updateOrder = {};
+				updateOrder.email = 'newcustomer@test.com';
+
+				chai
+					.request(server)
+					.put(`/api/v1/orders/${order.id}`)
+					.send(updateOrder)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+
+		describe('/DELETE orders', function() {
+			it('should give a 401 error when DELETING a specific order', function(done) {
+				chai
+					.request(server)
+					.delete(`/api/v1/orders/${order.id}`)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
 });
 
 // TODO
