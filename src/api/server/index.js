@@ -44,3 +44,5 @@ const server = app.listen(settings.apiListenPort, () => {
 });
 
 dashboardWebSocket.listen(server);
+
+export default server;
