@@ -1,3 +1,5 @@
+![cezerin-inline-logo](https://user-images.githubusercontent.com/1026183/44085943-dcbae16a-9f6f-11e8-98d3-0fca06fb98a7.png)
+
 # API Reference
 
 * [Apps](./apps.md)
@@ -17,7 +19,7 @@
 * Settings
 * Site Map
 * Theme
-* Redirects
+* [Redirects](./redirects.md)
 * [Webhooks](./webhooks.md)
 
 ## Overview

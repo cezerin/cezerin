@@ -18,6 +18,8 @@ import ShippingMethodListHead from 'modules/settings/shipping/head';
 import PageHead from 'modules/pages/edit/head';
 import PageListHead from 'modules/pages/list/head';
 import TokenListHead from 'modules/settings/tokens/list/head';
+import RedirectsListHead from 'modules/settings/redirects/list/head';
+import RedirectsEditHead from 'modules/settings/redirects/edit/head';
 import WebhooksListHead from 'modules/settings/webhooks/list/head';
 import WebhooksEditHead from 'modules/settings/webhooks/edit/head';
 import AppsHead from 'modules/apps/head';
@@ -466,6 +468,32 @@ export default class AppBarTop extends React.Component {
 					</IconButton>
 				</Link>
 			);
+		} else if (pathname === '/admin/settings/redirects') {
+			title = messages.redirects;
+			rightElements = <RedirectsListHead />;
+		} else if (pathname === '/admin/settings/redirects/add') {
+			title = messages.redirectAdd;
+			leftButton = (
+				<Link to="/admin/settings/redirects">
+					<IconButton>
+						<FontIcon color="#fff" className="material-icons">
+							arrow_back
+						</FontIcon>
+					</IconButton>
+				</Link>
+			);
+		} else if (pathname.startsWith('/admin/settings/redirects/')) {
+			title = messages.redirectEdit;
+			leftButton = (
+				<Link to="/admin/settings/redirects">
+					<IconButton>
+						<FontIcon color="#fff" className="material-icons">
+							arrow_back
+						</FontIcon>
+					</IconButton>
+				</Link>
+			);
+			rightElements = <RedirectsEditHead />;
 		} else if (pathname === '/admin/settings/webhooks') {
 			title = messages.webhooks;
 			rightElements = <WebhooksListHead />;

@@ -143,6 +143,20 @@ export function receiveThemeSettingsSchema(schema) {
 	};
 }
 
+function receiveRedirects(redirects) {
+	return {
+		type: t.REDIRECTS_RECEIVE,
+		redirects
+	};
+}
+
+export function receiveRedirect(redirectEdit) {
+	return {
+		type: t.REDIRECT_RECEIVE,
+		redirectEdit
+	};
+}
+
 function receiveWebhooks(webhooks) {
 	return {
 		type: t.WEBHOOKS_RECEIVE,
@@ -507,6 +521,61 @@ export function updateThemeSettings(settings) {
 			.update(settings)
 			.then(() => {
 				dispatch(fetchThemeSettings());
+			})
+			.catch(error => {});
+	};
+}
+
+export function fetchRedirects() {
+	return (dispatch, getState) => {
+		return api.redirects
+			.list()
+			.then(({ status, json }) => {
+				dispatch(receiveRedirects(json));
+			})
+			.catch(error => {});
+	};
+}
+
+export function fetchRedirect(id) {
+	return (dispatch, getState) => {
+		return api.redirects
+			.retrieve(id)
+			.then(({ status, json }) => {
+				dispatch(receiveRedirect(json));
+			})
+			.catch(error => {});
+	};
+}
+
+export function createRedirect(redirect) {
+	return (dispatch, getState) => {
+		return api.redirects
+			.create(redirect)
+			.then(({ status, json }) => {
+				dispatch(fetchRedirects());
+			})
+			.catch(error => {});
+	};
+}
+
+export function updateRedirect(redirect) {
+	return (dispatch, getState) => {
+		return api.redirects
+			.update(redirect.id, redirect)
+			.then(({ status, json }) => {
+				dispatch(fetchRedirects());
+			})
+			.catch(error => {});
+	};
+}
+
+export function deleteRedirect(redirectId) {
+	return (dispatch, getState) => {
+		return api.redirects
+			.delete(redirectId)
+			.then(({ status, json }) => {
+				dispatch(fetchRedirects());
 			})
 			.catch(error => {});
 	};

@@ -246,6 +246,11 @@ h1 {
   line-height: 14px !important;
 }
 
+.adminLogo-svg {
+	height: 38px;
+	padding-top: 12px;
+	padding-left: 2px;
+}
 
 /*
 MOBILE

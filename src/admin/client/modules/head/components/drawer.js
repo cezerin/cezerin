@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import SVGInline from 'react-svg-inline';
 import messages from 'lib/text';
 
 import Divider from 'material-ui/Divider';
@@ -9,6 +10,8 @@ import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
+
+import logoSVG from '../../../../../../public/admin-assets/images/admin-logo.svg';
 
 const menuItems = [
 	{
@@ -138,7 +141,7 @@ const DrawerMenu = ({ open, onClose, currentUrl }) => {
 	return (
 		<Drawer docked={false} width={280} open={open} onRequestChange={onClose}>
 			<AppBar
-				title={messages.drawer_title}
+				title={<SVGInline className="adminLogo" svg={logoSVG} />}
 				style={styles.appBar}
 				titleStyle={styles.appBarTitle}
 				zDepth={0}

@@ -345,6 +345,10 @@
     "singleDeleteDescription": "Cet article sera automatiquement suppimé. Vous ne pourrez pas revenir en arrière.",
     "multipleDeleteTitle": "Êtes-vous sûr de vouloir supprimer les {count} articles sélectionnés?",
     "multipleDeleteDescription": "{count} articles seront supprimés. Vous ne pourrez pas revenir en arrière.",
+    "redirects": "Redirects",
+  "redirectsAbout": "Redirects allow you to migrate routes from previous sites. Each redirect will return the 301 http status code.",
+    "redirectEdit": "Edit redirect",
+    "redirectAdd": "Add redirect",
     "webhooks": "Webhooks",
     "webhooksAbout": "Les Webhooks permettent aux services externes d'être notifiés lorsque certains événements se produisent. Lorsque les événements spécifiés se produisent, Cezerin envoie une requête POST à ​​chacune des URL que vous fournissez.",
     "webhookEdit": "Modifier webhook",
@@ -356,4 +360,3 @@
     "additionalCategories": "Catégories aditionnelles",
     "alt": "Text alternatif"
   }
-  

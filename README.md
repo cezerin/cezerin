@@ -2,7 +2,10 @@
 
 [![CircleCI](https://circleci.com/gh/cezerin/cezerin/tree/master.svg?style=svg)](https://circleci.com/gh/cezerin/cezerin/tree/master)
 
-Cezerin is React and Node.js based eCommerce platform. Allows creating a Progressive Web Apps.
+![cezerin-logo](https://user-images.githubusercontent.com/1026183/44085425-660f1a3c-9f6e-11e8-8202-cbae59092480.png)
+
+
+Cezerin is React and Node.js based eCommerce platform. Allows creating Progressive Web Apps.
 
 Built with:
 * Node.js v8.9
@@ -23,9 +26,9 @@ Client-side dashboard use JSON Web Token (JWT) to access REST API.
 ## Store
 Single-Page Application with React server-side rendering. [Demo store](https://store.cezerin.com)
 
-[![Cezerin Store](https://cezerin.com/assets/images/cezerin-mobile-product.png)](https://store.cezerin.com)
+[![Cezerin Store](https://user-images.githubusercontent.com/1026183/44085333-08922d90-9f6e-11e8-96f7-be80ff3ce162.png)](https://store.cezerin.com)
 
-[![Cezerin Store](https://cezerin.com/assets/images/cezerin-mobile-order-summary.png)](https://store.cezerin.com)
+[![Cezerin Store](https://user-images.githubusercontent.com/1026183/44085402-4fa3de72-9f6e-11e8-9fb4-130ed7e149ba.png)](https://store.cezerin.com)
 
 ## Installation
 
