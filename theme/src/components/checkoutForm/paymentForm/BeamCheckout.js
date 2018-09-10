@@ -120,7 +120,8 @@ export default class BeamButton extends React.Component {
 					dstAddr: formSettings.merchantPublicKey,
 					value: web3.utils.toWei(`${formSettings.amount}`),
 					receipt: {
-						secret: null,
+						secret:
+							'0x0000000000000000000000000000000000000000000000000000000000000000',
 						receipt: await this.updateAndSignReceipt(
 							receipt,
 							web3.utils.toWei(new web3.utils.BN(formSettings.amount)),
@@ -195,7 +196,8 @@ export default class BeamButton extends React.Component {
 					disabled={processing || !hasSufficientBalance}
 					className={buttonClasses}
 				>
-					Pay with Beam (fee: {transactionFee.toString()})!
+					Pay with Beam (fee: {transactionFee.toString()}
+					)!
 				</button>
 			</div>
 		);
