@@ -120,7 +120,8 @@ export default class BeamButton extends React.Component {
 					dstAddr: formSettings.merchantPublicKey,
 					value: web3.utils.toWei(`${formSettings.amount}`),
 					receipt: {
-						secret: null,
+						secret:
+							'0x0000000000000000000000000000000000000000000000000000000000000000',
 						receipt: await this.updateAndSignReceipt(
 							receipt,
 							web3.utils.toWei(new web3.utils.BN(formSettings.amount)),
@@ -152,10 +153,7 @@ export default class BeamButton extends React.Component {
 		const delta = web3.utils
 			.toBN(receipt.walletServerDelta)
 			.sub(amount.add(actualFee));
-		const timeLockDuration = web3.utils
-			.toBN(receipt.timeLockDuration)
-			.mul(web3.utils.toBN(3))
-			.toString();
+		const timeLockDuration = '500';
 		const sigHash = web3.utils.soliditySha3(
 			delta,
 			nonce,
@@ -195,7 +193,8 @@ export default class BeamButton extends React.Component {
 					disabled={processing || !hasSufficientBalance}
 					className={buttonClasses}
 				>
-					Pay with Beam (fee: {transactionFee.toString()})!
+					Pay with Beam (fee: {transactionFee.toString()}
+					)!
 				</button>
 			</div>
 		);
