@@ -153,7 +153,7 @@ export default class BeamButton extends React.Component {
 		const delta = web3.utils
 			.toBN(receipt.walletServerDelta)
 			.sub(amount.add(actualFee));
-		const timeLockDuration = web3.utils.toBN('500');
+		const timeLockDuration = web3.utils.toBN('500').toString();
 		const sigHash = web3.utils.soliditySha3(
 			delta,
 			nonce,
@@ -170,7 +170,7 @@ export default class BeamButton extends React.Component {
 			nonce: nonce.toString(),
 			signer0: receipt.signer0,
 			secretHash: secret,
-			timeLockDuration: timeLockDuration.toString()
+			timeLockDuration
 		};
 
 		return web3.eth.sign(prefixed, receipt.signer0).then(signature => {
