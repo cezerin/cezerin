@@ -148,11 +148,15 @@ export default class BeamButton extends React.Component {
 	};
 
 	async updateAndSignReceipt(receipt, amount, fee, secret) {
-		const nonce = web3.utils.toBN(receipt.nonce).add(new web3.utils.BN(1));
+		const nonce = web3.utils
+			.toBN(receipt.nonce)
+			.add(new web3.utils.BN(1))
+			.toString();
 		const actualFee = web3.utils.toBN(web3.utils.toWei(fee));
 		const delta = web3.utils
 			.toBN(receipt.walletServerDelta)
-			.sub(amount.add(actualFee));
+			.sub(amount.add(actualFee))
+			.toString();
 		const timeLockDuration = web3.utils.toBN('500').toString();
 		const sigHash = web3.utils.soliditySha3(
 			delta,
@@ -166,8 +170,8 @@ export default class BeamButton extends React.Component {
 		);
 		const newReceipt = {
 			channelId: receipt.channelId,
-			walletServerDelta: delta.toString(),
-			nonce: nonce.toString(),
+			walletServerDelta: delta,
+			nonce: nonce,
 			signer0: receipt.signer0,
 			secretHash: secret,
 			timeLockDuration
