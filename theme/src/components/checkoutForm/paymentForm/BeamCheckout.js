@@ -170,7 +170,7 @@ export default class BeamButton extends React.Component {
 			nonce: nonce.toString(),
 			signer0: receipt.signer0,
 			secretHash: secret,
-			timeLockDuration
+			timeLockDuration: timeLockDuration.toString()
 		};
 
 		return web3.eth.sign(prefixed, receipt.signer0).then(signature => {
