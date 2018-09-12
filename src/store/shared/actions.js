@@ -202,7 +202,9 @@ export const checkout = (cart, history) => async (dispatch, getState) => {
 	}
 
 	const cartResponse = await api.ajax.cart.retrieve();
+	console.log('cartResponse:', cartResponse, '\n');
 	const chargeNeeded = !!cartResponse.json.payment_token;
+	console.log('chargeNeeded:', chargeNeeded, '\n');
 
 	if (chargeNeeded) {
 		const chargeResponse = await api.ajax.cart.client.post('/cart/charge');
@@ -213,6 +215,7 @@ export const checkout = (cart, history) => async (dispatch, getState) => {
 	}
 
 	const response = await api.ajax.cart.checkout();
+	console.log('response from cart.checkout:', response, '\n');
 	const order = response.json;
 	dispatch(receiveCheckout(order));
 	history.push('/checkout-success');

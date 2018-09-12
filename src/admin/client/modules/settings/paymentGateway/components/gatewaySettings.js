@@ -170,13 +170,13 @@ const Webpay = props => {
 		<div>
 			<Field
 				component={TextField}
-				name="commerce_code"
+				name="commerceCode"
 				floatingLabelText="Código de comercio (Commerce Code)"
 				fullWidth={true}
 			/>
 			<p>
-				Debe guardar los certificados entregados por Webpay en:{' '}
-				<i>/src/api/server/paymentGateways/TransbankWebpay/certificates</i>
+				<strong>IMPORTANTE:</strong> El integrador debe incluir las llaves en
+				como variables en el archivo "TransbankCertificates"
 			</p>
 		</div>
 	);

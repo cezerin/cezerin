@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import CezerinClient from 'ucommerce-client';
 import serverSettings from './lib/settings';
 const ajaxRouter = express.Router();
+import WP from './WebpayClient';
 
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
 const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
@@ -387,6 +388,41 @@ ajaxRouter.post('/chatbot/ask', async (req, res, next) => {
 		res.status(200).send({ ...answer });
 	} catch (error) {
 		console.log('Error routing answer:', error.message);
+	}
+});
+
+ajaxRouter.post('/checkout/webpay/pay', async (req, res, next) => {
+	const orderData = req.body;
+
+	const url = `http://${req.get('host')}`;
+
+	try {
+		const data = await WP.initTransaction({
+			buyOrder: orderData.order_id,
+			sessionId: orderData.orderId,
+			returnURL: `${url}/verify`,
+			finalURL: `${url}/voucher`,
+			amount: orderData.amount
+		});
+		console.log('data:', data, '\n');
+		res.status(200).send({ redirectURL: `${data.url}?token_ws=${data.token}` });
+	} catch (error) {
+		console.log('Error initiating transaction:', error.message);
+		res.status(500).send({ status: 500, message: error.message });
+	}
+});
+
+ajaxRouter.post('/checkout/webpay/verify', async (req, res, next) => {
+	let token = req.body.token_ws;
+	let transaction;
+
+	try {
+		const transactionResult = await WP.getTransactionResult(token);
+		console.log('transactionResult:', transactionResult, '\n');
+		const acknowlefedTransaction = await WP.acknowledgeTransaction(token);
+		res.status(200).send({ status: 'verified' });
+	} catch (error) {
+		console.log('Error getting the transaction:', error.message);
 	}
 });
 
