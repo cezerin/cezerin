@@ -108,6 +108,7 @@ export default class PaymentForm extends React.Component {
 						</div>
 					);
 				case 'transbank-webpay':
+					console.log('formSettings:', formSettings, '\n');
 					return (
 						<div className="payment-form">
 							<TransbankWebpayCheckout
