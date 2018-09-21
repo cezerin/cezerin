@@ -14,8 +14,7 @@ const getPaymentFormSettings = options => {
 			order.billing_address.full_name || order.shipping_address.full_name,
 		clientMobile: order.mobile,
 		amount,
-		currency,
-		commerceCode: gatewaySettings['public-key']
+		currency
 	};
 
 	return Promise.resolve(formSettings);

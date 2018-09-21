@@ -8,6 +8,7 @@ class ChatbotService {
 	constructor() {
 		this.sessionsClient = new dialogflow.SessionsClient();
 	}
+
 	getSettings() {
 		return mongo.db
 			.collection('appSettings')
