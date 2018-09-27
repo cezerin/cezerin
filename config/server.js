@@ -1,7 +1,5 @@
-const ip = require('ip');
-
 // config used by server side only
-const dbHost = process.env.DB_HOST || ip.address();
+const dbHost = process.env.DB_HOST || '127.0.0.1';
 const dbPort = process.env.DB_PORT || 27017;
 const dbName = process.env.DB_NAME || 'shop';
 const dbUser = process.env.DB_USER || '';

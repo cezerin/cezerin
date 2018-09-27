@@ -92,7 +92,6 @@
     "helmet": "^3.13.0",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^0.14.3",
-    "ip": "^1.1.5",
     "jsonwebtoken": "^8.3.0",
     "lint-staged": "^7.2.0",
     "lodash": "^4.17.10",
