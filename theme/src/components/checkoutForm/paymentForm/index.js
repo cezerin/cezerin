@@ -2,6 +2,7 @@ import React from 'react';
 import api from '../../../lib/api';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
+import BeamButton from './BeamCheckout';
 import StripeElements from './StripeElements';
 
 export default class PaymentForm extends React.Component {
@@ -78,6 +79,16 @@ export default class PaymentForm extends React.Component {
 					return (
 						<div className="payment-form">
 							<LiqPay
+								formSettings={formSettings}
+								shopSettings={shopSettings}
+								onPayment={onPayment}
+							/>
+						</div>
+					);
+				case 'beam-checkout':
+					return (
+						<div className="payment-form">
+							<BeamButton
 								formSettings={formSettings}
 								shopSettings={shopSettings}
 								onPayment={onPayment}

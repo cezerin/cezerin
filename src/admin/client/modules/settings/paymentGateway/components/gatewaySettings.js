@@ -14,6 +14,8 @@ const GatewaySettings = ({ gateway }) => {
 			return <PayPalButton />;
 		case 'liqpay':
 			return <LiqPay />;
+		case 'beam-checkout':
+			return <BeamButton />;
 		case 'stripe-elements':
 			return <StripeElements />;
 		default:
@@ -126,6 +128,33 @@ const LiqPay = props => {
 				name="server_url"
 				floatingLabelText="Server URL"
 				hintText="https://<domain>/api/v1/notifications/liqpay"
+				fullWidth={true}
+			/>
+		</div>
+	);
+};
+
+const BeamButton = props => {
+	return (
+		<div>
+			<Field
+				component={TextField}
+				name="hub_url"
+				floatingLabelText="Payment Hub URL"
+				fullWidth={true}
+			/>
+
+			<Field
+				component={TextField}
+				name="public_key"
+				floatingLabelText="Public Key"
+				fullWidth={true}
+			/>
+
+			<Field
+				component={TextField}
+				name="private_key"
+				floatingLabelText="Private Key"
 				fullWidth={true}
 			/>
 		</div>

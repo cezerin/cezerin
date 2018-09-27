@@ -8,6 +8,10 @@ export const AVAILABLE_PAYMENT_GATEWAYS = [
 		name: 'LiqPay'
 	},
 	{
+		key: 'beam-checkout',
+		name: 'Beam Checkout'
+	},
+	{
 		key: 'stripe-elements',
 		name: 'Stripe Elements'
 	}

@@ -10,6 +10,7 @@
     "rc-slider": "^8.6.1",
     "react-image-gallery": "^0.8.7",
     "react-image-lightbox": "^4.6.0",
-    "react-lazyload": "^2.3.0"
+    "react-lazyload": "^2.3.0",
+    "web3": "^1.0.0-beta.35"
   }
 }

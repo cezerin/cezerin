@@ -12,19 +12,19 @@ const dbUrl =
 
 module.exports = {
 	// used by Store (server side)
-	apiBaseUrl: `http://localhost:3001/api/v1`,
+	apiBaseUrl: `https://store.beam.red/api/v1`,
 
 	// used by Store (server and client side)
-	ajaxBaseUrl: `http://localhost:3001/ajax`,
+	ajaxBaseUrl: `https://store.beam.red/ajax`,
 
 	// Access-Control-Allow-Origin
-	storeBaseUrl: `http://localhost:3000`,
+	storeBaseUrl: 'https://store.beam.red',
 
 	// used by API
-	adminLoginUrl: '/admin/login',
+	adminLoginUrl: 'https://store.beam.red/admin/login',
 
-	apiListenPort: 3001,
-	storeListenPort: 3000,
+	apiListenPort: 3002,
+	storeListenPort: 3001,
 
 	// used by API
 	mongodbServerUrl: dbUrl,
@@ -40,10 +40,10 @@ module.exports = {
 	},
 
 	// key to sign tokens
-	jwtSecretKey: '-',
+	jwtSecretKey: 'SP69kXFR3gbRi7kL8Max2GTB24wOtEQj',
 
 	// key to sign store cookies
-	cookieSecretKey: '-',
+	cookieSecretKey: '8669X9P5yI1dAEZhy1chc3M9EncyS7SM',
 
 	// path to uploads
 	categoriesUploadPath: 'public/content/images/categories',
@@ -61,7 +61,5 @@ module.exports = {
 	language: 'en',
 
 	// used by API
-	orderStartNumber: 1000,
-
-	developerMode: true
+	orderStartNumber: 1000
 };
