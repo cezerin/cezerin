@@ -4,7 +4,7 @@ public/admin-assets/js/app-*
 public/admin-assets/js/vendor-*
 public/admin-assets/css/bundle-*
 public/admin/index.html
-public/content/*
+# public/content/*
 !public/content/*.md
 theme/dist/*
 theme/assets/js/app-*
@@ -17,3 +17,4 @@ dist/*
 logs/*.log
 npm-debug.log*
 *.zip
+.DS_Store
