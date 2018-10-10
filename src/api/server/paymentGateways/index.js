@@ -4,7 +4,7 @@ import PaymentGatewaysService from '../services/settings/paymentGateways';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
 import StripeElements from './StripeElements';
-const TransbankWebpay = require('./TransbankWebpay');
+const TransbankWebpay = require('./TransbankWebpay.js');
 const Qvo = require('./Qvo');
 
 const getOptions = orderId => {
