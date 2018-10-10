@@ -400,11 +400,13 @@ ajaxRouter.post('/checkout/webpay/pay', async (req, res, next) => {
 		const data = await WP.initTransaction({
 			buyOrder: orderData.order_id,
 			sessionId: orderData.orderId,
-			returnURL: `${url}/verify`,
-			finalURL: `${url}/voucher`,
+			returnURL: `${url}/checkout/webpay/verify`,
+			finalURL: `${url}/checkout/webpay/voucher`,
 			amount: orderData.amount
 		});
-		console.log('data:', data, '\n');
+
+		console.log('data:', data);
+
 		res.status(200).send({ redirectURL: `${data.url}?token_ws=${data.token}` });
 	} catch (error) {
 		console.log('Error initiating transaction:', error.message);
@@ -414,6 +416,7 @@ ajaxRouter.post('/checkout/webpay/pay', async (req, res, next) => {
 
 ajaxRouter.post('/checkout/webpay/verify', async (req, res, next) => {
 	let token = req.body.token_ws;
+	console.log('token:', token, '\n');
 	let transaction;
 
 	try {
