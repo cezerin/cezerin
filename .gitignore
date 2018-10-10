@@ -26,3 +26,4 @@ db/*
 *.pem
 package.json
 dev-service-account.json
+*.swo
