@@ -188,6 +188,7 @@ const receiveShippingMethods = methods => ({
 });
 
 export const checkout = (cart, history) => async (dispatch, getState) => {
+	console.log('RUNNING CHECKOUT');
 	dispatch(requestCheckout());
 	if (cart) {
 		await api.ajax.cart.update({
@@ -218,8 +219,16 @@ export const checkout = (cart, history) => async (dispatch, getState) => {
 	console.log('response from cart.checkout:', response, '\n');
 	const order = response.json;
 	dispatch(receiveCheckout(order));
-	history.push('/checkout-success');
+
+	// History will be undefined/null if the payment was processed using Webpay method
+	// If Webpay method was used, the AjaxRouter will handle the redirection
+	if (history) {
+		history.push('/checkout-success');
+	}
 	analytics.checkoutSuccess({ order: order });
+	if (!history) {
+		return true;
+	}
 };
 
 const requestCheckout = () => ({ type: t.CHECKOUT_REQUEST });

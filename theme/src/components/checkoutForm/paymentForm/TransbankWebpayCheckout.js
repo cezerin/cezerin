@@ -18,10 +18,11 @@ export default class TransbankWebpayCheckout extends React.Component {
 			inProgress: true
 		});
 		try {
-			console.log('api:', api.ajax, '\n');
-			const response = await api.ajax.webpay.pay(formSettings);
-			console.log('response:', response);
-			// location.assign(redirectURL)
+			const response = await api.ajax.webpay.pay(this.formSettings);
+			let {
+				json: { redirectURL }
+			} = response;
+			location.assign(redirectURL);
 			// await this.onPayment()
 		} catch (error) {
 			console.log('Error processing payment:', error.message);

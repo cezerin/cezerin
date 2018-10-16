@@ -3,15 +3,20 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import CezerinClient from 'ucommerce-client';
 import serverSettings from './lib/settings';
+import storeSettings from '../../../config/server';
 const ajaxRouter = express.Router();
-import WP from './WebpayClient';
+import { WP, webpayOrders } from './WebpayClient';
+import Webpay from 'webpay-nodejs';
+import fetch from 'isomorphic-fetch';
+import { checkout } from '../../store/shared/actions';
 
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
 const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
 
 const api = new CezerinClient({
 	apiBaseUrl: serverSettings.apiBaseUrl,
-	apiToken: STORE_ACCESS_TOKEN
+	apiToken: STORE_ACCESS_TOKEN,
+	ajaxBaseUrl: storeSettings.ajaxBaseUrl
 });
 
 const DEFAULT_CACHE_CONTROL = 'public, max-age=60';
@@ -391,22 +396,25 @@ ajaxRouter.post('/chatbot/ask', async (req, res, next) => {
 	}
 });
 
+/* 
+ * [START] WEBPAY ROUTES AND LOGIC
+ */
+// orderData will contain the order details that is being paid using Webpay.
+// Order data will be needed at voucher step and redirection
+let orderData;
 ajaxRouter.post('/checkout/webpay/pay', async (req, res, next) => {
-	const orderData = req.body;
-
-	const url = `http://${req.get('host')}`;
+	orderData = req.body;
 
 	try {
 		const data = await WP.initTransaction({
 			buyOrder: orderData.order_id,
 			sessionId: orderData.orderId,
-			returnURL: `${url}/checkout/webpay/verify`,
-			finalURL: `${url}/checkout/webpay/voucher`,
+			returnURL: `http://localhost:3001/ajax/checkout/webpay/verify`,
+			finalURL: `http://localhost:3001/ajax/checkout/webpay/voucher`,
 			amount: orderData.amount
 		});
 
-		console.log('data:', data);
-
+		// Add this order to
 		res.status(200).send({ redirectURL: `${data.url}?token_ws=${data.token}` });
 	} catch (error) {
 		console.log('Error initiating transaction:', error.message);
@@ -416,17 +424,53 @@ ajaxRouter.post('/checkout/webpay/pay', async (req, res, next) => {
 
 ajaxRouter.post('/checkout/webpay/verify', async (req, res, next) => {
 	let token = req.body.token_ws;
-	console.log('token:', token, '\n');
-	let transaction;
+	let transactionResult;
 
 	try {
-		const transactionResult = await WP.getTransactionResult(token);
-		console.log('transactionResult:', transactionResult, '\n');
-		const acknowlefedTransaction = await WP.acknowledgeTransaction(token);
-		res.status(200).send({ status: 'verified' });
+		transactionResult = await WP.getTransactionResult(token);
+		const acknowlegedTransaction = await WP.acknowledgeTransaction(token);
+		res
+			.status(200)
+			.send(
+				Webpay.getHtmlTransitionPage(transactionResult.urlRedirection, token)
+			);
 	} catch (error) {
 		console.log('Error getting the transaction:', error.message);
 	}
 });
+
+ajaxRouter.post('/checkout/webpay/voucher', async (req, res, next) => {
+	console.log('orderData:', orderData);
+	// TO-DO:
+	// CALL checkout for this order
+	try {
+		const orderResponse = await api.orders.retrieve(orderData.order_id);
+		const order = orderResponse.json;
+		const checkoutSucceeded = await checkout(order);
+		console.log('checkoutSucceeded:', checkoutSucceeded);
+		if (checkoutSucceeded) {
+			res.redirect(301, 'http://localhost:3000/checkout-success');
+		}
+	} catch (error) {
+		console.log('Error retrieving cart:', error);
+	}
+	// const response = await fetch("http://localhost:3001/ajax/cart", {
+	//   "credentials": "include",
+	//   "headers": {},
+	//   "referrerPolicy": "no-referrer-when-downgrade",
+	//   "mode": "cors"
+	// })
+	// response.body.on('data', data => {
+	//   console.log('onData:', data)
+	// })
+	// response.body.on('end', data => {
+	//   console.log('onEnd:', data)
+	//   response.resolve()
+	// })
+	// res.redirect(200, 'http://localhost:3000/checkout')
+});
+/*
+ * [END] WEBPAY ROUTS AND LOGIC
+*/
 
 export default ajaxRouter;

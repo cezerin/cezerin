@@ -20,7 +20,7 @@ const addUsers = async db => {
 		date_created: new Date(),
 		expiration: 148,
 		name: 'utips-admin',
-		email: 'clemente@utips.cl',
+		email: 'clementeserranosutil@gmail.cl',
 		scopes: ['admin']
 	});
 	db.collection('tokens').insertOne({
