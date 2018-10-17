@@ -266,18 +266,18 @@ class SecurityTokensService {
 	}
 
 	getSigninMailSubject() {
-		return 'New sign-in from {{from}}';
+		return 'Nuevo inicio de sesión {{from}}';
 	}
 
 	getSigninMailBody() {
 		return `<div style="color: #202020; line-height: 1.5;">
-      Your email address {{email}} was just used to request<br />a sign in email to {{domain}} dashboard.
-      <div style="padding: 60px 0px;"><a href="{{link}}" style="background-color: #3f51b5; color: #ffffff; padding: 12px 26px; font-size: 18px; border-radius: 28px; text-decoration: none;">Click here to sign in</a></div>
-      <b>Request from</b>
+      Tu dirección de email {{email}} fu usada para solicitar<br />un email de login para el dashboard de {{domain}}.
+      <div style="padding: 60px 0px;"><a href="{{link}}" style="background-color: #3f51b5; color: #ffffff; padding: 12px 26px; font-size: 18px; border-radius: 28px; text-decoration: none;">Login aquí</a></div>
+      <b>Solicitado desde:</b>
       <div style="color: #727272; padding: 0 0 20px 0;">{{requestFrom}}</div>
-      If this was not you, you can safely ignore this email.<br /><br />
-      Best,<br />
-      Cezerin Robot`;
+      Si no fuiste tu, puedes ignorar este email.<br /><br />
+      Saludos!<br />
+      Equipo Utips`;
 	}
 
 	async sendDashboardSigninUrl(req) {
@@ -316,7 +316,7 @@ class SecurityTokensService {
 			const emailSent = await mailer.send(message);
 			return { sent: emailSent, error: null };
 		} else {
-			return { sent: false, error: 'Access Denied' };
+			return { sent: false, error: 'Acceso denegado' };
 		}
 	}
 }

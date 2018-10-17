@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import express from 'express';
 import helmet from 'helmet';
 import responseTime from 'response-time';

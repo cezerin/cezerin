@@ -29,9 +29,9 @@ db.pages.insertMany([
 db.tokens.insert({
   is_revoked: false,
   date_created: new Date(),
-  expiration: 72,
-  name: 'Owner',
-  email: 'email@domain.com',
+  expiration: 18,
+  name: 'admin',
+  email: 'mail@domain.com',
   scopes: ['admin']  
 });
 ```

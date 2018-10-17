@@ -30,13 +30,13 @@ module.exports = {
 	mongodbServerUrl: dbUrl,
 
 	smtpServer: {
-		host: '',
-		port: 0,
+		host: 'smtp.gmail.com',
+		port: 465,
 		secure: true,
-		user: '',
-		pass: '',
-		fromName: '',
-		fromAddress: ''
+		user: 'clementeserranosutil@gmail.com',
+		pass: 'teoriadecuerdas123',
+		fromName: 'Contacto uTips',
+		fromAddress: 'contacto@utips.cl'
 	},
 
 	// key to sign tokens
@@ -58,7 +58,7 @@ module.exports = {
 	themeAssetsUploadUrl: '/assets/images',
 
 	// store UI language
-	language: 'en',
+	language: 'es',
 
 	// used by API
 	orderStartNumber: 1000

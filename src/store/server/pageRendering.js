@@ -1,5 +1,5 @@
 import winston from 'winston';
-import CezerinClient from 'cezerin-client';
+import CezerinClient from 'ucommerce-client';
 import React from 'react';
 import { StaticRouter } from 'react-router';
 import { renderToString } from 'react-dom/server';

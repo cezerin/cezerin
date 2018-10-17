@@ -48,6 +48,7 @@
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --write \"src/**/*.js\" \"theme/**/*.js\"",
     "precommit": "lint-staged",
+    "watch": "npm run webpack:admin:watch && npm run webpack:store:watch && pm2 start process.dev.json",
     "start-api": "node -r esm src/api/server/index.js",
     "start-store": "node -r esm dist/store/server/index.js",
     "start": "concurrently npm:start-*"
@@ -66,15 +67,14 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
     "body-parser": "^1.18.3",
-    "cezerin-client": "^0.34.0",
     "chart.js": "^2.7.2",
     "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^4.0.1",
     "cookie-parser": "^1.4.3",
     "css-loader": "^1.0.0",
     "cssnano": "^4.1.0",
+    "dialogflow": "^0.6.0",
     "eslint": "^5.4.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.0.1",
@@ -116,6 +116,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scroll": "^1.7.10",
+    "react-simple-chatbot": "^0.3.5",
     "react-sortable-hoc": "^0.8.3",
     "react-stripe-elements": "^2.0.1",
     "react-tagsinput": "^3.19.0",
@@ -128,10 +129,13 @@
     "sitemap": "^1.13.0",
     "slug": "^0.9.1",
     "stripe": "^6.7.0",
+    "styled-components": "^3.3.3",
     "theme": "file:theme",
     "ua-parser-js": "^0.7.18",
+    "ucommerce-client": "^0.1.8",
     "webpack": "^4.17.1",
     "webpack-cli": "^3.1.0",
+    "webpay-nodejs": "^1.2.0",
     "winston": "^3.0.0",
     "workbox-webpack-plugin": "^3.4.1",
     "ws": "^6.0.0"
@@ -139,5 +143,13 @@
   "engines": {
     "node": "^8.0.0",
     "npm": "^5.0.0"
+  },
+  "devDependencies": {
+    "api-ai-javascript": "^2.0.0-beta.21",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "react": "^16.4.2",
+    "redux-devtools-extension": "^2.13.2"
   }
 }

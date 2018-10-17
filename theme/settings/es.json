@@ -1,0 +1,353 @@
+[{
+  "section": "Footer",
+  "key": "footer_logo_url",
+  "type": "image",
+  "label": "Logo"
+}, {
+  "section": "Lista de Productos",
+  "key": "list_image_max_height",
+  "type": "number",
+  "label": "Alto máximo de imagen"
+}, {
+  "section": "Detalles de Producto",
+  "key": "button_addtocart_bg",
+  "type": "color",
+  "label": "Boton: Agregar al Carro. Color fondo."
+}, {
+  "section": "Detalles de Producto",
+  "key": "button_addtocart_color",
+  "type": "color",
+  "label": "Boton: Agregar al Carro. Color texto."
+}, {
+  "section": "Detalles de Producto",
+  "key": "button_addtocart_text",
+  "type": "string",
+  "label": "Boton: Agregar al Carro. Texto."
+}, {
+  "section": "Lista de Productos",
+  "key": "button_loadmore_bg",
+  "type": "color",
+  "label": "Boton: Cargar mas. Color fondo."
+}, {
+  "section": "Lista de Productos",
+  "key": "button_loadmore_color",
+  "type": "color",
+  "label": "Boton: Cargar mas. Color texto."
+}, {
+  "section": "Lista de Productos",
+  "key": "button_loadmore_text",
+  "type": "string",
+  "label": "Boton: Cargar mas. Texto."
+}, {
+  "section": "Lista de Productos",
+  "key": "list_price_color",
+  "type": "color",
+  "label": "Precio: color"
+}, {
+  "section": "Lista de Productos",
+  "key": "list_price_size",
+  "type": "number",
+  "label": "Precio: tamaño letra (px)"
+}, {
+  "section": "Detalles de Producto",
+  "key": "details_price_color",
+  "type": "color",
+  "label": "Precio: color"
+}, {
+  "section": "Detalles de Producto",
+  "key": "details_price_size",
+  "type": "number",
+  "label": "Precio: tamaño letra (px)"
+}, {
+  "section": "Header",
+  "key": "search_placeholder",
+  "type": "string",
+  "label": "Texto Busqueda"
+}, {
+  "section": "Lista de Productos",
+  "key": "show_product_filter",
+  "type": "boolean",
+  "label": "Mostrar filtro de producto"
+}, {
+  "section": "Detalles de Producto",
+  "key": "show_product_breadcrumbs",
+  "type": "boolean",
+  "label": "Mostrar breadcrumbs (Navegación)"
+}, {
+  "section": "Lista de Productos",
+  "key": "show_category_breadcrumbs",
+  "type": "boolean",
+  "label": "Mostrar breadcrumbs (Navegación)"
+}, {
+  "section": "Detalles de Producto",
+  "key": "show_discount_countdown",
+  "type": "boolean",
+  "label": "Mostrar conteo de oferta"
+}, {
+  "section": "Home",
+  "key": "home_products_title",
+  "type": "string",
+  "label": "Titulo Productos Destacados"
+}, {
+  "section": "Home",
+  "key": "home_products_sort",
+  "type": "string",
+  "label": "Productos Destacados: Ordenar por"
+}, {
+  "section": "Home",
+  "key": "home_products_sku",
+  "type": "string",
+  "label": "Productos Destacados: SKUs"
+}, {
+  "section": "Home",
+  "key": "home_products_limit",
+  "type": "number",
+  "label": "Productos Destacados: Cantidad de Items"
+}, {
+  "section": "Carro y Checkout",
+  "key": "hide_footer_on_checkout",
+  "type": "boolean",
+  "label": "Ocultar footer en checkout"
+}, {
+  "section": "Carro y Checkout",
+  "key": "checkoutInputClass",
+  "type": "string",
+  "label": "Clase (CSS) input de texto"
+}, {
+  "section": "Carro y Checkout",
+  "key": "checkoutButtonClass",
+  "type": "string",
+  "label": "Clase (CSS) botón"
+}, {
+  "section": "Carro y Checkout",
+  "key": "checkoutEditButtonClass",
+  "type": "string",
+  "label": "Clase (CSS) Botón Editar"
+}, {
+  "section": "Lista de Productos",
+  "key": "sortNewest",
+  "type": "string",
+  "label": "Order por nuevos (campos separados por coma)"
+}, {
+  "section": "Lista de Productos",
+  "key": "sortPrecioLow",
+  "type": "string",
+  "label": "Ordenar por precio mas bajo (campos separados por comma)"
+}, {
+  "section": "Lista de Productos",
+  "key": "sortPrecioHigh",
+  "type": "string",
+  "label": "Ordenar por precio mas alto (campos separados por comma)"
+}, {
+  "section": "Detalles de Producto",
+  "key": "product_thumbnail_position",
+  "type": "string",
+  "label": "Posicion de miniatura en galeria",
+  "options": [{
+      "label": "Superior",
+      "value": "top"
+    },
+    {
+      "label": "Derecha",
+      "value": "right"
+    },
+    {
+      "label": "Inferior",
+      "value": "bottom"
+    },
+    {
+      "label": "Izquierda",
+      "value": "left"
+    }
+  ]
+}, {
+  "section": "Detalles de Producto",
+  "key": "disqus_shortname",
+  "type": "string",
+  "label": "Nombre corto DISQUS"
+}, {
+  "section": "Footer",
+  "key": "footer_about",
+  "type": "string",
+  "label": "Descripción breve"
+}, {
+  "section": "Footer",
+  "key": "footer_menu_1_title",
+  "type": "string",
+  "label": "Titulo Menu 1"
+}, {
+  "section": "Footer",
+  "key": "footer_menu_2_title",
+  "type": "string",
+  "label": "Titulo Menu 2"
+}, {
+  "section": "Carro y Checkout",
+  "key": "maxCartItemQty",
+  "type": "number",
+  "label": "Cantidad Maxima"
+}, {
+  "section": "Carro y Checkout",
+  "key": "cartThumbnailWidth",
+  "type": "number",
+  "label": "Ancho de imagen (px)"
+}, {
+  "section": "Lista de Productos",
+  "key": "listThumbnailWidth",
+  "type": "number",
+  "label": "Ancho de imagen (px)"
+}, {
+  "section": "Detalles de Producto",
+  "key": "previewThumbnailWidth",
+  "type": "number",
+  "label": "Ancho de imagen miniatura (px)"
+}, {
+  "section": "Detalles de Producto",
+  "key": "bigThumbnailWidth",
+  "type": "number",
+  "label": "Ancho de imagen (px)"
+}, {
+  "section": "Home",
+  "key": "category_list_thumbnail_width",
+  "type": "number",
+  "label": "Lista de Categorias: Ancho de imagen (px)"
+}, {
+  "section": "Footer",
+  "key": "footer_menu_1_items",
+  "type": "array",
+  "label": "Menu 1 (links)",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Texto en link"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "URL en link"
+  }]
+}, {
+  "section": "Footer",
+  "key": "footer_menu_2_items",
+  "type": "array",
+  "label": "Menu 2 (links)",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Texto en link"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "URL en link"
+  }]
+}, {
+  "section": "Footer",
+  "key": "footer_social",
+  "type": "array",
+  "label": "Iconos Redes Sociales",
+  "properties": [{
+    "key": "type",
+    "type": "string",
+    "label": "Type",
+    "options": [{
+        "label": "Facebook",
+        "value": "facebook"
+      },
+      {
+        "label": "Twitter",
+        "value": "twitter"
+      },
+      {
+        "label": "Instagram",
+        "value": "instagram"
+      },
+      {
+        "label": "VK",
+        "value": "vk"
+      }
+    ]
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "Url"
+  }]
+}, {
+  "section": "Home",
+  "key": "home_slider",
+  "type": "array",
+  "label": "Slider",
+  "properties": [{
+    "key": "image",
+    "type": "image",
+    "label": "Imagen"
+  }, {
+    "key": "title",
+    "type": "string",
+    "label": "Titulo"
+  }, {
+    "key": "description",
+    "type": "string",
+    "label": "Descripcion"
+  }, {
+    "key": "path",
+    "type": "string",
+    "label": "Ruta de la pagina"
+  }]
+}, {
+  "section": "Home",
+  "key": "home_slider_color",
+  "type": "color",
+  "label": "Color texto de slider"
+}, {
+  "section": "Footer",
+  "key": "footer_contacts",
+  "type": "array",
+  "label": "Contacts",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Linea Texto"
+  }]
+}, {
+  "section": "Header",
+  "key": "header_menu",
+  "type": "array",
+  "label": "Menu",
+  "properties": [{
+    "key": "text",
+    "type": "string",
+    "label": "Texto en link"
+  }, {
+    "key": "url",
+    "type": "string",
+    "label": "URL en link"
+  }]
+}, {
+  "section": "Detalles de Producto",
+  "key": "related_products_title",
+  "type": "string",
+  "label": "Titulo Productos Relacionados"
+}, {
+  "section": "Detalles de Producto",
+  "key": "product_gallery_shownav",
+  "type": "boolean",
+  "label": "Mostrar flechas de navegación en Galeria"
+}, {
+  "section": "Home",
+  "key": "home_gallery_shownav",
+  "type": "boolean",
+  "label": "Mostrar flechas de navegación en Galeria"
+}, {
+  "section": "Detalles de Producto",
+  "key": "show_viewed_products",
+  "type": "boolean",
+  "label": "Mostrar productos vistos recientemente"
+}, {
+  "section": "Detalles de Producto",
+  "key": "limit_viewed_products",
+  "type": "number",
+  "label": "Cantidad de productos vistos recientemente"
+}, {
+  "section": "Pages",
+  "key": "page_list_tag",
+  "type": "string",
+  "label": "Tag para crear lista de paginas (blog, news, articles or docs)"
+}]

@@ -4,6 +4,8 @@ import PaymentGatewaysService from '../services/settings/paymentGateways';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
 import StripeElements from './StripeElements';
+const TransbankWebpay = require('./TransbankWebpay.js');
+const Qvo = require('./Qvo');
 
 const getOptions = orderId => {
 	return Promise.all([
@@ -31,6 +33,10 @@ const getOptions = orderId => {
 const getPaymentFormSettings = orderId => {
 	return getOptions(orderId).then(options => {
 		switch (options.gateway) {
+			case 'qvo':
+				return Qvo.getPaymentFormSettings(options);
+			case 'transbank-webpay':
+				return TransbankWebpay.getPaymentFormSettings(options);
 			case 'paypal-checkout':
 				return PayPalCheckout.getPaymentFormSettings(options);
 			case 'liqpay':
@@ -53,6 +59,11 @@ const paymentNotification = (req, res, gateway) => {
 		};
 
 		switch (gateway) {
+			case 'qvo':
+				console.log('running paymentNotification function');
+				return Qvo.paymentNotification(options);
+			case 'transbank-webpay':
+				return TransbankWebpay.paymentNotification(options);
 			case 'paypal-checkout':
 				return PayPalCheckout.paymentNotification(options);
 			case 'liqpay':

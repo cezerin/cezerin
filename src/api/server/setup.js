@@ -14,6 +14,85 @@ const CONNECT_OPTIONS = {
 
 const DEFAULT_LANGUAGE = 'english';
 
+const addUsers = async db => {
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'utips-admin',
+		email: 'clementeserranosutil@gmail.cl',
+		scopes: ['admin']
+	});
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'andrea-milah',
+		email: 'andrea@milah.cl',
+		scopes: [
+			'read:products',
+			'read:product_categories',
+			'read:orders',
+			'read:customers',
+			'read:customer_groups',
+			'read:pages',
+			'read:order_statuses',
+			'read:theme',
+			'read:sitemap',
+			'read:shipping_methods',
+			'read:payment_methods',
+			'read:settings',
+			'read:files',
+			'dashboard',
+			'write:products',
+			'write:product_categories',
+			'write:orders',
+			'write:customers',
+			'write:customer_groups',
+			'write:pages',
+			'write:order_statuses',
+			'write:theme',
+			'write:shipping_methods',
+			'write:payment_methods',
+			'write:files'
+		]
+	});
+	db.collection('tokens').insertOne({
+		is_revoked: false,
+		date_created: new Date(),
+		expiration: 148,
+		name: 'inverhaus',
+		email: 'hernan@inverhaus.com',
+		scopes: [
+			'read:products',
+			'read:product_categories',
+			'read:orders',
+			'read:customers',
+			'read:customer_groups',
+			'read:pages',
+			'read:order_statuses',
+			'read:theme',
+			'read:sitemap',
+			'read:shipping_methods',
+			'read:payment_methods',
+			'read:settings',
+			'read:files',
+			'dashboard',
+			'write:products',
+			'write:product_categories',
+			'write:orders',
+			'write:customers',
+			'write:customer_groups',
+			'write:pages',
+			'write:order_statuses',
+			'write:theme',
+			'write:shipping_methods',
+			'write:payment_methods',
+			'write:files'
+		]
+	});
+};
+
 const addPage = async (db, pageObject) => {
 	const count = await db
 		.collection('pages')
@@ -30,19 +109,19 @@ const addAllPages = async db => {
 		slug: '',
 		meta_title: 'Home',
 		enabled: true,
-		is_system: true
+		is_system: false
 	});
 	await addPage(db, {
 		slug: 'checkout',
 		meta_title: 'Checkout',
 		enabled: true,
-		is_system: true
+		is_system: false
 	});
 	await addPage(db, {
 		slug: 'checkout-success',
-		meta_title: 'Thank You!',
+		meta_title: 'Gracias!',
 		enabled: true,
-		is_system: true
+		is_system: false
 	});
 	await addPage(db, {
 		slug: 'about',
@@ -119,8 +198,8 @@ const addAllProducts = async db => {
 			enabled: true,
 			discontinued: false,
 			attributes: [
-				{ name: 'Brand', value: 'Brand A' },
-				{ name: 'Size', value: 'M' }
+				{ name: 'Marca', value: 'Brand A' },
+				{ name: 'Tamaño', value: 'M' }
 			]
 		});
 
@@ -133,8 +212,8 @@ const addAllProducts = async db => {
 			enabled: true,
 			discontinued: false,
 			attributes: [
-				{ name: 'Brand', value: 'Brand B' },
-				{ name: 'Size', value: 'L' }
+				{ name: 'Marca', value: 'Brand B' },
+				{ name: 'Tamaño', value: 'L' }
 			]
 		});
 
@@ -152,19 +231,19 @@ const addEmailTemplates = async db => {
 			name: 'order_confirmation',
 			subject: 'Order confirmation',
 			body: `<div>
-			<div><b>Order number</b>: {{number}}</div>
-			<div><b>Shipping method</b>: {{shipping_method}}</div>
-			<div><b>Payment method</b>: {{payment_method}}</div>
+			<div><b>Número de Orden</b>: {{number}}</div>
+			<div><b>Método de envío</b>: {{shipping_method}}</div>
+			<div><b>Método de pago</b>: {{payment_method}}</div>
 		  
 			<div style="width: 100%; margin-top: 20px;">
-			  Shipping to<br /><br />
-			  <b>Full name</b>: {{shipping_address.full_name}}<br />
-			  <b>Address 1</b>: {{shipping_address.address1}}<br />
-			  <b>Address 2</b>: {{shipping_address.address2}}<br />
-			  <b>Postal code</b>: {{shipping_address.postal_code}}<br />
-			  <b>City</b>: {{shipping_address.city}}<br />
-			  <b>State</b>: {{shipping_address.state}}<br />
-			  <b>Phone</b>: {{shipping_address.phone}}
+			  Destino del envío<br /><br />
+			  <b>Nombre completo</b>: {{shipping_address.full_name}}<br />
+			  <b>Dirección 1</b>: {{shipping_address.address1}}<br />
+			  <b>Dirección 2</b>: {{shipping_address.address2}}<br />
+			  <b>Código postal</b>: {{shipping_address.postal_code}}<br />
+			  <b>Ciudad</b>: {{shipping_address.city}}<br />
+			  <b>Estado</b>: {{shipping_address.state}}<br />
+			  <b>Teléefono</b>: {{shipping_address.phone}}
 			</div>
 		  
 			<table style="width: 100%; margin-top: 20px;">
@@ -192,11 +271,11 @@ const addEmailTemplates = async db => {
 				<td style="width: 20%; padding: 10px 0px; text-align: right;">$ {{subtotal}}</td>
 			  </tr>
 			  <tr>
-				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>Shipping</b></td>
+				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>Envío</b></td>
 				<td style="width: 20%; padding: 10px 0px; text-align: right;">$ {{shipping_total}}</td>
 			  </tr>
 			  <tr>
-				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>Grand total</b></td>
+				<td style="width: 80%; padding: 10px 0px; text-align: right;"><b>TOTAL</b></td>
 				<td style="width: 20%; padding: 10px 0px; text-align: right;">$ {{grand_total}}</td>
 			  </tr>
 			</table>
@@ -412,6 +491,7 @@ const addSettings = async (db, { domain }) => {
 	await addPaymentMethods(db);
 	await createAllIndexes(db);
 	await addUser(db, userEmail);
+	await addUsers(db);
 	await addSettings(db, {
 		domain
 	});

@@ -3,6 +3,8 @@ import api from '../../../lib/api';
 import PayPalCheckout from './PayPalCheckout';
 import LiqPay from './LiqPay';
 import StripeElements from './StripeElements';
+import QvoCheckout from './QvoCheckout';
+import TransbankWebpayCheckout from './TransbankWebpayCheckout';
 
 export default class PaymentForm extends React.Component {
 	constructor(props) {
@@ -92,6 +94,26 @@ export default class PaymentForm extends React.Component {
 								shopSettings={shopSettings}
 								onPayment={onPayment}
 								onCreateToken={onCreateToken}
+							/>
+						</div>
+					);
+				case 'qvo':
+					return (
+						<div className="payment-form">
+							<QvoCheckout
+								formSettings={formSettings}
+								shopSettings={shopSettings}
+								onPayment={onPayment}
+							/>
+						</div>
+					);
+				case 'transbank-webpay':
+					return (
+						<div className="payment-form">
+							<TransbankWebpayCheckout
+								formSettings={formSettings}
+								shopSettings={shopSettings}
+								onPayment={onPayment}
 							/>
 						</div>
 					);

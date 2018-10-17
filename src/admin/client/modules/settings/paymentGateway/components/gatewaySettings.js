@@ -10,6 +10,10 @@ import MenuItem from 'material-ui/MenuItem';
 
 const GatewaySettings = ({ gateway }) => {
 	switch (gateway) {
+		case 'qvo':
+			return <Qvo />;
+		case 'transbank-webpay':
+			return <Webpay />;
 		case 'paypal-checkout':
 			return <PayPalButton />;
 		case 'liqpay':
@@ -156,6 +160,53 @@ const StripeElements = props => {
 				name="secret_key"
 				floatingLabelText="Secret key"
 				fullWidth={true}
+			/>
+		</div>
+	);
+};
+
+const Webpay = props => {
+	return (
+		<div>
+			<Field
+				component={TextField}
+				name="commerceCode"
+				floatingLabelText="Código de comercio (Commerce Code)"
+				fullWidth={true}
+			/>
+			<p>
+				<strong>IMPORTANTE:</strong> El integrador debe incluir las llaves en
+				como variables en el archivo "TransbankCertificates"
+			</p>
+		</div>
+	);
+};
+
+const Qvo = props => {
+	return (
+		<div>
+			<Field
+				component={TextField}
+				name="public-key"
+				floatingLabelText="Qvo Public Key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="private-key"
+				floatingLabelText="Qvo Private Key"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="store-name"
+				floatingLabelText="Nombre de la tienda"
+				fullWidth={true}
+			/>
+			<Field
+				component={TextField}
+				name="logo"
+				floatingLabelText="Link a logo de la tienda"
 			/>
 		</div>
 	);

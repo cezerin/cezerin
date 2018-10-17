@@ -1,6 +1,8 @@
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
@@ -24,7 +26,7 @@ initOnClient({
 const store = createStore(
 	reducers,
 	initialState,
-	applyMiddleware(thunkMiddleware)
+	composeWithDevTools(applyMiddleware(thunkMiddleware))
 );
 
 ReactDOM.hydrate(

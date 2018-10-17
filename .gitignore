@@ -17,3 +17,13 @@ dist/*
 logs/*.log
 npm-debug.log*
 *.zip
+db/*
+*.swp
+.DS_Store
+
+*.crt
+*.key
+*.pem
+package.json
+dev-service-account.json
+*.swo

@@ -1,4 +1,4 @@
-import CezerinClient from 'cezerin-client';
+import CezerinClient from 'ucommerce-client';
 import settings from 'lib/settings';
 
 let api = null;
@@ -11,7 +11,7 @@ if (dashboardToken || DEVELOPER_MODE === true) {
 	api = new CezerinClient({
 		apiBaseUrl: settings.apiBaseUrl || '/api/v1',
 		apiToken: dashboardToken,
-		webstoreToken: webstoreToken
+		webstoreToken
 	});
 }
 

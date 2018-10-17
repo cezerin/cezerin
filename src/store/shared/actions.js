@@ -188,6 +188,7 @@ const receiveShippingMethods = methods => ({
 });
 
 export const checkout = (cart, history) => async (dispatch, getState) => {
+	console.log('RUNNING CHECKOUT');
 	dispatch(requestCheckout());
 	if (cart) {
 		await api.ajax.cart.update({
@@ -215,8 +216,12 @@ export const checkout = (cart, history) => async (dispatch, getState) => {
 	const response = await api.ajax.cart.checkout();
 	const order = response.json;
 	dispatch(receiveCheckout(order));
+
 	history.push('/checkout-success');
 	analytics.checkoutSuccess({ order: order });
+	if (!history) {
+		return true;
+	}
 };
 
 const requestCheckout = () => ({ type: t.CHECKOUT_REQUEST });
