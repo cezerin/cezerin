@@ -203,9 +203,7 @@ export const checkout = (cart, history) => async (dispatch, getState) => {
 	}
 
 	const cartResponse = await api.ajax.cart.retrieve();
-	console.log('cartResponse:', cartResponse, '\n');
 	const chargeNeeded = !!cartResponse.json.payment_token;
-	console.log('chargeNeeded:', chargeNeeded, '\n');
 
 	if (chargeNeeded) {
 		const chargeResponse = await api.ajax.cart.client.post('/cart/charge');
@@ -216,15 +214,10 @@ export const checkout = (cart, history) => async (dispatch, getState) => {
 	}
 
 	const response = await api.ajax.cart.checkout();
-	console.log('response from cart.checkout:', response, '\n');
 	const order = response.json;
 	dispatch(receiveCheckout(order));
 
-	// History will be undefined/null if the payment was processed using Webpay method
-	// If Webpay method was used, the AjaxRouter will handle the redirection
-	if (history) {
-		history.push('/checkout-success');
-	}
+	history.push('/checkout-success');
 	analytics.checkoutSuccess({ order: order });
 	if (!history) {
 		return true;
