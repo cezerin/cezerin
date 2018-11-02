@@ -2,6 +2,7 @@ import { ObjectID } from 'mongodb';
 import path from 'path';
 import url from 'url';
 import fse from 'fs-extra';
+import Sequelize from 'sequelize';
 import settings from '../../lib/settings';
 import { db } from '../../lib/mongo';
 import utils from '../../lib/utils';
@@ -9,10 +10,48 @@ import parse from '../../lib/parse';
 import CategoriesService from './productCategories';
 import SettingsService from '../settings/settings';
 
+const sequelize = new Sequelize({
+	host: 'test-db.clpqcnci0pvl.us-east-1.rds.amazonaws.com',
+	database: 'test',
+	username: 'test',
+	password: '1234567890',
+	dialect: 'mysql'
+});
+
 class ProductsService {
 	constructor() {}
 
+	testConnection() {
+		sequelize
+			.authenticate()
+			.then(() => {
+				console.log('Connection has been established successfully.');
+			})
+			.catch(err => {
+				console.error('Unable to connect to the database:', err);
+			});
+	}
+
+	getImageTest(index) {
+		switch (index) {
+			case 1:
+				return 'https://store.cezerin.com/images/products/59982a10e8c043022cb53a21/7.jpg';
+			case 2:
+				return 'https://store.cezerin.com/images/products/59982a10e8c043022cb53a1b/4.jpg';
+			case 3:
+				return 'https://store.cezerin.com/images/products/59982a0fe8c043022cb53a15/1.jpg';
+			case 4:
+				return 'https://store.cezerin.com/images/products/59982a10e8c043022cb53a1d/5.jpg';
+			default:
+				return 'https://store.cezerin.com/images/products/59982a10e8c043022cb53a1f/6.jpg';
+		}
+	}
+
 	async getProducts(params = {}) {
+		const productos = await sequelize
+			.query('select * from productos')
+			.then(myTableRows => myTableRows);
+		console.log(productos);
 		const categories = await CategoriesService.getCategories({
 			fields: 'parent_id'
 		});
@@ -133,7 +172,29 @@ class ProductsService {
 			attributes: attributes,
 			total_count: total_count,
 			has_more: offset + items.length < total_count,
-			data: items
+			data: productos[0].map((item, index) => ({
+				...item,
+				category_id: '5bdb0f0c9809082ab512f4fd',
+				category_name: 'Category A',
+				discontinued: false,
+				enabled: true,
+				on_sale: false,
+				path: '/category-a/product-a',
+				regular_price: 950,
+				slug: 'product-a',
+				stock_quantity: 1,
+				stock_status: 'available',
+				images: [
+					{
+						alt: '',
+						filename: '7.jpg',
+						id: '59982a10e8c043022cb53a22',
+						position: 99,
+						url: this.getImageTest(index)
+					}
+				]
+			})),
+			productos: items
 		};
 	}
 

@@ -99,6 +99,7 @@
     "mini-css-extract-plugin": "^0.4.2",
     "moment": "^2.22.2",
     "mongodb": "^3.1.4",
+    "mysql2": "^1.6.1",
     "node-fetch": "^2.2.0",
     "node-sass": "^4.9.3",
     "nodemailer": "^4.6.8",
@@ -125,6 +126,7 @@
     "redux-thunk": "^2.3.0",
     "response-time": "^2.3.2",
     "sass-loader": "^7.1.0",
+    "sequelize": "^4.41.0",
     "sitemap": "^1.13.0",
     "slug": "^0.9.1",
     "stripe": "^6.7.0",
@@ -139,5 +141,6 @@
   "engines": {
     "node": "^8.0.0",
     "npm": "^5.0.0"
-  }
+  },
+  "devDependencies": {}
 }
