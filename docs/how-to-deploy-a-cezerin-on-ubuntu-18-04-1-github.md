@@ -105,7 +105,7 @@ docker run --name store-db -d -p 27017:27017 -v /var/www/store-db:/data/db mongo
     npm run setup admin@website.com http://142.93.0.0
     ```
 
-    This script will add token with email admin@website.com and set my doman to http://142.93.0.0
+    This script will add token with email admin@website.com and set my domain to http://142.93.0.0
 
 
 6. Start an application
