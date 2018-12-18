@@ -5,6 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Web3 from 'web3';
+import moment from 'moment';
 
 const HUB_REQ_HEADERS = {
 	'Content-Type': 'application/json',
@@ -148,11 +149,21 @@ export default class BeamButton extends React.Component {
 	};
 
 	async updateAndSignReceipt(receipt, amount, fee, secret) {
+		const { formSettings } = this.props;
+		const extraDataSchemaURI =
+			'http://schema.beam.io/reviewable-receipt/schema/001.json';
 		const nonce = web3.utils
 			.toBN(receipt.nonce)
 			.add(new web3.utils.BN(1))
 			.toString();
 		const actualFee = web3.utils.toBN(web3.utils.toWei(fee));
+		const extraData = JSON.stringify({
+			merchantAccount: formSettings.merchantPublicKey,
+			date: moment()
+				.utc()
+				.format(),
+			totalPrice: amount.add(actualFee)
+		});
 		const delta = web3.utils
 			.toBN(receipt.walletServerDelta)
 			.sub(amount.add(actualFee))
@@ -162,7 +173,9 @@ export default class BeamButton extends React.Component {
 			delta,
 			nonce,
 			timeLockDuration,
-			secret
+			secret,
+			extraData,
+			extraDataSchemaURI
 		);
 		const prefixed = web3.utils.soliditySha3(
 			'\x19Ethereum Signed Message:\n32',
@@ -174,7 +187,9 @@ export default class BeamButton extends React.Component {
 			nonce: nonce,
 			signer0: receipt.signer0,
 			secretHash: secret,
-			timeLockDuration
+			timeLockDuration,
+			extraData,
+			extraDataSchemaURI
 		};
 
 		return web3.eth.sign(prefixed, receipt.signer0).then(signature => {

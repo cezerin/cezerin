@@ -651,7 +651,14 @@ class OrdersService {
 
 	getEmailBody(emailTemplate, order) {
 		const bodyTemplate = handlebars.compile(emailTemplate.body);
-		return bodyTemplate(order);
+		const secretTransaction = order.transactions.find(
+			tx => tx.transaction_id == 'BEAM_SECRET'
+		);
+		const renderableOrder = {
+			...order,
+			secret: secretTransaction.details
+		};
+		return bodyTemplate(renderableOrder);
 	}
 
 	async sendAllMails(toEmail, copyTo, subject, body) {
