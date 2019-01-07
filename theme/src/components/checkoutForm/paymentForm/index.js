@@ -58,7 +58,13 @@ export default class PaymentForm extends React.Component {
 	}
 
 	render() {
-		const { gateway, shopSettings, onPayment, onCreateToken } = this.props;
+		const {
+			gateway,
+			cart,
+			shopSettings,
+			onPayment,
+			onCreateToken
+		} = this.props;
 		const { formSettings, loading } = this.state;
 
 		if (loading) {
@@ -90,6 +96,7 @@ export default class PaymentForm extends React.Component {
 						<div className="payment-form">
 							<BeamButton
 								formSettings={formSettings}
+								cart={cart}
 								shopSettings={shopSettings}
 								onPayment={onPayment}
 							/>

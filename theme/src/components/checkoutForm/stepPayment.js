@@ -38,6 +38,7 @@ const CheckoutStepPayment = props => {
 					<PaymentForm
 						gateway={payment_method_gateway}
 						amount={grand_total}
+						cart={cart}
 						shopSettings={settings}
 						onPayment={handleSuccessPayment}
 						inputClassName={inputClassName}
