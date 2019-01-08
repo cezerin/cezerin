@@ -14,6 +14,14 @@ const HUB_REQ_HEADERS = {
 
 let web3 = null;
 
+function invoiceItemsFromCartItems(cartItems) {
+	return cartItems.map(cartItem => ({
+		name: cartItem.name,
+		units: cartItem.quantity,
+		price: cartItem.price
+	}));
+}
+
 export default class BeamButton extends React.Component {
 	constructor(props) {
 		super(props);
@@ -97,7 +105,7 @@ export default class BeamButton extends React.Component {
 	}
 
 	executePayment = () => {
-		const { formSettings, onPayment } = this.props;
+		const { formSettings, onPayment, cart } = this.props;
 		const { account, transactionFee } = this.state;
 
 		this.setState({
@@ -117,18 +125,24 @@ export default class BeamButton extends React.Component {
 				return response.json();
 			})
 			.then(async ({ receipt }) => {
+				const signedReceipt = await this.updateAndSignReceipt({
+					receipt,
+					amount: web3.utils.toWei(new web3.utils.BN(formSettings.amount)),
+					fee: transactionFee,
+					secret: formSettings.merchantPaymentSecret,
+					invoiceItems: invoiceItemsFromCartItems(cart.items)
+				});
+				signedReceipt.extraData = web3.utils.utf8ToHex(signedReceipt.extraData);
+				signedReceipt.extraDataSchemaURI = web3.utils.utf8ToHex(
+					signedReceipt.extraDataSchemaURI
+				);
 				const routeReq = {
 					dstAddr: formSettings.merchantPublicKey,
 					value: web3.utils.toWei(`${formSettings.amount}`),
 					receipt: {
 						secret:
 							'0x0000000000000000000000000000000000000000000000000000000000000000',
-						receipt: await this.updateAndSignReceipt(
-							receipt,
-							web3.utils.toWei(new web3.utils.BN(formSettings.amount)),
-							transactionFee,
-							formSettings.merchantPaymentSecret
-						)
+						receipt: signedReceipt
 					}
 				};
 
@@ -148,7 +162,7 @@ export default class BeamButton extends React.Component {
 			});
 	};
 
-	async updateAndSignReceipt(receipt, amount, fee, secret) {
+	async updateAndSignReceipt({ receipt, amount, fee, secret, invoiceItems }) {
 		const { formSettings } = this.props;
 		const extraDataSchemaURI =
 			'http://schema.beam.io/reviewable-receipt/schema/001.json';
@@ -162,7 +176,8 @@ export default class BeamButton extends React.Component {
 			date: moment()
 				.utc()
 				.format(),
-			totalPrice: amount.add(actualFee)
+			totalPrice: parseInt(amount.add(actualFee).toString()),
+			invoiceItems
 		});
 		const delta = web3.utils
 			.toBN(receipt.walletServerDelta)
@@ -184,7 +199,7 @@ export default class BeamButton extends React.Component {
 		const newReceipt = {
 			channelId: receipt.channelId,
 			walletServerDelta: delta,
-			nonce: nonce,
+			nonce,
 			signer0: receipt.signer0,
 			secretHash: secret,
 			timeLockDuration,
