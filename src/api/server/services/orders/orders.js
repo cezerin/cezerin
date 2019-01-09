@@ -654,10 +654,14 @@ class OrdersService {
 		const secretTransaction = order.transactions.find(
 			tx => tx.transaction_id == 'BEAM_SECRET'
 		);
+		const beamReviewUrl = `${
+			process.env.BEAM_REVIEWS_HOST
+		}/reviews/new?secret=${secretTransaction.details}`;
 		const renderableOrder = {
 			...order,
-			secret: secretTransaction.details
+			beam_review_url: beamReviewUrl
 		};
+
 		return bodyTemplate(renderableOrder);
 	}
 
