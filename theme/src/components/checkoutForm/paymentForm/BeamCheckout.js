@@ -124,7 +124,8 @@ export default class BeamButton extends React.Component {
 
 				return response.json();
 			})
-			.then(async ({ receipt }) => {
+			.then(async ({ receipts }) => {
+				const receipt = receipts[0];
 				const signedReceipt = await this.updateAndSignReceipt({
 					receipt,
 					amount: web3.utils.toWei(new web3.utils.BN(formSettings.amount)),
@@ -206,6 +207,7 @@ export default class BeamButton extends React.Component {
 			extraData,
 			extraDataSchemaURI
 		};
+		console.log({ signingNewReceipt: newReceipt });
 
 		return web3.eth.sign(prefixed, receipt.signer0).then(signature => {
 			newReceipt.sig0 = signature;
