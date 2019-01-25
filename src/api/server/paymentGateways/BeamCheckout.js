@@ -7,7 +7,7 @@ import OrdersService from '../services/orders/orders';
 import OrderTransactionsService from '../services/orders/orderTransactions';
 
 async function generatePaymentSecret() {
-	return new Promise((resolve, reject) => {
+	const rawSecret = await new Promise((resolve, reject) => {
 		crypto.randomBytes(32, (err, buf) => {
 			if (err) {
 				reject(err);
@@ -17,6 +17,7 @@ async function generatePaymentSecret() {
 			resolve(bn.toString());
 		});
 	});
+	return EthUtil.bufferToHex(EthUtil.sha3(rawSecret));
 }
 
 async function getPaymentFormSettings(options) {
@@ -28,7 +29,11 @@ async function getPaymentFormSettings(options) {
 
 	if (!secretCreationTransaction) {
 		const secret = await generatePaymentSecret();
+		const hash = EthUtil.addHexPrefix(
+			EthUtil.bufferToHex(EthUtil.sha256(new EthUtil.BN(secret)))
+		);
 
+		console.log({ getPaymentFormSettingsSecret: secret, hash });
 		secretCreationTransaction = await OrderTransactionsService.addTransaction(
 			order.id,
 			{
@@ -39,7 +44,7 @@ async function getPaymentFormSettings(options) {
 		);
 	}
 
-	return {
+	const paymentFormDetails = {
 		orderId: order.id,
 		amount,
 		currency,
@@ -51,6 +56,8 @@ async function getPaymentFormSettings(options) {
 			)
 		)
 	};
+	console.log({ paymentFormDetails });
+	return paymentFormDetails;
 }
 
 async function verifyHubReceipt(hubUrl, address, secret, amount) {
