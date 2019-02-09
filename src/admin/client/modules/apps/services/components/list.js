@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import messages from 'lib/text';
 import ServiceItem from './serviceItem';
 import AppItem from './appItem';
-import style from './style.css';
 import apps from 'src/apps';
 import RaisedButton from 'material-ui/RaisedButton';
 
@@ -44,7 +43,9 @@ export default class ServicesList extends React.Component {
 							color: 'rgba(0, 0, 0, 0.52)'
 						}}
 					>
-						{messages.loadFromWebstore}&nbsp;&nbsp;<Link to="/admin/apps/login">
+						{messages.loadFromWebstore}
+						&nbsp;&nbsp;
+						<Link to="/admin/apps/login">
 							<RaisedButton label={messages.loginTitle} />
 						</Link>
 					</div>

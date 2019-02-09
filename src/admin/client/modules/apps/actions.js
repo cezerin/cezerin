@@ -1,6 +1,5 @@
 import * as t from './actionTypes';
 import api from 'lib/api';
-import messages from 'lib/text';
 
 const receiveAccount = account => ({
 	type: t.ACCOUNT_RECEIVE,

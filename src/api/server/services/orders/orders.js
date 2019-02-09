@@ -1,14 +1,11 @@
 import { ObjectID } from 'mongodb';
-import winston from 'winston';
 import handlebars from 'handlebars';
 import settings from '../../lib/settings';
 import { db } from '../../lib/mongo';
-import utils from '../../lib/utils';
 import parse from '../../lib/parse';
 import webhooks from '../../lib/webhooks';
 import dashboardWebSocket from '../../lib/dashboardWebSocket';
 import mailer from '../../lib/mailer';
-import ProductsService from '../products/products';
 import CustomersService from '../customers/customers';
 import OrderStatusesService from './orderStatuses';
 import PaymentMethodsLightService from './paymentMethodsLight';
