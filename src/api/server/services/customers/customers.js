@@ -1,6 +1,5 @@
 import { ObjectID } from 'mongodb';
 import { db } from '../../lib/mongo';
-import utils from '../../lib/utils';
 import parse from '../../lib/parse';
 import webhooks from '../../lib/webhooks';
 import CustomerGroupsService from './customerGroups';

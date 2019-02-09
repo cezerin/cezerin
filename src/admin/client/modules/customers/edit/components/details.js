@@ -1,8 +1,5 @@
 import React from 'react';
 
-import messages from 'lib/text';
-import style from './style.css';
-
 import CustomerSummary from './summary';
 import CustomerOrders from './orders';
 import CustomerAddresses from './addresses';

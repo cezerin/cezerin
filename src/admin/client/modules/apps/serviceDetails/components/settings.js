@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { Link } from 'react-router-dom';
 import { TextField } from 'redux-form-material-ui';
 
 import { CustomToggle } from 'modules/shared/form';
@@ -10,8 +9,6 @@ import style from './style.css';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import Divider from 'material-ui/Divider';
-import FontIcon from 'material-ui/FontIcon';
-import { List, ListItem } from 'material-ui/List';
 
 const ServiceSettingsForm = ({
 	handleSubmit,

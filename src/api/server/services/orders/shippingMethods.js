@@ -1,6 +1,5 @@
 import { ObjectID } from 'mongodb';
 import { db } from '../../lib/mongo';
-import utils from '../../lib/utils';
 import parse from '../../lib/parse';
 import ShippingMethodsLightService from './shippingMethodsLight';
 import PaymentMethodsService from './paymentMethods';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { reset } from 'redux-form';
 import { deleteGroup, deselectGroup } from '../actions';

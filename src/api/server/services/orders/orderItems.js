@@ -1,7 +1,5 @@
 import { ObjectID } from 'mongodb';
-import settings from '../../lib/settings';
 import { db } from '../../lib/mongo';
-import utils from '../../lib/utils';
 import parse from '../../lib/parse';
 import OrdersService from './orders';
 import ProductsService from '../products/products';
