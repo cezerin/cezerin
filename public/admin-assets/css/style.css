@@ -2,7 +2,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f1f1f1;
+  background-color: purple;
   box-sizing: border-box;
 }
 
@@ -31,9 +31,9 @@ body, button, input, select, textarea {
 }
 
 h1 {
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 35px;
+  font-size: 35px;
+  font-weight: 420;
+  line-height: 37px;
   margin: 0;
 }
 
@@ -48,8 +48,8 @@ h1 {
 }
 
 .appBar {
-  padding-left: 28px !important;
-  padding-right: 28px !important;
+  padding-left: 27px !important;
+  padding-right: 27px !important;
 }
 
 .searchField {
@@ -58,11 +58,11 @@ h1 {
 }
 
 .right-border {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid white;
 }
 
 .field-hint {
-  color: #a1a1a1;
+  color: grey;
   font-size: 12px;
 }
 
