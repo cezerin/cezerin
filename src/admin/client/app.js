@@ -78,26 +78,31 @@ export default () => (
 							exact
 							component={OrderStatuses}
 						/>
+    
 						<Route
 							path="/admin/order/:orderId"
 							exact
 							component={OrderDetails}
 						/>
+    
 						<Route path="/admin/customers" exact component={Customers} />
 						<Route
 							path="/admin/customers/groups"
 							exact
 							component={CustomerGroups}
 						/>
+    
 						<Route
 							path="/admin/customer/:customerId"
 							exact
 							component={CustomerDetails}
 						/>
+    
 						<Route
 							path="/admin/product/:productId"
 							component={ProductDetails}
 						/>
+    
 						<Route path="/admin/pages" exact component={Pages} />
 						<Route path="/admin/pages/add" exact component={PagesDetails} />
 						<Route path="/admin/pages/:pageId" component={PagesDetails} />

@@ -35,8 +35,8 @@ Single-Page Application with React server-side rendering. [Demo store](https://s
 - [How to deploy a Cezerin on Ubuntu 18.04.1 (from GitHub)](https://github.com/cezerin/cezerin/blob/master/docs/how-to-deploy-a-cezerin-on-ubuntu-18-04-1-github.md)
 
 ### Requirements
-* Node.js >= 8
-* MongoDB >= 3.2
+* Node.js >= 8.5
+* MongoDB >= 4.1
 
 
 ## Documentation
@@ -71,11 +71,6 @@ Single-Page Application with React server-side rendering. [Demo store](https://s
 ├── theme                    # Theme as a local package
 └── process.json             # pm2 process file
 ```
-
-
-## Sponsoring
-
-Cezerin is an MIT-licensed open source project. It's an independent project with ongoing development made possible thanks to the support of these awesome backers. [Become a backer or sponsor on OpenCollective](https://opencollective.com/cezerin).
 
 ### Sponsors
 
