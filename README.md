@@ -1,3 +1,5 @@
+> Please see the v2 at https://github.com/Cezerin2/cezerin2
+
 # Cezerin - Ecommerce Progressive Web Apps
 
 [![CircleCI](https://circleci.com/gh/cezerin/cezerin/tree/master.svg?style=svg)](https://circleci.com/gh/cezerin/cezerin/tree/master)
