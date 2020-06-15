@@ -249,7 +249,27 @@ class OrdersService {
 			return Promise.reject('Invalid identifier');
 		}
 		const orderObjectID = new ObjectID(id);
-		const orderData = await this.getValidDocumentForUpdate(id, data);
+
+		// Accept certain data
+		let dataValidation = Object.assign({},
+			data,
+			{paid: undefined},
+			{payment_token: undefined},
+			{shipping_tax: undefined},
+			{shipping_discount: undefined},
+			{shipping_price: undefined},
+			{tax_rate: undefined},
+			{item_tax_included: undefined},
+			{shipping_tax_included: undefined},
+			{closed: undefined},
+			{cancelled: undefined},
+			{delivered: undefined},
+			{hold: undefined},
+			{tracking_number: undefined},
+			{shipping_status: undefined},
+			{date_paid: undefined}
+		);
+		const orderData = await this.getValidDocumentForUpdate(id, dataValidation);
 		const updateResponse = await db
 			.collection('orders')
 			.updateOne({ _id: orderObjectID }, { $set: orderData });
